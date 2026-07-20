@@ -7,6 +7,7 @@ import { renderSilabasScreen, initSilabasGame } from './games/silabas.js';
 import { renderSecuenciaScreen, initSecuenciaGame } from './games/secuencia.js';
 import { renderMemoramaIntro } from './games/memorama.js';
 import { renderEscribeNombreScreen, initEscribeNombreGame } from './games/escribenombre.js';
+import { renderCaligrafiaScreen, initCaligrafiaGame } from './games/caligrafia.js';
 import {
   LENGUAJE_BY_GRADE, MATE_BY_GRADE, CIENCIAS_BY_GRADE, HISTORIA_BY_GRADE,
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
@@ -46,6 +47,7 @@ export function render(){
   else if(scr === 'secuencia') body = renderSecuenciaScreen();
   else if(scr === 'memorama') body = renderMemoramaIntro();
   else if(scr === 'escribenombre') body = renderEscribeNombreScreen();
+  else if(scr === 'caligrafia') body = renderCaligrafiaScreen();
 
   app.innerHTML =
     '<div class="topbar">'+
@@ -62,6 +64,7 @@ export function render(){
   else if(scr === 'silabas') initSilabasGame();
   else if(scr === 'secuencia') initSecuenciaGame();
   else if(scr === 'escribenombre') initEscribeNombreGame();
+  else if(scr === 'caligrafia') initCaligrafiaGame();
 }
 
 function renderHome(){

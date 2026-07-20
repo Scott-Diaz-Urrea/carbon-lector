@@ -5,6 +5,7 @@ import { initSilabasGame } from './games/silabas.js';
 import { initSecuenciaGame } from './games/secuencia.js';
 import { mGame } from './games/memorama.js';
 import { initEscribeNombreGame } from './games/escribenombre.js';
+import { initCaligrafiaGame } from './games/caligrafia.js';
 import { renderTraceCanvas, initTraceCanvas } from './games/traza.js';
 import { render } from './render.js';
 import { saveProgress } from './persistence.js';
@@ -55,6 +56,7 @@ export const MODULE_TITLES = {
   formascuerpos:'Arquitecto Junior',
   medir:'Medidor Preciso',
   escribenombre:'Escritor Principiante',
+  caligrafia:'Maestro de la Caligrafía',
   silabasnt:'Detective de Sonidos',
   escucharnt:'Oyente Atento',
   vocabnt:'Coleccionista de Palabras Junior',
@@ -98,6 +100,7 @@ export function replayGame(key){
   else if(key==='secuencia') initSecuenciaGame();
   else if(key==='memorama') render();
   else if(key==='escribenombre') initEscribeNombreGame();
+  else if(key==='caligrafia') initCaligrafiaGame();
 }
 
 export function showExplain(text, onContinue){

@@ -1,6 +1,7 @@
 import { GRADES } from './content/grades.js';
 import { render } from './render.js';
 import { sfxLevelup } from './audio.js';
+import { saveProgress } from './persistence.js';
 
 export const state = {
   xp: 0,
@@ -22,7 +23,7 @@ export const screenStack = ['home'];
 export function currentScreen(){ return screenStack[screenStack.length-1]; }
 export function goTo(screen){ screenStack.push(screen); render(); }
 export function goBack(){ if(screenStack.length>1){ screenStack.pop(); render(); } }
-export function selectGrade(id){ state.currentGrade = id; goTo('subjectMap'); }
+export function selectGrade(id){ state.currentGrade = id; saveProgress(); goTo('subjectMap'); }
 export function gradeLabel(id){
   const g = GRADES.filter(function(x){ return x.id===id; })[0];
   return g ? g.label : '';
@@ -41,6 +42,7 @@ export function awardXP(n){
     const who = state.userName ? ', ' + state.userName : '';
     showToast('⚡ ¡Subiste a Nivel ' + newLevel + who + '!');
   }
+  saveProgress();
 }
 
 export function showToast(msg){

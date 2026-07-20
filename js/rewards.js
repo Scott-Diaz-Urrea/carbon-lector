@@ -5,6 +5,7 @@ import { initSilabasGame } from './games/silabas.js';
 import { initSecuenciaGame } from './games/secuencia.js';
 import { mGame } from './games/memorama.js';
 import { render } from './render.js';
+import { saveProgress } from './persistence.js';
 
 export const MODULE_TITLES = {
   vocales:'Explorador de Vocales',
@@ -100,6 +101,7 @@ export function showNameEntry(onDone){
   input.focus();
   function submit(){
     state.userName = input.value.trim();
+    saveProgress();
     div.remove();
     onDone();
   }
@@ -117,6 +119,7 @@ export function showResult(moduleKey, correctOrStars, total, isStarsAlready){
     stars = ratio>=0.85 ? 3 : ratio>=0.6 ? 2 : ratio>=0.35 ? 1 : 0;
   }
   state.stars[moduleKey] = Math.max(state.stars[moduleKey], stars);
+  saveProgress();
 
   const isNewBadge = !state.badges.has(moduleKey) && stars>0;
   if(isNewBadge){

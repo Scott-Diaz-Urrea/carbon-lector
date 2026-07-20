@@ -1,7 +1,7 @@
 # LEO 🐾
 
 Una app web educativa gratuita para niños, con **Carboncito** el pug como compañero
-de aventuras. Enseña a leer y a las matemáticas siguiendo la misma trayectoria del
+de aventuras. Enseña las asignaturas del colegio siguiendo la misma trayectoria del
 sistema escolar chileno: por etapa, año y materia — todo alineado a objetivos de
 aprendizaje oficiales de Mineduc.
 
@@ -11,8 +11,9 @@ aprendizaje oficiales de Mineduc.
 
 ## Qué incluye hasta ahora
 
-- **1° Básico** — Lenguaje (Vocales, Sílabas, Letras, Palabras, Comprensión) y
-  Matemática (Contar, Sumar, Comparar, Formas) — completo
+- **1° Básico** — completo, las 9 asignaturas aplicables: Lenguaje, Matemática,
+  Ciencias Naturales, Historia/Geografía/Cs. Sociales, Artes Visuales, Música,
+  Educación Física y Salud, Orientación, y Tecnología (31 módulos en total)
 - **2° Básico** — Lenguaje (Combinaciones, Secuencia) y Matemática (Salta y Cuenta,
   Multiplicar) — en construcción
 - Sistema de recompensas: XP, niveles, rachas, insignias y confeti

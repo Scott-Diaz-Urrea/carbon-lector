@@ -18,7 +18,14 @@ export const state = {
            emociones:0, autocuidado:0, convivencia:0,
            herramientastec:0,
            patrones:0, clasificar:0, posicion:0, cuantificadores:0, secuenciatemporal:0,
-           contarveinte:0, sumarquitar:0, formascuerpos:0, medir:0 },
+           contarveinte:0, sumarquitar:0, formascuerpos:0, medir:0,
+           escribenombre:0, silabasnt:0, escucharnt:0, vocabnt:0, letrasnt:0,
+           apreciarnt:0,
+           emocionesnt:0, autocuidadont:0, alimentosnt:0,
+           resolucionnt:0, normasnt:0, seguridadnt:0,
+           ubicacionnt:0, movimientont:0,
+           aguasolnt:0, materialesnaturalnt:0, animalesplantasnt:0, ciclosnt:0, ambientent:0,
+           rolescomunidadnt:0, objetostecnt:0, institucionesnt:0, seguridadprevnt:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

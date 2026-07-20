@@ -8,6 +8,13 @@ import { EDFISICA_MODULES, EDFISICA_POS } from './content/edfisica.js';
 import { ORIENTACION_MODULES, ORIENTACION_POS } from './content/orientacion.js';
 import { TECNOLOGIA_MODULES, TECNOLOGIA_POS } from './content/tecnologia.js';
 import { PENSAMIENTO_MATEMATICO_MODULES, PENSAMIENTO_MATEMATICO_POS } from './content/parvularia/pensamientoMatematico.js';
+import { LENGUAJE_VERBAL_MODULES, LENGUAJE_VERBAL_POS } from './content/parvularia/lenguajeVerbal.js';
+import { LENGUAJES_ARTISTICOS_MODULES, LENGUAJES_ARTISTICOS_POS } from './content/parvularia/lenguajesArtisticos.js';
+import { IDENTIDAD_AUTONOMIA_MODULES, IDENTIDAD_AUTONOMIA_POS } from './content/parvularia/identidadAutonomia.js';
+import { CONVIVENCIA_CIUDADANIA_MODULES, CONVIVENCIA_CIUDADANIA_POS } from './content/parvularia/convivenciaCiudadania.js';
+import { CORPORALIDAD_MOVIMIENTO_MODULES, CORPORALIDAD_MOVIMIENTO_POS } from './content/parvularia/corporalidadMovimiento.js';
+import { EXPLORACION_ENTORNO_NATURAL_MODULES, EXPLORACION_ENTORNO_NATURAL_POS } from './content/parvularia/exploracionEntornoNatural.js';
+import { COMPRENSION_ENTORNO_SOCIOCULTURAL_MODULES, COMPRENSION_ENTORNO_SOCIOCULTURAL_POS } from './content/parvularia/comprensionEntornoSociocultural.js';
 
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
@@ -55,21 +62,41 @@ export const SUBJECT_DEFS = [
 export const PENSAMIENTO_MATEMATICO_BY_NIVEL = {
   nt: { modules: PENSAMIENTO_MATEMATICO_MODULES, pos: PENSAMIENTO_MATEMATICO_POS, height: 700 },
 };
+export const LENGUAJE_VERBAL_BY_NIVEL = {
+  nt: { modules: LENGUAJE_VERBAL_MODULES, pos: LENGUAJE_VERBAL_POS, height: 420 },
+};
+export const LENGUAJES_ARTISTICOS_BY_NIVEL = {
+  nt: { modules: LENGUAJES_ARTISTICOS_MODULES, pos: LENGUAJES_ARTISTICOS_POS, height: 260 },
+};
+export const IDENTIDAD_AUTONOMIA_BY_NIVEL = {
+  nt: { modules: IDENTIDAD_AUTONOMIA_MODULES, pos: IDENTIDAD_AUTONOMIA_POS, height: 340 },
+};
+export const CONVIVENCIA_CIUDADANIA_BY_NIVEL = {
+  nt: { modules: CONVIVENCIA_CIUDADANIA_MODULES, pos: CONVIVENCIA_CIUDADANIA_POS, height: 340 },
+};
+export const CORPORALIDAD_MOVIMIENTO_BY_NIVEL = {
+  nt: { modules: CORPORALIDAD_MOVIMIENTO_MODULES, pos: CORPORALIDAD_MOVIMIENTO_POS, height: 280 },
+};
+export const EXPLORACION_ENTORNO_NATURAL_BY_NIVEL = {
+  nt: { modules: EXPLORACION_ENTORNO_NATURAL_MODULES, pos: EXPLORACION_ENTORNO_NATURAL_POS, height: 420 },
+};
+export const COMPRENSION_ENTORNO_SOCIOCULTURAL_BY_NIVEL = {
+  nt: { modules: COMPRENSION_ENTORNO_SOCIOCULTURAL_MODULES, pos: COMPRENSION_ENTORNO_SOCIOCULTURAL_POS, height: 360 },
+};
 
-/* Núcleos de aprendizaje de Educación Parvularia. Solo Pensamiento Matemático
-   (núcleo del ámbito Interacción y Comprensión del Entorno) tiene contenido
-   jugable por ahora — el resto queda documentado pero bloqueado, mismo patrón
-   que las asignaturas de Básica sin construir. Para agregar un núcleo nuevo:
-   crear su <NOMBRE>_MODULES/_POS (en content/parvularia/<nombre>.js), su
+/* Núcleos de aprendizaje de Educación Parvularia — los 8 núcleos del nivel
+   Transición (NT) ya tienen contenido jugable. Para agregar un núcleo nuevo
+   en otro nivel (Sala Cuna/Medio, si algún día se decide construirlos): crear
+   su <NOMBRE>_MODULES/_POS (en content/parvularia/<nombre>.js), su
    <NOMBRE>_BY_NIVEL, su render<Nombre>Map() en render.js, el `else if` en
    render(), y agregar `byNivel`+`screen` a su entrada aquí. */
 export const NUCLEO_DEFS = [
-  { icon:'🗣️', label:'Lenguaje Verbal', screen:null, byNivel:null },
-  { icon:'🎭', label:'Lenguajes Artísticos', screen:null, byNivel:null },
-  { icon:'💛', label:'Identidad y Autonomía', screen:null, byNivel:null },
-  { icon:'🤝', label:'Convivencia y Ciudadanía', screen:null, byNivel:null },
-  { icon:'🤸', label:'Corporalidad y Movimiento', screen:null, byNivel:null },
-  { icon:'🌱', label:'Exploración del Entorno Natural', screen:null, byNivel:null },
-  { icon:'🏘️', label:'Comprensión del Entorno Sociocultural', screen:null, byNivel:null },
+  { icon:'🗣️', label:'Lenguaje Verbal', screen:'lenguajeVerbalMap', byNivel: LENGUAJE_VERBAL_BY_NIVEL },
+  { icon:'🎭', label:'Lenguajes Artísticos', screen:'lenguajesArtisticosMap', byNivel: LENGUAJES_ARTISTICOS_BY_NIVEL },
+  { icon:'💛', label:'Identidad y Autonomía', screen:'identidadAutonomiaMap', byNivel: IDENTIDAD_AUTONOMIA_BY_NIVEL },
+  { icon:'🤝', label:'Convivencia y Ciudadanía', screen:'convivenciaCiudadaniaMap', byNivel: CONVIVENCIA_CIUDADANIA_BY_NIVEL },
+  { icon:'🤸', label:'Corporalidad y Movimiento', screen:'corporalidadMovimientoMap', byNivel: CORPORALIDAD_MOVIMIENTO_BY_NIVEL },
+  { icon:'🌱', label:'Exploración del Entorno Natural', screen:'exploracionEntornoNaturalMap', byNivel: EXPLORACION_ENTORNO_NATURAL_BY_NIVEL },
+  { icon:'🏘️', label:'Comprensión del Entorno Sociocultural', screen:'comprensionEntornoSocioculturalMap', byNivel: COMPRENSION_ENTORNO_SOCIOCULTURAL_BY_NIVEL },
   { icon:'🔢', label:'Pensamiento Matemático', screen:'pensamientoMatematicoMap', byNivel: PENSAMIENTO_MATEMATICO_BY_NIVEL },
 ];

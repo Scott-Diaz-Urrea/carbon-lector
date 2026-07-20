@@ -339,6 +339,11 @@
   .mix-swatch{ display:flex; flex-direction:column; align-items:center; gap:6px; }
   .mix-swatch span{ font-size:11px; font-weight:700; color: var(--ink-soft); }
   .mix-plus{ font-size:26px; font-weight:800; color: var(--coral); font-family: var(--font-display); }
+
+  .compare-row{ display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center; gap:20px; margin: 6px 0 4px; }
+  .compare-col{ display:flex; flex-direction:column; align-items:center; gap:8px; max-width:150px; }
+  .compare-col span{ font-size:12px; font-weight:700; color: var(--ink-soft); }
+  .compare-swatches{ display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
   .speak-btn{
     margin-top: 12px;
     border: none;
@@ -538,6 +543,14 @@
   }
   .name-input:focus{ border-color: var(--primary); }
   .name-input::placeholder{ color: var(--locked-ink); font-weight: 600; }
+
+  .trace-wrap{ margin: 4px 0 18px; }
+  .trace-canvas{
+    width: 100%; display:block; touch-action: none; cursor: crosshair;
+    background: var(--paper); border: 3px dashed #CFE7E1; border-radius: var(--radius-md);
+  }
+  .trace-actions{ margin-top: 10px; }
+  .trace-actions .cta-btn.secondary{ width: 100%; font-size: 13.5px; padding: 12px 8px; }
 
   .confetti-piece{
     position:absolute; top:-12px; width:8px; height:14px; border-radius:2px;

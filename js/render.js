@@ -1,11 +1,12 @@
 import { currentScreen, screenStack, state, gradeLabel, nivelLabel, level, totalStars, maxStars } from './state.js';
 import { backIconSVG, starSVG, lockIconSVG, starsRow, mascotSVG } from './svg.js';
 import { pathD } from './utils.js';
-import { GRADES, GRADE_POS, PARVULARIA_NIVELES, PARVULARIA_NIVELES_POS } from './content/grades.js';
+import { GRADES, GRADE_POS } from './content/grades.js';
 import { MC_KEYS, renderMCScreen, initMCGame } from './mcEngine.js';
 import { renderSilabasScreen, initSilabasGame } from './games/silabas.js';
 import { renderSecuenciaScreen, initSecuenciaGame } from './games/secuencia.js';
 import { renderMemoramaIntro } from './games/memorama.js';
+import { renderEscribeNombreScreen, initEscribeNombreGame } from './games/escribenombre.js';
 import {
   LENGUAJE_BY_GRADE, MATE_BY_GRADE, CIENCIAS_BY_GRADE, HISTORIA_BY_GRADE,
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
@@ -21,9 +22,15 @@ export function render(){
   if(scr === 'home') body = renderHome();
   else if(scr === 'etapaMap') body = renderEtapaMap();
   else if(scr === 'gradeMap') body = renderGradeMap();
-  else if(scr === 'parvulariaNivelMap') body = renderParvulariaNivelMap();
   else if(scr === 'nucleoMap') body = renderNucleoMap();
   else if(scr === 'pensamientoMatematicoMap') body = renderPensamientoMatematicoMap();
+  else if(scr === 'lenguajeVerbalMap') body = renderLenguajeVerbalMap();
+  else if(scr === 'lenguajesArtisticosMap') body = renderLenguajesArtisticosMap();
+  else if(scr === 'identidadAutonomiaMap') body = renderIdentidadAutonomiaMap();
+  else if(scr === 'convivenciaCiudadaniaMap') body = renderConvivenciaCiudadaniaMap();
+  else if(scr === 'corporalidadMovimientoMap') body = renderCorporalidadMovimientoMap();
+  else if(scr === 'exploracionEntornoNaturalMap') body = renderExploracionEntornoNaturalMap();
+  else if(scr === 'comprensionEntornoSocioculturalMap') body = renderComprensionEntornoSocioculturalMap();
   else if(scr === 'subjectMap') body = renderSubjectMap();
   else if(scr === 'lenguajeMap') body = renderLenguajeMap();
   else if(scr === 'matematicasMap') body = renderMatematicasMap();
@@ -38,6 +45,7 @@ export function render(){
   else if(scr === 'silabas') body = renderSilabasScreen();
   else if(scr === 'secuencia') body = renderSecuenciaScreen();
   else if(scr === 'memorama') body = renderMemoramaIntro();
+  else if(scr === 'escribenombre') body = renderEscribeNombreScreen();
 
   app.innerHTML =
     '<div class="topbar">'+
@@ -53,6 +61,7 @@ export function render(){
   if(MC_KEYS.indexOf(scr) !== -1) initMCGame(scr);
   else if(scr === 'silabas') initSilabasGame();
   else if(scr === 'secuencia') initSecuenciaGame();
+  else if(scr === 'escribenombre') initEscribeNombreGame();
 }
 
 function renderHome(){
@@ -71,9 +80,9 @@ function renderEtapaMap(){
     '<p class="section-title">Elige tu etapa</p>'+
     '<p class="section-sub">La misma trayectoria del sistema escolar chileno, paso a paso.</p>'+
     '<div class="subject-list">'+
-      '<button class="subject-card" onclick="goTo(\'parvulariaNivelMap\')">'+
+      '<button class="subject-card" onclick="selectNivel(\'nt\')">'+
         '<span class="subject-icon">🧸</span>'+
-        '<span class="subject-info"><b>Educación Parvularia</b><small>Sala cuna · medio · transición</small></span>'+
+        '<span class="subject-info"><b>Educación Parvularia</b><small>Nivel de Transición</small></span>'+
       '</button>'+
       '<button class="subject-card" onclick="goTo(\'gradeMap\')">'+
         '<span class="subject-icon">📘</span>'+
@@ -116,31 +125,6 @@ function renderGradeMap(){
   '</div>';
 }
 
-function renderParvulariaNivelMap(){
-  const nodes = PARVULARIA_NIVELES.map(function(n,i){
-    const pos = PARVULARIA_NIVELES_POS[i];
-    const cls = n.open ? 'open' : 'locked';
-    const inner = n.open ? n.label.slice(0,2).toUpperCase() : lockIconSVG(24);
-    const clickAttr = n.open ? 'onclick="selectNivel(\''+n.id+'\')"' : 'onclick="showToast(\'🚧 Este nivel está en preparación\')"';
-    return '<button class="node" style="left:'+pos.x+'%; top:'+(100-pos.y)+'%;" '+clickAttr+'>'+
-      '<div class="node-circle '+cls+'">'+inner+'</div>'+
-      '<div class="node-label '+(n.open?'':'locked')+'">'+n.label+'</div>'+
-    '</button>';
-  }).join('');
-  const svgPts = PARVULARIA_NIVELES_POS.map(function(p){ return {x:p.x, y:100-p.y}; });
-
-  return '<div class="screen">'+
-    '<p class="section-title">Educación Parvularia</p>'+
-    '<p class="section-sub">Sala Cuna y Nivel Medio no tienen módulos jugables — son edades donde el juego en pantalla no es desarrollo-apropiado.</p>'+
-    '<div class="map-wrap" style="height:420px;">'+
-      '<svg class="path-line" viewBox="0 0 100 100" preserveAspectRatio="none">'+
-        '<path d="'+pathD(svgPts)+'" fill="none" stroke="#CFE7E1" stroke-width="1.6" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>'+
-      '</svg>'+
-      nodes+
-    '</div>'+
-  '</div>';
-}
-
 function nucleoStars(keys){
   return keys.reduce(function(a,k){ return a + state.stars[k]; }, 0);
 }
@@ -169,10 +153,34 @@ function renderNucleoMap(){
     '<div class="subject-list">'+cards+'</div>'+
   '</div>';
 }
+function renderNucleoMapFor(screenName, title, badgeIcon){
+  const data = NUCLEO_DEFS.filter(function(nd){ return nd.screen===screenName; })[0].byNivel[state.currentNivel];
+  if(!data) return renderComingSoonSubject(title);
+  return renderModuleMap(title, badgeIcon+' Alineado a '+title+' · '+nivelLabel(state.currentNivel), data.modules, data.pos, data.height);
+}
 function renderPensamientoMatematicoMap(){
-  const data = NUCLEO_DEFS.filter(function(nd){ return nd.screen==='pensamientoMatematicoMap'; })[0].byNivel[state.currentNivel];
-  if(!data) return renderComingSoonSubject('Pensamiento Matemático');
-  return renderModuleMap('Pensamiento Matemático','🔢 Alineado a Pensamiento Matemático · '+nivelLabel(state.currentNivel), data.modules, data.pos, data.height);
+  return renderNucleoMapFor('pensamientoMatematicoMap','Pensamiento Matemático','🔢');
+}
+function renderLenguajeVerbalMap(){
+  return renderNucleoMapFor('lenguajeVerbalMap','Lenguaje Verbal','🗣️');
+}
+function renderLenguajesArtisticosMap(){
+  return renderNucleoMapFor('lenguajesArtisticosMap','Lenguajes Artísticos','🎭');
+}
+function renderIdentidadAutonomiaMap(){
+  return renderNucleoMapFor('identidadAutonomiaMap','Identidad y Autonomía','💛');
+}
+function renderConvivenciaCiudadaniaMap(){
+  return renderNucleoMapFor('convivenciaCiudadaniaMap','Convivencia y Ciudadanía','🤝');
+}
+function renderCorporalidadMovimientoMap(){
+  return renderNucleoMapFor('corporalidadMovimientoMap','Corporalidad y Movimiento','🤸');
+}
+function renderExploracionEntornoNaturalMap(){
+  return renderNucleoMapFor('exploracionEntornoNaturalMap','Exploración del Entorno Natural','🌱');
+}
+function renderComprensionEntornoSocioculturalMap(){
+  return renderNucleoMapFor('comprensionEntornoSocioculturalMap','Comprensión del Entorno Sociocultural','🏘️');
 }
 
 function subjectStars(keys){

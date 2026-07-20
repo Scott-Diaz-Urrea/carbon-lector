@@ -664,6 +664,11 @@ const MODULE_TITLES = {
   secuencia:'Narrador Ordenado',
   salta:'Saltarín Numérico',
   multiplicar:'Multiplicador Veloz',
+  seresvivos:'Guardián de la Naturaleza',
+  plantas:'Botánico Curioso',
+  micuerpo:'Explorador de mi Cuerpo',
+  materiales:'Científico de Materiales',
+  dianoche:'Astrónomo Junior',
 };
 
 /* ---------------- Estado ---------------- */
@@ -671,7 +676,8 @@ const state = {
   xp: 0,
   currentGrade: 1,
   stars: { vocales:0, silabas:0, memorama:0, palabras:0, comprension:0, contar:0, sumar:0, comparar:0, formas:0,
-           combinaciones:0, secuencia:0, salta:0, multiplicar:0 },
+           combinaciones:0, secuencia:0, salta:0, multiplicar:0,
+           seresvivos:0, plantas:0, micuerpo:0, materiales:0, dianoche:0 },
   badges: new Set(),
 };
 const screenStack = ['home'];
@@ -867,7 +873,7 @@ function spawnConfetti(container){
 }
 
 /* ---------------- Render root ---------------- */
-const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','comparar','formas','combinaciones','salta','multiplicar'];
+const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','comparar','formas','combinaciones','salta','multiplicar','seresvivos','plantas','micuerpo','materiales','dianoche'];
 
 function render(){
   const app = document.getElementById('app');
@@ -881,6 +887,7 @@ function render(){
   else if(scr === 'subjectMap') body = renderSubjectMap();
   else if(scr === 'lenguajeMap') body = renderLenguajeMap();
   else if(scr === 'matematicasMap') body = renderMatematicasMap();
+  else if(scr === 'cienciasMap') body = renderCienciasMap();
   else if(MC_KEYS.indexOf(scr) !== -1) body = renderMCScreen();
   else if(scr === 'silabas') body = renderSilabasScreen();
   else if(scr === 'secuencia') body = renderSecuenciaScreen();
@@ -997,12 +1004,16 @@ function renderSubjectMap(){
   const g = state.currentGrade;
   const lengData = LENGUAJE_BY_GRADE[g];
   const mateData = MATE_BY_GRADE[g];
+  const cienciasData = CIENCIAS_BY_GRADE[g];
   const lengKeys = lengData ? lengData.modules.filter(function(m){ return m.key; }).map(function(m){ return m.key; }) : [];
   const mateKeys = mateData ? mateData.modules.filter(function(m){ return m.key; }).map(function(m){ return m.key; }) : [];
+  const cienciasKeys = cienciasData ? cienciasData.modules.filter(function(m){ return m.key; }).map(function(m){ return m.key; }) : [];
   const lengStars = subjectStars(lengKeys);
   const mateStars = subjectStars(mateKeys);
+  const cienciasStars = subjectStars(cienciasKeys);
   const lengSub = lengData ? lengData.modules.map(function(m){ return m.label; }).join(' · ') : 'Próximamente';
   const mateSub = mateData ? mateData.modules.map(function(m){ return m.label; }).join(' · ') : 'Próximamente';
+  const cienciasSub = cienciasData ? cienciasData.modules.map(function(m){ return m.label; }).join(' · ') : 'Próximamente';
   return '<div class="screen">'+
     '<p class="section-title">'+gradeLabel(g)+'</p>'+
     '<p class="section-sub">Elige una materia para empezar a jugar.</p>'+
@@ -1017,10 +1028,18 @@ function renderSubjectMap(){
         '<span class="subject-info"><b>Matemáticas</b><small>'+mateSub+'</small></span>'+
         '<span class="subject-stars">⭐ '+mateStars+'/'+(mateKeys.length*3)+'</span>'+
       '</button>'+
-      '<button class="subject-card locked" onclick="showToast(\'🚧 Materia en preparación\')">'+
-        '<span class="subject-icon">🔬</span>'+
-        '<span class="subject-info"><b>Ciencias</b><small>Próximamente</small></span>'+
-      '</button>'+
+      (cienciasData ?
+        '<button class="subject-card" onclick="goTo(\'cienciasMap\')">'+
+          '<span class="subject-icon">🔬</span>'+
+          '<span class="subject-info"><b>Ciencias</b><small>'+cienciasSub+'</small></span>'+
+          '<span class="subject-stars">⭐ '+cienciasStars+'/'+(cienciasKeys.length*3)+'</span>'+
+        '</button>'
+      :
+        '<button class="subject-card locked" onclick="showToast(\'🚧 Materia en preparación\')">'+
+          '<span class="subject-icon">🔬</span>'+
+          '<span class="subject-info"><b>Ciencias</b><small>Próximamente</small></span>'+
+        '</button>'
+      )+
     '</div>'+
   '</div>';
 }
@@ -1091,6 +1110,15 @@ const MATE_MODULES_G2 = [
 ];
 const MATE_POS_G2 = [{x:24,y:84},{x:70,y:60},{x:24,y:36},{x:68,y:12}];
 
+const CIENCIAS_MODULES = [
+  {id:'seresvivos', label:'Seres Vivos', open:true, key:'seresvivos'},
+  {id:'plantas', label:'Plantas', open:true, key:'plantas'},
+  {id:'micuerpo', label:'Mi Cuerpo', open:true, key:'micuerpo'},
+  {id:'materiales', label:'Materiales', open:true, key:'materiales'},
+  {id:'dianoche', label:'Día y Noche', open:true, key:'dianoche'},
+];
+const CIENCIAS_POS = [{x:22,y:88},{x:68,y:70},{x:24,y:52},{x:70,y:34},{x:24,y:16}];
+
 const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
   2: { modules: LENGUAJE_MODULES_G2, pos: LENGUAJE_POS_G2, height: 360 },
@@ -1098,6 +1126,9 @@ const LENGUAJE_BY_GRADE = {
 const MATE_BY_GRADE = {
   1: { modules: MATE_MODULES, pos: MATE_POS, height: 360 },
   2: { modules: MATE_MODULES_G2, pos: MATE_POS_G2, height: 360 },
+};
+const CIENCIAS_BY_GRADE = {
+  1: { modules: CIENCIAS_MODULES, pos: CIENCIAS_POS, height: 420 },
 };
 
 function renderLenguajeMap(){
@@ -1109,6 +1140,11 @@ function renderMatematicasMap(){
   const data = MATE_BY_GRADE[state.currentGrade];
   if(!data) return renderComingSoonSubject('Matemáticas');
   return renderModuleMap('Matemáticas','🔢 Alineado a Matemática · '+gradeLabel(state.currentGrade), data.modules, data.pos, data.height);
+}
+function renderCienciasMap(){
+  const data = CIENCIAS_BY_GRADE[state.currentGrade];
+  if(!data) return renderComingSoonSubject('Ciencias');
+  return renderModuleMap('Ciencias','🔬 Alineado a Ciencias Naturales · '+gradeLabel(state.currentGrade), data.modules, data.pos, data.height);
 }
 
 /* ---------------- Generadores de rondas (contenido dinámico) ---------------- */
@@ -1266,6 +1302,191 @@ function genMultiplicarRound(){
   };
 }
 
+/* ---------------- Contenido Ciencias Naturales 1° Básico ----------------
+   Basado en OA del Decreto 439/2012 (curriculumnacional.cl):
+   CN01 OA01-02 -> Seres Vivos · CN01 OA03-04 -> Plantas ·
+   CN01 OA06-07 -> Mi Cuerpo · CN01 OA08-09 -> Materiales ·
+   CN01 OA11-12 -> Día y Noche / Estaciones */
+const VIVOS_ITEMS = [
+  { emoji:'🐶', label:'PERRO', vivo:true },
+  { emoji:'🌳', label:'ÁRBOL', vivo:true },
+  { emoji:'🦋', label:'MARIPOSA', vivo:true },
+  { emoji:'🐟', label:'PEZ', vivo:true },
+  { emoji:'🌻', label:'FLOR', vivo:true },
+  { emoji:'🐦', label:'AVE', vivo:true },
+  { emoji:'🪨', label:'PIEDRA', vivo:false },
+  { emoji:'🚗', label:'AUTO', vivo:false },
+  { emoji:'⚽', label:'PELOTA', vivo:false },
+  { emoji:'🪑', label:'SILLA', vivo:false },
+  { emoji:'💧', label:'GOTA DE AGUA', vivo:false },
+  { emoji:'🧸', label:'PELUCHE', vivo:false },
+];
+const ANIMAL_COVER_ITEMS = [
+  { emoji:'🐶', label:'PERRO', cubierta:'PELO' },
+  { emoji:'🐱', label:'GATO', cubierta:'PELO' },
+  { emoji:'🐑', label:'OVEJA', cubierta:'LANA' },
+  { emoji:'🐦', label:'AVE', cubierta:'PLUMAS' },
+  { emoji:'🦜', label:'LORO', cubierta:'PLUMAS' },
+  { emoji:'🐍', label:'SERPIENTE', cubierta:'ESCAMAS' },
+  { emoji:'🐟', label:'PEZ', cubierta:'ESCAMAS' },
+  { emoji:'🐸', label:'RANA', cubierta:'PIEL' },
+];
+const PLANT_PARTS = [
+  { emoji:'🌿', part:'HOJA', desc:'Parte verde y plana que usa la luz del sol para fabricar el alimento de la planta.' },
+  { emoji:'🌸', part:'FLOR', desc:'Parte colorida y perfumada que atrae a los insectos.' },
+  { emoji:'🌱', part:'TALLO', desc:'Parte que sostiene a la planta y lleva el agua hacia arriba.' },
+  { emoji:'🥕', part:'RAÍZ', desc:'Parte que está bajo la tierra y absorbe agua y nutrientes.' },
+];
+const FRUIT_SIZE = [
+  { emoji:'🌰', label:'CASTAÑA', size:1 },
+  { emoji:'🍇', label:'UVA', size:2 },
+  { emoji:'🍓', label:'FRUTILLA', size:3 },
+  { emoji:'🍎', label:'MANZANA', size:4 },
+  { emoji:'🥭', label:'MANGO', size:5 },
+  { emoji:'🍉', label:'SANDÍA', size:6 },
+];
+const SENTIDOS = [
+  { emoji:'👁️', organ:'OJOS', sense:'VER' },
+  { emoji:'👂', organ:'OÍDOS', sense:'OÍR' },
+  { emoji:'👃', organ:'NARIZ', sense:'OLER' },
+  { emoji:'👅', organ:'LENGUA', sense:'SABOREAR' },
+  { emoji:'✋', organ:'PIEL', sense:'TOCAR' },
+];
+const HABITOS_SALUDABLES = [
+  { emoji:'🪥', label:'Cepillarse los dientes', bueno:true },
+  { emoji:'🥗', label:'Comer frutas y verduras', bueno:true },
+  { emoji:'😴', label:'Dormir bien de noche', bueno:true },
+  { emoji:'🧼', label:'Lavarse las manos antes de comer', bueno:true },
+  { emoji:'💧', label:'Tomar agua durante el día', bueno:true },
+  { emoji:'🍬', label:'Comer solo dulces todo el día', bueno:false },
+  { emoji:'📱', label:'Ver pantallas hasta muy tarde sin dormir', bueno:false },
+  { emoji:'🧴', label:'No lavarse las manos antes de comer', bueno:false },
+];
+const MATERIALES_ITEMS = [
+  { emoji:'🪵', object:'una mesa de madera', material:'MADERA' },
+  { emoji:'🥄', object:'una cuchara de metal', material:'METAL' },
+  { emoji:'🧸', object:'un juguete de peluche', material:'TELA' },
+  { emoji:'🍶', object:'un vaso de vidrio', material:'VIDRIO' },
+  { emoji:'🥤', object:'una botella de plástico', material:'PLÁSTICO' },
+  { emoji:'🧱', object:'un muro de ladrillo', material:'LADRILLO' },
+];
+const CAMBIOS_MATERIALES = [
+  { emoji:'🧊', text:'Un cubo de hielo se derrite', cause:'CALOR' },
+  { emoji:'🍞', text:'El pan se tuesta en el fuego', cause:'CALOR' },
+  { emoji:'👕', text:'La ropa mojada se seca al sol', cause:'CALOR' },
+  { emoji:'🎈', text:'Un globo se estira al inflarlo', cause:'FUERZA' },
+  { emoji:'🖌️', text:'La plastilina cambia de forma al apretarla', cause:'FUERZA' },
+  { emoji:'🌱', text:'Una semilla crece al regarla', cause:'AGUA' },
+  { emoji:'👗', text:'La ropa se moja bajo la lluvia', cause:'AGUA' },
+  { emoji:'🌓', text:'Un afiche se decolora al dejarlo mucho tiempo al sol', cause:'LUZ' },
+];
+const DIA_NOCHE_ITEMS = [
+  { emoji:'☀️', label:'El Sol brilla fuerte en el cielo', momento:'DÍA' },
+  { emoji:'🌕', label:'La Luna llena se ve en el cielo', momento:'NOCHE' },
+  { emoji:'⭐', label:'Las estrellas brillan en el cielo oscuro', momento:'NOCHE' },
+  { emoji:'🌤️', label:'El cielo está celeste y muy iluminado', momento:'DÍA' },
+  { emoji:'🦉', label:'El búho sale a cazar', momento:'NOCHE' },
+  { emoji:'🐓', label:'El gallo canta al amanecer', momento:'DÍA' },
+];
+const ESTACIONES = [
+  { emoji:'☀️', label:'Hace mucho calor y vamos a la playa', season:'VERANO' },
+  { emoji:'🍂', label:'Las hojas de los árboles caen y cambian de color', season:'OTOÑO' },
+  { emoji:'❄️', label:'Hace mucho frío y en algunos lugares nieva', season:'INVIERNO' },
+  { emoji:'🌸', label:'Las flores empiezan a florecer y el clima se entibia', season:'PRIMAVERA' },
+];
+
+function genSeresVivosRound(){
+  if(Math.random()<0.5){
+    const item = pick(VIVOS_ITEMS);
+    const opts = shuffle([{label:'SER VIVO', value:true},{label:'NO ES SER VIVO', value:false}]);
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Es un ser vivo o no?</p>',
+      options: opts, correctValue: item.vivo, speakText: item.label, cols:2, panel:true,
+    };
+  }
+  const item = pick(ANIMAL_COVER_ITEMS);
+  const distract = shuffle(['PELO','PLUMAS','ESCAMAS','PIEL','LANA'].filter(function(c){ return c!==item.cubierta; })).slice(0,3);
+  const opts = shuffle([item.cubierta].concat(distract)).map(function(c){ return {label:c, value:c}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué cubre el cuerpo de este animal?</p>',
+    options: opts, correctValue: item.cubierta, speakText: item.label, cols:4,
+  };
+}
+
+function genPlantasRound(){
+  if(Math.random()<0.5){
+    const item = pick(PLANT_PARTS);
+    const distract = shuffle(PLANT_PARTS.filter(function(p){ return p.part!==item.part; })).map(function(p){ return p.part; });
+    const opts = shuffle([item.part].concat(distract)).map(function(p){ return {label:p, value:p}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
+      options: opts, correctValue: item.part, speakText: item.desc, cols:4, kind:'word',
+    };
+  }
+  let a = pick(FRUIT_SIZE), b = pick(FRUIT_SIZE);
+  while(b.label === a.label) b = pick(FRUIT_SIZE);
+  const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estos frutos es más grande?</p>',
+    options: opts, correctValue: a.size>b.size ? a.label : b.label, speakText: '¿Cuál es más grande?', cols:2, panel:true,
+  };
+}
+
+function genCuerpoRound(){
+  if(Math.random()<0.5){
+    const item = pick(SENTIDOS);
+    const distract = shuffle(SENTIDOS.filter(function(s){ return s.sense!==item.sense; })).slice(0,3).map(function(s){ return s.sense; });
+    const opts = shuffle([item.sense].concat(distract)).map(function(s){ return {label:s, value:s}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Para qué sirven tus '+item.organ.toLowerCase()+'?</p>',
+      options: opts, correctValue: item.sense, speakText: '¿Para qué sirven tus '+item.organ+'?', cols:4, kind:'word',
+    };
+  }
+  const item = pick(HABITOS_SALUDABLES);
+  const opts = shuffle([{label:'HÁBITO SALUDABLE', value:true},{label:'NO ES SALUDABLE', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.bueno, speakText: item.label, cols:2, panel:true,
+  };
+}
+
+function genMaterialesRound(){
+  if(Math.random()<0.5){
+    const item = pick(MATERIALES_ITEMS);
+    const distract = shuffle(MATERIALES_ITEMS.filter(function(m){ return m.material!==item.material; })).slice(0,3).map(function(m){ return m.material; });
+    const opts = shuffle([item.material].concat(distract)).map(function(m){ return {label:m, value:m}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿De qué material es '+item.object+'?</p>',
+      options: opts, correctValue: item.material, speakText: item.object, cols:4, kind:'word',
+    };
+  }
+  const item = pick(CAMBIOS_MATERIALES);
+  const distract = shuffle(['CALOR','FUERZA','AGUA','LUZ'].filter(function(c){ return c!==item.cause; })).slice(0,3);
+  const opts = shuffle([item.cause].concat(distract)).map(function(c){ return {label:c, value:c}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.text+'. ¿Qué produjo este cambio?</p>',
+    options: opts, correctValue: item.cause, speakText: item.text, cols:4,
+  };
+}
+
+function genDiaNocheRound(){
+  if(Math.random()<0.5){
+    const item = pick(DIA_NOCHE_ITEMS);
+    const opts = shuffle([{label:'DÍA', value:'DÍA'},{label:'NOCHE', value:'NOCHE'}]);
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Es de día o de noche?</p>',
+      options: opts, correctValue: item.momento, speakText: item.label, cols:2, panel:true,
+    };
+  }
+  const item = pick(ESTACIONES);
+  const distract = shuffle(ESTACIONES.filter(function(e){ return e.season!==item.season; })).map(function(e){ return e.season; });
+  const opts = shuffle([item.season].concat(distract)).map(function(s){ return {label:s, value:s}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Qué estación del año es?</p>',
+    options: opts, correctValue: item.season, speakText: item.label, cols:4, kind:'word',
+  };
+}
+
 const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
   palabras:      { title:'Palabras',         gen: genPalabraRound,      rounds:10 },
@@ -1277,6 +1498,11 @@ const MC_GAMES = {
   combinaciones: { title:'Combinaciones',    gen: genCombinacionRound,  rounds:10 },
   salta:         { title:'Salta y Cuenta',   gen: genSaltaRound,        rounds:10 },
   multiplicar:   { title:'Multiplicar',      gen: genMultiplicarRound,  rounds:10 },
+  seresvivos:    { title:'Seres Vivos',      gen: genSeresVivosRound,   rounds:10 },
+  plantas:       { title:'Plantas',          gen: genPlantasRound,      rounds:10 },
+  micuerpo:      { title:'Mi Cuerpo',        gen: genCuerpoRound,       rounds:10 },
+  materiales:    { title:'Materiales',       gen: genMaterialesRound,   rounds:10 },
+  dianoche:      { title:'Día y Noche',      gen: genDiaNocheRound,     rounds:10 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

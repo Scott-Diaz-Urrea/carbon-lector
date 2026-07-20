@@ -70,6 +70,13 @@ no una limitación temporal.
   (`state.badges`, `MODULE_TITLES` define el nombre de cada insignia), confeti al
   sacar 3 estrellas (`spawnConfetti`). Sonidos vía Web Audio API sintetizado
   (`sfxCorrect`, `sfxWrong`, `sfxStreak`, `sfxLevelup`) — sin archivos de audio externos.
+- **Ilustraciones SVG propias:** además de emoji, hay helpers que dibujan SVG a mano
+  (`shapeSVG`, `mascotSVG`, `chileFlagSVG`, `colorSwatchSVG`) para conceptos donde el
+  emoji no es representativo o no se renderiza igual en todos los sistemas — ej. las
+  banderas (🇨🇱) se ven como texto "CL" en varias configuraciones de Windows, por eso
+  `chileFlagSVG()` la dibuja a mano. Preferir este patrón sobre un emoji cuando el
+  concepto sea central al módulo (no decorativo) o el emoji tenga soporte inconsistente
+  entre plataformas (banderas, ZWJ poco comunes).
 - **Voz:** `speak(texto)` usa `SpeechSynthesisUtterance` del navegador, con lógica en
   `pickBestVoice()` para preferir voces en español de mejor calidad (Google/Natural)
   sobre la voz robótica por defecto.

@@ -59,13 +59,26 @@ no una limitación temporal.
   asignaturas solo tiene 1° básico.
 - **Motor de minijuegos de opción múltiple (reutilizable):** `MC_GAMES` es un mapa
   `{clave: {title, gen, rounds}}` donde `gen` es una función que retorna
-  `{promptHTML, options, correctValue, speakText, cols, panel?, kind?}`.
+  `{promptHTML, options, correctValue, speakText, cols, panel?, kind?, explain}`.
   `MC_KEYS` debe incluir toda clave que use este motor. Para un juego nuevo de este
   tipo, generalmente basta con escribir la función `genXxxRound()` y registrarla ahí.
+  **`explain` es obligatorio** (ver "Carboncito explica" abajo) — todo `genXxxRound()`
+  nuevo debe retornarlo.
 - **Juegos a medida** (mecánica propia, no encajan en el motor genérico): Sílabas,
   Secuencia (ordenar por pasos), Memorama (memoria por pares). Cada uno tiene su
   propio `render*Screen`, `init*Game`, `draw*Round` y handlers de tap. Sirven de
-  plantilla si se necesita un nuevo tipo de mecánica.
+  plantilla si se necesita un nuevo tipo de mecánica. Sílabas y Secuencia también
+  llaman a `showExplain()` en su rama de respuesta incorrecta; Memorama no (es un
+  juego de memoria, no hay un "por qué" conceptual que explicar).
+- **Carboncito explica (feedback pedagógico):** cuando el jugador responde mal,
+  `answerMC()` (o los handlers `tapSyllable`/`tapSecuencia` en los juegos a medida)
+  llaman a `showExplain(texto, continuar)`, que muestra un overlay con la mascota y
+  el texto de `explain`, y solo avanza a la siguiente ronda cuando el jugador toca
+  "¡Entendido, sigamos!" (a diferencia de una respuesta correcta, que avanza sola).
+  Esto fue un pedido explícito del usuario: el niño debe entender el porqué antes de
+  seguir, no solo ver el error y avanzar. Cada `explain` debe ser concreto y en
+  español de Chile (reutilizar campos `desc`/`uso`/`q` ya existentes en los bancos de
+  contenido cuando sea posible, en vez de redactar un texto nuevo).
 - **Recompensas:** XP (`awardXP`), niveles (`level()`), rachas (`streak`), insignias
   (`state.badges`, `MODULE_TITLES` define el nombre de cada insignia), confeti al
   sacar 3 estrellas (`spawnConfetti`). Sonidos vía Web Audio API sintetizado
@@ -156,6 +169,14 @@ automáticamente como placeholder — no rompe nada, pero tampoco es jugable).
    en cada asignatura (arriba) y decidir si vale la pena forzarlos al motor de opción
    múltiple o si requieren un tipo de juego nuevo (p. ej. grabación de voz para Música,
    o un lienzo de dibujo para Artes Visuales).
+6. **Ideas del usuario para explorar más adelante (aún no implementadas, solo
+   anotadas — 2026-07-20):**
+   - Evaluar qué tan distinto debería ser el diseño (colores, formas, sonidos, ritmo
+     de feedback) para captar la atención de perfiles neurotípicos vs. neurodivergentes.
+     Requiere investigación/fuente antes de implementar cualquier variante, por la
+     misma regla de oro del proyecto (no inventar sin base).
+   - Sistema de verificación de edad y conocimientos previos para desbloquear niveles
+     más avanzados (algún tipo de prueba de acceso). Pendiente de definir criterios.
 
 ## Convenciones a mantener
 

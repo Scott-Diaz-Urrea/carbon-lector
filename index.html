@@ -514,6 +514,24 @@
   }
   .cta-btn.secondary:active{ transform: translateY(4px); box-shadow: 0 2px 0 #D8E2DE; }
 
+  /* ---------- Carboncito explica (respuesta incorrecta) ---------- */
+  .explain-card{
+    background: var(--paper);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    text-align: center;
+    max-width: 340px;
+    width: 100%;
+    box-shadow: var(--shadow);
+    animation: pop .3s ease;
+  }
+  .explain-title{ font-family: var(--font-display); font-weight:800; font-size:19px; color: var(--primary-dark); margin: 8px 0 4px; }
+  .explain-text{
+    font-size: 14.5px; color: var(--ink); font-weight:600; line-height:1.5;
+    margin: 10px 0 20px; background:#F3FBF9; border-radius: var(--radius-sm); padding:14px 16px;
+  }
+  .explain-text b{ color: var(--primary-dark); }
+
   .confetti-piece{
     position:absolute; top:-12px; width:8px; height:14px; border-radius:2px;
     animation: confettiFall 1.5s ease-in forwards; opacity:0.95;
@@ -1354,6 +1372,7 @@ function genVocalRound(){
     correctValue: item.answer,
     speakText: item.word,
     cols: 4,
+    explain: 'La palabra es <b>'+item.word+'</b>, empieza con la vocal <b>'+item.answer+'</b>.',
   };
 }
 
@@ -1368,6 +1387,7 @@ function genCountRound(){
     correctValue: n,
     speakText: '¿Cuántos hay?',
     cols: 4,
+    explain: 'Si cuentas uno por uno, hay <b>'+n+'</b> en total.',
   };
 }
 
@@ -1384,6 +1404,7 @@ function genAddRound(){
     correctValue: sum,
     speakText: '¿Cuánto es ' + a + ' más ' + b + '?',
     cols: 4,
+    explain: a+' + '+b+' = <b>'+sum+'</b>. Cuenta todos los elementos juntos para comprobarlo.',
   };
 }
 
@@ -1405,6 +1426,7 @@ function genCompareRound(){
     speakText: '¿Cuál grupo tiene más?',
     cols: 2,
     panel: true,
+    explain: 'El grupo con <b>'+Math.max(nA,nB)+'</b> tiene más que el grupo con <b>'+Math.min(nA,nB)+'</b>.',
   };
 }
 
@@ -1418,6 +1440,7 @@ function genPalabraRound(){
     speakText: item.word,
     cols: 4,
     kind: 'word',
+    explain: 'La palabra correcta es <b>'+item.word+'</b>.',
   };
 }
 
@@ -1430,6 +1453,7 @@ function genComprensionRound(){
     correctValue: item.correct,
     speakText: item.text,
     cols: 4,
+    explain: 'Vuelve a leer: "'+item.text+'" Ahí está la respuesta.',
   };
 }
 
@@ -1444,6 +1468,7 @@ function genFormaRound(){
     speakText: item.label,
     cols: 4,
     kind: 'word',
+    explain: 'Esta figura es un <b>'+item.label+'</b>.',
   };
 }
 
@@ -1459,6 +1484,7 @@ function genCombinacionRound(){
     correctValue: item.combo,
     speakText: item.before+item.combo+item.after,
     cols: 4,
+    explain: 'La palabra es <b>'+item.before+item.combo+item.after+'</b>.',
   };
 }
 
@@ -1477,6 +1503,7 @@ function genSaltaRound(){
     correctValue: correct,
     speakText: '¿Qué número falta?',
     cols: 4,
+    explain: 'La secuencia avanza de <b>'+step+'</b> en <b>'+step+'</b>, así que el número que falta es <b>'+correct+'</b>.',
   };
 }
 
@@ -1494,6 +1521,7 @@ function genMultiplicarRound(){
     correctValue: total,
     speakText: '¿Cuánto es '+groups+' veces '+table+'?',
     cols: 4,
+    explain: groups+' grupos de '+table+' es lo mismo que sumar '+table+' '+groups+' veces: <b>'+total+'</b> en total.',
   };
 }
 
@@ -1631,6 +1659,7 @@ function genSeresVivosRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Es un ser vivo o no?</p>',
       options: opts, correctValue: item.vivo, speakText: item.label, cols:2, panel:true,
+      explain: item.vivo ? item.label+' crece, se alimenta y necesita aire y agua, por eso <b>es un ser vivo</b>.' : item.label+' no crece ni se alimenta por sí solo, por eso <b>no es un ser vivo</b>.',
     };
   }
   const item = pick(ANIMAL_COVER_ITEMS);
@@ -1639,6 +1668,7 @@ function genSeresVivosRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué cubre el cuerpo de este animal?</p>',
     options: opts, correctValue: item.cubierta, speakText: item.label, cols:4,
+    explain: 'El '+item.label.toLowerCase()+' tiene el cuerpo cubierto de <b>'+item.cubierta.toLowerCase()+'</b>.',
   };
 }
 
@@ -1650,14 +1680,17 @@ function genPlantasRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.part, speakText: item.desc, cols:4, kind:'word',
+      explain: 'Esa es la descripción de la <b>'+item.part.toLowerCase()+'</b> de la planta.',
     };
   }
   let a = pick(FRUIT_SIZE), b = pick(FRUIT_SIZE);
   while(b.label === a.label) b = pick(FRUIT_SIZE);
   const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
+  const bigger = a.size>b.size ? a : b, smaller = a.size>b.size ? b : a;
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estos frutos es más grande?</p>',
-    options: opts, correctValue: a.size>b.size ? a.label : b.label, speakText: '¿Cuál es más grande?', cols:2, panel:true,
+    options: opts, correctValue: bigger.label, speakText: '¿Cuál es más grande?', cols:2, panel:true,
+    explain: 'El '+bigger.label.toLowerCase()+' es más grande que el '+smaller.label.toLowerCase()+'.',
   };
 }
 
@@ -1669,6 +1702,7 @@ function genCuerpoRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Para qué sirven tus '+item.organ.toLowerCase()+'?</p>',
       options: opts, correctValue: item.sense, speakText: '¿Para qué sirven tus '+item.organ+'?', cols:4, kind:'word',
+      explain: 'Tus '+item.organ.toLowerCase()+' sirven para <b>'+item.sense.toLowerCase()+'</b>.',
     };
   }
   const item = pick(HABITOS_SALUDABLES);
@@ -1676,6 +1710,7 @@ function genCuerpoRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.bueno, speakText: item.label, cols:2, panel:true,
+    explain: item.bueno ? item.label+' es un <b>hábito saludable</b> que cuida tu cuerpo.' : item.label+' <b>no es un hábito saludable</b>.',
   };
 }
 
@@ -1688,6 +1723,7 @@ function genMaterialesRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿De qué material es '+item.object+'?</p>',
       options: opts, correctValue: item.material, speakText: item.object, cols:4, kind:'word',
+      explain: item.object.charAt(0).toUpperCase()+item.object.slice(1)+' está hecho de <b>'+item.material.toLowerCase()+'</b>.',
     };
   }
   const item = pick(CAMBIOS_MATERIALES);
@@ -1696,6 +1732,7 @@ function genMaterialesRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.text+'. ¿Qué produjo este cambio?</p>',
     options: opts, correctValue: item.cause, speakText: item.text, cols:4,
+    explain: item.text+' por el <b>'+item.cause.toLowerCase()+'</b>.',
   };
 }
 
@@ -1706,6 +1743,7 @@ function genDiaNocheRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Es de día o de noche?</p>',
       options: opts, correctValue: item.momento, speakText: item.label, cols:2, panel:true,
+      explain: item.label+', eso pasa de <b>'+item.momento.toLowerCase()+'</b>.',
     };
   }
   const item = pick(ESTACIONES);
@@ -1715,6 +1753,7 @@ function genDiaNocheRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Qué estación del año es?</p>',
     options: opts, correctValue: item.season, speakText: item.label, cols:4, kind:'word',
+    explain: item.label+', eso ocurre en <b>'+item.season.toLowerCase()+'</b>.',
   };
 }
 
@@ -1815,6 +1854,7 @@ function genCalendarioRound(){
     return {
       promptHTML: calStripHTML(DIAS_SEMANA, idx)+'<p class="prompt-hint">Si hoy es <b>'+dia+'</b>, ¿qué día viene después?</p>',
       options: opts, correctValue: next, speakText: '¿Qué día viene después de '+dia+'?', cols:4, kind:'word',
+      explain: 'Después de <b>'+dia+'</b> viene <b>'+next+'</b>.',
     };
   }
   const idx = randInt(0, MESES_ANIO.length-1);
@@ -1825,6 +1865,7 @@ function genCalendarioRound(){
   return {
     promptHTML: calStripHTML(MESES_ANIO, idx)+'<p class="prompt-hint">Si estamos en <b>'+mes+'</b>, ¿qué mes viene después?</p>',
     options: opts, correctValue: next, speakText: '¿Qué mes viene después de '+mes+'?', cols:4, kind:'word',
+    explain: 'Después de <b>'+mes+'</b> viene <b>'+next+'</b>.',
   };
 }
 
@@ -1836,6 +1877,7 @@ function genMiIdentidadRound(){
     return {
       promptHTML: '<p class="prompt-hint">¿Qué pasa primero en tu día?</p>',
       options: opts, correctValue: a.order<b.order ? a.label : b.label, speakText: '¿Qué pasa primero?', cols:2, panel:true,
+      explain: (a.order<b.order ? a.label : b.label)+' pasa antes que '+(a.order<b.order ? b.label : a.label)+' en un día normal.',
     };
   }
   const item = pick(FAMILIA_BANK);
@@ -1844,6 +1886,7 @@ function genMiIdentidadRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.q+'</p>',
     options: opts, correctValue: item.correct, speakText: item.q, cols:4, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correct+'</b>.',
   };
 }
 
@@ -1854,6 +1897,7 @@ function genSimbolosRound(){
   return {
     promptHTML: visual+'<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.tipico, speakText: item.label, cols:2, panel:true,
+    explain: item.tipico ? item.label+' <b>es típico o representativo de Chile</b>.' : item.label+' <b>no es de Chile</b>, es de otro país o cultura.',
   };
 }
 
@@ -1865,6 +1909,7 @@ function genMapasRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
+      explain: 'Esa descripción corresponde a una <b>'+item.label.toLowerCase()+'</b>.',
     };
   }
   const item = pick(CHILE_GEO_FACTS);
@@ -1872,6 +1917,7 @@ function genMapasRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.q+'</p>',
     options: opts, correctValue: item.correct, speakText: item.q, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correct+'</b>.',
   };
 }
 
@@ -1884,6 +1930,7 @@ function genComunidadRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
+      explain: 'Esa es la labor de un(a) <b>'+item.label.toLowerCase()+'</b>.',
     };
   }
   if(roll<0.67){
@@ -1893,6 +1940,7 @@ function genComunidadRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
+      explain: 'Esa es la función de <b>'+item.label.toLowerCase()+'</b>.',
     };
   }
   const item = pick(NORMAS_CONVIVENCIA);
@@ -1900,6 +1948,7 @@ function genComunidadRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.bueno, speakText: item.label, cols:2, panel:true,
+    explain: item.bueno ? item.label+' <b>ayuda a la buena convivencia</b>.' : item.label+' <b>no ayuda a la buena convivencia</b>.',
   };
 }
 
@@ -1950,6 +1999,7 @@ function genColoresRound(){
     return {
       promptHTML: visual+'<p class="prompt-hint">El color '+item.label+'. ¿Es un color cálido o frío?</p>',
       options: opts, correctValue: item.tipo, speakText: 'El color '+item.label, cols:2, panel:true,
+      explain: 'El '+item.label.toLowerCase()+' es un color <b>'+item.tipo.toLowerCase()+'</b>.',
     };
   }
   const item = pick(MEZCLAS_COLOR);
@@ -1963,6 +2013,7 @@ function genColoresRound(){
   return {
     promptHTML: visual+'<p class="prompt-hint">¿Qué color se forma al mezclarlos?</p>',
     options: opts, correctValue: item.result, speakText: '¿Qué color se forma al mezclar '+item.a+' con '+item.b+'?', cols:4, kind:'word',
+    explain: 'Mezclar '+item.a.toLowerCase()+' con '+item.b.toLowerCase()+' forma el color <b>'+item.result.toLowerCase()+'</b>.',
   };
 }
 
@@ -1974,6 +2025,7 @@ function genLineasTexturasRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+' ¿Qué tipo de línea es?</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
+      explain: 'Esa es una línea <b>'+item.label.toLowerCase()+'</b>.',
     };
   }
   const item = pick(TEXTURAS_ITEMS);
@@ -1982,6 +2034,7 @@ function genLineasTexturasRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+' ¿Qué textura es?</p>',
     options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
+    explain: 'Esa es una textura <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
 
@@ -1992,6 +2045,7 @@ function genMaterialesArteRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.uso+'</p>',
     options: opts, correctValue: item.label, speakText: item.uso, cols:4, kind:'word',
+    explain: item.uso+' Esa herramienta es <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
 
@@ -2031,6 +2085,7 @@ function genSonidosRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Cómo es este sonido?</p>',
     options: opts, correctValue: item.cualidad, speakText: item.label, cols:2, panel:true,
+    explain: item.label+', por eso es un sonido <b>'+item.cualidad.toLowerCase()+'</b>.',
   };
 }
 
@@ -2040,6 +2095,7 @@ function genInstrumentosRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Es un instrumento musical convencional o no convencional?</p>',
     options: opts, correctValue: item.tipo, speakText: item.label, cols:2, panel:true,
+    explain: item.label+' es un instrumento <b>'+item.tipo.toLowerCase()+'</b>.',
   };
 }
 
@@ -2082,6 +2138,7 @@ function genMovimientoRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Qué tipo de movimiento es?</p>',
     options: opts, correctValue: item.tipo, speakText: item.label, cols:4, kind:'word',
+    explain: item.label+' es un movimiento de <b>'+item.tipo.toLowerCase()+'</b>.',
   };
 }
 
@@ -2091,6 +2148,7 @@ function genVidaActivaRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
 
@@ -2100,6 +2158,7 @@ function genSeguridadRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
 
@@ -2141,11 +2200,13 @@ function genEmocionesRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué emoción muestra esta cara?</p>',
       options: opts, correctValue: item.label, speakText: item.label, cols:4, kind:'word',
+      explain: 'Esta cara muestra <b>'+item.label.toLowerCase()+'</b>: '+item.desc.toLowerCase(),
     };
   }
   return {
     promptHTML: '<span class="prompt-emoji">💭</span><p class="prompt-hint">'+item.desc+' ¿Qué emoción es?</p>',
     options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
+    explain: 'Esa descripción corresponde a la <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
 
@@ -2155,6 +2216,7 @@ function genAutocuidadoRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
 
@@ -2164,6 +2226,7 @@ function genConvivenciaRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
 
@@ -2194,6 +2257,7 @@ function genHerramientasTecRound(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.uso+'</p>',
       options: opts, correctValue: item.label, speakText: item.uso, cols:4, kind:'word',
+      explain: item.uso+' Esa herramienta es <b>'+item.label.toLowerCase()+'</b>.',
     };
   }
   const item = pick(MATERIALES_TEC);
@@ -2202,6 +2266,7 @@ function genHerramientasTecRound(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.uso+'</p>',
     options: opts, correctValue: item.label, speakText: item.uso, cols:4, kind:'word',
+    explain: item.uso+' Ese material es <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
 
@@ -2295,14 +2360,17 @@ function answerMC(i){
     const bonus = mc.streak>=6 ? 8 : (mc.streak>=3 ? 4 : 0);
     awardXP(8+bonus);
     if(mc.streak>=3 && mc.streak%3===0) sfxStreak();
+    mc.round++;
+    setTimeout(drawMCRound, 950);
   }else{
     pickedBtn.classList.add('wrong');
     if(correctBtn) correctBtn.classList.add('correct');
     mc.streak = 0;
     sfxWrong();
+    mc.round++;
+    const explainText = r.explain || ('La respuesta correcta era <b>'+(correctBtn ? correctBtn.textContent : '')+'</b>.');
+    setTimeout(function(){ showExplain(explainText, drawMCRound); }, 700);
   }
-  mc.round++;
-  setTimeout(drawMCRound, 950);
 }
 
 function finishMC(){
@@ -2371,12 +2439,16 @@ function tapSyllable(i){
         sfxCorrect();
         awardXP(8);
         speak(cur.item.word);
+        sGame.round++;
+        setTimeout(drawSilabaRound, 900);
       }else{
         slots.forEach(function(s){ s.classList.add('wrong'); });
         sfxWrong();
+        sGame.round++;
+        setTimeout(function(){
+          showExplain('La palabra se forma así: '+cur.item.syllables.join(' + ')+' = <b>'+cur.item.word+'</b>.', drawSilabaRound);
+        }, 700);
       }
-      sGame.round++;
-      setTimeout(drawSilabaRound, 900);
     }, 250);
   }
 }
@@ -2448,12 +2520,17 @@ function tapSecuencia(tileIdx){
         qGame.correct++;
         sfxCorrect();
         awardXP(8);
+        qGame.round++;
+        setTimeout(drawSecuenciaRound, 950);
       }else{
         slots.forEach(function(s){ s.classList.add('wrong'); });
         sfxWrong();
+        qGame.round++;
+        const orderText = cur.item.steps.map(function(s){ return s.text; }).join(' → ');
+        setTimeout(function(){
+          showExplain('El orden correcto de "'+cur.item.title+'" es: <b>'+orderText+'</b>.', drawSecuenciaRound);
+        }, 700);
       }
-      qGame.round++;
-      setTimeout(drawSecuenciaRound, 950);
     }, 250);
   }
 }
@@ -2565,6 +2642,25 @@ function replayGame(key){
   else if(key==='silabas') initSilabasGame();
   else if(key==='secuencia') initSecuenciaGame();
   else if(key==='memorama') render();
+}
+
+/* ---------------- Carboncito explica (cuando el jugador se equivoca) ---------------- */
+function showExplain(text, onContinue){
+  const app = document.getElementById('app');
+  const div = document.createElement('div');
+  div.className = 'overlay';
+  div.innerHTML =
+    '<div class="explain-card">'+
+      '<div class="float" style="display:flex;justify-content:center;">'+mascotSVG(80)+'</div>'+
+      '<p class="explain-title">🐾 Carboncito te explica</p>'+
+      '<p class="explain-text">'+text+'</p>'+
+      '<button class="cta-btn" id="explain-continue-btn">¡Entendido, sigamos! 👍</button>'+
+    '</div>';
+  app.appendChild(div);
+  document.getElementById('explain-continue-btn').onclick = function(){
+    div.remove();
+    onContinue();
+  };
 }
 
 /* ---------------- Resultado + recompensas ---------------- */

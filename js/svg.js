@@ -92,14 +92,43 @@ export function colorSwatchSVG(name, size){
   '</svg>';
 }
 
+/* Tipos de línea dibujados a mano (Artes Visuales 2° básico, OA02: vertical,
+   horizontal, diagonal, espiral y quebrada) — más precisos que un emoji para
+   un concepto central al módulo. */
+export function lineTypeSVG(tipo, size){
+  size = size || 90;
+  let inner = '';
+  if(tipo === 'VERTICAL'){
+    inner = '<line x1="50" y1="10" x2="50" y2="90" stroke="#7C6FF0" stroke-width="7" stroke-linecap="round"/>';
+  }else if(tipo === 'HORIZONTAL'){
+    inner = '<line x1="10" y1="50" x2="90" y2="50" stroke="#12A594" stroke-width="7" stroke-linecap="round"/>';
+  }else if(tipo === 'DIAGONAL'){
+    inner = '<line x1="15" y1="85" x2="85" y2="15" stroke="#FF6B6B" stroke-width="7" stroke-linecap="round"/>';
+  }else if(tipo === 'ESPIRAL'){
+    let d = 'M 50 50';
+    for(let a = 0.3; a <= Math.PI*4.5; a += 0.2){
+      const r = a * 4.6;
+      d += ' L ' + (50 + r*Math.cos(a)) + ' ' + (50 + r*Math.sin(a));
+    }
+    inner = '<path d="'+d+'" fill="none" stroke="#FFB627" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>';
+  }else if(tipo === 'QUEBRADA'){
+    inner = '<polyline points="10,25 30,75 50,25 70,75 90,25" fill="none" stroke="#0EA5A0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>';
+  }
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+inner+'</svg>';
+}
+
 /* Cuerpos geométricos 3D dibujados a mano (Educación Parvularia, Pensamiento
    Matemático) — mismo enfoque que shapeSVG() para las figuras 2D. */
 export function solid3DSVG(id, size){
   size = size || 100;
-  const colors = { cubo:'#7C6FF0', esfera:'#FF6B6B', cono:'#FFB627', cilindro:'#12A594' };
+  const colors = { cubo:'#7C6FF0', esfera:'#FF6B6B', cono:'#FFB627', cilindro:'#12A594', paralelepipedo:'#0EA5A0' };
   const fill = colors[id] || '#12A594';
   let shape = '';
-  if(id==='esfera'){
+  if(id==='paralelepipedo'){
+    shape = '<polygon points="14,45 50,32 92,42 92,72 50,85 14,75" fill="'+fill+'"/>'+
+      '<polygon points="14,45 50,58 50,85 14,75" fill="rgba(0,0,0,0.18)"/>'+
+      '<polygon points="50,58 92,42 92,72 50,85" fill="rgba(255,255,255,0.18)"/>';
+  }else if(id==='esfera'){
     shape = '<circle cx="50" cy="50" r="40" fill="'+fill+'"/>'+
       '<ellipse cx="50" cy="58" rx="28" ry="10" fill="rgba(0,0,0,0.12)"/>'+
       '<ellipse cx="38" cy="36" rx="10" ry="6" fill="rgba(255,255,255,0.45)"/>';

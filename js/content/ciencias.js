@@ -136,6 +136,244 @@ const ESTACIONES = [
   { emoji:'🐝', label:'Las abejas despiertan y visitan las flores nuevas', season:'PRIMAVERA' },
 ];
 
+/* ---------------- Contenido Ciencias Naturales 2° Básico ----------------
+   Basado en OA del Decreto 439/2012, 2° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/ciencias-naturales/2-basico):
+   CN02 OA01-02 -> Vertebrados e Invertebrados · CN02 OA03 -> Ciclos de Vida ·
+   CN02 OA04-06 -> Hábitats y Cuidado Animal · CN02 OA07-08 -> Mi Cuerpo por
+   Dentro · CN02 OA09-11 -> El Agua · CN02 OA12-13 -> Clima e Instrumentos.
+   OA14 (relación estaciones-tiempo atmosférico) no se repite aquí porque ya
+   lo cubre "Día y Noche" de 1° básico (estaciones del año). */
+export const CIENCIAS_MODULES_G2 = [
+  {id:'vertebrados2', label:'Vertebrados e Invertebrados', open:true, key:'vertebrados2'},
+  {id:'ciclosvida2', label:'Ciclos de Vida', open:true, key:'ciclosvida2'},
+  {id:'habitats2', label:'Hábitats y Cuidado Animal', open:true, key:'habitats2'},
+  {id:'cuerpodentro2', label:'Mi Cuerpo por Dentro', open:true, key:'cuerpodentro2'},
+  {id:'agua2', label:'El Agua', open:true, key:'agua2'},
+  {id:'clima2', label:'Clima e Instrumentos', open:true, key:'clima2'},
+];
+export const CIENCIAS_POS_G2 = [
+  {x:22,y:92},{x:68,y:77},{x:24,y:61},{x:70,y:45},{x:24,y:26},{x:70,y:8}
+];
+
+const VERTEBRADOS_BANK = [
+  { emoji:'🐶', label:'PERRO', tipo:'MAMÍFERO' },
+  { emoji:'🐱', label:'GATO', tipo:'MAMÍFERO' },
+  { emoji:'🐘', label:'ELEFANTE', tipo:'MAMÍFERO' },
+  { emoji:'🦅', label:'ÁGUILA', tipo:'AVE' },
+  { emoji:'🦜', label:'LORO', tipo:'AVE' },
+  { emoji:'🦎', label:'LAGARTIJA', tipo:'REPTIL' },
+  { emoji:'🐍', label:'SERPIENTE', tipo:'REPTIL' },
+  { emoji:'🐸', label:'RANA', tipo:'ANFIBIO' },
+  { emoji:'🐟', label:'PEZ', tipo:'PEZ' },
+  { emoji:'🦈', label:'TIBURÓN', tipo:'PEZ' },
+];
+const INVERTEBRADOS_BANK = [
+  { emoji:'🦋', label:'MARIPOSA' },
+  { emoji:'🐝', label:'ABEJA' },
+  { emoji:'🕷️', label:'ARAÑA' },
+  { emoji:'🦂', label:'ESCORPIÓN' },
+  { emoji:'🦀', label:'CANGREJO' },
+  { emoji:'🐌', label:'CARACOL' },
+];
+
+const MARIPOSA_CICLO = [{ emoji:'🥚', label:'Huevo', orden:1 },{ emoji:'🐛', label:'Oruga', orden:2 },{ emoji:'🦋', label:'Mariposa adulta', orden:3 }];
+const RANA_CICLO = [{ emoji:'🥚', label:'Huevos en el agua', orden:1 },{ emoji:'🐠', label:'Renacuajo', orden:2 },{ emoji:'🐸', label:'Rana adulta', orden:3 }];
+const AVE_CICLO = [{ emoji:'🥚', label:'Huevo', orden:1 },{ emoji:'🐣', label:'Polluelo', orden:2 },{ emoji:'🐦', label:'Ave adulta', orden:3 }];
+const MAMIFERO_CICLO = [{ emoji:'🍼', label:'Recién nacido', orden:1 },{ emoji:'🐕', label:'Cachorro', orden:2 },{ emoji:'🐕‍🦺', label:'Adulto', orden:3 }];
+const CICLOS_G2 = [MARIPOSA_CICLO, RANA_CICLO, AVE_CICLO, MAMIFERO_CICLO];
+
+const HABITAT_ANIMALES = [
+  { emoji:'🐧', label:'PINGÜINO', habitat:'POLO' },
+  { emoji:'🦭', label:'FOCA', habitat:'POLO' },
+  { emoji:'🐫', label:'CAMELLO', habitat:'DESIERTO' },
+  { emoji:'🦂', label:'ESCORPIÓN', habitat:'DESIERTO' },
+  { emoji:'🐬', label:'DELFÍN', habitat:'OCÉANO' },
+  { emoji:'🐙', label:'PULPO', habitat:'OCÉANO' },
+  { emoji:'🐒', label:'MONO', habitat:'SELVA' },
+  { emoji:'🦜', label:'TUCÁN', habitat:'SELVA' },
+  { emoji:'🐻', label:'OSO', habitat:'BOSQUE' },
+];
+const CUIDADO_ANIMAL_BANK = [
+  { correcta:'No botar basura en el bosque donde viven animales', incorrectas:['Cazar animales en peligro de extinción','Destruir su hábitat natural','Contaminar los ríos donde beben agua'] },
+  { correcta:'Proteger los hábitats naturales de los animales', incorrectas:['Talar todos los árboles de un bosque','Botar basura en el mar','Sacar animales silvestres de su hogar'] },
+  { correcta:'Informarse sobre animales en peligro de extinción para cuidarlos', incorrectas:['Ignorar a los animales en peligro','Comprar animales silvestres capturados','Quemar bosques donde viven animales'] },
+];
+
+const ORGANOS_BANK = [
+  { emoji:'❤️', organo:'CORAZÓN', funcion:'Bombea la sangre por todo el cuerpo' },
+  { emoji:'🫁', organo:'PULMONES', funcion:'Nos ayudan a respirar' },
+  { emoji:'🍽️', organo:'ESTÓMAGO', funcion:'Digiere los alimentos que comemos' },
+  { emoji:'🦴', organo:'ESQUELETO', funcion:'Sostiene y protege nuestro cuerpo' },
+  { emoji:'💪', organo:'MÚSCULOS', funcion:'Nos permiten movernos' },
+];
+const EJERCICIO_BANK = [
+  { pregunta:'¿Qué le pasa a tu corazón cuando haces ejercicio?', correcta:'Late más rápido y se fortalece', opts:['Deja de latir','Se hace más pequeño','No cambia nada'] },
+  { pregunta:'¿Por qué es importante hacer actividad física?', correcta:'Fortalece los músculos y el corazón', opts:['Debilita el cuerpo','No sirve para nada','Hace que crezcas menos'] },
+];
+
+const AGUA_ESTADOS_BANK = [
+  { emoji:'🧊', label:'HIELO', estado:'SÓLIDO' },
+  { emoji:'💧', label:'AGUA LÍQUIDA', estado:'LÍQUIDO' },
+  { emoji:'💨', label:'VAPOR DE AGUA', estado:'GASEOSO' },
+];
+const CICLO_AGUA = [
+  { emoji:'☀️', label:'Evaporación: el sol calienta el agua', orden:1 },
+  { emoji:'☁️', label:'Condensación: se forman las nubes', orden:2 },
+  { emoji:'🌧️', label:'Precipitación: cae la lluvia', orden:3 },
+];
+const AGUA_PROPIEDADES_BANK = [
+  { texto:'El agua toma la forma del recipiente donde la pones', valor:true },
+  { texto:'El agua puede disolver el azúcar y la sal', valor:true },
+  { texto:'El agua tiene un color fuerte siempre', valor:false },
+  { texto:'El agua se evapora y se congela con los cambios de temperatura', valor:true },
+  { texto:'El agua nunca cambia de forma', valor:false },
+];
+
+const INSTRUMENTOS_CLIMA_BANK = [
+  { emoji:'🌡️', label:'TERMÓMETRO', mide:'LA TEMPERATURA' },
+  { emoji:'☔', label:'PLUVIÓMETRO', mide:'LA LLUVIA' },
+  { emoji:'🎏', label:'VELETA', mide:'EL VIENTO' },
+];
+const TIEMPO_ATMOSFERICO_BANK = [
+  { emoji:'🌧️', texto:'Cae mucha agua del cielo', tipo:'LLUVIA' },
+  { emoji:'💨', texto:'Las hojas de los árboles se mueven fuerte', tipo:'VIENTO' },
+  { emoji:'☀️', texto:'Hace mucho calor y sudas', tipo:'CALOR' },
+  { emoji:'❄️', texto:'Hace mucho frío y ves tu respiración', tipo:'FRÍO' },
+];
+
+export function genVertebrados2Round(){
+  if(Math.random()<0.5){
+    const isVert = Math.random()<0.5;
+    const item = isVert ? pick(VERTEBRADOS_BANK) : pick(INVERTEBRADOS_BANK);
+    const opts = shuffle([{label:'TIENE COLUMNA VERTEBRAL', value:true},{label:'NO TIENE COLUMNA VERTEBRAL', value:false}]);
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿El/la '+item.label.toLowerCase()+' tiene columna vertebral?</p>',
+      options: opts, correctValue: isVert, speakText: item.label, cols:2, panel:true,
+      explain: isVert ? 'El/la '+item.label.toLowerCase()+' es un <b>vertebrado</b>, tiene columna vertebral.' : 'El/la '+item.label.toLowerCase()+' es un <b>invertebrado</b>, no tiene columna vertebral.',
+    };
+  }
+  const item = pick(VERTEBRADOS_BANK);
+  const distract = shuffle(['MAMÍFERO','AVE','REPTIL','ANFIBIO','PEZ'].filter(function(t){ return t!==item.tipo; })).slice(0,3);
+  const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué tipo de vertebrado es?</p>',
+    options: opts, correctValue: item.tipo, speakText: item.label, cols:4, kind:'word',
+    explain: 'El/la '+item.label.toLowerCase()+' es un(a) <b>'+item.tipo.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCiclosVida2Round(){
+  const ciclo = pick(CICLOS_G2);
+  let a = pick(ciclo), b = pick(ciclo);
+  while(b.label === a.label) b = pick(ciclo);
+  const askBefore = Math.random()<0.5;
+  const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
+  const earlier = a.orden<b.orden ? a : b, later = a.orden<b.orden ? b : a;
+  const correct = askBefore ? earlier.label : later.label;
+  const cicloDisplay = ciclo.map(function(c){ return c.emoji; }).join(' → ');
+  return {
+    promptHTML: '<p class="prompt-count" style="font-size:26px;">'+cicloDisplay+'</p><p class="prompt-hint">'+(askBefore ? '¿Qué viene ANTES en este ciclo de vida?' : '¿Qué viene DESPUÉS en este ciclo de vida?')+'</p>',
+    options: opts, correctValue: correct, speakText: askBefore ? '¿Qué viene antes?' : '¿Qué viene después?', cols:2, panel:true,
+    explain: earlier.label+' viene antes que '+later.label+' en este ciclo de vida.',
+  };
+}
+
+export function genHabitats2Round(){
+  if(Math.random()<0.5){
+    const item = pick(HABITAT_ANIMALES);
+    const habitatPool = HABITAT_ANIMALES.map(function(h){ return h.habitat; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
+    const distract = shuffle(habitatPool.filter(function(h){ return h!==item.habitat; })).slice(0,3);
+    const opts = shuffle([item.habitat].concat(distract)).map(function(h){ return {label:h, value:h}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Dónde vive el/la '+item.label.toLowerCase()+'?</p>',
+      options: opts, correctValue: item.habitat, speakText: item.label, cols:4, kind:'word',
+      explain: 'El/la '+item.label.toLowerCase()+' vive en el/la <b>'+item.habitat.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(CUIDADO_ANIMAL_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones ayuda a cuidar a los animales?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones ayuda a cuidar a los animales?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" ayuda a proteger a los animales y su hábitat.',
+  };
+}
+
+export function genCuerpoDentro2Round(){
+  if(Math.random()<0.5){
+    const item = pick(ORGANOS_BANK);
+    const distract = shuffle(ORGANOS_BANK.filter(function(o){ return o.organo!==item.organo; })).slice(0,3).map(function(o){ return o.funcion; });
+    const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué hace tu '+item.organo.toLowerCase()+'?</p>',
+      options: opts, correctValue: item.funcion, speakText: '¿Qué hace tu '+item.organo+'?', cols:2, panel:true,
+      explain: 'Tu '+item.organo.toLowerCase()+' '+item.funcion.toLowerCase().replace(/^./, function(c){ return c; })+'.',
+    };
+  }
+  const item = pick(EJERCICIO_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}
+
+export function genAgua2Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(AGUA_ESTADOS_BANK);
+    const distract = AGUA_ESTADOS_BANK.filter(function(a){ return a.estado!==item.estado; }).map(function(a){ return a.estado; });
+    const opts = shuffle([item.estado].concat(distract)).map(function(e){ return {label:e, value:e}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿En qué estado está el agua?</p>',
+      options: opts, correctValue: item.estado, speakText: item.label, cols:2, kind:'word', panel:true,
+      explain: item.label+' es agua en estado <b>'+item.estado.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.67){
+    let a = pick(CICLO_AGUA), b = pick(CICLO_AGUA);
+    while(b.label === a.label) b = pick(CICLO_AGUA);
+    const askBefore = Math.random()<0.5;
+    const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
+    const earlier = a.orden<b.orden ? a : b, later = a.orden<b.orden ? b : a;
+    return {
+      promptHTML: '<p class="prompt-hint">'+(askBefore ? '¿Qué paso viene ANTES en el ciclo del agua?' : '¿Qué paso viene DESPUÉS en el ciclo del agua?')+'</p>',
+      options: opts, correctValue: askBefore ? earlier.label : later.label, speakText: askBefore ? '¿Qué viene antes?' : '¿Qué viene después?', cols:2, panel:true,
+      explain: earlier.label+' viene antes que '+later.label+' en el ciclo del agua.',
+    };
+  }
+  const item = pick(AGUA_PROPIEDADES_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
+    options: opts, correctValue: item.valor, speakText: item.texto, cols:2, panel:true,
+    explain: item.valor ? 'Es verdadero: '+item.texto.toLowerCase()+'.' : 'Es falso: en realidad, '+(item.texto.toLowerCase().indexOf('nunca')!==-1 ? 'el agua sí puede cambiar de forma según el recipiente' : 'el agua es transparente, no tiene color propio')+'.',
+  };
+}
+
+export function genClima2Round(){
+  if(Math.random()<0.5){
+    const item = pick(INSTRUMENTOS_CLIMA_BANK);
+    const distract = INSTRUMENTOS_CLIMA_BANK.filter(function(i){ return i.label!==item.label; }).map(function(i){ return i.mide; });
+    const opts = shuffle([item.mide].concat(distract)).map(function(m){ return {label:m, value:m}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué mide un(a) '+item.label.toLowerCase()+'?</p>',
+      options: opts, correctValue: item.mide, speakText: item.label, cols:2, kind:'word', panel:true,
+      explain: 'El/la '+item.label.toLowerCase()+' mide <b>'+item.mide.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(TIEMPO_ATMOSFERICO_BANK);
+  const distract = TIEMPO_ATMOSFERICO_BANK.filter(function(t){ return t.tipo!==item.tipo; }).map(function(t){ return t.tipo; });
+  const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto+'. ¿Qué tiempo atmosférico es?</p>',
+    options: opts, correctValue: item.tipo, speakText: item.texto, cols:4, kind:'word',
+    explain: item.texto+', eso es <b>'+item.tipo.toLowerCase()+'</b>.',
+  };
+}
+
 export function genSeresVivosRound(){
   if(Math.random()<0.5){
     const item = pick(VIVOS_ITEMS);

@@ -378,15 +378,48 @@ de opción múltiple sin una reinterpretación forzada.
   Mineduc no unifica en un solo documento curricular, e Inglés parte recién en 5° básico
   según el currículum nacional.
 
-### 2° Básico — 🟡 parcial (4 de 8 módulos)
-- Lenguaje: Combinaciones ✅, Secuencia ✅ · **Gramática 🔒, Comprensión II 🔒 (pendientes)**
-- Matemática: Salta y Cuenta ✅, Multiplicar ✅ · **Geometría 🔒, Medición 🔒 (pendientes)**
-- OA ya extraídos del Decreto 439/2012 para Lenguaje 2° básico (30 OA, ejes Lectura/
-  Escritura/Comunicación Oral) y Matemática 2° básico (22 OA, ejes Números y
-  Operaciones/Patrones y Álgebra/Geometría/Medición/Datos y Probabilidades) — están
-  disponibles en el historial de conversación con el usuario si se necesitan de nuevo;
-  si no, hay que volver a pedir el PDF `Bases1y6basico.pdf` o extraerlo de ese archivo
-  si está en el repo.
+### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
+Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
+curriculum/1o-6o-basico/<asignatura>/2-basico (páginas por-OA individuales,
+verificadas cruzando el listado agregado contra al menos una página `<código>-oa-01`
+por asignatura). Igual que en 1° básico, cada asignatura documenta qué OA quedaron
+fuera y por qué en el comentario inicial de su archivo `content/<asignatura>.js`
+(sección `_G2`/`MODULES_G2`).
+
+- **Lenguaje** (4): Combinaciones, Secuencia, Gramática (concordancia género/número,
+  sustantivo/adjetivo — OA19-20), Comprensión II (inferencia en narraciones y textos
+  no literarios — OA03,05,07).
+- **Matemática** (4): Salta y Cuenta, Multiplicar, Geometría (posición izq/der,
+  figuras 2D, figuras 3D con el nuevo `paralelepipedo` en `solid3DSVG` — OA14-16),
+  Medición (calendario, hora digital, longitud cm/m — OA17-19).
+- **Ciencias Naturales** (6): Vertebrados e Invertebrados, Ciclos de Vida, Hábitats y
+  Cuidado Animal, Mi Cuerpo por Dentro, El Agua, Clima e Instrumentos — OA01-13.
+  OA14 no se repite (ya lo cubre "Día y Noche" de 1° básico, estaciones del año).
+- **Historia, Geografía y Cs. Sociales** (4): Pueblos Originarios (zona geográfica —
+  OA10-11), Patrimonio de Chile natural, Paisajes de Chile por zona, Formación
+  Ciudadana — OA06-16 (parcial). Fuera: OA01-04 (modos de vida y aportes culturales
+  detallados de pueblos precolombinos — riesgo de datos históricos/etimológicos
+  inexactos sin fuente adicional más profunda que la lista de OA, mismo criterio que
+  excluyó "personajes históricos" en 1° básico); OA05 no se repite (ya lo cubre
+  "Símbolos de Chile" de 1° básico).
+- **Artes Visuales** (1): Líneas y Colores (línea vertical/horizontal/diagonal/
+  espiral/quebrada vía el nuevo helper `lineTypeSVG`; color primario/secundario) —
+  OA02. Fuera: OA01,03 (producción propia) y OA04-05 (opinión, subjetivo).
+- **Música** (1): Timbre y Pulso — cubre específicamente timbre (qué instrumento
+  produce un sonido) y elementos del lenguaje musical (pulso, acento), ya que altura/
+  intensidad/duración las cubre "Sonidos" de 1° básico — OA01 (parcial). Fuera:
+  OA02-07 (expresión subjetiva, repertorio específico, cantar/tocar, improvisar,
+  presentar, reflexión personal).
+- **Educación Física y Salud** (3): Mi Cuerpo Responde, Vida Activa y Saludable II,
+  Juego en Equipo y Liderazgo — OA06-11. Fuera: OA01-05 (habilidades motrices,
+  juegos, entornos, expresión corporal — requieren práctica física real).
+- **Orientación** (4): Mis Emociones II (escenas, no solo emoji), Autocuidado y
+  Hábitos II, Hábitos de Trabajo Escolar (nuevo este año, OA08), Buena Convivencia II
+  (resolución de conflictos por escenario) — OA02,04-06,08. Fuera: OA01,03,07
+  (autodescripción, expresión de afecto, pertenencia a grupos — subjetivo).
+- **Tecnología** (1): Tecnología Digital (software de dibujo, procesador de texto,
+  uso seguro de internet) — OA05-07. Fuera: OA01-04 (diseñar/elaborar/evaluar un
+  objeto tecnológico propio — producción práctica).
 
 ### 3° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false`. Para desbloquear un año, cambiar su
@@ -396,14 +429,29 @@ automáticamente como placeholder — no rompe nada, pero tampoco es jugable).
 
 ## Próximos pasos sugeridos (en orden)
 
-1. Completar 2° básico: Gramática (concordancia género/número) y Comprensión II en
-   Lenguaje; Geometría (2D/3D) y Medición (calendario, hora, longitud) en Matemática.
-2. Extraer los OA de 3° básico del mismo PDF (`Bases1y6basico.pdf`, páginas ~239-260
-   para Matemática, buscar "3º básico" en el índice para Lenguaje) y repetir el patrón.
-3. Agregar las 7 asignaturas restantes (Ciencias, Historia, Artes, Música, Ed. Física,
-   Orientación, Tecnología) a 2° básico, siguiendo el mismo patrón usado en 1° básico
-   (`<NOMBRE>_BY_GRADE` con entrada `2: {...}`) — pedir los OA de 2° básico de cada
-   asignatura antes de construir contenido, no reusar los de 1° básico.
+**Plan en curso (definido con el usuario 2026-07-20): completar Educación Básica
+completa (3° a 8°) antes de tocar Educación Media o EPJA.** Cada PR se confirma
+individualmente con el usuario antes de mergear (no hay merge automático en bloque
+para esta iniciativa).
+
+1. ~~Completar 2° básico~~ — ✅ hecho, las 9 asignaturas completas (ver "Estado
+   actual del contenido" arriba).
+2. **Siguiente:** extraer los OA de 3° básico de curriculumnacional.cl
+   (`curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/3-basico`, mismo
+   patrón que funcionó para 2° básico) para las 9 asignaturas, y repetir el patrón:
+   `<NOMBRE>_MODULES_G3`/`_POS_G3` en cada `content/<asignatura>.js`, agregar
+   `3: {...}` a cada `*_BY_GRADE` en `gradeContent.js`, registrar en `MC_GAMES`/
+   `MC_KEYS`, agregar estrellas en `state.js` y títulos en `rewards.js`. Luego
+   repetir para 4°, 5°, 6°, 7° y 8° básico en orden (7°-8° son parte de Educación
+   Básica en la trayectoria chilena actual, verificar la lista exacta de asignaturas
+   vigente para esos años en curriculumnacional.cl antes de asumir que es la misma
+   que 1°-6°, ya que podría incluir asignaturas nuevas como Inglés desde 5° básico).
+3. Una vez completa toda Educación Básica, definir con el usuario el mismo patrón
+   para Educación Media (probablemente asignaturas distintas: Física/Química/
+   Biología separadas, Filosofía, etc. — pedir la lista real antes de asumir) y
+   luego EPJA (currículum propio, organizado por niveles que agrupan varios años
+   en uno, no por año individual — revisar su decreto específico antes de construir,
+   no asumir que es igual a Básica/Media regular).
 4. ~~Evaluar agregar persistencia real (localStorage)~~ — ✅ hecho (`js/persistence.js`).
    Si más adelante se quiere progreso sincronizado entre dispositivos, ahí sí se
    necesitaría un backend real (Firebase/Supabase u otro) — GitHub Pages es hosting

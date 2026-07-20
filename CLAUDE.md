@@ -3,9 +3,11 @@
 ## Qué es esto
 
 **LEO** es una app web educativa gratuita para niños, con **Carboncito** (un pug negro,
-mascota basada en un pug real de la familia) como personaje guía. Enseña Lenguaje y
-Matemática siguiendo la trayectoria escolar oficial chilena: Educación Parvularia →
-Educación Básica (1° a 8°) → Educación Media → EPJA.
+mascota basada en un pug real de la familia) como personaje guía. Enseña las asignaturas
+del currículum chileno (Lenguaje, Matemática, Ciencias Naturales, Historia/Geografía/Cs.
+Sociales, Artes Visuales, Música, Educación Física y Salud, Orientación, Tecnología)
+siguiendo la trayectoria escolar oficial: Educación Parvularia → Educación Básica (1° a
+8°) → Educación Media → EPJA.
 
 Repositorio en GitHub: `carbon-lector` (público, desplegado con GitHub Pages).
 
@@ -39,12 +41,22 @@ no una limitación temporal.
   central que reconstruye `#app.innerHTML` en cada cambio de pantalla.
 - **Jerarquía de pantallas:** `home` → `etapaMap` (Parvularia/Básica/Media/EPJA) →
   `gradeMap` (islas 1°-8° básico, `selectGrade(id)` guarda `state.currentGrade`) →
-  `subjectMap` (Lenguaje/Matemática/Ciencias, lee `state.currentGrade`) →
-  `lenguajeMap` / `matematicasMap` (módulos del año actual) → juego individual.
-- **Contenido por año:** `LENGUAJE_BY_GRADE` y `MATE_BY_GRADE` son objetos indexados
-  por número de año (`{1: {...}, 2: {...}}`), cada uno con `{modules, pos, height}`.
-  Para agregar un año nuevo, se agrega una entrada ahí — el resto de la navegación ya
-  es genérica y no requiere tocarse.
+  `subjectMap` (lista de asignaturas, lee `state.currentGrade`) →
+  `lenguajeMap` / `matematicasMap` / `cienciasMap` / `historiaMap` / `artesMap` /
+  `musicaMap` / `edfisicaMap` / `orientacionMap` / `tecnologiaMap` (módulos del año
+  actual) → juego individual.
+- **Asignaturas data-driven:** `SUBJECT_DEFS` (definido después de todos los
+  `*_BY_GRADE`, para evitar Temporal Dead Zone) es la lista que `renderSubjectMap()`
+  recorre para dibujar las tarjetas de materias — cada entrada es
+  `{icon, label, screen, byGrade}`. Para agregar una asignatura nueva: crear su
+  `<NOMBRE>_MODULES` + `<NOMBRE>_POS` + `<NOMBRE>_BY_GRADE` (mismo patrón que
+  `CIENCIAS_BY_GRADE`), su `render<Nombre>Map()` (una línea, usa `renderModuleMap()`),
+  agregar el `else if` correspondiente en `render()`, y agregar una entrada a
+  `SUBJECT_DEFS`. El resto de `renderSubjectMap()` es genérico y no requiere tocarse.
+- **Contenido por año:** cada asignatura tiene su propio `<NOMBRE>_BY_GRADE`, objeto
+  indexado por número de año (`{1: {...}, 2: {...}}`), con `{modules, pos, height}`.
+  Por ahora solo Lenguaje y Matemática tienen entrada para 2° básico; el resto de
+  asignaturas solo tiene 1° básico.
 - **Motor de minijuegos de opción múltiple (reutilizable):** `MC_GAMES` es un mapa
   `{clave: {title, gen, rounds}}` donde `gen` es una función que retorna
   `{promptHTML, options, correctValue, speakText, cols, panel?, kind?}`.
@@ -74,16 +86,36 @@ no una limitación temporal.
 ### Educación Parvularia — 🔒 sin construir
 Investigado (Decreto 481/2017) pero sin módulos jugables aún.
 
-### 1° Básico — ✅ completo (14 módulos, 3 asignaturas)
-- Lenguaje: Vocales, Sílabas, Letras (memorama), Palabras, Comprensión
-- Matemática: Contar, Sumar, Comparar, Formas
-- Ciencias Naturales: Seres Vivos, Plantas, Mi Cuerpo, Materiales, Día y Noche —
-  cubre OA1-OA4, OA6-OA9, OA11-OA12 del eje de Ciencias Naturales (Decreto 439/2012,
-  extraídos de curriculumnacional.cl/curriculum/1o-6o-basico/ciencias-naturales/1-basico).
-  OA5 (comparar plantas/animales de Chile con medidas de cuidado) y OA10 (diseñar
-  instrumentos tecnológicos) y las 4 OAH (habilidades de investigación científica)
-  quedaron fuera por no encajar bien en el motor de opción múltiple actual — quedan
-  pendientes si se quiere cobertura 100% completa del curso.
+### 1° Básico — ✅ completo (31 módulos, las 9 asignaturas aplicables)
+Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
+curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/1-basico. En cada asignatura
+quedaron algunos OA fuera del motor de opción múltiple (marcados abajo); estos son los
+candidatos naturales si se quiere cobertura 100% literal del curso, pero típicamente son
+OA de desempeño/creación (dibujar, cantar, moverse, opinar) que no se prestan a preguntas
+de opción múltiple sin una reinterpretación forzada.
+
+- **Lenguaje** (5): Vocales, Sílabas, Letras (memorama), Palabras, Comprensión.
+- **Matemática** (4): Contar, Sumar, Comparar, Formas.
+- **Ciencias Naturales** (5): Seres Vivos, Plantas, Mi Cuerpo, Materiales, Día y Noche —
+  OA1-OA4, OA6-OA9, OA11-OA12. Fuera: OA5, OA10, las 4 OAH.
+- **Historia, Geografía y Cs. Sociales** (5): Calendario, Mi Identidad, Símbolos de
+  Chile, Mapas de Chile, Convivencia y Comunidad — OA1-06, OA8-11, OA13-15. Fuera: OA07
+  (personajes históricos — riesgo de datos inexactos sin fuente adicional) y OA12
+  (niños del mundo — riesgo de generalización cultural sin fuente).
+- **Artes Visuales** (3): Colores, Líneas y Texturas, Materiales de Arte — OA1-03.
+  Fuera: OA04-05 (apreciación/opinión personal sobre obras, subjetivo).
+- **Música** (2): Sonidos, Instrumentos — OA01, OA04. Fuera: OA02-03, OA05-07
+  (expresión, repertorio, improvisación, presentación en vivo — dependen de audio real).
+- **Educación Física y Salud** (3): Cuerpo en Movimiento, Vida Activa y Saludable,
+  Juego Limpio y Seguridad — OA01-02, OA06-11. Fuera: OA03-05 (variedad de juegos,
+  entornos, expresión corporal — dependen de práctica física real).
+- **Orientación** (3): Mis Emociones, Autocuidado y Hábitos, Buena Convivencia —
+  OA02, OA04-08. Fuera: OA01, OA03 (autodescripción y expresión de afecto, subjetivo).
+- **Tecnología** (1): Herramientas y Materiales — OA02-03. Fuera: OA01, OA04-06
+  (diseño propio, evaluación de resultados, uso de software real — procesos prácticos).
+- **Religión** e **Inglés** no se incluyeron: Religión tiene variantes por credo que
+  Mineduc no unifica en un solo documento curricular, e Inglés parte recién en 5° básico
+  según el currículum nacional.
 
 ### 2° Básico — 🟡 parcial (4 de 8 módulos)
 - Lenguaje: Combinaciones ✅, Secuencia ✅ · **Gramática 🔒, Comprensión II 🔒 (pendientes)**
@@ -107,11 +139,16 @@ automáticamente como placeholder — no rompe nada, pero tampoco es jugable).
    Lenguaje; Geometría (2D/3D) y Medición (calendario, hora, longitud) en Matemática.
 2. Extraer los OA de 3° básico del mismo PDF (`Bases1y6basico.pdf`, páginas ~239-260
    para Matemática, buscar "3º básico" en el índice para Lenguaje) y repetir el patrón.
-3. Agregar Ciencias Naturales a 2° básico (y subir de nivel), siguiendo el mismo
-   patrón usado en 1° básico (`CIENCIAS_BY_GRADE`, `CIENCIAS_MODULES`, etc.) — pedir
-   los OA de Ciencias Naturales 2° básico antes de construir contenido.
+3. Agregar las 7 asignaturas restantes (Ciencias, Historia, Artes, Música, Ed. Física,
+   Orientación, Tecnología) a 2° básico, siguiendo el mismo patrón usado en 1° básico
+   (`<NOMBRE>_BY_GRADE` con entrada `2: {...}`) — pedir los OA de 2° básico de cada
+   asignatura antes de construir contenido, no reusar los de 1° básico.
 4. Evaluar agregar persistencia real (localStorage) ahora que el sitio vive en su
    propio dominio (GitHub Pages) y ya no está restringido por el sandbox de artifacts.
+5. Si se quiere cobertura 100% literal de 1° básico, revisar los OA marcados "fuera"
+   en cada asignatura (arriba) y decidir si vale la pena forzarlos al motor de opción
+   múltiple o si requieren un tipo de juego nuevo (p. ej. grabación de voz para Música,
+   o un lienzo de dibujo para Artes Visuales).
 
 ## Convenciones a mantener
 

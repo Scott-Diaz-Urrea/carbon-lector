@@ -97,6 +97,16 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
 
 - **Navegación:** pila de pantallas (`screenStack`) + `goTo()` / `goBack()` + `render()`
   central que reconstruye `#app.innerHTML` en cada cambio de pantalla.
+- **Nombre del usuario (personalización):** `state.userName` (string, vacío por
+  defecto). `main.js` llama a `showNameEntry(render)` al cargar si `state.userName`
+  está vacío — un overlay (`js/rewards.js`) donde Carboncito pregunta el nombre antes
+  de mostrar la Home. Se usa para personalizar: el saludo en `renderHome()`, el título
+  de `showExplain()` ("Carboncito te explica, {nombre}"), el título de `showResult()`
+  ("¡Excelente trabajo, {nombre}!"), y el toast de subida de nivel (`awardXP` en
+  `state.js`). Patrón a seguir en código nuevo: `const who = state.userName ? ', ' +
+  state.userName : '';` y concatenar `who` — así el texto queda igual de bien sin
+  nombre (no hay persistencia entre sesiones, así que el overlay reaparece cada vez
+  que se recarga la página).
 - **Jerarquía de pantallas:** `home` → `etapaMap` (Parvularia/Básica/Media/EPJA) →
   `gradeMap` (islas 1°-8° básico, `selectGrade(id)` guarda `state.currentGrade`) →
   `subjectMap` (lista de asignaturas, lee `state.currentGrade`) →

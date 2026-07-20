@@ -68,10 +68,11 @@ export function showExplain(text, onContinue){
   const app = document.getElementById('app');
   const div = document.createElement('div');
   div.className = 'overlay';
+  const who = state.userName ? ', ' + state.userName : '';
   div.innerHTML =
     '<div class="explain-card">'+
       '<div class="float" style="display:flex;justify-content:center;">'+mascotSVG(80)+'</div>'+
-      '<p class="explain-title">🐾 Carboncito te explica</p>'+
+      '<p class="explain-title">🐾 Carboncito te explica'+who+'</p>'+
       '<p class="explain-text">'+text+'</p>'+
       '<button class="cta-btn" id="explain-continue-btn">¡Entendido, sigamos! 👍</button>'+
     '</div>';
@@ -80,6 +81,30 @@ export function showExplain(text, onContinue){
     div.remove();
     onContinue();
   };
+}
+
+export function showNameEntry(onDone){
+  const app = document.getElementById('app');
+  const div = document.createElement('div');
+  div.className = 'overlay';
+  div.innerHTML =
+    '<div class="explain-card">'+
+      '<div class="float" style="display:flex;justify-content:center;">'+mascotSVG(90)+'</div>'+
+      '<p class="explain-title">🐾 ¡Hola! Soy Carboncito</p>'+
+      '<p class="explain-text">¿Cómo te llamas?</p>'+
+      '<input id="name-input" class="name-input" type="text" maxlength="20" autocomplete="off" placeholder="Escribe tu nombre" aria-label="Tu nombre">'+
+      '<button class="cta-btn" id="name-continue-btn">¡Listo! 🐾</button>'+
+    '</div>';
+  app.appendChild(div);
+  const input = document.getElementById('name-input');
+  input.focus();
+  function submit(){
+    state.userName = input.value.trim();
+    div.remove();
+    onDone();
+  }
+  document.getElementById('name-continue-btn').onclick = submit;
+  input.addEventListener('keydown', function(e){ if(e.key === 'Enter') submit(); });
 }
 
 export function showResult(moduleKey, correctOrStars, total, isStarsAlready){
@@ -102,10 +127,11 @@ export function showResult(moduleKey, correctOrStars, total, isStarsAlready){
   const app = document.getElementById('app');
   const div = document.createElement('div');
   div.className = 'overlay';
+  const who = state.userName ? ', ' + state.userName : '';
   div.innerHTML =
     '<div class="result-card">'+
       '<div class="float" style="display:flex;justify-content:center;">'+mascotSVG(90)+'</div>'+
-      '<p class="result-title">'+(stars>=2 ? '¡Excelente trabajo!' : '¡Buen intento!')+'</p>'+
+      '<p class="result-title">'+(stars>=2 ? '¡Excelente trabajo'+who+'!' : '¡Buen intento'+who+'!')+'</p>'+
       '<div class="result-stars">'+[0,1,2].map(function(i){ return starSVG(i<stars); }).join('')+'</div>'+
       '<p class="result-sub">'+(isStarsAlready ? ('Lo lograste en '+mGame.moves+' movimientos.') : ('Acertaste '+correctOrStars+' de '+total+'.'))+'</p>'+
       (isNewBadge ? '<div class="badge-unlock">🏅 ¡Insignia nueva: '+(MODULE_TITLES[moduleKey]||moduleKey)+'!</div>' : '')+

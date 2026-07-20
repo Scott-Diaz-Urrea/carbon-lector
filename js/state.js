@@ -5,6 +5,7 @@ import { sfxLevelup } from './audio.js';
 export const state = {
   xp: 0,
   currentGrade: 1,
+  userName: '',
   stars: { vocales:0, silabas:0, memorama:0, palabras:0, comprension:0, contar:0, sumar:0, comparar:0, formas:0,
            combinaciones:0, secuencia:0, salta:0, multiplicar:0,
            seresvivos:0, plantas:0, micuerpo:0, materiales:0, dianoche:0,
@@ -37,7 +38,8 @@ export function awardXP(n){
   const newLevel = level();
   if(newLevel>oldLevel){
     sfxLevelup();
-    showToast('⚡ ¡Subiste a Nivel ' + newLevel + '!');
+    const who = state.userName ? ', ' + state.userName : '';
+    showToast('⚡ ¡Subiste a Nivel ' + newLevel + who + '!');
   }
 }
 

@@ -7,6 +7,7 @@ import { MUSICA_MODULES, MUSICA_POS } from './content/musica.js';
 import { EDFISICA_MODULES, EDFISICA_POS } from './content/edfisica.js';
 import { ORIENTACION_MODULES, ORIENTACION_POS } from './content/orientacion.js';
 import { TECNOLOGIA_MODULES, TECNOLOGIA_POS } from './content/tecnologia.js';
+import { PENSAMIENTO_MATEMATICO_MODULES, PENSAMIENTO_MATEMATICO_POS } from './content/parvularia/pensamientoMatematico.js';
 
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
@@ -48,4 +49,27 @@ export const SUBJECT_DEFS = [
   { icon:'⚽', label:'Ed. Física', screen:'edfisicaMap', byGrade: EDFISICA_BY_GRADE },
   { icon:'🧭', label:'Orientación', screen:'orientacionMap', byGrade: ORIENTACION_BY_GRADE },
   { icon:'⚙️', label:'Tecnología', screen:'tecnologiaMap', byGrade: TECNOLOGIA_BY_GRADE },
+];
+
+/* ---------------- Educación Parvularia (por nivel, no por año) ---------------- */
+export const PENSAMIENTO_MATEMATICO_BY_NIVEL = {
+  nt: { modules: PENSAMIENTO_MATEMATICO_MODULES, pos: PENSAMIENTO_MATEMATICO_POS, height: 700 },
+};
+
+/* Núcleos de aprendizaje de Educación Parvularia. Solo Pensamiento Matemático
+   (núcleo del ámbito Interacción y Comprensión del Entorno) tiene contenido
+   jugable por ahora — el resto queda documentado pero bloqueado, mismo patrón
+   que las asignaturas de Básica sin construir. Para agregar un núcleo nuevo:
+   crear su <NOMBRE>_MODULES/_POS (en content/parvularia/<nombre>.js), su
+   <NOMBRE>_BY_NIVEL, su render<Nombre>Map() en render.js, el `else if` en
+   render(), y agregar `byNivel`+`screen` a su entrada aquí. */
+export const NUCLEO_DEFS = [
+  { icon:'🗣️', label:'Lenguaje Verbal', screen:null, byNivel:null },
+  { icon:'🎭', label:'Lenguajes Artísticos', screen:null, byNivel:null },
+  { icon:'💛', label:'Identidad y Autonomía', screen:null, byNivel:null },
+  { icon:'🤝', label:'Convivencia y Ciudadanía', screen:null, byNivel:null },
+  { icon:'🤸', label:'Corporalidad y Movimiento', screen:null, byNivel:null },
+  { icon:'🌱', label:'Exploración del Entorno Natural', screen:null, byNivel:null },
+  { icon:'🏘️', label:'Comprensión del Entorno Sociocultural', screen:null, byNivel:null },
+  { icon:'🔢', label:'Pensamiento Matemático', screen:'pensamientoMatematicoMap', byNivel: PENSAMIENTO_MATEMATICO_BY_NIVEL },
 ];

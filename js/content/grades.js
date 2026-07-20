@@ -11,3 +11,16 @@ export const GRADES = [
 export const GRADE_POS = [
   {x:22,y:92},{x:68,y:80},{x:24,y:68},{x:70,y:56},{x:24,y:44},{x:70,y:32},{x:24,y:20},{x:70,y:8}
 ];
+
+/* Educación Parvularia (Decreto 481/2017) no se organiza por "año" como Básica,
+   sino por nivel: Sala Cuna (0-2), Nivel Medio (2-4), Nivel de Transición (4-6).
+   Solo NT tiene módulos jugables — Sala Cuna y Nivel Medio son edades donde un
+   juego de opción múltiple en pantalla no es desarrollo-apropiado. */
+export const PARVULARIA_NIVELES = [
+  { id:'sc', label:'Sala Cuna', open:false },
+  { id:'nm', label:'Nivel Medio', open:false },
+  { id:'nt', label:'Transición', open:true },
+];
+export const PARVULARIA_NIVELES_POS = [
+  {x:30,y:80},{x:70,y:50},{x:30,y:20}
+];

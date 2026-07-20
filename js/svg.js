@@ -92,3 +92,30 @@ export function colorSwatchSVG(name, size){
   '</svg>';
 }
 
+/* Cuerpos geométricos 3D dibujados a mano (Educación Parvularia, Pensamiento
+   Matemático) — mismo enfoque que shapeSVG() para las figuras 2D. */
+export function solid3DSVG(id, size){
+  size = size || 100;
+  const colors = { cubo:'#7C6FF0', esfera:'#FF6B6B', cono:'#FFB627', cilindro:'#12A594' };
+  const fill = colors[id] || '#12A594';
+  let shape = '';
+  if(id==='esfera'){
+    shape = '<circle cx="50" cy="50" r="40" fill="'+fill+'"/>'+
+      '<ellipse cx="50" cy="58" rx="28" ry="10" fill="rgba(0,0,0,0.12)"/>'+
+      '<ellipse cx="38" cy="36" rx="10" ry="6" fill="rgba(255,255,255,0.45)"/>';
+  }else if(id==='cubo'){
+    shape = '<polygon points="20,35 55,20 88,33 88,70 55,88 20,72" fill="'+fill+'"/>'+
+      '<polygon points="20,35 55,50 55,88 20,72" fill="rgba(0,0,0,0.18)"/>'+
+      '<polygon points="55,50 88,33 88,70 55,88" fill="rgba(255,255,255,0.18)"/>';
+  }else if(id==='cono'){
+    shape = '<polygon points="50,10 78,80 22,80" fill="'+fill+'"/>'+
+      '<ellipse cx="50" cy="80" rx="28" ry="9" fill="rgba(0,0,0,0.12)"/>';
+  }else if(id==='cilindro'){
+    shape = '<rect x="22" y="25" width="56" height="55" fill="'+fill+'"/>'+
+      '<ellipse cx="50" cy="80" rx="28" ry="9" fill="rgba(0,0,0,0.15)"/>'+
+      '<ellipse cx="50" cy="25" rx="28" ry="9" fill="'+fill+'"/>'+
+      '<ellipse cx="50" cy="25" rx="28" ry="9" fill="rgba(255,255,255,0.2)"/>';
+  }
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+shape+'</svg>';
+}
+

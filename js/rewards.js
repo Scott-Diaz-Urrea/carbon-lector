@@ -43,6 +43,15 @@ export const MODULE_TITLES = {
   autocuidado:'Guardián de mi Cuerpo',
   convivencia:'Embajador de la Amistad',
   herramientastec:'Ingeniero Creativo',
+  patrones:'Detective de Patrones',
+  clasificar:'Clasificador Experto',
+  posicion:'Explorador Espacial',
+  cuantificadores:'Comparador Genial',
+  secuenciatemporal:'Guardián del Tiempo',
+  contarveinte:'Contador Veloz',
+  sumarquitar:'Mago de los Números',
+  formascuerpos:'Arquitecto Junior',
+  medir:'Medidor Preciso',
 };
 
 export function spawnConfetti(container){

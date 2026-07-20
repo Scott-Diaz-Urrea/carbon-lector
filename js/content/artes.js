@@ -1,5 +1,5 @@
 import { pick, shuffle } from '../utils.js';
-import { colorSwatchSVG } from '../svg.js';
+import { colorSwatchSVG, lineTypeSVG } from '../svg.js';
 
 export const ARTES_MODULES = [
   {id:'colores', label:'Colores', open:true, key:'colores'},
@@ -54,6 +54,47 @@ const HERRAMIENTAS_ARTE = [
   { emoji:'🖍️', label:'PLASTICINA', uso:'Sirve para modelar figuras con las manos.' },
   { emoji:'🧴', label:'PEGAMENTO', uso:'Sirve para unir papeles y materiales de collage.' },
 ];
+
+/* ---------------- Contenido Artes Visuales 2° Básico ----------------
+   Basado en OA del Decreto 439/2012, 2° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/artes-visuales/2-basico): AR02 OA02 -> Líneas y Colores
+   (línea vertical/horizontal/diagonal/espiral/quebrada; color primario y
+   secundario). Quedan fuera AR02 OA01,03 (expresar/crear obras propias,
+   producción) y OA04-05 (comunicar impresiones/preferencias, subjetivo). */
+export const ARTES_MODULES_G2 = [
+  {id:'lineascolores2', label:'Líneas y Colores', open:true, key:'lineascolores2'},
+];
+export const ARTES_POS_G2 = [{x:50,y:50}];
+
+const LINEAS_G2_BANK = ['VERTICAL','HORIZONTAL','DIAGONAL','ESPIRAL','QUEBRADA'];
+const COLORES_PRIM_SEC = [
+  { label:'ROJO', tipo:'PRIMARIO' },
+  { label:'AZUL', tipo:'PRIMARIO' },
+  { label:'AMARILLO', tipo:'PRIMARIO' },
+  { label:'VERDE', tipo:'SECUNDARIO' },
+  { label:'NARANJO', tipo:'SECUNDARIO' },
+  { label:'MORADO', tipo:'SECUNDARIO' },
+];
+
+export function genLineasColores2Round(){
+  if(Math.random()<0.5){
+    const tipo = pick(LINEAS_G2_BANK);
+    const distract = shuffle(LINEAS_G2_BANK.filter(function(t){ return t!==tipo; })).slice(0,3);
+    const opts = shuffle([tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+    return {
+      promptHTML: '<div class="shape-display">'+lineTypeSVG(tipo,100)+'</div><p class="prompt-hint">¿Qué tipo de línea es?</p>',
+      options: opts, correctValue: tipo, speakText: '¿Qué tipo de línea es?', cols:4, kind:'word',
+      explain: 'Esa es una línea <b>'+tipo.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(COLORES_PRIM_SEC);
+  const opts = shuffle([{label:'PRIMARIO', value:'PRIMARIO'},{label:'SECUNDARIO', value:'SECUNDARIO'}]);
+  return {
+    promptHTML: '<div class="shape-display">'+colorSwatchSVG(item.label,90)+'</div><p class="prompt-hint">El color '+item.label+'. ¿Es un color primario o secundario?</p>',
+    options: opts, correctValue: item.tipo, speakText: 'El color '+item.label, cols:2, panel:true,
+    explain: 'El '+item.label.toLowerCase()+' es un color <b>'+item.tipo.toLowerCase()+'</b>.',
+  };
+}
 
 export function genColoresRound(){
   if(Math.random()<0.5){

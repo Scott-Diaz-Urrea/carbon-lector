@@ -104,8 +104,8 @@ export const LENGUAJE_POS = [{x:22,y:88},{x:68,y:70},{x:24,y:52},{x:70,y:34},{x:
 export const LENGUAJE_MODULES_G2 = [
   {id:'combinaciones', label:'Combinaciones', open:true, key:'combinaciones'},
   {id:'secuencia', label:'Secuencia', open:true, key:'secuencia'},
-  {id:'gramatica2', label:'Gramática', open:false, key:null},
-  {id:'comprension2', label:'Comprensión II', open:false, key:null},
+  {id:'gramatica2', label:'Gramática', open:true, key:'gramatica2'},
+  {id:'comprension2', label:'Comprensión II', open:true, key:'comprension2'},
 ];
 export const LENGUAJE_POS_G2 = [{x:22,y:84},{x:68,y:62},{x:24,y:40},{x:70,y:16}];
 
@@ -164,5 +164,85 @@ export function genCombinacionRound(){
     speakText: item.before+item.combo+item.after,
     cols: 4,
     explain: 'La palabra es <b>'+item.before+item.combo+item.after+'</b>.',
+  };
+}
+
+/* ---------------- Contenido Lenguaje 2° Básico: Gramática y Comprensión II ----------------
+   Basado en OA del Decreto 439/2012, 2° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/lenguaje-comunicacion/2-basico):
+   Gramática -> OA19 (función de artículos, sustantivos y adjetivos) y OA20
+   (concordancia de género y número). Comprensión II -> OA03, OA05, OA07
+   (estrategias de comprensión, narraciones con inferencia, textos no literarios). */
+const ADJ_FORMS = [
+  { base:'ALTO', M_S:'ALTO', F_S:'ALTA', M_P:'ALTOS', F_P:'ALTAS' },
+  { base:'BONITO', M_S:'BONITO', F_S:'BONITA', M_P:'BONITOS', F_P:'BONITAS' },
+  { base:'PEQUEÑO', M_S:'PEQUEÑO', F_S:'PEQUEÑA', M_P:'PEQUEÑOS', F_P:'PEQUEÑAS' },
+  { base:'CONTENTO', M_S:'CONTENTO', F_S:'CONTENTA', M_P:'CONTENTOS', F_P:'CONTENTAS' },
+  { base:'ORDENADO', M_S:'ORDENADO', F_S:'ORDENADA', M_P:'ORDENADOS', F_P:'ORDENADAS' },
+];
+const SUJETOS_CONCORDANCIA = [
+  { texto:'La niña', genero:'F', numero:'S' },
+  { texto:'El niño', genero:'M', numero:'S' },
+  { texto:'Las niñas', genero:'F', numero:'P' },
+  { texto:'Los niños', genero:'M', numero:'P' },
+  { texto:'La gata', genero:'F', numero:'S' },
+  { texto:'El gato', genero:'M', numero:'S' },
+  { texto:'Los perros', genero:'M', numero:'P' },
+  { texto:'Las mesas', genero:'F', numero:'P' },
+];
+const ORACIONES_GRAMATICA = [
+  { texto:'El gato negro corre', sustantivo:'GATO', adjetivo:'NEGRO', otras:['EL','CORRE'] },
+  { texto:'La casa grande brilla', sustantivo:'CASA', adjetivo:'GRANDE', otras:['LA','BRILLA'] },
+  { texto:'Un perro pequeño ladra', sustantivo:'PERRO', adjetivo:'PEQUEÑO', otras:['UN','LADRA'] },
+  { texto:'Las flores bonitas crecen', sustantivo:'FLORES', adjetivo:'BONITAS', otras:['LAS','CRECEN'] },
+  { texto:'El pájaro azul canta', sustantivo:'PÁJARO', adjetivo:'AZUL', otras:['EL','CANTA'] },
+  { texto:'La niña feliz salta', sustantivo:'NIÑA', adjetivo:'FELIZ', otras:['LA','SALTA'] },
+];
+
+export function genGramatica2Round(){
+  if(Math.random()<0.5){
+    const suj = pick(SUJETOS_CONCORDANCIA);
+    const adj = pick(ADJ_FORMS);
+    const correct = adj[suj.genero+'_'+suj.numero];
+    const allForms = [adj.M_S, adj.F_S, adj.M_P, adj.F_P].filter(function(f,i,arr){ return arr.indexOf(f)===i; });
+    const distract = allForms.filter(function(f){ return f!==correct; });
+    const opts = shuffle([correct].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+suj.texto+' es muy <span class="blank">___</span>.</p><p class="prompt-hint">¿Qué palabra completa la oración?</p>',
+      options: opts, correctValue: correct, speakText: suj.texto+' es muy...', cols:4, kind:'word',
+      explain: '"'+suj.texto+'" concuerda con <b>'+correct+'</b> en género y número.',
+    };
+  }
+  const item = pick(ORACIONES_GRAMATICA);
+  const askSustantivo = Math.random()<0.5;
+  const correct = askSustantivo ? item.sustantivo : item.adjetivo;
+  const otherTarget = askSustantivo ? item.adjetivo : item.sustantivo;
+  const opts = shuffle([correct, otherTarget].concat(item.otras).map(function(w){ return w.toUpperCase(); })).map(function(w){ return {label:w, value:w}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">"'+item.texto+'"</p><p class="prompt-hint">¿Cuál palabra es el '+(askSustantivo ? 'sustantivo (nombra a alguien o algo)' : 'adjetivo (dice cómo es)')+'?</p>',
+    options: opts, correctValue: correct, speakText: item.texto, cols:4, kind:'word',
+    explain: '<b>'+correct+'</b> es el '+(askSustantivo ? 'sustantivo' : 'adjetivo')+' de la oración.',
+  };
+}
+
+const COMPRENSION2_BANK = [
+  { text:'Tomás salió a jugar con su pelota nueva, pero al llegar al patio el cielo se puso gris y empezó a caer agua.', question:'¿Por qué Tomás probablemente no pudo jugar afuera?', correct:'🌧️', opts:['☀️','🌙','🎈'], reason:'El cielo gris y el agua cayendo son señales de que estaba lloviendo.' },
+  { text:'Carla llegó a la escuela agitada, con la cara roja y respirando fuerte.', question:'¿Qué hizo Carla probablemente antes de llegar?', correct:'🏃', opts:['😴','📖','🍽️'], reason:'Estar agitada y con la cara roja son señales de que corrió.' },
+  { text:'Para plantar una semilla: primero cava un hoyo pequeño en la tierra, luego coloca la semilla adentro, y por último tápala con tierra y riégala con agua.', question:'¿Qué haces primero para plantar una semilla?', correct:'Cavar un hoyo', opts:['Regarla con agua','Taparla con tierra','Colocar la semilla'], reason:'El texto dice "primero cava un hoyo".' },
+  { text:'Los niños entraron a la casa mojados de pies a cabeza, sacudiendo un paraguas roto.', question:'¿Qué probablemente pasó con el paraguas?', correct:'Se rompió con el viento', opts:['Lo dejaron en la escuela','Lo regalaron','No lo usaron'], reason:'Un paraguas roto y niños mojados sugieren que el viento lo rompió mientras llovía.' },
+  { text:'Para lavarte las manos correctamente: moja tus manos, ponte jabón, frota por 20 segundos, y enjuaga con agua.', question:'¿Qué haces justo después de mojarte las manos?', correct:'Ponerte jabón', opts:['Enjuagar con agua','Frotar 20 segundos','Secarte las manos'], reason:'El texto dice que después de mojar las manos, sigue "ponte jabón".' },
+  { text:'Martina abrió su lonchera y encontró que el helado que guardó en la mañana ahora era solo un líquido.', question:'¿Qué probablemente le pasó al helado?', correct:'Se derritió por el calor', opts:['Se lo comió otro niño','Se congeló más','Cambió de sabor'], reason:'Un helado que pasa de sólido a líquido es porque se derritió con el calor.' },
+  { text:'El perro escondió su hueso debajo de un mueble y movía la cola muy rápido mientras cavaba con las patas.', question:'¿Cómo se sentía probablemente el perro?', correct:'Contento y emocionado', opts:['Triste','Con mucho miedo','Aburrido'], reason:'Mover la cola rápido es una señal de que un perro está contento.' },
+  { text:'Para hacer una ensalada de frutas: lava las frutas, córtalas en trozos pequeños, mézclalas en un bowl y sírvelas frías.', question:'¿Qué haces justo antes de mezclar las frutas?', correct:'Cortarlas en trozos', opts:['Lavarlas','Servirlas frías','Comprarlas'], reason:'El texto dice: lavar, luego cortar, y luego mezclar.' },
+];
+
+export function genComprension2Round(){
+  const item = pick(COMPRENSION2_BANK);
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const kind = /^[A-ZÁÉÍÓÚÑ]/.test(item.correct) ? 'word' : undefined;
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    options: opts, correctValue: item.correct, speakText: item.text, cols: kind ? 2 : 4, kind: kind, panel: kind==='word',
+    explain: item.reason,
   };
 }

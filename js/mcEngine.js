@@ -1,12 +1,30 @@
-import { genVocalRound, genPalabraRound, genComprensionRound, genCombinacionRound } from './content/lenguaje.js';
-import { genCountRound, genAddRound, genCompareRound, genFormaRound, genSaltaRound, genMultiplicarRound } from './content/matematica.js';
-import { genSeresVivosRound, genPlantasRound, genCuerpoRound, genMaterialesRound, genDiaNocheRound } from './content/ciencias.js';
-import { genCalendarioRound, genMiIdentidadRound, genSimbolosRound, genMapasRound, genComunidadRound } from './content/historia.js';
-import { genColoresRound, genLineasTexturasRound, genMaterialesArteRound } from './content/artes.js';
-import { genSonidosRound, genInstrumentosRound } from './content/musica.js';
-import { genMovimientoRound, genVidaActivaRound, genSeguridadRound } from './content/edfisica.js';
-import { genEmocionesRound, genAutocuidadoRound, genConvivenciaRound } from './content/orientacion.js';
-import { genHerramientasTecRound } from './content/tecnologia.js';
+import {
+  genVocalRound, genPalabraRound, genComprensionRound, genCombinacionRound,
+  genGramatica2Round, genComprension2Round,
+} from './content/lenguaje.js';
+import {
+  genCountRound, genAddRound, genCompareRound, genFormaRound, genSaltaRound, genMultiplicarRound,
+  genGeometria2Round, genMedicion2Round,
+} from './content/matematica.js';
+import {
+  genSeresVivosRound, genPlantasRound, genCuerpoRound, genMaterialesRound, genDiaNocheRound,
+  genVertebrados2Round, genCiclosVida2Round, genHabitats2Round, genCuerpoDentro2Round, genAgua2Round, genClima2Round,
+} from './content/ciencias.js';
+import {
+  genCalendarioRound, genMiIdentidadRound, genSimbolosRound, genMapasRound, genComunidadRound,
+  genPueblos2Round, genPatrimonio2Round, genPaisajes2Round, genCiudadania2Round,
+} from './content/historia.js';
+import { genColoresRound, genLineasTexturasRound, genMaterialesArteRound, genLineasColores2Round } from './content/artes.js';
+import { genSonidosRound, genInstrumentosRound, genTimbrePulso2Round } from './content/musica.js';
+import {
+  genMovimientoRound, genVidaActivaRound, genSeguridadRound,
+  genCuerpoResponde2Round, genVidaActiva2Round, genLiderazgo2Round,
+} from './content/edfisica.js';
+import {
+  genEmocionesRound, genAutocuidadoRound, genConvivenciaRound,
+  genEmociones2Round, genAutocuidado2Round, genHabitosEscolares2Round, genConvivencia2Round,
+} from './content/orientacion.js';
+import { genHerramientasTecRound, genTecDigital2Round } from './content/tecnologia.js';
 import {
   genPatronesRound, genClasificarRound, genPosicionRound, genCuantificadoresRound,
   genSecuenciaTemporalRound, genContarVeinteRound, genSumarQuitarRound,
@@ -53,7 +71,15 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'resolucionnt','normasnt','seguridadnt',
   'ubicacionnt','movimientont',
   'aguasolnt','materialesnaturalnt','animalesplantasnt','ciclosnt','ambientent',
-  'rolescomunidadnt','objetostecnt','institucionesnt','seguridadprevnt'];
+  'rolescomunidadnt','objetostecnt','institucionesnt','seguridadprevnt',
+  'gramatica2','comprension2','geometria2','medicion2',
+  'vertebrados2','ciclosvida2','habitats2','cuerpodentro2','agua2','clima2',
+  'pueblos2','patrimonio2','paisajes2','ciudadania2',
+  'lineascolores2',
+  'timbrepulso2',
+  'cuerporesponde2','vidaactiva2','liderazgo2',
+  'emociones2','autocuidado2','habitosescolares2','convivencia2',
+  'tecdigital2'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -119,6 +145,30 @@ export const MC_GAMES = {
   objetostecnt:  { title:'Objetos Tecnológicos', gen: genObjetosTecNTRound, rounds:8 },
   institucionesnt: { title:'Instituciones de mi Comunidad', gen: genInstitucionesNTRound, rounds:8 },
   seguridadprevnt: { title:'Seguridad y Prevención', gen: genSeguridadPrevNTRound, rounds:8 },
+  gramatica2:    { title:'Gramática',         gen: genGramatica2Round,   rounds:10 },
+  comprension2:  { title:'Comprensión II',    gen: genComprension2Round, rounds:8 },
+  geometria2:    { title:'Geometría',         gen: genGeometria2Round,   rounds:10 },
+  medicion2:     { title:'Medición',          gen: genMedicion2Round,    rounds:10 },
+  vertebrados2:  { title:'Vertebrados e Invertebrados', gen: genVertebrados2Round, rounds:10 },
+  ciclosvida2:   { title:'Ciclos de Vida',    gen: genCiclosVida2Round,  rounds:8 },
+  habitats2:     { title:'Hábitats y Cuidado Animal', gen: genHabitats2Round, rounds:10 },
+  cuerpodentro2: { title:'Mi Cuerpo por Dentro', gen: genCuerpoDentro2Round, rounds:10 },
+  agua2:         { title:'El Agua',           gen: genAgua2Round,        rounds:10 },
+  clima2:        { title:'Clima e Instrumentos', gen: genClima2Round,    rounds:10 },
+  pueblos2:      { title:'Pueblos Originarios', gen: genPueblos2Round,   rounds:8 },
+  patrimonio2:   { title:'Patrimonio de Chile', gen: genPatrimonio2Round, rounds:8 },
+  paisajes2:     { title:'Paisajes de Chile', gen: genPaisajes2Round,    rounds:8 },
+  ciudadania2:   { title:'Formación Ciudadana', gen: genCiudadania2Round, rounds:8 },
+  lineascolores2:{ title:'Líneas y Colores',  gen: genLineasColores2Round, rounds:10 },
+  timbrepulso2:  { title:'Timbre y Pulso',    gen: genTimbrePulso2Round, rounds:8 },
+  cuerporesponde2:{ title:'Mi Cuerpo Responde', gen: genCuerpoResponde2Round, rounds:10 },
+  vidaactiva2:   { title:'Vida Activa y Saludable II', gen: genVidaActiva2Round, rounds:10 },
+  liderazgo2:    { title:'Juego en Equipo y Liderazgo', gen: genLiderazgo2Round, rounds:10 },
+  emociones2:    { title:'Mis Emociones II',  gen: genEmociones2Round,   rounds:8 },
+  autocuidado2:  { title:'Autocuidado y Hábitos II', gen: genAutocuidado2Round, rounds:10 },
+  habitosescolares2:{ title:'Hábitos de Trabajo Escolar', gen: genHabitosEscolares2Round, rounds:10 },
+  convivencia2:  { title:'Buena Convivencia II', gen: genConvivencia2Round, rounds:8 },
+  tecdigital2:   { title:'Tecnología Digital', gen: genTecDigital2Round,  rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

@@ -44,6 +44,102 @@ const CONVIVENCIA_ITEMS = [
   { emoji:'🙌', label:'Ayudar a ordenar la casa o la sala es una forma de participar en tu grupo', v:true },
 ];
 
+/* ---------------- Contenido Orientación 2° Básico ----------------
+   Basado en OA del Decreto 439/2012, 2° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/orientacion/2-basico):
+   OA02 -> Mis Emociones II (reconocer emociones en situaciones/escenas) ·
+   OA04 -> Autocuidado y Hábitos II (higiene, descanso, alimentación,
+   resguardo del cuerpo e intimidad, cuidado de datos personales) ·
+   OA08 -> Hábitos de Trabajo Escolar (nuevo este año) · OA05-06 -> Buena
+   Convivencia II (buen trato y resolución de conflictos entre pares).
+   Quedan fuera OA01,03,07 (autodescripción, expresión de afecto personal,
+   pertenencia a grupos) por ser subjetivos/reflexivos, no aptos para opción
+   múltiple. */
+export const ORIENTACION_MODULES_G2 = [
+  {id:'emociones2', label:'Mis Emociones II', open:true, key:'emociones2'},
+  {id:'autocuidado2', label:'Autocuidado y Hábitos II', open:true, key:'autocuidado2'},
+  {id:'habitosescolares2', label:'Hábitos de Trabajo Escolar', open:true, key:'habitosescolares2'},
+  {id:'convivencia2', label:'Buena Convivencia II', open:true, key:'convivencia2'},
+];
+export const ORIENTACION_POS_G2 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
+
+const EMOCIONES_LABELS_2 = ['ALEGRÍA','PENA','RABIA','MIEDO','SORPRESA','CARIÑO'];
+const EMOCIONES_ESCENAS_2 = [
+  { texto:'A Pedro se le perdió su juguete favorito y no lo puede encontrar.', emocion:'PENA' },
+  { texto:'Sofía ganó el primer lugar en la carrera de la escuela.', emocion:'ALEGRÍA' },
+  { texto:'Un perro grande le ladró fuerte a Martín en la calle.', emocion:'MIEDO' },
+  { texto:'Alguien le quitó su lápiz favorito sin pedirlo.', emocion:'RABIA' },
+  { texto:'Vio una película con un final que no se esperaba para nada.', emocion:'SORPRESA' },
+  { texto:'Su mamá lo abrazó fuerte al llegar a casa después del colegio.', emocion:'CARIÑO' },
+  { texto:'Se despertó en la noche por un ruido muy fuerte y desconocido.', emocion:'MIEDO' },
+  { texto:'Le regalaron el cuento que tanto quería para su cumpleaños.', emocion:'ALEGRÍA' },
+];
+const AUTOCUIDADO_2_ITEMS = [
+  { emoji:'🛌', label:'Dormir la cantidad de horas necesarias ayuda a tu cuerpo a descansar', v:true },
+  { emoji:'🧴', label:'Lavarte las manos antes de comer evita que te enfermes', v:true },
+  { emoji:'🥦', label:'Comer verduras y frutas variadas es parte de una buena alimentación', v:true },
+  { emoji:'🔒', label:'Está bien decir "no" si alguien quiere tocar tu cuerpo sin tu permiso', v:true },
+  { emoji:'📵', label:'No debes dar tu dirección o teléfono a personas desconocidas por internet', v:true },
+  { emoji:'🍭', label:'Comer solo dulces todos los días es parte de una alimentación saludable', v:false },
+  { emoji:'🌙', label:'No importa dormir poco, tu cuerpo no lo necesita', v:false },
+  { emoji:'📢', label:'Está bien compartir tu dirección con cualquier persona que la pida', v:false },
+];
+const HABITOS_ESCOLARES_BANK = [
+  { emoji:'🎒', label:'Traer tus útiles escolares todos los días te ayuda a aprender mejor', v:true },
+  { emoji:'🧹', label:'Mantener ordenada tu sala de clases ayuda a todos a concentrarse', v:true },
+  { emoji:'✅', label:'Reconocer lo que aprendiste cada día te ayuda a motivarte para seguir aprendiendo', v:true },
+  { emoji:'🗑️', label:'Dejar tus materiales tirados por el suelo es un buen hábito de estudio', v:false },
+  { emoji:'😴', label:'No importa cuidar tus útiles, siempre puedes perderlos sin problema', v:false },
+  { emoji:'📚', label:'Cuidar tus cuadernos y libros te ayuda a tenerlos listos cuando los necesites', v:true },
+];
+const CONFLICTO_2_BANK = [
+  { texto:'Dos compañeros quieren ser los primeros en la fila.', correcta:'Ponerse de acuerdo y turnarse', malas:['Empujarse para pasar primero','Pelear por el lugar','Quejarse a gritos'] },
+  { texto:'Un compañero está triste porque nadie quiere jugar con él.', correcta:'Invitarlo a jugar contigo y tu grupo', malas:['Ignorarlo','Burlarte de él','Decirle que se aleje'] },
+  { texto:'No estás de acuerdo con la idea de un compañero para el juego.', correcta:'Escuchar su idea y buscar un acuerdo entre ambos', malas:['Imponer tu idea a la fuerza','Gritarle que está equivocado','Dejar de jugar enojado'] },
+  { texto:'Dos amigos no logran decidir a qué juego jugar primero.', correcta:'Proponer turnarse: un rato cada juego', malas:['Que uno decida a la fuerza','Pelear hasta que uno se vaya','No jugar ninguno de los dos por rabia'] },
+];
+
+export function genEmociones2Round(){
+  const item = pick(EMOCIONES_ESCENAS_2);
+  const distract = shuffle(EMOCIONES_LABELS_2.filter(function(e){ return e!==item.emocion; })).slice(0,3);
+  const opts = shuffle([item.emocion].concat(distract)).map(function(e){ return {label:e, value:e}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué emoción sentiría probablemente?</p>',
+    options: opts, correctValue: item.emocion, speakText: item.texto, cols:4, kind:'word',
+    explain: 'Ante esa situación, lo más común es sentir <b>'+item.emocion.toLowerCase()+'</b>.',
+  };
+}
+
+export function genAutocuidado2Round(){
+  const item = pick(AUTOCUIDADO_2_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genHabitosEscolares2Round(){
+  const item = pick(HABITOS_ESCOLARES_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genConvivencia2Round(){
+  const item = pick(CONFLICTO_2_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema sin lastimar a nadie.',
+  };
+}
+
 export function genEmocionesRound(){
   const item = pick(EMOCIONES_ITEMS);
   const distract = shuffle(EMOCIONES_ITEMS.filter(function(e){ return e.label!==item.label; })).slice(0,3).map(function(e){ return e.label; });

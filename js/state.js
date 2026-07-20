@@ -25,7 +25,14 @@ export const state = {
            resolucionnt:0, normasnt:0, seguridadnt:0,
            ubicacionnt:0, movimientont:0,
            aguasolnt:0, materialesnaturalnt:0, animalesplantasnt:0, ciclosnt:0, ambientent:0,
-           rolescomunidadnt:0, objetostecnt:0, institucionesnt:0, seguridadprevnt:0 },
+           rolescomunidadnt:0, objetostecnt:0, institucionesnt:0, seguridadprevnt:0,
+           gramatica2:0, comprension2:0, geometria2:0, medicion2:0,
+           vertebrados2:0, ciclosvida2:0, habitats2:0, cuerpodentro2:0, agua2:0, clima2:0,
+           pueblos2:0, patrimonio2:0, paisajes2:0, ciudadania2:0,
+           lineascolores2:0, timbrepulso2:0,
+           cuerporesponde2:0, vidaactiva2:0, liderazgo2:0,
+           emociones2:0, autocuidado2:0, habitosescolares2:0, convivencia2:0,
+           tecdigital2:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

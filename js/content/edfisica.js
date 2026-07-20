@@ -48,6 +48,75 @@ const SEGURIDAD_ITEMS = [
   { emoji:'🧢', label:'Usar ropa y protección adecuada según el deporte ayuda a evitar lesiones', v:true },
 ];
 
+/* ---------------- Contenido Educación Física y Salud 2° Básico ----------------
+   Basado en OA del Decreto 439/2012, 2° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/educacion-fisica-salud/2-basico):
+   EF02 OA08 -> Mi Cuerpo Responde · EF02 OA06,07,09 -> Vida Activa y
+   Saludable II · EF02 OA10-11 -> Juego en Equipo y Liderazgo.
+   Quedan fuera OA01-05 (habilidades motrices, juegos, entornos, expresión
+   corporal) por depender de práctica física real. */
+export const EDFISICA_MODULES_G2 = [
+  {id:'cuerporesponde2', label:'Mi Cuerpo Responde', open:true, key:'cuerporesponde2'},
+  {id:'vidaactiva2', label:'Vida Activa y Saludable II', open:true, key:'vidaactiva2'},
+  {id:'liderazgo2', label:'Juego en Equipo y Liderazgo', open:true, key:'liderazgo2'},
+];
+export const EDFISICA_POS_G2 = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
+
+const CUERPO_RESPONDE_ITEMS = [
+  { emoji:'😅', label:'Cuando corres mucho, tu piel se pone más roja y transpiras', v:true },
+  { emoji:'💨', label:'Después de correr fuerte, tu respiración se hace más rápida', v:true },
+  { emoji:'😌', label:'Cuando haces mucho ejercicio, es normal sentirte cansado después', v:true },
+  { emoji:'🗣️', label:'Cuando estás muy agitado por el ejercicio, cuesta más hablar seguido', v:true },
+  { emoji:'🥶', label:'Después de ejercicio intenso tu cuerpo se enfría de inmediato sin sudar', v:false },
+  { emoji:'😴', label:'Hacer ejercicio no cambia para nada tu ritmo de respiración', v:false },
+];
+const VIDA_ACTIVA_2_ITEMS = [
+  { emoji:'🤸', label:'Hacer actividad física varias veces por semana es bueno para tu salud', v:true },
+  { emoji:'🧼', label:'Lavarte las manos y la cara después de la clase de educación física es un buen hábito', v:true },
+  { emoji:'🪑', label:'Mantener una postura correcta al sentarte cuida tu espalda', v:true },
+  { emoji:'🥗', label:'Comer una colación saludable antes y después de hacer ejercicio te da energía', v:true },
+  { emoji:'🚫', label:'No es necesario moverse ni hacer ejercicio durante la semana', v:false },
+  { emoji:'🍬', label:'Comer solo dulces antes de hacer deporte es la mejor opción', v:false },
+];
+const LIDERAZGO_ITEMS = [
+  { emoji:'🤝', label:'Respetar el rol que te toca en un juego de equipo (líder o ayudante) es importante', v:true },
+  { emoji:'🧹', label:'Recoger los materiales después de usarlos es responsabilidad de todos', v:true },
+  { emoji:'👂', label:'Escuchar y seguir las instrucciones del profesor mantiene la actividad segura', v:true },
+  { emoji:'🚧', label:'Mantenerte dentro de los límites establecidos para el juego evita accidentes', v:true },
+  { emoji:'😤', label:'Si te toca liderar, está bien no dejar participar a los demás', v:false },
+  { emoji:'⚠️', label:'Usar los implementos deportivos sin supervisión cuando quieras es seguro', v:false },
+];
+
+export function genCuerpoResponde2Round(){
+  const item = pick(CUERPO_RESPONDE_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genVidaActiva2Round(){
+  const item = pick(VIDA_ACTIVA_2_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genLiderazgo2Round(){
+  const item = pick(LIDERAZGO_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
 export function genMovimientoRound(){
   const item = pick(MOVIMIENTOS_ITEMS);
   const opts = shuffle(['LOCOMOCIÓN','MANIPULACIÓN','ESTABILIDAD']).map(function(t){ return {label:t, value:t}; });

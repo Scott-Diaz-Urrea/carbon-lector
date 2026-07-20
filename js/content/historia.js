@@ -88,6 +88,112 @@ const NORMAS_CONVIVENCIA = [
   { emoji:'😡', label:'Empujar a un compañero para pasar primero', bueno:false },
 ];
 
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 2° Básico ----------------
+   Basado en OA del Decreto 439/2012, 2° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/historia-geografia-ciencias-sociales/2-basico):
+   HI02 OA10-11 -> Pueblos Originarios (zona geográfica) · HI02 OA09 ->
+   Patrimonio de Chile (natural) · HI02 OA06-08 -> Paisajes de Chile (zonas) ·
+   HI02 OA12-16 -> Formación Ciudadana.
+   Quedan fuera: OA01-02 (modos de vida detallados de pueblos precolombinos) y
+   OA03-04 (aportes culturales/lingüísticos específicos) — para no arriesgar
+   datos históricos o etimológicos inexactos sin una fuente adicional más
+   profunda que la lista de OA (mismo criterio que excluyó "personajes
+   históricos" en 1° básico); OA05 (patrimonio cultural general) no se repite
+   porque ya lo cubre "Símbolos de Chile" de 1° básico. */
+export const HISTORIA_MODULES_G2 = [
+  {id:'pueblos2', label:'Pueblos Originarios', open:true, key:'pueblos2'},
+  {id:'patrimonio2', label:'Patrimonio de Chile', open:true, key:'patrimonio2'},
+  {id:'paisajes2', label:'Paisajes de Chile', open:true, key:'paisajes2'},
+  {id:'ciudadania2', label:'Formación Ciudadana', open:true, key:'ciudadania2'},
+];
+export const HISTORIA_POS_G2 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
+
+const PUEBLOS_BANK = [
+  { emoji:'🏔️', pueblo:'AIMARA', zona:'NORTE' },
+  { emoji:'🌲', pueblo:'MAPUCHE', zona:'SUR' },
+  { emoji:'🗿', pueblo:'RAPA NUI', zona:'ISLA DE PASCUA' },
+];
+const ZONAS_POOL = ['NORTE','SUR','CENTRO','ISLA DE PASCUA'];
+
+const PATRIMONIO_NATURAL_BANK = [
+  { emoji:'⛰️', label:'El Parque Nacional Torres del Paine, en la Patagonia chilena', tipico:true },
+  { emoji:'🏜️', label:'El Desierto de Atacama, en el norte de Chile', tipico:true },
+  { emoji:'🌋', label:'El Parque Nacional Conguillío, con el volcán Llaima', tipico:true },
+  { emoji:'🦌', label:'El huemul, animal chileno en peligro de extinción', tipico:true },
+  { emoji:'🗼', label:'La Torre Eiffel', tipico:false },
+  { emoji:'🐼', label:'El panda gigante, animal de China', tipico:false },
+  { emoji:'🕌', label:'La Gran Muralla China', tipico:false },
+  { emoji:'🗽', label:'La Estatua de la Libertad', tipico:false },
+];
+
+const PAISAJES_ZONA_BANK = [
+  { emoji:'🏜️', label:'DESIERTO', zona:'NORTE' },
+  { emoji:'⛰️', label:'ALTIPLANO', zona:'NORTE' },
+  { emoji:'🍇', label:'VALLES Y VIÑEDOS', zona:'CENTRO' },
+  { emoji:'🏙️', label:'GRANDES CIUDADES', zona:'CENTRO' },
+  { emoji:'🌲', label:'BOSQUES Y LAGOS', zona:'SUR' },
+  { emoji:'🧊', label:'GLACIARES Y FIORDOS', zona:'SUR' },
+];
+
+const CIUDADANIA_BANK = [
+  { correcta:'Cuidar los espacios públicos como plazas y parques', incorrectas:['Rayar los muros de la plaza','Botar basura en el parque','Romper los juegos infantiles'] },
+  { correcta:'Decir la verdad aunque hayas cometido un error', incorrectas:['Mentir para no tener problemas','Culpar a otro de tu error','Esconder lo que hiciste'] },
+  { correcta:'Respetar las opiniones distintas a la tuya', incorrectas:['Burlarte de quien piensa diferente','Ignorar las ideas de los demás','Enojarte si no piensan como tú'] },
+  { correcta:'Cumplir con tus deberes escolares', incorrectas:['Copiar las tareas de un compañero','Dejar todo para el final sin avisar','No traer los materiales pedidos'] },
+  { correcta:'Integrar a otros en tus juegos, sin discriminar', incorrectas:['Dejar fuera a un compañero por cómo se ve','No dejar jugar a alguien por su nombre','Burlarte de las costumbres de otro niño'] },
+];
+
+export function genPueblos2Round(){
+  const item = pick(PUEBLOS_BANK);
+  const askZona = Math.random()<0.5;
+  if(askZona){
+    const opts = shuffle(ZONAS_POOL).map(function(z){ return {label:z, value:z}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿En qué zona de Chile vivía tradicionalmente el pueblo '+item.pueblo+'?</p>',
+      options: opts, correctValue: item.zona, speakText: '¿En qué zona vivía el pueblo '+item.pueblo+'?', cols:2, kind:'word', panel:true,
+      explain: 'El pueblo <b>'+item.pueblo+'</b> vivía tradicionalmente en la zona <b>'+item.zona.toLowerCase()+'</b>.',
+    };
+  }
+  const distract = PUEBLOS_BANK.filter(function(p){ return p.pueblo!==item.pueblo; }).map(function(p){ return p.pueblo; });
+  const opts = shuffle([item.pueblo].concat(distract)).map(function(p){ return {label:p, value:p}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Qué pueblo originario vivía tradicionalmente en la zona '+item.zona.toLowerCase()+'?</p>',
+    options: opts, correctValue: item.pueblo, speakText: '¿Qué pueblo vivía en la zona '+item.zona+'?', cols:4, kind:'word',
+    explain: 'El pueblo <b>'+item.pueblo+'</b> vivía tradicionalmente en la zona '+item.zona.toLowerCase()+'.',
+  };
+}
+
+export function genPatrimonio2Round(){
+  const item = pick(PATRIMONIO_NATURAL_BANK);
+  const opts = shuffle([{label:'PATRIMONIO NATURAL DE CHILE', value:true},{label:'NO ES DE CHILE', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.tipico, speakText: item.label, cols:2, panel:true,
+    explain: item.tipico ? item.label+' <b>es patrimonio natural de Chile</b>.' : item.label+' <b>no es de Chile</b>.',
+  };
+}
+
+export function genPaisajes2Round(){
+  const item = pick(PAISAJES_ZONA_BANK);
+  const distract = PAISAJES_ZONA_BANK.filter(function(p){ return p.zona!==item.zona; }).map(function(p){ return p.zona; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
+  const opts = shuffle([item.zona].concat(distract)).map(function(z){ return {label:z, value:z}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿En qué zona de Chile encuentras principalmente '+item.label.toLowerCase()+'?</p>',
+    options: opts, correctValue: item.zona, speakText: '¿En qué zona encuentras '+item.label+'?', cols:4, kind:'word',
+    explain: item.label.charAt(0)+item.label.slice(1).toLowerCase()+' se encuentra principalmente en la zona <b>'+item.zona.toLowerCase()+'</b> de Chile.',
+  };
+}
+
+export function genCiudadania2Round(){
+  const item = pick(CIUDADANIA_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de convivencia ciudadana?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de convivencia ciudadana?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" es una buena práctica de convivencia ciudadana.',
+  };
+}
+
 function calStripHTML(list, todayIdx){
   const nextIdx = (todayIdx+1)%list.length;
   return '<div class="cal-strip">'+list.map(function(name,i){

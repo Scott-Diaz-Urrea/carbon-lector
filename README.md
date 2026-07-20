@@ -22,13 +22,17 @@ aprendizaje oficiales de Mineduc.
 
 ## Cómo funciona técnicamente
 
-Es un solo archivo (`index.html`) sin dependencias que compilar — HTML, CSS y
-JavaScript plano. Se despliega directo con GitHub Pages, sin build step.
+HTML, CSS y JavaScript plano, sin dependencias que compilar — el JS vive en módulos ES
+nativos (`js/`) organizados por asignatura, cargados directo por el navegador vía
+`<script type="module">`. Se despliega directo con GitHub Pages, sin build step.
 
-Para el contexto técnico completo (arquitectura, qué falta, cómo agregar contenido
-nuevo), ver [`CLAUDE.md`](./CLAUDE.md).
+Para el contexto técnico completo (arquitectura de archivos, qué falta, cómo agregar
+contenido nuevo), ver [`CLAUDE.md`](./CLAUDE.md).
 
 ## Actualizar el sitio
 
-Cualquier cambio a `index.html` en la rama `main` se refleja automáticamente en el
-sitio publicado (GitHub Pages), usualmente en 1-2 minutos.
+Cualquier cambio en la rama `main` se refleja automáticamente en el sitio publicado
+(GitHub Pages), usualmente en 1-2 minutos. Como el JS ahora está en módulos ES, probar
+localmente requiere servir la carpeta con un servidor HTTP (los módulos no cargan vía
+`file://` por restricciones CORS del navegador) — no basta con abrir `index.html` directo
+con doble clic.

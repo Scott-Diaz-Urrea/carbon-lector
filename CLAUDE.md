@@ -26,14 +26,72 @@ un curso/asignatura todavía, pedirlos al usuario antes de inventar contenido.
 
 ## Stack técnico
 
-Un solo archivo: **`index.html`**. HTML + CSS + JavaScript vanilla, sin frameworks ni
-build step. Única dependencia externa: Google Fonts (Baloo 2 + Quicksand), vía CDN.
-Esto es intencional: el archivo se sube directo a GitHub Pages sin necesidad de compilar
-nada.
+HTML + CSS + JavaScript vanilla, **sin frameworks ni build step**. Única dependencia
+externa: Google Fonts (Baloo 2 + Quicksand), vía CDN. Esto es intencional: los archivos
+se suben directo a GitHub Pages sin necesidad de compilar nada.
 
-**No introducir frameworks, bundlers ni dependencias nuevas** salvo que el usuario lo
-pida explícitamente — la simplicidad de "un archivo, cero build" es una característica,
-no una limitación temporal.
+Desde julio 2026 el JS vive en **módulos ES nativos** (`<script type="module">`), no en
+un único archivo — ver "Arquitectura de archivos" abajo. Esto sigue siendo "cero build":
+son archivos `.js` estáticos que el navegador importa directamente vía `import`/`export`,
+sin bundler, sin transpilación, sin paso de compilación. GitHub Pages los sirve tal cual.
+
+**No introducir un bundler/framework de UI ni dependencias nuevas** salvo que el usuario
+lo pida explícitamente — la simplicidad de "cero build" es una característica, no una
+limitación temporal. La modularización con ES modules no viola esto: sigue sin haber
+build step, solo se organizó el código en archivos más chicos y con responsabilidades
+claras.
+
+### Arquitectura de archivos
+
+```
+index.html              shell HTML mínimo: <link rel="stylesheet" href="styles.css">
+                         + <script type="module" src="js/main.js">
+styles.css               todo el CSS (idéntico al que antes vivía en <style>)
+js/
+  main.js                 punto de entrada: expone en window las funciones que el HTML
+                           generado dinámicamente invoca vía onclick="..." (los módulos
+                           ES no son globales por defecto), y llama a render() una vez.
+  utils.js                 shuffle/pick/randInt/uniqueDistractors/pathD — sin dependencias.
+  svg.js                   helpers de SVG a mano (shapeSVG, mascotSVG, chileFlagSVG,
+                           colorSwatchSVG, starSVG, lockIconSVG, backIconSVG).
+  audio.js                 voz (speak, pickBestVoice) y sonidos Web Audio (sfxCorrect,
+                           sfxWrong, sfxStreak, sfxLevelup).
+  state.js                 state global, screenStack, goTo/goBack/selectGrade,
+                           XP/nivel/estrellas (awardXP, level, totalStars, maxStars),
+                           showToast.
+  gradeContent.js           agrega los <NOMBRE>_MODULES/_POS de cada content/*.js en
+                           <NOMBRE>_BY_GRADE, y arma SUBJECT_DEFS (la lista que
+                           renderSubjectMap() recorre para las tarjetas de materia).
+  mcEngine.js               MC_GAMES, MC_KEYS, y el motor genérico de opción múltiple
+                           (initMCGame, drawMCRound, answerMC, roundSignature, finishMC).
+  rewards.js                MODULE_TITLES, spawnConfetti, showResult, showExplain
+                           (Carboncito), replayGame.
+  render.js                 render() (el dispatcher central) + renderHome/renderEtapaMap/
+                           renderGradeMap/renderSubjectMap/renderModuleMap y los 9
+                           render<Asignatura>Map().
+  content/
+    grades.js                GRADES, GRADE_POS (las 8 islas de Educación Básica).
+    lenguaje.js               bancos + genXxxRound() + MODULES/POS de Lenguaje.
+    matematica.js             ídem Matemática.
+    ciencias.js               ídem Ciencias Naturales.
+    historia.js               ídem Historia/Geografía/Cs. Sociales.
+    artes.js                  ídem Artes Visuales.
+    musica.js                 ídem Música.
+    edfisica.js               ídem Educación Física y Salud.
+    orientacion.js            ídem Orientación.
+    tecnologia.js             ídem Tecnología.
+  games/
+    silabas.js                Sílabas: contenido + render*Screen/init*Game/draw*Round/tap*.
+    secuencia.js               ídem Secuencia.
+    memorama.js                ídem Memorama.
+```
+
+**Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +
+sus `genXxxRound`), así que agregar o editar una asignatura solo toca 1-2 archivos en vez
+de buscar entre miles de líneas. Hay dependencias circulares a nivel de módulo entre
+`state.js`↔`render.js`, `mcEngine.js`↔`rewards.js` y `rewards.js`↔`games/*.js` — esto es
+intencional y seguro en ES modules mientras el uso quede dentro de cuerpos de función (no
+en la evaluación de nivel superior del módulo), que es el caso en todos estos archivos.
 
 ## Arquitectura del código
 
@@ -200,6 +258,9 @@ automáticamente como placeholder — no rompe nada, pero tampoco es jugable).
   aleatorio* cuando sea posible (números, combinaciones al azar) en vez de bancos
   estáticos gigantes — esto fue un pedido explícito del usuario ("que no se parezca
   una ronda a otra").
-- Antes de dar por buena una edición grande, correr `node --check` sobre el JS
-  extraído del archivo para detectar errores de sintaxis (el proyecto no tiene tests
-  automatizados más allá de eso).
+- Antes de dar por buena una edición grande, servir el sitio con un servidor HTTP local
+  (los módulos ES no cargan vía `file://` por restricciones CORS del navegador — no basta
+  con abrir `index.html` directo) y probar en el navegador: revisar la consola por errores
+  de import/export, y ejecutar los generadores (`MC_GAMES[key].gen()`) varias veces por
+  juego para pescar bugs de opciones duplicadas o texto `undefined` antes de que aparezcan
+  jugando. El proyecto no tiene tests automatizados más allá de eso.

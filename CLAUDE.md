@@ -90,9 +90,10 @@ js/
                               níveles y núcleos" abajo).
       pensamientoMatematico.js       núcleo Pensamiento Matemático.
       lenguajeVerbal.js               núcleo Lenguaje Verbal (incluye "Escribe tu
-                                     Nombre", que en realidad vive en games/escribenombre.js
-                                     — este archivo solo tiene los 4 módulos de opción
-                                     múltiple del núcleo).
+                                     Nombre" y "Caligrafía" en su lista de módulos, pero
+                                     ambos en realidad viven en games/escribenombre.js y
+                                     games/caligrafia.js — este archivo solo tiene los 4
+                                     módulos de opción múltiple del núcleo).
       lenguajesArtisticos.js          núcleo Lenguajes Artísticos.
       identidadAutonomia.js           núcleo Identidad y Autonomía.
       convivenciaCiudadania.js        núcleo Convivencia y Ciudadanía.
@@ -106,13 +107,33 @@ js/
     traza.js                   renderTraceCanvas()/initTraceCanvas() — componente de
                               trazado a mano sobre <canvas> (Pointer Events, sirve para
                               mouse/dedo/lápiz óptico por igual). No es un juego en sí,
-                              es un helper reutilizable: lo usa tanto showNameEntry()
-                              (rewards.js) como escribenombre.js.
+                              es un helper reutilizable: lo usa showNameEntry()
+                              (rewards.js), escribenombre.js y caligrafia.js.
+                              `initTraceCanvas(id, guide)` acepta un string ('MAYA',
+                              'A', '3' — se dibuja como texto grande) o un objeto
+                              `{shape:'horizontal'|'vertical'|'diagonal'|'curva'|
+                              'zigzag'|'ondas'|'circulo'|'espiral'}` (trazos básicos de
+                              grafomotricidad, dibujados con Canvas paths en vez de
+                              texto). Internamente trackea el último listener de
+                              `resize` en una variable de módulo y lo limpia antes de
+                              adjuntar uno nuevo — necesario porque cada hoja nueva de
+                              Caligrafía crea un `<canvas>` distinto y sin este cleanup
+                              se acumulaba un listener de `resize` por cada hoja vista
+                              en la sesión (detectado al construir el cuaderno de
+                              varias hojas).
     escribenombre.js           módulo "Escribe tu Nombre" (núcleo Lenguaje Verbal, NT):
                               envuelve traza.js en un módulo jugable con su propio
                               render/init, sin motor de opción múltiple — no hay
                               respuesta correcta/incorrecta, siempre otorga 3 estrellas
                               al terminar (ver showResult() con customSub más abajo).
+    caligrafia.js               módulo "Caligrafía" (núcleo Lenguaje Verbal, NT):
+                              cuaderno de 18 hojas en secuencia (8 trazos básicos de
+                              grafomotricidad + 5 vocales + números 1-5), cada una un
+                              `<canvas>` de traza.js con guía distinta y un botón
+                              "Siguiente hoja" que avanza a la próxima; la última hoja
+                              dice "¡Terminar!" y llama a showResult() con 3 estrellas
+                              fijas, mismo criterio que escribenombre.js (no hay
+                              aciertos que contar, es práctica motriz).
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +
@@ -280,12 +301,12 @@ propio Decreto 481/2017 para esos niveles), así que no está previsto construir
 módulos jugables para ellos — ver "Educación Parvularia — níveles y núcleos" arriba.
 
 **Ámbito Comunicación Integral** (curriculumnacional.cl/curriculum/educacion-parvularia/comunicacion-integral/nt-nivel-transicion):
-- **Lenguaje Verbal** (5): Escribe tu Nombre (trazado, sin motor MC), Sílabas y
-  Sonidos, Escuchar y Comprender, Vocabulario en Contexto, Letras y Sonidos —
-  OA01-04, OA06-08. Fuera: OA05 (interés por textos, actitudinal) y OA09-10 (mensajes
-  en lengua indígena de la comunidad o lenguas maternas de los pares — dependen de la
-  lengua específica de cada comunidad/familia, no generalizables sin riesgo de
-  contenido incorrecto o excluyente).
+- **Lenguaje Verbal** (6): Escribe tu Nombre y Caligrafía (ambos trazado libre sobre
+  canvas, sin motor MC), Sílabas y Sonidos, Escuchar y Comprender, Vocabulario en
+  Contexto, Letras y Sonidos — OA01-04, OA06-08. Fuera: OA05 (interés por textos,
+  actitudinal) y OA09-10 (mensajes en lengua indígena de la comunidad o lenguas
+  maternas de los pares — dependen de la lengua específica de cada comunidad/familia,
+  no generalizables sin riesgo de contenido incorrecto o excluyente).
 - **Lenguajes Artísticos** (1): Aprecia y Compara — OA01. Fuera: OA02 (opinión
   subjetiva sobre una obra), OA03-04 (canto/danza, performativo), OA05-07
   (representación plástica o dibujo propio, producción no reconocimiento).

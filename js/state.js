@@ -19,7 +19,7 @@ export const state = {
            herramientastec:0,
            patrones:0, clasificar:0, posicion:0, cuantificadores:0, secuenciatemporal:0,
            contarveinte:0, sumarquitar:0, formascuerpos:0, medir:0,
-           escribenombre:0, silabasnt:0, escucharnt:0, vocabnt:0, letrasnt:0,
+           escribenombre:0, caligrafia:0, silabasnt:0, escucharnt:0, vocabnt:0, letrasnt:0,
            apreciarnt:0,
            emocionesnt:0, autocuidadont:0, alimentosnt:0,
            resolucionnt:0, normasnt:0, seguridadnt:0,

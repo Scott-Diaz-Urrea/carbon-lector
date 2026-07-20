@@ -3,7 +3,8 @@ import { pick, shuffle, uniqueDistractors } from '../../utils.js';
 /* Núcleo Lenguaje Verbal — Educación Parvularia, NT (Decreto 481/2017, ámbito
    Comunicación Integral, curriculumnacional.cl/curriculum/educacion-parvularia/
    comunicacion-integral/nt-nivel-transicion):
-   OA08 -> Escribe tu Nombre (trazado libre, sin motor de opción múltiple) ·
+   OA08 -> Escribe tu Nombre y Caligrafía (trazado libre, sin motor de opción
+   múltiple — Caligrafía además cubre "signos" del mismo OA08 vía números) ·
    OA03 -> Sílabas y Sonidos · OA02/OA06 -> Escuchar y Comprender ·
    OA01/OA04 -> Vocabulario en Contexto · OA07 -> Letras y Sonidos.
    Quedan fuera: OA05 (interés por textos escritos, actitudinal, no evaluable
@@ -14,13 +15,14 @@ import { pick, shuffle, uniqueDistractors } from '../../utils.js';
 
 export const LENGUAJE_VERBAL_MODULES = [
   { id:'escribenombre', label:'Escribe tu Nombre', open:true, key:'escribenombre' },
+  { id:'caligrafia', label:'Caligrafía', open:true, key:'caligrafia' },
   { id:'silabasnt', label:'Sílabas y Sonidos', open:true, key:'silabasnt' },
   { id:'escucharnt', label:'Escuchar y Comprender', open:true, key:'escucharnt' },
   { id:'vocabnt', label:'Vocabulario en Contexto', open:true, key:'vocabnt' },
   { id:'letrasnt', label:'Letras y Sonidos', open:true, key:'letrasnt' },
 ];
 export const LENGUAJE_VERBAL_POS = [
-  {x:22,y:88},{x:68,y:70},{x:24,y:52},{x:70,y:34},{x:24,y:16}
+  {x:22,y:92},{x:68,y:77},{x:24,y:61},{x:70,y:45},{x:24,y:26},{x:70,y:8}
 ];
 
 const SILABAS_NT_BANK = [

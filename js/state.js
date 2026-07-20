@@ -1,10 +1,12 @@
 import { GRADES } from './content/grades.js';
 import { render } from './render.js';
 import { sfxLevelup } from './audio.js';
+import { saveProgress } from './persistence.js';
 
 export const state = {
   xp: 0,
   currentGrade: 1,
+  userName: '',
   stars: { vocales:0, silabas:0, memorama:0, palabras:0, comprension:0, contar:0, sumar:0, comparar:0, formas:0,
            combinaciones:0, secuencia:0, salta:0, multiplicar:0,
            seresvivos:0, plantas:0, micuerpo:0, materiales:0, dianoche:0,
@@ -21,7 +23,7 @@ export const screenStack = ['home'];
 export function currentScreen(){ return screenStack[screenStack.length-1]; }
 export function goTo(screen){ screenStack.push(screen); render(); }
 export function goBack(){ if(screenStack.length>1){ screenStack.pop(); render(); } }
-export function selectGrade(id){ state.currentGrade = id; goTo('subjectMap'); }
+export function selectGrade(id){ state.currentGrade = id; saveProgress(); goTo('subjectMap'); }
 export function gradeLabel(id){
   const g = GRADES.filter(function(x){ return x.id===id; })[0];
   return g ? g.label : '';
@@ -37,8 +39,10 @@ export function awardXP(n){
   const newLevel = level();
   if(newLevel>oldLevel){
     sfxLevelup();
-    showToast('⚡ ¡Subiste a Nivel ' + newLevel + '!');
+    const who = state.userName ? ', ' + state.userName : '';
+    showToast('⚡ ¡Subiste a Nivel ' + newLevel + who + '!');
   }
+  saveProgress();
 }
 
 export function showToast(msg){

@@ -53,10 +53,11 @@ export function render(){
 }
 
 function renderHome(){
+  const greeting = state.userName ? '¡Hola, '+state.userName+'! Con Carboncito, tu compañero de aventuras 🐾' : 'Con Carboncito, tu compañero de aventuras 🐾';
   return '<div class="screen home-hero">'+
     '<div class="mascot-wrap"><div class="float">'+mascotSVG(190)+'</div></div>'+
     '<p class="logo-word">LEO</p>'+
-    '<p class="logo-tag">Con Carboncito, tu compañero de aventuras 🐾</p>'+
+    '<p class="logo-tag">'+greeting+'</p>'+
     '<button class="cta-btn" onclick="goTo(\'etapaMap\')">Comenzar aventura</button>'+
     '<div class="home-footnote"><b>Prototipo educativo</b> — organizado igual que la trayectoria escolar real: por etapa, año y materia, para calzar con lo que el colegio ya enseña. Empieza gratis con <b>1° Básico</b>: Lenguaje y Matemáticas. Por cierto: así como el carboncillo fue de los primeros materiales con los que la humanidad dibujó letras y símbolos, <b>Carboncito</b> te acompaña a trazar las tuyas.</div>'+
   '</div>';

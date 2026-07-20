@@ -59,6 +59,8 @@ js/
   state.js                 state global, screenStack, goTo/goBack/selectGrade,
                            XP/nivel/estrellas (awardXP, level, totalStars, maxStars),
                            showToast.
+  persistence.js            loadProgress()/saveProgress() — localStorage (ver
+                           "Progreso" abajo).
   gradeContent.js           agrega los <NOMBRE>_MODULES/_POS de cada content/*.js en
                            <NOMBRE>_BY_GRADE, y arma SUBJECT_DEFS (la lista que
                            renderSubjectMap() recorre para las tarjetas de materia).
@@ -97,6 +99,16 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
 
 - **Navegación:** pila de pantallas (`screenStack`) + `goTo()` / `goBack()` + `render()`
   central que reconstruye `#app.innerHTML` en cada cambio de pantalla.
+- **Nombre del usuario (personalización):** `state.userName` (string, vacío por
+  defecto). `main.js` llama a `showNameEntry(render)` al cargar si `state.userName`
+  está vacío — un overlay (`js/rewards.js`) donde Carboncito pregunta el nombre antes
+  de mostrar la Home. Se usa para personalizar: el saludo en `renderHome()`, el título
+  de `showExplain()` ("Carboncito te explica, {nombre}"), el título de `showResult()`
+  ("¡Excelente trabajo, {nombre}!"), y el toast de subida de nivel (`awardXP` en
+  `state.js`). Patrón a seguir en código nuevo: `const who = state.userName ? ', ' +
+  state.userName : '';` y concatenar `who` — así el texto queda igual de bien sin
+  nombre (no hay persistencia entre sesiones, así que el overlay reaparece cada vez
+  que se recarga la página).
 - **Jerarquía de pantallas:** `home` → `etapaMap` (Parvularia/Básica/Media/EPJA) →
   `gradeMap` (islas 1°-8° básico, `selectGrade(id)` guarda `state.currentGrade`) →
   `subjectMap` (lista de asignaturas, lee `state.currentGrade`) →
@@ -167,10 +179,18 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
 - **Mascota:** `mascotSVG(size)` genera el SVG de Carboncito inline (sin archivos de
   imagen). Basado en una foto real: ojos café cálidos, arrugas marcadas, hocico
   gris-marrón, lengua asomando de lado.
-- **Progreso:** todo vive en memoria (`state`), se reinicia al recargar la página. No
-  hay backend ni localStorage (localStorage no funciona en el entorno de artifacts de
-  Claude.ai, pero SÍ funcionaría en el sitio ya desplegado — es una mejora pendiente,
-  no implementada aún por decisión consciente).
+- **Progreso:** persiste en `localStorage` (`js/persistence.js`, clave `leo_progress_v1`)
+  — no hay backend ni base de datos real, solo el navegador/dispositivo del jugador
+  (no sincroniza entre dispositivos). `loadProgress()` se llama una vez en `main.js`
+  antes del primer `render()`, y también evita mostrarle el prompt de nombre a alguien
+  que ya lo guardó antes. `saveProgress()` se llama desde `awardXP()` (todo cambio de
+  XP/nivel), `selectGrade()`, `showResult()` y el submit de `showNameEntry()` — el
+  patrón para código nuevo es: cualquier función que mute `state.xp`, `state.stars`,
+  `state.badges`, `state.currentGrade` o `state.userName` debe llamar a
+  `saveProgress()` después. `loadProgress()` es tolerante a datos faltantes/corruptos
+  (try/catch silencioso) y solo copia claves de `stars` que ya existan en el `state.stars`
+  actual — así una asignatura nueva agregada después no se ve pisada por datos viejos
+  sin esa clave.
 
 ## Estado actual del contenido (julio 2026)
 
@@ -234,8 +254,10 @@ automáticamente como placeholder — no rompe nada, pero tampoco es jugable).
    Orientación, Tecnología) a 2° básico, siguiendo el mismo patrón usado en 1° básico
    (`<NOMBRE>_BY_GRADE` con entrada `2: {...}`) — pedir los OA de 2° básico de cada
    asignatura antes de construir contenido, no reusar los de 1° básico.
-4. Evaluar agregar persistencia real (localStorage) ahora que el sitio vive en su
-   propio dominio (GitHub Pages) y ya no está restringido por el sandbox de artifacts.
+4. ~~Evaluar agregar persistencia real (localStorage)~~ — ✅ hecho (`js/persistence.js`).
+   Si más adelante se quiere progreso sincronizado entre dispositivos, ahí sí se
+   necesitaría un backend real (Firebase/Supabase u otro) — GitHub Pages es hosting
+   estático puro, no puede correr una base de datos ni lógica de servidor.
 5. Si se quiere cobertura 100% literal de 1° básico, revisar los OA marcados "fuera"
    en cada asignatura (arriba) y decidir si vale la pena forzarlos al motor de opción
    múltiple o si requieren un tipo de juego nuevo (p. ej. grabación de voz para Música,

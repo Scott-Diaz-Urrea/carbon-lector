@@ -9,6 +9,7 @@ export function loadProgress(){
     const saved = JSON.parse(raw);
     if(typeof saved.xp === 'number') state.xp = saved.xp;
     if(typeof saved.currentGrade === 'number') state.currentGrade = saved.currentGrade;
+    if(typeof saved.currentNivel === 'string') state.currentNivel = saved.currentNivel;
     if(typeof saved.userName === 'string') state.userName = saved.userName;
     if(saved.stars && typeof saved.stars === 'object'){
       Object.keys(state.stars).forEach(function(key){
@@ -29,6 +30,7 @@ export function saveProgress(){
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       xp: state.xp,
       currentGrade: state.currentGrade,
+      currentNivel: state.currentNivel,
       userName: state.userName,
       stars: state.stars,
       badges: Array.from(state.badges),

@@ -1,4 +1,4 @@
-import { GRADES } from './content/grades.js';
+import { GRADES, PARVULARIA_NIVELES } from './content/grades.js';
 import { render } from './render.js';
 import { sfxLevelup } from './audio.js';
 import { saveProgress } from './persistence.js';
@@ -6,6 +6,7 @@ import { saveProgress } from './persistence.js';
 export const state = {
   xp: 0,
   currentGrade: 1,
+  currentNivel: 'nt',
   userName: '',
   stars: { vocales:0, silabas:0, memorama:0, palabras:0, comprension:0, contar:0, sumar:0, comparar:0, formas:0,
            combinaciones:0, secuencia:0, salta:0, multiplicar:0,
@@ -15,7 +16,9 @@ export const state = {
            sonidos:0, instrumentos:0,
            movimiento:0, vidaactiva:0, seguridad:0,
            emociones:0, autocuidado:0, convivencia:0,
-           herramientastec:0 },
+           herramientastec:0,
+           patrones:0, clasificar:0, posicion:0, cuantificadores:0, secuenciatemporal:0,
+           contarveinte:0, sumarquitar:0, formascuerpos:0, medir:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];
@@ -27,6 +30,11 @@ export function selectGrade(id){ state.currentGrade = id; saveProgress(); goTo('
 export function gradeLabel(id){
   const g = GRADES.filter(function(x){ return x.id===id; })[0];
   return g ? g.label : '';
+}
+export function selectNivel(id){ state.currentNivel = id; saveProgress(); goTo('nucleoMap'); }
+export function nivelLabel(id){
+  const n = PARVULARIA_NIVELES.filter(function(x){ return x.id===id; })[0];
+  return n ? n.label : '';
 }
 
 export function level(){ return Math.floor(state.xp/100)+1; }

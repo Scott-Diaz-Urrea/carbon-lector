@@ -82,6 +82,13 @@ js/
     edfisica.js               ídem Educación Física y Salud.
     orientacion.js            ídem Orientación.
     tecnologia.js             ídem Tecnología.
+    parvularia/
+      pensamientoMatematico.js  núcleo Pensamiento Matemático (Educación Parvularia,
+                                nivel NT) — mismo patrón que los archivos de asignatura
+                                de Básica (bancos + genXxxRound + MODULES/POS), pero
+                                vive en su propia subcarpeta porque Parvularia se
+                                organiza por núcleos de aprendizaje, no por asignaturas
+                                (ver "Parvularia: níveles y núcleos" abajo).
   games/
     silabas.js                Sílabas: contenido + render*Screen/init*Game/draw*Round/tap*.
     secuencia.js               ídem Secuencia.
@@ -127,6 +134,32 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   indexado por número de año (`{1: {...}, 2: {...}}`), con `{modules, pos, height}`.
   Por ahora solo Lenguaje y Matemática tienen entrada para 2° básico; el resto de
   asignaturas solo tiene 1° básico.
+- **Educación Parvularia — níveles y núcleos (arquitectura paralela a Básica, no
+  compartida):** Parvularia no se organiza por año/asignatura como Básica, sino por
+  **nivel** (Sala Cuna, Nivel Medio, Transición — `state.currentNivel`, con
+  `PARVULARIA_NIVELES`/`PARVULARIA_NIVELES_POS` en `content/grades.js`) y dentro de
+  cada nivel, por **núcleo de aprendizaje** (8 núcleos del Decreto 481/2017 en el
+  ámbito "Interacción y Comprensión del Entorno" + los otros dos ámbitos — ver
+  `NUCLEO_DEFS` en `gradeContent.js`, cada entrada `{icon, label, screen, byNivel}`).
+  Jerarquía de pantallas propia: `etapaMap` → `parvulariaNivelMap`
+  (`selectNivel(id)` guarda `state.currentNivel`) → `nucleoMap` (tarjetas de núcleo,
+  lee `state.currentNivel`) → `<nucleo>Map` (p.ej. `pensamientoMatematicoMap`) →
+  juego individual. Deliberadamente **no** se reutilizó `SUBJECT_DEFS`/`*_BY_GRADE` ni
+  `selectGrade`/`gradeLabel` — se escribieron equivalentes paralelos
+  (`NUCLEO_DEFS`/`*_BY_NIVEL`, `selectNivel`/`nivelLabel`) porque las jerarquías de
+  Básica (año→asignatura) y Parvularia (nivel→núcleo) son conceptualmente distintas;
+  forzarlas a una abstracción común habría sido la premature abstraction que este
+  proyecto evita a propósito. Para agregar un núcleo nuevo: mismo patrón que una
+  asignatura de Básica (`<NOMBRE>_MODULES`/`_POS`, `genXxxRound`, registrar en
+  `MC_GAMES`/`MC_KEYS`, agregar `render<Nucleo>Map()` de una línea en `render.js` y su
+  `else if` en `render()`, agregar entrada a `NUCLEO_DEFS` con `byNivel`). Un núcleo
+  sin `byNivel[nivel]` muestra automáticamente una tarjeta "🚧 Núcleo en preparación"
+  en `nucleoMap` — no rompe nada, solo no es jugable todavía.
+- **Rounds:8 en vez de 10 para Parvularia:** los módulos de Básica usan `rounds:10`;
+  los de Parvularia usan `rounds:8`. Decisión pedagógica deliberada (no un descuido):
+  la atención sostenida en preescolar (NT, ~5 años) es más corta que en Básica, así
+  que partidas más cortas mantienen el juego dentro de un tramo de atención razonable
+  sin sacrificar cobertura del núcleo.
 - **Motor de minijuegos de opción múltiple (reutilizable):** `MC_GAMES` es un mapa
   `{clave: {title, gen, rounds}}` donde `gen` es una función que retorna
   `{promptHTML, options, correctValue, speakText, cols, panel?, kind?, explain}`.
@@ -194,8 +227,25 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
 
 ## Estado actual del contenido (julio 2026)
 
-### Educación Parvularia — 🔒 sin construir
-Investigado (Decreto 481/2017) pero sin módulos jugables aún.
+### Educación Parvularia — 🟡 parcial (1 de 8 núcleos, nivel NT)
+Basado en el Decreto 481/2017, ámbito Interacción y Comprensión del Entorno, nivel
+Transición (NT) — curriculumnacional.cl/curriculum/educacion-parvularia/
+interaccion-comprension-entorno/nt-nivel-transicion. Sala Cuna y Nivel Medio quedan
+marcados `open:false` en `PARVULARIA_NIVELES`: son edades donde el juego en pantalla
+no es desarrollo-apropiado (así lo indica el propio Decreto 481/2017 para esos
+niveles), así que no está previsto construir módulos jugables para ellos.
+
+- **Pensamiento Matemático** (9): Patrones, Clasificar, ¿Dónde está?, Más/Menos/Igual,
+  Antes y Después, Contar hasta 20, Sumar y Quitar, Formas y Cuerpos, Medir — OA01-08,
+  OA10-11. Fuera: OA09 (representar objetos desde distintas perspectivas — dibujo/foto)
+  y OA12 (comunicar el proceso de resolución de un problema), ambos de producción
+  gráfica/oral propia, no aptos para el motor de opción múltiple.
+- Núcleos restantes de NT (🔒 sin construir, tarjeta "Próximamente" en `nucleoMap`):
+  Lenguaje Verbal, Lenguajes Artísticos, Identidad y Autonomía, Convivencia y
+  Ciudadanía, Corporalidad y Movimiento, Exploración del Entorno Natural, Comprensión
+  del Entorno Sociocultural. Ninguno tiene OA extraídos todavía — pedirlos al usuario
+  antes de construir contenido, uno por uno, siguiendo el mismo patrón que
+  Pensamiento Matemático.
 
 ### 1° Básico — ✅ completo (31 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
@@ -262,7 +312,12 @@ automáticamente como placeholder — no rompe nada, pero tampoco es jugable).
    en cada asignatura (arriba) y decidir si vale la pena forzarlos al motor de opción
    múltiple o si requieren un tipo de juego nuevo (p. ej. grabación de voz para Música,
    o un lienzo de dibujo para Artes Visuales).
-6. **Ideas del usuario para explorar más adelante (aún no implementadas, solo
+6. Construir los 7 núcleos restantes de Educación Parvularia NT (ver lista arriba),
+   pidiendo los OA del Decreto 481/2017 de cada uno antes de construir contenido.
+   Una vez completo NT, evaluar si construir Nivel Medio/Sala Cuna tiene sentido dado
+   que ese rango de edad generalmente no usa juego en pantalla (revisar el Decreto
+   481/2017 para esos niveles antes de decidir).
+7. **Ideas del usuario para explorar más adelante (aún no implementadas, solo
    anotadas — 2026-07-20):**
    - Evaluar qué tan distinto debería ser el diseño (colores, formas, sonidos, ritmo
      de feedback) para captar la atención de perfiles neurotípicos vs. neurodivergentes.

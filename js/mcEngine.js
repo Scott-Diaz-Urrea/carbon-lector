@@ -7,6 +7,11 @@ import { genSonidosRound, genInstrumentosRound } from './content/musica.js';
 import { genMovimientoRound, genVidaActivaRound, genSeguridadRound } from './content/edfisica.js';
 import { genEmocionesRound, genAutocuidadoRound, genConvivenciaRound } from './content/orientacion.js';
 import { genHerramientasTecRound } from './content/tecnologia.js';
+import {
+  genPatronesRound, genClasificarRound, genPosicionRound, genCuantificadoresRound,
+  genSecuenciaTemporalRound, genContarVeinteRound, genSumarQuitarRound,
+  genFormasCuerposRound, genMedirRound,
+} from './content/parvularia/pensamientoMatematico.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult } from './rewards.js';
@@ -18,7 +23,9 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'sonidos','instrumentos',
   'movimiento','vidaactiva','seguridad',
   'emociones','autocuidado','convivencia',
-  'herramientastec'];
+  'herramientastec',
+  'patrones','clasificar','posicion','cuantificadores','secuenciatemporal',
+  'contarveinte','sumarquitar','formascuerpos','medir'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -53,6 +60,15 @@ export const MC_GAMES = {
   autocuidado:   { title:'Autocuidado y Hábitos', gen: genAutocuidadoRound, rounds:10 },
   convivencia:   { title:'Buena Convivencia',gen: genConvivenciaRound,  rounds:10 },
   herramientastec:{ title:'Herramientas y Materiales', gen: genHerramientasTecRound, rounds:10 },
+  patrones:      { title:'Patrones',         gen: genPatronesRound,     rounds:8 },
+  clasificar:    { title:'Clasificar',       gen: genClasificarRound,   rounds:8 },
+  posicion:      { title:'¿Dónde está?',     gen: genPosicionRound,     rounds:8 },
+  cuantificadores:{ title:'Más, Menos o Igual', gen: genCuantificadoresRound, rounds:8 },
+  secuenciatemporal:{ title:'Antes y Después', gen: genSecuenciaTemporalRound, rounds:8 },
+  contarveinte:  { title:'Contar hasta 20',  gen: genContarVeinteRound, rounds:8 },
+  sumarquitar:   { title:'Sumar y Quitar',   gen: genSumarQuitarRound,  rounds:8 },
+  formascuerpos: { title:'Formas y Cuerpos', gen: genFormasCuerposRound, rounds:8 },
+  medir:         { title:'Medir',            gen: genMedirRound,        rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

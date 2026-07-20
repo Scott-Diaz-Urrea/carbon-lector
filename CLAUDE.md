@@ -82,17 +82,37 @@ js/
     edfisica.js               ídem Educación Física y Salud.
     orientacion.js            ídem Orientación.
     tecnologia.js             ídem Tecnología.
-    parvularia/
-      pensamientoMatematico.js  núcleo Pensamiento Matemático (Educación Parvularia,
-                                nivel NT) — mismo patrón que los archivos de asignatura
-                                de Básica (bancos + genXxxRound + MODULES/POS), pero
-                                vive en su propia subcarpeta porque Parvularia se
-                                organiza por núcleos de aprendizaje, no por asignaturas
-                                (ver "Parvularia: níveles y núcleos" abajo).
+    parvularia/               los 8 núcleos jugables de Educación Parvularia NT — cada
+                              archivo sigue el mismo patrón que un archivo de asignatura
+                              de Básica (bancos + genXxxRound + MODULES/POS), pero viven
+                              en su propia subcarpeta porque Parvularia se organiza por
+                              núcleos de aprendizaje, no por asignaturas (ver "Parvularia:
+                              níveles y núcleos" abajo).
+      pensamientoMatematico.js       núcleo Pensamiento Matemático.
+      lenguajeVerbal.js               núcleo Lenguaje Verbal (incluye "Escribe tu
+                                     Nombre", que en realidad vive en games/escribenombre.js
+                                     — este archivo solo tiene los 4 módulos de opción
+                                     múltiple del núcleo).
+      lenguajesArtisticos.js          núcleo Lenguajes Artísticos.
+      identidadAutonomia.js           núcleo Identidad y Autonomía.
+      convivenciaCiudadania.js        núcleo Convivencia y Ciudadanía.
+      corporalidadMovimiento.js       núcleo Corporalidad y Movimiento.
+      exploracionEntornoNatural.js    núcleo Exploración del Entorno Natural.
+      comprensionEntornoSociocultural.js núcleo Comprensión del Entorno Sociocultural.
   games/
     silabas.js                Sílabas: contenido + render*Screen/init*Game/draw*Round/tap*.
     secuencia.js               ídem Secuencia.
     memorama.js                ídem Memorama.
+    traza.js                   renderTraceCanvas()/initTraceCanvas() — componente de
+                              trazado a mano sobre <canvas> (Pointer Events, sirve para
+                              mouse/dedo/lápiz óptico por igual). No es un juego en sí,
+                              es un helper reutilizable: lo usa tanto showNameEntry()
+                              (rewards.js) como escribenombre.js.
+    escribenombre.js           módulo "Escribe tu Nombre" (núcleo Lenguaje Verbal, NT):
+                              envuelve traza.js en un módulo jugable con su propio
+                              render/init, sin motor de opción múltiple — no hay
+                              respuesta correcta/incorrecta, siempre otorga 3 estrellas
+                              al terminar (ver showResult() con customSub más abajo).
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +
@@ -114,8 +134,21 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   ("¡Excelente trabajo, {nombre}!"), y el toast de subida de nivel (`awardXP` en
   `state.js`). Patrón a seguir en código nuevo: `const who = state.userName ? ', ' +
   state.userName : '';` y concatenar `who` — así el texto queda igual de bien sin
-  nombre (no hay persistencia entre sesiones, así que el overlay reaparece cada vez
-  que se recarga la página).
+  nombre. El progreso (incluido el nombre) persiste vía `js/persistence.js`, así que el
+  overlay solo aparece la primera vez en cada navegador/dispositivo.
+- **Trazado de nombre (pre-escritura):** después de escribir su nombre con el teclado
+  en `showNameEntry()`, el niño pasa a un segundo paso dentro del mismo overlay donde
+  Carboncito le pide "repasarlo" a mano — `renderTraceCanvas()`/`initTraceCanvas()`
+  (`js/games/traza.js`) dibujan el nombre como guía tenue sobre un `<canvas>` y
+  capturan Pointer Events (mouse, dedo o lápiz óptico, todos unificados) para que el
+  niño lo repase encima con un trazo de color. No hay corrección automática — es
+  puramente motor/pre-escritura, con un botón "Borrar y repetir" y uno "Saltar por
+  ahora" para no bloquear a quien no quiera/pueda dibujar en ese momento. Este mismo
+  componente se reutiliza en el módulo "Escribe tu Nombre" (`js/games/escribenombre.js`,
+  núcleo Lenguaje Verbal) para practicarlo de nuevo cuando quieran, fuera del flujo de
+  entrada inicial. Pedido explícito del usuario: fomentar que el trazado se sienta como
+  dibujar, no como tipear, dado que es un hito real de pre-escritura en Transición
+  (OA08 de Lenguaje Verbal, ver más abajo).
 - **Jerarquía de pantallas:** `home` → `etapaMap` (Parvularia/Básica/Media/EPJA) →
   `gradeMap` (islas 1°-8° básico, `selectGrade(id)` guarda `state.currentGrade`) →
   `subjectMap` (lista de asignaturas, lee `state.currentGrade`) →
@@ -137,24 +170,31 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
 - **Educación Parvularia — níveles y núcleos (arquitectura paralela a Básica, no
   compartida):** Parvularia no se organiza por año/asignatura como Básica, sino por
   **nivel** (Sala Cuna, Nivel Medio, Transición — `state.currentNivel`, con
-  `PARVULARIA_NIVELES`/`PARVULARIA_NIVELES_POS` en `content/grades.js`) y dentro de
-  cada nivel, por **núcleo de aprendizaje** (8 núcleos del Decreto 481/2017 en el
-  ámbito "Interacción y Comprensión del Entorno" + los otros dos ámbitos — ver
-  `NUCLEO_DEFS` en `gradeContent.js`, cada entrada `{icon, label, screen, byNivel}`).
-  Jerarquía de pantallas propia: `etapaMap` → `parvulariaNivelMap`
-  (`selectNivel(id)` guarda `state.currentNivel`) → `nucleoMap` (tarjetas de núcleo,
-  lee `state.currentNivel`) → `<nucleo>Map` (p.ej. `pensamientoMatematicoMap`) →
-  juego individual. Deliberadamente **no** se reutilizó `SUBJECT_DEFS`/`*_BY_GRADE` ni
-  `selectGrade`/`gradeLabel` — se escribieron equivalentes paralelos
-  (`NUCLEO_DEFS`/`*_BY_NIVEL`, `selectNivel`/`nivelLabel`) porque las jerarquías de
-  Básica (año→asignatura) y Parvularia (nivel→núcleo) son conceptualmente distintas;
-  forzarlas a una abstracción común habría sido la premature abstraction que este
-  proyecto evita a propósito. Para agregar un núcleo nuevo: mismo patrón que una
-  asignatura de Básica (`<NOMBRE>_MODULES`/`_POS`, `genXxxRound`, registrar en
-  `MC_GAMES`/`MC_KEYS`, agregar `render<Nucleo>Map()` de una línea en `render.js` y su
-  `else if` en `render()`, agregar entrada a `NUCLEO_DEFS` con `byNivel`). Un núcleo
-  sin `byNivel[nivel]` muestra automáticamente una tarjeta "🚧 Núcleo en preparación"
-  en `nucleoMap` — no rompe nada, solo no es jugable todavía.
+  `PARVULARIA_NIVELES` en `content/grades.js`) y dentro de cada nivel, por **núcleo de
+  aprendizaje** (los 8 núcleos del Decreto 481/2017, repartidos en 3 ámbitos —
+  Comunicación Integral, Desarrollo Personal y Social, Interacción y Comprensión del
+  Entorno — ver `NUCLEO_DEFS` en `gradeContent.js`, cada entrada
+  `{icon, label, screen, byNivel}`). Solo NT tiene contenido jugable, así que
+  `PARVULARIA_NIVELES` solo lista ese nivel — Sala Cuna y Nivel Medio ni siquiera se
+  muestran (ver "Estado actual del contenido" abajo). Como hay un solo nivel jugable,
+  el botón "Educación Parvularia" de `renderEtapaMap()` llama directo a
+  `selectNivel('nt')` (que guarda `state.currentNivel` y navega a `nucleoMap`) — no
+  existe una pantalla intermedia de selección de nivel. Jerarquía de pantallas:
+  `etapaMap` → `nucleoMap` (tarjetas de núcleo, lee `state.currentNivel`) →
+  `<nucleo>Map` (p.ej. `pensamientoMatematicoMap`) → juego individual. Deliberadamente
+  **no** se reutilizó `SUBJECT_DEFS`/`*_BY_GRADE` ni `selectGrade`/`gradeLabel` — se
+  escribieron equivalentes paralelos (`NUCLEO_DEFS`/`*_BY_NIVEL`,
+  `selectNivel`/`nivelLabel`) porque las jerarquías de Básica (año→asignatura) y
+  Parvularia (nivel→núcleo) son conceptualmente distintas; forzarlas a una abstracción
+  común habría sido la premature abstraction que este proyecto evita a propósito. Para
+  agregar un núcleo nuevo (o un nivel nuevo, si algún día se decide construir Sala
+  Cuna/Medio): mismo patrón que una asignatura de Básica (`<NOMBRE>_MODULES`/`_POS`,
+  `genXxxRound`, registrar en `MC_GAMES`/`MC_KEYS`, agregar `render<Nucleo>Map()` de
+  una línea en `render.js` usando el helper `renderNucleoMapFor()` y su `else if` en
+  `render()`, agregar entrada a `NUCLEO_DEFS` con `byNivel`). Un núcleo sin
+  `byNivel[nivel]` muestra automáticamente una tarjeta "🚧 Núcleo en preparación" en
+  `nucleoMap` — no rompe nada, solo no es jugable todavía (ya no aplica a ningún
+  núcleo de NT: los 8 están construidos).
 - **Rounds:8 en vez de 10 para Parvularia:** los módulos de Básica usan `rounds:10`;
   los de Parvularia usan `rounds:8`. Decisión pedagógica deliberada (no un descuido):
   la atención sostenida en preescolar (NT, ~5 años) es más corta que en Básica, así
@@ -199,6 +239,11 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   (`state.badges`, `MODULE_TITLES` define el nombre de cada insignia), confeti al
   sacar 3 estrellas (`spawnConfetti`). Sonidos vía Web Audio API sintetizado
   (`sfxCorrect`, `sfxWrong`, `sfxStreak`, `sfxLevelup`) — sin archivos de audio externos.
+  `showResult(moduleKey, correctOrStars, total, isStarsAlready, customSub?)` tiene un
+  5° parámetro opcional `customSub`: si viene, reemplaza el subtítulo por defecto
+  ("Acertaste X de Y" / "Lo lograste en N movimientos") por un texto libre — lo usa
+  `escribenombre.js` porque ahí no hay "aciertos" que contar (es un ejercicio de
+  trazado libre, siempre 3 estrellas).
 - **Ilustraciones SVG propias:** además de emoji, hay helpers que dibujan SVG a mano
   (`shapeSVG`, `mascotSVG`, `chileFlagSVG`, `colorSwatchSVG`) para conceptos donde el
   emoji no es representativo o no se renderiza igual en todos los sistemas — ej. las
@@ -227,25 +272,59 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
 
 ## Estado actual del contenido (julio 2026)
 
-### Educación Parvularia — 🟡 parcial (1 de 8 núcleos, nivel NT)
-Basado en el Decreto 481/2017, ámbito Interacción y Comprensión del Entorno, nivel
-Transición (NT) — curriculumnacional.cl/curriculum/educacion-parvularia/
-interaccion-comprension-entorno/nt-nivel-transicion. Sala Cuna y Nivel Medio quedan
-marcados `open:false` en `PARVULARIA_NIVELES`: son edades donde el juego en pantalla
-no es desarrollo-apropiado (así lo indica el propio Decreto 481/2017 para esos
-niveles), así que no está previsto construir módulos jugables para ellos.
+### Educación Parvularia — ✅ completa (8 de 8 núcleos, nivel NT)
+Basado en el Decreto 481/2017, nivel Transición (NT), repartido en 3 ámbitos.
+Sala Cuna y Nivel Medio no están en `PARVULARIA_NIVELES` en absoluto (ni bloqueados):
+son edades donde el juego en pantalla no es desarrollo-apropiado (así lo indica el
+propio Decreto 481/2017 para esos niveles), así que no está previsto construir
+módulos jugables para ellos — ver "Educación Parvularia — níveles y núcleos" arriba.
 
+**Ámbito Comunicación Integral** (curriculumnacional.cl/curriculum/educacion-parvularia/comunicacion-integral/nt-nivel-transicion):
+- **Lenguaje Verbal** (5): Escribe tu Nombre (trazado, sin motor MC), Sílabas y
+  Sonidos, Escuchar y Comprender, Vocabulario en Contexto, Letras y Sonidos —
+  OA01-04, OA06-08. Fuera: OA05 (interés por textos, actitudinal) y OA09-10 (mensajes
+  en lengua indígena de la comunidad o lenguas maternas de los pares — dependen de la
+  lengua específica de cada comunidad/familia, no generalizables sin riesgo de
+  contenido incorrecto o excluyente).
+- **Lenguajes Artísticos** (1): Aprecia y Compara — OA01. Fuera: OA02 (opinión
+  subjetiva sobre una obra), OA03-04 (canto/danza, performativo), OA05-07
+  (representación plástica o dibujo propio, producción no reconocimiento).
+
+**Ámbito Desarrollo Personal y Social** (PDFs de curriculumnacional.cl,
+`articles-115242/115243/115244_bases.pdf`):
+- **Identidad y Autonomía** (3): Reconoce Emociones, Autocuidado y Hábitos, Alimentos
+  y Sellos — OA01, OA03, OA09, OA11. Fuera: OA02, OA04-08, OA10, OA12-13 (autorregulación,
+  identidad/preferencias propias, planificación de juegos, juego sociodramático —
+  dependen de la vivencia personal de cada niño/a, sin respuesta objetiva única).
+- **Convivencia y Ciudadanía** (3): Resolución Pacífica, Normas de Convivencia,
+  Seguridad y Cuidado — OA05-07. Fuera: OA01-04, OA08-11 (participación colaborativa,
+  empatía vivida, apreciación cultural/diversidad — vivencia grupal real o juicio
+  subjetivo sin respuesta única).
+- **Corporalidad y Movimiento** (2): Ubicación y Tiempo, Movimientos del Cuerpo —
+  OA04, OA09. Fuera: OA01-03, OA05-08 (práctica motriz real: cuidado corporal,
+  ejercitación, coordinación, fuerza/equilibrio — requieren movimiento físico real).
+
+**Ámbito Interacción y Comprensión del Entorno**:
 - **Pensamiento Matemático** (9): Patrones, Clasificar, ¿Dónde está?, Más/Menos/Igual,
   Antes y Después, Contar hasta 20, Sumar y Quitar, Formas y Cuerpos, Medir — OA01-08,
   OA10-11. Fuera: OA09 (representar objetos desde distintas perspectivas — dibujo/foto)
   y OA12 (comunicar el proceso de resolución de un problema), ambos de producción
   gráfica/oral propia, no aptos para el motor de opción múltiple.
-- Núcleos restantes de NT (🔒 sin construir, tarjeta "Próximamente" en `nucleoMap`):
-  Lenguaje Verbal, Lenguajes Artísticos, Identidad y Autonomía, Convivencia y
-  Ciudadanía, Corporalidad y Movimiento, Exploración del Entorno Natural, Comprensión
-  del Entorno Sociocultural. Ninguno tiene OA extraídos todavía — pedirlos al usuario
-  antes de construir contenido, uno por uno, siguiendo el mismo patrón que
-  Pensamiento Matemático.
+- **Exploración del Entorno Natural** (5): Agua y Sol, Materiales de la Naturaleza,
+  Animales y Plantas, Ciclos de Crecimiento, Cuidado del Ambiente — OA03-04, OA06-07,
+  OA11-12. Fuera: OA01-02, OA05, OA08-10 (proceso de indagación propio: asombro,
+  conjeturas, explorar cambios al aplicar fuerza/calor, comunicar hallazgos —
+  dependen de una experiencia vivida, no de un hecho con respuesta única).
+- **Comprensión del Entorno Sociocultural** (4): Roles de mi Comunidad, Objetos
+  Tecnológicos, Instituciones de mi Comunidad, Seguridad y Prevención — OA01, OA03,
+  OA07, OA10. Fuera: OA02, OA04-06, OA08-09, OA11 (formas de vida de otras
+  culturas/épocas, historia de inventos, relatos históricos propios, patrimonio,
+  biografías, estrategias de indagación con TICs — arriesgan datos históricos/
+  biográficos inexactos sin fuente adicional, mismo criterio que excluyó "personajes
+  históricos" en Historia de 1° básico, o dependen de indagación propia del niño/a).
+
+Fuentes exactas por núcleo están citadas como comentario al inicio de cada
+`content/parvularia/<nombre>.js`.
 
 ### 1° Básico — ✅ completo (31 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
@@ -312,11 +391,15 @@ automáticamente como placeholder — no rompe nada, pero tampoco es jugable).
    en cada asignatura (arriba) y decidir si vale la pena forzarlos al motor de opción
    múltiple o si requieren un tipo de juego nuevo (p. ej. grabación de voz para Música,
    o un lienzo de dibujo para Artes Visuales).
-6. Construir los 7 núcleos restantes de Educación Parvularia NT (ver lista arriba),
-   pidiendo los OA del Decreto 481/2017 de cada uno antes de construir contenido.
-   Una vez completo NT, evaluar si construir Nivel Medio/Sala Cuna tiene sentido dado
-   que ese rango de edad generalmente no usa juego en pantalla (revisar el Decreto
-   481/2017 para esos niveles antes de decidir).
+6. ~~Construir los 7 núcleos restantes de Educación Parvularia NT~~ — ✅ hecho, los 8
+   núcleos de NT están completos (ver "Estado actual del contenido" arriba). Si más
+   adelante se quiere cobertura 100% literal de algún núcleo, revisar los OA marcados
+   "fuera" arriba y decidir si vale la pena forzarlos al motor de opción múltiple o si
+   requieren un tipo de juego nuevo (p. ej. movimiento físico real para Corporalidad,
+   o producción plástica propia para Lenguajes Artísticos). Evaluar si construir Nivel
+   Medio/Sala Cuna tiene sentido en algún momento, dado que ese rango de edad
+   generalmente no usa juego en pantalla (revisar el Decreto 481/2017 para esos
+   niveles antes de decidir).
 7. **Ideas del usuario para explorar más adelante (aún no implementadas, solo
    anotadas — 2026-07-20):**
    - Evaluar qué tan distinto debería ser el diseño (colores, formas, sonidos, ritmo

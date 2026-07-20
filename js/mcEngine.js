@@ -12,6 +12,27 @@ import {
   genSecuenciaTemporalRound, genContarVeinteRound, genSumarQuitarRound,
   genFormasCuerposRound, genMedirRound,
 } from './content/parvularia/pensamientoMatematico.js';
+import {
+  genSilabasNTRound, genEscucharNTRound, genVocabNTRound, genLetrasNTRound,
+} from './content/parvularia/lenguajeVerbal.js';
+import { genApreciarNTRound } from './content/parvularia/lenguajesArtisticos.js';
+import {
+  genEmocionesNTRound, genAutocuidadoNTRound, genAlimentosNTRound,
+} from './content/parvularia/identidadAutonomia.js';
+import {
+  genResolucionNTRound, genNormasNTRound, genSeguridadNTRound,
+} from './content/parvularia/convivenciaCiudadania.js';
+import {
+  genUbicacionNTRound, genMovimientoNTRound,
+} from './content/parvularia/corporalidadMovimiento.js';
+import {
+  genAguaSolNTRound, genMaterialesNaturalNTRound, genAnimalesPlantasNTRound,
+  genCiclosNTRound, genAmbienteNTRound,
+} from './content/parvularia/exploracionEntornoNatural.js';
+import {
+  genRolesComunidadNTRound, genObjetosTecNTRound, genInstitucionesNTRound,
+  genSeguridadPrevNTRound,
+} from './content/parvularia/comprensionEntornoSociocultural.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult } from './rewards.js';
@@ -25,7 +46,14 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'emociones','autocuidado','convivencia',
   'herramientastec',
   'patrones','clasificar','posicion','cuantificadores','secuenciatemporal',
-  'contarveinte','sumarquitar','formascuerpos','medir'];
+  'contarveinte','sumarquitar','formascuerpos','medir',
+  'silabasnt','escucharnt','vocabnt','letrasnt',
+  'apreciarnt',
+  'emocionesnt','autocuidadont','alimentosnt',
+  'resolucionnt','normasnt','seguridadnt',
+  'ubicacionnt','movimientont',
+  'aguasolnt','materialesnaturalnt','animalesplantasnt','ciclosnt','ambientent',
+  'rolescomunidadnt','objetostecnt','institucionesnt','seguridadprevnt'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -69,6 +97,28 @@ export const MC_GAMES = {
   sumarquitar:   { title:'Sumar y Quitar',   gen: genSumarQuitarRound,  rounds:8 },
   formascuerpos: { title:'Formas y Cuerpos', gen: genFormasCuerposRound, rounds:8 },
   medir:         { title:'Medir',            gen: genMedirRound,        rounds:8 },
+  silabasnt:     { title:'Sílabas y Sonidos', gen: genSilabasNTRound,    rounds:8 },
+  escucharnt:    { title:'Escuchar y Comprender', gen: genEscucharNTRound, rounds:8 },
+  vocabnt:       { title:'Vocabulario en Contexto', gen: genVocabNTRound, rounds:8 },
+  letrasnt:      { title:'Letras y Sonidos', gen: genLetrasNTRound,      rounds:8 },
+  apreciarnt:    { title:'Aprecia y Compara', gen: genApreciarNTRound,   rounds:8 },
+  emocionesnt:   { title:'Reconoce Emociones', gen: genEmocionesNTRound, rounds:8 },
+  autocuidadont: { title:'Autocuidado y Hábitos', gen: genAutocuidadoNTRound, rounds:8 },
+  alimentosnt:   { title:'Alimentos y Sellos', gen: genAlimentosNTRound, rounds:8 },
+  resolucionnt:  { title:'Resolución Pacífica', gen: genResolucionNTRound, rounds:8 },
+  normasnt:      { title:'Normas de Convivencia', gen: genNormasNTRound, rounds:8 },
+  seguridadnt:   { title:'Seguridad y Cuidado', gen: genSeguridadNTRound, rounds:8 },
+  ubicacionnt:   { title:'Ubicación y Tiempo', gen: genUbicacionNTRound, rounds:8 },
+  movimientont:  { title:'Movimientos del Cuerpo', gen: genMovimientoNTRound, rounds:8 },
+  aguasolnt:     { title:'Agua y Sol',        gen: genAguaSolNTRound,    rounds:8 },
+  materialesnaturalnt: { title:'Materiales de la Naturaleza', gen: genMaterialesNaturalNTRound, rounds:8 },
+  animalesplantasnt: { title:'Animales y Plantas', gen: genAnimalesPlantasNTRound, rounds:8 },
+  ciclosnt:      { title:'Ciclos de Crecimiento', gen: genCiclosNTRound, rounds:8 },
+  ambientent:    { title:'Cuidado del Ambiente', gen: genAmbienteNTRound, rounds:8 },
+  rolescomunidadnt: { title:'Roles de mi Comunidad', gen: genRolesComunidadNTRound, rounds:8 },
+  objetostecnt:  { title:'Objetos Tecnológicos', gen: genObjetosTecNTRound, rounds:8 },
+  institucionesnt: { title:'Instituciones de mi Comunidad', gen: genInstitucionesNTRound, rounds:8 },
+  seguridadprevnt: { title:'Seguridad y Prevención', gen: genSeguridadPrevNTRound, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

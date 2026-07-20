@@ -4,6 +4,8 @@ import { MC_KEYS, initMCGame } from './mcEngine.js';
 import { initSilabasGame } from './games/silabas.js';
 import { initSecuenciaGame } from './games/secuencia.js';
 import { mGame } from './games/memorama.js';
+import { initEscribeNombreGame } from './games/escribenombre.js';
+import { renderTraceCanvas, initTraceCanvas } from './games/traza.js';
 import { render } from './render.js';
 import { saveProgress } from './persistence.js';
 
@@ -52,6 +54,29 @@ export const MODULE_TITLES = {
   sumarquitar:'Mago de los Números',
   formascuerpos:'Arquitecto Junior',
   medir:'Medidor Preciso',
+  escribenombre:'Escritor Principiante',
+  silabasnt:'Detective de Sonidos',
+  escucharnt:'Oyente Atento',
+  vocabnt:'Coleccionista de Palabras Junior',
+  letrasnt:'Explorador de Letras',
+  apreciarnt:'Crítico de Arte Junior',
+  emocionesnt:'Experto en Emociones Junior',
+  autocuidadont:'Guardián de mi Cuerpo Junior',
+  alimentosnt:'Nutricionista Junior',
+  resolucionnt:'Mediador de Paz',
+  normasnt:'Ciudadano Ejemplar Junior',
+  seguridadnt:'Guardián de la Seguridad',
+  ubicacionnt:'Explorador Espacial Junior',
+  movimientont:'Atleta en Movimiento Junior',
+  aguasolnt:'Amigo del Agua y el Sol',
+  materialesnaturalnt:'Científico de Materiales Junior',
+  animalesplantasnt:'Guardián de la Naturaleza Junior',
+  ciclosnt:'Observador de la Vida',
+  ambientent:'Protector del Planeta',
+  rolescomunidadnt:'Amigo de mi Comunidad',
+  objetostecnt:'Ingeniero Creativo Junior',
+  institucionesnt:'Explorador de mi Barrio',
+  seguridadprevnt:'Capitán de la Prevención',
 };
 
 export function spawnConfetti(container){
@@ -72,6 +97,7 @@ export function replayGame(key){
   else if(key==='silabas') initSilabasGame();
   else if(key==='secuencia') initSecuenciaGame();
   else if(key==='memorama') render();
+  else if(key==='escribenombre') initEscribeNombreGame();
 }
 
 export function showExplain(text, onContinue){
@@ -109,8 +135,26 @@ export function showNameEntry(onDone){
   const input = document.getElementById('name-input');
   input.focus();
   function submit(){
-    state.userName = input.value.trim();
+    const name = input.value.trim();
+    state.userName = name;
     saveProgress();
+    if(name) showTraceStep(name); else finish();
+  }
+  function showTraceStep(name){
+    div.innerHTML =
+      '<div class="explain-card">'+
+        '<div class="float" style="display:flex;justify-content:center;">'+mascotSVG(70)+'</div>'+
+        '<p class="explain-title">✏️ ¡Ahora dibújalo, '+name+'!</p>'+
+        '<p class="explain-text">Repasa tu nombre con el dedo o el mouse, como si lo dibujaras.</p>'+
+        renderTraceCanvas('name-trace-canvas', {height:170})+
+        '<button class="cta-btn" id="trace-continue-btn">¡Listo! 👍</button>'+
+        '<button class="cta-btn secondary" id="trace-skip-btn" style="margin-top:8px;">Saltar por ahora</button>'+
+      '</div>';
+    initTraceCanvas('name-trace-canvas', name);
+    document.getElementById('trace-continue-btn').onclick = finish;
+    document.getElementById('trace-skip-btn').onclick = finish;
+  }
+  function finish(){
     div.remove();
     onDone();
   }
@@ -118,7 +162,7 @@ export function showNameEntry(onDone){
   input.addEventListener('keydown', function(e){ if(e.key === 'Enter') submit(); });
 }
 
-export function showResult(moduleKey, correctOrStars, total, isStarsAlready){
+export function showResult(moduleKey, correctOrStars, total, isStarsAlready, customSub){
   let stars;
   if(isStarsAlready){
     stars = correctOrStars;
@@ -145,7 +189,7 @@ export function showResult(moduleKey, correctOrStars, total, isStarsAlready){
       '<div class="float" style="display:flex;justify-content:center;">'+mascotSVG(90)+'</div>'+
       '<p class="result-title">'+(stars>=2 ? '¡Excelente trabajo'+who+'!' : '¡Buen intento'+who+'!')+'</p>'+
       '<div class="result-stars">'+[0,1,2].map(function(i){ return starSVG(i<stars); }).join('')+'</div>'+
-      '<p class="result-sub">'+(isStarsAlready ? ('Lo lograste en '+mGame.moves+' movimientos.') : ('Acertaste '+correctOrStars+' de '+total+'.'))+'</p>'+
+      '<p class="result-sub">'+(customSub ? customSub : (isStarsAlready ? ('Lo lograste en '+mGame.moves+' movimientos.') : ('Acertaste '+correctOrStars+' de '+total+'.')))+'</p>'+
       (isNewBadge ? '<div class="badge-unlock">🏅 ¡Insignia nueva: '+(MODULE_TITLES[moduleKey]||moduleKey)+'!</div>' : '')+
       '<div class="result-actions">'+
         '<button class="cta-btn secondary" onclick="this.closest(\'.overlay\').remove(); goBack();">Volver al mapa</button>'+

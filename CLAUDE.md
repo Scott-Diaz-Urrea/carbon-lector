@@ -79,6 +79,19 @@ no una limitación temporal.
   seguir, no solo ver el error y avanzar. Cada `explain` debe ser concreto y en
   español de Chile (reutilizar campos `desc`/`uso`/`q` ya existentes en los bancos de
   contenido cuando sea posible, en vez de redactar un texto nuevo).
+- **Sin preguntas repetidas dentro de una misma partida:** `initMCGame()` guarda un
+  `Set` (`mc.seenPrompts`) con la "firma" (`roundSignature()` = `promptHTML` + labels
+  de las opciones, ordenadas) de cada ronda ya mostrada; `drawMCRound()` reintenta
+  `cfg.gen()` (hasta 60 veces) hasta obtener una firma nueva antes de aceptar la ronda.
+  Esto es una capa a nivel de motor — **ningún `genXxxRound()` individual necesita
+  lógica de no-repetición propia**, basta con que el banco de contenido tenga
+  suficientes ítems únicos para la cantidad de `rounds` del juego (idealmente ≥ rounds,
+  hoy son 8 o 10). Si un banco tiene menos ítems únicos que `rounds`, los reintentos
+  igual convergen a la mejor variedad posible (mostrar cada ítem único al menos una
+  vez) pero habrá alguna repetición inevitable — la solución de fondo ahí es agregar
+  más ítems al banco, no tocar el motor. Sílabas y Secuencia ya evitaban repeticiones
+  por su cuenta (barajan el banco completo una vez al iniciar y avanzan con
+  `pool[round % pool.length]`), así que no necesitaron este cambio.
 - **Recompensas:** XP (`awardXP`), niveles (`level()`), rachas (`streak`), insignias
   (`state.badges`, `MODULE_TITLES` define el nombre de cada insignia), confeti al
   sacar 3 estrellas (`spawnConfetti`). Sonidos vía Web Audio API sintetizado

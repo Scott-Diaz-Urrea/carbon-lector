@@ -156,6 +156,211 @@ export const CIENCIAS_POS_G2 = [
   {x:22,y:92},{x:68,y:77},{x:24,y:61},{x:70,y:45},{x:24,y:26},{x:70,y:8}
 ];
 
+/* ---------------- Contenido Ciencias Naturales 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/ciencias-naturales/3-basico):
+   CN03 OA01,03,04 -> Las Plantas · CN03 OA06-07 -> Alimentación y Salud ·
+   CN03 OA08-10 -> Luz y Sonido · CN03 OA11-12 -> Sistema Solar ·
+   CN03 OA13 -> Fases de la Luna y Eclipses.
+   Quedan fuera OA02 (variedad de cultivos por región — riesgo de datos
+   regionales imprecisos sin fuente adicional) y OA05 (diseñar instrumentos
+   de reciclaje, producción propia). */
+export const CIENCIAS_MODULES_G3 = [
+  {id:'plantas3', label:'Las Plantas', open:true, key:'plantas3'},
+  {id:'alimentacion3', label:'Alimentación y Salud', open:true, key:'alimentacion3'},
+  {id:'luzsonido3', label:'Luz y Sonido', open:true, key:'luzsonido3'},
+  {id:'sistemasolar3', label:'Sistema Solar', open:true, key:'sistemasolar3'},
+  {id:'lunaeclipses3', label:'Fases de la Luna', open:true, key:'lunaeclipses3'},
+];
+export const CIENCIAS_POS_G3 = [{x:22,y:90},{x:68,y:73},{x:24,y:55},{x:70,y:35},{x:24,y:14}];
+
+const PLANTA_NECESIDADES = [
+  { parte:'RAÍZ', funcion:'Absorbe el agua y los nutrientes de la tierra' },
+  { parte:'TALLO', funcion:'Transporta el agua desde la raíz hasta las hojas' },
+  { parte:'HOJAS', funcion:'Usan la luz del sol para fabricar el alimento de la planta' },
+];
+const CICLO_PLANTA_FLOR = [
+  { emoji:'🫘', label:'Germinación (la semilla brota)', orden:1 },
+  { emoji:'🌱', label:'Crecimiento (crece el tallo y las hojas)', orden:2 },
+  { emoji:'🌸', label:'Formación de la flor', orden:3 },
+  { emoji:'🐝', label:'Polinización (los insectos llevan el polen)', orden:4 },
+  { emoji:'🍎', label:'Formación del fruto y dispersión de la semilla', orden:5 },
+];
+const IMPORTANCIA_PLANTAS_BANK = [
+  { emoji:'🍎', pregunta:'¿Para qué usamos las plantas cuando comemos frutas y verduras?', correcta:'Alimentación', opts:['Ornamentación','Uso medicinal','Producir aire únicamente'] },
+  { emoji:'🌬️', pregunta:'¿Qué producen las plantas que respiramos todos los seres vivos?', correcta:'Aire (oxígeno)', opts:['Agua de lluvia','Tierra','Luz solar'] },
+  { emoji:'🌹', pregunta:'¿Para qué se usan las plantas y flores en jardines y parques?', correcta:'Ornamentación', opts:['Solo alimentación','Solo medicina','Fabricar ropa'] },
+  { emoji:'🌿', pregunta:'¿Para qué se usan algunas plantas como la manzanilla?', correcta:'Uso medicinal', opts:['Solo decoración','Fabricar autos','Producir electricidad'] },
+];
+const ALIMENTOS_SALUDABLES_BANK = [
+  { emoji:'🥦', label:'Comer verduras variadas todos los días', v:true },
+  { emoji:'🍎', label:'Comer frutas es parte de una alimentación saludable', v:true },
+  { emoji:'🍭', label:'Comer dulces y golosinas todos los días es lo más saludable', v:false },
+  { emoji:'💧', label:'Tomar agua en vez de solo bebidas azucaradas es más saludable', v:true },
+  { emoji:'🍟', label:'Comer solo comida frita es la mejor alimentación', v:false },
+  { emoji:'🥛', label:'Los lácteos, como la leche, aportan nutrientes importantes', v:true },
+];
+const HIGIENE_ALIMENTOS_BANK = [
+  { emoji:'🧼', label:'Lavarse las manos antes de preparar o comer alimentos', v:true },
+  { emoji:'🍽️', label:'Lavar las frutas y verduras antes de comerlas', v:true },
+  { emoji:'🧊', label:'Guardar los alimentos que se echan a perder en el refrigerador', v:true },
+  { emoji:'🦠', label:'No es necesario lavar los alimentos antes de comerlos', v:false },
+  { emoji:'🗑️', label:'Comer alimentos que ya tienen mal olor o moho no genera ningún riesgo', v:false },
+  { emoji:'🍳', label:'Cocinar bien la carne y los huevos ayuda a prevenir enfermedades', v:true },
+];
+
+const LUZ_BANK = [
+  { emoji:'☀️', label:'EL SOL', tipo:'NATURAL' },
+  { emoji:'🔥', label:'EL FUEGO', tipo:'NATURAL' },
+  { emoji:'💡', label:'LA AMPOLLETA', tipo:'ARTIFICIAL' },
+  { emoji:'🔦', label:'LA LINTERNA', tipo:'ARTIFICIAL' },
+  { emoji:'⚡', label:'UN RAYO', tipo:'NATURAL' },
+  { emoji:'🕯️', label:'UNA VELA', tipo:'ARTIFICIAL' },
+];
+const PROPIEDADES_LUZ_BANK = [
+  { texto:'La luz viaja en línea recta', v:true },
+  { texto:'La luz puede reflejarse en un espejo', v:true },
+  { texto:'La luz blanca se puede separar en varios colores, como en un arcoíris', v:true },
+  { texto:'La luz nunca se puede reflejar en nada', v:false },
+];
+const PROPIEDADES_SONIDO_BANK = [
+  { texto:'El sonido viaja en todas las direcciones', v:true },
+  { texto:'El sonido puede reflejarse (por eso existe el eco)', v:true },
+  { texto:'El sonido se transmite mejor a través de algunos materiales que otros', v:true },
+  { texto:'El sonido no puede ser absorbido por ningún material', v:false },
+];
+
+const SISTEMA_SOLAR_BANK = [
+  { emoji:'☀️', label:'EL SOL', desc:'Es la estrella que está en el centro del Sistema Solar y nos da luz y calor' },
+  { emoji:'🪐', label:'UN PLANETA', desc:'Es un cuerpo que gira alrededor del Sol, como la Tierra' },
+  { emoji:'🌙', label:'UNA LUNA', desc:'Es un cuerpo que gira alrededor de un planeta' },
+  { emoji:'☄️', label:'UN COMETA', desc:'Es un cuerpo helado que al acercarse al Sol forma una cola brillante' },
+];
+const ROTACION_TRASLACION_BANK = [
+  { pregunta:'¿Cómo se llama el giro de la Tierra sobre sí misma, que dura un día?', correcta:'ROTACIÓN', opts:['TRASLACIÓN','ECLIPSE','POLINIZACIÓN'] },
+  { pregunta:'¿Cómo se llama el recorrido de la Tierra alrededor del Sol, que dura un año?', correcta:'TRASLACIÓN', opts:['ROTACIÓN','ECLIPSE','GERMINACIÓN'] },
+  { pregunta:'¿Qué movimiento de la Tierra causa el día y la noche?', correcta:'ROTACIÓN', opts:['TRASLACIÓN','ECLIPSE','GERMINACIÓN'] },
+];
+
+const FASES_LUNA = [
+  { emoji:'🌑', label:'Luna Nueva' },
+  { emoji:'🌓', label:'Cuarto Creciente' },
+  { emoji:'🌕', label:'Luna Llena' },
+  { emoji:'🌗', label:'Cuarto Menguante' },
+];
+const ECLIPSES_BANK = [
+  { pregunta:'¿Qué pasa en un eclipse de Sol?', correcta:'La Luna se pone entre el Sol y la Tierra', opts:['La Tierra se pone entre el Sol y la Luna','El Sol desaparece para siempre','La Luna se acerca mucho a la Tierra'] },
+  { pregunta:'¿Qué pasa en un eclipse de Luna?', correcta:'La Tierra se pone entre el Sol y la Luna', opts:['La Luna se pone entre el Sol y la Tierra','La Luna desaparece para siempre','El Sol se acerca mucho a la Tierra'] },
+];
+
+export function genPlantas3Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(PLANTA_NECESIDADES);
+    const distract = PLANTA_NECESIDADES.filter(function(p){ return p.parte!==item.parte; }).map(function(p){ return p.funcion; });
+    const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Qué hace la '+item.parte.toLowerCase()+' de la planta?</p>',
+      options: opts, correctValue: item.funcion, speakText: '¿Qué hace la '+item.parte+' de la planta?', cols:2, panel:true,
+      explain: 'La '+item.parte.toLowerCase()+' '+item.funcion.toLowerCase().charAt(0)+item.funcion.toLowerCase().slice(1)+'.',
+    };
+  }
+  if(roll<0.67){
+    let a = pick(CICLO_PLANTA_FLOR), b = pick(CICLO_PLANTA_FLOR);
+    while(b.label === a.label) b = pick(CICLO_PLANTA_FLOR);
+    const askBefore = Math.random()<0.5;
+    const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
+    const earlier = a.orden<b.orden ? a : b, later = a.orden<b.orden ? b : a;
+    return {
+      promptHTML: '<p class="prompt-hint">'+(askBefore ? '¿Qué paso viene ANTES en el ciclo de una planta con flor?' : '¿Qué paso viene DESPUÉS en el ciclo de una planta con flor?')+'</p>',
+      options: opts, correctValue: askBefore ? earlier.label : later.label, speakText: askBefore ? '¿Qué viene antes?' : '¿Qué viene después?', cols:2, panel:true,
+      explain: earlier.label+' viene antes que '+later.label+' en el ciclo de vida de la planta.',
+    };
+  }
+  const item = pick(IMPORTANCIA_PLANTAS_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}
+
+export function genAlimentacion3Round(){
+  const bank = Math.random()<0.5 ? ALIMENTOS_SALUDABLES_BANK : HIGIENE_ALIMENTOS_BANK;
+  const item = pick(bank);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genLuzSonido3Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(LUZ_BANK);
+    const opts = shuffle([{label:'NATURAL', value:'NATURAL'},{label:'ARTIFICIAL', value:'ARTIFICIAL'}]);
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Es una fuente de luz natural o artificial?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.label, cols:2, panel:true,
+      explain: item.label+' es una fuente de luz <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  const bank = roll<0.67 ? PROPIEDADES_LUZ_BANK : PROPIEDADES_SONIDO_BANK;
+  const item = pick(bank);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
+    options: opts, correctValue: item.v, speakText: item.texto, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genSistemaSolar3Round(){
+  if(Math.random()<0.5){
+    const item = pick(SISTEMA_SOLAR_BANK);
+    const distract = SISTEMA_SOLAR_BANK.filter(function(s){ return s.label!==item.label; }).map(function(s){ return s.label; });
+    const opts = shuffle([item.label].concat(distract)).map(function(l){ return {label:l, value:l}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.desc+'</p>',
+      options: opts, correctValue: item.label, speakText: item.desc, cols:2, kind:'word', panel:true,
+      explain: 'Esa descripción corresponde a '+item.label.toLowerCase()+'.',
+    };
+  }
+  const item = pick(ROTACION_TRASLACION_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genLunaEclipses3Round(){
+  if(Math.random()<0.5){
+    let a = pick(FASES_LUNA), b = pick(FASES_LUNA);
+    while(b.label === a.label) b = pick(FASES_LUNA);
+    const askA = Math.random()<0.5;
+    const target = askA ? a : b;
+    const distract = FASES_LUNA.filter(function(f){ return f.label!==target.label; }).map(function(f){ return f.label; });
+    const opts = shuffle([target.label].concat(distract)).map(function(l){ return {label:l, value:l}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+target.emoji+'</span><p class="prompt-hint">¿Qué fase de la Luna es esta?</p>',
+      options: opts, correctValue: target.label, speakText: '¿Qué fase de la Luna es esta?', cols:4, kind:'word',
+      explain: 'Esta fase se llama <b>'+target.label+'</b>.',
+    };
+  }
+  const item = pick(ECLIPSES_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}
+
 const VERTEBRADOS_BANK = [
   { emoji:'🐶', label:'PERRO', tipo:'MAMÍFERO' },
   { emoji:'🐱', label:'GATO', tipo:'MAMÍFERO' },

@@ -121,13 +121,17 @@ export function lineTypeSVG(tipo, size){
    Matemático) — mismo enfoque que shapeSVG() para las figuras 2D. */
 export function solid3DSVG(id, size){
   size = size || 100;
-  const colors = { cubo:'#7C6FF0', esfera:'#FF6B6B', cono:'#FFB627', cilindro:'#12A594', paralelepipedo:'#0EA5A0' };
+  const colors = { cubo:'#7C6FF0', esfera:'#FF6B6B', cono:'#FFB627', cilindro:'#12A594', paralelepipedo:'#0EA5A0', piramide:'#E63946' };
   const fill = colors[id] || '#12A594';
   let shape = '';
   if(id==='paralelepipedo'){
     shape = '<polygon points="14,45 50,32 92,42 92,72 50,85 14,75" fill="'+fill+'"/>'+
       '<polygon points="14,45 50,58 50,85 14,75" fill="rgba(0,0,0,0.18)"/>'+
       '<polygon points="50,58 92,42 92,72 50,85" fill="rgba(255,255,255,0.18)"/>';
+  }else if(id==='piramide'){
+    shape = '<polygon points="50,8 88,78 12,78" fill="'+fill+'"/>'+
+      '<polygon points="50,8 50,78 12,78" fill="rgba(0,0,0,0.18)"/>'+
+      '<polygon points="50,8 88,78 50,78" fill="rgba(255,255,255,0.15)"/>';
   }else if(id==='esfera'){
     shape = '<circle cx="50" cy="50" r="40" fill="'+fill+'"/>'+
       '<ellipse cx="50" cy="58" rx="28" ry="10" fill="rgba(0,0,0,0.12)"/>'+

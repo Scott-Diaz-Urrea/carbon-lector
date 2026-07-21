@@ -421,7 +421,68 @@ fuera y por qué en el comentario inicial de su archivo `content/<asignatura>.js
   uso seguro de internet) — OA05-07. Fuera: OA01-04 (diseñar/elaborar/evaluar un
   objeto tecnológico propio — producción práctica).
 
-### 3° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
+### 3° Básico — ✅ completo (27 módulos, las 9 asignaturas)
+Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
+curriculum/1o-6o-basico/<asignatura>/3-basico. Cambio de eje temático notable en
+algunas asignaturas respecto a 1°-2° básico (ver detalle abajo) — no es continuidad
+directa de los módulos anteriores, sino contenido nuevo del currículum oficial.
+
+- **Lenguaje** (4): Vocabulario y Diccionario (claves de contexto, orden alfabético —
+  OA10-11), Pronombres (OA21), Comprensión Avanzada (inferencia, textos no
+  literarios — OA02,04,06), Lenguaje Figurado (comparaciones/metáforas simples —
+  OA05). Fuera: OA01,03,07-09 (fluidez, repertorio literario, gusto por la lectura,
+  biblioteca, investigación propia), OA12-19,22 (producción escrita, ortografía
+  general) y OA23-31 (comunicación oral/teatro).
+- **Matemática** (5): División (OA09), Fracciones (unitarias comunes, con barra de
+  fracción SVG — OA11), Geometría 3D (caras/vértices, agrega `piramide` a
+  `solid3DSVG` — OA15-16), Medición Avanzada (perímetro, peso g/kg, calendario,
+  hora con cuartos de hora — OA19-22), Datos y Gráficos (pictogramas simples —
+  OA23-26). Fuera: OA01-08,10 (cálculo mental, valor posicional — ya cubiertos en
+  años anteriores), OA12-14,17-18 (patrones/álgebra, ángulos/simetría — no
+  implementados aún por alcance).
+- **Ciencias Naturales** (5): Las Plantas (necesidades, ciclo de vida con flor,
+  importancia — OA01,03-04), Alimentación y Salud (clasificación de alimentos,
+  higiene — OA06-07), Luz y Sonido (fuentes naturales/artificiales, propiedades —
+  OA08-10), Sistema Solar (componentes, rotación/traslación — OA11-12), Fases de la
+  Luna (fases, eclipses — OA13). Fuera: OA02 (variedad de cultivos por región —
+  riesgo de datos regionales imprecisos) y OA05 (diseñar instrumentos de reciclaje,
+  producción propia).
+- **Historia, Geografía y Cs. Sociales** (3): Grecia y Roma Antigua (legado bien
+  documentado y no controvertido: democracia, Juegos Olímpicos, teatro, caminos,
+  acueductos, leyes — OA01-02), Geografía Mundial (continentes/océanos, zonas
+  climáticas — OA06-08), Formación Ciudadana III (deberes, honestidad, derechos de
+  los niños — OA11-14). **Cambio de eje importante**: 3° básico deja el "entorno
+  cercano" de 1°-2° básico y pasa a civilizaciones antiguas + geografía física
+  mundial. Fuera: OA03-05,09-10 (explicar cómo distintas culturas resolvieron
+  necesidades, comparar modos de vida en detalle, investigación propia, factores
+  geográficos de civilizaciones — más profundidad histórica de la que da la sola
+  lista de OA) y OA15-16 (investigar instituciones, proyectos escolares).
+- **Artes Visuales** (1): Color Expresivo (asociación color-emoción, convención
+  pedagógica estándar en educación artística infantil — OA02). Fuera: OA01,03
+  (producción propia) y OA04-05 (opinión personal, subjetivo).
+- **Música** (1): Tempo y Forma Musical (rápido/lento/moderado, forma A-AB-ABA —
+  OA01, cubre lo que ni 1° ni 2° básico cubrieron de este eje). Fuera: OA02-06,08
+  (expresión subjetiva, repertorio, cantar/tocar, improvisar, presentar,
+  autoevaluación) y OA07 (reflexión personal).
+- **Educación Física y Salud** (3): Mi Cuerpo en Acción III, Vida Activa y
+  Saludable III, Juego Limpio y Seguridad III — OA07-11. Fuera: OA01-06
+  (habilidades motrices, juegos predeportivos, entornos, danza — requieren
+  práctica física real).
+- **Orientación** (4): Mis Emociones III (estrategias de manejo emocional, no solo
+  identificarlas — OA02), Autocuidado y Prevención (higiene, cuerpo e intimidad,
+  datos personales, y — siguiendo el texto del propio OA — una mención
+  age-appropriate y no alarmista sobre pedir ayuda ante secretos incómodos y decir
+  que no ante drogas/alcohol, mismo tono preventivo que usan los programas de
+  "Habilidades para la Vida" en colegios chilenos — OA04), Buena Convivencia III
+  (empatía, no discriminación, resolución de conflictos por escenario — OA05-06),
+  Hábitos de Trabajo Escolar III (OA08). Fuera: OA01,03,07 (autodescripción,
+  sexualidad como vínculo afectivo, participación en la organización del curso —
+  subjetivos o de desarrollo personal profundo).
+- **Tecnología** (1): Tecnología Digital III (software de presentación, procesador
+  de textos, uso seguro de internet y buscadores — OA05-07). Fuera: OA01-04
+  (diseñar/planificar/elaborar/evaluar un objeto tecnológico propio).
+
+### 4° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false`. Para desbloquear un año, cambiar su
 `open` a `true` Y crear su entrada correspondiente en `LENGUAJE_BY_GRADE` /
 `MATE_BY_GRADE` (si no existe una entrada, `renderComingSoonSubject()` se muestra
@@ -436,16 +497,23 @@ para esta iniciativa).
 
 1. ~~Completar 2° básico~~ — ✅ hecho, las 9 asignaturas completas (ver "Estado
    actual del contenido" arriba).
-2. **Siguiente:** extraer los OA de 3° básico de curriculumnacional.cl
-   (`curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/3-basico`, mismo
-   patrón que funcionó para 2° básico) para las 9 asignaturas, y repetir el patrón:
-   `<NOMBRE>_MODULES_G3`/`_POS_G3` en cada `content/<asignatura>.js`, agregar
-   `3: {...}` a cada `*_BY_GRADE` en `gradeContent.js`, registrar en `MC_GAMES`/
-   `MC_KEYS`, agregar estrellas en `state.js` y títulos en `rewards.js`. Luego
-   repetir para 4°, 5°, 6°, 7° y 8° básico en orden (7°-8° son parte de Educación
-   Básica en la trayectoria chilena actual, verificar la lista exacta de asignaturas
-   vigente para esos años en curriculumnacional.cl antes de asumir que es la misma
-   que 1°-6°, ya que podría incluir asignaturas nuevas como Inglés desde 5° básico).
+2. ~~Completar 3° básico~~ — ✅ hecho, las 9 asignaturas completas, 27 módulos
+   nuevos (ver "Estado actual del contenido" arriba). Nota de patrón confirmada en
+   3°: algunas asignaturas (notablemente Historia) cambian de eje temático
+   completo entre años (de "entorno cercano" a "civilizaciones antiguas"), así que
+   para cada año nuevo hay que investigar los OA reales en vez de asumir
+   continuidad temática con el año anterior.
+3. **Siguiente:** extraer los OA de 4° básico de curriculumnacional.cl
+   (`curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/4-basico`, mismo
+   patrón que funcionó para 2° y 3° básico) para las 9 asignaturas, y repetir el
+   patrón: `<NOMBRE>_MODULES_G4`/`_POS_G4` en cada `content/<asignatura>.js`,
+   agregar `4: {...}` a cada `*_BY_GRADE` en `gradeContent.js`, registrar en
+   `MC_GAMES`/`MC_KEYS`, agregar estrellas en `state.js` y títulos en
+   `rewards.js`. Luego repetir para 5°, 6°, 7° y 8° básico en orden (7°-8° son
+   parte de Educación Básica en la trayectoria chilena actual, verificar la lista
+   exacta de asignaturas vigente para esos años en curriculumnacional.cl antes de
+   asumir que es la misma que 1°-6°, ya que podría incluir asignaturas nuevas como
+   Inglés desde 5° básico).
 3. Una vez completa toda Educación Básica, definir con el usuario el mismo patrón
    para Educación Media (probablemente asignaturas distintas: Física/Química/
    Biología separadas, Filosofía, etc. — pedir la lista real antes de asumir) y

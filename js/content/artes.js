@@ -66,6 +66,35 @@ export const ARTES_MODULES_G2 = [
 ];
 export const ARTES_POS_G2 = [{x:50,y:50}];
 
+/* ---------------- Contenido Artes Visuales 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/artes-visuales/3-basico): AR03 OA02 -> Color Expresivo
+   (asociación color-emoción, convención pedagógica estándar en educación
+   artística infantil). Fuera: OA01,03 (producción propia) y OA04-05
+   (describir impresiones/preferencias personales, subjetivo). */
+export const ARTES_MODULES_G3 = [
+  {id:'colorexpresivo3', label:'Color Expresivo', open:true, key:'colorexpresivo3'},
+];
+export const ARTES_POS_G3 = [{x:50,y:50}];
+
+const COLOR_EXPRESIVO_BANK = [
+  { emocion:'ALEGRÍA', color:'AMARILLO' },
+  { emocion:'CALMA', color:'AZUL' },
+  { emocion:'ENERGÍA', color:'ROJO' },
+  { emocion:'FRESCURA', color:'VERDE' },
+];
+
+export function genColorExpresivo3Round(){
+  const item = pick(COLOR_EXPRESIVO_BANK);
+  const distract = COLOR_EXPRESIVO_BANK.filter(function(c){ return c.color!==item.color; }).map(function(c){ return c.color; });
+  const opts = shuffle([item.color].concat(distract)).map(function(c){ return {label:c, value:c}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Qué color usarías en un dibujo para expresar <b>'+item.emocion.toLowerCase()+'</b>?</p>',
+    options: opts, correctValue: item.color, speakText: '¿Qué color usarías para expresar '+item.emocion+'?', cols:4, kind:'word',
+    explain: 'El color <b>'+item.color.toLowerCase()+'</b> se usa frecuentemente en arte para expresar '+item.emocion.toLowerCase()+'.',
+  };
+}
+
 const LINEAS_G2_BANK = ['VERTICAL','HORIZONTAL','DIAGONAL','ESPIRAL','QUEBRADA'];
 const COLORES_PRIM_SEC = [
   { label:'ROJO', tipo:'PRIMARIO' },

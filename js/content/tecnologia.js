@@ -36,6 +36,34 @@ export const TECNOLOGIA_MODULES_G2 = [
 ];
 export const TECNOLOGIA_POS_G2 = [{x:48,y:50}];
 
+/* ---------------- Contenido Tecnología 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/tecnologia/3-basico): TE03 OA05-07 -> Tecnología Digital III
+   (software de presentación, procesador de textos, uso seguro de internet
+   y buscadores). Fuera OA01-04 (diseñar/planificar/elaborar/evaluar un
+   objeto tecnológico propio — producción práctica). */
+export const TECNOLOGIA_MODULES_G3 = [
+  {id:'tecdigital3', label:'Tecnología Digital III', open:true, key:'tecdigital3'},
+];
+export const TECNOLOGIA_POS_G3 = [{x:48,y:50}];
+
+const TEC_DIGITAL_3_BANK = [
+  { emoji:'📊', pregunta:'¿Para qué usarías un software de presentación?', correcta:'Para organizar y comunicar ideas a otras personas', opts:['Para escuchar música','Para cortar papel','Para hacer ejercicio'] },
+  { emoji:'⌨️', pregunta:'¿Qué puedes hacer con un procesador de textos?', correcta:'Crear, editar y dar formato a un documento', opts:['Tomar fotografías','Medir la temperatura','Escuchar canciones'] },
+  { emoji:'🔍', pregunta:'Al buscar información con un buscador de internet, ¿qué debes revisar?', correcta:'Que la fuente sea segura y confiable', opts:['Solo el primer resultado sin revisar','Nada, cualquier resultado sirve','El color de la página web'] },
+  { emoji:'🔐', pregunta:'¿Qué es importante hacer al extraer y guardar información de internet?', correcta:'Considerar la seguridad de la fuente', opts:['Compartir tu contraseña','Descargar cualquier archivo sin revisar','Ignorar las indicaciones del profesor'] },
+];
+
+export function genTecDigital3Round(){
+  const item = pick(TEC_DIGITAL_3_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}
+
 const TEC_DIGITAL_BANK = [
   { emoji:'🖌️', pregunta:'¿Para qué usarías un software de dibujo en el computador?', correcta:'Para crear y representar ideas con imágenes', opts:['Para escuchar música','Para cocinar una receta','Para hacer ejercicio'] },
   { emoji:'⌨️', pregunta:'¿Para qué sirve un procesador de textos?', correcta:'Para crear, editar y guardar información escrita', opts:['Para tomar fotografías','Para dibujar figuras 3D','Para escuchar canciones'] },

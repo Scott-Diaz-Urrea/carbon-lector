@@ -109,6 +109,14 @@ export const LENGUAJE_MODULES_G2 = [
 ];
 export const LENGUAJE_POS_G2 = [{x:22,y:84},{x:68,y:62},{x:24,y:40},{x:70,y:16}];
 
+export const LENGUAJE_MODULES_G3 = [
+  {id:'vocabdiccionario3', label:'Vocabulario y Diccionario', open:true, key:'vocabdiccionario3'},
+  {id:'pronombres3', label:'Pronombres', open:true, key:'pronombres3'},
+  {id:'comprension3', label:'Comprensión Avanzada', open:true, key:'comprension3'},
+  {id:'lenguajefigurado3', label:'Lenguaje Figurado', open:true, key:'lenguajefigurado3'},
+];
+export const LENGUAJE_POS_G3 = [{x:22,y:84},{x:68,y:62},{x:24,y:40},{x:70,y:16}];
+
 export function genVocalRound(){
   const item = pick(VOCAL_WORDS);
   const opts = shuffle(['A','E','I','O','U']).map(function(v){ return {label:v, value:v}; });
@@ -148,6 +156,102 @@ export function genComprensionRound(){
     speakText: item.text,
     cols: 4,
     explain: 'Vuelve a leer: "'+item.text+'" Ahí está la respuesta.',
+  };
+}
+
+/* ---------------- Contenido Lenguaje 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/lenguaje-comunicacion/3-basico):
+   OA10-11 -> Vocabulario y Diccionario (claves de contexto, orden alfabético) ·
+   OA21 -> Pronombres · OA02,04,06 -> Comprensión Avanzada (inferencia,
+   textos no literarios) · OA05 -> Lenguaje Figurado.
+   Quedan fuera OA01,03,07-09 (fluidez lectora, repertorio literario, gusto por
+   la lectura, biblioteca, investigación propia), OA12-19,22 (producción
+   escrita propia, ortografía general) y OA23-31 (comunicación oral/teatro,
+   ídem 1°-2° básico) por depender de desempeño real o ser actitudinales. */
+const VOCAB_CONTEXTO_BANK = [
+  { oracion:'El explorador atravesó la densa selva llena de árboles altísimos.', palabra:'DENSA', correcta:'Muy cerrada y con muchas plantas juntas', opts:['Muy abierta y vacía','Con poca luz de noche','Llena de agua'] },
+  { oracion:'La anciana caminaba con pasos cautelosos por el sendero resbaloso.', palabra:'CAUTELOSOS', correcta:'Con mucho cuidado', opts:['Muy rápidos y apurados','Bailando','Sin mirar el camino'] },
+  { oracion:'El perro parecía exhausto después de correr toda la tarde.', palabra:'EXHAUSTO', correcta:'Muy cansado', opts:['Muy feliz','Con hambre','Asustado'] },
+  { oracion:'El científico observó el fenómeno con gran asombro.', palabra:'ASOMBRO', correcta:'Sorpresa muy grande', opts:['Enojo','Aburrimiento','Tristeza'] },
+  { oracion:'La cueva era tan oscura que apenas podían vislumbrar el camino.', palabra:'VISLUMBRAR', correcta:'Ver algo de forma borrosa o apenas', opts:['Escuchar con atención','Correr muy rápido','Oler algo feo'] },
+];
+const ORDEN_ALFABETICO_BANK = [
+  { a:'CASA', b:'PERRO' }, { a:'ÁRBOL', b:'BOSQUE' }, { a:'LUNA', b:'SOL' },
+  { a:'GATO', b:'FLOR' }, { a:'MESA', b:'SILLA' }, { a:'AGUA', b:'FUEGO' },
+];
+const PRONOMBRES_BANK = [
+  { oracion:'María fue al parque.', sujeto:'María', pronombre:'ELLA' },
+  { oracion:'Juan y Pedro jugaron fútbol.', sujeto:'Juan y Pedro', pronombre:'ELLOS' },
+  { oracion:'El perro corrió por el jardín.', sujeto:'el perro', pronombre:'ÉL' },
+  { oracion:'Las niñas cantaron una canción.', sujeto:'las niñas', pronombre:'ELLAS' },
+  { oracion:'Tú ganaste el primer premio.', sujeto:'Tú', pronombre:'TÚ' },
+];
+const PRONOMBRE_POOL = ['YO','TÚ','ÉL','ELLA','ELLOS','ELLAS'];
+const COMPRENSION3_BANK = [
+  { text:'Cuando Ana llegó a la cima de la montaña después de horas de camino, sintió que todo el esfuerzo había valido la pena al ver el paisaje.', question:'¿Cómo se sintió Ana al llegar a la cima?', correct:'Orgullosa y satisfecha', opts:['Aburrida','Con mucho frío','Decepcionada'] },
+  { text:'Para hacer una cometa: consigue dos palos de madera, únelos en forma de cruz, cubre la estructura con papel resistente, y amárrale un hilo largo.', question:'¿Qué haces justo después de unir los palos en cruz?', correct:'Cubrir la estructura con papel', opts:['Amarrar el hilo','Conseguir los palos','Volar la cometa'] },
+  { text:'El volcán llevaba semanas liberando humo, así que los científicos decidieron evacuar a las familias que vivían cerca.', question:'¿Por qué decidieron evacuar a las familias?', correct:'Porque el volcán mostraba señales de actividad peligrosa', opts:['Porque hacía mucho frío','Porque querían mudarse de todas formas','Porque no había suficiente comida'] },
+  { text:'Sofía siempre soñó con ser astronauta. Estudió mucho, hizo entrenamientos difíciles, y finalmente logró viajar al espacio en una nave.', question:'¿Qué logró Sofía después de esforzarse mucho?', correct:'Viajar al espacio', opts:['Ganar un partido de fútbol','Aprender a cocinar','Pintar un cuadro'] },
+  { text:'Para cuidar una planta de interior: ponla cerca de una ventana con luz, riégala dos veces por semana, y quita las hojas secas.', question:'¿Qué debes hacer con las hojas secas?', correct:'Quitarlas', opts:['Regarlas más','Guardarlas en un cajón','Pintarlas de verde'] },
+  { text:'El equipo practicó todos los días durante un mes antes del campeonato, así que llegaron muy preparados al partido final.', question:'¿Por qué el equipo llegó preparado al partido final?', correct:'Porque practicaron todos los días durante un mes', opts:['Porque durmieron mucho la noche anterior','Porque el clima estaba bueno','Porque el árbitro los ayudó'] },
+];
+const LENGUAJE_FIGURADO_BANK = [
+  { frase:'Sus ojos brillaban como estrellas.', significado:'Sus ojos brillaban mucho, con mucha alegría', opts:['Sus ojos eran literalmente estrellas del cielo','Sus ojos estaban cerrados','Sus ojos eran de color amarillo'] },
+  { frase:'El niño corría como el viento.', significado:'El niño corría muy rápido', opts:['El niño se convirtió en viento','El niño estaba muy cansado','El niño caminaba muy lento'] },
+  { frase:'Tiene un corazón de oro.', significado:'Es una persona muy buena y generosa', opts:['Tiene un corazón hecho de oro de verdad','Es una persona muy rica','Le gusta el color dorado'] },
+  { frase:'Está en las nubes.', significado:'Está distraído, pensando en otra cosa', opts:['Está literalmente volando','Está muy contento','Está en un avión'] },
+  { frase:'Llovía a cántaros.', significado:'Llovía muchísimo, muy fuerte', opts:['Llovían cántaros de verdad del cielo','Llovía muy poquito','No llovía nada'] },
+];
+
+export function genVocabDiccionario3Round(){
+  if(Math.random()<0.5){
+    const item = pick(VOCAB_CONTEXTO_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.oracion+'</p><p class="prompt-hint">¿Qué significa la palabra "'+item.palabra+'" en esta oración?</p>',
+      options: opts, correctValue: item.correcta, speakText: item.oracion, cols:2, panel:true,
+      explain: '"'+item.palabra+'" significa "'+item.correcta.toLowerCase()+'".',
+    };
+  }
+  const item = pick(ORDEN_ALFABETICO_BANK);
+  const first = item.a < item.b ? item.a : item.b;
+  const opts = shuffle([{label:item.a, value:item.a},{label:item.b, value:item.b}]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Qué palabra va primero en el diccionario (orden alfabético)?</p>',
+    options: opts, correctValue: first, speakText: '¿Qué palabra va primero en el diccionario?', cols:2, kind:'word', panel:true,
+    explain: '<b>'+first+'</b> va primero en el orden alfabético.',
+  };
+}
+
+export function genPronombres3Round(){
+  const item = pick(PRONOMBRES_BANK);
+  const distract = shuffle(PRONOMBRE_POOL.filter(function(p){ return p!==item.pronombre; })).slice(0,3);
+  const opts = shuffle([item.pronombre].concat(distract)).map(function(p){ return {label:p, value:p}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.oracion+'</p><p class="prompt-hint">¿Qué pronombre reemplaza a "'+item.sujeto+'"?</p>',
+    options: opts, correctValue: item.pronombre, speakText: item.oracion, cols:4, kind:'word',
+    explain: '"'+item.sujeto+'" se reemplaza por el pronombre <b>'+item.pronombre+'</b>.',
+  };
+}
+
+export function genComprension3Round(){
+  const item = pick(COMPRENSION3_BANK);
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
+    explain: item.correct+' — esa es la respuesta correcta según el texto.',
+  };
+}
+
+export function genLenguajeFigurado3Round(){
+  const item = pick(LENGUAJE_FIGURADO_BANK);
+  const opts = shuffle([item.significado].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">"'+item.frase+'"</p><p class="prompt-hint">¿Qué significa esta frase?</p>',
+    options: opts, correctValue: item.significado, speakText: item.frase, cols:2, panel:true,
+    explain: '"'+item.frase+'" significa: '+item.significado.toLowerCase()+'.',
   };
 }
 

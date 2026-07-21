@@ -175,35 +175,58 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   imprenta MAYÚSCULA, imprenta minúscula, manuscrita MAYÚSCULA y manuscrita
   minúscula — pedido explícito del usuario para que la práctica de escritura no
   se limite a un solo estilo de letra. Imprenta usa Baloo 2 (la fuente de
-  siempre); manuscrita usa **Playwrite CL**, una tercera fuente de Google
-  Fonts agregada solo para esto (mismo mecanismo CDN ya aprobado para Baloo 2/
-  Quicksand, ver "Stack técnico"). Playwrite CL no es una cursiva decorativa
-  genérica: es la fuente que Google/TypeTogether diseñaron específicamente
-  para modelar la "letra ligada" que se enseña en las escuelas chilenas (parte
-  de la familia Playwrite, con una variante distinta por país/currículum —
-  se eligió la variante "CL" en vez de una cursiva genérica tipo Caveat
-  después de que el usuario señalara que las formas de las letras deben
-  coincidir con el modelo real de caligrafía escolar chilena, no solo "verse
-  cursivas"). Solo viene en un peso (400, el más oscuro disponible en esta
-  familia). `guide`
-  en `initTraceCanvas()` ahora acepta `{text, styleId}` además del string plano
-  (compatibilidad hacia atrás: un string sigue dibujándose en imprenta
+  siempre). Manuscrita minúscula usa **Playwrite CL**, una tercera fuente de
+  Google Fonts agregada solo para esto (mismo mecanismo CDN ya aprobado para
+  Baloo 2/Quicksand, ver "Stack técnico") — es la fuente que Google/TypeTogether
+  diseñaron específicamente para modelar la "letra ligada" que se enseña en las
+  escuelas chilenas (familia Playwrite, con una variante por país), y su
+  minúscula es fiel a ese modelo real.
+  **Manuscrita MAYÚSCULA usa Baloo 2, NO Playwrite CL** (misma fuente que
+  imprenta-mayus) — decisión tomada tras pedirle al usuario que confirmara
+  después de que señalara que las mayúsculas de Playwrite CL "estaban
+  erradas": investigando la ficha oficial del tipo en Google Fonts se
+  confirmó que el diseño por defecto de Playwrite CL mezcla mayúsculas
+  "simples" (A, N — se ven como una minúscula agrandada) con mayúsculas
+  "decorativas" muy ornamentadas (Q, T, Z — difíciles de leer para un niño de
+  5-6 años); TypeTogether documenta esa mezcla como característica
+  intencional del diseño, no un bug, y no hay forma vía CSS de pedir la
+  variante de mayúscula simplificada (se probaron los stylistic sets ss01-09
+  y character variants cv01-10 sin ningún efecto — la versión que sirve
+  Google Fonts vía CDN no expone esos alternates). Además, el modelo real que
+  usan los cuadernos de caligrafía chilenos más comunes (Cuadernos Rubio,
+  Santillana) es híbrido: minúscula ligada + MAYÚSCULA de imprenta sin unir,
+  no la mayúscula cursiva ornamentada — así que Baloo 2 para la mayúscula
+  manuscrita es a la vez más legible y más fiel a lo que de verdad se enseña
+  en la sala. Como esto hace que "Manuscrita MAYÚSCULA" se vea idéntica a
+  "Imprenta MAYÚSCULA", `styleNote(styleId)` (también en `traza.js`) genera
+  una aclaración de una línea ("En letra ligada las mayúsculas se escriben
+  igual que en imprenta...") que "Escribe tu Nombre" y "Caligrafía" muestran
+  bajo el selector — sin ella, la coincidencia visual se leería como un bug
+  de la app en vez de una decisión pedagógica. Para dígitos (que no tienen
+  mayús/minús) el estilo "Manuscrita" del cuaderno de Caligrafía usa el id
+  `manuscrita-minus` en vez de `manuscrita-mayus` — precisamente para
+  seguir apuntando a la cursiva real de Playwrite CL y no heredar el cambio
+  a Baloo 2 que solo aplica a letras.
+  `guide` en `initTraceCanvas()` acepta `{text, styleId}` además del string
+  plano (compatibilidad hacia atrás: un string sigue dibujándose en imprenta
   MAYÚSCULA, el look original) y del objeto `{shape}` para grafomotricidad.
   Como una fuente recién solicitada puede no estar descargada en el primer
   `fillText()` (se dibuja con la fuente de respaldo del navegador mientras
-  carga), `initTraceCanvas()` vuelve a dibujar la guía una vez que
-  `document.fonts.ready` se resuelve. Cada llamada a `initTraceCanvas()` clona
-  y reemplaza el `<canvas>` en el DOM (en vez de reutilizar el nodo existente)
-  para descartar los listeners de pointerdown/move/up de una llamada anterior
-  — necesario porque "Escribe tu Nombre" ahora deja al niño cambiar de estilo
-  sin re-renderizar toda la pantalla, y sin este descarte los listeners se
+  carga, y `document.fonts.ready` no es una señal confiable para saber cuándo
+  terminó — un `<canvas>` no siempre cuenta como "necesito esta fuente" a
+  tiempo para ese promise), `initTraceCanvas()` pide la carga explícita de la
+  fuente puntual vía `document.fonts.load()`/`check()` antes de dibujar, y
+  además el módulo precarga las 4 variantes de `TYPO_STYLES` apenas se
+  importa. Cada llamada a `initTraceCanvas()` clona y reemplaza el `<canvas>`
+  en el DOM (en vez de reutilizar el nodo existente) para descartar los
+  listeners de pointerdown/move/up de una llamada anterior — necesario
+  porque "Escribe tu Nombre" ahora deja al niño cambiar de estilo sin
+  re-renderizar toda la pantalla, y sin este descarte los listeners se
   acumularían uno por cada cambio de estilo. "Escribe tu Nombre" agrega un
   selector de 4 chips (`.typo-selector`/`.typo-chip` en `styles.css`) para
   elegir el estilo; "Caligrafía" practica las 5 vocales en las 4 tipografías y
-  los números 1-5 en 2 (imprenta/manuscrita — un dígito no tiene mayús/minús,
-  así que solo se ofrecen las variantes "-mayus" de cada familia), por lo que
-  el cuaderno pasó de 18 a 38 hojas (8 trazos básicos + 5×4 vocales + 5×2
-  números).
+  los números 1-5 en 2 (imprenta/manuscrita), por lo que el cuaderno pasó de
+  18 a 38 hojas (8 trazos básicos + 5×4 vocales + 5×2 números).
 - **Jerarquía de pantallas:** `home` → `etapaMap` (Parvularia/Básica/Media/EPJA) →
   `gradeMap` (islas 1°-8° básico, `selectGrade(id)` guarda `state.currentGrade`) →
   `subjectMap` (lista de asignaturas, lee `state.currentGrade`) →

@@ -1,4 +1,4 @@
-import { renderTraceCanvas, initTraceCanvas, TYPO_STYLES } from './traza.js';
+import { renderTraceCanvas, initTraceCanvas, TYPO_STYLES, styleNote } from './traza.js';
 import { showResult } from '../rewards.js';
 
 /* Módulo "Caligrafía" — núcleo Lenguaje Verbal, Educación Parvularia NT
@@ -30,7 +30,14 @@ const SHAPE_HOJAS = [
 
 const VOCALES = ['A','E','I','O','U'];
 const NUMEROS = ['1','2','3','4','5'];
-const NUMERO_STYLES = TYPO_STYLES.filter(function(s){ return s.id==='imprenta-mayus' || s.id==='manuscrita-mayus'; });
+/* Para dígitos se usa 'manuscrita-minus' (no 'manuscrita-mayus') a propósito:
+   desde que "Manuscrita MAYÚSCULA" pasó a usar Baloo 2 (ver traza.js, por
+   la mezcla de mayúsculas simples/decorativas de Playwrite CL), el único
+   estilo que sigue apuntando a la cursiva real de Playwrite CL es
+   'manuscrita-minus' — y como un dígito no tiene mayús/minús, el
+   case-transform ahí es un no-op, así que sigue mostrando el número en
+   cursiva real sin verse afectado por el cambio de las letras. */
+const NUMERO_STYLES = TYPO_STYLES.filter(function(s){ return s.id==='imprenta-mayus' || s.id==='manuscrita-minus'; });
 
 const VOCAL_HOJAS = [];
 VOCALES.forEach(function(v){
@@ -73,6 +80,7 @@ function drawHoja(){
       '<div class="progress-num">'+(cal.hoja+1)+'/'+cal.total+'</div>'+
     '</div>'+
     '<p class="section-sub">'+h.titulo+' — repasa la guía con el dedo o el mouse.</p>'+
+    '<p class="typo-note">'+styleNote(h.styleId)+'</p>'+
     '<div class="prompt-card">'+
       renderTraceCanvas('caligrafia-canvas', {height:190})+
     '</div>'+

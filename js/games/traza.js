@@ -18,23 +18,47 @@
 
 /* Cuatro tipografías de práctica: imprenta (letra de imprenta/molde, la que
    se enseña primero en NT) y manuscrita (letra ligada/cursiva) en
-   mayúscula/minúscula. Manuscrita usa la fuente Google "Playwrite CL" —
-   NO es una cursiva genérica: es la fuente que Google diseñó específicamente
-   para modelar la "letra ligada" que se enseña en las escuelas chilenas
-   (parte de la familia Playwrite, con una variante por país). Se prefirió
-   esta sobre una cursiva decorativa genérica (p.ej. Caveat) porque el
-   usuario señaló que las formas de las letras deben coincidir con el
-   modelo real de caligrafía escolar, no solo "verse cursivas". Solo viene
-   en un peso (400, el más oscuro disponible en esta familia). */
+   mayúscula/minúscula. La minúscula manuscrita usa la fuente Google
+   "Playwrite CL" — no es una cursiva genérica: es la fuente que Google/
+   TypeTogether diseñaron específicamente para modelar la "letra ligada"
+   que se enseña en las escuelas chilenas (parte de la familia Playwrite,
+   con una variante por país), y su minúscula es fiel a ese modelo. Solo
+   viene en un peso (400, el más oscuro disponible en esta familia).
+
+   La MAYÚSCULA manuscrita, en cambio, usa Baloo 2 (la misma forma que
+   imprenta-mayus), NO Playwrite CL. Esto no es un descuido: el diseño por
+   defecto de Playwrite CL mezcla mayúsculas "simples" (A, N — se ven casi
+   como una minúscula agrandada) con mayúsculas "decorativas" muy
+   ornamentadas (Q, T, Z — trazos poco reconocibles para un niño de 5-6
+   años, confirmado revisando la ficha oficial del tipo en Google Fonts:
+   TypeTogether documenta esa mezcla como una característica intencional
+   del diseño, no un bug). No existe una forma vía CSS de pedir la
+   variante de mayúscula simplificada del mismo tipo (se probaron los
+   OpenType stylistic sets ss01-09 y character variants cv01-10 sin efecto
+   — la versión que sirve Google Fonts vía CDN no expone esos alternates).
+   Además, el modelo real que usan los cuadernos de caligrafía chilenos más
+   comunes (Cuadernos Rubio, Santillana) es híbrido: minúscula ligada +
+   MAYÚSCULA de imprenta sin unir, no la mayúscula cursiva ornamentada — así
+   que usar Baloo 2 para la mayúscula manuscrita es a la vez más legible
+   para un niño y más fiel a lo que de verdad se enseña en la sala. */
 export const TYPO_STYLES = [
   { id:'imprenta-mayus', label:'Imprenta MAYÚSCULA', case:'upper', family:'"Baloo 2", system-ui, sans-serif', weight:700, sizeMult:1.15 },
   { id:'imprenta-minus', label:'imprenta minúscula', case:'lower', family:'"Baloo 2", system-ui, sans-serif', weight:700, sizeMult:1.15 },
-  { id:'manuscrita-mayus', label:'Manuscrita MAYÚSCULA', case:'upper', family:'"Playwrite CL", cursive', weight:400, sizeMult:1.5 },
+  { id:'manuscrita-mayus', label:'Manuscrita MAYÚSCULA', case:'upper', family:'"Baloo 2", system-ui, sans-serif', weight:700, sizeMult:1.15 },
   { id:'manuscrita-minus', label:'manuscrita minúscula', case:'lower', family:'"Playwrite CL", cursive', weight:400, sizeMult:1.5 },
 ];
 const DEFAULT_STYLE_ID = 'imprenta-mayus';
 export function typoStyle(id){
   return TYPO_STYLES.filter(function(s){ return s.id===id; })[0] || TYPO_STYLES[0];
+}
+
+/* La guía de "Manuscrita MAYÚSCULA" se ve idéntica a "Imprenta MAYÚSCULA"
+   (ambas usan Baloo 2, ver comentario junto a TYPO_STYLES) — sin esta nota
+   se vería como un error de la app en vez de una decisión pedagógica. */
+export function styleNote(styleId){
+  return styleId === 'manuscrita-mayus'
+    ? 'En letra ligada las mayúsculas se escriben igual que en imprenta — por eso se ven iguales.'
+    : '';
 }
 
 /* document.fonts.ready no es confiable para saber cuándo una fuente

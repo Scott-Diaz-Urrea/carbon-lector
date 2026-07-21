@@ -1,4 +1,4 @@
-import { renderTraceCanvas, initTraceCanvas, TYPO_STYLES } from './traza.js';
+import { renderTraceCanvas, initTraceCanvas, TYPO_STYLES, styleNote } from './traza.js';
 import { state } from '../state.js';
 import { showResult } from '../rewards.js';
 
@@ -31,16 +31,19 @@ export function initEscribeNombreGame(){
         return '<button type="button" class="typo-chip'+(s.id===currentStyleId?' active':'')+'" data-style="'+s.id+'">'+s.label+'</button>';
       }).join('')+
     '</div>'+
+    '<p class="typo-note" id="escribenombre-typo-note">'+styleNote(currentStyleId)+'</p>'+
     '<div class="prompt-card">'+
       renderTraceCanvas('escribenombre-canvas', {height:200})+
     '</div>'+
     '<button class="cta-btn" id="escribenombre-done-btn">¡Ya terminé! 🎉</button>';
   initTraceCanvas('escribenombre-canvas', {text:name, styleId:currentStyleId});
   const chips = el.querySelectorAll('.typo-chip');
+  const noteEl = document.getElementById('escribenombre-typo-note');
   chips.forEach(function(btn){
     btn.onclick = function(){
       currentStyleId = btn.dataset.style;
       chips.forEach(function(c){ c.classList.toggle('active', c===btn); });
+      if(noteEl) noteEl.textContent = styleNote(currentStyleId);
       initTraceCanvas('escribenombre-canvas', {text:name, styleId:currentStyleId});
     };
   });

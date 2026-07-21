@@ -6,12 +6,51 @@
    lápiz óptico (Pointer Events unifica los tres). No hay puntaje — es un
    ejercicio motor de pre-escritura, no una evaluación.
 
-   `guide` acepta dos formas:
-   - un string ('MAYA', 'A', '3') -> se dibuja como texto grande, letra por
-     letra o número, para trazar nombres, vocales o números.
+   `guide` acepta tres formas:
+   - un string ('MAYA', 'A', '3') -> texto grande en el estilo por defecto
+     ('imprenta-mayus', el mismo look de siempre) — mantiene compatibilidad
+     con el código anterior a la introducción de TYPO_STYLES.
+   - un objeto {text:'MAYA', styleId:'imprenta-mayus'} -> texto grande en
+     una tipografía específica (ver TYPO_STYLES abajo).
    - un objeto {shape:'horizontal'|'vertical'|'diagonal'|'curva'|'zigzag'|
      'ondas'|'circulo'|'espiral'} -> se dibuja un trazo básico de
      grafomotricidad (líneas y formas previas a la escritura de letras). */
+
+/* Cuatro tipografías de práctica: imprenta (letra de imprenta/molde, la que
+   se enseña primero en NT) y manuscrita (letra ligada/cursiva) en
+   mayúscula/minúscula. Manuscrita usa la fuente Google "Playwrite CL" —
+   NO es una cursiva genérica: es la fuente que Google diseñó específicamente
+   para modelar la "letra ligada" que se enseña en las escuelas chilenas
+   (parte de la familia Playwrite, con una variante por país). Se prefirió
+   esta sobre una cursiva decorativa genérica (p.ej. Caveat) porque el
+   usuario señaló que las formas de las letras deben coincidir con el
+   modelo real de caligrafía escolar, no solo "verse cursivas". Solo viene
+   en un peso (400, el más oscuro disponible en esta familia). */
+export const TYPO_STYLES = [
+  { id:'imprenta-mayus', label:'Imprenta MAYÚSCULA', case:'upper', family:'"Baloo 2", system-ui, sans-serif', weight:700, sizeMult:1.15 },
+  { id:'imprenta-minus', label:'imprenta minúscula', case:'lower', family:'"Baloo 2", system-ui, sans-serif', weight:700, sizeMult:1.15 },
+  { id:'manuscrita-mayus', label:'Manuscrita MAYÚSCULA', case:'upper', family:'"Playwrite CL", cursive', weight:400, sizeMult:1.5 },
+  { id:'manuscrita-minus', label:'manuscrita minúscula', case:'lower', family:'"Playwrite CL", cursive', weight:400, sizeMult:1.5 },
+];
+const DEFAULT_STYLE_ID = 'imprenta-mayus';
+export function typoStyle(id){
+  return TYPO_STYLES.filter(function(s){ return s.id===id; })[0] || TYPO_STYLES[0];
+}
+
+/* document.fonts.ready no es confiable para saber cuándo una fuente
+   específica terminó de cargar: es una foto de "¿hay descargas en curso
+   ahora mismo?", y un <canvas> con fillText() no siempre cuenta como
+   "necesito esta fuente" a tiempo para que ese promise la espere. La forma
+   robusta es pedir la carga explícita de cada estilo con
+   document.fonts.load() y solo dibujar una vez resuelta esa promesa
+   puntual — por eso se dispara aquí, apenas se importa este módulo, para
+   que la descarga ya esté en curso (o lista) antes de que se abra la
+   primera hoja de Caligrafía o "Escribe tu Nombre". */
+if(typeof document !== 'undefined' && document.fonts){
+  TYPO_STYLES.forEach(function(s){
+    document.fonts.load(s.weight+' 48px '+s.family).catch(function(){});
+  });
+}
 
 export function renderTraceCanvas(canvasId, opts){
   opts = opts || {};
@@ -24,10 +63,13 @@ export function renderTraceCanvas(canvasId, opts){
   '</div>';
 }
 
-function drawGuideText(ctx, rect, text){
-  const label = (text || '').toUpperCase();
-  const fontSize = Math.max(28, Math.min(72, Math.round(rect.width / Math.max(3, label.length) * 1.15)));
-  ctx.font = '700 ' + fontSize + 'px "Baloo 2", system-ui, sans-serif';
+function drawGuideText(ctx, rect, text, styleId){
+  const style = typoStyle(styleId || DEFAULT_STYLE_ID);
+  const raw = String(text || '');
+  const label = style.case === 'lower' ? raw.toLowerCase() : raw.toUpperCase();
+  const maxSize = style.family.indexOf('Playwrite') !== -1 ? 108 : 72;
+  const fontSize = Math.max(28, Math.min(maxSize, Math.round(rect.width / Math.max(3, label.length) * style.sizeMult)));
+  ctx.font = style.weight + ' ' + fontSize + 'px ' + style.family;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = 'rgba(29,53,87,0.18)';
@@ -81,8 +123,14 @@ let cleanupPrevious = null;
 
 export function initTraceCanvas(canvasId, guide){
   if(cleanupPrevious){ cleanupPrevious(); cleanupPrevious = null; }
-  const canvas = document.getElementById(canvasId);
-  if(!canvas) return null;
+  const existing = document.getElementById(canvasId);
+  if(!existing) return null;
+  // Clona y reemplaza el <canvas> para descartar cualquier listener de
+  // pointerdown/move/up de una llamada anterior (p.ej. al cambiar de
+  // tipografía sin re-renderizar toda la pantalla) — evita que se acumulen
+  // listeners duplicados sobre el mismo elemento.
+  const canvas = existing.cloneNode(true);
+  existing.replaceWith(canvas);
   const ctx = canvas.getContext('2d');
 
   function drawGuide(){
@@ -94,8 +142,26 @@ export function initTraceCanvas(canvasId, guide){
     ctx.clearRect(0, 0, rect.width, rect.height);
     if(guide && typeof guide === 'object' && guide.shape){
       drawGuideShape(ctx, rect, guide.shape);
+    }else if(guide && typeof guide === 'object' && 'text' in guide){
+      drawGuideText(ctx, rect, guide.text, guide.styleId);
     }else{
-      drawGuideText(ctx, rect, String(guide || ''));
+      drawGuideText(ctx, rect, String(guide || ''), DEFAULT_STYLE_ID);
+    }
+  }
+
+  // Si la guía es texto y su fuente aún no está lista, la primera llamada a
+  // fillText() se dibuja con la fuente de respaldo del navegador — hay que
+  // pedir la carga explícita de esa fuente puntual y recién ahí volver a
+  // dibujar, o el trazo de la primera hoja de cada estilo se ve con la
+  // tipografía equivocada (ver comentario junto a TYPO_STYLES).
+  const textGuide = guide && typeof guide === 'object' && 'text' in guide;
+  if(document.fonts && textGuide){
+    const style = typoStyle(guide.styleId || DEFAULT_STYLE_ID);
+    const spec = style.weight+' 48px '+style.family;
+    if(!document.fonts.check(spec)){
+      document.fonts.load(spec).then(function(){
+        if(document.body.contains(canvas)) drawGuide();
+      }).catch(function(){});
     }
   }
 

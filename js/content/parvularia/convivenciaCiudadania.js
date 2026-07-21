@@ -25,6 +25,9 @@ const CONFLICTO_BANK = [
   { texto:'Quieres hablar pero otro niño también está hablando.', correcta:'Esperar tu turno y levantar la mano', malas:['Interrumpir gritando','Hablar más fuerte que el otro','Empujarlo para que se calle'] },
   { texto:'Un compañero rompió sin querer tu dibujo.', correcta:'Decirle cómo te sientes con calma', malas:['Pegarle','Romper su dibujo también','Gritarle'] },
   { texto:'Hay un niño nuevo en la sala y no lo conoces.', correcta:'Acercarte y preguntarle su nombre', malas:['Ignorarlo','Burlarte de él','Decirle que no puede jugar'] },
+  { texto:'Dos amigos quieren jugar a juegos distintos al mismo tiempo.', correcta:'Conversar y elegir un juego entre los dos, o turnarse', malas:['Pelear por imponer su juego','Jugar solo y dejar al otro de lado','Gritar hasta que el otro ceda'] },
+  { texto:'Un compañero te empujó sin querer al correr.', correcta:'Decirle con calma que tenga más cuidado', malas:['Empujarlo de vuelta más fuerte','Gritarle enojado','Dejar de ser su amigo'] },
+  { texto:'Quieres el columpio pero otro niño lo está usando.', correcta:'Esperar tu turno pacientemente', malas:['Bajarlo a la fuerza','Quitarle el columpio empujando','Llorar y no dejarlo jugar'] },
 ];
 
 const NORMAS_BANK = [
@@ -33,6 +36,9 @@ const NORMAS_BANK = [
   { correcta:'Pedir las cosas por favor y dar las gracias', incorrectas:['Quitar las cosas sin pedir','Exigir gritando','Ignorar a quien te ayuda'] },
   { correcta:'Hacer fila para esperar tu turno', incorrectas:['Pasar por encima de otros','Empujar para ser el primero','Saltarse la fila'] },
   { correcta:'Cuidar los materiales de la sala', incorrectas:['Romper los materiales a propósito','Rayar las mesas','Tirar los libros al suelo'] },
+  { correcta:'Levantar la mano para pedir la palabra', incorrectas:['Gritar para que te escuchen','Hablar sin esperar tu turno','Interrumpir a la profesora'] },
+  { correcta:'Lavarse las manos antes de comer', incorrectas:['Comer con las manos sucias','Tocar la comida de otros sin permiso','Ensuciar la mesa a propósito'] },
+  { correcta:'Ayudar a un compañero que se cayó', incorrectas:['Reírse de quien se cayó','Seguir jugando sin mirar','Empujarlo para que se levante rápido'] },
 ];
 
 const RIESGO_BANK = [
@@ -41,6 +47,9 @@ const RIESGO_BANK = [
   { correcta:'Jugar con fósforos o encendedores', seguras:['Pintar con lápices','Armar un rompecabezas','Jugar con bloques'] },
   { correcta:'Subirse a un mueble alto sin ayuda', seguras:['Sentarse a comer','Jugar en el patio','Dibujar en la mesa'] },
   { correcta:'Tomar remedios sin permiso de un adulto', seguras:['Tomar agua con un vaso','Comer fruta','Lavarse los dientes'] },
+  { correcta:'Correr cerca de una piscina', seguras:['Caminar despacio','Jugar en el pasto','Sentarse a dibujar'] },
+  { correcta:'Meter los dedos en un ventilador', seguras:['Aplaudir con las manos','Jugar con un peluche','Armar un rompecabezas'] },
+  { correcta:'Salir a la calle solo sin un adulto', seguras:['Jugar en el patio de la casa','Leer un cuento en el sillón','Dibujar en tu pieza'] },
 ];
 
 export function genResolucionNTRound(){

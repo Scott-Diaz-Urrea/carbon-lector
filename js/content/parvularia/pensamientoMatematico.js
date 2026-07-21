@@ -38,6 +38,9 @@ const CLASIFICAR_GRUPOS = [
   { atributo:'el tamaño', items:[{emoji:'🐘',val:'grande'},{emoji:'🦏',val:'grande'},{emoji:'🦒',val:'grande'},{emoji:'🐭',val:'pequeño'}] },
   { atributo:'dónde viven', items:[{emoji:'🐟',val:'agua'},{emoji:'🐬',val:'agua'},{emoji:'🐳',val:'agua'},{emoji:'🐶',val:'tierra'}] },
   { atributo:'cómo se mueven', items:[{emoji:'🐦',val:'vuelan'},{emoji:'🦋',val:'vuelan'},{emoji:'🐝',val:'vuelan'},{emoji:'🐌',val:'reptan'}] },
+  { atributo:'la temperatura', items:[{emoji:'🧊',val:'frío'},{emoji:'❄️',val:'frío'},{emoji:'🍦',val:'frío'},{emoji:'☀️',val:'caliente'}] },
+  { atributo:'la cantidad de patas', items:[{emoji:'🐦',val:'dos patas'},{emoji:'🐔',val:'dos patas'},{emoji:'🧑',val:'dos patas'},{emoji:'🐕',val:'cuatro patas'}] },
+  { atributo:'el tipo de alimento', items:[{emoji:'🍎',val:'fruta'},{emoji:'🍌',val:'fruta'},{emoji:'🍇',val:'fruta'},{emoji:'🥕',val:'verdura'}] },
 ];
 
 const POSICION_ESCENAS = [
@@ -47,6 +50,8 @@ const POSICION_ESCENAS = [
   { emoji:'🪱', texto:'El gusano está ___ de la tierra.', correct:'ABAJO' },
   { emoji:'🐿️', texto:'La ardilla salió ___ de su casa a jugar.', correct:'FUERA' },
   { emoji:'🧸', texto:'El osito está ___ de las dos almohadas.', correct:'ENTRE' },
+  { emoji:'🎈', texto:'El globo voló ___ hacia el cielo.', correct:'ARRIBA' },
+  { emoji:'🐇', texto:'El conejo se escondió ___ de la cueva.', correct:'DENTRO' },
 ];
 const POSICION_OPTS_POOL = ['ARRIBA','ABAJO','DENTRO','FUERA','ENTRE'];
 

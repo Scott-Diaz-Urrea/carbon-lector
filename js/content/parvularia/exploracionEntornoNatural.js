@@ -28,6 +28,10 @@ const AGUA_SOL_BANK = [
   { pregunta:'¿Qué nos da calor y luz durante el día?', correcta:'☀️ El sol', opts:['🌙 La luna','⭐ Las estrellas','☁️ Las nubes'] },
   { pregunta:'¿Qué necesitan las personas y animales para vivir?', correcta:'💧 Agua', opts:['🍬 Dulces','🎈 Globos','🧸 Juguetes'] },
   { pregunta:'¿De dónde viene la luz que ayuda a crecer a las plantas?', correcta:'☀️ El sol', opts:['💡 Una ampolleta','🕯️ Una vela','🔦 Una linterna'] },
+  { pregunta:'¿Qué le pasa a la ropa mojada si la dejamos al sol?', correcta:'☀️ Se seca', opts:['🌙 Se moja más','❄️ Se congela','🎈 Vuela'] },
+  { pregunta:'¿Qué le pasa a un helado si lo dejamos al sol?', correcta:'🍦 Se derrite', opts:['🪨 Se pone duro','🥶 Se congela más','📚 No le pasa nada'] },
+  { pregunta:'¿Dónde encontramos agua en la naturaleza?', correcta:'🌊 En el mar y los ríos', opts:['🌵 En el desierto seco','🔥 En el fuego','🪨 En las piedras'] },
+  { pregunta:'¿Qué debemos beber todos los días para estar sanos?', correcta:'💧 Agua', opts:['🥤 Solo bebidas','🍬 Solo dulces','☕ Solo café'] },
 ];
 
 const MATERIALES_NT_BANK = [
@@ -37,14 +41,22 @@ const MATERIALES_NT_BANK = [
   { objeto:'la corteza del árbol', emoji:'🌳', prop:'RUGOSO', opts:['LISO','TRANSPARENTE','LÍQUIDO'] },
   { objeto:'el agua', emoji:'💧', prop:'LÍQUIDO', opts:['RÍGIDO','RUGOSO','OPACO'] },
   { objeto:'el algodón', emoji:'🧶', prop:'SUAVE', opts:['RÍGIDO','TRANSPARENTE','RUGOSO'] },
+  { objeto:'el hielo', emoji:'🧊', prop:'FRÍO', opts:['CALIENTE','BLANDO','RUGOSO'] },
+  { objeto:'la arena', emoji:'🏖️', prop:'ÁSPERO', opts:['LISO','LÍQUIDO','TRANSPARENTE'] },
 ];
 
+/* Los animales solo se comparan con animales y las plantas solo con plantas
+   — antes un hongo (🍄, que no es una planta) aparecía como distractor en
+   la pregunta de "plantas del desierto", una categorización incorrecta. */
 const ANIMALES_PLANTAS_BANK = [
   { pregunta:'¿Cuál de estos animales vive en el agua?', correcto:'🐟', opts:['🐘','🦁','🐕'] },
   { pregunta:'¿Cuál de estos animales come solo plantas?', correcto:'🐰', opts:['🦁','🐺','🦈'] },
   { pregunta:'¿Cuál de estos animales es el más grande?', correcto:'🐘', opts:['🐭','🐦','🐝'] },
   { pregunta:'¿Cuál de estos animales tiene plumas?', correcto:'🐦', opts:['🐟','🐘','🐸'] },
-  { pregunta:'¿Cuál de estas plantas vive en el desierto?', correcto:'🌵', opts:['🌷','🌳','🍄'] },
+  { pregunta:'¿Cuál de estas plantas vive en el desierto?', correcto:'🌵', opts:['🌷','🌳','🌲'] },
+  { pregunta:'¿Cuál de estos animales tiene caparazón?', correcto:'🐢', opts:['🐦','🐘','🦋'] },
+  { pregunta:'¿Cuál de estos animales sale de un huevo?', correcto:'🐦', opts:['🐘','🦁','🐕'] },
+  { pregunta:'¿Cuál de estas plantas da flores de colores?', correcto:'🌷', opts:['🌵','🌳','🌲'] },
 ];
 
 const MARIPOSA_CICLO = [{ emoji:'🥚', label:'Huevo', orden:1 },{ emoji:'🐛', label:'Oruga', orden:2 },{ emoji:'🦋', label:'Mariposa', orden:3 }];
@@ -58,6 +70,9 @@ const AMBIENTE_BANK = [
   { correcta:'Apagar la luz cuando sales de una sala', incorrectas:['Dejar todas las luces prendidas','Dejar la tele prendida sin verla','Dejar el aire encendido todo el día'] },
   { correcta:'Plantar un árbol o una flor', incorrectas:['Arrancar las plantas del parque','Pisar las flores del jardín','Cortar árboles sin necesidad'] },
   { correcta:'Reutilizar una bolsa o envase', incorrectas:['Botar todo después de usarlo una vez','Comprar más de lo necesario','Dejar envases tirados en la calle'] },
+  { correcta:'Usar ambas caras de una hoja de papel', incorrectas:['Botar el papel después de una sola línea','Rayar las paredes','Quemar el papel'] },
+  { correcta:'Caminar o andar en bicicleta para distancias cortas', incorrectas:['Usar siempre el auto aunque sea muy cerca','Dejar el auto encendido sin necesidad','Ensuciar las calles'] },
+  { correcta:'Cuidar el agua y no dejarla correr sin usarla', incorrectas:['Dejar la manguera corriendo sola','Llenar piscinas todos los días sin necesidad','Desperdiciar el agua jugando'] },
 ];
 
 export function genAguaSolNTRound(){

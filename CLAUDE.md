@@ -170,6 +170,40 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   entrada inicial. Pedido explícito del usuario: fomentar que el trazado se sienta como
   dibujar, no como tipear, dado que es un hito real de pre-escritura en Transición
   (OA08 de Lenguaje Verbal, ver más abajo).
+- **Tipografías de trazado (`TYPO_STYLES` en `js/games/traza.js`):** además de las
+  formas de grafomotricidad, el texto guía se puede dibujar en 4 tipografías —
+  imprenta MAYÚSCULA, imprenta minúscula, manuscrita MAYÚSCULA y manuscrita
+  minúscula — pedido explícito del usuario para que la práctica de escritura no
+  se limite a un solo estilo de letra. Imprenta usa Baloo 2 (la fuente de
+  siempre); manuscrita usa **Playwrite CL**, una tercera fuente de Google
+  Fonts agregada solo para esto (mismo mecanismo CDN ya aprobado para Baloo 2/
+  Quicksand, ver "Stack técnico"). Playwrite CL no es una cursiva decorativa
+  genérica: es la fuente que Google/TypeTogether diseñaron específicamente
+  para modelar la "letra ligada" que se enseña en las escuelas chilenas (parte
+  de la familia Playwrite, con una variante distinta por país/currículum —
+  se eligió la variante "CL" en vez de una cursiva genérica tipo Caveat
+  después de que el usuario señalara que las formas de las letras deben
+  coincidir con el modelo real de caligrafía escolar chilena, no solo "verse
+  cursivas"). Solo viene en un peso (400, el más oscuro disponible en esta
+  familia). `guide`
+  en `initTraceCanvas()` ahora acepta `{text, styleId}` además del string plano
+  (compatibilidad hacia atrás: un string sigue dibujándose en imprenta
+  MAYÚSCULA, el look original) y del objeto `{shape}` para grafomotricidad.
+  Como una fuente recién solicitada puede no estar descargada en el primer
+  `fillText()` (se dibuja con la fuente de respaldo del navegador mientras
+  carga), `initTraceCanvas()` vuelve a dibujar la guía una vez que
+  `document.fonts.ready` se resuelve. Cada llamada a `initTraceCanvas()` clona
+  y reemplaza el `<canvas>` en el DOM (en vez de reutilizar el nodo existente)
+  para descartar los listeners de pointerdown/move/up de una llamada anterior
+  — necesario porque "Escribe tu Nombre" ahora deja al niño cambiar de estilo
+  sin re-renderizar toda la pantalla, y sin este descarte los listeners se
+  acumularían uno por cada cambio de estilo. "Escribe tu Nombre" agrega un
+  selector de 4 chips (`.typo-selector`/`.typo-chip` en `styles.css`) para
+  elegir el estilo; "Caligrafía" practica las 5 vocales en las 4 tipografías y
+  los números 1-5 en 2 (imprenta/manuscrita — un dígito no tiene mayús/minús,
+  así que solo se ofrecen las variantes "-mayus" de cada familia), por lo que
+  el cuaderno pasó de 18 a 38 hojas (8 trazos básicos + 5×4 vocales + 5×2
+  números).
 - **Jerarquía de pantallas:** `home` → `etapaMap` (Parvularia/Básica/Media/EPJA) →
   `gradeMap` (islas 1°-8° básico, `selectGrade(id)` guarda `state.currentGrade`) →
   `subjectMap` (lista de asignaturas, lee `state.currentGrade`) →

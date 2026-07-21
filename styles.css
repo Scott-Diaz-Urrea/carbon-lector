@@ -21,6 +21,7 @@
     --shadow-sm: 0 4px 12px rgba(29, 53, 87, 0.10);
     --font-display: 'Baloo 2', system-ui, sans-serif;
     --font-body: 'Quicksand', system-ui, sans-serif;
+    --font-script: 'Playwrite CL', cursive;
   }
 
   *{ box-sizing: border-box; }
@@ -551,6 +552,29 @@
   }
   .trace-actions{ margin-top: 10px; }
   .trace-actions .cta-btn.secondary{ width: 100%; font-size: 13.5px; padding: 12px 8px; }
+
+  .typo-selector{
+    display:flex; flex-wrap:wrap; gap:8px; margin: 4px 0 16px;
+  }
+  .typo-chip{
+    flex: 1 1 calc(50% - 8px);
+    border: 3px solid #E1EEEA;
+    background: var(--paper);
+    color: var(--ink-soft);
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 13px;
+    border-radius: var(--radius-sm);
+    padding: 10px 6px;
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease, background .15s ease;
+  }
+  .typo-chip.active{
+    border-color: var(--primary);
+    color: var(--primary-dark);
+    background: #F3FBF9;
+  }
+  .typo-chip:active{ transform: translateY(2px); }
 
   .confetti-piece{
     position:absolute; top:-12px; width:8px; height:14px; border-radius:2px;

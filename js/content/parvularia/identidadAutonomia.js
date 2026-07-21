@@ -42,6 +42,8 @@ const AUTOCUIDADO_BANK = [
   { pregunta:'¿Qué usas para peinarte el pelo?', correct:'🪮', opts:['🪥','🧼','🧦'] },
   { pregunta:'¿Qué ropa te pones cuando hace mucho frío?', correct:'🧥', opts:['🩳','🩱','🧢'] },
   { pregunta:'¿Qué te pones en la cabeza cuando hay mucho sol?', correct:'🧢', opts:['🧤','👟','🧣'] },
+  { pregunta:'¿Qué usas para bañarte?', correct:'🛁', opts:['🪥','🧢','🪮'] },
+  { pregunta:'¿Qué usas para protegerte los ojos cuando el sol está muy fuerte?', correct:'🕶️', opts:['🧣','🧤','👟'] },
 ];
 
 const SELLO_ALIMENTOS = ['🍬','🥤','🍰','🍟','🍭','🧁'];

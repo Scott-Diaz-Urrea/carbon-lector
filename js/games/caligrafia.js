@@ -1,17 +1,23 @@
-import { renderTraceCanvas, initTraceCanvas } from './traza.js';
+import { renderTraceCanvas, initTraceCanvas, TYPO_STYLES } from './traza.js';
 import { showResult } from '../rewards.js';
 
 /* Módulo "Caligrafía" — núcleo Lenguaje Verbal, Educación Parvularia NT
-   (OA08: representar gráficamente trazos, letras y signos). Cuaderno de
-   varias hojas de trazado en secuencia: primero los trazos básicos de
-   grafomotricidad (líneas, curvas, zigzag, ondas, círculo, espiral —
-   convención universal de pre-escritura, previa a las letras), luego las
-   5 vocales y los números del 1 al 5 (signos, igual que las letras, según
-   el propio texto de OA08). Juego a medida, no usa el motor de opción
-   múltiple: no hay respuesta correcta/incorrecta, siempre otorga 3
-   estrellas al terminar el cuaderno completo. */
+   (OA08: representar gráficamente trazos, letras y signos, "utilizando
+   diferentes recursos y soportes" — la base para practicar más de una
+   tipografía). Cuaderno de varias hojas de trazado en secuencia:
+   1) los 8 trazos básicos de grafomotricidad (líneas, curvas, zigzag,
+      ondas, círculo, espiral — convención universal de pre-escritura,
+      previa a las letras, sin tipografía propia),
+   2) las 5 vocales, cada una en las 4 tipografías de TYPO_STYLES
+      (imprenta/manuscrita × mayúscula/minúscula — ver traza.js),
+   3) los números del 1 al 5, cada uno en 2 estilos (imprenta/manuscrita;
+      no se repite mayús/minús porque un dígito no tiene esa distinción,
+      así que solo se ofrecen las variantes "-mayus" de cada familia).
+   Juego a medida, no usa el motor de opción múltiple: no hay respuesta
+   correcta/incorrecta, siempre otorga 3 estrellas al terminar el
+   cuaderno completo. */
 
-const HOJAS = [
+const SHAPE_HOJAS = [
   { tipo:'shape', valor:'horizontal', titulo:'Línea Horizontal' },
   { tipo:'shape', valor:'vertical', titulo:'Línea Vertical' },
   { tipo:'shape', valor:'diagonal', titulo:'Línea Diagonal' },
@@ -20,17 +26,28 @@ const HOJAS = [
   { tipo:'shape', valor:'ondas', titulo:'Ondas' },
   { tipo:'shape', valor:'circulo', titulo:'Círculo' },
   { tipo:'shape', valor:'espiral', titulo:'Espiral' },
-  { tipo:'text', valor:'A', titulo:'Vocal A' },
-  { tipo:'text', valor:'E', titulo:'Vocal E' },
-  { tipo:'text', valor:'I', titulo:'Vocal I' },
-  { tipo:'text', valor:'O', titulo:'Vocal O' },
-  { tipo:'text', valor:'U', titulo:'Vocal U' },
-  { tipo:'text', valor:'1', titulo:'Número 1' },
-  { tipo:'text', valor:'2', titulo:'Número 2' },
-  { tipo:'text', valor:'3', titulo:'Número 3' },
-  { tipo:'text', valor:'4', titulo:'Número 4' },
-  { tipo:'text', valor:'5', titulo:'Número 5' },
 ];
+
+const VOCALES = ['A','E','I','O','U'];
+const NUMEROS = ['1','2','3','4','5'];
+const NUMERO_STYLES = TYPO_STYLES.filter(function(s){ return s.id==='imprenta-mayus' || s.id==='manuscrita-mayus'; });
+
+const VOCAL_HOJAS = [];
+VOCALES.forEach(function(v){
+  TYPO_STYLES.forEach(function(s){
+    VOCAL_HOJAS.push({ tipo:'text', valor:v, styleId:s.id, titulo:'Vocal '+v+' — '+s.label });
+  });
+});
+
+const NUMERO_HOJAS = [];
+NUMEROS.forEach(function(n){
+  NUMERO_STYLES.forEach(function(s){
+    const familia = s.id.indexOf('manuscrita')===0 ? 'Manuscrita' : 'Imprenta';
+    NUMERO_HOJAS.push({ tipo:'text', valor:n, styleId:s.id, titulo:'Número '+n+' — '+familia });
+  });
+});
+
+const HOJAS = SHAPE_HOJAS.concat(VOCAL_HOJAS, NUMERO_HOJAS);
 
 let cal = null;
 
@@ -60,7 +77,7 @@ function drawHoja(){
       renderTraceCanvas('caligrafia-canvas', {height:190})+
     '</div>'+
     '<button class="cta-btn" id="caligrafia-next-btn">'+(esUltima ? '¡Terminar! 🎉' : 'Siguiente hoja ▶️')+'</button>';
-  initTraceCanvas('caligrafia-canvas', h.tipo === 'shape' ? {shape:h.valor} : h.valor);
+  initTraceCanvas('caligrafia-canvas', h.tipo === 'shape' ? {shape:h.valor} : {text:h.valor, styleId:h.styleId});
   document.getElementById('caligrafia-next-btn').onclick = function(){
     cal.hoja++;
     drawHoja();

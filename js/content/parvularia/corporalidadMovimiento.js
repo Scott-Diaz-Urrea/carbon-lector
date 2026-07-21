@@ -25,16 +25,26 @@ const ESCENAS_UBICACION_NT = [
   { emoji:'🌙', texto:'Dormimos durante la ___.', correct:'NOCHE' },
   { emoji:'📅', texto:'Vamos al jardín ___, no mañana.', correct:'HOY' },
   { emoji:'🌅', texto:'Si hoy es lunes, ___ será martes.', correct:'MAÑANA' },
+  { emoji:'🌆', texto:'Fuimos al parque ___, no hoy.', correct:'AYER' },
 ];
-const UBICACION_OPTS_POOL = ['ADELANTE','ATRÁS','AL LADO','DÍA','NOCHE','HOY','MAÑANA'];
+const UBICACION_OPTS_POOL = ['ADELANTE','ATRÁS','AL LADO','DÍA','NOCHE','HOY','MAÑANA','AYER'];
 
+/* SALTAR usa 🦘 (canguro) en vez de un emoji de persona: no existe un emoji
+   Unicode de "persona saltando" (🤸 es "voltereta/rueda", una acción
+   distinta) — el canguro es una asociación pedagógica estándar para
+   representar el salto, igual de clara para un niño de NT. REPTAR y GIRAR
+   siguen el mismo criterio ya usado en otras asignaturas del proyecto
+   (serpiente para reptar, símbolo de mareo/giro para girar) por la misma
+   razón: no hay emoji de persona haciendo esa acción específica. */
 const MOVIMIENTOS_BANK = [
-  { accion:'SALTAR', emoji:'🤸' },
+  { accion:'SALTAR', emoji:'🦘' },
   { accion:'CORRER', emoji:'🏃' },
   { accion:'CAMINAR', emoji:'🚶' },
   { accion:'NADAR', emoji:'🏊' },
   { accion:'BAILAR', emoji:'💃' },
   { accion:'TREPAR', emoji:'🧗' },
+  { accion:'REPTAR', emoji:'🐍' },
+  { accion:'GIRAR', emoji:'💫' },
 ];
 
 export function genUbicacionNTRound(){

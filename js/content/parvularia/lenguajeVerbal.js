@@ -57,13 +57,13 @@ const VOCAB_SINONIMOS_BANK = [
   { palabra:'RÁPIDO', sinonimo:'VELOZ', distract:['LENTO','QUIETO','SUAVE'] },
   { palabra:'BONITO', sinonimo:'LINDO', distract:['FEO','SUCIO','ROTO'] },
   { palabra:'PEQUEÑO', sinonimo:'CHICO', distract:['GIGANTE','LARGO','ANCHO'] },
-  { palabra:'VALIENTE', sinonimo:'ATREVIDO', distract:['MIEDOSO','TÍMIDO','CALLADO'] },
+  { palabra:'VALIENTE', sinonimo:'VALEROSO', distract:['MIEDOSO','TÍMIDO','CALLADO'] },
   { palabra:'LIMPIO', sinonimo:'ASEADO', distract:['SUCIO','MOJADO','ROTO'] },
   { palabra:'CANSADO', sinonimo:'AGOTADO', distract:['DESPIERTO','ALEGRE','FUERTE'] },
 ];
 
 const LETRAS_NT_BANK = [
-  { word:'MESA', emoji:'🪑', inicial:'M' },
+  { word:'MANO', emoji:'✋', inicial:'M' },
   { word:'PATO', emoji:'🦆', inicial:'P' },
   { word:'SAPO', emoji:'🐸', inicial:'S' },
   { word:'LIBRO', emoji:'📖', inicial:'L' },

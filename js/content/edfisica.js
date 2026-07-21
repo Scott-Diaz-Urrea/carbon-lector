@@ -14,14 +14,14 @@ export const EDFISICA_POS = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
 const MOVIMIENTOS_ITEMS = [
   { emoji:'🏃', label:'CORRER', tipo:'LOCOMOCIÓN' },
   { emoji:'🤸', label:'SALTAR', tipo:'LOCOMOCIÓN' },
-  { emoji:'🧎', label:'REPTAR (ARRASTRARSE)', tipo:'LOCOMOCIÓN' },
+  { emoji:'🐍', label:'REPTAR (ARRASTRARSE)', tipo:'LOCOMOCIÓN' },
   { emoji:'🚶', label:'CAMINAR', tipo:'LOCOMOCIÓN' },
   { emoji:'🤾', label:'LANZAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji:'🥅', label:'ATRAPAR UNA PELOTA', tipo:'MANIPULACIÓN' },
+  { emoji:'🧤', label:'ATRAPAR UNA PELOTA', tipo:'MANIPULACIÓN' },
   { emoji:'⚽', label:'PATEAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji:'🧘', label:'MANTENER EL EQUILIBRIO EN UN PIE', tipo:'ESTABILIDAD' },
-  { emoji:'🤹', label:'GIRAR SOBRE SÍ MISMO', tipo:'ESTABILIDAD' },
-  { emoji:'🤺', label:'CAMINAR SOBRE UNA LÍNEA SIN CAERSE', tipo:'ESTABILIDAD' },
+  { emoji:'🦩', label:'MANTENER EL EQUILIBRIO EN UN PIE', tipo:'ESTABILIDAD' },
+  { emoji:'💫', label:'GIRAR SOBRE SÍ MISMO', tipo:'ESTABILIDAD' },
+  { emoji:'👣', label:'CAMINAR SOBRE UNA LÍNEA SIN CAERSE', tipo:'ESTABILIDAD' },
 ];
 const VIDA_ACTIVA_ITEMS = [
   { emoji:'🏃', label:'Hacer actividad física seguido ayuda a mantener tu cuerpo sano', v:true },

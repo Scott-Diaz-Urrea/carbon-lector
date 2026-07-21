@@ -62,6 +62,70 @@ export const EDFISICA_MODULES_G2 = [
 ];
 export const EDFISICA_POS_G2 = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
 
+/* ---------------- Contenido Educación Física y Salud 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/educacion-fisica-salud/4-basico):
+   EF04 OA08 -> Mi Pulso y mi Cuerpo IV · EF04 OA09 -> Vida Activa y
+   Saludable IV · EF04 OA10-11 -> Juego Limpio y Liderazgo IV.
+   Quedan fuera OA01-05 (habilidades motrices, juegos, entornos, danza —
+   requieren práctica física real). */
+export const EDFISICA_MODULES_G4 = [
+  {id:'pulsocuerpo4', label:'Mi Pulso y mi Cuerpo IV', open:true, key:'pulsocuerpo4'},
+  {id:'vidaactiva4', label:'Vida Activa y Saludable IV', open:true, key:'vidaactiva4'},
+  {id:'liderazgo4', label:'Juego Limpio y Liderazgo IV', open:true, key:'liderazgo4'},
+];
+export const EDFISICA_POS_G4 = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
+
+const PULSO_4_ITEMS = [
+  { emoji:'❤️', label:'El pulso te permite saber qué tan rápido late tu corazón', v:true },
+  { emoji:'🏃', label:'Después de hacer ejercicio intenso, tu pulso es más rápido que en reposo', v:true },
+  { emoji:'📊', label:'La escala de percepción de esfuerzo te ayuda a notar qué tan cansado te sientes', v:true },
+  { emoji:'🚫', label:'El pulso nunca cambia sin importar cuánto ejercicio hagas', v:false },
+];
+const VIDA_ACTIVA_4_ITEMS = [
+  { emoji:'🧴', label:'Usar protección solar antes de actividades al aire libre cuida tu piel', v:true },
+  { emoji:'🚿', label:'Cambiarte de ropa después de hacer ejercicio es un buen hábito', v:true },
+  { emoji:'💧', label:'Hidratarte con agua durante la actividad física es importante', v:true },
+  { emoji:'🥗', label:'Comer una colación saludable después de hacer ejercicio ayuda a tu cuerpo', v:true },
+  { emoji:'🚫', label:'No es necesario cuidar tu piel del sol al hacer deporte', v:false },
+];
+const LIDERAZGO_4_ITEMS = [
+  { emoji:'⚖️', label:'Organizar los equipos de forma equitativa es parte del juego limpio', v:true },
+  { emoji:'🤝', label:'Niños y niñas pueden jugar el mismo deporte con las mismas oportunidades', v:true },
+  { emoji:'🧑‍⚖️', label:'Respetar las decisiones del árbitro o profesor es parte del buen deportista', v:true },
+  { emoji:'😤', label:'Está bien discriminar a un compañero al formar los equipos', v:false },
+];
+
+export function genPulsoCuerpo4Round(){
+  const item = pick(PULSO_4_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genVidaActiva4Round(){
+  const item = pick(VIDA_ACTIVA_4_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genLiderazgo4Round(){
+  const item = pick(LIDERAZGO_4_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
 const CUERPO_RESPONDE_ITEMS = [
   { emoji:'😅', label:'Cuando corres mucho, tu piel se pone más roja y transpiras', v:true },
   { emoji:'💨', label:'Después de correr fuerte, tu respiración se hace más rápida', v:true },

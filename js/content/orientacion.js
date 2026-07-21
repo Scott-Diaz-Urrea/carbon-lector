@@ -63,6 +63,94 @@ export const ORIENTACION_MODULES_G2 = [
 ];
 export const ORIENTACION_POS_G2 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
 
+/* ---------------- Contenido Orientación 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/orientacion/4-basico):
+   OA02 -> Mis Emociones IV · OA05 -> Autocuidado IV (higiene, descanso,
+   alimentación — versión simplificada este año) · OA06-07 -> Buena
+   Convivencia IV · OA09 -> Hábitos de Trabajo Escolar IV.
+   Deliberadamente fuera: OA01 (autodescripción, subjetivo) y — decisión
+   explícita siguiendo la regla de oro del proyecto — OA03-04 (sexualidad
+   como expresión de vínculo/amor, cambios físicos y afectivos de la
+   pubertad): son temas legítimos del currículum oficial pero de desarrollo
+   personal profundo y sensible, sin una "respuesta correcta" evaluable con
+   opción múltiple; no se fuerza su cobertura para no trivializar un tema
+   que en la práctica requiere acompañamiento de un adulto/profesional, no
+   un quiz. OA08 (participación en organización del curso) también queda
+   fuera por ser de desempeño. */
+export const ORIENTACION_MODULES_G4 = [
+  {id:'emociones4', label:'Mis Emociones IV', open:true, key:'emociones4'},
+  {id:'autocuidado4', label:'Autocuidado IV', open:true, key:'autocuidado4'},
+  {id:'convivencia4', label:'Buena Convivencia IV', open:true, key:'convivencia4'},
+  {id:'habitosescolares4', label:'Hábitos de Trabajo Escolar IV', open:true, key:'habitosescolares4'},
+];
+export const ORIENTACION_POS_G4 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
+
+const EMOCIONES_MANEJO_4_BANK = [
+  { texto:'Sientes envidia porque un amigo tiene algo que tú quieres.', correcta:'Reconocer el sentimiento y hablar de ello con calma', malas:['Quitarle la cosa a la fuerza','Hablar mal de tu amigo con otros','Ignorar cómo te sientes y explotar después'] },
+  { texto:'Te sientes frustrado porque no logras algo a la primera.', correcta:'Respirar, tomar un descanso y volver a intentarlo', malas:['Rendirte para siempre','Romper lo que estabas haciendo','Culpar a otros de tu frustración'] },
+  { texto:'Un amigo te cuenta un secreto y te pide no contarlo.', correcta:'Respetar su confianza si no hay peligro para nadie', malas:['Contarlo a todo el curso','Burlarte de su secreto','Usarlo en su contra luego'] },
+];
+const AUTOCUIDADO_4_ITEMS = [
+  { emoji:'🦷', label:'Cepillarte los dientes después de cada comida cuida tu salud bucal', v:true },
+  { emoji:'😴', label:'Dormir las horas necesarias ayuda a tu cuerpo a rendir mejor', v:true },
+  { emoji:'🥕', label:'Comer variado, con frutas y verduras, es parte de una vida sana', v:true },
+  { emoji:'🏃', label:'Hacer actividad física recreativa es parte del autocuidado', v:true },
+  { emoji:'🚫', label:'No importa cuántas horas duermas, tu cuerpo funciona igual', v:false },
+];
+const CONVIVENCIA_4_BANK = [
+  { texto:'Dos compañeros compiten por ser elegidos líder del grupo.', correcta:'Proponer una votación justa y aceptar el resultado', malas:['Pelear por el puesto','Hacer trampa en la votación','Excluir al que pierda'] },
+  { texto:'Un grupo no logra ponerse de acuerdo en cómo resolver un problema.', correcta:'Dialogar, escuchar todas las ideas y buscar un punto en común', malas:['Que el más fuerte decida solo','Dejar el problema sin resolver','Pelear hasta que alguien se rinda'] },
+  { texto:'Alguien fue tratado injustamente por su apariencia física.', correcta:'Manifestar respeto y defender un trato igualitario', malas:['Sumarte al trato injusto','Ignorar la situación','Burlarte también'] },
+];
+const HABITOS_ESTUDIO_4_ITEMS = [
+  { emoji:'⏰', label:'Asistir puntualmente a clases es un buen hábito de estudio', v:true },
+  { emoji:'📚', label:'Cumplir a tiempo con los trabajos pedidos demuestra responsabilidad', v:true },
+  { emoji:'🔍', label:'Buscar información sobre temas de tu interés te ayuda a aprender más', v:true },
+  { emoji:'🚫', label:'Copiar el trabajo de otro compañero (plagio) es una forma válida de estudiar', v:false },
+  { emoji:'🤝', label:'Respetar el estudio y el trabajo de los demás ayuda a un buen ambiente de clase', v:true },
+];
+
+export function genEmociones4Round(){
+  const item = pick(EMOCIONES_MANEJO_4_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción sin lastimarte ni lastimar a otros.',
+  };
+}
+
+export function genAutocuidado4Round(){
+  const item = pick(AUTOCUIDADO_4_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genConvivencia4Round(){
+  const item = pick(CONVIVENCIA_4_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema con respeto.',
+  };
+}
+
+export function genHabitosEscolares4Round(){
+  const item = pick(HABITOS_ESTUDIO_4_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
 const EMOCIONES_LABELS_2 = ['ALEGRÍA','PENA','RABIA','MIEDO','SORPRESA','CARIÑO'];
 const EMOCIONES_ESCENAS_2 = [
   { texto:'A Pedro se le perdió su juguete favorito y no lo puede encontrar.', emocion:'PENA' },

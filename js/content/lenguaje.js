@@ -109,6 +109,14 @@ export const LENGUAJE_MODULES_G2 = [
 ];
 export const LENGUAJE_POS_G2 = [{x:22,y:84},{x:68,y:62},{x:24,y:40},{x:70,y:16}];
 
+export const LENGUAJE_MODULES_G4 = [
+  {id:'adverbios4', label:'Adverbios', open:true, key:'adverbios4'},
+  {id:'verbos4', label:'Verbos y Concordancia', open:true, key:'verbos4'},
+  {id:'raicesafijos4', label:'Raíces y Afijos', open:true, key:'raicesafijos4'},
+  {id:'comprension4', label:'Comprensión IV', open:true, key:'comprension4'},
+];
+export const LENGUAJE_POS_G4 = [{x:22,y:84},{x:68,y:62},{x:24,y:40},{x:70,y:16}];
+
 export function genVocalRound(){
   const item = pick(VOCAL_WORDS);
   const opts = shuffle(['A','E','I','O','U']).map(function(v){ return {label:v, value:v}; });
@@ -148,6 +156,109 @@ export function genComprensionRound(){
     speakText: item.text,
     cols: 4,
     explain: 'Vuelve a leer: "'+item.text+'" Ahí está la respuesta.',
+  };
+}
+
+/* ---------------- Contenido Lenguaje 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/lenguaje-comunicacion/4-basico):
+   OA19 -> Adverbios · OA20 -> Verbos y Concordancia · OA10 -> Raíces y
+   Afijos (claves de contexto vía prefijos/sufijos, distinto del contexto
+   general ya cubierto en 3° básico) · OA4,6 -> Comprensión IV.
+   Quedan fuera OA1-3,7-9 (fluidez, repertorio literario, gusto por la
+   lectura, biblioteca, investigación propia), OA5 (poemas/lenguaje
+   figurado, ya cubierto en 3° básico), OA11-18,21 (producción escrita,
+   pronombres ya cubiertos en 3° básico, ortografía general) y OA22-30
+   (comunicación oral/teatro) por depender de desempeño real o repetir
+   contenido de años anteriores. */
+const ADVERBIOS_BANK = [
+  { oracion:'Ella corre rápidamente por el parque', adverbio:'RÁPIDAMENTE', tipo:'MODO', otras:['ELLA','CORRE','PARQUE'] },
+  { oracion:'Hoy iremos al cine', adverbio:'HOY', tipo:'TIEMPO', otras:['IREMOS','AL','CINE'] },
+  { oracion:'El gato está aquí', adverbio:'AQUÍ', tipo:'LUGAR', otras:['EL','GATO','ESTÁ'] },
+  { oracion:'Comió poco en el almuerzo', adverbio:'POCO', tipo:'CANTIDAD', otras:['COMIÓ','EL','ALMUERZO'] },
+  { oracion:'El perro ladra fuertemente', adverbio:'FUERTEMENTE', tipo:'MODO', otras:['EL','PERRO','LADRA'] },
+  { oracion:'Ellos viven cerca', adverbio:'CERCA', tipo:'LUGAR', otras:['ELLOS','VIVEN'] },
+  { oracion:'Estudió mucho para el examen', adverbio:'MUCHO', tipo:'CANTIDAD', otras:['ESTUDIÓ','PARA','EXAMEN'] },
+  { oracion:'Mañana visitaremos a la abuela', adverbio:'MAÑANA', tipo:'TIEMPO', otras:['VISITAREMOS','LA','ABUELA'] },
+];
+const VERBOS_CONJ = [
+  { inf:'CANTAR', '1S':'CANTO', '2S':'CANTAS', '3S':'CANTA', '1P':'CANTAMOS', '3P':'CANTAN' },
+  { inf:'COMER', '1S':'COMO', '2S':'COMES', '3S':'COME', '1P':'COMEMOS', '3P':'COMEN' },
+  { inf:'SALTAR', '1S':'SALTO', '2S':'SALTAS', '3S':'SALTA', '1P':'SALTAMOS', '3P':'SALTAN' },
+  { inf:'ESCRIBIR', '1S':'ESCRIBO', '2S':'ESCRIBES', '3S':'ESCRIBE', '1P':'ESCRIBIMOS', '3P':'ESCRIBEN' },
+];
+const SUJETOS_VERBO = [
+  { texto:'Yo', persona:'1S' }, { texto:'Tú', persona:'2S' }, { texto:'Él', persona:'3S' },
+  { texto:'Nosotros', persona:'1P' }, { texto:'Ellos', persona:'3P' },
+];
+const AFIJOS_BANK = [
+  { afijo:'DES-', significado:'Indica lo contrario de algo, o quitarlo', ejemplo:'DESHACER = lo contrario de hacer' },
+  { afijo:'IN-', significado:'Indica negación', ejemplo:'INFELIZ = no feliz' },
+  { afijo:'RE-', significado:'Indica repetición', ejemplo:'REHACER = hacer de nuevo' },
+  { afijo:'-MENTE', significado:'Convierte un adjetivo en adverbio de modo', ejemplo:'RÁPIDAMENTE = de forma rápida' },
+  { afijo:'-OSO', significado:'Indica abundancia de algo', ejemplo:'CARIÑOSO = con mucho cariño' },
+  { afijo:'-ITO', significado:'Indica algo pequeño (diminutivo)', ejemplo:'PERRITO = perro pequeño' },
+];
+const COMPRENSION4_BANK = [
+  { text:'Después de días sin llover, el río bajó tanto que se podían ver las piedras del fondo.', question:'¿Qué había ocurrido antes de esa escena?', correct:'Una sequía (falta de lluvia)', opts:['Una tormenta muy fuerte','Un terremoto','Una nevazón'] },
+  { text:'Para armar una cometa: primero corta dos varillas, luego crúzalas y amárralas, después cubre la estructura con papel, y por último agrega una cola de tela.', question:'¿Qué paso va después de cruzar y amarrar las varillas?', correct:'Cubrir la estructura con papel', opts:['Agregar la cola de tela','Cortar las varillas','Volar la cometa'] },
+  { text:'Mientras más subían la montaña, el aire se sentía más frío y les costaba más respirar.', question:'¿Qué le pasa al aire a medida que se sube una montaña?', correct:'Se vuelve más frío y escaso', opts:['Se vuelve más caliente','No cambia en nada','Se vuelve más húmedo'] },
+  { text:'El científico anotó cada resultado en una tabla antes de sacar conclusiones sobre su experimento.', question:'¿Qué hizo el científico antes de sacar conclusiones?', correct:'Anotar los resultados en una tabla', opts:['Ignorar los resultados','Adivinar la respuesta','Comenzar el experimento de nuevo'] },
+  { text:'La abeja visitó varias flores, y en cada una dejó un poco de polen de la flor anterior.', question:'¿Qué proceso describe este texto?', correct:'La polinización', opts:['La germinación','La evaporación','La fotosíntesis'] },
+  { text:'Tras varios intentos fallidos, el equipo ajustó su estrategia y finalmente ganó el partido.', question:'¿Qué hizo el equipo para poder ganar?', correct:'Ajustar su estrategia', opts:['Rendirse','Cambiar de deporte','Jugar exactamente igual que antes'] },
+];
+
+export function genAdverbios4Round(){
+  const item = pick(ADVERBIOS_BANK);
+  if(Math.random()<0.5){
+    const opts = shuffle([item.adverbio].concat(item.otras)).map(function(w){ return {label:w, value:w}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">"'+item.oracion+'"</p><p class="prompt-hint">¿Cuál palabra es el adverbio?</p>',
+      options: opts, correctValue: item.adverbio, speakText: item.oracion, cols:4, kind:'word',
+      explain: '<b>'+item.adverbio+'</b> es el adverbio de la oración.',
+    };
+  }
+  const distract = shuffle(['TIEMPO','LUGAR','MODO','CANTIDAD'].filter(function(t){ return t!==item.tipo; })).slice(0,3);
+  const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">"'+item.oracion+'"</p><p class="prompt-hint">El adverbio "'+item.adverbio+'" indica...</p>',
+    options: opts, correctValue: item.tipo, speakText: '¿Qué indica el adverbio '+item.adverbio+'?', cols:4, kind:'word',
+    explain: '"'+item.adverbio+'" es un adverbio de <b>'+item.tipo.toLowerCase()+'</b>.',
+  };
+}
+
+export function genVerbos4Round(){
+  const verbo = pick(VERBOS_CONJ);
+  const sujeto = pick(SUJETOS_VERBO);
+  const correct = verbo[sujeto.persona];
+  const allForms = ['1S','2S','3S','1P','3P'].map(function(p){ return verbo[p]; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
+  const distract = allForms.filter(function(f){ return f!==correct; });
+  const opts = shuffle([correct].concat(distract)).map(function(f){ return {label:f, value:f}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+sujeto.texto+' <span class="blank">___</span> ('+verbo.inf.toLowerCase()+')</p><p class="prompt-hint">¿Qué palabra completa la oración?</p>',
+    options: opts, correctValue: correct, speakText: sujeto.texto+'...', cols:4, kind:'word',
+    explain: 'Con "'+sujeto.texto+'" el verbo correcto es <b>'+correct+'</b>.',
+  };
+}
+
+export function genRaicesAfijos4Round(){
+  const item = pick(AFIJOS_BANK);
+  const distract = AFIJOS_BANK.filter(function(a){ return a.afijo!==item.afijo; }).map(function(a){ return a.significado; });
+  const opts = shuffle([item.significado].concat(shuffle(distract).slice(0,3))).map(function(s){ return {label:s, value:s}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+item.afijo+'</p><p class="prompt-hint">Por ejemplo: '+item.ejemplo+'. ¿Qué significa esta parte de la palabra?</p>',
+    options: opts, correctValue: item.significado, speakText: item.ejemplo, cols:2, panel:true,
+    explain: '"'+item.afijo+'" '+item.significado.toLowerCase()+'.',
+  };
+}
+
+export function genComprension4Round(){
+  const item = pick(COMPRENSION4_BANK);
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
+    explain: item.correct+' — esa es la respuesta correcta según el texto.',
   };
 }
 

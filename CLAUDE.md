@@ -421,7 +421,74 @@ fuera y por qué en el comentario inicial de su archivo `content/<asignatura>.js
   uso seguro de internet) — OA05-07. Fuera: OA01-04 (diseñar/elaborar/evaluar un
   objeto tecnológico propio — producción práctica).
 
-### 3° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
+### 3° Básico — ✅ completo en una rama separada aún no fusionada
+Construido en la rama `tercero-basico-completo` (27 módulos, las 9 asignaturas,
+mismo criterio de OA reales por curso) — pendiente de mergear a `main` de forma
+independiente a este PR. Una vez fusionada esa rama, esta sección debe
+actualizarse con su detalle completo (o resolver el conflicto trivial que
+probablemente surja en `GRADES`/`gradeContent.js` entre ambas ramas, ya que
+cada una solo agrega su propia entrada de año y no debiera pisar la otra).
+
+### 4° Básico — ✅ completo (28 módulos, las 9 asignaturas)
+Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
+curriculum/1o-6o-basico/<asignatura>/4-basico.
+
+- **Lenguaje** (4): Adverbios (identificar y clasificar tiempo/lugar/modo/cantidad —
+  OA19), Verbos y Concordancia (conjugación según persona — OA20), Raíces y Afijos
+  (significado de prefijos/sufijos comunes — OA10), Comprensión IV (inferencia,
+  textos no literarios — OA04,06). Fuera: OA01-03,07-09 (fluidez, repertorio,
+  gusto por la lectura, biblioteca, investigación propia), OA05 (lenguaje
+  figurado, ya cubierto en 3° básico), OA11-18,21 (producción escrita, pronombres
+  ya cubiertos en 3° básico) y OA22-30 (comunicación oral/teatro).
+- **Matemática** (5): Números hasta 10.000 (valor posicional, comparación — OA1),
+  Decimales (décimos con barra, centésimos con grilla de 100 — visual mucho más
+  representativo que una barra abstracta — OA11-12), Simetría y Transformaciones
+  (simetría vertical con letras del abecedario, traslación/rotación/reflexión —
+  OA17-18), Área y Volumen (grillas de unidades cuadradas/cúbicas — OA23-24),
+  Tiempo y Conversiones (AM/PM, conversión de unidades de tiempo — OA20-21).
+  Fuera: OA2-10,13-16,19,22,25-27 (cálculo mental, multiplicación/división ya
+  cubiertas en años anteriores, patrones/álgebra, vistas 3D, ángulos con
+  transportador, encuestas/experimentos aleatorios — no implementados aún).
+- **Ciencias Naturales** (5): Ecosistemas (vivo/no vivo, adaptaciones, cadena
+  alimentaria, cuidado — OA1-4), Huesos, Músculos y Nervios (incluye una mención
+  breve y factual del efecto del alcohol, OA8 — OA5-8), Estados de la Materia
+  (OA9-11), Fuerzas (roce, peso, magnética — OA12-13), La Tierra y sus Capas
+  (capas terrestres, placas tectónicas, prevención de riesgos — OA15-17). Fuera:
+  OA14 (diseñar un objeto tecnológico que use la fuerza — producción propia).
+- **Historia, Geografía y Cs. Sociales** (4): Civilizaciones Americanas (maya,
+  azteca, inca — cubre SOLO logros culturales/tecnológicos bien documentados y
+  no controvertidos como astronomía, escritura, Tenochtitlán, caminos incas;
+  se excluye deliberadamente el contenido del OA01 oficial sobre "guerras y
+  sacrificios humanos", real pero no apropiado para un quiz infantil — OA1-4),
+  Geografía de América (coordenadas, paisajes — OA6,8), Recursos Naturales
+  (renovables/no renovables — OA7,9), Formación Ciudadana IV (poderes del
+  Estado, derechos del niño, honestidad — OA11-14). Fuera: OA05 (investigación
+  propia), OA10 (comparación con paisaje propio del estudiante) y OA15-18
+  (proyectos escolares, votación, opinión fundamentada — desempeño/actitudinal).
+- **Artes Visuales** (1): Forma y Color IV (figurativa/no figurativa, tono/matiz —
+  OA02). Fuera: OA01,03 (producción propia) y OA04-05 (opinión, subjetivo).
+- **Música** (1): Dinámica Musical (crescendo/decrescendo, contraste entre
+  secciones — OA01, el ángulo de "dinámica" que ningún año anterior cubrió).
+  Fuera: OA02-06,08 (expresión subjetiva, repertorio, cantar/tocar, improvisar,
+  presentar, autoevaluación) y OA07 (reflexión personal).
+- **Educación Física y Salud** (3): Mi Pulso y mi Cuerpo IV, Vida Activa y
+  Saludable IV, Juego Limpio y Liderazgo IV — OA08-11. Fuera: OA01-05
+  (habilidades motrices, juegos, entornos, danza — requieren práctica física real).
+- **Orientación** (4): Mis Emociones IV, Autocuidado IV (higiene/descanso/
+  alimentación, versión simplificada este año — OA05), Buena Convivencia IV
+  (OA06-07), Hábitos de Trabajo Escolar IV (OA09). **Decisión explícita**: se
+  excluyen OA03-04 (sexualidad como vínculo/amor, cambios físicos y afectivos de
+  la pubertad) — temas legítimos del currículum oficial pero de desarrollo
+  personal profundo y sensible, sin una "respuesta correcta" evaluable con
+  opción múltiple; no se fuerza su cobertura para no trivializar un tema que en
+  la práctica requiere acompañamiento de un adulto/profesional, no un quiz.
+  También fuera: OA01 (autodescripción, subjetivo) y OA08 (participación en
+  organización del curso, desempeño).
+- **Tecnología** (1): Tecnología Digital IV (agrega hojas de cálculo, nuevo este
+  año, junto con presentaciones/procesador de texto/internet seguro — OA05-07).
+  Fuera: OA01-04 (diseñar/planificar/elaborar/evaluar un objeto propio).
+
+### 5° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false`. Para desbloquear un año, cambiar su
 `open` a `true` Y crear su entrada correspondiente en `LENGUAJE_BY_GRADE` /
 `MATE_BY_GRADE` (si no existe una entrada, `renderComingSoonSubject()` se muestra
@@ -436,16 +503,28 @@ para esta iniciativa).
 
 1. ~~Completar 2° básico~~ — ✅ hecho, las 9 asignaturas completas (ver "Estado
    actual del contenido" arriba).
-2. **Siguiente:** extraer los OA de 3° básico de curriculumnacional.cl
-   (`curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/3-basico`, mismo
-   patrón que funcionó para 2° básico) para las 9 asignaturas, y repetir el patrón:
-   `<NOMBRE>_MODULES_G3`/`_POS_G3` en cada `content/<asignatura>.js`, agregar
-   `3: {...}` a cada `*_BY_GRADE` en `gradeContent.js`, registrar en `MC_GAMES`/
+2. ~~Completar 3° básico~~ — ✅ hecho (rama `tercero-basico-completo`, ver nota de
+   fusión pendiente en "Estado actual del contenido" arriba).
+3. ~~Completar 4° básico~~ — ✅ hecho, las 9 asignaturas completas (ver "Estado
+   actual del contenido" arriba). Dos decisiones de contenido sensible tomadas
+   este año, documentar el criterio si se repite en años posteriores: (a)
+   Historia excluye "guerras y sacrificios humanos" de las civilizaciones
+   americanas (OA01 oficial) por no ser apropiado para un quiz infantil, aunque
+   es históricamente real — se cubre solo el legado cultural/tecnológico; (b)
+   Orientación excluye sexualidad/pubertad (OA03-04) por ser desarrollo personal
+   sensible sin respuesta evaluable con opción múltiple.
+4. **Siguiente:** extraer los OA de 5° básico de curriculumnacional.cl
+   (`curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/5-basico`) para
+   las 9 asignaturas — **ojo**: Inglés parte oficialmente en 5° básico según el
+   currículum nacional (ver nota en "1° Básico" arriba sobre por qué no se
+   incluyó antes), así que verificar si corresponde agregarlo como una 10ª
+   asignatura a partir de este año. Repetir el mismo patrón de siempre:
+   `<NOMBRE>_MODULES_G5`/`_POS_G5` en cada `content/<asignatura>.js`, agregar
+   `5: {...}` a cada `*_BY_GRADE` en `gradeContent.js`, registrar en `MC_GAMES`/
    `MC_KEYS`, agregar estrellas en `state.js` y títulos en `rewards.js`. Luego
-   repetir para 4°, 5°, 6°, 7° y 8° básico en orden (7°-8° son parte de Educación
-   Básica en la trayectoria chilena actual, verificar la lista exacta de asignaturas
-   vigente para esos años en curriculumnacional.cl antes de asumir que es la misma
-   que 1°-6°, ya que podría incluir asignaturas nuevas como Inglés desde 5° básico).
+   repetir para 6°, 7° y 8° básico en orden (7°-8° son parte de Educación Básica
+   en la trayectoria chilena actual, verificar la lista exacta de asignaturas
+   vigente para esos años antes de asumir que es la misma que 1°-6°).
 3. Una vez completa toda Educación Básica, definir con el usuario el mismo patrón
    para Educación Media (probablemente asignaturas distintas: Física/Química/
    Biología separadas, Filosofía, etc. — pedir la lista real antes de asumir) y

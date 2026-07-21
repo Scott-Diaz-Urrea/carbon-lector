@@ -1,30 +1,39 @@
 import {
   genVocalRound, genPalabraRound, genComprensionRound, genCombinacionRound,
   genGramatica2Round, genComprension2Round,
+  genAdverbios4Round, genVerbos4Round, genRaicesAfijos4Round, genComprension4Round,
 } from './content/lenguaje.js';
 import {
   genCountRound, genAddRound, genCompareRound, genFormaRound, genSaltaRound, genMultiplicarRound,
   genGeometria2Round, genMedicion2Round,
+  genNumeros10mil4Round, genDecimales4Round, genSimetria4Round, genAreaVolumen4Round, genTiempo4Round,
 } from './content/matematica.js';
 import {
   genSeresVivosRound, genPlantasRound, genCuerpoRound, genMaterialesRound, genDiaNocheRound,
   genVertebrados2Round, genCiclosVida2Round, genHabitats2Round, genCuerpoDentro2Round, genAgua2Round, genClima2Round,
+  genEcosistemas4Round, genCuerpoSistemas4Round, genEstadosMateria4Round, genFuerzas4Round, genTierraCapas4Round,
 } from './content/ciencias.js';
 import {
   genCalendarioRound, genMiIdentidadRound, genSimbolosRound, genMapasRound, genComunidadRound,
   genPueblos2Round, genPatrimonio2Round, genPaisajes2Round, genCiudadania2Round,
+  genCivilizaciones4Round, genGeografiaAmerica4Round, genRecursosNaturales4Round, genCiudadania4Round,
 } from './content/historia.js';
-import { genColoresRound, genLineasTexturasRound, genMaterialesArteRound, genLineasColores2Round } from './content/artes.js';
-import { genSonidosRound, genInstrumentosRound, genTimbrePulso2Round } from './content/musica.js';
+import {
+  genColoresRound, genLineasTexturasRound, genMaterialesArteRound, genLineasColores2Round,
+  genFormaColor4Round,
+} from './content/artes.js';
+import { genSonidosRound, genInstrumentosRound, genTimbrePulso2Round, genDinamica4Round } from './content/musica.js';
 import {
   genMovimientoRound, genVidaActivaRound, genSeguridadRound,
   genCuerpoResponde2Round, genVidaActiva2Round, genLiderazgo2Round,
+  genPulsoCuerpo4Round, genVidaActiva4Round, genLiderazgo4Round,
 } from './content/edfisica.js';
 import {
   genEmocionesRound, genAutocuidadoRound, genConvivenciaRound,
   genEmociones2Round, genAutocuidado2Round, genHabitosEscolares2Round, genConvivencia2Round,
+  genEmociones4Round, genAutocuidado4Round, genConvivencia4Round, genHabitosEscolares4Round,
 } from './content/orientacion.js';
-import { genHerramientasTecRound, genTecDigital2Round } from './content/tecnologia.js';
+import { genHerramientasTecRound, genTecDigital2Round, genTecDigital4Round } from './content/tecnologia.js';
 import {
   genPatronesRound, genClasificarRound, genPosicionRound, genCuantificadoresRound,
   genSecuenciaTemporalRound, genContarVeinteRound, genSumarQuitarRound,
@@ -79,7 +88,16 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'timbrepulso2',
   'cuerporesponde2','vidaactiva2','liderazgo2',
   'emociones2','autocuidado2','habitosescolares2','convivencia2',
-  'tecdigital2'];
+  'tecdigital2',
+  'adverbios4','verbos4','raicesafijos4','comprension4',
+  'numeros10mil4','decimales4','simetria4','areavolumen4','tiempo4',
+  'ecosistemas4','cuerposistemas4','estadosmateria4','fuerzas4','tierracapas4',
+  'civilizaciones4','geografiaamerica4','recursosnaturales4','ciudadania4',
+  'formacolor4',
+  'dinamica4',
+  'pulsocuerpo4','vidaactiva4','liderazgo4',
+  'emociones4','autocuidado4','convivencia4','habitosescolares4',
+  'tecdigital4'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -169,6 +187,34 @@ export const MC_GAMES = {
   habitosescolares2:{ title:'Hábitos de Trabajo Escolar', gen: genHabitosEscolares2Round, rounds:10 },
   convivencia2:  { title:'Buena Convivencia II', gen: genConvivencia2Round, rounds:8 },
   tecdigital2:   { title:'Tecnología Digital', gen: genTecDigital2Round,  rounds:8 },
+  adverbios4:    { title:'Adverbios',         gen: genAdverbios4Round,   rounds:10 },
+  verbos4:       { title:'Verbos y Concordancia', gen: genVerbos4Round, rounds:10 },
+  raicesafijos4: { title:'Raíces y Afijos',   gen: genRaicesAfijos4Round, rounds:8 },
+  comprension4:  { title:'Comprensión IV',    gen: genComprension4Round, rounds:8 },
+  numeros10mil4: { title:'Números hasta 10.000', gen: genNumeros10mil4Round, rounds:10 },
+  decimales4:    { title:'Decimales',         gen: genDecimales4Round,   rounds:10 },
+  simetria4:     { title:'Simetría y Transformaciones', gen: genSimetria4Round, rounds:10 },
+  areavolumen4:  { title:'Área y Volumen',    gen: genAreaVolumen4Round, rounds:10 },
+  tiempo4:       { title:'Tiempo y Conversiones', gen: genTiempo4Round,  rounds:10 },
+  ecosistemas4:  { title:'Ecosistemas',       gen: genEcosistemas4Round, rounds:10 },
+  cuerposistemas4:{ title:'Huesos, Músculos y Nervios', gen: genCuerpoSistemas4Round, rounds:10 },
+  estadosmateria4:{ title:'Estados de la Materia', gen: genEstadosMateria4Round, rounds:10 },
+  fuerzas4:      { title:'Fuerzas',           gen: genFuerzas4Round,     rounds:10 },
+  tierracapas4:  { title:'La Tierra y sus Capas', gen: genTierraCapas4Round, rounds:10 },
+  civilizaciones4:{ title:'Civilizaciones Americanas', gen: genCivilizaciones4Round, rounds:10 },
+  geografiaamerica4:{ title:'Geografía de América', gen: genGeografiaAmerica4Round, rounds:10 },
+  recursosnaturales4:{ title:'Recursos Naturales', gen: genRecursosNaturales4Round, rounds:8 },
+  ciudadania4:   { title:'Formación Ciudadana IV', gen: genCiudadania4Round, rounds:8 },
+  formacolor4:   { title:'Forma y Color IV',  gen: genFormaColor4Round,  rounds:10 },
+  dinamica4:     { title:'Dinámica Musical',  gen: genDinamica4Round,    rounds:8 },
+  pulsocuerpo4:  { title:'Mi Pulso y mi Cuerpo IV', gen: genPulsoCuerpo4Round, rounds:10 },
+  vidaactiva4:   { title:'Vida Activa y Saludable IV', gen: genVidaActiva4Round, rounds:10 },
+  liderazgo4:    { title:'Juego Limpio y Liderazgo IV', gen: genLiderazgo4Round, rounds:10 },
+  emociones4:    { title:'Mis Emociones IV',  gen: genEmociones4Round,   rounds:8 },
+  autocuidado4:  { title:'Autocuidado IV',    gen: genAutocuidado4Round, rounds:10 },
+  convivencia4:  { title:'Buena Convivencia IV', gen: genConvivencia4Round, rounds:8 },
+  habitosescolares4:{ title:'Hábitos de Trabajo Escolar IV', gen: genHabitosEscolares4Round, rounds:10 },
+  tecdigital4:   { title:'Tecnología Digital IV', gen: genTecDigital4Round, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

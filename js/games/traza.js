@@ -42,10 +42,10 @@
    que usar Baloo 2 para la mayúscula manuscrita es a la vez más legible
    para un niño y más fiel a lo que de verdad se enseña en la sala. */
 export const TYPO_STYLES = [
-  { id:'imprenta-mayus', label:'Imprenta MAYÚSCULA', case:'upper', family:'"Baloo 2", system-ui, sans-serif', weight:700, sizeMult:1.15 },
-  { id:'imprenta-minus', label:'imprenta minúscula', case:'lower', family:'"Baloo 2", system-ui, sans-serif', weight:700, sizeMult:1.15 },
-  { id:'manuscrita-mayus', label:'Manuscrita MAYÚSCULA', case:'upper', family:'"Baloo 2", system-ui, sans-serif', weight:700, sizeMult:1.15 },
-  { id:'manuscrita-minus', label:'manuscrita minúscula', case:'lower', family:'"Playwrite CL", cursive', weight:400, sizeMult:1.5 },
+  { id:'imprenta-mayus', label:'Imprenta MAYÚSCULA', case:'upper', family:'"Baloo 2", system-ui, sans-serif', weight:700 },
+  { id:'imprenta-minus', label:'imprenta minúscula', case:'lower', family:'"Baloo 2", system-ui, sans-serif', weight:700 },
+  { id:'manuscrita-mayus', label:'Manuscrita MAYÚSCULA', case:'upper', family:'"Baloo 2", system-ui, sans-serif', weight:700 },
+  { id:'manuscrita-minus', label:'manuscrita minúscula', case:'lower', family:'"Playwrite CL", cursive', weight:400 },
 ];
 const DEFAULT_STYLE_ID = 'imprenta-mayus';
 export function typoStyle(id){
@@ -87,12 +87,31 @@ export function renderTraceCanvas(canvasId, opts){
   '</div>';
 }
 
+/* Encuentra el font-size más grande que quepa en `maxWidth` para esta
+   fuente/palabra específica, midiendo el ancho real con measureText() en
+   vez de estimarlo con una fórmula fija — así imprenta y manuscrita quedan
+   del mismo tamaño para el mismo nombre (antes cada tipografía tenía su
+   propio multiplicador/tope, y una se veía notoriamente más chica que la
+   otra para el mismo texto), y cualquier nombre, largo o corto, queda
+   garantizado dentro del rectángulo en vez de solo aproximado. */
+function fitFontSize(ctx, label, style, maxWidth, maxSize, minSize){
+  let size = maxSize;
+  while(size > minSize){
+    ctx.font = style.weight + ' ' + size + 'px ' + style.family;
+    if(ctx.measureText(label).width <= maxWidth) break;
+    size -= 2;
+  }
+  return size;
+}
+
 function drawGuideText(ctx, rect, text, styleId){
   const style = typoStyle(styleId || DEFAULT_STYLE_ID);
   const raw = String(text || '');
   const label = style.case === 'lower' ? raw.toLowerCase() : raw.toUpperCase();
-  const maxSize = style.family.indexOf('Playwrite') !== -1 ? 108 : 72;
-  const fontSize = Math.max(28, Math.min(maxSize, Math.round(rect.width / Math.max(3, label.length) * style.sizeMult)));
+  const padding = Math.max(12, rect.width * 0.06);
+  const maxWidth = rect.width - padding * 2;
+  const maxSize = Math.min(120, Math.round(rect.height * 0.78));
+  const fontSize = fitFontSize(ctx, label, style, maxWidth, maxSize, 24);
   ctx.font = style.weight + ' ' + fontSize + 'px ' + style.family;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';

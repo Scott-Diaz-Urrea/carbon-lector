@@ -1,5 +1,5 @@
 import { pick, shuffle } from '../../utils.js';
-import { personActionSVG } from '../../svg.js';
+import { personActionSVG, vasoAguaSVG } from '../../svg.js';
 
 /* Núcleo Corporalidad y Movimiento — Educación Parvularia, NT (Decreto
    481/2017, ámbito Desarrollo Personal y Social,
@@ -39,14 +39,17 @@ export const CORPORALIDAD_MOVIMIENTO_POS = [
    la moraleja de "la tortuga y la liebre" (que los niños probablemente ya
    conocen) con una tortuga perdiendo una carrera. Dos escenas por categoría
    (8 escenas, 4 categorías) para que rounds:8 muestre variedad real dentro
-   de "adelante"/"atrás"/"al lado" y no solo repita la misma frase. */
+   de "adelante"/"atrás"/"al lado" y no solo repita la misma frase. El vaso
+   de agua usa vasoAguaSVG() en vez de 🥛 — ese emoji es literalmente "vaso
+   de LECHE" (líquido opaco), mostraba el concepto equivocado para una
+   escena que dice explícitamente "el vaso de agua". */
 const ESCENAS_ESPACIAL_NT = [
   { emoji:'🐕', texto:'El perro camina ___ de su dueño, tirando de la correa.', correct:'ADELANTE', pregunta:'¿Dónde camina el perro?' },
   { emoji:'🏃', texto:'La niña corre ___ de sus amigos porque es la más rápida.', correct:'ADELANTE', pregunta:'¿Dónde corre la niña?' },
   { emoji:'🐌', texto:'El caracol quedó ___ en la carrera, porque es muy lento.', correct:'ATRÁS', pregunta:'¿Dónde quedó el caracol?' },
   { emoji:'🚶', texto:'El último niño de la fila quedó bien ___ de todos.', correct:'ATRÁS', pregunta:'¿Dónde quedó el último niño de la fila?' },
   { emoji:'🧸', texto:'El osito está sentado ___ de la niña, bien pegadito a ella.', correct:'AL LADO', pregunta:'¿Dónde está sentado el osito?' },
-  { emoji:'🥛', texto:'El vaso de agua está ___ del plato, sobre la mesa.', correct:'AL LADO', pregunta:'¿Dónde está el vaso de agua?' },
+  { emoji: vasoAguaSVG(56), texto:'El vaso de agua está ___ del plato, sobre la mesa.', correct:'AL LADO', pregunta:'¿Dónde está el vaso de agua?' },
   { emoji:'🐈', texto:'El gato duerme ___ los dos cojines del sillón.', correct:'ENTRE', pregunta:'¿Dónde duerme el gato?' },
   { emoji:'⚽', texto:'La pelota rodó y quedó ___ las dos sillas.', correct:'ENTRE', pregunta:'¿Dónde quedó la pelota?' },
 ];

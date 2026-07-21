@@ -104,6 +104,19 @@ export function vidrioSVG(size){
     '<path d="M22 30 L38 14" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.85"/>'+
   '</svg>';
 }
+/* Vaso de agua dibujado a mano: 🥛 es literalmente "vaso de LECHE" (líquido
+   blanco opaco), no de agua — usarlo para "el vaso de agua está al lado del
+   plato" (Corporalidad y Movimiento, Ubicación Espacial) mostraba el
+   concepto equivocado. El vidrio es transparente y el líquido celeste
+   translúcido, para que se lea claramente como agua y no como leche. */
+export function vasoAguaSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M30 20 L70 20 L64 88 L36 88 Z" fill="#DDEFFB" fill-opacity="0.35" stroke="#0C7C70" stroke-width="4"/>'+
+    '<path d="M33 42 L67 42 L64 88 L36 88 Z" fill="#7EC8E3" fill-opacity="0.55"/>'+
+    '<path d="M36 26 L40 26" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.85"/>'+
+  '</svg>';
+}
 export function espejoSVG(size){
   size = size || 90;
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+

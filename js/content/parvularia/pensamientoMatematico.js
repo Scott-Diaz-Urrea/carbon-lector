@@ -1,5 +1,5 @@
 import { pick, shuffle, randInt, uniqueDistractors } from '../../utils.js';
-import { shapeSVG, solid3DSVG, toothbrushSVG } from '../../svg.js';
+import { shapeSVG, solid3DSVG, toothbrushSVG, gusanoSVG } from '../../svg.js';
 import { SHAPES } from '../matematica.js';
 
 /* ---------------- Pensamiento Matemático — Educación Parvularia, NT ----------------
@@ -49,13 +49,13 @@ const CLASIFICAR_GRUPOS = [
    la preposición, y puede sonar a "nada" = "nothing"). `explain` reutiliza
    `texto` con el hueco relleno por la respuesta correcta, así queda una
    oración completa y específica de la escena en vez de un genérico
-   "La palabra correcta es X". El gusano/🪱 se cambió a hormiga/🐜 porque
-   🪱 no se renderiza (recuadro vacío) en varios navegadores. */
+   "La palabra correcta es X". El gusano usa gusanoSVG() en vez de 🪱
+   (que no se renderiza — recuadro vacío — en varios navegadores). */
 const POSICION_ESCENAS = [
   { emoji:'🐦', texto:'El pajarito está ___ de su nido.', correct:'DENTRO', pregunta:'¿Dónde está el pajarito?' },
   { emoji:'🐟', texto:'El pez nada ___ del agua.', correct:'DENTRO', pregunta:'¿Dónde nada el pez?' },
   { emoji:'☁️', texto:'La nube está ___ en el cielo.', correct:'ARRIBA', pregunta:'¿Dónde está la nube?' },
-  { emoji:'🐜', texto:'La hormiga está ___ de la tierra.', correct:'ABAJO', pregunta:'¿Dónde está la hormiga?' },
+  { emoji: gusanoSVG(30), texto:'El gusano está ___ de la tierra.', correct:'ABAJO', pregunta:'¿Dónde está el gusano?' },
   { emoji:'🐿️', texto:'La ardilla salió ___ de su casa a jugar.', correct:'FUERA', pregunta:'¿Dónde salió a jugar la ardilla?' },
   { emoji:'🧸', texto:'El osito está ___ de las dos almohadas.', correct:'ENTRE', pregunta:'¿Dónde está el osito?' },
   { emoji:'🎈', texto:'El globo voló ___ hacia el cielo.', correct:'ARRIBA', pregunta:'¿Hacia dónde voló el globo?' },

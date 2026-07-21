@@ -1,4 +1,5 @@
 import { pick, shuffle, uniqueDistractors } from '../../utils.js';
+import { focaSVG } from '../../svg.js';
 
 /* Núcleo Lenguaje Verbal — Educación Parvularia, NT (Decreto 481/2017, ámbito
    Comunicación Integral, curriculumnacional.cl/curriculum/educacion-parvularia/
@@ -71,7 +72,7 @@ const LETRAS_NT_BANK = [
   { word:'CASA', emoji:'🏠', inicial:'C' },
   { word:'BOTE', emoji:'🛶', inicial:'B' },
   { word:'DEDO', emoji:'👆', inicial:'D' },
-  { word:'FOTO', emoji:'📷', inicial:'F' },
+  { word:'FOCA', emoji: focaSVG(38), inicial:'F' },
   { word:'GATO', emoji:'🐱', inicial:'G' },
   { word:'NUBE', emoji:'☁️', inicial:'N' },
   { word:'ROSA', emoji:'🌹', inicial:'R' },

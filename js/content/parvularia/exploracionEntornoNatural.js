@@ -1,5 +1,5 @@
 import { pick, shuffle } from '../../utils.js';
-import { vidrioSVG, espejoSVG, semillaSVG, crisalidaSVG } from '../../svg.js';
+import { vidrioSVG, espejoSVG, semillaSVG, crisalidaSVG, piedraSVG } from '../../svg.js';
 
 /* Núcleo Exploración del Entorno Natural — Educación Parvularia, NT (Decreto
    481/2017, ámbito Interacción y Comprensión del Entorno,
@@ -25,28 +25,27 @@ export const EXPLORACION_ENTORNO_NATURAL_POS = [
 ];
 
 const AGUA_SOL_BANK = [
-  { pregunta:'¿Qué necesita una planta para crecer sana?', correcta:'💧 Agua', opts:['🧱 Ladrillos','🧂 Sal','🔧 Herramientas'] },
+  { pregunta:'¿Qué necesita una planta para crecer sana?', correcta:'💧 Agua', opts:[piedraSVG(22)+' Piedras','🧂 Sal','🔧 Herramientas'] },
   { pregunta:'¿Qué nos da calor y luz durante el día?', correcta:'☀️ El sol', opts:['🌙 La luna','⭐ Las estrellas','☁️ Las nubes'] },
   { pregunta:'¿Qué necesitan las personas y animales para vivir?', correcta:'💧 Agua', opts:['🍬 Dulces','🎈 Globos','🧸 Juguetes'] },
   { pregunta:'¿De dónde viene la luz que ayuda a crecer a las plantas?', correcta:'☀️ El sol', opts:['💡 Una ampolleta','🕯️ Una vela','🔦 Una linterna'] },
   { pregunta:'¿Qué le pasa a la ropa mojada si la dejamos al sol?', correcta:'☀️ Se seca', opts:['🌙 Se moja más','❄️ Se congela','🎈 Vuela'] },
-  { pregunta:'¿Qué le pasa a un helado si lo dejamos al sol?', correcta:'🍦 Se derrite', opts:['🧱 Se pone duro','🥶 Se congela más','📚 No le pasa nada'] },
-  { pregunta:'¿Dónde encontramos agua en la naturaleza?', correcta:'🌊 En el mar y los ríos', opts:['🌵 En el desierto seco','🔥 En el fuego','🧱 En los ladrillos'] },
+  { pregunta:'¿Qué le pasa a un helado si lo dejamos al sol?', correcta:'🍦 Se derrite', opts:[piedraSVG(22)+' Se pone duro','🥶 Se congela más','📚 No le pasa nada'] },
+  { pregunta:'¿Dónde encontramos agua en la naturaleza?', correcta:'🌊 En el mar y los ríos', opts:['🌵 En el desierto seco','🔥 En el fuego',piedraSVG(22)+' En las piedras'] },
   { pregunta:'¿Qué debemos beber todos los días para estar sanos?', correcta:'💧 Agua', opts:['🥤 Solo bebidas','🍬 Solo dulces','☕ Solo café'] },
 ];
 
-/* la corteza/RUGOSA y la arena/ÁSPERA (antes RUGOSO/ÁSPERO): esos dos
-   sustantivos son femeninos, así que el adjetivo masculino hacía que el
-   explain generado ("La corteza del árbol es rugoso.") saliera
-   gramaticalmente incorrecto — nadie más usa esas 2 palabras como
-   distractor propio, así que el cambio no afecta otras entradas. "la
-   piedra" (🪨, que no se renderiza en varios navegadores) se reemplazó por
-   "el ladrillo" (🧱, bien soportado) — mismo criterio de RÍGIDO, sigue
-   siendo masculino. 🪟/🪞 se reemplazaron por vidrioSVG()/espejoSVG() por
-   el mismo problema de renderizado. */
+/* la piedra/RÍGIDA, la corteza/RUGOSA y la arena/ÁSPERA (antes RÍGIDO/
+   RUGOSO/ÁSPERO): esos tres sustantivos son femeninos, así que el adjetivo
+   masculino hacía que el explain generado ("La piedra es rígido.") saliera
+   gramaticalmente incorrecto — nadie más usa esas 3 palabras como
+   distractor propio, así que el cambio no afecta otras entradas. 🪨/🪟/🪞
+   se reemplazaron por piedraSVG()/vidrioSVG()/espejoSVG() (dibujados a
+   mano, conservando el concepto original) porque no se renderizan —
+   recuadro vacío — en varios navegadores. */
 const MATERIALES_NT_BANK = [
   { objeto:'el vidrio', emoji: vidrioSVG(56), prop:'TRANSPARENTE', opts:['OPACO','RUGOSO','LÍQUIDO'] },
-  { objeto:'el ladrillo', emoji:'🧱', prop:'RÍGIDO', opts:['FLEXIBLE','SUAVE','LÍQUIDO'] },
+  { objeto:'la piedra', emoji: piedraSVG(56), prop:'RÍGIDA', opts:['FLEXIBLE','SUAVE','LÍQUIDO'] },
   { objeto:'el espejo', emoji: espejoSVG(56), prop:'LISO', opts:['RUGOSO','BLANDO','TRANSPARENTE'] },
   { objeto:'la corteza del árbol', emoji:'🌳', prop:'RUGOSA', opts:['LISO','TRANSPARENTE','LÍQUIDO'] },
   { objeto:'el agua', emoji:'💧', prop:'LÍQUIDO', opts:['RÍGIDO','RUGOSO','OPACO'] },

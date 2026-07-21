@@ -364,12 +364,28 @@ núcleos. Se corrigieron ~30 problemas repartidos en varias categorías:
 - **Emoji que no se renderizan ("tofu"/recuadro vacío):** se detectó que
   🪱🪥🦭🪮🪨🪟🪞🫘🪖🧋 (todas adiciones Unicode 2019-2022) se ven como un
   recuadro vacío en varios navegadores/sistemas — el mismo problema que ya
-  había motivado `chileFlagSVG()`. Se agregaron 7 SVG propios en `js/svg.js`
-  (`toothbrushSVG`, `peinetaSVG`, `vidrioSVG`, `espejoSVG`, `semillaSVG`,
-  `cascoSVG`, `crisalidaSVG`) y se hicieron 3 swaps de emoji a alternativas
-  bien soportadas (gusano→hormiga, foca→foto, piedra→ladrillo, 🧋→🍹).
+  había motivado `chileFlagSVG()`. Se agregaron 11 SVG propios en
+  `js/svg.js` (`toothbrushSVG`, `peinetaSVG`, `vidrioSVG`, `espejoSVG`,
+  `semillaSVG`, `cascoSVG`, `crisalidaSVG`, `gusanoSVG`, `focaSVG`,
+  `piedraSVG`, `bebidaDulceSVG`). **Pedido explícito del usuario, corrigiendo
+  el enfoque inicial:** la primera pasada había resuelto 4 de estos casos
+  cambiando la palabra/concepto por otro con emoji bien soportado (gusano→
+  hormiga, foca→foto, piedra→ladrillo, 🧋→🍹) — el usuario pidió que, en
+  vez de sustituir el concepto, siempre se dibuje a mano el concepto
+  original (ver [[feedback-custom-art-over-emoji-swap]] en memoria), así que
+  esos 4 se revirtieron a sus palabras originales con su propio SVG.
   `cascoSVG()` además corrige un problema aparte: 🪖 es literalmente un
   casco militar, no uno de bicicleta.
+- **Íconos de acción animados (Movimientos del Cuerpo):** por el mismo
+  pedido, los 8 emoji-metáfora de `MOVIMIENTOS_BANK` (🦘 para saltar, 🐍
+  para reptar, 💫 para girar, etc. — ninguno mostraba a una persona
+  haciendo la acción) se reemplazaron por `personActionSVG(accion, size)`:
+  una figura de palitos (cabeza/torso/brazos/piernas como elementos SVG
+  independientes con una clase por parte) animada con CSS `@keyframes` en
+  `styles.css` (un set de animación por acción: `act-saltar`, `act-correr`,
+  etc.), siguiendo el mismo mecanismo que ya usaba `.float` para animar a
+  Carboncito en la Home. Todas las animaciones usan solo `transform`
+  (nunca layout) para que corran livianas.
 - **Forma geométrica incorrecta:** `shapeSVG('rombo')` tenía diagonales
   iguales (era matemáticamente un cuadrado rotado 45°, no un rombo) — se
   corrigieron las proporciones.

@@ -1,5 +1,5 @@
 import { pick, shuffle } from '../../utils.js';
-import { toothbrushSVG, peinetaSVG } from '../../svg.js';
+import { toothbrushSVG, peinetaSVG, bebidaDulceSVG } from '../../svg.js';
 
 /* Núcleo Identidad y Autonomía — Educación Parvularia, NT (Decreto 481/2017,
    ámbito Desarrollo Personal y Social, curriculumnacional.cl/614/articles-115242_bases.pdf):
@@ -74,12 +74,15 @@ const AUTOCUIDADO_BANK = [
 
 /* 🥤 se sacó de SELLO_ALIMENTOS porque es ambiguo (un vaso con bombilla
    también podría ser jugo natural, no necesariamente una bebida azucarada);
-   🍹 (bebida tropical/con sombrillita) transmite "bebida dulce" sin esa
-   ambigüedad (se probó 🧋 primero, pero no se renderiza — recuadro vacío —
-   en varios navegadores, igual que 🪥/🪮/etc.). Ambos bancos se ampliaron
-   de 6 a 8 para que un juego de rounds:8 no repita siempre los mismos
-   alimentos. */
-const SELLO_ALIMENTOS = ['🍬','🍹','🍰','🍟','🍭','🧁','🍫','🍩'];
+   bebidaDulceSVG() (un vaso con crema batida, cereza y bombilla, dibujado a
+   mano) transmite "bebida dulce/postre" sin esa ambigüedad, siguiendo el
+   mismo criterio del resto de este bloque: dibujar el concepto en vez de
+   reemplazarlo por otro emoji (se probaron 🧋 y 🍹 antes de esto: 🧋 no se
+   renderiza — recuadro vacío — en varios navegadores, y 🍹 sí renderiza
+   pero seguía siendo un reemplazo de concepto en vez de dibujar el
+   original). Ambos bancos se ampliaron de 6 a 8 para que un juego de
+   rounds:8 no repita siempre los mismos alimentos. */
+const SELLO_ALIMENTOS = ['🍬', bebidaDulceSVG(30), '🍰','🍟','🍭','🧁','🍫','🍩'];
 const SIN_SELLO_ALIMENTOS = ['🍎','🥦','🥕','🍇','🍊','🥒','🍌','🥬'];
 
 export function genEmocionesNTRound(){

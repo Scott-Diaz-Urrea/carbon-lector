@@ -1,4 +1,5 @@
 import { pick, shuffle } from '../../utils.js';
+import { personActionSVG } from '../../svg.js';
 
 /* Núcleo Corporalidad y Movimiento — Educación Parvularia, NT (Decreto
    481/2017, ámbito Desarrollo Personal y Social,
@@ -41,22 +42,20 @@ const ESCENAS_UBICACION_NT = [
 ];
 const UBICACION_OPTS_POOL = ['ADELANTE','ATRÁS','AL LADO','DÍA','NOCHE','HOY','MAÑANA','AYER'];
 
-/* SALTAR usa 🦘 (canguro) en vez de un emoji de persona: no existe un emoji
-   Unicode de "persona saltando" (🤸 es "voltereta/rueda", una acción
-   distinta) — el canguro es una asociación pedagógica estándar para
-   representar el salto, igual de clara para un niño de NT. REPTAR y GIRAR
-   siguen el mismo criterio ya usado en otras asignaturas del proyecto
-   (serpiente para reptar, símbolo de mareo/giro para girar) por la misma
-   razón: no hay emoji de persona haciendo esa acción específica. */
+/* Cada acción usa personActionSVG() — una figura de palitos animada con CSS
+   (ver @keyframes act-* en styles.css) — en vez de un emoji-metáfora
+   (canguro para saltar, serpiente para reptar, símbolo de mareo para
+   girar): a pedido explícito del usuario, se dibuja y anima la acción en
+   sí en vez de reemplazarla por un ícono que solo la sugiere. */
 const MOVIMIENTOS_BANK = [
-  { accion:'SALTAR', emoji:'🦘' },
-  { accion:'CORRER', emoji:'🏃' },
-  { accion:'CAMINAR', emoji:'🚶' },
-  { accion:'NADAR', emoji:'🏊' },
-  { accion:'BAILAR', emoji:'💃' },
-  { accion:'TREPAR', emoji:'🧗' },
-  { accion:'REPTAR', emoji:'🐍' },
-  { accion:'GIRAR', emoji:'💫' },
+  { accion:'SALTAR', emoji: personActionSVG('saltar', 100) },
+  { accion:'CORRER', emoji: personActionSVG('correr', 100) },
+  { accion:'CAMINAR', emoji: personActionSVG('caminar', 100) },
+  { accion:'NADAR', emoji: personActionSVG('nadar', 100) },
+  { accion:'BAILAR', emoji: personActionSVG('bailar', 100) },
+  { accion:'TREPAR', emoji: personActionSVG('trepar', 100) },
+  { accion:'REPTAR', emoji: personActionSVG('reptar', 100) },
+  { accion:'GIRAR', emoji: personActionSVG('girar', 100) },
 ];
 
 export function genUbicacionNTRound(){

@@ -131,6 +131,56 @@ export function crisalidaSVG(size){
     '<line x1="36" y1="55" x2="64" y2="55" stroke="#5E7A45" stroke-width="2" opacity="0.6"/>'+
   '</svg>';
 }
+/* gusanoSVG/focaSVG/piedraSVG/bebidaDulceSVG: dibujados a mano por el mismo
+   motivo que el resto de este bloque (el emoji correspondiente no se
+   renderiza en varios navegadores), pero además — a pedido explícito del
+   usuario — en vez de cambiar la palabra/concepto por otro que sí tuviera
+   un emoji bien soportado (como se hizo en una primera pasada: gusano→
+   hormiga, foca→foto, piedra→ladrillo), se conserva el concepto original y
+   se dibuja directamente. */
+export function gusanoSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M20 70 Q20 50 35 50 Q50 50 50 65 Q50 80 65 80 Q80 80 80 60" fill="none" stroke="#E8829A" stroke-width="14" stroke-linecap="round"/>'+
+    '<circle cx="20" cy="70" r="9" fill="#E8829A"/>'+
+    '<circle cx="17" cy="67" r="1.6" fill="#1D3557"/>'+
+    '<line x1="35" y1="43" x2="35" y2="57" stroke="#C25B76" stroke-width="3" stroke-linecap="round"/>'+
+    '<line x1="65" y1="73" x2="65" y2="87" stroke="#C25B76" stroke-width="3" stroke-linecap="round"/>'+
+  '</svg>';
+}
+export function focaSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<ellipse cx="52" cy="60" rx="34" ry="22" fill="#8FA6B8"/>'+
+    '<circle cx="24" cy="46" r="16" fill="#8FA6B8"/>'+
+    '<ellipse cx="72" cy="76" rx="14" ry="7" fill="#7691A6" transform="rotate(20 72 76)"/>'+
+    '<circle cx="19" cy="42" r="2.2" fill="#1D3557"/>'+
+    '<circle cx="30" cy="42" r="2.2" fill="#1D3557"/>'+
+    '<ellipse cx="24" cy="50" rx="3" ry="2" fill="#5C7185"/>'+
+    '<line x1="14" y1="50" x2="4" y2="48" stroke="#5C7185" stroke-width="1.5"/>'+
+    '<line x1="14" y1="53" x2="4" y2="54" stroke="#5C7185" stroke-width="1.5"/>'+
+    '<line x1="34" y1="50" x2="44" y2="48" stroke="#5C7185" stroke-width="1.5"/>'+
+    '<line x1="34" y1="53" x2="44" y2="54" stroke="#5C7185" stroke-width="1.5"/>'+
+  '</svg>';
+}
+export function piedraSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M18 70 Q10 50 28 38 Q40 24 60 30 Q82 34 84 56 Q86 76 66 80 Q40 86 18 70 Z" fill="#9AA5B1" stroke="#727C87" stroke-width="3"/>'+
+    '<path d="M32 42 Q42 38 50 44" stroke="#727C87" stroke-width="2.5" fill="none" opacity="0.6"/>'+
+    '<path d="M55 55 Q65 52 72 58" stroke="#727C87" stroke-width="2.5" fill="none" opacity="0.6"/>'+
+  '</svg>';
+}
+export function bebidaDulceSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M28 34 L34 86 Q35 92 42 92 L58 92 Q65 92 66 86 L72 34 Z" fill="#FF9EB0" stroke="#E8788F" stroke-width="3"/>'+
+    '<ellipse cx="50" cy="34" rx="22" ry="7" fill="#FFFFFF" stroke="#E8788F" stroke-width="3"/>'+
+    '<path d="M38 28 Q50 12 62 28" fill="#FFFFFF" stroke="#E1EEEA" stroke-width="2"/>'+
+    '<circle cx="50" cy="16" r="5" fill="#E63946"/>'+
+    '<line x1="54" y1="12" x2="66" y2="4" stroke="#12A594" stroke-width="5" stroke-linecap="round"/>'+
+  '</svg>';
+}
 export function cascoSVG(size){
   size = size || 90;
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
@@ -141,6 +191,29 @@ export function cascoSVG(size){
     '<ellipse cx="70" cy="50" rx="7" ry="14" fill="#E85555" opacity="0.6"/>'+
     '<path d="M22 62 Q22 82 30 90" stroke="#1D3557" stroke-width="4" fill="none" stroke-linecap="round"/>'+
     '<path d="M78 62 Q78 82 70 90" stroke="#1D3557" stroke-width="4" fill="none" stroke-linecap="round"/>'+
+  '</svg>';
+}
+
+/* Figura humana simple animada para representar acciones/movimientos
+   (núcleo Corporalidad y Movimiento, módulo "Movimientos del Cuerpo") — a
+   pedido explícito del usuario, en vez de un emoji-metáfora fija (p.ej. un
+   canguro 🦘 para "saltar", que no es una persona haciendo la acción), se
+   dibuja una figura de palitos y se anima cada extremidad por separado con
+   CSS (@keyframes en styles.css, un set por acción — mismo mecanismo que
+   ya usa `.float` para Carboncito en la Home). Cabeza/torso/brazos/piernas
+   son elementos SVG independientes con una clase por parte (pf-head,
+   pf-torso, pf-armL/R, pf-legL/R) para que cada selector `.act-<accion>`
+   en CSS pueda animar solo las partes que necesita; el contenedor <svg>
+   lleva la clase `act-<accion>` que dispara la animación correspondiente. */
+export function personActionSVG(action, size){
+  size = size || 90;
+  return '<svg class="action-figure act-'+action+'" width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<circle class="pf-head" cx="50" cy="16" r="9" fill="#1D3557"/>'+
+    '<line class="pf-torso" x1="50" y1="25" x2="50" y2="58" stroke="#1D3557" stroke-width="7" stroke-linecap="round"/>'+
+    '<line class="pf-armL" x1="50" y1="30" x2="32" y2="46" stroke="#FF6B6B" stroke-width="6" stroke-linecap="round"/>'+
+    '<line class="pf-armR" x1="50" y1="30" x2="68" y2="46" stroke="#FF6B6B" stroke-width="6" stroke-linecap="round"/>'+
+    '<line class="pf-legL" x1="50" y1="58" x2="36" y2="88" stroke="#12A594" stroke-width="7" stroke-linecap="round"/>'+
+    '<line class="pf-legR" x1="50" y1="58" x2="64" y2="88" stroke="#12A594" stroke-width="7" stroke-linecap="round"/>'+
   '</svg>';
 }
 

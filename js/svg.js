@@ -57,11 +57,91 @@ export function shapeSVG(id, size){
   else if(id==='cuadrado') shape = '<rect x="10" y="10" width="80" height="80" rx="8" fill="'+fill+'"/>';
   else if(id==='triangulo') shape = '<polygon points="50,8 92,88 8,88" fill="'+fill+'"/>';
   else if(id==='rectangulo') shape = '<rect x="4" y="24" width="92" height="52" rx="8" fill="'+fill+'"/>';
-  else if(id==='rombo') shape = '<polygon points="50,6 94,50 50,94 6,50" fill="'+fill+'"/>';
+  else if(id==='rombo') shape = '<polygon points="50,20 92,50 50,80 8,50" fill="'+fill+'"/>';
   else if(id==='ovalo') shape = '<ellipse cx="50" cy="50" rx="46" ry="30" fill="'+fill+'"/>';
   else if(id==='pentagono') shape = '<polygon points="50,6 92,38 76,90 24,90 8,38" fill="'+fill+'"/>';
   else if(id==='hexagono') shape = '<polygon points="27,10 73,10 96,50 73,90 27,90 4,50" fill="'+fill+'"/>';
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+shape+'</svg>';
+}
+
+/* Íconos propios para conceptos donde el emoji correspondiente no se
+   renderiza en muchos sistemas (probado: 🪥🪮🪟🪞🫘🪖 se ven como un
+   recuadro vacío/"tofu" en varios navegadores — todos son adiciones
+   Unicode 2019-2022, con soporte de fuente todavía incompleto en varios
+   sistemas operativos, el mismo tipo de problema que ya motivó
+   chileFlagSVG()). cascoSVG() además corrige un problema aparte: el emoji
+   🪖 es literalmente un casco militar, no un casco de bicicleta/patines —
+   dibujarlo a mano soluciona ambos problemas a la vez. */
+export function toothbrushSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<rect x="8" y="46" width="52" height="13" rx="6.5" fill="#12A594"/>'+
+    '<rect x="55" y="36" width="34" height="24" rx="7" fill="#FFFFFF" stroke="#0C7C70" stroke-width="3"/>'+
+    '<line x1="60" y1="36" x2="60" y2="24" stroke="#7C6FF0" stroke-width="4" stroke-linecap="round"/>'+
+    '<line x1="68" y1="36" x2="68" y2="22" stroke="#FF6B6B" stroke-width="4" stroke-linecap="round"/>'+
+    '<line x1="76" y1="36" x2="76" y2="24" stroke="#FFB627" stroke-width="4" stroke-linecap="round"/>'+
+    '<line x1="84" y1="36" x2="84" y2="26" stroke="#7C6FF0" stroke-width="4" stroke-linecap="round"/>'+
+  '</svg>';
+}
+export function peinetaSVG(size){
+  size = size || 90;
+  let teeth = '';
+  for(let i=0;i<9;i++){
+    const x = 14 + i*8.5;
+    teeth += '<line x1="'+x+'" y1="38" x2="'+x+'" y2="80" stroke="#F0932B" stroke-width="4" stroke-linecap="round"/>';
+  }
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<rect x="10" y="20" width="80" height="20" rx="8" fill="#FFB627"/>'+
+    teeth+
+  '</svg>';
+}
+export function vidrioSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<rect x="14" y="14" width="72" height="72" rx="6" fill="#BFE9E3" fill-opacity="0.35" stroke="#12A594" stroke-width="4"/>'+
+    '<line x1="50" y1="14" x2="50" y2="86" stroke="#12A594" stroke-width="3"/>'+
+    '<line x1="14" y1="50" x2="86" y2="50" stroke="#12A594" stroke-width="3"/>'+
+    '<path d="M22 30 L38 14" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.85"/>'+
+  '</svg>';
+}
+export function espejoSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<rect x="42" y="70" width="16" height="24" rx="6" fill="#F0932B"/>'+
+    '<ellipse cx="50" cy="42" rx="34" ry="38" fill="#DDEFFB" stroke="#7C6FF0" stroke-width="5"/>'+
+    '<path d="M34 28 Q42 20 54 24" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.85"/>'+
+  '</svg>';
+}
+export function semillaSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<ellipse cx="50" cy="52" rx="22" ry="32" fill="#B08968" stroke="#7A5B44" stroke-width="3"/>'+
+    '<path d="M50 24 Q56 30 50 38 Q44 30 50 24 Z" fill="#7A5B44"/>'+
+  '</svg>';
+}
+/* Crisálida (etapa del ciclo de vida de la mariposa entre oruga y mariposa
+   adulta): no existe un emoji Unicode para esto, así que se dibuja a mano
+   — un capullo colgante con nervaduras suaves. */
+export function crisalidaSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<line x1="50" y1="6" x2="50" y2="18" stroke="#7A5B44" stroke-width="3"/>'+
+    '<path d="M50 18 Q72 26 68 52 Q65 82 50 92 Q35 82 32 52 Q28 26 50 18 Z" fill="#8FAE6B" stroke="#5E7A45" stroke-width="3"/>'+
+    '<line x1="38" y1="40" x2="62" y2="40" stroke="#5E7A45" stroke-width="2" opacity="0.6"/>'+
+    '<line x1="36" y1="55" x2="64" y2="55" stroke="#5E7A45" stroke-width="2" opacity="0.6"/>'+
+  '</svg>';
+}
+export function cascoSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M12 62 Q12 18 50 18 Q88 18 88 62 Z" fill="#FF6B6B"/>'+
+    '<path d="M12 62 Q50 74 88 62" fill="none" stroke="#E85555" stroke-width="4"/>'+
+    '<ellipse cx="30" cy="50" rx="7" ry="14" fill="#E85555" opacity="0.6"/>'+
+    '<ellipse cx="50" cy="46" rx="7" ry="16" fill="#E85555" opacity="0.6"/>'+
+    '<ellipse cx="70" cy="50" rx="7" ry="14" fill="#E85555" opacity="0.6"/>'+
+    '<path d="M22 62 Q22 82 30 90" stroke="#1D3557" stroke-width="4" fill="none" stroke-linecap="round"/>'+
+    '<path d="M78 62 Q78 82 70 90" stroke="#1D3557" stroke-width="4" fill="none" stroke-linecap="round"/>'+
+  '</svg>';
 }
 
 /* Bandera de Chile dibujada en SVG propio: los emoji de bandera (🇨🇱) no se

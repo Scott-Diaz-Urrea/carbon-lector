@@ -19,15 +19,21 @@ export const CONVIVENCIA_CIUDADANIA_POS = [
   {x:24,y:82},{x:68,y:50},{x:24,y:18}
 ];
 
+/* Los ítems 2 y 5 originales ("tu amigo está triste", "hay un niño nuevo")
+   eran escenarios de empatía/inclusión, no conflictos de dos partes que
+   resolver — CLAUDE.md documenta que este núcleo solo cubre OA05
+   (Resolución Pacífica) y deja fuera explícitamente la empatía vivida
+   (OA01-04). Se reemplazaron por desacuerdos genuinos entre dos niños,
+   igual que el resto del banco. */
 const CONFLICTO_BANK = [
   { texto:'Dos niños quieren el mismo juguete al mismo tiempo.', correcta:'Turnarse para jugar', malas:['Quitárselo a la fuerza','Gritar y llorar','Empujar al otro niño'] },
-  { texto:'Tu amigo está triste porque perdió en el juego.', correcta:'Consolarlo e invitarlo a jugar de nuevo', malas:['Reírse de él','Ignorarlo','Decirle que juega mal'] },
+  { texto:'Dos niños arman la misma torre de bloques y no se ponen de acuerdo en cómo seguir.', correcta:'Conversar y decidir juntos cómo seguir construyendo', malas:['Botar la torre del otro','Pelear por mandar','Quitarle los bloques al otro'] },
   { texto:'Quieres hablar pero otro niño también está hablando.', correcta:'Esperar tu turno y levantar la mano', malas:['Interrumpir gritando','Hablar más fuerte que el otro','Empujarlo para que se calle'] },
   { texto:'Un compañero rompió sin querer tu dibujo.', correcta:'Decirle cómo te sientes con calma', malas:['Pegarle','Romper su dibujo también','Gritarle'] },
-  { texto:'Hay un niño nuevo en la sala y no lo conoces.', correcta:'Acercarte y preguntarle su nombre', malas:['Ignorarlo','Burlarte de él','Decirle que no puede jugar'] },
+  { texto:'Un compañero dice que el juego no es justo porque siempre pierde.', correcta:'Escucharlo y cambiar las reglas para que sea justo para todos', malas:['Decirle que deje de quejarse','Burlarte porque pierde','No dejarlo jugar más'] },
   { texto:'Dos amigos quieren jugar a juegos distintos al mismo tiempo.', correcta:'Conversar y elegir un juego entre los dos, o turnarse', malas:['Pelear por imponer su juego','Jugar solo y dejar al otro de lado','Gritar hasta que el otro ceda'] },
   { texto:'Un compañero te empujó sin querer al correr.', correcta:'Decirle con calma que tenga más cuidado', malas:['Empujarlo de vuelta más fuerte','Gritarle enojado','Dejar de ser su amigo'] },
-  { texto:'Quieres el columpio pero otro niño lo está usando.', correcta:'Esperar tu turno pacientemente', malas:['Bajarlo a la fuerza','Quitarle el columpio empujando','Llorar y no dejarlo jugar'] },
+  { texto:'Quieres el columpio pero otro niño lo está usando.', correcta:'Esperar tu turno pacientemente', malas:['Bajarlo a la fuerza','Quitarle el columpio empujando','Llorar hasta que te lo preste'] },
 ];
 
 const NORMAS_BANK = [
@@ -37,7 +43,7 @@ const NORMAS_BANK = [
   { correcta:'Hacer fila para esperar tu turno', incorrectas:['Pasar por encima de otros','Empujar para ser el primero','Saltarse la fila'] },
   { correcta:'Cuidar los materiales de la sala', incorrectas:['Romper los materiales a propósito','Rayar las mesas','Tirar los libros al suelo'] },
   { correcta:'Levantar la mano para pedir la palabra', incorrectas:['Gritar para que te escuchen','Hablar sin esperar tu turno','Interrumpir a la profesora'] },
-  { correcta:'Lavarse las manos antes de comer', incorrectas:['Comer con las manos sucias','Tocar la comida de otros sin permiso','Ensuciar la mesa a propósito'] },
+  { correcta:'Lavarse las manos antes de comer', incorrectas:['Comer con las manos sucias','Toser sin taparte la boca','Ensuciar la mesa a propósito'] },
   { correcta:'Ayudar a un compañero que se cayó', incorrectas:['Reírse de quien se cayó','Seguir jugando sin mirar','Empujarlo para que se levante rápido'] },
 ];
 

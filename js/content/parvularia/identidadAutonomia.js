@@ -1,4 +1,5 @@
 import { pick, shuffle } from '../../utils.js';
+import { toothbrushSVG, peinetaSVG } from '../../svg.js';
 
 /* Núcleo Identidad y Autonomía — Educación Parvularia, NT (Decreto 481/2017,
    ámbito Desarrollo Personal y Social, curriculumnacional.cl/614/articles-115242_bases.pdf):
@@ -35,19 +36,51 @@ const EMOCIONES_ESCENAS = [
   { texto:'Alguien se rió de su dibujo sin razón.', emocion:'triste' },
 ];
 
+/* AUTOCUIDADO_BANK guarda un id en vez del emoji/dibujo directamente: dos
+   íconos (cepillo de dientes y peineta) no tienen un emoji Unicode que se
+   renderice de forma confiable (🪥/🪮 aparecen como recuadro vacío en varios
+   navegadores), así que se dibujan a mano con toothbrushSVG()/peinetaSVG().
+   ICONOS mapea cada id a su representación visual y a la palabra que lo
+   describe, para que `explain` pueda nombrar la respuesta en vez de solo
+   repetir el ícono (antes decía literalmente "La respuesta correcta es 🛁."). */
+const ICONOS = {
+  cepillo: { visual: toothbrushSVG(52), label:'el cepillo de dientes' },
+  jabon: { visual:'🧼', label:'el jabón' },
+  zapatillas: { visual:'👟', label:'las zapatillas' },
+  peineta: { visual: peinetaSVG(52), label:'la peineta' },
+  abrigo: { visual:'🧥', label:'el abrigo' },
+  gorro: { visual:'🧢', label:'el gorro' },
+  tina: { visual:'🛁', label:'la tina' },
+  lentesSol: { visual:'🕶️', label:'los lentes de sol' },
+  crema: { visual:'🧴', label:'la crema' },
+  guantes: { visual:'🧤', label:'los guantes' },
+  anteojos: { visual:'👓', label:'los anteojos' },
+  calcetines: { visual:'🧦', label:'los calcetines' },
+  shorts: { visual:'🩳', label:'el short' },
+  trajeBano: { visual:'🩱', label:'el traje de baño' },
+  bufanda: { visual:'🧣', label:'la bufanda' },
+};
+
 const AUTOCUIDADO_BANK = [
-  { pregunta:'¿Qué usas para lavarte los dientes?', correct:'🪥', opts:['🧴','🧼','🪮'] },
-  { pregunta:'¿Qué usas para lavarte las manos y la cara?', correct:'🧼', opts:['🪥','🧴','🪮'] },
-  { pregunta:'¿Qué te pones en los pies para salir a jugar?', correct:'👟', opts:['🧢','🧤','👓'] },
-  { pregunta:'¿Qué usas para peinarte el pelo?', correct:'🪮', opts:['🪥','🧼','🧦'] },
-  { pregunta:'¿Qué ropa te pones cuando hace mucho frío?', correct:'🧥', opts:['🩳','🩱','🧢'] },
-  { pregunta:'¿Qué te pones en la cabeza cuando hay mucho sol?', correct:'🧢', opts:['🧤','👟','🧣'] },
-  { pregunta:'¿Qué usas para bañarte?', correct:'🛁', opts:['🪥','🧢','🪮'] },
-  { pregunta:'¿Qué usas para protegerte los ojos cuando el sol está muy fuerte?', correct:'🕶️', opts:['🧣','🧤','👟'] },
+  { pregunta:'¿Qué usas para lavarte los dientes?', correct:'cepillo', opts:['crema','jabon','peineta'] },
+  { pregunta:'¿Qué usas para lavarte las manos y la cara?', correct:'jabon', opts:['cepillo','crema','peineta'] },
+  { pregunta:'¿Qué te pones en los pies para salir a jugar?', correct:'zapatillas', opts:['gorro','guantes','anteojos'] },
+  { pregunta:'¿Qué usas para peinarte el pelo?', correct:'peineta', opts:['cepillo','jabon','calcetines'] },
+  { pregunta:'¿Qué ropa te pones cuando hace mucho frío?', correct:'abrigo', opts:['shorts','trajeBano','gorro'] },
+  { pregunta:'¿Qué te pones en la cabeza cuando hay mucho sol?', correct:'gorro', opts:['guantes','zapatillas','bufanda'] },
+  { pregunta:'¿Qué usas para bañarte?', correct:'tina', opts:['cepillo','gorro','peineta'] },
+  { pregunta:'¿Qué usas para protegerte los ojos cuando el sol está muy fuerte?', correct:'lentesSol', opts:['bufanda','guantes','zapatillas'] },
 ];
 
-const SELLO_ALIMENTOS = ['🍬','🥤','🍰','🍟','🍭','🧁'];
-const SIN_SELLO_ALIMENTOS = ['🍎','🥦','🥕','🍇','🍊','🥒'];
+/* 🥤 se sacó de SELLO_ALIMENTOS porque es ambiguo (un vaso con bombilla
+   también podría ser jugo natural, no necesariamente una bebida azucarada);
+   🍹 (bebida tropical/con sombrillita) transmite "bebida dulce" sin esa
+   ambigüedad (se probó 🧋 primero, pero no se renderiza — recuadro vacío —
+   en varios navegadores, igual que 🪥/🪮/etc.). Ambos bancos se ampliaron
+   de 6 a 8 para que un juego de rounds:8 no repita siempre los mismos
+   alimentos. */
+const SELLO_ALIMENTOS = ['🍬','🍹','🍰','🍟','🍭','🧁','🍫','🍩'];
+const SIN_SELLO_ALIMENTOS = ['🍎','🥦','🥕','🍇','🍊','🥒','🍌','🥬'];
 
 export function genEmocionesNTRound(){
   const item = pick(EMOCIONES_ESCENAS);
@@ -62,11 +95,11 @@ export function genEmocionesNTRound(){
 
 export function genAutocuidadoNTRound(){
   const item = pick(AUTOCUIDADO_BANK);
-  const opts = shuffle([item.correct].concat(item.opts)).map(function(e){ return {label:e, value:e}; });
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(id){ return {label:ICONOS[id].visual, value:id}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correct, speakText: item.pregunta, cols:4,
-    explain: 'La respuesta correcta es '+item.correct+'.',
+    explain: 'La respuesta correcta es <b>'+ICONOS[item.correct].label+'</b>.',
   };
 }
 

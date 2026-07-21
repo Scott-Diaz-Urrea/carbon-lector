@@ -357,6 +357,59 @@ son edades donde el juego en pantalla no es desarrollo-apropiado (así lo indica
 propio Decreto 481/2017 para esos niveles), así que no está previsto construir
 módulos jugables para ellos — ver "Educación Parvularia — níveles y núcleos" arriba.
 
+**Segunda auditoría exhaustiva de NT (2026-07-21):** pedido explícito del
+usuario de revisar a fondo íconos, letras, formas y preguntas de los 8
+núcleos. Se corrigieron ~30 problemas repartidos en varias categorías:
+
+- **Emoji que no se renderizan ("tofu"/recuadro vacío):** se detectó que
+  🪱🪥🦭🪮🪨🪟🪞🫘🪖🧋 (todas adiciones Unicode 2019-2022) se ven como un
+  recuadro vacío en varios navegadores/sistemas — el mismo problema que ya
+  había motivado `chileFlagSVG()`. Se agregaron 7 SVG propios en `js/svg.js`
+  (`toothbrushSVG`, `peinetaSVG`, `vidrioSVG`, `espejoSVG`, `semillaSVG`,
+  `cascoSVG`, `crisalidaSVG`) y se hicieron 3 swaps de emoji a alternativas
+  bien soportadas (gusano→hormiga, foca→foto, piedra→ladrillo, 🧋→🍹).
+  `cascoSVG()` además corrige un problema aparte: 🪖 es literalmente un
+  casco militar, no uno de bicicleta.
+- **Forma geométrica incorrecta:** `shapeSVG('rombo')` tenía diagonales
+  iguales (era matemáticamente un cuadrado rotado 45°, no un rombo) — se
+  corrigieron las proporciones.
+- **Errores de concordancia de género:** varios `explain` generados
+  concatenaban un sustantivo femenino con un adjetivo masculino ("La piedra
+  es rígido", "La corteza del árbol es rugoso", "La arena es áspero") —
+  corregidos a sus formas femeninas (o, en el caso de "piedra", cambiado a
+  "el ladrillo" al resolver el problema de renderizado del emoji). También
+  se corrigió un literal `"un(a)"` que aparecía sin resolver en el texto de
+  Formas y Cuerpos.
+- **`speakText` agramatical:** varios generadores construían el texto leído
+  en voz alta con `texto.replace('___','')`, dejando oraciones rotas (huecos
+  con doble espacio, comas huérfanas) — se agregó un campo `pregunta`
+  explícito por escena en vez de derivar el texto del hueco.
+- **Ambigüedad/contradicción de contenido:** dos oraciones de posición
+  relativa (perro/dueño, osito/niña) no tenían una única respuesta correcta
+  posible sin contexto adicional — se reformularon. Una carrera de tortuga
+  se cambió a caracol para no contradecir la moraleja de "la tortuga y la
+  liebre". Dos ítems de "Resolución Pacífica" eran escenarios de empatía,
+  no conflictos genuinos (fuera del alcance documentado OA05 del núcleo) —
+  se reemplazaron. Una pregunta de "instituciones" pedía una institución
+  pero la respuesta correcta (🚒) era un vehículo — se reformuló la
+  pregunta para pedir explícitamente el vehículo.
+- **`explain` genérico sin valor pedagógico:** varios generadores solo
+  repetían el emoji de la respuesta correcta ("La respuesta correcta es
+  🛁.") — se agregaron etiquetas de texto (`label`) por ítem para que el
+  explain nombre la respuesta en palabras.
+- **Ciclo de vida incompleto:** el ciclo de la mariposa solo tenía
+  huevo→oruga→mariposa, saltándose la etapa de crisálida — se agregó
+  (con `crisalidaSVG()`, ya que no existe un emoji para esto).
+- **Bancos de contenido ampliados/corregidos:** `SELLO_ALIMENTOS`/
+  `SIN_SELLO_ALIMENTOS` de 6 a 8 ítems cada uno; un grupo de "clasificar"
+  mezclaba una persona (🧑, "piernas") con animales bajo el atributo
+  "patas" — se cambió por 🦩.
+
+Los 31 módulos de NT se probaron con fuzz-testing (100 iteraciones cada
+uno vía consola del navegador) tras cada tanda de cambios: sin `undefined`,
+sin opciones duplicadas, `correctValue` siempre presente, `explain` siempre
+presente, `speakText` sin HTML embebido.
+
 **Ámbito Comunicación Integral** (curriculumnacional.cl/curriculum/educacion-parvularia/comunicacion-integral/nt-nivel-transicion):
 - **Lenguaje Verbal** (6): Escribe tu Nombre y Caligrafía (ambos trazado libre sobre
   canvas, sin motor MC), Sílabas y Sonidos, Escuchar y Comprender, Vocabulario en

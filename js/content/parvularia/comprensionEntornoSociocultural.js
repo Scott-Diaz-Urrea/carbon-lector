@@ -1,4 +1,5 @@
 import { pick, shuffle } from '../../utils.js';
+import { cascoSVG } from '../../svg.js';
 
 /* Núcleo Comprensión del Entorno Sociocultural — Educación Parvularia, NT
    (Decreto 481/2017, ámbito Interacción y Comprensión del Entorno,
@@ -52,16 +53,21 @@ const OBJETOS_TEC_BANK = [
 
 /* El ítem del bus se reemplazó por Municipalidad/Correos/Banco/Supermercado:
    un medio de transporte no encaja en "instituciones de mi comunidad" (las
-   demás son edificios/servicios, no vehículos). */
+   demás son edificios/servicios, no vehículos). Por la misma razón, la
+   pregunta de bomberos ya no dice "¿A dónde llamas...?" (que implica un
+   lugar) — se reformuló para preguntar explícitamente por el vehículo, así
+   🚒 deja de ser una respuesta inconsistente con el resto del banco. Cada
+   entrada trae un `label` para que `explain` pueda nombrar la respuesta en
+   vez de solo repetir el emoji. */
 const INSTITUCIONES_BANK = [
-  { pregunta:'¿A dónde vas si te enfermas o te sientes mal?', correcto:'🏥', opts:['🏫','📚','🚒'] },
-  { pregunta:'¿A dónde vas a pedir prestado un libro?', correcto:'📚', opts:['🏥','🚒','🏫'] },
-  { pregunta:'¿A dónde llamas si hay un incendio?', correcto:'🚒', opts:['🏥','📚','🏫'] },
-  { pregunta:'¿A dónde vas todos los días a aprender?', correcto:'🏫', opts:['🏥','🚒','📚'] },
-  { pregunta:'¿Dónde trabaja el alcalde de tu comuna?', correcto:'🏛️', opts:['🏥','📚','🏫'] },
-  { pregunta:'¿A dónde vas a enviar una carta o un paquete?', correcto:'🏤', opts:['🏦','🏪','🏛️'] },
-  { pregunta:'¿A dónde va tu familia a guardar su dinero?', correcto:'🏦', opts:['🏤','🏪','🏥'] },
-  { pregunta:'¿A dónde va tu familia a comprar los alimentos de la semana?', correcto:'🏪', opts:['🏦','🏤','🏫'] },
+  { pregunta:'¿A dónde vas si te enfermas o te sientes mal?', correcto:'🏥', label:'el hospital', opts:['🏫','📚','🚒'] },
+  { pregunta:'¿A dónde vas a pedir prestado un libro?', correcto:'📚', label:'la biblioteca', opts:['🏥','🚒','🏫'] },
+  { pregunta:'¿En qué vehículo llegan los bomberos a apagar un incendio?', correcto:'🚒', label:'el carro de bomberos', opts:['🏥','📚','🏫'] },
+  { pregunta:'¿A dónde vas todos los días a aprender?', correcto:'🏫', label:'la escuela', opts:['🏥','🚒','📚'] },
+  { pregunta:'¿Dónde trabaja el alcalde de tu comuna?', correcto:'🏛️', label:'la municipalidad', opts:['🏥','📚','🏫'] },
+  { pregunta:'¿A dónde vas a enviar una carta o un paquete?', correcto:'🏤', label:'el correo', opts:['🏦','🏪','🏛️'] },
+  { pregunta:'¿A dónde va tu familia a guardar su dinero?', correcto:'🏦', label:'el banco', opts:['🏤','🏪','🏥'] },
+  { pregunta:'¿A dónde va tu familia a comprar los alimentos de la semana?', correcto:'🏪', label:'el supermercado', opts:['🏦','🏤','🏫'] },
 ];
 
 const SEGURIDAD_PREV_BANK = [
@@ -69,7 +75,7 @@ const SEGURIDAD_PREV_BANK = [
   { pregunta:'¿Qué color del semáforo significa "Detente"?', correcto:'🔴 Rojo', opts:['🟢 Verde','🟡 Amarillo','🔵 Azul'] },
   { pregunta:'Si hay un incendio, ¿qué debes hacer?', correcto:'Salir con un adulto por la salida más cercana', opts:['Esconderte en un clóset','Volver a buscar tus juguetes','Usar el ascensor'] },
   { pregunta:'Antes de cruzar la calle, ¿qué debes hacer primero?', correcto:'Mirar a ambos lados y dar la mano a un adulto', opts:['Cruzar corriendo','Cruzar mirando el celular','Cruzar sin mirar'] },
-  { pregunta:'¿Qué debes ponerte antes de andar en bicicleta o patines?', correcto:'🪖 El casco', opts:['👒 Un sombrero de verano','👟 Solo zapatillas','🧤 Solo guantes'] },
+  { pregunta:'¿Qué debes ponerte antes de andar en bicicleta o patines?', correcto: cascoSVG(40)+' El casco', opts:['👒 Un sombrero de verano','👟 Solo zapatillas','🧤 Solo guantes'] },
   { pregunta:'¿Qué debes hacer si un extraño te ofrece dulces o te pide que lo acompañes?', correcto:'Decir que no y contarle a un adulto de confianza', opts:['Irte con esa persona','Aceptar los dulces callado','Seguirlo sin avisar a nadie'] },
   { pregunta:'¿Qué debes hacer si te pierdes en un lugar con mucha gente?', correcto:'Quedarte quieto y buscar a un adulto que trabaje ahí', opts:['Seguir caminando solo','Esconderte sin avisar a nadie','Irte con la primera persona que veas'] },
   { pregunta:'¿Qué debes hacer si encuentras fósforos, remedios o productos de limpieza?', correcto:'No tocarlos y avisar a un adulto', opts:['Jugar con ellos','Probarlos para ver qué son','Guardarlos en tu mochila'] },
@@ -101,7 +107,7 @@ export function genInstitucionesNTRound(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcto, speakText: item.pregunta, cols:4,
-    explain: 'La respuesta correcta es '+item.correcto+'.',
+    explain: 'La respuesta correcta es <b>'+item.label+'</b> '+item.correcto+'.',
   };
 }
 

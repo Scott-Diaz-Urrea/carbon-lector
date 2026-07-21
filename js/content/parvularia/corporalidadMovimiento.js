@@ -17,15 +17,27 @@ export const CORPORALIDAD_MOVIMIENTO_POS = [
   {x:28,y:75},{x:68,y:30},
 ];
 
+/* Cada escena trae su propio `pregunta` (para speakText) porque derivarlo de
+   `texto.replace('___','')` producía oraciones rotas cuando el hueco iba
+   pegado a una coma (p.ej. "Vamos al jardín ___, no mañana." → "Vamos al
+   jardín , no mañana." al leerlo en voz alta). El perro y el osito además
+   se reformularon: "camina ___ de su dueño" y "sentado ___ de la niña" eran
+   ambiguos sin más contexto (adelante/atrás/al lado calzaban igual de bien
+   gramaticalmente) — ahora cada oración trae un detalle que fuerza una sola
+   lectura posible. La tortuga se cambió por un caracol para no contradecir
+   la moraleja de "la tortuga y la liebre" (que los niños probablemente ya
+   conocen) con una tortuga perdiendo una carrera. AYER usa 🔙 en vez de 🌆
+   (una escena de ciudad al atardecer no representa "ayer" ni encaja con la
+   escena del parque descrita). */
 const ESCENAS_UBICACION_NT = [
-  { emoji:'🐕', texto:'El perro camina ___ de su dueño.', correct:'ADELANTE' },
-  { emoji:'🐢', texto:'La tortuga quedó ___ en la carrera.', correct:'ATRÁS' },
-  { emoji:'🧸', texto:'El osito está sentado ___ de la niña.', correct:'AL LADO' },
-  { emoji:'☀️', texto:'Jugamos en el patio durante el ___.', correct:'DÍA' },
-  { emoji:'🌙', texto:'Dormimos durante la ___.', correct:'NOCHE' },
-  { emoji:'📅', texto:'Vamos al jardín ___, no mañana.', correct:'HOY' },
-  { emoji:'🌅', texto:'Si hoy es lunes, ___ será martes.', correct:'MAÑANA' },
-  { emoji:'🌆', texto:'Fuimos al parque ___, no hoy.', correct:'AYER' },
+  { emoji:'🐕', texto:'El perro camina ___ de su dueño, tirando de la correa.', correct:'ADELANTE', pregunta:'¿Dónde camina el perro?' },
+  { emoji:'🐌', texto:'El caracol quedó ___ en la carrera, porque es muy lento.', correct:'ATRÁS', pregunta:'¿Dónde quedó el caracol?' },
+  { emoji:'🧸', texto:'El osito está sentado ___ de la niña, bien pegadito a ella.', correct:'AL LADO', pregunta:'¿Dónde está sentado el osito?' },
+  { emoji:'☀️', texto:'Jugamos en el patio durante el ___.', correct:'DÍA', pregunta:'¿Cuándo jugamos en el patio?' },
+  { emoji:'🌙', texto:'Dormimos durante la ___.', correct:'NOCHE', pregunta:'¿Cuándo dormimos?' },
+  { emoji:'📅', texto:'Vamos al jardín ___, no mañana.', correct:'HOY', pregunta:'¿Cuándo vamos al jardín?' },
+  { emoji:'🌅', texto:'Si hoy es lunes, ___ será martes.', correct:'MAÑANA', pregunta:'Si hoy es lunes, ¿qué día será después?' },
+  { emoji:'🔙', texto:'Fuimos al parque ___, no hoy.', correct:'AYER', pregunta:'¿Cuándo fuimos al parque?' },
 ];
 const UBICACION_OPTS_POOL = ['ADELANTE','ATRÁS','AL LADO','DÍA','NOCHE','HOY','MAÑANA','AYER'];
 
@@ -53,8 +65,8 @@ export function genUbicacionNTRound(){
   const opts = shuffle([item.correct].concat(distract)).map(function(p){ return {label:p, value:p}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto.replace('___','<span class="blank">___</span>')+'</p>',
-    options: opts, correctValue: item.correct, speakText: item.texto.replace('___',''), cols:4, kind:'word',
-    explain: 'La palabra correcta es <b>'+item.correct+'</b>.',
+    options: opts, correctValue: item.correct, speakText: item.pregunta, cols:4, kind:'word',
+    explain: item.texto.replace('___', item.correct),
   };
 }
 

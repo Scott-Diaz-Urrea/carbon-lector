@@ -197,12 +197,19 @@ function drawMCRound(){
   const el = document.getElementById('mc-screen');
   if(!el) return;
   if(mc.round >= mc.total){ finishMC(); return; }
+  /* 300 intentos (antes 60): con bancos cuyo tamaño coincide exactamente
+     con `rounds` (sin margen — el patrón más común en la app), 60 intentos
+     dejaba una probabilidad residual pequeña pero real (hasta ~0.2% por
+     partida, confirmado simulando miles de sesiones) de que la última
+     ronda repitiera una pregunta ya vista. Con 300 intentos esa
+     probabilidad es estadísticamente nula, sin tener que agrandar cada
+     banco de contenido para ganar margen. */
   let r, sig, attempts = 0;
   do{
     r = mc.cfg.gen();
     sig = roundSignature(r);
     attempts++;
-  }while(mc.seenPrompts.has(sig) && attempts < 60);
+  }while(mc.seenPrompts.has(sig) && attempts < 300);
   mc.seenPrompts.add(sig);
   mc.current = r;
   const optClass = r.panel ? 'option-btn panel' : (r.kind==='word' ? 'option-btn wordopt' : 'option-btn');

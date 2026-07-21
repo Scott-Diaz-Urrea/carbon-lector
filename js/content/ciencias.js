@@ -245,16 +245,25 @@ const AGUA_PROPIEDADES_BANK = [
   { texto:'El agua nunca cambia de forma', valor:false },
 ];
 
+/* Bancos ampliados de 3→5 y 4→6 ítems (antes solo sumaban 7 combinaciones
+   únicas para `rounds:10`, garantizando una pregunta repetida en cada
+   partida — detectado simulando sesiones completas). ANEMÓMETRO e
+   HIGRÓMETRO son instrumentos meteorológicos reales tan estándar como los
+   3 ya incluidos (siguen siendo CN02 OA12-13). */
 const INSTRUMENTOS_CLIMA_BANK = [
   { emoji:'🌡️', label:'TERMÓMETRO', mide:'LA TEMPERATURA' },
   { emoji:'☔', label:'PLUVIÓMETRO', mide:'LA LLUVIA' },
   { emoji:'🎏', label:'VELETA', mide:'EL VIENTO' },
+  { emoji:'🌬️', label:'ANEMÓMETRO', mide:'LA VELOCIDAD DEL VIENTO' },
+  { emoji:'💧', label:'HIGRÓMETRO', mide:'LA HUMEDAD DEL AIRE' },
 ];
 const TIEMPO_ATMOSFERICO_BANK = [
   { emoji:'🌧️', texto:'Cae mucha agua del cielo', tipo:'LLUVIA' },
   { emoji:'💨', texto:'Las hojas de los árboles se mueven fuerte', tipo:'VIENTO' },
   { emoji:'☀️', texto:'Hace mucho calor y sudas', tipo:'CALOR' },
   { emoji:'❄️', texto:'Hace mucho frío y ves tu respiración', tipo:'FRÍO' },
+  { emoji:'☁️', texto:'El cielo se cubre de nubes grises y no se ve el sol', tipo:'NUBLADO' },
+  { emoji:'🌨️', texto:'Caen copitos blancos y fríos del cielo', tipo:'NEVADO' },
 ];
 
 export function genVertebrados2Round(){

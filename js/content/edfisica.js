@@ -75,29 +75,53 @@ export const EDFISICA_MODULES_G2 = [
 ];
 export const EDFISICA_POS_G2 = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
 
+/* Los 3 bancos de esta sección se ampliaron de 6 a 12 ítems cada uno (antes
+   garantizaban una repetición en cada partida de rounds:10 — detectado
+   simulando sesiones completas con la misma lógica anti-repetición del
+   motor). Mismo estilo y nivel de riesgo que los ítems ya existentes
+   (afirmaciones de sentido común sobre el cuerpo/hábitos/trabajo en
+   equipo, no datos que requieran una fuente externa). */
 const CUERPO_RESPONDE_ITEMS = [
   { emoji:'😅', label:'Cuando corres mucho, tu piel se pone más roja y transpiras', v:true },
   { emoji:'💨', label:'Después de correr fuerte, tu respiración se hace más rápida', v:true },
   { emoji:'😌', label:'Cuando haces mucho ejercicio, es normal sentirte cansado después', v:true },
   { emoji:'🗣️', label:'Cuando estás muy agitado por el ejercicio, cuesta más hablar seguido', v:true },
+  { emoji:'❤️', label:'Tu corazón late más rápido mientras haces ejercicio intenso', v:true },
+  { emoji:'🥵', label:'Hacer ejercicio en un día caluroso te hace transpirar más de lo normal', v:true },
+  { emoji:'💪', label:'Con la práctica constante, tus músculos se hacen más fuertes', v:true },
+  { emoji:'🥛', label:'Tomar agua después de hacer ejercicio ayuda a tu cuerpo a recuperarse', v:true },
   { emoji:'🥶', label:'Después de ejercicio intenso tu cuerpo se enfría de inmediato sin sudar', v:false },
   { emoji:'😴', label:'Hacer ejercicio no cambia para nada tu ritmo de respiración', v:false },
+  { emoji:'🐌', label:'Tu corazón late más lento mientras corres a toda velocidad', v:false },
+  { emoji:'🚫', label:'Da lo mismo hacer ejercicio o quedarte quieto, tu cuerpo reacciona igual', v:false },
 ];
 const VIDA_ACTIVA_2_ITEMS = [
   { emoji:'🤸', label:'Hacer actividad física varias veces por semana es bueno para tu salud', v:true },
   { emoji:'🧼', label:'Lavarte las manos y la cara después de la clase de educación física es un buen hábito', v:true },
   { emoji:'🪑', label:'Mantener una postura correcta al sentarte cuida tu espalda', v:true },
   { emoji:'🥗', label:'Comer una colación saludable antes y después de hacer ejercicio te da energía', v:true },
+  { emoji:'😴', label:'Dormir suficientes horas ayuda a que tu cuerpo se recupere del ejercicio', v:true },
+  { emoji:'👕', label:'Usar ropa cómoda y adecuada ayuda a moverte mejor al hacer deporte', v:true },
+  { emoji:'💧', label:'Tomar agua durante el día es parte de mantener una vida activa y sana', v:true },
+  { emoji:'🌳', label:'Jugar al aire libre es una buena forma de mantenerte activo', v:true },
   { emoji:'🚫', label:'No es necesario moverse ni hacer ejercicio durante la semana', v:false },
   { emoji:'🍬', label:'Comer solo dulces antes de hacer deporte es la mejor opción', v:false },
+  { emoji:'📱', label:'Pasar todo el día sentado viendo pantallas es más sano que jugar afuera', v:false },
+  { emoji:'🛌', label:'Dormir muy poco no afecta en nada tu energía para hacer deporte', v:false },
 ];
 const LIDERAZGO_ITEMS = [
   { emoji:'🤝', label:'Respetar el rol que te toca en un juego de equipo (líder o ayudante) es importante', v:true },
   { emoji:'🧹', label:'Recoger los materiales después de usarlos es responsabilidad de todos', v:true },
   { emoji:'👂', label:'Escuchar y seguir las instrucciones del profesor mantiene la actividad segura', v:true },
   { emoji:'🚧', label:'Mantenerte dentro de los límites establecidos para el juego evita accidentes', v:true },
+  { emoji:'🙋', label:'Animar a un compañero que le está costando es parte de un buen equipo', v:true },
+  { emoji:'🔄', label:'Turnarse para liderar le da a todos la oportunidad de participar', v:true },
+  { emoji:'🎯', label:'Explicar bien las reglas del juego ayuda a que todos jueguen mejor', v:true },
+  { emoji:'🫱', label:'Ayudar a un compañero a entender una instrucción es un gesto de buen líder', v:true },
   { emoji:'😤', label:'Si te toca liderar, está bien no dejar participar a los demás', v:false },
   { emoji:'⚠️', label:'Usar los implementos deportivos sin supervisión cuando quieras es seguro', v:false },
+  { emoji:'😠', label:'Gritarle a tu equipo cuando pierden es una buena forma de liderar', v:false },
+  { emoji:'🙅', label:'Ignorar las instrucciones del profesor durante el juego no tiene riesgo', v:false },
 ];
 
 export function genCuerpoResponde2Round(){

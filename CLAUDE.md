@@ -463,6 +463,36 @@ el resto de SVGs propios: emoji de nido/cojín son adiciones Unicode
 existía un emoji confiable se reusó directamente (🍽️ plato, 🏠 casa, 🪑
 silla, 💧 agua, 🕳️ cueva, 🧍/🏁/👫 como referencias de persona/grupo/meta).
 
+**Verificación real de "sin preguntas repetidas" en toda la app (2026-07-21):**
+el usuario pidió confirmar explícitamente que ningún módulo repite preguntas
+dentro de una partida. En vez de asumirlo, se simuló una partida completa
+(mismo algoritmo de `roundSignature`/reintentos que usa `drawMCRound()` en
+`mcEngine.js`) cientos de veces por módulo, para los ~90 `MC_KEYS`. Se
+encontraron dos niveles de problema:
+
+- **11 módulos con repetición garantizada en el 100% de las partidas**
+  (`clima2`, `pueblos2`, `paisajes2`, `ciudadania2`, `cuerporesponde2`,
+  `vidaactiva2`, `liderazgo2`, `autocuidado2`, `habitosescolares2`,
+  `convivencia2`, `tecdigital2` — todos módulos "II" de 2° básico): su banco
+  de contenido tenía **menos ítems únicos que `rounds` configurado** (p.ej.
+  `tecdigital2` tenía solo 4 preguntas posibles para 8 rondas). Se amplió
+  cada banco con ítems reales dentro del mismo OA ya citado en el archivo
+  (nunca un OA nuevo) hasta dejar margen de al menos +2 sobre `rounds`
+  (`clima2` de 7→11 combinaciones únicas, `tecdigital2` de 4→10, etc.).
+- **7 módulos con una probabilidad residual pequeña pero real** (hasta
+  ~0.5% por partida): su banco tenía exactamente el mismo tamaño que
+  `rounds` (sin margen — el patrón más común en la app, documentado como
+  intencional en el resto de esta sección), lo que deja una posibilidad
+  estadística remota de que los 60 reintentos de `drawMCRound()` no
+  alcancen a encontrar la última combinación única a tiempo. En vez de
+  agrandar banco por banco (habría afectado casi todos los módulos de la
+  app, ya que ese es el patrón estándar), se subió el límite de reintentos
+  de 60 a 300 en `mcEngine.js` — reduce esa probabilidad a
+  estadísticamente nula sin tocar contenido.
+
+Verificado al final: los ~90 módulos de opción múltiple de la app pasan
+2000 sesiones simuladas cada uno sin ningún repetido.
+
 ### Educación Parvularia — ✅ completa (8 de 8 núcleos, nivel NT)
 Basado en el Decreto 481/2017, nivel Transición (NT), repartido en 3 ámbitos.
 Sala Cuna y Nivel Medio no están en `PARVULARIA_NIVELES` en absoluto (ni bloqueados):

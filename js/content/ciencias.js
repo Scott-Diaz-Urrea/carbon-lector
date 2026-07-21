@@ -1,4 +1,5 @@
 import { pick, shuffle } from '../utils.js';
+import { pluviometroSVG, veletaSVG } from '../svg.js';
 
 export const CIENCIAS_MODULES = [
   {id:'seresvivos', label:'Seres Vivos', open:true, key:'seresvivos'},
@@ -180,7 +181,7 @@ const INVERTEBRADOS_BANK = [
 const MARIPOSA_CICLO = [{ emoji:'🥚', label:'Huevo', orden:1 },{ emoji:'🐛', label:'Oruga', orden:2 },{ emoji:'🦋', label:'Mariposa adulta', orden:3 }];
 const RANA_CICLO = [{ emoji:'🥚', label:'Huevos en el agua', orden:1 },{ emoji:'🐠', label:'Renacuajo', orden:2 },{ emoji:'🐸', label:'Rana adulta', orden:3 }];
 const AVE_CICLO = [{ emoji:'🥚', label:'Huevo', orden:1 },{ emoji:'🐣', label:'Polluelo', orden:2 },{ emoji:'🐦', label:'Ave adulta', orden:3 }];
-const MAMIFERO_CICLO = [{ emoji:'🍼', label:'Recién nacido', orden:1 },{ emoji:'🐕', label:'Cachorro', orden:2 },{ emoji:'🐕‍🦺', label:'Adulto', orden:3 }];
+const MAMIFERO_CICLO = [{ emoji:'🐾', label:'Recién nacido', orden:1 },{ emoji:'🐶', label:'Cachorro', orden:2 },{ emoji:'🐕', label:'Adulto', orden:3 }];
 const CICLOS_G2 = [MARIPOSA_CICLO, RANA_CICLO, AVE_CICLO, MAMIFERO_CICLO];
 
 const HABITAT_ANIMALES = [
@@ -232,8 +233,8 @@ const AGUA_PROPIEDADES_BANK = [
 
 const INSTRUMENTOS_CLIMA_BANK = [
   { emoji:'🌡️', label:'TERMÓMETRO', mide:'LA TEMPERATURA' },
-  { emoji:'☔', label:'PLUVIÓMETRO', mide:'LA LLUVIA' },
-  { emoji:'🎏', label:'VELETA', mide:'EL VIENTO' },
+  { svg:'pluviometro', label:'PLUVIÓMETRO', mide:'LA LLUVIA' },
+  { svg:'veleta', label:'VELETA', mide:'EL VIENTO' },
 ];
 const TIEMPO_ATMOSFERICO_BANK = [
   { emoji:'🌧️', texto:'Cae mucha agua del cielo', tipo:'LLUVIA' },
@@ -358,8 +359,11 @@ export function genClima2Round(){
     const item = pick(INSTRUMENTOS_CLIMA_BANK);
     const distract = INSTRUMENTOS_CLIMA_BANK.filter(function(i){ return i.label!==item.label; }).map(function(i){ return i.mide; });
     const opts = shuffle([item.mide].concat(distract)).map(function(m){ return {label:m, value:m}; });
+    const visual = item.svg==='pluviometro' ? '<div class="shape-display">'+pluviometroSVG(90)+'</div>'
+      : item.svg==='veleta' ? '<div class="shape-display">'+veletaSVG(90)+'</div>'
+      : '<span class="prompt-emoji">'+item.emoji+'</span>';
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué mide un(a) '+item.label.toLowerCase()+'?</p>',
+      promptHTML: visual+'<p class="prompt-hint">¿Qué mide un(a) '+item.label.toLowerCase()+'?</p>',
       options: opts, correctValue: item.mide, speakText: item.label, cols:2, kind:'word', panel:true,
       explain: 'El/la '+item.label.toLowerCase()+' mide <b>'+item.mide.toLowerCase()+'</b>.',
     };

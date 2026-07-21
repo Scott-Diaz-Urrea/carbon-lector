@@ -117,6 +117,44 @@ export function lineTypeSVG(tipo, size){
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+inner+'</svg>';
 }
 
+/* Instrumentos meteorológicos dibujados a mano (Ciencias Naturales 2° básico,
+   Clima e Instrumentos) — no existe un emoji preciso para pluviómetro ni
+   veleta (☔ es un paraguas, que protege de la lluvia en vez de medirla; 🎏
+   es una manga de viento decorativa japonesa, no un instrumento real), así
+   que se dibujan a mano igual que lineTypeSVG()/solid3DSVG(). */
+export function pluviometroSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<g>'+
+      '<circle cx="26" cy="18" r="9" fill="#CBD9E8"/><circle cx="36" cy="13" r="11" fill="#CBD9E8"/>'+
+      '<circle cx="47" cy="18" r="9" fill="#CBD9E8"/><rect x="24" y="16" width="26" height="10" rx="5" fill="#CBD9E8"/>'+
+    '</g>'+
+    '<line x1="18" y1="34" x2="15" y2="44" stroke="#4EA8DE" stroke-width="3" stroke-linecap="round"/>'+
+    '<line x1="30" y1="30" x2="27" y2="42" stroke="#4EA8DE" stroke-width="3" stroke-linecap="round"/>'+
+    '<line x1="42" y1="32" x2="39" y2="44" stroke="#4EA8DE" stroke-width="3" stroke-linecap="round"/>'+
+    '<rect x="36" y="42" width="28" height="48" rx="3" fill="#FFFFFF" stroke="#1D3557" stroke-width="4"/>'+
+    '<rect x="38" y="65" width="24" height="23" fill="#4EA8DE"/>'+
+    '<line x1="36" y1="55" x2="43" y2="55" stroke="#1D3557" stroke-width="2.5"/>'+
+    '<line x1="36" y1="68" x2="43" y2="68" stroke="#1D3557" stroke-width="2.5"/>'+
+    '<line x1="36" y1="80" x2="43" y2="80" stroke="#1D3557" stroke-width="2.5"/>'+
+  '</svg>';
+}
+export function veletaSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<line x1="50" y1="30" x2="50" y2="90" stroke="#8E9BB3" stroke-width="4"/>'+
+    '<line x1="20" y1="45" x2="80" y2="45" stroke="#CBD5E1" stroke-width="2"/>'+
+    '<line x1="50" y1="15" x2="50" y2="75" stroke="#CBD5E1" stroke-width="2"/>'+
+    '<text x="50" y="12" font-size="11" fill="#4A5C7A" text-anchor="middle" font-family="sans-serif">N</text>'+
+    '<text x="50" y="88" font-size="11" fill="#4A5C7A" text-anchor="middle" font-family="sans-serif">S</text>'+
+    '<text x="12" y="49" font-size="11" fill="#4A5C7A" text-anchor="middle" font-family="sans-serif">O</text>'+
+    '<text x="88" y="49" font-size="11" fill="#4A5C7A" text-anchor="middle" font-family="sans-serif">E</text>'+
+    '<polygon points="50,20 60,45 50,38 40,45" fill="#FF6B6B"/>'+
+    '<polygon points="50,70 58,45 50,52 42,45" fill="#1D3557"/>'+
+    '<circle cx="50" cy="45" r="5" fill="#1D3557"/>'+
+  '</svg>';
+}
+
 /* Cuerpos geométricos 3D dibujados a mano (Educación Parvularia, Pensamiento
    Matemático) — mismo enfoque que shapeSVG() para las figuras 2D. */
 export function solid3DSVG(id, size){

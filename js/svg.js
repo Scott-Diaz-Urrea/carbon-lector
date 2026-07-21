@@ -117,6 +117,59 @@ export function vasoAguaSVG(size){
     '<path d="M36 26 L40 26" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.85"/>'+
   '</svg>';
 }
+/* Vaso de vidrio vacío (Ciencias Naturales 1° básico, "un vaso de vidrio" —
+   ejemplo de objeto hecho de vidrio): 🍶 es literalmente una botella de sake,
+   no un vaso para beber — mismo tipo de error que 🥛 para "vaso de agua"
+   (ver vasoAguaSVG arriba), así que se dibuja el vaso real, esta vez vacío
+   y con un brillo que deje claro que es transparente/vidrio. */
+export function vasoVacioSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M30 20 L70 20 L64 88 L36 88 Z" fill="#DDEFFB" fill-opacity="0.25" stroke="#727C87" stroke-width="4"/>'+
+    '<path d="M36 26 L40 26" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.85"/>'+
+    '<path d="M60 30 L64 30" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.6"/>'+
+  '</svg>';
+}
+/* Iglú (Lenguaje, vocal I): no existe un emoji de iglú — 🧊 (cubo de hielo)
+   se usaba antes, pero un cubo no se parece en nada a la cúpula de un iglú.
+   Se dibuja la cúpula de bloques de hielo con su entrada característica. */
+export function igluSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M8 78 Q8 34 50 30 Q92 34 92 78 Z" fill="#DDEFFB" stroke="#8FB8D6" stroke-width="3"/>'+
+    '<path d="M32 78 L32 58 Q40 50 48 58 L48 78 Z" fill="#2B3A55"/>'+
+    '<path d="M8 78 L92 78" stroke="#8FB8D6" stroke-width="3"/>'+
+    '<path d="M20 60 Q30 55 40 60" stroke="#8FB8D6" stroke-width="2" fill="none" opacity="0.7"/>'+
+    '<path d="M55 48 Q65 44 76 48" stroke="#8FB8D6" stroke-width="2" fill="none" opacity="0.7"/>'+
+  '</svg>';
+}
+/* Estómago (Ciencias Naturales 2° básico, "¿Qué hace tu estómago?"): no
+   existe un emoji de estómago — 🍽️ (plato con cubiertos) se usaba antes,
+   pero muestra "comida/comer", no el órgano en sí, a diferencia de ❤️/🫁/🦴
+   que sí son el órgano real. Se dibuja la forma característica en J del
+   estómago para que sea consistente con el resto del banco (órgano real,
+   no una metáfora de su función). */
+export function estomagoSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M40 12 Q34 12 34 22 Q34 34 28 42 Q16 56 22 72 Q28 88 50 88 Q76 88 78 64 Q80 44 64 34 Q56 29 56 20 Q56 12 48 12 Z" fill="#E8829A" stroke="#C25B76" stroke-width="4"/>'+
+    '<path d="M34 50 Q46 46 58 54" stroke="#C25B76" stroke-width="2.5" fill="none" opacity="0.6"/>'+
+  '</svg>';
+}
+/* Plasticina/masa moldeable (Ciencias Naturales "la plastilina cambia de
+   forma al apretarla", Artes Visuales "PLASTICINA"): 🖌️ (pincel) y 🖍️
+   (crayón) se usaban en cada archivo respectivamente — ninguno de los dos
+   es plasticina, son herramientas de dibujo, no una masa moldeable. Se
+   dibuja un bloque de plasticina con la marca de un pulgar hundido, para
+   que se lea como "algo que se puede apretar y moldear" y no como un
+   lápiz/pincel más. */
+export function plasticinaSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M20 55 Q14 30 42 26 Q70 20 82 42 Q92 60 74 74 Q54 90 30 78 Q14 70 20 55 Z" fill="#FF6B6B" stroke="#D6495A" stroke-width="4"/>'+
+    '<ellipse cx="52" cy="50" rx="12" ry="9" fill="#D6495A" opacity="0.35"/>'+
+  '</svg>';
+}
 export function espejoSVG(size){
   size = size || 90;
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+

@@ -372,6 +372,75 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
 
 ## Estado actual del contenido (julio 2026)
 
+**Auditoría de íconos vs. texto en toda la app (2026-07-21):** pedido
+explícito del usuario tras encontrar que "el vaso de agua está al lado del
+plato" (Corporalidad y Movimiento) usaba 🥛 — que es literalmente un vaso
+de LECHE, no de agua. En vez de corregir solo ese caso puntual, se revisó
+cada emoji/ícono de `js/content/*.js`, `js/content/parvularia/*.js` y
+`js/games/*.js` contra la palabra o concepto que representa, buscando la
+misma categoría de error (un emoji que se lee como algo distinto de lo que
+dice el texto), no solo emoji que no se renderizan (esa categoría ya se
+había auditado antes, ver "Segunda auditoría exhaustiva de NT" más abajo).
+Se encontraron y corrigieron ~20 casos:
+
+- **Objeto equivocado:** ANCLA usaba 🪁 (una cometa) → ⚓. ESCUELA usaba 🚂
+  (un tren) → 🏫. IGLÚ usaba 🧊 (un cubo de hielo, sin relación con la
+  cúpula de un iglú) → `igluSVG()` nuevo. "Vaso de vidrio" (Ciencias
+  Naturales) usaba 🍶 (una botella de sake) → `vasoVacioSVG()` nuevo, mismo
+  criterio que ya corrigió 🥛→`vasoAguaSVG()`. CARTÓN (Tecnología) usaba 🧻
+  (un rollo de papel higiénico) → 📦. "La Gran Muralla China" (Historia)
+  usaba 🕌 (una mezquita) → 🧱 (no existe emoji de muralla, ladrillos es la
+  aproximación más cercana).
+- **Herramienta en vez del material real:** "la plastilina" aparecía dos
+  veces (Ciencias Naturales con 🖌️ pincel, Artes Visuales con 🖍️ crayón) —
+  ninguno de los dos es plasticina, son herramientas de dibujo. Se creó
+  `plasticinaSVG()` (un bloque moldeable con la marca de un pulgar) y se usa
+  en ambos archivos.
+- **Órgano representado por su función, no por sí mismo:** ESTÓMAGO (Ciencias
+  Naturales 2° básico) usaba 🍽️ (plato con cubiertos, "comida") en vez del
+  órgano — inconsistente con que el resto del banco (❤️ corazón, 🫁
+  pulmones, 🦴 esqueleto) sí muestra el órgano real. Se creó `estomagoSVG()`.
+  "Iris" (vocal I) usaba 🌈 (arcoíris) — un niño que reconoce la imagen
+  diría "arcoíris", no "iris", rompiendo el juego de "¿con qué vocal
+  empieza?"; se cambió la palabra completa a INSECTO (🐜), que sí tiene una
+  vocal I inicial y un emoji que representa exactamente lo que dice. "Un
+  afiche se decolora" usaba 🌓 (fase de la luna, sin relación) → 🖼️.
+- **Ícono al revés de lo que dice el texto (el más engañoso):** dos ítems
+  "falso" describían una MALA conducta (botar basura al suelo, dejar
+  materiales tirados) pero usaban 🗑️ — un basurero, que en realidad
+  representa la buena acción de botar la basura EN SU LUGAR. Se cambiaron a
+  🚯 ("prohibido botar basura"). Otro ítem "falso" ("no lavarse las manos
+  antes de comer") usaba 🧴 (una botella de jabón/crema, que sugiere buena
+  higiene) → 🦠 (gérmenes, la consecuencia real de no lavarse las manos).
+- **Emoji crudo reutilizado donde ya existía un SVG propio:** 🪥 (cepillo de
+  dientes), 🪨 (piedra) y 🪞 (espejo) ya tenían `toothbrushSVG()`/
+  `piedraSVG()`/`espejoSVG()` construidos para otros archivos (no se
+  renderizan en varios navegadores), pero seguían apareciendo crudos en
+  `lenguaje.js`, `ciencias.js`, `artes.js`, `orientacion.js` y
+  `games/secuencia.js` porque esos archivos no formaron parte de la
+  auditoría original (esa fue solo de Educación Parvularia NT). Se
+  reemplazaron por los helpers existentes en todos esos lugares. Lo mismo
+  con "Capullo" (secuencia de la mariposa en `games/secuencia.js`), que
+  usaba 🍃 (una hoja) en vez de `crisalidaSVG()` (ya construido para el
+  mismo concepto en `exploracionEntornoNatural.js`).
+- **Acciones/movimientos que no correspondían al gesto descrito** (Educación
+  Física y Salud, "Cuerpo en Movimiento", 1° básico): 🧎 REPTAR mostraba a
+  alguien ARRODILLADO, no arrastrándose; 🥅 ATRAPAR UNA PELOTA era un arco de
+  fútbol, no la acción de atrapar; 🧘 EQUILIBRIO EN UN PIE era una postura de
+  meditación sentada; 🤹 GIRAR era hacer malabares; 🤺 CAMINAR SOBRE UNA
+  LÍNEA era esgrima. Se reemplazaron las 10 acciones del banco por
+  `personActionSVG()` — la misma figura de palitos animada que ya existía
+  para Corporalidad y Movimiento (Educación Parvularia) — extendiendo su set
+  de 8 a 12 acciones (`lanzar`, `atrapar`, `patear`, `equilibrio` nuevas).
+  "Caminar sobre una línea sin caerse" reusa la acción `equilibrio` por ser,
+  en esencia, la misma habilidad motriz.
+
+Casos evaluados y dejados como están por ser aproximaciones razonables sin
+alternativa mejor (cóndor/huemul por ave/animal similar sin emoji propio,
+empanada≈dumpling, 🍯 para "panal" pese a ser un tarro de miel y no un
+panal): no valía la pena forzar un SVG nuevo cuando el emoji ya comunica el
+concepto con suficiente fidelidad para un niño de 6-7 años.
+
 ### Educación Parvularia — ✅ completa (8 de 8 núcleos, nivel NT)
 Basado en el Decreto 481/2017, nivel Transición (NT), repartido en 3 ámbitos.
 Sala Cuna y Nivel Medio no están en `PARVULARIA_NIVELES` en absoluto (ni bloqueados):

@@ -1,4 +1,5 @@
 import { pick, shuffle } from '../utils.js';
+import { cascoSVG, personActionSVG } from '../svg.js';
 
 export const EDFISICA_MODULES = [
   {id:'movimiento', label:'Cuerpo en Movimiento', open:true, key:'movimiento'},
@@ -11,17 +12,29 @@ export const EDFISICA_POS = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
    OA01-02 -> Cuerpo en Movimiento · OA06-09 -> Vida Activa y Saludable ·
    OA10-11 -> Juego Limpio y Seguridad. OA03-05 (variedad de juegos, entornos,
    expresión corporal) quedaron fuera por depender de práctica física real. */
+/* Las 10 acciones antes usaban emoji-persona genéricos que no coinciden con
+   el movimiento descrito: 🧎 muestra a alguien ARRODILLADO, no reptando;
+   🥅 es un arco de fútbol, no la acción de atrapar; 🧘 es una postura de
+   meditación sentada, no equilibrio de pie; 🤹 es hacer malabares, no girar;
+   🤺 es esgrima, no caminar en línea recta. Se reemplazan todas por
+   personActionSVG() — la misma figura de palitos animada que ya se usa en
+   Corporalidad y Movimiento (Educación Parvularia) — extendiendo su set de
+   acciones con 'lanzar', 'atrapar', 'patear' y 'equilibrio' (además de las
+   8 que ya existían: saltar, correr, caminar, nadar, bailar, trepar,
+   reptar, girar). "Caminar sobre una línea sin caerse" reusa la acción
+   'equilibrio' porque ambas son, en esencia, la misma habilidad motriz de
+   estabilidad. */
 const MOVIMIENTOS_ITEMS = [
-  { emoji:'🏃', label:'CORRER', tipo:'LOCOMOCIÓN' },
-  { emoji:'🤸', label:'SALTAR', tipo:'LOCOMOCIÓN' },
-  { emoji:'🧎', label:'REPTAR (ARRASTRARSE)', tipo:'LOCOMOCIÓN' },
-  { emoji:'🚶', label:'CAMINAR', tipo:'LOCOMOCIÓN' },
-  { emoji:'🤾', label:'LANZAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji:'🥅', label:'ATRAPAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji:'⚽', label:'PATEAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji:'🧘', label:'MANTENER EL EQUILIBRIO EN UN PIE', tipo:'ESTABILIDAD' },
-  { emoji:'🤹', label:'GIRAR SOBRE SÍ MISMO', tipo:'ESTABILIDAD' },
-  { emoji:'🤺', label:'CAMINAR SOBRE UNA LÍNEA SIN CAERSE', tipo:'ESTABILIDAD' },
+  { emoji: personActionSVG('correr', 90), label:'CORRER', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('saltar', 90), label:'SALTAR', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('reptar', 90), label:'REPTAR (ARRASTRARSE)', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('caminar', 90), label:'CAMINAR', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('lanzar', 90), label:'LANZAR UNA PELOTA', tipo:'MANIPULACIÓN' },
+  { emoji: personActionSVG('atrapar', 90), label:'ATRAPAR UNA PELOTA', tipo:'MANIPULACIÓN' },
+  { emoji: personActionSVG('patear', 90), label:'PATEAR UNA PELOTA', tipo:'MANIPULACIÓN' },
+  { emoji: personActionSVG('equilibrio', 90), label:'MANTENER EL EQUILIBRIO EN UN PIE', tipo:'ESTABILIDAD' },
+  { emoji: personActionSVG('girar', 90), label:'GIRAR SOBRE SÍ MISMO', tipo:'ESTABILIDAD' },
+  { emoji: personActionSVG('equilibrio', 90), label:'CAMINAR SOBRE UNA LÍNEA SIN CAERSE', tipo:'ESTABILIDAD' },
 ];
 const VIDA_ACTIVA_ITEMS = [
   { emoji:'🏃', label:'Hacer actividad física seguido ayuda a mantener tu cuerpo sano', v:true },

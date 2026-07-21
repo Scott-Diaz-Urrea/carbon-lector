@@ -1,4 +1,5 @@
 import { pick, shuffle } from '../utils.js';
+import { toothbrushSVG, piedraSVG, semillaSVG, vasoVacioSVG, plasticinaSVG, estomagoSVG } from '../svg.js';
 
 export const CIENCIAS_MODULES = [
   {id:'seresvivos', label:'Seres Vivos', open:true, key:'seresvivos'},
@@ -25,7 +26,7 @@ const VIVOS_ITEMS = [
   { emoji:'🌵', label:'CACTUS', vivo:true },
   { emoji:'🐛', label:'ORUGA', vivo:true },
   { emoji:'🍄', label:'HONGO', vivo:true },
-  { emoji:'🪨', label:'PIEDRA', vivo:false },
+  { emoji: piedraSVG(30), label:'PIEDRA', vivo:false },
   { emoji:'🚗', label:'AUTO', vivo:false },
   { emoji:'⚽', label:'PELOTA', vivo:false },
   { emoji:'🪑', label:'SILLA', vivo:false },
@@ -73,6 +74,10 @@ const SENTIDOS = [
   { emoji:'👅', organ:'LENGUA', sense:'SABOREAR' },
   { emoji:'✋', organ:'PIEL', sense:'TOCAR' },
 ];
+/* "No lavarse las manos" (bueno:false) usaba 🧴 (una botella de jabón/
+   crema) — un ícono que en realidad sugiere buena higiene, al revés de lo
+   que describe el texto (NO lavarse). Se cambió a 🦠 (gérmenes), que sí
+   ilustra la consecuencia de no lavarse las manos. */
 const HABITOS_SALUDABLES = [
   { emoji:'🪥', label:'Cepillarse los dientes', bueno:true },
   { emoji:'🥗', label:'Comer frutas y verduras', bueno:true },
@@ -84,14 +89,17 @@ const HABITOS_SALUDABLES = [
   { emoji:'🏃', label:'Hacer actividad física seguido', bueno:true },
   { emoji:'🍬', label:'Comer solo dulces todo el día', bueno:false },
   { emoji:'📱', label:'Ver pantallas hasta muy tarde sin dormir', bueno:false },
-  { emoji:'🧴', label:'No lavarse las manos antes de comer', bueno:false },
+  { emoji:'🦠', label:'No lavarse las manos antes de comer', bueno:false },
   { emoji:'🚫', label:'No cepillarse nunca los dientes', bueno:false },
 ];
+/* "un vaso de vidrio" usaba 🍶 — que es literalmente una botella de sake,
+   no un vaso para beber (mismo tipo de error que 🥛 para "vaso de agua",
+   ver corporalidadMovimiento.js). vasoVacioSVG() dibuja el vaso real. */
 const MATERIALES_ITEMS = [
   { emoji:'🪵', object:'una mesa de madera', material:'MADERA' },
   { emoji:'🥄', object:'una cuchara de metal', material:'METAL' },
   { emoji:'🧸', object:'un juguete de peluche', material:'TELA' },
-  { emoji:'🍶', object:'un vaso de vidrio', material:'VIDRIO' },
+  { emoji: vasoVacioSVG(30), object:'un vaso de vidrio', material:'VIDRIO' },
   { emoji:'🥤', object:'una botella de plástico', material:'PLÁSTICO' },
   { emoji:'🧱', object:'un muro de ladrillo', material:'LADRILLO' },
   { emoji:'📄', object:'una hoja de papel', material:'PAPEL' },
@@ -99,18 +107,25 @@ const MATERIALES_ITEMS = [
   { emoji:'🔑', object:'una llave de metal', material:'METAL' },
   { emoji:'👖', object:'unos pantalones de tela', material:'TELA' },
 ];
+/* Tres correcciones de ícono-texto: "plastilina" usaba 🖌️ (un pincel, una
+   herramienta, no una masa moldeable) → plasticinaSVG(). "Semilla" usaba
+   🌱 (que en realidad ya es un brote/planta creciendo, no la semilla misma
+   — mismo criterio que ya llevó a construir semillaSVG() en
+   exploracionEntornoNatural.js) → se reusa ese helper aquí. "Un afiche"
+   usaba 🌓 (una fase de la luna, sin relación con un afiche/póster) → 🖼️
+   (un cuadro/lámina) se parece mucho más al objeto real. */
 const CAMBIOS_MATERIALES = [
   { emoji:'🧊', text:'Un cubo de hielo se derrite', cause:'CALOR' },
   { emoji:'🍞', text:'El pan se tuesta en el fuego', cause:'CALOR' },
   { emoji:'👕', text:'La ropa mojada se seca al sol', cause:'CALOR' },
   { emoji:'🍫', text:'Una barra de chocolate se derrite en la mano', cause:'CALOR' },
   { emoji:'🎈', text:'Un globo se estira al inflarlo', cause:'FUERZA' },
-  { emoji:'🖌️', text:'La plastilina cambia de forma al apretarla', cause:'FUERZA' },
+  { emoji: plasticinaSVG(30), text:'La plastilina cambia de forma al apretarla', cause:'FUERZA' },
   { emoji:'📄', text:'Una hoja de papel se arruga al apretarla con la mano', cause:'FUERZA' },
-  { emoji:'🌱', text:'Una semilla crece al regarla', cause:'AGUA' },
+  { emoji: semillaSVG(30), text:'Una semilla crece al regarla', cause:'AGUA' },
   { emoji:'👗', text:'La ropa se moja bajo la lluvia', cause:'AGUA' },
   { emoji:'🧽', text:'Una esponja seca se hincha al mojarla', cause:'AGUA' },
-  { emoji:'🌓', text:'Un afiche se decolora al dejarlo mucho tiempo al sol', cause:'LUZ' },
+  { emoji:'🖼️', text:'Un afiche se decolora al dejarlo mucho tiempo al sol', cause:'LUZ' },
   { emoji:'🪴', text:'Una planta crece inclinada buscando la ventana', cause:'LUZ' },
 ];
 const DIA_NOCHE_ITEMS = [
@@ -203,7 +218,7 @@ const CUIDADO_ANIMAL_BANK = [
 const ORGANOS_BANK = [
   { emoji:'❤️', organo:'CORAZÓN', funcion:'Bombea la sangre por todo el cuerpo' },
   { emoji:'🫁', organo:'PULMONES', funcion:'Nos ayudan a respirar' },
-  { emoji:'🍽️', organo:'ESTÓMAGO', funcion:'Digiere los alimentos que comemos' },
+  { emoji: estomagoSVG(30), organo:'ESTÓMAGO', funcion:'Digiere los alimentos que comemos' },
   { emoji:'🦴', organo:'ESQUELETO', funcion:'Sostiene y protege nuestro cuerpo' },
   { emoji:'💪', organo:'MÚSCULOS', funcion:'Nos permiten movernos' },
 ];

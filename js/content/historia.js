@@ -80,11 +80,15 @@ const INSTITUCIONES_BANK = [
   { emoji:'🏛️', label:'LA MUNICIPALIDAD', desc:'Institución que organiza y cuida la comuna.' },
   { emoji:'🚒', label:'LOS BOMBEROS', desc:'Institución que apaga incendios y ayuda en emergencias.' },
 ];
+/* "Botar la basura en el suelo" (bueno:false) usaba 🗑️ — un basurero, que
+   en realidad representa la buena acción de botar la basura EN SU LUGAR,
+   al revés de lo que describe el texto (botarla en el suelo). Se cambió a
+   🚯 ("prohibido botar basura"), que sí ilustra que esa conducta está mal. */
 const NORMAS_CONVIVENCIA = [
   { emoji:'🙋', label:'Levantar la mano antes de hablar en clases', bueno:true },
   { emoji:'🤝', label:'Compartir los juguetes con los demás', bueno:true },
   { emoji:'🚦', label:'Cruzar la calle por el paso peatonal', bueno:true },
-  { emoji:'🗑️', label:'Botar la basura en el suelo', bueno:false },
+  { emoji:'🚯', label:'Botar la basura en el suelo', bueno:false },
   { emoji:'😡', label:'Empujar a un compañero para pasar primero', bueno:false },
 ];
 
@@ -115,6 +119,10 @@ const PUEBLOS_BANK = [
 ];
 const ZONAS_POOL = ['NORTE','SUR','CENTRO','ISLA DE PASCUA'];
 
+/* "La Gran Muralla China" usaba 🕌 (una mezquita, sin relación alguna con
+   una muralla) — se cambió a 🧱 (ladrillos), que evoca al menos la idea de
+   un muro largo hecho de bloques, ya que no existe un emoji específico de
+   "gran muralla". */
 const PATRIMONIO_NATURAL_BANK = [
   { emoji:'⛰️', label:'El Parque Nacional Torres del Paine, en la Patagonia chilena', tipico:true },
   { emoji:'🏜️', label:'El Desierto de Atacama, en el norte de Chile', tipico:true },
@@ -122,7 +130,7 @@ const PATRIMONIO_NATURAL_BANK = [
   { emoji:'🦌', label:'El huemul, animal chileno en peligro de extinción', tipico:true },
   { emoji:'🗼', label:'La Torre Eiffel', tipico:false },
   { emoji:'🐼', label:'El panda gigante, animal de China', tipico:false },
-  { emoji:'🕌', label:'La Gran Muralla China', tipico:false },
+  { emoji:'🧱', label:'La Gran Muralla China', tipico:false },
   { emoji:'🗽', label:'La Estatua de la Libertad', tipico:false },
 ];
 

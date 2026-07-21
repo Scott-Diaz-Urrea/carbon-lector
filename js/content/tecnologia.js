@@ -17,9 +17,12 @@ const HERRAMIENTAS_TEC = [
   { emoji:'🧵', label:'HILO Y AGUJA', uso:'Sirve para coser o unir telas.' },
   { emoji:'🔨', label:'MARTILLO', uso:'Sirve para clavar o unir piezas de madera.' },
 ];
+/* "CARTÓN" usaba 🧻 (un rollo de papel higiénico/toalla de papel, sin
+   relación con el cartón) → 📦 (una caja), ya que las cajas de cartón son
+   el ejemplo que el propio texto menciona. */
 const MATERIALES_TEC = [
   { emoji:'📄', label:'PAPEL', uso:'Material liviano que se usa para dibujar, doblar o recortar.' },
-  { emoji:'🧻', label:'CARTÓN', uso:'Material firme, útil para construir maquetas y cajas.' },
+  { emoji:'📦', label:'CARTÓN', uso:'Material firme, útil para construir maquetas y cajas.' },
   { emoji:'🧶', label:'FIBRAS O LANA', uso:'Material que sirve para tejer o decorar.' },
   { emoji:'♻️', label:'MATERIAL DE RECICLAJE', uso:'Botellas, tapas o cajas que se reutilizan para crear objetos nuevos.' },
 ];

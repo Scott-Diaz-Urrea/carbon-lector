@@ -1,4 +1,5 @@
 import { pick, shuffle } from '../utils.js';
+import { toothbrushSVG } from '../svg.js';
 
 export const ORIENTACION_MODULES = [
   {id:'emociones', label:'Mis Emociones', open:true, key:'emociones'},
@@ -20,7 +21,7 @@ const EMOCIONES_ITEMS = [
   { emoji:'🥰', label:'CARIÑO', desc:'Sientes esto cuando quieres mucho a alguien.' },
 ];
 const AUTOCUIDADO_ITEMS = [
-  { emoji:'🪥', label:'Lavarte los dientes es parte de cuidar tu cuerpo', v:true },
+  { emoji: toothbrushSVG(30), label:'Lavarte los dientes es parte de cuidar tu cuerpo', v:true },
   { emoji:'😴', label:'Dormir suficientes horas ayuda a tu cuerpo y tu mente', v:true },
   { emoji:'🥗', label:'Comer variado, con frutas y verduras, es parte de cuidarte', v:true },
   { emoji:'🙅', label:'Está bien darle tu dirección y datos personales a un desconocido', v:false },
@@ -84,11 +85,15 @@ const AUTOCUIDADO_2_ITEMS = [
   { emoji:'🌙', label:'No importa dormir poco, tu cuerpo no lo necesita', v:false },
   { emoji:'📢', label:'Está bien compartir tu dirección con cualquier persona que la pida', v:false },
 ];
+/* "Dejar tus materiales tirados" (v:false) usaba 🗑️ (un basurero, que
+   representa la buena acción de botar la basura en su lugar) — al revés de
+   lo que describe el texto. Se cambió a 🚯 ("prohibido botar basura"),
+   mismo criterio aplicado en historia.js para el mismo tipo de ítem. */
 const HABITOS_ESCOLARES_BANK = [
   { emoji:'🎒', label:'Traer tus útiles escolares todos los días te ayuda a aprender mejor', v:true },
   { emoji:'🧹', label:'Mantener ordenada tu sala de clases ayuda a todos a concentrarse', v:true },
   { emoji:'✅', label:'Reconocer lo que aprendiste cada día te ayuda a motivarte para seguir aprendiendo', v:true },
-  { emoji:'🗑️', label:'Dejar tus materiales tirados por el suelo es un buen hábito de estudio', v:false },
+  { emoji:'🚯', label:'Dejar tus materiales tirados por el suelo es un buen hábito de estudio', v:false },
   { emoji:'😴', label:'No importa cuidar tus útiles, siempre puedes perderlos sin problema', v:false },
   { emoji:'📚', label:'Cuidar tus cuadernos y libros te ayuda a tenerlos listos cuando los necesites', v:true },
 ];

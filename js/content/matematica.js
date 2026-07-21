@@ -30,6 +30,15 @@ export const MATE_MODULES_G2 = [
 ];
 export const MATE_POS_G2 = [{x:24,y:84},{x:70,y:60},{x:24,y:36},{x:68,y:12}];
 
+export const MATE_MODULES_G3 = [
+  {id:'division3', label:'División', open:true, key:'division3'},
+  {id:'fracciones3', label:'Fracciones', open:true, key:'fracciones3'},
+  {id:'geometria3', label:'Geometría 3D', open:true, key:'geometria3'},
+  {id:'medicion3', label:'Medición Avanzada', open:true, key:'medicion3'},
+  {id:'datos3', label:'Datos y Gráficos', open:true, key:'datos3'},
+];
+export const MATE_POS_G3 = [{x:22,y:90},{x:68,y:73},{x:24,y:55},{x:70,y:35},{x:24,y:14}];
+
 export function genCountRound(){
   const emoji = pick(COUNT_EMOJIS);
   const n = randInt(1,9);
@@ -237,6 +246,208 @@ export function genMedicion2Round(){
   if(roll<0.34) return genCalendarioG2Round();
   if(roll<0.67) return genHoraG2Round();
   return genLongitudG2Round();
+}
+
+/* ---------------- Contenido Matemática 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/matematica/3-basico):
+   OA09 -> División · OA11 -> Fracciones · OA15-16 -> Geometría 3D (caras,
+   vértices; se agrega pirámide y cilindro a solid3DSVG) · OA19-22 ->
+   Medición Avanzada (calendario, hora con cuartos de hora, perímetro, peso
+   g/kg) · OA23-26 -> Datos y Gráficos (pictogramas). */
+const FRACCIONES_POOL = ['1/2','1/3','1/4','2/3','3/4'];
+/* Pizza en vez de una barra abstracta: para niños, una pizza cortada en
+   partes (con una porción con salsa/queso vs. las demás lisas) es una
+   representación mucho más reconocible y cercana que un rectángulo dividido
+   en segmentos de color — pedido explícito del usuario ("que las imágenes
+   sean más representativas"). La lógica es la misma que la barra anterior
+   (partes sombreadas = numerador), solo cambia la forma. */
+function pizzaFractionSVG(num, den){
+  const size = 130, cx = 65, cy = 65, r = 56;
+  let slices = '';
+  for(let i=0;i<den;i++){
+    const start = (i/den)*Math.PI*2 - Math.PI/2;
+    const end = ((i+1)/den)*Math.PI*2 - Math.PI/2;
+    const x1 = cx + r*Math.cos(start), y1 = cy + r*Math.sin(start);
+    const x2 = cx + r*Math.cos(end), y2 = cy + r*Math.sin(end);
+    const largeArc = (end-start) > Math.PI ? 1 : 0;
+    const filled = i < num;
+    const fill = filled ? '#F0932B' : '#FFF6E0';
+    slices += '<path d="M '+cx+' '+cy+' L '+x1+' '+y1+' A '+r+' '+r+' 0 '+largeArc+' 1 '+x2+' '+y2+' Z" fill="'+fill+'" stroke="#B5651D" stroke-width="2.5"/>';
+    if(filled){
+      const mid = (start+end)/2;
+      const dr1 = r*0.45, dr2 = r*0.65;
+      const spread = Math.min(0.35, (end-start)/3);
+      slices += '<circle cx="'+(cx+dr1*Math.cos(mid-spread))+'" cy="'+(cy+dr1*Math.sin(mid-spread))+'" r="4.5" fill="#C0392B"/>';
+      slices += '<circle cx="'+(cx+dr2*Math.cos(mid+spread))+'" cy="'+(cy+dr2*Math.sin(mid+spread))+'" r="4.5" fill="#C0392B"/>';
+    }
+  }
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">'+
+    '<circle cx="65" cy="65" r="61" fill="#E8A33D"/>'+
+    slices+
+  '</svg>';
+}
+const SOLIDOS_3D_G3 = [
+  { id:'cubo', label:'CUBO', caras:6, vertices:8 },
+  { id:'paralelepipedo', label:'PARALELEPÍPEDO', caras:6, vertices:8 },
+  { id:'esfera', label:'ESFERA', caras:0, vertices:0 },
+  { id:'cono', label:'CONO', caras:2, vertices:1 },
+  { id:'cilindro', label:'CILINDRO', caras:3, vertices:0 },
+  { id:'piramide', label:'PIRÁMIDE', caras:5, vertices:5 },
+];
+const OBJETOS_PESO = [
+  { emoji:'🍎', label:'La manzana', medida:'150 g', valor:150 },
+  { emoji:'📱', label:'El celular', medida:'200 g', valor:200 },
+  { emoji:'📚', label:'El libro', medida:'400 g', valor:400 },
+  { emoji:'🧸', label:'El peluche', medida:'250 g', valor:250 },
+  { emoji:'🎒', label:'La mochila con libros', medida:'3 kg', valor:3000 },
+  { emoji:'🚲', label:'La bicicleta', medida:'12 kg', valor:12000 },
+];
+const CALENDARIO3_HECHOS = [
+  { pregunta:'¿Cuántos días tiene el mes de abril?', correcta:30, min:20, max:35, spread:4 },
+  { pregunta:'¿Cuántas semanas tiene un año, aproximadamente?', correcta:52, min:10, max:60, spread:8 },
+  { pregunta:'¿Cuántos meses tiene medio año?', correcta:6, min:1, max:12, spread:3 },
+  { pregunta:'¿Cuántos meses del año tienen 31 días?', correcta:7, min:1, max:12, spread:4 },
+];
+const MINUTO_LABELS = { 0:'en punto', 15:'y cuarto', 30:'y media', 45:'y cuarenta y cinco' };
+
+export function genDivisionRound(){
+  const divisor = pick([2,5,10]);
+  const cociente = randInt(2,9);
+  const dividendo = divisor*cociente;
+  const emoji = pick(COUNT_EMOJIS);
+  const groupHTML = [];
+  for(let g=0; g<cociente; g++){ groupHTML.push('<span class="mgroup">'+new Array(divisor).fill(emoji).join('')+'</span>'); }
+  const opts = uniqueDistractors(cociente, 1, 20, 3, 4).map(function(v){ return {label:String(v), value:v}; });
+  return {
+    promptHTML: '<p class="prompt-count">'+groupHTML.join('')+'</p><p class="prompt-hint">'+dividendo+' repartidos en grupos de '+divisor+'. ¿Cuántos grupos hay?</p>',
+    options: opts, correctValue: cociente, speakText: '¿Cuánto es '+dividendo+' dividido en '+divisor+'?', cols:4,
+    explain: dividendo+' ÷ '+divisor+' = <b>'+cociente+'</b>.',
+  };
+}
+
+export function genFraccionesRound(){
+  const den = pick([2,3,4]);
+  const num = randInt(1, den-1);
+  const correct = num+'/'+den;
+  const distract = shuffle(FRACCIONES_POOL.filter(function(f){ return f!==correct; })).slice(0,3);
+  const opts = shuffle([correct].concat(distract)).map(function(f){ return {label:f, value:f}; });
+  return {
+    promptHTML: '<div class="shape-display">'+pizzaFractionSVG(num,den)+'</div><p class="prompt-hint">¿Qué fracción de la pizza tiene salsa y queso?</p>',
+    options: opts, correctValue: correct, speakText: '¿Qué fracción de la pizza tiene salsa y queso?', cols:4, kind:'word',
+    explain: 'Hay '+num+' de '+den+' porciones con salsa y queso: <b>'+correct+'</b>.',
+  };
+}
+
+export function genGeometria3Round(){
+  const item = pick(SOLIDOS_3D_G3);
+  if(Math.random()<0.5){
+    const distract = SOLIDOS_3D_G3.filter(function(s){ return s.id!==item.id; }).map(function(s){ return s.label; });
+    const opts = shuffle([item.label].concat(distract)).map(function(l){ return {label:l, value:l}; });
+    return {
+      promptHTML: '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué cuerpo geométrico es?</p>',
+      options: opts, correctValue: item.label, speakText: item.label, cols:2, kind:'word', panel:true,
+      explain: 'Este cuerpo geométrico es un(a) <b>'+item.label.toLowerCase()+'</b>.',
+    };
+  }
+  const askCaras = Math.random()<0.5;
+  const correct = askCaras ? item.caras : item.vertices;
+  const opts = uniqueDistractors(correct, 0, 12, 3, 4).map(function(v){ return {label:String(v), value:v}; });
+  return {
+    promptHTML: '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div><p class="prompt-hint">¿Cuántas '+(askCaras?'caras':'vértices')+' tiene?</p>',
+    options: opts, correctValue: correct, speakText: '¿Cuántas '+(askCaras?'caras':'vértices')+' tiene?', cols:4,
+    explain: 'El/la '+item.label.toLowerCase()+' tiene <b>'+correct+'</b> '+(askCaras?'caras':'vértices')+'.',
+  };
+}
+
+function genPerimetroRound(){
+  const isSquare = Math.random()<0.5;
+  let perimetro, promptText;
+  if(isSquare){
+    const side = randInt(2,10);
+    perimetro = side*4;
+    promptText = 'Un cuadrado tiene lados de '+side+' cm. ¿Cuál es su perímetro?';
+  }else{
+    const w = randInt(2,10);
+    let h = randInt(2,10);
+    while(h===w) h = randInt(2,10);
+    perimetro = 2*(w+h);
+    promptText = 'Un rectángulo mide '+w+' cm de ancho y '+h+' cm de alto. ¿Cuál es su perímetro?';
+  }
+  const opts = uniqueDistractors(perimetro, 4, 200, 6, 4).map(function(v){ return {label:String(v)+' cm', value:v}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+promptText+'</p>',
+    options: opts, correctValue: perimetro, speakText: promptText, cols:2, panel:true,
+    explain: 'El perímetro correcto es <b>'+perimetro+' cm</b>.',
+  };
+}
+
+function genPesoRound(){
+  let a = pick(OBJETOS_PESO), b = pick(OBJETOS_PESO);
+  while(b.label === a.label || b.valor === a.valor) b = pick(OBJETOS_PESO);
+  const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
+  const heavier = a.valor>b.valor ? a : b;
+  return {
+    promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' pesa '+a.medida+'.<br>'+b.emoji+' '+b.label+' pesa '+b.medida+'.<br>¿Cuál pesa más?</p>',
+    options: opts, correctValue: heavier.label, speakText: '¿Cuál pesa más?', cols:2, panel:true,
+    explain: heavier.label+' pesa '+heavier.medida+', más que el otro objeto.',
+  };
+}
+
+function genCalendario3Round(){
+  const item = pick(CALENDARIO3_HECHOS);
+  const opts = uniqueDistractors(item.correcta, item.min, item.max, item.spread, 4).map(function(v){ return {label:String(v), value:v}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:4,
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
+  };
+}
+
+function genHora3Round(){
+  const hour = randInt(1,12);
+  const minute = pick([0,15,30,45]);
+  const display = String(hour).padStart(2,'0')+':'+String(minute).padStart(2,'0');
+  const hourOpts = uniqueDistractors(hour, 1, 12, 3, 4);
+  const opts = hourOpts.map(function(h){ return {label: h+' '+MINUTO_LABELS[minute], value: h}; });
+  return {
+    promptHTML: '<p class="prompt-count" style="font-size:40px;">'+display+'</p><p class="prompt-hint">¿Qué hora es?</p>',
+    options: opts, correctValue: hour, speakText: '¿Qué hora es?', cols:2, panel:true,
+    explain: 'Son las '+display+', es decir, las <b>'+hour+' '+MINUTO_LABELS[minute]+'</b>.',
+  };
+}
+
+export function genMedicion3Round(){
+  const roll = Math.random();
+  if(roll<0.25) return genPerimetroRound();
+  if(roll<0.5) return genPesoRound();
+  if(roll<0.75) return genCalendario3Round();
+  return genHora3Round();
+}
+
+export function genDatos3Round(){
+  const CATEGORIAS_POOL = [
+    {emoji:'🍎', label:'Manzanas'},{emoji:'🍌', label:'Plátanos'},{emoji:'🍇', label:'Uvas'},{emoji:'🍊', label:'Naranjas'},
+  ];
+  const chosen = shuffle(CATEGORIAS_POOL).slice(0,3);
+  const counts = chosen.map(function(){ return randInt(1,8); });
+  while(new Set(counts).size < counts.length){
+    for(let i=0;i<counts.length;i++) counts[i] = randInt(1,8);
+  }
+  const askMax = Math.random()<0.5;
+  let bestIdx = 0;
+  for(let i=1;i<counts.length;i++){
+    if(askMax ? counts[i]>counts[bestIdx] : counts[i]<counts[bestIdx]) bestIdx = i;
+  }
+  const rows = chosen.map(function(c,i){
+    return '<div class="prompt-hint">'+c.label+': '+new Array(counts[i]).fill(c.emoji).join(' ')+'</div>';
+  }).join('');
+  const opts = shuffle(chosen.map(function(c){ return {label:c.label, value:c.label}; }));
+  return {
+    promptHTML: rows+'<p class="prompt-hint">¿Cuál categoría tiene '+(askMax?'más':'menos')+'?</p>',
+    options: opts, correctValue: chosen[bestIdx].label, speakText: '¿Cuál categoría tiene '+(askMax?'más':'menos')+'?', cols:2, kind:'word', panel:true,
+    explain: chosen[bestIdx].label+' tiene '+(askMax?'más':'menos')+' cantidad ('+counts[bestIdx]+').',
+  };
 }
 
 export function genMultiplicarRound(){

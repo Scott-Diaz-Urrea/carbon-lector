@@ -62,6 +62,74 @@ export const EDFISICA_MODULES_G2 = [
 ];
 export const EDFISICA_POS_G2 = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
 
+/* ---------------- Contenido Educación Física y Salud 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/educacion-fisica-salud/3-basico):
+   EF03 OA08 -> Mi Cuerpo en Acción III · EF03 OA07,09 -> Vida Activa y
+   Saludable III · EF03 OA10-11 -> Juego Limpio y Seguridad III.
+   Quedan fuera OA01-06 (habilidades motrices, juegos predeportivos, entornos,
+   danza) por depender de práctica física real. */
+export const EDFISICA_MODULES_G3 = [
+  {id:'cuerpoaccion3', label:'Mi Cuerpo en Acción III', open:true, key:'cuerpoaccion3'},
+  {id:'vidaactiva3', label:'Vida Activa y Saludable III', open:true, key:'vidaactiva3'},
+  {id:'seguridad3', label:'Juego Limpio y Seguridad III', open:true, key:'seguridad3'},
+];
+export const EDFISICA_POS_G3 = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
+
+const CUERPO_ACCION_3_ITEMS = [
+  { emoji:'💓', label:'Al hacer ejercicio intenso, tu corazón late mucho más rápido de lo normal', v:true },
+  { emoji:'😮‍💨', label:'Al hacer ejercicio intenso, respiras mucho más rápido de lo normal', v:true },
+  { emoji:'📝', label:'Registrar cómo responde tu cuerpo al ejercicio te ayuda a conocerlo mejor', v:true },
+  { emoji:'🥶', label:'Tu frecuencia cardíaca nunca cambia, hagas lo que hagas', v:false },
+  { emoji:'😴', label:'Después de correr mucho, es normal sentir el corazón más acelerado', v:true },
+];
+const VIDA_ACTIVA_3_ITEMS = [
+  { emoji:'🧴', label:'Usar protección solar al hacer actividad física al aire libre te cuida la piel', v:true },
+  { emoji:'🚿', label:'Ducharte o cambiarte de ropa después de la clase de educación física es un buen hábito', v:true },
+  { emoji:'💧', label:'Hidratarte con agua durante y después de hacer ejercicio es importante', v:true },
+  { emoji:'🥗', label:'Comer una colación saludable después de hacer ejercicio ayuda a tu cuerpo', v:true },
+  { emoji:'🚶', label:'Caminar hasta el colegio de forma regular es una forma de mantenerse activo', v:true },
+  { emoji:'🚫', label:'No es necesario hacer actividad física de forma regular durante la semana', v:false },
+];
+const SEGURIDAD_3_ITEMS = [
+  { emoji:'📏', label:'Cumplir las reglas de un juego colectivo es parte del juego limpio', v:true },
+  { emoji:'🤸', label:'Participar en el calentamiento antes de una actividad física previene lesiones', v:true },
+  { emoji:'👂', label:'Escuchar y seguir las instrucciones del profesor mantiene la actividad segura', v:true },
+  { emoji:'🚧', label:'Revisar que el espacio esté libre de obstáculos antes de jugar es una buena práctica', v:true },
+  { emoji:'😤', label:'Hacer trampa para ganar es parte de un buen jugador', v:false },
+  { emoji:'🙅', label:'No importa salirse de los límites establecidos para una actividad', v:false },
+];
+
+export function genCuerpoAccion3Round(){
+  const item = pick(CUERPO_ACCION_3_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genVidaActiva3Round(){
+  const item = pick(VIDA_ACTIVA_3_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genSeguridad3Round(){
+  const item = pick(SEGURIDAD_3_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
 const CUERPO_RESPONDE_ITEMS = [
   { emoji:'😅', label:'Cuando corres mucho, tu piel se pone más roja y transpiras', v:true },
   { emoji:'💨', label:'Después de correr fuerte, tu respiración se hace más rápida', v:true },

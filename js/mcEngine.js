@@ -1,30 +1,39 @@
 import {
   genVocalRound, genPalabraRound, genComprensionRound, genCombinacionRound,
   genGramatica2Round, genComprension2Round,
+  genVocabDiccionario3Round, genPronombres3Round, genComprension3Round, genLenguajeFigurado3Round,
 } from './content/lenguaje.js';
 import {
   genCountRound, genAddRound, genCompareRound, genFormaRound, genSaltaRound, genMultiplicarRound,
   genGeometria2Round, genMedicion2Round,
+  genDivisionRound, genFraccionesRound, genGeometria3Round, genMedicion3Round, genDatos3Round,
 } from './content/matematica.js';
 import {
   genSeresVivosRound, genPlantasRound, genCuerpoRound, genMaterialesRound, genDiaNocheRound,
   genVertebrados2Round, genCiclosVida2Round, genHabitats2Round, genCuerpoDentro2Round, genAgua2Round, genClima2Round,
+  genPlantas3Round, genAlimentacion3Round, genLuzSonido3Round, genSistemaSolar3Round, genLunaEclipses3Round,
 } from './content/ciencias.js';
 import {
   genCalendarioRound, genMiIdentidadRound, genSimbolosRound, genMapasRound, genComunidadRound,
   genPueblos2Round, genPatrimonio2Round, genPaisajes2Round, genCiudadania2Round,
+  genGreciaRoma3Round, genGeografiaMundial3Round, genCiudadania3Round,
 } from './content/historia.js';
-import { genColoresRound, genLineasTexturasRound, genMaterialesArteRound, genLineasColores2Round } from './content/artes.js';
-import { genSonidosRound, genInstrumentosRound, genTimbrePulso2Round } from './content/musica.js';
+import {
+  genColoresRound, genLineasTexturasRound, genMaterialesArteRound, genLineasColores2Round,
+  genColorExpresivo3Round,
+} from './content/artes.js';
+import { genSonidosRound, genInstrumentosRound, genTimbrePulso2Round, genTempoForma3Round } from './content/musica.js';
 import {
   genMovimientoRound, genVidaActivaRound, genSeguridadRound,
   genCuerpoResponde2Round, genVidaActiva2Round, genLiderazgo2Round,
+  genCuerpoAccion3Round, genVidaActiva3Round, genSeguridad3Round,
 } from './content/edfisica.js';
 import {
   genEmocionesRound, genAutocuidadoRound, genConvivenciaRound,
   genEmociones2Round, genAutocuidado2Round, genHabitosEscolares2Round, genConvivencia2Round,
+  genEmociones3Round, genAutocuidado3Round, genConvivencia3Round, genHabitosEscolares3Round,
 } from './content/orientacion.js';
-import { genHerramientasTecRound, genTecDigital2Round } from './content/tecnologia.js';
+import { genHerramientasTecRound, genTecDigital2Round, genTecDigital3Round } from './content/tecnologia.js';
 import {
   genPatronesRound, genClasificarRound, genPosicionRound, genCuantificadoresRound,
   genSecuenciaTemporalRound, genContarVeinteRound, genSumarQuitarRound,
@@ -79,7 +88,16 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'timbrepulso2',
   'cuerporesponde2','vidaactiva2','liderazgo2',
   'emociones2','autocuidado2','habitosescolares2','convivencia2',
-  'tecdigital2'];
+  'tecdigital2',
+  'vocabdiccionario3','pronombres3','comprension3','lenguajefigurado3',
+  'division3','fracciones3','geometria3','medicion3','datos3',
+  'plantas3','alimentacion3','luzsonido3','sistemasolar3','lunaeclipses3',
+  'greciaroma3','geografiamundial3','ciudadania3',
+  'colorexpresivo3',
+  'tempoforma3',
+  'cuerpoaccion3','vidaactiva3','seguridad3',
+  'emociones3','autocuidado3','convivencia3','habitosescolares3',
+  'tecdigital3'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -169,6 +187,33 @@ export const MC_GAMES = {
   habitosescolares2:{ title:'Hábitos de Trabajo Escolar', gen: genHabitosEscolares2Round, rounds:10 },
   convivencia2:  { title:'Buena Convivencia II', gen: genConvivencia2Round, rounds:8 },
   tecdigital2:   { title:'Tecnología Digital', gen: genTecDigital2Round,  rounds:8 },
+  vocabdiccionario3:{ title:'Vocabulario y Diccionario', gen: genVocabDiccionario3Round, rounds:10 },
+  pronombres3:   { title:'Pronombres',        gen: genPronombres3Round,  rounds:10 },
+  comprension3:  { title:'Comprensión Avanzada', gen: genComprension3Round, rounds:8 },
+  lenguajefigurado3:{ title:'Lenguaje Figurado', gen: genLenguajeFigurado3Round, rounds:8 },
+  division3:     { title:'División',          gen: genDivisionRound,     rounds:10 },
+  fracciones3:   { title:'Fracciones',        gen: genFraccionesRound,   rounds:10 },
+  geometria3:    { title:'Geometría 3D',      gen: genGeometria3Round,   rounds:10 },
+  medicion3:     { title:'Medición Avanzada', gen: genMedicion3Round,    rounds:10 },
+  datos3:        { title:'Datos y Gráficos',  gen: genDatos3Round,       rounds:8 },
+  plantas3:      { title:'Las Plantas',       gen: genPlantas3Round,     rounds:10 },
+  alimentacion3: { title:'Alimentación y Salud', gen: genAlimentacion3Round, rounds:10 },
+  luzsonido3:    { title:'Luz y Sonido',      gen: genLuzSonido3Round,   rounds:10 },
+  sistemasolar3: { title:'Sistema Solar',     gen: genSistemaSolar3Round, rounds:8 },
+  lunaeclipses3: { title:'Fases de la Luna',  gen: genLunaEclipses3Round, rounds:8 },
+  greciaroma3:   { title:'Grecia y Roma Antigua', gen: genGreciaRoma3Round, rounds:10 },
+  geografiamundial3:{ title:'Geografía Mundial', gen: genGeografiaMundial3Round, rounds:10 },
+  ciudadania3:   { title:'Formación Ciudadana III', gen: genCiudadania3Round, rounds:8 },
+  colorexpresivo3:{ title:'Color Expresivo',  gen: genColorExpresivo3Round, rounds:10 },
+  tempoforma3:   { title:'Tempo y Forma Musical', gen: genTempoForma3Round, rounds:8 },
+  cuerpoaccion3: { title:'Mi Cuerpo en Acción III', gen: genCuerpoAccion3Round, rounds:10 },
+  vidaactiva3:   { title:'Vida Activa y Saludable III', gen: genVidaActiva3Round, rounds:10 },
+  seguridad3:    { title:'Juego Limpio y Seguridad III', gen: genSeguridad3Round, rounds:10 },
+  emociones3:    { title:'Mis Emociones III', gen: genEmociones3Round,   rounds:8 },
+  autocuidado3:  { title:'Autocuidado y Prevención', gen: genAutocuidado3Round, rounds:10 },
+  convivencia3:  { title:'Buena Convivencia III', gen: genConvivencia3Round, rounds:8 },
+  habitosescolares3:{ title:'Hábitos de Trabajo Escolar III', gen: genHabitosEscolares3Round, rounds:10 },
+  tecdigital3:   { title:'Tecnología Digital III', gen: genTecDigital3Round, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

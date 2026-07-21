@@ -51,6 +51,49 @@ export const MUSICA_MODULES_G2 = [
 ];
 export const MUSICA_POS_G2 = [{x:50,y:50}];
 
+/* ---------------- Contenido Música 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/musica/3-basico): MU03 OA01 -> Tempo y Forma Musical — cubre
+   el tempo (rápido/lento/moderado) y la forma musical (A-AB-ABA), elementos
+   del lenguaje musical que ni 1° ni 2° básico cubrieron todavía. Fuera:
+   OA02-06,08 (expresión subjetiva, repertorio específico, cantar/tocar,
+   improvisar, presentar, autoevaluación) y OA07 (reflexión sobre
+   experiencias propias, subjetivo). */
+export const MUSICA_MODULES_G3 = [
+  {id:'tempoforma3', label:'Tempo y Forma Musical', open:true, key:'tempoforma3'},
+];
+export const MUSICA_POS_G3 = [{x:50,y:50}];
+
+const TEMPO_BANK = [
+  { emoji:'🐢', label:'Muy lento, como el caminar de una tortuga', tempo:'LENTO' },
+  { emoji:'🐇', label:'Muy rápido, como correr sin parar', tempo:'RÁPIDO' },
+  { emoji:'🚶', label:'Ni muy rápido ni muy lento, un paso normal', tempo:'MODERADO' },
+];
+const FORMA_MUSICAL_BANK = [
+  { pregunta:'En una canción con forma A-B-A, ¿qué parte se repite al principio y al final?', correcta:'La parte A', opts:['La parte B','No se repite nada','Toda la canción es distinta cada vez'] },
+  { pregunta:'En una canción con forma A-B, ¿cuántas secciones distintas tiene?', correcta:'Dos secciones', opts:['Una sección','Tres secciones','Ninguna sección'] },
+];
+
+export function genTempoForma3Round(){
+  if(Math.random()<0.5){
+    const item = pick(TEMPO_BANK);
+    const distract = TEMPO_BANK.filter(function(t){ return t.tempo!==item.tempo; }).map(function(t){ return t.tempo; });
+    const opts = shuffle([item.tempo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Qué tempo (velocidad) es este?</p>',
+      options: opts, correctValue: item.tempo, speakText: item.label, cols:4, kind:'word',
+      explain: item.label+', ese es un tempo <b>'+item.tempo.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(FORMA_MUSICAL_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}
+
 const TIMBRE_BANK = [
   { emoji:'🥁', instrumento:'TAMBOR', desc:'Un sonido seco y golpeado, como un golpe fuerte.' },
   { emoji:'🎻', instrumento:'VIOLÍN', desc:'Un sonido que se desliza y vibra, como un canto largo.' },

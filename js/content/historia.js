@@ -108,6 +108,93 @@ export const HISTORIA_MODULES_G2 = [
 ];
 export const HISTORIA_POS_G2 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
 
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/historia-geografia-ciencias-sociales/3-basico) — cambio de eje
+   temático notable respecto a 1°-2° básico: pasa de "mi entorno cercano" a
+   civilizaciones antiguas (Grecia y Roma) y geografía física mundial.
+   HI03 OA01-02 -> Grecia y Roma Antigua (legado bien documentado y no
+   controvertido: democracia, Juegos Olímpicos, teatro, caminos, acueductos,
+   leyes) · HI03 OA06-08 -> Geografía Mundial (continentes/océanos, zonas
+   climáticas) · HI03 OA11-14 -> Formación Ciudadana III.
+   Quedan fuera OA03-05,09-10 (explicar cómo distintas culturas resolvieron
+   necesidades, comparar modos de vida en detalle, investigación propia,
+   factores geográficos de civilizaciones — requieren más profundidad
+   histórica de la que da la sola lista de OA, riesgo de imprecisión) y
+   OA15-16 (investigar instituciones, participación en proyectos escolares —
+   desempeño propio). */
+export const HISTORIA_MODULES_G3 = [
+  {id:'greciaroma3', label:'Grecia y Roma Antigua', open:true, key:'greciaroma3'},
+  {id:'geografiamundial3', label:'Geografía Mundial', open:true, key:'geografiamundial3'},
+  {id:'ciudadania3', label:'Formación Ciudadana III', open:true, key:'ciudadania3'},
+];
+export const HISTORIA_POS_G3 = [{x:24,y:82},{x:68,y:50},{x:24,y:18}];
+
+const GRECIA_ROMA_BANK = [
+  { emoji:'🗳️', label:'Los griegos antiguos crearon la democracia, donde los ciudadanos votaban', civilizacion:'GRECIA' },
+  { emoji:'🏆', label:'Los griegos antiguos crearon los primeros Juegos Olímpicos', civilizacion:'GRECIA' },
+  { emoji:'🎭', label:'Los griegos antiguos inventaron el teatro como lo conocemos', civilizacion:'GRECIA' },
+  { emoji:'🛣️', label:'Los romanos construyeron una gran red de caminos', civilizacion:'ROMA' },
+  { emoji:'🚰', label:'Los romanos construyeron acueductos para transportar agua', civilizacion:'ROMA' },
+  { emoji:'⚖️', label:'Los romanos crearon un importante sistema de leyes', civilizacion:'ROMA' },
+];
+const GEO_ITEMS = [
+  { label:'ÁFRICA', tipo:'CONTINENTE' }, { label:'AMÉRICA', tipo:'CONTINENTE' },
+  { label:'ASIA', tipo:'CONTINENTE' }, { label:'EUROPA', tipo:'CONTINENTE' }, { label:'OCEANÍA', tipo:'CONTINENTE' },
+  { label:'OCÉANO PACÍFICO', tipo:'OCÉANO' }, { label:'OCÉANO ATLÁNTICO', tipo:'OCÉANO' }, { label:'OCÉANO ÍNDICO', tipo:'OCÉANO' },
+];
+const ZONAS_CLIMATICAS_BANK = [
+  { emoji:'🏜️', label:'Hace mucho calor todo el año, cerca del Ecuador', zona:'TROPICAL' },
+  { emoji:'🍂', label:'Tiene 4 estaciones bien marcadas: verano, otoño, invierno y primavera', zona:'TEMPLADA' },
+  { emoji:'🧊', label:'Hace muchísimo frío casi todo el año, cerca de los polos', zona:'POLAR' },
+];
+const CIUDADANIA3_BANK = [
+  { correcta:'Cumplir tus deberes como estudiante, como hacer las tareas', incorrectas:['Copiar las tareas de otro compañero','No hacer nunca las tareas','Mentir sobre haber hecho la tarea'] },
+  { correcta:'Ser honesto aunque hayas cometido un error', incorrectas:['Esconder tus errores siempre','Culpar a otros por tus errores','Mentir para evitar un reto'] },
+  { correcta:'Respetar y tratar bien a las personas sin importar sus diferencias', incorrectas:['Burlarte de alguien distinto a ti','Excluir a alguien por su apariencia','Tratar mal a quien piensa diferente'] },
+  { correcta:'Todos los niños tienen derecho a recibir cuidado y protección', incorrectas:['Solo algunos niños merecen cuidado','Los niños no tienen ningún derecho','El cuidado de los niños no es importante'] },
+];
+
+export function genGreciaRoma3Round(){
+  const item = pick(GRECIA_ROMA_BANK);
+  const opts = shuffle([{label:'GRECIA', value:'GRECIA'},{label:'ROMA', value:'ROMA'}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿De qué civilización antigua es este legado?</p>',
+    options: opts, correctValue: item.civilizacion, speakText: item.label, cols:2, panel:true,
+    explain: item.label+' — eso es un legado de la <b>'+(item.civilizacion==='GRECIA'?'Antigua Grecia':'Antigua Roma')+'</b>.',
+  };
+}
+
+export function genGeografiaMundial3Round(){
+  if(Math.random()<0.5){
+    const item = pick(GEO_ITEMS);
+    const opts = shuffle([{label:'CONTINENTE', value:'CONTINENTE'},{label:'OCÉANO', value:'OCÉANO'}]);
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.label+'. ¿Es un continente o un océano?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.label, cols:2, panel:true,
+      explain: item.label+' es un(a) <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(ZONAS_CLIMATICAS_BANK);
+  const distract = ZONAS_CLIMATICAS_BANK.filter(function(z){ return z.zona!==item.zona; }).map(function(z){ return z.zona; });
+  const opts = shuffle([item.zona].concat(distract)).map(function(z){ return {label:z, value:z}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Qué zona climática es?</p>',
+    options: opts, correctValue: item.zona, speakText: item.label, cols:4, kind:'word',
+    explain: item.label+', eso corresponde a la zona <b>'+item.zona.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCiudadania3Round(){
+  const item = pick(CIUDADANIA3_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de convivencia ciudadana?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de convivencia ciudadana?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" es una buena práctica de convivencia ciudadana.',
+  };
+}
+
 const PUEBLOS_BANK = [
   { emoji:'🏔️', pueblo:'AIMARA', zona:'NORTE' },
   { emoji:'🌲', pueblo:'MAPUCHE', zona:'SUR' },

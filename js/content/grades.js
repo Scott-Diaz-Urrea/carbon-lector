@@ -1,7 +1,7 @@
 export const GRADES = [
   { id:1, label:'1° Básico', open:true },
   { id:2, label:'2° Básico', open:true },
-  { id:3, label:'3° Básico', open:false },
+  { id:3, label:'3° Básico', open:true },
   { id:4, label:'4° Básico', open:false },
   { id:5, label:'5° Básico', open:false },
   { id:6, label:'6° Básico', open:false },

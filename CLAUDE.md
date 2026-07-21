@@ -443,10 +443,46 @@ núcleos. Se corrigieron ~30 problemas repartidos en varias categorías:
   mezclaba una persona (🧑, "piernas") con animales bajo el atributo
   "patas" — se cambió por 🦩.
 
-Los 31 módulos de NT se probaron con fuzz-testing (100 iteraciones cada
+Los 37 módulos de NT se probaron con fuzz-testing (100 iteraciones cada
 uno vía consola del navegador) tras cada tanda de cambios: sin `undefined`,
 sin opciones duplicadas, `correctValue` siempre presente, `explain` siempre
 presente, `speakText` sin HTML embebido.
+
+**Ampliación de módulos por núcleo (2026-07-21):** pedido explícito del
+usuario de aumentar la cantidad de juegos por núcleo para retener más la
+atención, siempre que se pudiera fundamentar en el texto literal de un OA ya
+citado (no inventar OA nuevos — la regla de oro del proyecto). Se investigó
+el texto literal de cada OA candidato en curriculumnacional.cl antes de
+decidir; en los núcleos donde el OA ya citado no nombra sub-aspectos sin
+explotar (p. ej. Convivencia y Ciudadanía, Comprensión del Entorno
+Sociocultural, Identidad y Autonomía, Pensamiento Matemático, Lenguaje
+Verbal), se dejó la cantidad de módulos igual — agregar un módulo ahí
+habría significado forzar contenido no respaldado por el currículum. Solo
+2 núcleos tenían un OA ya citado cuyo texto literal nombraba explícitamente
+más atributos/categorías de los que el único módulo existente ejercitaba:
+- **Lenguajes Artísticos**: OA01 dice literalmente "...describiendo y
+  comparando algunas características visuales, musicales o escénicas
+  (desplazamiento, ritmo, carácter expresivo, colorido, formas, diseño,
+  entre otros)". El único módulo existente ("Aprecia y Compara") solo
+  ejercitaba "colorido". Se agregaron "Compara Formas" y "Líneas y Diseño"
+  (reutilizando `shapeSVG()`/`lineTypeSVG()`, ya construidos para Pensamiento
+  Matemático y Artes Visuales 2° básico respectivamente) con el mismo
+  mecanismo de comparar dos "obras" que ya usaba Aprecia y Compara —
+  "desplazamiento/ritmo/carácter expresivo" siguen fuera porque son de
+  manifestaciones musicales/escénicas (audio o movimiento real, mismo
+  criterio que excluye OA03-04 de este núcleo).
+- **Corporalidad y Movimiento**: OA09 dice literalmente "Utilizar categorías
+  de ubicación espacial y temporal, tales como: adelante/atrás/al lado/
+  entre, día/noche, hoy/mañana, antes/durante/después, en situaciones
+  cotidianas y lúdicas". El módulo existente ("Ubicación y Tiempo") no
+  cubría "entre" ni "antes/durante/después" — dos categorías que el OA sí
+  nombra. Se dividió en dos módulos ("Ubicación Espacial" para
+  adelante/atrás/al lado/entre, y "¿Cuándo Ocurre?" para día/noche/hoy/
+  mañana/ayer/antes/durante/después) en vez de amontonar 12 categorías en
+  un solo juego de rounds:8. El módulo se llama "¿Cuándo Ocurre?" y no
+  "Antes y Después" para no duplicar el título del módulo homónimo de
+  Pensamiento Matemático (que cubre una habilidad distinta: secuenciar dos
+  eventos de una rutina, no el vocabulario temporal en sí).
 
 **Ámbito Comunicación Integral** (curriculumnacional.cl/curriculum/educacion-parvularia/comunicacion-integral/nt-nivel-transicion):
 - **Lenguaje Verbal** (6): Escribe tu Nombre y Caligrafía (ambos trazado libre sobre
@@ -455,7 +491,8 @@ presente, `speakText` sin HTML embebido.
   actitudinal) y OA09-10 (mensajes en lengua indígena de la comunidad o lenguas
   maternas de los pares — dependen de la lengua específica de cada comunidad/familia,
   no generalizables sin riesgo de contenido incorrecto o excluyente).
-- **Lenguajes Artísticos** (1): Aprecia y Compara — OA01. Fuera: OA02 (opinión
+- **Lenguajes Artísticos** (3): Aprecia y Compara, Compara Formas, Líneas y Diseño —
+  las 3 son OA01 (ver "Ampliación de módulos por núcleo" arriba). Fuera: OA02 (opinión
   subjetiva sobre una obra), OA03-04 (canto/danza, performativo), OA05-07
   (representación plástica o dibujo propio, producción no reconocimiento).
 
@@ -469,9 +506,11 @@ presente, `speakText` sin HTML embebido.
   Seguridad y Cuidado — OA05-07. Fuera: OA01-04, OA08-11 (participación colaborativa,
   empatía vivida, apreciación cultural/diversidad — vivencia grupal real o juicio
   subjetivo sin respuesta única).
-- **Corporalidad y Movimiento** (2): Ubicación y Tiempo, Movimientos del Cuerpo —
-  OA04, OA09. Fuera: OA01-03, OA05-08 (práctica motriz real: cuidado corporal,
-  ejercitación, coordinación, fuerza/equilibrio — requieren movimiento físico real).
+- **Corporalidad y Movimiento** (3): Ubicación Espacial, ¿Cuándo Ocurre?,
+  Movimientos del Cuerpo — OA09 (los dos primeros, ver "Ampliación de módulos
+  por núcleo" arriba), OA04. Fuera: OA01-03, OA05-08 (práctica motriz real:
+  cuidado corporal, ejercitación, coordinación, fuerza/equilibrio — requieren
+  movimiento físico real).
 
 **Ámbito Interacción y Comprensión del Entorno**:
 - **Pensamiento Matemático** (9): Patrones, Clasificar, ¿Dónde está?, Más/Menos/Igual,

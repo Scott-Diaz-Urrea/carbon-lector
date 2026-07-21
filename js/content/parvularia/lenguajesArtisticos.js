@@ -1,43 +1,68 @@
 import { randInt, shuffle } from '../../utils.js';
-import { colorSwatchSVG } from '../../svg.js';
+import { colorSwatchSVG, shapeSVG, lineTypeSVG } from '../../svg.js';
 
 /* Núcleo Lenguajes Artísticos — Educación Parvularia, NT (Decreto 481/2017,
    ámbito Comunicación Integral, curriculumnacional.cl/curriculum/
    educacion-parvularia/comunicacion-integral/nt-nivel-transicion):
-   OA01 -> Aprecia y Compara (describir y comparar características visuales
-   como el colorido de dos producciones).
+   OA01 -> Aprecia y Compara, Compara Formas, Líneas y Diseño. Texto literal
+   de OA01: "Apreciar producciones artísticas de diversos contextos (en forma
+   directa o a través de medios tecnológicos), describiendo y comparando
+   algunas características visuales, musicales o escénicas (desplazamiento,
+   ritmo, carácter expresivo, colorido, formas, diseño, entre otros)." Los
+   tres módulos de este núcleo cubren, cada uno, un atributo visual distinto
+   de esa misma lista (colorido / formas / diseño), con el mismo mecanismo de
+   comparar dos "obras" — no son 3 OA distintos, son 3 ángulos de OA01.
    Quedan fuera: OA02 (comunicar impresiones/emociones propias sobre una
    obra — subjetivo, no tiene una respuesta correcta objetiva), OA03-04
    (interpretar canciones/juegos musicales y expresión corporal/dramática —
    performativo, requiere producción de voz/cuerpo real, no apto para opción
    múltiple), OA05-06 (representar plásticamente o experimentar combinaciones
    de expresión — son tareas de producción propia, no de reconocimiento) y
-   OA07 (representar a través del dibujo propio — ídem, producción gráfica). */
+   OA07 (representar a través del dibujo propio — ídem, producción gráfica).
+   Los atributos "desplazamiento/ritmo/carácter expresivo" de OA01 tampoco se
+   cubren: son de manifestaciones musicales/escénicas, que requieren audio o
+   movimiento real para apreciarse, igual criterio que excluye OA03-04. */
 
 export const LENGUAJES_ARTISTICOS_MODULES = [
   { id:'apreciarnt', label:'Aprecia y Compara', open:true, key:'apreciarnt' },
+  { id:'comparaformasnt', label:'Compara Formas', open:true, key:'comparaformasnt' },
+  { id:'lineasdisenont', label:'Líneas y Diseño', open:true, key:'lineasdisenont' },
 ];
 export const LENGUAJES_ARTISTICOS_POS = [
-  {x:50,y:50},
+  {x:24,y:78},{x:68,y:50},{x:24,y:22},
 ];
 
 const COLORES_POOL = ['ROJO','AZUL','VERDE','AMARILLO','MORADO','NARANJO','ROSADO'];
+const FORMAS_POOL = ['circulo','cuadrado','triangulo','rectangulo','rombo','ovalo','pentagono','hexagono'];
+const LINEAS_POOL = ['VERTICAL','HORIZONTAL','DIAGONAL','ESPIRAL','QUEBRADA'];
 
-export function genApreciarNTRound(){
-  let nA = randInt(2,5), nB = randInt(2,5);
-  while(nB === nA) nB = randInt(2,5);
-  const obraA = shuffle(COLORES_POOL).slice(0, nA);
-  const obraB = shuffle(COLORES_POOL).slice(0, nB);
+function genCompareRound(pool, renderItem, pregunta, atributo){
+  let nA = randInt(2, Math.min(5, pool.length)), nB = randInt(2, Math.min(5, pool.length));
+  while(nB === nA) nB = randInt(2, Math.min(5, pool.length));
+  const obraA = shuffle(pool).slice(0, nA);
+  const obraB = shuffle(pool).slice(0, nB);
   const correct = nA > nB ? 'A' : 'B';
   const opts = shuffle([{label:'Obra A', value:'A'}, {label:'Obra B', value:'B'}]);
   const panel = function(list, letter){
     return '<div class="compare-col"><span>Obra '+letter+'</span><div class="compare-swatches">'+
-      list.map(function(c){ return colorSwatchSVG(c, 30); }).join('')+
+      list.map(renderItem).join('')+
     '</div></div>';
   };
   return {
-    promptHTML: '<div class="compare-row">'+panel(obraA,'A')+panel(obraB,'B')+'</div><p class="prompt-hint">¿Cuál obra usa más colores?</p>',
-    options: opts, correctValue: correct, speakText: '¿Cuál obra usa más colores, la Obra A o la Obra B?', cols:2, panel:true,
-    explain: 'La Obra '+correct+' usa '+(correct==='A'?nA:nB)+' colores distintos, más que la otra.',
+    promptHTML: '<div class="compare-row">'+panel(obraA,'A')+panel(obraB,'B')+'</div><p class="prompt-hint">'+pregunta+'</p>',
+    options: opts, correctValue: correct, speakText: pregunta, cols:2, panel:true,
+    explain: 'La Obra '+correct+' usa '+(correct==='A'?nA:nB)+' '+atributo+' distintos, más que la otra.',
   };
+}
+
+export function genApreciarNTRound(){
+  return genCompareRound(COLORES_POOL, function(c){ return colorSwatchSVG(c, 30); }, '¿Cuál obra usa más colores?', 'colores');
+}
+
+export function genCompararFormasNTRound(){
+  return genCompareRound(FORMAS_POOL, function(f){ return shapeSVG(f, 34); }, '¿Cuál obra usa más formas distintas?', 'formas');
+}
+
+export function genLineasDisenoNTRound(){
+  return genCompareRound(LINEAS_POOL, function(l){ return lineTypeSVG(l, 34); }, '¿Cuál obra usa más tipos de líneas distintas?', 'tipos de líneas');
 }

@@ -1,4 +1,4 @@
-import { renderTraceCanvas, initTraceCanvas, TYPO_STYLES, styleNote } from './traza.js';
+import { renderTraceCanvas, initTraceCanvas, TYPO_STYLES } from './traza.js';
 import { showResult } from '../rewards.js';
 
 /* Módulo "Caligrafía" — núcleo Lenguaje Verbal, Educación Parvularia NT
@@ -13,9 +13,11 @@ import { showResult } from '../rewards.js';
    3) los números del 1 al 5, cada uno en 2 estilos (imprenta/manuscrita;
       no se repite mayús/minús porque un dígito no tiene esa distinción,
       así que solo se ofrecen las variantes "-mayus" de cada familia).
-   Juego a medida, no usa el motor de opción múltiple: no hay respuesta
-   correcta/incorrecta, siempre otorga 3 estrellas al terminar el
-   cuaderno completo. */
+   Juego a medida, no usa el motor de opción múltiple. Pedido explícito del
+   usuario: las estrellas deben reflejar qué tan bien se trazó cada hoja, no
+   darse siempre fijas — cada hoja usa `traceHandle.getStars()` (ver
+   traza.js) y al terminar el cuaderno se otorga el promedio redondeado de
+   las 38 hojas, en vez de un 3/3 fijo. */
 
 const SHAPE_HOJAS = [
   { tipo:'shape', valor:'horizontal', titulo:'Línea Horizontal' },
@@ -30,14 +32,9 @@ const SHAPE_HOJAS = [
 
 const VOCALES = ['A','E','I','O','U'];
 const NUMEROS = ['1','2','3','4','5'];
-/* Para dígitos se usa 'manuscrita-minus' (no 'manuscrita-mayus') a propósito:
-   desde que "Manuscrita MAYÚSCULA" pasó a usar Baloo 2 (ver traza.js, por
-   la mezcla de mayúsculas simples/decorativas de Playwrite CL), el único
-   estilo que sigue apuntando a la cursiva real de Playwrite CL es
-   'manuscrita-minus' — y como un dígito no tiene mayús/minús, el
-   case-transform ahí es un no-op, así que sigue mostrando el número en
-   cursiva real sin verse afectado por el cambio de las letras. */
-const NUMERO_STYLES = TYPO_STYLES.filter(function(s){ return s.id==='imprenta-mayus' || s.id==='manuscrita-minus'; });
+/* Un dígito no tiene mayús/minús, así que solo se ofrece una variante por
+   familia (imprenta/manuscrita) en vez de las 4 combinaciones completas. */
+const NUMERO_STYLES = TYPO_STYLES.filter(function(s){ return s.id==='imprenta-mayus' || s.id==='manuscrita-mayus'; });
 
 const VOCAL_HOJAS = [];
 VOCALES.forEach(function(v){
@@ -57,13 +54,14 @@ NUMEROS.forEach(function(n){
 const HOJAS = SHAPE_HOJAS.concat(VOCAL_HOJAS, NUMERO_HOJAS);
 
 let cal = null;
+let traceHandle = null;
 
 export function renderCaligrafiaScreen(){
   return '<div class="screen" id="caligrafia-screen"></div>';
 }
 
 export function initCaligrafiaGame(){
-  cal = { hoja: 0, total: HOJAS.length };
+  cal = { hoja: 0, total: HOJAS.length, starsSum: 0 };
   drawHoja();
 }
 
@@ -80,18 +78,26 @@ function drawHoja(){
       '<div class="progress-num">'+(cal.hoja+1)+'/'+cal.total+'</div>'+
     '</div>'+
     '<p class="section-sub">'+h.titulo+' — repasa la guía con el dedo o el mouse.</p>'+
-    '<p class="typo-note">'+styleNote(h.styleId)+'</p>'+
     '<div class="prompt-card">'+
       renderTraceCanvas('caligrafia-canvas', {height:190})+
     '</div>'+
     '<button class="cta-btn" id="caligrafia-next-btn">'+(esUltima ? '¡Terminar! 🎉' : 'Siguiente hoja ▶️')+'</button>';
-  initTraceCanvas('caligrafia-canvas', h.tipo === 'shape' ? {shape:h.valor} : {text:h.valor, styleId:h.styleId});
+  traceHandle = initTraceCanvas('caligrafia-canvas', h.tipo === 'shape' ? {shape:h.valor} : {text:h.valor, styleId:h.styleId});
   document.getElementById('caligrafia-next-btn').onclick = function(){
+    if(traceHandle) cal.starsSum += traceHandle.getStars();
     cal.hoja++;
     drawHoja();
   };
 }
 
+const SUB_BY_STARS = {
+  0: 'Sigue practicando el cuaderno, cada hoja te va a salir mejor.',
+  1: 'Completaste las '+HOJAS.length+' hojas — sigue practicando el trazo.',
+  2: '¡Buen trabajo! Completaste las '+HOJAS.length+' hojas del cuaderno.',
+  3: '¡Excelente! Completaste las '+HOJAS.length+' hojas del cuaderno de caligrafía.',
+};
+
 function finishCaligrafia(){
-  showResult('caligrafia', 3, 3, true, '¡Completaste las '+HOJAS.length+' hojas del cuaderno de caligrafía!');
+  const stars = cal.total ? Math.max(0, Math.min(3, Math.round(cal.starsSum / cal.total))) : 3;
+  showResult('caligrafia', stars, 3, true, SUB_BY_STARS[stars]);
 }

@@ -1,5 +1,5 @@
 import { pick, shuffle } from '../utils.js';
-import { colorSwatchSVG, lineTypeSVG } from '../svg.js';
+import { colorSwatchSVG, lineTypeSVG, piedraSVG, espejoSVG, plasticinaSVG } from '../svg.js';
 
 export const ARTES_MODULES = [
   {id:'colores', label:'Colores', open:true, key:'colores'},
@@ -12,13 +12,20 @@ export const ARTES_POS = [{x:24,y:80},{x:70,y:50},{x:24,y:20}];
    OA02 -> Colores, Líneas y Texturas · OA01,03 -> Materiales de Arte.
    OA04-05 (apreciación y opinión personal sobre obras) quedaron fuera por ser
    inherentemente subjetivas y no aptas para el motor de opción múltiple. */
+/* Ampliado de 6 a 8 ítems: combinado con MEZCLAS_COLOR (4) sumaba 10
+   combinaciones únicas para rounds:10 — sin margen (riesgo mínimo pero
+   real de repetición, ver mcEngine.js). CELESTE y ROSADO son colores
+   pastel de uso común en la sala de clases, con la misma clasificación
+   cálido/frío intuitiva que el resto del banco. */
 const COLORES_ITEMS = [
   { label:'ROJO', tipo:'CÁLIDO' },
   { label:'NARANJO', tipo:'CÁLIDO' },
   { label:'AMARILLO', tipo:'CÁLIDO' },
+  { label:'ROSADO', tipo:'CÁLIDO' },
   { label:'AZUL', tipo:'FRÍO' },
   { label:'VERDE', tipo:'FRÍO' },
   { label:'MORADO', tipo:'FRÍO' },
+  { label:'CELESTE', tipo:'FRÍO' },
 ];
 const MEZCLAS_COLOR = [
   { a:'ROJO', b:'AMARILLO', result:'NARANJO' },
@@ -36,22 +43,28 @@ const LINEAS_ITEMS = [
   { emoji:'🖍️', desc:'Una línea ancha y bien marcada.', label:'GRUESA' },
   { emoji:'🖊️', desc:'Un plumón grueso deja una línea así de marcada.', label:'GRUESA' },
 ];
+/* 🪨/🪞 crudos no se renderizan en varios navegadores (mismo problema ya
+   resuelto en otros archivos) — se reusan piedraSVG()/espejoSVG() aquí
+   también, en vez de repetir el emoji sin soporte. */
 const TEXTURAS_ITEMS = [
-  { emoji:'🪨', label:'ÁSPERA', desc:'Una piedra se siente así al tocarla: dura y con relieve.' },
+  { emoji: piedraSVG(30), label:'ÁSPERA', desc:'Una piedra se siente así al tocarla: dura y con relieve.' },
   { emoji:'🧱', label:'ÁSPERA', desc:'Un ladrillo sin pulir se siente así: dura y con relieve.' },
   { emoji:'🧊', label:'LISA', desc:'Un vidrio o un hielo se sienten así: parejos, sin relieve.' },
-  { emoji:'🪞', label:'LISA', desc:'Un espejo se siente así al tocarlo: parejo, sin relieve.' },
+  { emoji: espejoSVG(30), label:'LISA', desc:'Un espejo se siente así al tocarlo: parejo, sin relieve.' },
   { emoji:'🧶', label:'SUAVE', desc:'La lana o un peluche se sienten así: agradables y delicados.' },
   { emoji:'☁️', label:'SUAVE', desc:'Una almohada de plumas se siente así: agradable y delicada.' },
   { emoji:'🌵', label:'RUGOSA', desc:'La corteza de un árbol o un cactus se sienten así: con relieve.' },
   { emoji:'🍍', label:'RUGOSA', desc:'La cáscara de una piña se siente así: con relieve.' },
 ];
+/* "PLASTICINA" usaba 🖍️ (un crayón, una herramienta de dibujo, no una masa
+   moldeable) → plasticinaSVG(), el mismo helper que corrige el mismo error
+   en Ciencias Naturales (ver ciencias.js). */
 const HERRAMIENTAS_ARTE = [
   { emoji:'🖌️', label:'PINCEL', uso:'Sirve para pintar con témpera o acuarela.' },
   { emoji:'✂️', label:'TIJERA', uso:'Sirve para cortar papel y otros materiales.' },
   { emoji:'✏️', label:'LÁPIZ', uso:'Sirve para dibujar y hacer bocetos.' },
   { emoji:'🧵', label:'HILO', uso:'Sirve para unir telas o hacer manualidades.' },
-  { emoji:'🖍️', label:'PLASTICINA', uso:'Sirve para modelar figuras con las manos.' },
+  { emoji: plasticinaSVG(30), label:'PLASTICINA', uso:'Sirve para modelar figuras con las manos.' },
   { emoji:'🧴', label:'PEGAMENTO', uso:'Sirve para unir papeles y materiales de collage.' },
 ];
 

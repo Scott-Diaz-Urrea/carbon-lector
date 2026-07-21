@@ -11,6 +11,8 @@ export const MUSICA_POS = [{x:24,y:70},{x:70,y:25}];
    OA02,03,05,06,07 (expresión personal, repertorio específico, improvisación,
    presentación en vivo) quedaron fuera por depender de audio real / desempeño,
    no de una pregunta de opción múltiple. */
+/* Ampliado de 10 a 12 ítems (antes coincidía exactamente con rounds:10,
+   sin margen — ver mcEngine.js). */
 const SONIDO_ITEMS = [
   { emoji:'🐭', label:'El sonido de un ratoncito chiquito', cualidad:'AGUDO', par:['AGUDO','GRAVE'] },
   { emoji:'🦁', label:'El rugido de un león', cualidad:'GRAVE', par:['AGUDO','GRAVE'] },
@@ -22,6 +24,8 @@ const SONIDO_ITEMS = [
   { emoji:'🍃', label:'El viento suave entre las hojas', cualidad:'SUAVE', par:['FUERTE','SUAVE'] },
   { emoji:'🎵', label:'Una nota musical que dura muchos segundos', cualidad:'LARGO', par:['LARGO','CORTO'] },
   { emoji:'👏', label:'Un aplauso rápido y breve', cualidad:'CORTO', par:['LARGO','CORTO'] },
+  { emoji:'🦗', label:'El canto de un grillo en la noche', cualidad:'AGUDO', par:['AGUDO','GRAVE'] },
+  { emoji:'🥁', label:'El golpe seco de un tambor grande', cualidad:'GRAVE', par:['AGUDO','GRAVE'] },
 ];
 const INSTRUMENTOS_ITEMS = [
   { emoji:'🥁', label:'TAMBOR', tipo:'CONVENCIONAL' },

@@ -25,6 +25,8 @@ export const CONVIVENCIA_CIUDADANIA_POS = [
    (Resolución Pacífica) y deja fuera explícitamente la empatía vivida
    (OA01-04). Se reemplazaron por desacuerdos genuinos entre dos niños,
    igual que el resto del banco. */
+/* Los 3 bancos de este archivo se ampliaron de 8 a 10 ítems cada uno
+   (coincidían exactamente con rounds:8, sin margen — ver mcEngine.js). */
 const CONFLICTO_BANK = [
   { texto:'Dos niños quieren el mismo juguete al mismo tiempo.', correcta:'Turnarse para jugar', malas:['Quitárselo a la fuerza','Gritar y llorar','Empujar al otro niño'] },
   { texto:'Dos niños arman la misma torre de bloques y no se ponen de acuerdo en cómo seguir.', correcta:'Conversar y decidir juntos cómo seguir construyendo', malas:['Botar la torre del otro','Pelear por mandar','Quitarle los bloques al otro'] },
@@ -34,6 +36,8 @@ const CONFLICTO_BANK = [
   { texto:'Dos amigos quieren jugar a juegos distintos al mismo tiempo.', correcta:'Conversar y elegir un juego entre los dos, o turnarse', malas:['Pelear por imponer su juego','Jugar solo y dejar al otro de lado','Gritar hasta que el otro ceda'] },
   { texto:'Un compañero te empujó sin querer al correr.', correcta:'Decirle con calma que tenga más cuidado', malas:['Empujarlo de vuelta más fuerte','Gritarle enojado','Dejar de ser su amigo'] },
   { texto:'Quieres el columpio pero otro niño lo está usando.', correcta:'Esperar tu turno pacientemente', malas:['Bajarlo a la fuerza','Quitarle el columpio empujando','Llorar hasta que te lo preste'] },
+  { texto:'Dos niños quieren sentarse en la misma silla.', correcta:'Buscar otra silla o preguntar quién llegó primero', malas:['Empujar al otro para sentarse','Pelear por la silla','Tirar al otro niño al suelo'] },
+  { texto:'Un compañero no quiere prestarte los colores para pintar.', correcta:'Pedirlos con amabilidad y esperar tu turno', malas:['Quitárselos de las manos','Gritarle que es egoísta','Pintar sobre su dibujo'] },
 ];
 
 const NORMAS_BANK = [
@@ -45,6 +49,8 @@ const NORMAS_BANK = [
   { correcta:'Levantar la mano para pedir la palabra', incorrectas:['Gritar para que te escuchen','Hablar sin esperar tu turno','Interrumpir a la profesora'] },
   { correcta:'Lavarse las manos antes de comer', incorrectas:['Comer con las manos sucias','Toser sin taparte la boca','Ensuciar la mesa a propósito'] },
   { correcta:'Ayudar a un compañero que se cayó', incorrectas:['Reírse de quien se cayó','Seguir jugando sin mirar','Empujarlo para que se levante rápido'] },
+  { correcta:'Guardar silencio cuando alguien está durmiendo o descansando', incorrectas:['Hacer ruido a propósito','Gritar cerca de quien descansa','Golpear cosas fuerte sin razón'] },
+  { correcta:'Pedir permiso antes de tomar algo que no es tuyo', incorrectas:['Tomarlo sin avisar','Esconderlo después de tomarlo','Decir que era tuyo desde el principio'] },
 ];
 
 const RIESGO_BANK = [
@@ -56,6 +62,8 @@ const RIESGO_BANK = [
   { correcta:'Correr cerca de una piscina', seguras:['Caminar despacio','Jugar en el pasto','Sentarse a dibujar'] },
   { correcta:'Meter los dedos en un ventilador', seguras:['Aplaudir con las manos','Jugar con un peluche','Armar un rompecabezas'] },
   { correcta:'Salir a la calle solo sin un adulto', seguras:['Jugar en el patio de la casa','Leer un cuento en el sillón','Dibujar en tu pieza'] },
+  { correcta:'Jugar con bolsas de plástico sobre la cabeza', seguras:['Jugar con globos','Jugar con pelotas','Armar un rompecabezas'] },
+  { correcta:'Acercarse a un perro desconocido sin cuidado', seguras:['Acariciar a tu propia mascota con calma','Jugar con tus peluches','Leer un cuento de animales'] },
 ];
 
 export function genResolucionNTRound(){

@@ -17,9 +17,12 @@ const HERRAMIENTAS_TEC = [
   { emoji:'🧵', label:'HILO Y AGUJA', uso:'Sirve para coser o unir telas.' },
   { emoji:'🔨', label:'MARTILLO', uso:'Sirve para clavar o unir piezas de madera.' },
 ];
+/* "CARTÓN" usaba 🧻 (un rollo de papel higiénico/toalla de papel, sin
+   relación con el cartón) → 📦 (una caja), ya que las cajas de cartón son
+   el ejemplo que el propio texto menciona. */
 const MATERIALES_TEC = [
   { emoji:'📄', label:'PAPEL', uso:'Material liviano que se usa para dibujar, doblar o recortar.' },
-  { emoji:'🧻', label:'CARTÓN', uso:'Material firme, útil para construir maquetas y cajas.' },
+  { emoji:'📦', label:'CARTÓN', uso:'Material firme, útil para construir maquetas y cajas.' },
   { emoji:'🧶', label:'FIBRAS O LANA', uso:'Material que sirve para tejer o decorar.' },
   { emoji:'♻️', label:'MATERIAL DE RECICLAJE', uso:'Botellas, tapas o cajas que se reutilizan para crear objetos nuevos.' },
 ];
@@ -36,11 +39,20 @@ export const TECNOLOGIA_MODULES_G2 = [
 ];
 export const TECNOLOGIA_POS_G2 = [{x:48,y:50}];
 
+/* Ampliado de 4 a 10 ítems — antes garantizaba una repetición en cada
+   partida de rounds:8. Todos siguen dentro de TE02 OA05-07 (software de
+   dibujo/texto, uso seguro de internet). */
 const TEC_DIGITAL_BANK = [
   { emoji:'🖌️', pregunta:'¿Para qué usarías un software de dibujo en el computador?', correcta:'Para crear y representar ideas con imágenes', opts:['Para escuchar música','Para cocinar una receta','Para hacer ejercicio'] },
   { emoji:'⌨️', pregunta:'¿Para qué sirve un procesador de textos?', correcta:'Para crear, editar y guardar información escrita', opts:['Para tomar fotografías','Para dibujar figuras 3D','Para escuchar canciones'] },
   { emoji:'🌐', pregunta:'Antes de usar información de internet, ¿qué debes hacer?', correcta:'Revisar que la fuente sea segura y confiable', opts:['Usar cualquier información sin revisar','Compartir tu contraseña con la página','Ignorar las indicaciones del profesor'] },
   { emoji:'🔒', pregunta:'¿Qué es importante hacer al usar internet de forma segura?', correcta:'Seguir las reglas que da el profesor', opts:['Dar tus datos personales a cualquiera','Descargar cualquier archivo sin revisar','Ignorar las advertencias de seguridad'] },
+  { emoji:'📊', pregunta:'¿Para qué usarías un software de presentaciones?', correcta:'Para mostrar ideas en pantalla con imágenes y texto', opts:['Para escuchar música','Para tomar fotografías','Para hacer ejercicio'] },
+  { emoji:'🔍', pregunta:'¿Para qué sirve un buscador de internet?', correcta:'Para encontrar información sobre un tema', opts:['Para dibujar figuras','Para escuchar canciones','Para hacer ejercicio'] },
+  { emoji:'🔑', pregunta:'¿Qué debes hacer con tu contraseña?', correcta:'Mantenerla en secreto y no compartirla', opts:['Compartirla con cualquiera que la pida','Escribirla en un lugar público','Decírsela a un desconocido en internet'] },
+  { emoji:'📧', pregunta:'Si recibes un mensaje de alguien desconocido en internet, ¿qué debes hacer?', correcta:'Contarle a un adulto y no responder', opts:['Responder con tus datos personales','Aceptar todo lo que te pida','Ignorarlo y seguir chateando con esa persona'] },
+  { emoji:'🖱️', pregunta:'¿Para qué sirve el mouse (ratón) del computador?', correcta:'Para mover el puntero y seleccionar cosas en la pantalla', opts:['Para escuchar música','Para imprimir documentos','Para conectarse a internet'] },
+  { emoji:'💾', pregunta:'¿Por qué es importante guardar tu trabajo en el computador?', correcta:'Para no perder lo que hiciste', opts:['Para que se borre solo','Para que nadie más lo use','Para que el computador se apague'] },
 ];
 
 export function genTecDigital2Round(){

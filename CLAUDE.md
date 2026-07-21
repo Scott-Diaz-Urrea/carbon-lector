@@ -372,6 +372,142 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
 
 ## Estado actual del contenido (julio 2026)
 
+**Auditoría de íconos vs. texto en toda la app (2026-07-21):** pedido
+explícito del usuario tras encontrar que "el vaso de agua está al lado del
+plato" (Corporalidad y Movimiento) usaba 🥛 — que es literalmente un vaso
+de LECHE, no de agua. En vez de corregir solo ese caso puntual, se revisó
+cada emoji/ícono de `js/content/*.js`, `js/content/parvularia/*.js` y
+`js/games/*.js` contra la palabra o concepto que representa, buscando la
+misma categoría de error (un emoji que se lee como algo distinto de lo que
+dice el texto), no solo emoji que no se renderizan (esa categoría ya se
+había auditado antes, ver "Segunda auditoría exhaustiva de NT" más abajo).
+Se encontraron y corrigieron ~20 casos:
+
+- **Objeto equivocado:** ANCLA usaba 🪁 (una cometa) → ⚓. ESCUELA usaba 🚂
+  (un tren) → 🏫. IGLÚ usaba 🧊 (un cubo de hielo, sin relación con la
+  cúpula de un iglú) → `igluSVG()` nuevo. "Vaso de vidrio" (Ciencias
+  Naturales) usaba 🍶 (una botella de sake) → `vasoVacioSVG()` nuevo, mismo
+  criterio que ya corrigió 🥛→`vasoAguaSVG()`. CARTÓN (Tecnología) usaba 🧻
+  (un rollo de papel higiénico) → 📦. "La Gran Muralla China" (Historia)
+  usaba 🕌 (una mezquita) → 🧱 (no existe emoji de muralla, ladrillos es la
+  aproximación más cercana).
+- **Herramienta en vez del material real:** "la plastilina" aparecía dos
+  veces (Ciencias Naturales con 🖌️ pincel, Artes Visuales con 🖍️ crayón) —
+  ninguno de los dos es plasticina, son herramientas de dibujo. Se creó
+  `plasticinaSVG()` (un bloque moldeable con la marca de un pulgar) y se usa
+  en ambos archivos.
+- **Órgano representado por su función, no por sí mismo:** ESTÓMAGO (Ciencias
+  Naturales 2° básico) usaba 🍽️ (plato con cubiertos, "comida") en vez del
+  órgano — inconsistente con que el resto del banco (❤️ corazón, 🫁
+  pulmones, 🦴 esqueleto) sí muestra el órgano real. Se creó `estomagoSVG()`.
+  "Iris" (vocal I) usaba 🌈 (arcoíris) — un niño que reconoce la imagen
+  diría "arcoíris", no "iris", rompiendo el juego de "¿con qué vocal
+  empieza?"; se cambió la palabra completa a INSECTO (🐜), que sí tiene una
+  vocal I inicial y un emoji que representa exactamente lo que dice. "Un
+  afiche se decolora" usaba 🌓 (fase de la luna, sin relación) → 🖼️.
+- **Ícono al revés de lo que dice el texto (el más engañoso):** dos ítems
+  "falso" describían una MALA conducta (botar basura al suelo, dejar
+  materiales tirados) pero usaban 🗑️ — un basurero, que en realidad
+  representa la buena acción de botar la basura EN SU LUGAR. Se cambiaron a
+  🚯 ("prohibido botar basura"). Otro ítem "falso" ("no lavarse las manos
+  antes de comer") usaba 🧴 (una botella de jabón/crema, que sugiere buena
+  higiene) → 🦠 (gérmenes, la consecuencia real de no lavarse las manos).
+- **Emoji crudo reutilizado donde ya existía un SVG propio:** 🪥 (cepillo de
+  dientes), 🪨 (piedra) y 🪞 (espejo) ya tenían `toothbrushSVG()`/
+  `piedraSVG()`/`espejoSVG()` construidos para otros archivos (no se
+  renderizan en varios navegadores), pero seguían apareciendo crudos en
+  `lenguaje.js`, `ciencias.js`, `artes.js`, `orientacion.js` y
+  `games/secuencia.js` porque esos archivos no formaron parte de la
+  auditoría original (esa fue solo de Educación Parvularia NT). Se
+  reemplazaron por los helpers existentes en todos esos lugares. Lo mismo
+  con "Capullo" (secuencia de la mariposa en `games/secuencia.js`), que
+  usaba 🍃 (una hoja) en vez de `crisalidaSVG()` (ya construido para el
+  mismo concepto en `exploracionEntornoNatural.js`).
+- **Acciones/movimientos que no correspondían al gesto descrito** (Educación
+  Física y Salud, "Cuerpo en Movimiento", 1° básico): 🧎 REPTAR mostraba a
+  alguien ARRODILLADO, no arrastrándose; 🥅 ATRAPAR UNA PELOTA era un arco de
+  fútbol, no la acción de atrapar; 🧘 EQUILIBRIO EN UN PIE era una postura de
+  meditación sentada; 🤹 GIRAR era hacer malabares; 🤺 CAMINAR SOBRE UNA
+  LÍNEA era esgrima. Se reemplazaron las 10 acciones del banco por
+  `personActionSVG()` — la misma figura de palitos animada que ya existía
+  para Corporalidad y Movimiento (Educación Parvularia) — extendiendo su set
+  de 8 a 12 acciones (`lanzar`, `atrapar`, `patear`, `equilibrio` nuevas).
+  "Caminar sobre una línea sin caerse" reusa la acción `equilibrio` por ser,
+  en esencia, la misma habilidad motriz.
+
+Casos evaluados y dejados como están por ser aproximaciones razonables sin
+alternativa mejor (cóndor/huemul por ave/animal similar sin emoji propio,
+empanada≈dumpling, 🍯 para "panal" pese a ser un tarro de miel y no un
+panal): no valía la pena forzar un SVG nuevo cuando el emoji ya comunica el
+concepto con suficiente fidelidad para un niño de 6-7 años.
+
+**Escenas de ubicación relativa sin objeto de referencia (2026-07-21,
+seguimiento del punto anterior):** el usuario revisó la corrección del vaso
+de agua y notó un problema más profundo, no solo de qué ícono usar: la
+escena solo mostraba el vaso, no el plato — la mitad de la oración ("___
+del plato") no tenía ningún respaldo visual. Todas las preguntas de
+ubicación relativa de la app seguían este mismo patrón (mostrar solo al
+sujeto, nunca la referencia), incluyendo `POSICION_ESCENAS` en
+`pensamientoMatematico.js` (ya existía antes de esta sesión) — el osito
+"entre las dos almohadas" tampoco mostraba las almohadas. Se agregó
+`refs` (1-2 íconos de la referencia) a cada escena de
+`ESCENAS_ESPACIAL_NT` (`corporalidadMovimiento.js`) y `POSICION_ESCENAS`
+(`pensamientoMatematico.js`), y un helper compartido
+`sceneRefsHTML(subject, refs)` en `utils.js` que arma
+referencia-sujeto-referencia (si hay 2, para "entre") o sujeto-referencia
+(si hay 1) — así la mitad de la oración que antes solo existía en texto
+ahora también se ve. Para referencias sin buen emoji se dibujaron
+`nidoSVG()`, `groundSVG()` y `cojinSVG()` en `svg.js` (mismo criterio que
+el resto de SVGs propios: emoji de nido/cojín son adiciones Unicode
+2021-2022 con el mismo riesgo de no renderizarse que 🪥/🪮/etc.); donde ya
+existía un emoji confiable se reusó directamente (🍽️ plato, 🏠 casa, 🪑
+silla, 💧 agua, 🕳️ cueva, 🧍/🏁/👫 como referencias de persona/grupo/meta).
+
+**Verificación real de "sin preguntas repetidas" en toda la app (2026-07-21):**
+el usuario pidió confirmar explícitamente que ningún módulo repite preguntas
+dentro de una partida. En vez de asumirlo, se simuló una partida completa
+(mismo algoritmo de `roundSignature`/reintentos que usa `drawMCRound()` en
+`mcEngine.js`) cientos de veces por módulo, para los ~90 `MC_KEYS`. Se
+encontraron dos niveles de problema:
+
+- **11 módulos con repetición garantizada en el 100% de las partidas**
+  (`clima2`, `pueblos2`, `paisajes2`, `ciudadania2`, `cuerporesponde2`,
+  `vidaactiva2`, `liderazgo2`, `autocuidado2`, `habitosescolares2`,
+  `convivencia2`, `tecdigital2` — todos módulos "II" de 2° básico): su banco
+  de contenido tenía **menos ítems únicos que `rounds` configurado** (p.ej.
+  `tecdigital2` tenía solo 4 preguntas posibles para 8 rondas). Se amplió
+  cada banco con ítems reales dentro del mismo OA ya citado en el archivo
+  (nunca un OA nuevo) hasta dejar margen de al menos +2 sobre `rounds`
+  (`clima2` de 7→11 combinaciones únicas, `tecdigital2` de 4→10, etc.).
+- **7 módulos con una probabilidad residual pequeña pero real** (hasta
+  ~0.5% por partida): su banco tenía exactamente el mismo tamaño que
+  `rounds` (sin margen — el patrón más común en la app, documentado como
+  intencional en el resto de esta sección), lo que deja una posibilidad
+  estadística remota de que los 60 reintentos de `drawMCRound()` no
+  alcancen a encontrar la última combinación única a tiempo. En vez de
+  agrandar banco por banco (habría afectado casi todos los módulos de la
+  app, ya que ese es el patrón estándar), se subió el límite de reintentos
+  de 60 a 300 en `mcEngine.js` — reduce esa probabilidad a
+  estadísticamente nula sin tocar contenido.
+
+Verificado al final: los ~90 módulos de opción múltiple de la app pasan
+2000 sesiones simuladas cada uno sin ningún repetido.
+
+**Ampliación de los 7 módulos "sin margen" (mismo día, pedido explícito
+del usuario de no conformarse con el parche de motor):** aunque subir los
+reintentos a 300 ya dejaba la probabilidad de repetición estadísticamente
+nula, se amplió además el contenido real de `colores`, `sonidos`,
+`movimiento` y `seguridad` (1° básico Ed. Física/Artes/Música) y
+`resolucionnt`/`normasnt`/`seguridadnt`/`materialesnaturalnt` (NT) para que
+también tengan margen real sobre `rounds`, mismo criterio que los 11
+módulos anteriores. Detalle no trivial encontrado de paso: `seguridad`
+(Educación Física 1° básico) todavía usaba el emoji crudo 🪖 para "usar
+casco" — un casco MILITAR, no de bicicleta/patines — pese a que el archivo
+ya importaba `cascoSVG()` (se había importado pero nunca se llegó a usar
+en ese ítem específico durante la auditoría de íconos). Corregido junto con
+la ampliación de banco. `colores` sumó CELESTE como color frío nuevo
+(agregado también a `COLOR_HEX` en `svg.js`, que no lo tenía).
+
 ### Educación Parvularia — ✅ completa (8 de 8 núcleos, nivel NT)
 Basado en el Decreto 481/2017, nivel Transición (NT), repartido en 3 ámbitos.
 Sala Cuna y Nivel Medio no están en `PARVULARIA_NIVELES` en absoluto (ni bloqueados):
@@ -443,10 +579,46 @@ núcleos. Se corrigieron ~30 problemas repartidos en varias categorías:
   mezclaba una persona (🧑, "piernas") con animales bajo el atributo
   "patas" — se cambió por 🦩.
 
-Los 31 módulos de NT se probaron con fuzz-testing (100 iteraciones cada
+Los 37 módulos de NT se probaron con fuzz-testing (100 iteraciones cada
 uno vía consola del navegador) tras cada tanda de cambios: sin `undefined`,
 sin opciones duplicadas, `correctValue` siempre presente, `explain` siempre
 presente, `speakText` sin HTML embebido.
+
+**Ampliación de módulos por núcleo (2026-07-21):** pedido explícito del
+usuario de aumentar la cantidad de juegos por núcleo para retener más la
+atención, siempre que se pudiera fundamentar en el texto literal de un OA ya
+citado (no inventar OA nuevos — la regla de oro del proyecto). Se investigó
+el texto literal de cada OA candidato en curriculumnacional.cl antes de
+decidir; en los núcleos donde el OA ya citado no nombra sub-aspectos sin
+explotar (p. ej. Convivencia y Ciudadanía, Comprensión del Entorno
+Sociocultural, Identidad y Autonomía, Pensamiento Matemático, Lenguaje
+Verbal), se dejó la cantidad de módulos igual — agregar un módulo ahí
+habría significado forzar contenido no respaldado por el currículum. Solo
+2 núcleos tenían un OA ya citado cuyo texto literal nombraba explícitamente
+más atributos/categorías de los que el único módulo existente ejercitaba:
+- **Lenguajes Artísticos**: OA01 dice literalmente "...describiendo y
+  comparando algunas características visuales, musicales o escénicas
+  (desplazamiento, ritmo, carácter expresivo, colorido, formas, diseño,
+  entre otros)". El único módulo existente ("Aprecia y Compara") solo
+  ejercitaba "colorido". Se agregaron "Compara Formas" y "Líneas y Diseño"
+  (reutilizando `shapeSVG()`/`lineTypeSVG()`, ya construidos para Pensamiento
+  Matemático y Artes Visuales 2° básico respectivamente) con el mismo
+  mecanismo de comparar dos "obras" que ya usaba Aprecia y Compara —
+  "desplazamiento/ritmo/carácter expresivo" siguen fuera porque son de
+  manifestaciones musicales/escénicas (audio o movimiento real, mismo
+  criterio que excluye OA03-04 de este núcleo).
+- **Corporalidad y Movimiento**: OA09 dice literalmente "Utilizar categorías
+  de ubicación espacial y temporal, tales como: adelante/atrás/al lado/
+  entre, día/noche, hoy/mañana, antes/durante/después, en situaciones
+  cotidianas y lúdicas". El módulo existente ("Ubicación y Tiempo") no
+  cubría "entre" ni "antes/durante/después" — dos categorías que el OA sí
+  nombra. Se dividió en dos módulos ("Ubicación Espacial" para
+  adelante/atrás/al lado/entre, y "¿Cuándo Ocurre?" para día/noche/hoy/
+  mañana/ayer/antes/durante/después) en vez de amontonar 12 categorías en
+  un solo juego de rounds:8. El módulo se llama "¿Cuándo Ocurre?" y no
+  "Antes y Después" para no duplicar el título del módulo homónimo de
+  Pensamiento Matemático (que cubre una habilidad distinta: secuenciar dos
+  eventos de una rutina, no el vocabulario temporal en sí).
 
 **Ámbito Comunicación Integral** (curriculumnacional.cl/curriculum/educacion-parvularia/comunicacion-integral/nt-nivel-transicion):
 - **Lenguaje Verbal** (6): Escribe tu Nombre y Caligrafía (ambos trazado libre sobre
@@ -455,7 +627,8 @@ presente, `speakText` sin HTML embebido.
   actitudinal) y OA09-10 (mensajes en lengua indígena de la comunidad o lenguas
   maternas de los pares — dependen de la lengua específica de cada comunidad/familia,
   no generalizables sin riesgo de contenido incorrecto o excluyente).
-- **Lenguajes Artísticos** (1): Aprecia y Compara — OA01. Fuera: OA02 (opinión
+- **Lenguajes Artísticos** (3): Aprecia y Compara, Compara Formas, Líneas y Diseño —
+  las 3 son OA01 (ver "Ampliación de módulos por núcleo" arriba). Fuera: OA02 (opinión
   subjetiva sobre una obra), OA03-04 (canto/danza, performativo), OA05-07
   (representación plástica o dibujo propio, producción no reconocimiento).
 
@@ -469,9 +642,11 @@ presente, `speakText` sin HTML embebido.
   Seguridad y Cuidado — OA05-07. Fuera: OA01-04, OA08-11 (participación colaborativa,
   empatía vivida, apreciación cultural/diversidad — vivencia grupal real o juicio
   subjetivo sin respuesta única).
-- **Corporalidad y Movimiento** (2): Ubicación y Tiempo, Movimientos del Cuerpo —
-  OA04, OA09. Fuera: OA01-03, OA05-08 (práctica motriz real: cuidado corporal,
-  ejercitación, coordinación, fuerza/equilibrio — requieren movimiento físico real).
+- **Corporalidad y Movimiento** (3): Ubicación Espacial, ¿Cuándo Ocurre?,
+  Movimientos del Cuerpo — OA09 (los dos primeros, ver "Ampliación de módulos
+  por núcleo" arriba), OA04. Fuera: OA01-03, OA05-08 (práctica motriz real:
+  cuidado corporal, ejercitación, coordinación, fuerza/equilibrio — requieren
+  movimiento físico real).
 
 **Ámbito Interacción y Comprensión del Entorno**:
 - **Pensamiento Matemático** (9): Patrones, Clasificar, ¿Dónde está?, Más/Menos/Igual,

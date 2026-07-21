@@ -33,7 +33,9 @@ import {
 import {
   genSilabasNTRound, genEscucharNTRound, genVocabNTRound, genLetrasNTRound,
 } from './content/parvularia/lenguajeVerbal.js';
-import { genApreciarNTRound } from './content/parvularia/lenguajesArtisticos.js';
+import {
+  genApreciarNTRound, genCompararFormasNTRound, genLineasDisenoNTRound,
+} from './content/parvularia/lenguajesArtisticos.js';
 import {
   genEmocionesNTRound, genAutocuidadoNTRound, genAlimentosNTRound,
 } from './content/parvularia/identidadAutonomia.js';
@@ -41,7 +43,7 @@ import {
   genResolucionNTRound, genNormasNTRound, genSeguridadNTRound,
 } from './content/parvularia/convivenciaCiudadania.js';
 import {
-  genUbicacionNTRound, genMovimientoNTRound,
+  genUbicacionEspacialNTRound, genAntesDespuesNTRound, genMovimientoNTRound,
 } from './content/parvularia/corporalidadMovimiento.js';
 import {
   genAguaSolNTRound, genMaterialesNaturalNTRound, genAnimalesPlantasNTRound,
@@ -66,10 +68,10 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'patrones','clasificar','posicion','cuantificadores','secuenciatemporal',
   'contarveinte','sumarquitar','formascuerpos','medir',
   'silabasnt','escucharnt','vocabnt','letrasnt',
-  'apreciarnt',
+  'apreciarnt','comparaformasnt','lineasdisenont',
   'emocionesnt','autocuidadont','alimentosnt',
   'resolucionnt','normasnt','seguridadnt',
-  'ubicacionnt','movimientont',
+  'ubicacionespacialnt','cuandoocurrent','movimientont',
   'aguasolnt','materialesnaturalnt','animalesplantasnt','ciclosnt','ambientent',
   'rolescomunidadnt','objetostecnt','institucionesnt','seguridadprevnt',
   'gramatica2','comprension2','geometria2','medicion2',
@@ -128,13 +130,16 @@ export const MC_GAMES = {
   vocabnt:       { title:'Vocabulario en Contexto', gen: genVocabNTRound, rounds:8 },
   letrasnt:      { title:'Letras y Sonidos', gen: genLetrasNTRound,      rounds:8 },
   apreciarnt:    { title:'Aprecia y Compara', gen: genApreciarNTRound,   rounds:8 },
+  comparaformasnt:{ title:'Compara Formas',  gen: genCompararFormasNTRound, rounds:8 },
+  lineasdisenont: { title:'Líneas y Diseño', gen: genLineasDisenoNTRound, rounds:8 },
   emocionesnt:   { title:'Reconoce Emociones', gen: genEmocionesNTRound, rounds:8 },
   autocuidadont: { title:'Autocuidado y Hábitos', gen: genAutocuidadoNTRound, rounds:8 },
   alimentosnt:   { title:'Alimentos y Sellos', gen: genAlimentosNTRound, rounds:8 },
   resolucionnt:  { title:'Resolución Pacífica', gen: genResolucionNTRound, rounds:8 },
   normasnt:      { title:'Normas de Convivencia', gen: genNormasNTRound, rounds:8 },
   seguridadnt:   { title:'Seguridad y Cuidado', gen: genSeguridadNTRound, rounds:8 },
-  ubicacionnt:   { title:'Ubicación y Tiempo', gen: genUbicacionNTRound, rounds:8 },
+  ubicacionespacialnt: { title:'Ubicación Espacial', gen: genUbicacionEspacialNTRound, rounds:8 },
+  cuandoocurrent: { title:'¿Cuándo Ocurre?', gen: genAntesDespuesNTRound, rounds:8 },
   movimientont:  { title:'Movimientos del Cuerpo', gen: genMovimientoNTRound, rounds:8 },
   aguasolnt:     { title:'Agua y Sol',        gen: genAguaSolNTRound,    rounds:8 },
   materialesnaturalnt: { title:'Materiales de la Naturaleza', gen: genMaterialesNaturalNTRound, rounds:8 },
@@ -192,12 +197,19 @@ function drawMCRound(){
   const el = document.getElementById('mc-screen');
   if(!el) return;
   if(mc.round >= mc.total){ finishMC(); return; }
+  /* 300 intentos (antes 60): con bancos cuyo tamaño coincide exactamente
+     con `rounds` (sin margen — el patrón más común en la app), 60 intentos
+     dejaba una probabilidad residual pequeña pero real (hasta ~0.2% por
+     partida, confirmado simulando miles de sesiones) de que la última
+     ronda repitiera una pregunta ya vista. Con 300 intentos esa
+     probabilidad es estadísticamente nula, sin tener que agrandar cada
+     banco de contenido para ganar margen. */
   let r, sig, attempts = 0;
   do{
     r = mc.cfg.gen();
     sig = roundSignature(r);
     attempts++;
-  }while(mc.seenPrompts.has(sig) && attempts < 60);
+  }while(mc.seenPrompts.has(sig) && attempts < 300);
   mc.seenPrompts.add(sig);
   mc.current = r;
   const optClass = r.panel ? 'option-btn panel' : (r.kind==='word' ? 'option-btn wordopt' : 'option-btn');

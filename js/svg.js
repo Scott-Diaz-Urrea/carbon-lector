@@ -104,6 +104,72 @@ export function vidrioSVG(size){
     '<path d="M22 30 L38 14" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.85"/>'+
   '</svg>';
 }
+/* Vaso de agua dibujado a mano: 🥛 es literalmente "vaso de LECHE" (líquido
+   blanco opaco), no de agua — usarlo para "el vaso de agua está al lado del
+   plato" (Corporalidad y Movimiento, Ubicación Espacial) mostraba el
+   concepto equivocado. El vidrio es transparente y el líquido celeste
+   translúcido, para que se lea claramente como agua y no como leche. */
+export function vasoAguaSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M30 20 L70 20 L64 88 L36 88 Z" fill="#DDEFFB" fill-opacity="0.35" stroke="#0C7C70" stroke-width="4"/>'+
+    '<path d="M33 42 L67 42 L64 88 L36 88 Z" fill="#7EC8E3" fill-opacity="0.55"/>'+
+    '<path d="M36 26 L40 26" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.85"/>'+
+  '</svg>';
+}
+/* Vaso de vidrio vacío (Ciencias Naturales 1° básico, "un vaso de vidrio" —
+   ejemplo de objeto hecho de vidrio): 🍶 es literalmente una botella de sake,
+   no un vaso para beber — mismo tipo de error que 🥛 para "vaso de agua"
+   (ver vasoAguaSVG arriba), así que se dibuja el vaso real, esta vez vacío
+   y con un brillo que deje claro que es transparente/vidrio. */
+export function vasoVacioSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M30 20 L70 20 L64 88 L36 88 Z" fill="#DDEFFB" fill-opacity="0.25" stroke="#727C87" stroke-width="4"/>'+
+    '<path d="M36 26 L40 26" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.85"/>'+
+    '<path d="M60 30 L64 30" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.6"/>'+
+  '</svg>';
+}
+/* Iglú (Lenguaje, vocal I): no existe un emoji de iglú — 🧊 (cubo de hielo)
+   se usaba antes, pero un cubo no se parece en nada a la cúpula de un iglú.
+   Se dibuja la cúpula de bloques de hielo con su entrada característica. */
+export function igluSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M8 78 Q8 34 50 30 Q92 34 92 78 Z" fill="#DDEFFB" stroke="#8FB8D6" stroke-width="3"/>'+
+    '<path d="M32 78 L32 58 Q40 50 48 58 L48 78 Z" fill="#2B3A55"/>'+
+    '<path d="M8 78 L92 78" stroke="#8FB8D6" stroke-width="3"/>'+
+    '<path d="M20 60 Q30 55 40 60" stroke="#8FB8D6" stroke-width="2" fill="none" opacity="0.7"/>'+
+    '<path d="M55 48 Q65 44 76 48" stroke="#8FB8D6" stroke-width="2" fill="none" opacity="0.7"/>'+
+  '</svg>';
+}
+/* Estómago (Ciencias Naturales 2° básico, "¿Qué hace tu estómago?"): no
+   existe un emoji de estómago — 🍽️ (plato con cubiertos) se usaba antes,
+   pero muestra "comida/comer", no el órgano en sí, a diferencia de ❤️/🫁/🦴
+   que sí son el órgano real. Se dibuja la forma característica en J del
+   estómago para que sea consistente con el resto del banco (órgano real,
+   no una metáfora de su función). */
+export function estomagoSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M40 12 Q34 12 34 22 Q34 34 28 42 Q16 56 22 72 Q28 88 50 88 Q76 88 78 64 Q80 44 64 34 Q56 29 56 20 Q56 12 48 12 Z" fill="#E8829A" stroke="#C25B76" stroke-width="4"/>'+
+    '<path d="M34 50 Q46 46 58 54" stroke="#C25B76" stroke-width="2.5" fill="none" opacity="0.6"/>'+
+  '</svg>';
+}
+/* Plasticina/masa moldeable (Ciencias Naturales "la plastilina cambia de
+   forma al apretarla", Artes Visuales "PLASTICINA"): 🖌️ (pincel) y 🖍️
+   (crayón) se usaban en cada archivo respectivamente — ninguno de los dos
+   es plasticina, son herramientas de dibujo, no una masa moldeable. Se
+   dibuja un bloque de plasticina con la marca de un pulgar hundido, para
+   que se lea como "algo que se puede apretar y moldear" y no como un
+   lápiz/pincel más. */
+export function plasticinaSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M20 55 Q14 30 42 26 Q70 20 82 42 Q92 60 74 74 Q54 90 30 78 Q14 70 20 55 Z" fill="#FF6B6B" stroke="#D6495A" stroke-width="4"/>'+
+    '<ellipse cx="52" cy="50" rx="12" ry="9" fill="#D6495A" opacity="0.35"/>'+
+  '</svg>';
+}
 export function espejoSVG(size){
   size = size || 90;
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
@@ -129,6 +195,41 @@ export function crisalidaSVG(size){
     '<path d="M50 18 Q72 26 68 52 Q65 82 50 92 Q35 82 32 52 Q28 26 50 18 Z" fill="#8FAE6B" stroke="#5E7A45" stroke-width="3"/>'+
     '<line x1="38" y1="40" x2="62" y2="40" stroke="#5E7A45" stroke-width="2" opacity="0.6"/>'+
     '<line x1="36" y1="55" x2="64" y2="55" stroke="#5E7A45" stroke-width="2" opacity="0.6"/>'+
+  '</svg>';
+}
+/* nidoSVG/groundSVG/cojinSVG: objetos de REFERENCIA para preguntas de
+   ubicación relativa (p.ej. "el pajarito está ___ de su nido", "el gato
+   duerme ___ los dos cojines") — antes esas escenas solo mostraban al
+   sujeto (el pajarito, el gato) sin mostrar el nido/cojín contra el que se
+   compara, dejando la mitad de la oración sin respaldo visual. No existe un
+   emoji confiable de nido/tierra/cojín (🪺/🪹 son adiciones 2021 con el
+   mismo riesgo de no renderizarse que 🪥/🪮/etc.), así que se dibujan a
+   mano, del mismo tamaño que el sujeto, para armar una escena de 2-3
+   íconos en vez de uno solo. */
+export function nidoSVG(size){
+  size = size || 60;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<ellipse cx="50" cy="66" rx="40" ry="18" fill="#B08968" stroke="#7A5B44" stroke-width="4"/>'+
+    '<path d="M14 62 Q50 74 86 62" fill="none" stroke="#7A5B44" stroke-width="3" opacity="0.7"/>'+
+    '<path d="M20 54 Q50 66 80 54" fill="none" stroke="#7A5B44" stroke-width="3" opacity="0.7"/>'+
+    '<ellipse cx="40" cy="52" rx="7" ry="9" fill="#EBD9B4"/>'+
+    '<ellipse cx="58" cy="50" rx="7" ry="9" fill="#EBD9B4"/>'+
+  '</svg>';
+}
+export function groundSVG(size){
+  size = size || 60;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<rect x="4" y="52" width="92" height="40" fill="#B08968"/>'+
+    '<path d="M4 52 L96 52" stroke="#5E7A45" stroke-width="6"/>'+
+    '<path d="M18 52 L14 40 M38 52 L34 38 M58 52 L62 40 M78 52 L82 38" stroke="#5E7A45" stroke-width="3" stroke-linecap="round"/>'+
+  '</svg>';
+}
+export function cojinSVG(size){
+  size = size || 60;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<rect x="14" y="14" width="72" height="72" rx="18" fill="#7C6FF0" stroke="#5C4FC0" stroke-width="4"/>'+
+    '<path d="M32 32 Q50 44 68 32" fill="none" stroke="#5C4FC0" stroke-width="3" opacity="0.6"/>'+
+    '<path d="M32 68 Q50 56 68 68" fill="none" stroke="#5C4FC0" stroke-width="3" opacity="0.6"/>'+
   '</svg>';
 }
 /* gusanoSVG/focaSVG/piedraSVG/bebidaDulceSVG: dibujados a mano por el mismo
@@ -235,7 +336,7 @@ export function chileFlagSVG(size){
 /* Swatches de color propios (en vez de depender de emoji de círculo de color)
    para que los tonos coincidan siempre con la paleta real y se vean igual en
    cualquier fuente/sistema operativo. */
-const COLOR_HEX = { ROJO:'#E63946', NARANJO:'#FFB627', AMARILLO:'#FFD23F', AZUL:'#1D4ED8', VERDE:'#12A594', MORADO:'#7C6FF0', ROSADO:'#FF9EB0', BLANCO:'#FFFFFF' };
+const COLOR_HEX = { ROJO:'#E63946', NARANJO:'#FFB627', AMARILLO:'#FFD23F', AZUL:'#1D4ED8', VERDE:'#12A594', MORADO:'#7C6FF0', ROSADO:'#FF9EB0', CELESTE:'#7EC8E3', BLANCO:'#FFFFFF' };
 export function colorSwatchSVG(name, size){
   size = size || 60;
   const hex = COLOR_HEX[name] || '#12A594';

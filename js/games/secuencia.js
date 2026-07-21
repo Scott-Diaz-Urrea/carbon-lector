@@ -2,15 +2,20 @@ import { shuffle } from '../utils.js';
 import { sfxCorrect, sfxWrong } from '../audio.js';
 import { awardXP } from '../state.js';
 import { showExplain, showResult } from '../rewards.js';
+import { crisalidaSVG, toothbrushSVG } from '../svg.js';
 
+/* "Capullo" usaba 🍃 (una hoja, sin relación con la etapa de crisálida) →
+   crisalidaSVG(), el mismo dibujo ya usado para esta etapa en
+   exploracionEntornoNatural.js. "Tomar el cepillo" usaba el emoji 🪥 crudo,
+   que no se renderiza en varios navegadores → toothbrushSVG(). */
 const SECUENCIA_BANK = [
   { title:'Un día de escuela', steps:[{emoji:'🛌',text:'Despertar'},{emoji:'🎒',text:'Ir al colegio'},{emoji:'📚',text:'Aprender'}] },
   { title:'Plantar una semilla', steps:[{emoji:'🌱',text:'Sembrar'},{emoji:'💧',text:'Regar'},{emoji:'🌻',text:'Florecer'}] },
   { title:'Hacer un sándwich', steps:[{emoji:'🍞',text:'Sacar el pan'},{emoji:'🧀',text:'Poner el queso'},{emoji:'😋',text:'Comer'}] },
   { title:'Un día de lluvia', steps:[{emoji:'☁️',text:'Se nubla'},{emoji:'🌧️',text:'Llueve'},{emoji:'🌈',text:'Sale el arcoíris'}] },
-  { title:'La mariposa', steps:[{emoji:'🐛',text:'Oruga'},{emoji:'🍃',text:'Capullo'},{emoji:'🦋',text:'Mariposa'}] },
+  { title:'La mariposa', steps:[{emoji:'🐛',text:'Oruga'},{emoji: crisalidaSVG(28),text:'Capullo'},{emoji:'🦋',text:'Mariposa'}] },
   { title:'Lavarse las manos', steps:[{emoji:'🚿',text:'Mojar'},{emoji:'🧼',text:'Jabón'},{emoji:'🤲',text:'Secar'}] },
-  { title:'Cepillarse los dientes', steps:[{emoji:'🪥',text:'Tomar el cepillo'},{emoji:'🦷',text:'Cepillar'},{emoji:'😁',text:'Sonreír'}] },
+  { title:'Cepillarse los dientes', steps:[{emoji: toothbrushSVG(28),text:'Tomar el cepillo'},{emoji:'🦷',text:'Cepillar'},{emoji:'😁',text:'Sonreír'}] },
   { title:'Hornear un pastel', steps:[{emoji:'🥣',text:'Mezclar'},{emoji:'🔥',text:'Hornear'},{emoji:'🎂',text:'Decorar'}] },
   { title:'Ir a dormir', steps:[{emoji:'🌙',text:'Anochece'},{emoji:'🛁',text:'Bañarse'},{emoji:'😴',text:'Dormir'}] },
   { title:'Un partido de fútbol', steps:[{emoji:'⚽',text:'Empieza el juego'},{emoji:'🏃',text:'Corren y juegan'},{emoji:'🏆',text:'Alguien gana'}] },

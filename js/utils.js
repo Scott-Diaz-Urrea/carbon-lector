@@ -21,6 +21,21 @@ export function uniqueDistractors(correct, min, max, spread, count){
   return shuffle([...set]);
 }
 
+/* Arma una escena de 2-3 íconos (referencia-sujeto-referencia si hay 2
+   referencias, o sujeto-referencia si hay 1) para preguntas de ubicación
+   relativa ("el vaso está ___ del plato", "el gato duerme ___ los dos
+   cojines"): antes esas escenas solo mostraban al sujeto sin la
+   referencia contra la que se ubica, dejando la mitad de la oración sin
+   respaldo visual (detectado por el usuario en la escena del vaso de
+   agua). Compartido entre corporalidadMovimiento.js y
+   pensamientoMatematico.js, que tienen el mismo tipo de pregunta. */
+export function sceneRefsHTML(subject, refs){
+  const parts = refs.length >= 2
+    ? [refs[0], subject, refs[1]]
+    : [subject, refs[0]];
+  return '<div class="scene-refs">'+parts.map(function(p){ return '<span class="scene-icon">'+p+'</span>'; }).join('')+'</div>';
+}
+
 export function pathD(points){
   let d = 'M ' + points[0].x + ' ' + points[0].y;
   for(let i=1;i<points.length;i++){

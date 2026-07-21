@@ -1,5 +1,19 @@
 import { pick, shuffle } from '../utils.js';
+import { espejoSVG, igluSVG } from '../svg.js';
 
+/* Cinco correcciones a íconos que no coincidían con la palabra (misma
+   categoría de bug que 🥛 para "vaso de agua", ver corporalidadMovimiento.js):
+   ANCLA usaba 🪁 (que es literalmente una cometa/volantín, no un ancla) →
+   ⚓ es el emoji correcto y se renderiza bien en todos lados. ESCUELA usaba
+   🚂 (un tren) → 🏫 es el edificio real. ESPEJO usaba el emoji 🪞 crudo, que
+   no se renderiza en varios navegadores (mismo problema ya resuelto en
+   otros archivos con espejoSVG()) → se reusa ese helper aquí también. IGLÚ
+   usaba 🧊 (un cubo de hielo, que no se parece en nada a la cúpula de un
+   iglú) → igluSVG() dibuja la forma real. IRIS usaba 🌈 (arcoíris), pero
+   "arcoíris" e "iris" son conceptos distintos — un niño que reconoce la
+   imagen diría "arcoíris", no "iris", lo que rompe el juego de "con qué
+   vocal empieza esta palabra"; se cambió a INSECTO (🐜), una palabra con
+   vocal I inicial y un emoji que sí representa exactamente lo que dice. */
 export const VOCAL_WORDS = [
   { emoji:'🕷️', word:'ARAÑA', answer:'A' },
   { emoji:'✈️', word:'AVIÓN', answer:'A' },
@@ -7,15 +21,15 @@ export const VOCAL_WORDS = [
   { emoji:'🌳', word:'ÁRBOL', answer:'A' },
   { emoji:'💧', word:'AGUA', answer:'A' },
   { emoji:'🦅', word:'ÁGUILA', answer:'A' },
-  { emoji:'🪁', word:'ANCLA', answer:'A' },
+  { emoji:'⚓', word:'ANCLA', answer:'A' },
   { emoji:'🐘', word:'ELEFANTE', answer:'E' },
   { emoji:'⭐', word:'ESTRELLA', answer:'E' },
-  { emoji:'🚂', word:'ESCUELA', answer:'E' },
-  { emoji:'🪞', word:'ESPEJO', answer:'E' },
+  { emoji:'🏫', word:'ESCUELA', answer:'E' },
+  { emoji: espejoSVG(30), word:'ESPEJO', answer:'E' },
   { emoji:'🌋', word:'ERUPCIÓN', answer:'E' },
   { emoji:'🏝️', word:'ISLA', answer:'I' },
-  { emoji:'🧊', word:'IGLÚ', answer:'I' },
-  { emoji:'🌈', word:'IRIS', answer:'I' },
+  { emoji: igluSVG(30), word:'IGLÚ', answer:'I' },
+  { emoji:'🐜', word:'INSECTO', answer:'I' },
   { emoji:'🧲', word:'IMÁN', answer:'I' },
   { emoji:'🦎', word:'IGUANA', answer:'I' },
   { emoji:'🐻', word:'OSO', answer:'O' },

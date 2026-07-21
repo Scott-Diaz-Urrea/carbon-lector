@@ -1,4 +1,5 @@
 import { pick, shuffle } from '../utils.js';
+import { cascoSVG, personActionSVG } from '../svg.js';
 
 export const EDFISICA_MODULES = [
   {id:'movimiento', label:'Cuerpo en Movimiento', open:true, key:'movimiento'},
@@ -11,18 +12,37 @@ export const EDFISICA_POS = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
    OA01-02 -> Cuerpo en Movimiento · OA06-09 -> Vida Activa y Saludable ·
    OA10-11 -> Juego Limpio y Seguridad. OA03-05 (variedad de juegos, entornos,
    expresión corporal) quedaron fuera por depender de práctica física real. */
+/* Las 10 acciones antes usaban emoji-persona genéricos que no coinciden con
+   el movimiento descrito: 🧎 muestra a alguien ARRODILLADO, no reptando;
+   🥅 es un arco de fútbol, no la acción de atrapar; 🧘 es una postura de
+   meditación sentada, no equilibrio de pie; 🤹 es hacer malabares, no girar;
+   🤺 es esgrima, no caminar en línea recta. Se reemplazan todas por
+   personActionSVG() — la misma figura de palitos animada que ya se usa en
+   Corporalidad y Movimiento (Educación Parvularia) — extendiendo su set de
+   acciones con 'lanzar', 'atrapar', 'patear' y 'equilibrio' (además de las
+   8 que ya existían: saltar, correr, caminar, nadar, bailar, trepar,
+   reptar, girar). "Caminar sobre una línea sin caerse" reusa la acción
+   'equilibrio' porque ambas son, en esencia, la misma habilidad motriz de
+   estabilidad. */
+/* Ampliado de 10 a 12 ítems (coincidía exactamente con rounds:10, sin
+   margen — ver mcEngine.js). TREPAR y NADAR ya existían como acciones de
+   personActionSVG (reusadas de Corporalidad y Movimiento) pero no se
+   habían usado todavía en este banco. */
 const MOVIMIENTOS_ITEMS = [
-  { emoji:'🏃', label:'CORRER', tipo:'LOCOMOCIÓN' },
-  { emoji:'🤸', label:'SALTAR', tipo:'LOCOMOCIÓN' },
-  { emoji:'🧎', label:'REPTAR (ARRASTRARSE)', tipo:'LOCOMOCIÓN' },
-  { emoji:'🚶', label:'CAMINAR', tipo:'LOCOMOCIÓN' },
-  { emoji:'🤾', label:'LANZAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji:'🥅', label:'ATRAPAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji:'⚽', label:'PATEAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji:'🧘', label:'MANTENER EL EQUILIBRIO EN UN PIE', tipo:'ESTABILIDAD' },
-  { emoji:'🤹', label:'GIRAR SOBRE SÍ MISMO', tipo:'ESTABILIDAD' },
-  { emoji:'🤺', label:'CAMINAR SOBRE UNA LÍNEA SIN CAERSE', tipo:'ESTABILIDAD' },
+  { emoji: personActionSVG('correr', 90), label:'CORRER', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('saltar', 90), label:'SALTAR', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('reptar', 90), label:'REPTAR (ARRASTRARSE)', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('caminar', 90), label:'CAMINAR', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('trepar', 90), label:'TREPAR UNA ESTRUCTURA', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('nadar', 90), label:'NADAR', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('lanzar', 90), label:'LANZAR UNA PELOTA', tipo:'MANIPULACIÓN' },
+  { emoji: personActionSVG('atrapar', 90), label:'ATRAPAR UNA PELOTA', tipo:'MANIPULACIÓN' },
+  { emoji: personActionSVG('patear', 90), label:'PATEAR UNA PELOTA', tipo:'MANIPULACIÓN' },
+  { emoji: personActionSVG('equilibrio', 90), label:'MANTENER EL EQUILIBRIO EN UN PIE', tipo:'ESTABILIDAD' },
+  { emoji: personActionSVG('girar', 90), label:'GIRAR SOBRE SÍ MISMO', tipo:'ESTABILIDAD' },
+  { emoji: personActionSVG('equilibrio', 90), label:'CAMINAR SOBRE UNA LÍNEA SIN CAERSE', tipo:'ESTABILIDAD' },
 ];
+/* Ampliado de 10 a 12 ítems (mismo motivo que arriba). */
 const VIDA_ACTIVA_ITEMS = [
   { emoji:'🏃', label:'Hacer actividad física seguido ayuda a mantener tu cuerpo sano', v:true },
   { emoji:'💓', label:'Cuando corres o saltas mucho, tu corazón late más rápido', v:true },
@@ -31,13 +51,20 @@ const VIDA_ACTIVA_ITEMS = [
   { emoji:'💧', label:'Tomar agua antes y después de moverte ayuda a tu cuerpo', v:true },
   { emoji:'😮‍💨', label:'Después de correr harto, es normal respirar más rápido y fuerte', v:true },
   { emoji:'🤾', label:'Jugar y moverse todos los días es parte de una vida sana', v:true },
+  { emoji:'🍎', label:'Comer frutas y verduras variadas te da energía para jugar', v:true },
   { emoji:'🛋️', label:'Quedarse todo el día sentado sin moverse es lo más sano', v:false },
   { emoji:'🥤', label:'Después de hacer ejercicio no es necesario tomar agua nunca', v:false },
   { emoji:'📴', label:'Es mejor ver pantallas todo el día que jugar y moverse', v:false },
+  { emoji:'😪', label:'Da lo mismo dormir poco o dormir bien, tu cuerpo no lo nota', v:false },
 ];
+/* "Usar casco" usaba el emoji 🪖 crudo — un casco MILITAR, no de
+   bicicleta/patines (mismo error ya corregido en comprensionEntornoSociocultural.js
+   con cascoSVG(), que aquí se importaba pero nunca se llegó a usar). Además
+   ampliado de 10 a 12 ítems (coincidía exactamente con rounds:10, sin
+   margen — ver mcEngine.js). */
 const SEGURIDAD_ITEMS = [
   { emoji:'🤸', label:'Antes de hacer deporte, es bueno calentar el cuerpo con un juego suave', v:true },
-  { emoji:'🪖', label:'Usar casco al andar en bicicleta o patines te protege de golpes', v:true },
+  { emoji: cascoSVG(30), label:'Usar casco al andar en bicicleta o patines te protege de golpes', v:true },
   { emoji:'🤝', label:'Trabajar en equipo significa ayudarse y compartir roles con tus compañeros', v:true },
   { emoji:'🚫', label:'Empujar fuerte a un compañero durante un juego está bien', v:false },
   { emoji:'👟', label:'Usar las zapatillas bien amarradas evita caídas', v:true },
@@ -46,6 +73,8 @@ const SEGURIDAD_ITEMS = [
   { emoji:'🩹', label:'Avisar a un adulto si te golpeas o te sientes mal jugando es lo correcto', v:true },
   { emoji:'😡', label:'Si pierdes un juego, está bien enojarte y gritarle a tus compañeros', v:false },
   { emoji:'🧢', label:'Usar ropa y protección adecuada según el deporte ayuda a evitar lesiones', v:true },
+  { emoji:'🎽', label:'Usar la ropa deportiva adecuada para cada actividad ayuda a jugar seguro', v:true },
+  { emoji:'😤', label:'Presionar a un compañero para que juegue si no quiere está bien', v:false },
 ];
 
 /* ---------------- Contenido Educación Física y Salud 2° Básico ----------------
@@ -62,29 +91,53 @@ export const EDFISICA_MODULES_G2 = [
 ];
 export const EDFISICA_POS_G2 = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
 
+/* Los 3 bancos de esta sección se ampliaron de 6 a 12 ítems cada uno (antes
+   garantizaban una repetición en cada partida de rounds:10 — detectado
+   simulando sesiones completas con la misma lógica anti-repetición del
+   motor). Mismo estilo y nivel de riesgo que los ítems ya existentes
+   (afirmaciones de sentido común sobre el cuerpo/hábitos/trabajo en
+   equipo, no datos que requieran una fuente externa). */
 const CUERPO_RESPONDE_ITEMS = [
   { emoji:'😅', label:'Cuando corres mucho, tu piel se pone más roja y transpiras', v:true },
   { emoji:'💨', label:'Después de correr fuerte, tu respiración se hace más rápida', v:true },
   { emoji:'😌', label:'Cuando haces mucho ejercicio, es normal sentirte cansado después', v:true },
   { emoji:'🗣️', label:'Cuando estás muy agitado por el ejercicio, cuesta más hablar seguido', v:true },
+  { emoji:'❤️', label:'Tu corazón late más rápido mientras haces ejercicio intenso', v:true },
+  { emoji:'🥵', label:'Hacer ejercicio en un día caluroso te hace transpirar más de lo normal', v:true },
+  { emoji:'💪', label:'Con la práctica constante, tus músculos se hacen más fuertes', v:true },
+  { emoji:'🥛', label:'Tomar agua después de hacer ejercicio ayuda a tu cuerpo a recuperarse', v:true },
   { emoji:'🥶', label:'Después de ejercicio intenso tu cuerpo se enfría de inmediato sin sudar', v:false },
   { emoji:'😴', label:'Hacer ejercicio no cambia para nada tu ritmo de respiración', v:false },
+  { emoji:'🐌', label:'Tu corazón late más lento mientras corres a toda velocidad', v:false },
+  { emoji:'🚫', label:'Da lo mismo hacer ejercicio o quedarte quieto, tu cuerpo reacciona igual', v:false },
 ];
 const VIDA_ACTIVA_2_ITEMS = [
   { emoji:'🤸', label:'Hacer actividad física varias veces por semana es bueno para tu salud', v:true },
   { emoji:'🧼', label:'Lavarte las manos y la cara después de la clase de educación física es un buen hábito', v:true },
   { emoji:'🪑', label:'Mantener una postura correcta al sentarte cuida tu espalda', v:true },
   { emoji:'🥗', label:'Comer una colación saludable antes y después de hacer ejercicio te da energía', v:true },
+  { emoji:'😴', label:'Dormir suficientes horas ayuda a que tu cuerpo se recupere del ejercicio', v:true },
+  { emoji:'👕', label:'Usar ropa cómoda y adecuada ayuda a moverte mejor al hacer deporte', v:true },
+  { emoji:'💧', label:'Tomar agua durante el día es parte de mantener una vida activa y sana', v:true },
+  { emoji:'🌳', label:'Jugar al aire libre es una buena forma de mantenerte activo', v:true },
   { emoji:'🚫', label:'No es necesario moverse ni hacer ejercicio durante la semana', v:false },
   { emoji:'🍬', label:'Comer solo dulces antes de hacer deporte es la mejor opción', v:false },
+  { emoji:'📱', label:'Pasar todo el día sentado viendo pantallas es más sano que jugar afuera', v:false },
+  { emoji:'🛌', label:'Dormir muy poco no afecta en nada tu energía para hacer deporte', v:false },
 ];
 const LIDERAZGO_ITEMS = [
   { emoji:'🤝', label:'Respetar el rol que te toca en un juego de equipo (líder o ayudante) es importante', v:true },
   { emoji:'🧹', label:'Recoger los materiales después de usarlos es responsabilidad de todos', v:true },
   { emoji:'👂', label:'Escuchar y seguir las instrucciones del profesor mantiene la actividad segura', v:true },
   { emoji:'🚧', label:'Mantenerte dentro de los límites establecidos para el juego evita accidentes', v:true },
+  { emoji:'🙋', label:'Animar a un compañero que le está costando es parte de un buen equipo', v:true },
+  { emoji:'🔄', label:'Turnarse para liderar le da a todos la oportunidad de participar', v:true },
+  { emoji:'🎯', label:'Explicar bien las reglas del juego ayuda a que todos jueguen mejor', v:true },
+  { emoji:'🫱', label:'Ayudar a un compañero a entender una instrucción es un gesto de buen líder', v:true },
   { emoji:'😤', label:'Si te toca liderar, está bien no dejar participar a los demás', v:false },
   { emoji:'⚠️', label:'Usar los implementos deportivos sin supervisión cuando quieras es seguro', v:false },
+  { emoji:'😠', label:'Gritarle a tu equipo cuando pierden es una buena forma de liderar', v:false },
+  { emoji:'🙅', label:'Ignorar las instrucciones del profesor durante el juego no tiene riesgo', v:false },
 ];
 
 export function genCuerpoResponde2Round(){

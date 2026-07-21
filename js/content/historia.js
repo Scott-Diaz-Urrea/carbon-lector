@@ -80,11 +80,15 @@ const INSTITUCIONES_BANK = [
   { emoji:'🏛️', label:'LA MUNICIPALIDAD', desc:'Institución que organiza y cuida la comuna.' },
   { emoji:'🚒', label:'LOS BOMBEROS', desc:'Institución que apaga incendios y ayuda en emergencias.' },
 ];
+/* "Botar la basura en el suelo" (bueno:false) usaba 🗑️ — un basurero, que
+   en realidad representa la buena acción de botar la basura EN SU LUGAR,
+   al revés de lo que describe el texto (botarla en el suelo). Se cambió a
+   🚯 ("prohibido botar basura"), que sí ilustra que esa conducta está mal. */
 const NORMAS_CONVIVENCIA = [
   { emoji:'🙋', label:'Levantar la mano antes de hablar en clases', bueno:true },
   { emoji:'🤝', label:'Compartir los juguetes con los demás', bueno:true },
   { emoji:'🚦', label:'Cruzar la calle por el paso peatonal', bueno:true },
-  { emoji:'🗑️', label:'Botar la basura en el suelo', bueno:false },
+  { emoji:'🚯', label:'Botar la basura en el suelo', bueno:false },
   { emoji:'😡', label:'Empujar a un compañero para pasar primero', bueno:false },
 ];
 
@@ -108,13 +112,25 @@ export const HISTORIA_MODULES_G2 = [
 ];
 export const HISTORIA_POS_G2 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
 
+/* Se agregaron Diaguita (Norte Chico) y Picunche (Zona Central, antes del
+   ensanche mapuche hacia el norte) — antes solo había 3 pueblos y ninguno
+   caía en la zona CENTRO, que igual aparecía como opción en ZONAS_POOL sin
+   nunca ser la respuesta correcta. Con 5 pueblos × 2 modos de pregunta
+   (zona↔pueblo) el banco pasa de 6 a 10 combinaciones únicas, por encima
+   de rounds:8 (antes garantizaba una repetición en cada partida). */
 const PUEBLOS_BANK = [
   { emoji:'🏔️', pueblo:'AIMARA', zona:'NORTE' },
   { emoji:'🌲', pueblo:'MAPUCHE', zona:'SUR' },
   { emoji:'🗿', pueblo:'RAPA NUI', zona:'ISLA DE PASCUA' },
+  { emoji:'🏺', pueblo:'DIAGUITA', zona:'NORTE' },
+  { emoji:'🌳', pueblo:'PICUNCHE', zona:'CENTRO' },
 ];
 const ZONAS_POOL = ['NORTE','SUR','CENTRO','ISLA DE PASCUA'];
 
+/* "La Gran Muralla China" usaba 🕌 (una mezquita, sin relación alguna con
+   una muralla) — se cambió a 🧱 (ladrillos), que evoca al menos la idea de
+   un muro largo hecho de bloques, ya que no existe un emoji específico de
+   "gran muralla". */
 const PATRIMONIO_NATURAL_BANK = [
   { emoji:'⛰️', label:'El Parque Nacional Torres del Paine, en la Patagonia chilena', tipico:true },
   { emoji:'🏜️', label:'El Desierto de Atacama, en el norte de Chile', tipico:true },
@@ -122,25 +138,40 @@ const PATRIMONIO_NATURAL_BANK = [
   { emoji:'🦌', label:'El huemul, animal chileno en peligro de extinción', tipico:true },
   { emoji:'🗼', label:'La Torre Eiffel', tipico:false },
   { emoji:'🐼', label:'El panda gigante, animal de China', tipico:false },
-  { emoji:'🕌', label:'La Gran Muralla China', tipico:false },
+  { emoji:'🧱', label:'La Gran Muralla China', tipico:false },
   { emoji:'🗽', label:'La Estatua de la Libertad', tipico:false },
 ];
 
+/* Ampliado de 6 a 10 ítems (antes garantizaba una repetición en cada
+   partida de rounds:8) con paisajes igual de reales y reconocibles: los
+   salares (Salar de Atacama) en el norte, los volcanes activos (Villarrica,
+   Llaima) en el sur, los puertos (Valparaíso, San Antonio) en el centro, y
+   los archipiélagos (Chiloé) en el sur. */
 const PAISAJES_ZONA_BANK = [
   { emoji:'🏜️', label:'DESIERTO', zona:'NORTE' },
   { emoji:'⛰️', label:'ALTIPLANO', zona:'NORTE' },
+  { emoji:'🧂', label:'SALARES', zona:'NORTE' },
   { emoji:'🍇', label:'VALLES Y VIÑEDOS', zona:'CENTRO' },
   { emoji:'🏙️', label:'GRANDES CIUDADES', zona:'CENTRO' },
+  { emoji:'⚓', label:'PUERTOS', zona:'CENTRO' },
   { emoji:'🌲', label:'BOSQUES Y LAGOS', zona:'SUR' },
   { emoji:'🧊', label:'GLACIARES Y FIORDOS', zona:'SUR' },
+  { emoji:'🌋', label:'VOLCANES', zona:'SUR' },
+  { emoji:'🏝️', label:'ARCHIPIÉLAGOS E ISLAS', zona:'SUR' },
 ];
 
+/* Ampliado de 5 a 8 ítems (antes garantizaba una repetición en cada
+   partida de rounds:8). */
 const CIUDADANIA_BANK = [
   { correcta:'Cuidar los espacios públicos como plazas y parques', incorrectas:['Rayar los muros de la plaza','Botar basura en el parque','Romper los juegos infantiles'] },
   { correcta:'Decir la verdad aunque hayas cometido un error', incorrectas:['Mentir para no tener problemas','Culpar a otro de tu error','Esconder lo que hiciste'] },
   { correcta:'Respetar las opiniones distintas a la tuya', incorrectas:['Burlarte de quien piensa diferente','Ignorar las ideas de los demás','Enojarte si no piensan como tú'] },
   { correcta:'Cumplir con tus deberes escolares', incorrectas:['Copiar las tareas de un compañero','Dejar todo para el final sin avisar','No traer los materiales pedidos'] },
   { correcta:'Integrar a otros en tus juegos, sin discriminar', incorrectas:['Dejar fuera a un compañero por cómo se ve','No dejar jugar a alguien por su nombre','Burlarte de las costumbres de otro niño'] },
+  { correcta:'Votar o participar cuando el curso decide algo en conjunto', incorrectas:['Decidir todo sin preguntarle a nadie más','Ignorar lo que el curso decidió','Enojarte si la mayoría elige otra cosa'] },
+  { correcta:'Seguir las normas del colegio aunque nadie te esté mirando', incorrectas:['Solo portarte bien cuando te ven','Romper las normas si crees que no importan','Culpar a otros de tu mal comportamiento'] },
+  { correcta:'Ayudar a cuidar el medioambiente de tu barrio', incorrectas:['Contaminar porque no es tu casa','Cortar árboles del parque sin razón','Dejar la llave del agua abierta sin necesidad'] },
+  { correcta:'Tratar con respeto a todas las personas de tu comunidad', incorrectas:['Burlarte de alguien por cómo habla o se viste','Tratar mal a alguien por ser distinto','Excluir a alguien de un grupo sin motivo'] },
 ];
 
 export function genPueblos2Round(){

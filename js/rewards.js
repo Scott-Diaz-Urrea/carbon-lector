@@ -150,16 +150,26 @@ export function showNameEntry(onDone){
   const app = document.getElementById('app');
   const div = document.createElement('div');
   div.className = 'overlay';
+  /* id/name aleatorios en cada aparición: Chrome recuerda valores anteriores
+     escritos en un campo por su id/name (su función de "sugerencias de
+     formulario", distinta del autocompletado de perfil) e ignora
+     autocomplete="off" para esa función en varias versiones — así que un
+     nombre viejo puede reaparecer y pisar lo que el niño escribió recién.
+     Un id/name que nunca se repite dos veces evita que Chrome tenga algo
+     que sugerir. */
+  const inputId = 'name-input-' + Math.random().toString(36).slice(2, 8);
   div.innerHTML =
     '<div class="explain-card">'+
       '<div class="float" style="display:flex;justify-content:center;">'+mascotSVG(90)+'</div>'+
       '<p class="explain-title">🐾 ¡Hola! Soy Carboncito</p>'+
       '<p class="explain-text">¿Cómo te llamas?</p>'+
-      '<input id="name-input" class="name-input" type="text" maxlength="20" autocomplete="off" placeholder="Escribe tu nombre" aria-label="Tu nombre">'+
+      '<input id="'+inputId+'" name="'+inputId+'" class="name-input" type="text" maxlength="20" '+
+        'autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" '+
+        'placeholder="Escribe tu nombre" aria-label="Tu nombre">'+
       '<button class="cta-btn" id="name-continue-btn">¡Listo! 🐾</button>'+
     '</div>';
   app.appendChild(div);
-  const input = document.getElementById('name-input');
+  const input = document.getElementById(inputId);
   input.focus();
   function submit(){
     const name = input.value.trim();

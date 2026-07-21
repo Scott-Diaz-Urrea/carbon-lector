@@ -24,11 +24,17 @@ export const EDFISICA_POS = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
    reptar, girar). "Caminar sobre una línea sin caerse" reusa la acción
    'equilibrio' porque ambas son, en esencia, la misma habilidad motriz de
    estabilidad. */
+/* Ampliado de 10 a 12 ítems (coincidía exactamente con rounds:10, sin
+   margen — ver mcEngine.js). TREPAR y NADAR ya existían como acciones de
+   personActionSVG (reusadas de Corporalidad y Movimiento) pero no se
+   habían usado todavía en este banco. */
 const MOVIMIENTOS_ITEMS = [
   { emoji: personActionSVG('correr', 90), label:'CORRER', tipo:'LOCOMOCIÓN' },
   { emoji: personActionSVG('saltar', 90), label:'SALTAR', tipo:'LOCOMOCIÓN' },
   { emoji: personActionSVG('reptar', 90), label:'REPTAR (ARRASTRARSE)', tipo:'LOCOMOCIÓN' },
   { emoji: personActionSVG('caminar', 90), label:'CAMINAR', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('trepar', 90), label:'TREPAR UNA ESTRUCTURA', tipo:'LOCOMOCIÓN' },
+  { emoji: personActionSVG('nadar', 90), label:'NADAR', tipo:'LOCOMOCIÓN' },
   { emoji: personActionSVG('lanzar', 90), label:'LANZAR UNA PELOTA', tipo:'MANIPULACIÓN' },
   { emoji: personActionSVG('atrapar', 90), label:'ATRAPAR UNA PELOTA', tipo:'MANIPULACIÓN' },
   { emoji: personActionSVG('patear', 90), label:'PATEAR UNA PELOTA', tipo:'MANIPULACIÓN' },
@@ -36,6 +42,7 @@ const MOVIMIENTOS_ITEMS = [
   { emoji: personActionSVG('girar', 90), label:'GIRAR SOBRE SÍ MISMO', tipo:'ESTABILIDAD' },
   { emoji: personActionSVG('equilibrio', 90), label:'CAMINAR SOBRE UNA LÍNEA SIN CAERSE', tipo:'ESTABILIDAD' },
 ];
+/* Ampliado de 10 a 12 ítems (mismo motivo que arriba). */
 const VIDA_ACTIVA_ITEMS = [
   { emoji:'🏃', label:'Hacer actividad física seguido ayuda a mantener tu cuerpo sano', v:true },
   { emoji:'💓', label:'Cuando corres o saltas mucho, tu corazón late más rápido', v:true },
@@ -44,13 +51,20 @@ const VIDA_ACTIVA_ITEMS = [
   { emoji:'💧', label:'Tomar agua antes y después de moverte ayuda a tu cuerpo', v:true },
   { emoji:'😮‍💨', label:'Después de correr harto, es normal respirar más rápido y fuerte', v:true },
   { emoji:'🤾', label:'Jugar y moverse todos los días es parte de una vida sana', v:true },
+  { emoji:'🍎', label:'Comer frutas y verduras variadas te da energía para jugar', v:true },
   { emoji:'🛋️', label:'Quedarse todo el día sentado sin moverse es lo más sano', v:false },
   { emoji:'🥤', label:'Después de hacer ejercicio no es necesario tomar agua nunca', v:false },
   { emoji:'📴', label:'Es mejor ver pantallas todo el día que jugar y moverse', v:false },
+  { emoji:'😪', label:'Da lo mismo dormir poco o dormir bien, tu cuerpo no lo nota', v:false },
 ];
+/* "Usar casco" usaba el emoji 🪖 crudo — un casco MILITAR, no de
+   bicicleta/patines (mismo error ya corregido en comprensionEntornoSociocultural.js
+   con cascoSVG(), que aquí se importaba pero nunca se llegó a usar). Además
+   ampliado de 10 a 12 ítems (coincidía exactamente con rounds:10, sin
+   margen — ver mcEngine.js). */
 const SEGURIDAD_ITEMS = [
   { emoji:'🤸', label:'Antes de hacer deporte, es bueno calentar el cuerpo con un juego suave', v:true },
-  { emoji:'🪖', label:'Usar casco al andar en bicicleta o patines te protege de golpes', v:true },
+  { emoji: cascoSVG(30), label:'Usar casco al andar en bicicleta o patines te protege de golpes', v:true },
   { emoji:'🤝', label:'Trabajar en equipo significa ayudarse y compartir roles con tus compañeros', v:true },
   { emoji:'🚫', label:'Empujar fuerte a un compañero durante un juego está bien', v:false },
   { emoji:'👟', label:'Usar las zapatillas bien amarradas evita caídas', v:true },
@@ -59,6 +73,8 @@ const SEGURIDAD_ITEMS = [
   { emoji:'🩹', label:'Avisar a un adulto si te golpeas o te sientes mal jugando es lo correcto', v:true },
   { emoji:'😡', label:'Si pierdes un juego, está bien enojarte y gritarle a tus compañeros', v:false },
   { emoji:'🧢', label:'Usar ropa y protección adecuada según el deporte ayuda a evitar lesiones', v:true },
+  { emoji:'🎽', label:'Usar la ropa deportiva adecuada para cada actividad ayuda a jugar seguro', v:true },
+  { emoji:'😤', label:'Presionar a un compañero para que juegue si no quiere está bien', v:false },
 ];
 
 /* ---------------- Contenido Educación Física y Salud 2° Básico ----------------

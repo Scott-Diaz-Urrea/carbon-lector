@@ -336,7 +336,7 @@ export function chileFlagSVG(size){
 /* Swatches de color propios (en vez de depender de emoji de círculo de color)
    para que los tonos coincidan siempre con la paleta real y se vean igual en
    cualquier fuente/sistema operativo. */
-const COLOR_HEX = { ROJO:'#E63946', NARANJO:'#FFB627', AMARILLO:'#FFD23F', AZUL:'#1D4ED8', VERDE:'#12A594', MORADO:'#7C6FF0', ROSADO:'#FF9EB0', BLANCO:'#FFFFFF' };
+const COLOR_HEX = { ROJO:'#E63946', NARANJO:'#FFB627', AMARILLO:'#FFD23F', AZUL:'#1D4ED8', VERDE:'#12A594', MORADO:'#7C6FF0', ROSADO:'#FF9EB0', CELESTE:'#7EC8E3', BLANCO:'#FFFFFF' };
 export function colorSwatchSVG(name, size){
   size = size || 60;
   const hex = COLOR_HEX[name] || '#12A594';

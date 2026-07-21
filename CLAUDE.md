@@ -493,6 +493,21 @@ encontraron dos niveles de problema:
 Verificado al final: los ~90 módulos de opción múltiple de la app pasan
 2000 sesiones simuladas cada uno sin ningún repetido.
 
+**Ampliación de los 7 módulos "sin margen" (mismo día, pedido explícito
+del usuario de no conformarse con el parche de motor):** aunque subir los
+reintentos a 300 ya dejaba la probabilidad de repetición estadísticamente
+nula, se amplió además el contenido real de `colores`, `sonidos`,
+`movimiento` y `seguridad` (1° básico Ed. Física/Artes/Música) y
+`resolucionnt`/`normasnt`/`seguridadnt`/`materialesnaturalnt` (NT) para que
+también tengan margen real sobre `rounds`, mismo criterio que los 11
+módulos anteriores. Detalle no trivial encontrado de paso: `seguridad`
+(Educación Física 1° básico) todavía usaba el emoji crudo 🪖 para "usar
+casco" — un casco MILITAR, no de bicicleta/patines — pese a que el archivo
+ya importaba `cascoSVG()` (se había importado pero nunca se llegó a usar
+en ese ítem específico durante la auditoría de íconos). Corregido junto con
+la ampliación de banco. `colores` sumó CELESTE como color frío nuevo
+(agregado también a `COLOR_HEX` en `svg.js`, que no lo tenía).
+
 ### Educación Parvularia — ✅ completa (8 de 8 núcleos, nivel NT)
 Basado en el Decreto 481/2017, nivel Transición (NT), repartido en 3 ámbitos.
 Sala Cuna y Nivel Medio no están en `PARVULARIA_NIVELES` en absoluto (ni bloqueados):

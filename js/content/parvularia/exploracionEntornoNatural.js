@@ -43,6 +43,8 @@ const AGUA_SOL_BANK = [
    se reemplazaron por piedraSVG()/vidrioSVG()/espejoSVG() (dibujados a
    mano, conservando el concepto original) porque no se renderizan —
    recuadro vacío — en varios navegadores. */
+/* Ampliado de 8 a 10 ítems (coincidía exactamente con rounds:8, sin
+   margen — ver mcEngine.js). */
 const MATERIALES_NT_BANK = [
   { objeto:'el vidrio', emoji: vidrioSVG(56), prop:'TRANSPARENTE', opts:['OPACO','RUGOSO','LÍQUIDO'] },
   { objeto:'la piedra', emoji: piedraSVG(56), prop:'RÍGIDA', opts:['FLEXIBLE','SUAVE','LÍQUIDO'] },
@@ -52,6 +54,8 @@ const MATERIALES_NT_BANK = [
   { objeto:'el algodón', emoji:'🧶', prop:'SUAVE', opts:['RÍGIDO','TRANSPARENTE','RUGOSO'] },
   { objeto:'el hielo', emoji:'🧊', prop:'FRÍO', opts:['CALIENTE','BLANDO','RUGOSO'] },
   { objeto:'la arena', emoji:'🏖️', prop:'ÁSPERA', opts:['LISO','LÍQUIDO','TRANSPARENTE'] },
+  { objeto:'el sol', emoji:'☀️', prop:'CALIENTE', opts:['FRÍO','LÍQUIDO','BLANDO'] },
+  { objeto:'la nieve', emoji:'❄️', prop:'FRÍA', opts:['CALIENTE','ÁSPERA','TRANSPARENTE'] },
 ];
 
 /* Los animales solo se comparan con animales y las plantas solo con plantas

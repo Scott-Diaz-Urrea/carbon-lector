@@ -12,13 +12,20 @@ export const ARTES_POS = [{x:24,y:80},{x:70,y:50},{x:24,y:20}];
    OA02 -> Colores, Líneas y Texturas · OA01,03 -> Materiales de Arte.
    OA04-05 (apreciación y opinión personal sobre obras) quedaron fuera por ser
    inherentemente subjetivas y no aptas para el motor de opción múltiple. */
+/* Ampliado de 6 a 8 ítems: combinado con MEZCLAS_COLOR (4) sumaba 10
+   combinaciones únicas para rounds:10 — sin margen (riesgo mínimo pero
+   real de repetición, ver mcEngine.js). CELESTE y ROSADO son colores
+   pastel de uso común en la sala de clases, con la misma clasificación
+   cálido/frío intuitiva que el resto del banco. */
 const COLORES_ITEMS = [
   { label:'ROJO', tipo:'CÁLIDO' },
   { label:'NARANJO', tipo:'CÁLIDO' },
   { label:'AMARILLO', tipo:'CÁLIDO' },
+  { label:'ROSADO', tipo:'CÁLIDO' },
   { label:'AZUL', tipo:'FRÍO' },
   { label:'VERDE', tipo:'FRÍO' },
   { label:'MORADO', tipo:'FRÍO' },
+  { label:'CELESTE', tipo:'FRÍO' },
 ];
 const MEZCLAS_COLOR = [
   { a:'ROJO', b:'AMARILLO', result:'NARANJO' },

@@ -256,15 +256,36 @@ export function genMedicion2Round(){
    Medición Avanzada (calendario, hora con cuartos de hora, perímetro, peso
    g/kg) · OA23-26 -> Datos y Gráficos (pictogramas). */
 const FRACCIONES_POOL = ['1/2','1/3','1/4','2/3','3/4'];
-function fractionBarSVG(num, den){
-  const width = 220, height = 48, gap = 3;
-  const segWidth = (width - gap*(den-1)) / den;
-  let rects = '';
+/* Pizza en vez de una barra abstracta: para niños, una pizza cortada en
+   partes (con una porción con salsa/queso vs. las demás lisas) es una
+   representación mucho más reconocible y cercana que un rectángulo dividido
+   en segmentos de color — pedido explícito del usuario ("que las imágenes
+   sean más representativas"). La lógica es la misma que la barra anterior
+   (partes sombreadas = numerador), solo cambia la forma. */
+function pizzaFractionSVG(num, den){
+  const size = 130, cx = 65, cy = 65, r = 56;
+  let slices = '';
   for(let i=0;i<den;i++){
-    const fill = i<num ? '#12A594' : '#FFFFFF';
-    rects += '<rect x="'+(i*(segWidth+gap))+'" y="0" width="'+segWidth+'" height="'+height+'" rx="4" fill="'+fill+'" stroke="#1D3557" stroke-width="2.5"/>';
+    const start = (i/den)*Math.PI*2 - Math.PI/2;
+    const end = ((i+1)/den)*Math.PI*2 - Math.PI/2;
+    const x1 = cx + r*Math.cos(start), y1 = cy + r*Math.sin(start);
+    const x2 = cx + r*Math.cos(end), y2 = cy + r*Math.sin(end);
+    const largeArc = (end-start) > Math.PI ? 1 : 0;
+    const filled = i < num;
+    const fill = filled ? '#F0932B' : '#FFF6E0';
+    slices += '<path d="M '+cx+' '+cy+' L '+x1+' '+y1+' A '+r+' '+r+' 0 '+largeArc+' 1 '+x2+' '+y2+' Z" fill="'+fill+'" stroke="#B5651D" stroke-width="2.5"/>';
+    if(filled){
+      const mid = (start+end)/2;
+      const dr1 = r*0.45, dr2 = r*0.65;
+      const spread = Math.min(0.35, (end-start)/3);
+      slices += '<circle cx="'+(cx+dr1*Math.cos(mid-spread))+'" cy="'+(cy+dr1*Math.sin(mid-spread))+'" r="4.5" fill="#C0392B"/>';
+      slices += '<circle cx="'+(cx+dr2*Math.cos(mid+spread))+'" cy="'+(cy+dr2*Math.sin(mid+spread))+'" r="4.5" fill="#C0392B"/>';
+    }
   }
-  return '<svg width="'+width+'" height="'+height+'" viewBox="0 0 '+width+' '+height+'" xmlns="http://www.w3.org/2000/svg">'+rects+'</svg>';
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">'+
+    '<circle cx="65" cy="65" r="61" fill="#E8A33D"/>'+
+    slices+
+  '</svg>';
 }
 const SOLIDOS_3D_G3 = [
   { id:'cubo', label:'CUBO', caras:6, vertices:8 },
@@ -312,9 +333,9 @@ export function genFraccionesRound(){
   const distract = shuffle(FRACCIONES_POOL.filter(function(f){ return f!==correct; })).slice(0,3);
   const opts = shuffle([correct].concat(distract)).map(function(f){ return {label:f, value:f}; });
   return {
-    promptHTML: '<div class="shape-display">'+fractionBarSVG(num,den)+'</div><p class="prompt-hint">¿Qué fracción está sombreada?</p>',
-    options: opts, correctValue: correct, speakText: '¿Qué fracción está sombreada?', cols:4, kind:'word',
-    explain: 'Hay '+num+' de '+den+' partes sombreadas: <b>'+correct+'</b>.',
+    promptHTML: '<div class="shape-display">'+pizzaFractionSVG(num,den)+'</div><p class="prompt-hint">¿Qué fracción de la pizza tiene salsa y queso?</p>',
+    options: opts, correctValue: correct, speakText: '¿Qué fracción de la pizza tiene salsa y queso?', cols:4, kind:'word',
+    explain: 'Hay '+num+' de '+den+' porciones con salsa y queso: <b>'+correct+'</b>.',
   };
 }
 
@@ -419,7 +440,7 @@ export function genDatos3Round(){
     if(askMax ? counts[i]>counts[bestIdx] : counts[i]<counts[bestIdx]) bestIdx = i;
   }
   const rows = chosen.map(function(c,i){
-    return '<div class="prompt-hint">'+c.emoji+' '+c.label+': '+new Array(counts[i]).fill('⬛').join('')+' ('+counts[i]+')</div>';
+    return '<div class="prompt-hint">'+c.label+': '+new Array(counts[i]).fill(c.emoji).join(' ')+'</div>';
   }).join('');
   const opts = shuffle(chosen.map(function(c){ return {label:c.label, value:c.label}; }));
   return {

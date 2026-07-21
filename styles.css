@@ -575,11 +575,6 @@
     background: #F3FBF9;
   }
   .typo-chip:active{ transform: translateY(2px); }
-  .typo-note{
-    font-size: 12.5px; color: var(--ink-soft); font-weight:600;
-    margin: -8px 0 14px; min-height: 16px;
-  }
-  .typo-note:empty{ margin: 0; }
 
   .confetti-piece{
     position:absolute; top:-12px; width:8px; height:14px; border-radius:2px;

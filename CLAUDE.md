@@ -175,38 +175,31 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   imprenta MAYÚSCULA, imprenta minúscula, manuscrita MAYÚSCULA y manuscrita
   minúscula — pedido explícito del usuario para que la práctica de escritura no
   se limite a un solo estilo de letra. Imprenta usa Baloo 2 (la fuente de
-  siempre). Manuscrita minúscula usa **Playwrite CL**, una tercera fuente de
-  Google Fonts agregada solo para esto (mismo mecanismo CDN ya aprobado para
-  Baloo 2/Quicksand, ver "Stack técnico") — es la fuente que Google/TypeTogether
-  diseñaron específicamente para modelar la "letra ligada" que se enseña en las
-  escuelas chilenas (familia Playwrite, con una variante por país), y su
-  minúscula es fiel a ese modelo real.
-  **Manuscrita MAYÚSCULA usa Baloo 2, NO Playwrite CL** (misma fuente que
-  imprenta-mayus) — decisión tomada tras pedirle al usuario que confirmara
-  después de que señalara que las mayúsculas de Playwrite CL "estaban
-  erradas": investigando la ficha oficial del tipo en Google Fonts se
-  confirmó que el diseño por defecto de Playwrite CL mezcla mayúsculas
-  "simples" (A, N — se ven como una minúscula agrandada) con mayúsculas
+  siempre). **Manuscrita usa "Playwrite ES" para mayúscula y minúscula por
+  igual** — una tercera fuente de Google Fonts agregada solo para esto (mismo
+  mecanismo CDN ya aprobado para Baloo 2/Quicksand, ver "Stack técnico").
+  Se probó primero "Playwrite CL" (la variante específica de Chile), pero su
+  diseño por defecto mezcla mayúsculas "simples" (A, N) con mayúsculas
   "decorativas" muy ornamentadas (Q, T, Z — difíciles de leer para un niño de
-  5-6 años); TypeTogether documenta esa mezcla como característica
-  intencional del diseño, no un bug, y no hay forma vía CSS de pedir la
-  variante de mayúscula simplificada (se probaron los stylistic sets ss01-09
-  y character variants cv01-10 sin ningún efecto — la versión que sirve
-  Google Fonts vía CDN no expone esos alternates). Además, el modelo real que
-  usan los cuadernos de caligrafía chilenos más comunes (Cuadernos Rubio,
-  Santillana) es híbrido: minúscula ligada + MAYÚSCULA de imprenta sin unir,
-  no la mayúscula cursiva ornamentada — así que Baloo 2 para la mayúscula
-  manuscrita es a la vez más legible y más fiel a lo que de verdad se enseña
-  en la sala. Como esto hace que "Manuscrita MAYÚSCULA" se vea idéntica a
-  "Imprenta MAYÚSCULA", `styleNote(styleId)` (también en `traza.js`) genera
-  una aclaración de una línea ("En letra ligada las mayúsculas se escriben
-  igual que en imprenta...") que "Escribe tu Nombre" y "Caligrafía" muestran
-  bajo el selector — sin ella, la coincidencia visual se leería como un bug
-  de la app en vez de una decisión pedagógica. Para dígitos (que no tienen
-  mayús/minús) el estilo "Manuscrita" del cuaderno de Caligrafía usa el id
-  `manuscrita-minus` en vez de `manuscrita-mayus` — precisamente para
-  seguir apuntando a la cursiva real de Playwrite CL y no heredar el cambio
-  a Baloo 2 que solo aplica a letras.
+  5-6 años, confirmado en la ficha oficial del tipo en Google Fonts; no hay
+  forma vía CSS de pedir una variante más simple — se probaron los stylistic
+  sets ss01-09 y character variants cv01-10 sin ningún efecto, la versión que
+  sirve Google Fonts vía CDN no expone esos alternates). Por eso una primera
+  pasada usaba Baloo 2 como sustituto para la mayúscula manuscrita — pero el
+  usuario pidió explícitamente una mayúscula manuscrita "real", no una
+  sustituta. Investigando otras variantes de país de la misma familia
+  Playwrite se encontró que **"Playwrite ES" (España) ya modela por defecto
+  el estilo "híbrido"** (minúscula ligada + MAYÚSCULA de imprenta simple, sin
+  ornamentar) — que es justamente el modelo que usan los cuadernos de
+  caligrafía más comunes en Chile (Cuadernos Rubio, Santillana). Por eso
+  "Manuscrita MAYÚSCULA" ahora es una fuente real y dedicada (no Baloo 2), y
+  se ve *parecida* a "Imprenta MAYÚSCULA" (ambas son letra de molde simple)
+  pero no idéntica — son tipografías distintas (Playwrite ES es más angosta
+  y menos redondeada que Baloo 2 bold), y esa similitud de estilo es fiel al
+  modelo real, no una coincidencia ni un bug. Para dígitos (que no tienen
+  mayús/minús) el cuaderno de Caligrafía usa `imprenta-mayus`/`manuscrita-mayus`
+  (cualquiera de los dos ids de cada familia sirve, ya que el case-transform
+  es un no-op sobre números).
   `guide` en `initTraceCanvas()` acepta `{text, styleId}` además del string
   plano (compatibilidad hacia atrás: un string sigue dibujándose en imprenta
   MAYÚSCULA, el look original) y del objeto `{shape}` para grafomotricidad.
@@ -227,6 +220,35 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   elegir el estilo; "Caligrafía" practica las 5 vocales en las 4 tipografías y
   los números 1-5 en 2 (imprenta/manuscrita), por lo que el cuaderno pasó de
   18 a 38 hojas (8 trazos básicos + 5×4 vocales + 5×2 números).
+- **Puntaje de trazado (`getStars()`, devuelto por `initTraceCanvas()` junto a
+  `clear`):** pedido explícito del usuario — antes "Escribe tu Nombre" y
+  "Caligrafía" otorgaban siempre 3 estrellas fijas sin mirar el trazo real,
+  ahora las estrellas reflejan qué tan bien se repasó. `initTraceCanvas()`
+  mantiene un `<canvas>` invisible en paralelo (`inkCanvas`) que acumula solo
+  la tinta real del niño (sin la guía tenue de fondo), con la misma
+  transformación/coordenadas que el canvas visible. Al llamar `getStars()`,
+  se rasteriza la misma guía a opacidad completa en un canvas aparte (nunca
+  mostrado) y se compara contra la tinta acumulada en una grilla de 28×28
+  celdas (`gridScore()` en `traza.js`) — no píxel a píxel, para tener
+  tolerancia natural y ser rápido. Se calculan dos métricas: *cobertura*
+  (qué fracción de la guía quedó repasada) y *precisión* (qué fracción de la
+  tinta cayó cerca de la guía), cada una dilatada ±1 celda para dar
+  tolerancia simétrica (un trazo de un niño de 5-6 años nunca va a calcar el
+  modelo a la perfección). El puntaje final es el **mínimo** de ambas
+  métricas, no el promedio — promediarlas dejaba puntaje alto a una sola
+  rayita que pasara justo por el medio de la palabra (mucha precisión, poca
+  cobertura, pero el promedio salía "excelente"); con el mínimo, hace falta
+  cubrir la mayoría de la guía Y mantenerse cerca de ella. Se mapea a 0-3
+  estrellas (`starsFromScore()`); 0 si no se dibujó nada. La máscara de la
+  guía (`forMask=true` en `drawGuideText`/`drawGuideShape`) usa el mismo
+  grosor de trazo que se le muestra al niño (antes se probó una máscara
+  artificialmente más gruesa "para dar tolerancia", pero eso hacía que un
+  trazo perfectamente centrado — más angosto que la máscara inflada — nunca
+  llegara a cubrirla del todo, aunque el niño repasara la letra a la
+  perfección; la tolerancia real vive en la dilatación por celda, no en
+  inflar la máscara). "Escribe tu Nombre" usa el puntaje de esa única pasada;
+  "Caligrafía" promedia (redondeado) el puntaje de las 38 hojas al terminar
+  el cuaderno.
 - **Jerarquía de pantallas:** `home` → `etapaMap` (Parvularia/Básica/Media/EPJA) →
   `gradeMap` (islas 1°-8° básico, `selectGrade(id)` guarda `state.currentGrade`) →
   `subjectMap` (lista de asignaturas, lee `state.currentGrade`) →

@@ -1,18 +1,28 @@
-import { renderTraceCanvas, initTraceCanvas, TYPO_STYLES, styleNote } from './traza.js';
+import { renderTraceCanvas, initTraceCanvas, TYPO_STYLES } from './traza.js';
 import { state } from '../state.js';
 import { showResult } from '../rewards.js';
 
 /* Módulo "Escribe tu Nombre" — núcleo Lenguaje Verbal, Educación Parvularia NT
    (OA08: representar gráficamente trazos y letras). Juego a medida, no usa el
-   motor de opción múltiple: es un ejercicio libre de trazado, no una
-   evaluación con respuesta correcta/incorrecta, así que siempre otorga las 3
-   estrellas al terminar — el logro es practicar el trazo, no acertar.
+   motor de opción múltiple. Pedido explícito del usuario: las estrellas
+   deben reflejar qué tan bien se trazó, no darse siempre fijas — se usa
+   `traceHandle.getStars()` (ver traza.js, compara la tinta real del niño
+   contra la guía por celdas) en vez del `showResult('escribenombre', 3, 3,
+   true, ...)` fijo de antes.
 
    Selector de tipografía (4 chips: imprenta/manuscrita × mayúscula/minúscula,
    ver TYPO_STYLES en traza.js) para que el niño practique su nombre en
    distintos estilos de letra, no solo el imprenta-mayúscula por defecto. */
 
 let currentStyleId = TYPO_STYLES[0].id;
+let traceHandle = null;
+
+const SUB_BY_STARS = {
+  0: '¡Vuelve a intentarlo, la próxima te va a salir genial!',
+  1: '¡Sigue practicando, cada vez te sale mejor!',
+  2: '¡Buen trazo! Ya casi lo tienes perfecto.',
+  3: '¡Excelente trazo, seguiste la guía a la perfección!',
+};
 
 export function renderEscribeNombreScreen(){
   return '<div class="screen" id="escribenombre-screen"></div>';
@@ -31,23 +41,21 @@ export function initEscribeNombreGame(){
         return '<button type="button" class="typo-chip'+(s.id===currentStyleId?' active':'')+'" data-style="'+s.id+'">'+s.label+'</button>';
       }).join('')+
     '</div>'+
-    '<p class="typo-note" id="escribenombre-typo-note">'+styleNote(currentStyleId)+'</p>'+
     '<div class="prompt-card">'+
       renderTraceCanvas('escribenombre-canvas', {height:200})+
     '</div>'+
     '<button class="cta-btn" id="escribenombre-done-btn">¡Ya terminé! 🎉</button>';
-  initTraceCanvas('escribenombre-canvas', {text:name, styleId:currentStyleId});
+  traceHandle = initTraceCanvas('escribenombre-canvas', {text:name, styleId:currentStyleId});
   const chips = el.querySelectorAll('.typo-chip');
-  const noteEl = document.getElementById('escribenombre-typo-note');
   chips.forEach(function(btn){
     btn.onclick = function(){
       currentStyleId = btn.dataset.style;
       chips.forEach(function(c){ c.classList.toggle('active', c===btn); });
-      if(noteEl) noteEl.textContent = styleNote(currentStyleId);
-      initTraceCanvas('escribenombre-canvas', {text:name, styleId:currentStyleId});
+      traceHandle = initTraceCanvas('escribenombre-canvas', {text:name, styleId:currentStyleId});
     };
   });
   document.getElementById('escribenombre-done-btn').onclick = function(){
-    showResult('escribenombre', 3, 3, true, '¡Practicaste trazando tu nombre!');
+    const stars = traceHandle ? traceHandle.getStars() : 3;
+    showResult('escribenombre', stars, 3, true, SUB_BY_STARS[stars]);
   };
 }

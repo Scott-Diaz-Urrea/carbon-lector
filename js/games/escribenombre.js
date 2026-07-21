@@ -8,11 +8,18 @@ import { showResult } from '../rewards.js';
    evaluación con respuesta correcta/incorrecta, así que siempre otorga las 3
    estrellas al terminar — el logro es practicar el trazo, no acertar.
 
-   Selector de tipografía (4 chips: imprenta/manuscrita × mayúscula/minúscula,
-   ver TYPO_STYLES en traza.js) para que el niño practique su nombre en
-   distintos estilos de letra, no solo el imprenta-mayúscula por defecto. */
+   Selector de tipografía (imprenta/manuscrita × mayúscula/minúscula, ver
+   TYPO_STYLES en traza.js) para que el niño practique su nombre en distintos
+   estilos de letra, no solo el imprenta-mayúscula por defecto. Se excluye
+   'manuscrita-mayus' a pedido del usuario: esa variante usa Baloo 2 igual
+   que 'imprenta-mayus' (ver comentario junto a TYPO_STYLES en traza.js — el
+   diseño por defecto de Playwrite CL mezclaba mayúsculas simples y muy
+   ornamentadas, así que la mayúscula manuscrita se resolvió con la misma
+   fuente que imprenta), por lo que mostrar ambas como chips separadas acá
+   era confuso/redundante para el niño. Caligrafía sigue usando las 4. */
+const NAME_STYLES = TYPO_STYLES.filter(function(s){ return s.id !== 'manuscrita-mayus'; });
 
-let currentStyleId = TYPO_STYLES[0].id;
+let currentStyleId = NAME_STYLES[0].id;
 
 export function renderEscribeNombreScreen(){
   return '<div class="screen" id="escribenombre-screen"></div>';
@@ -21,13 +28,13 @@ export function renderEscribeNombreScreen(){
 export function initEscribeNombreGame(){
   const el = document.getElementById('escribenombre-screen');
   if(!el) return;
-  currentStyleId = TYPO_STYLES[0].id;
+  currentStyleId = NAME_STYLES[0].id;
   const name = state.userName || 'LEO';
   el.innerHTML =
     '<p class="section-title">Escribe tu Nombre</p>'+
     '<p class="section-sub">Elige un estilo de letra y repasa tu nombre con el dedo o el mouse, como si las dibujaras.</p>'+
     '<div class="typo-selector" id="escribenombre-typo">'+
-      TYPO_STYLES.map(function(s){
+      NAME_STYLES.map(function(s){
         return '<button type="button" class="typo-chip'+(s.id===currentStyleId?' active':'')+'" data-style="'+s.id+'">'+s.label+'</button>';
       }).join('')+
     '</div>'+

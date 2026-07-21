@@ -36,6 +36,35 @@ export const TECNOLOGIA_MODULES_G2 = [
 ];
 export const TECNOLOGIA_POS_G2 = [{x:48,y:50}];
 
+/* ---------------- Contenido Tecnología 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/tecnologia/4-basico): TE04 OA05-07 -> Tecnología Digital IV
+   (agrega hojas de cálculo, nuevo este año, junto con software de
+   presentación, procesador de textos y uso seguro de internet). Fuera
+   OA01-04 (diseñar/planificar/elaborar/evaluar un objeto tecnológico
+   propio — producción práctica). */
+export const TECNOLOGIA_MODULES_G4 = [
+  {id:'tecdigital4', label:'Tecnología Digital IV', open:true, key:'tecdigital4'},
+];
+export const TECNOLOGIA_POS_G4 = [{x:48,y:50}];
+
+const TEC_DIGITAL_4_BANK = [
+  { emoji:'📊', pregunta:'¿Para qué sirve una hoja de cálculo?', correcta:'Para ordenar datos y elaborar gráficos simples', opts:['Para escuchar música','Para tomar fotografías','Para hacer ejercicio'] },
+  { emoji:'🖥️', pregunta:'¿Para qué usarías un programa de presentación?', correcta:'Para mostrar imágenes, diagramas y textos a otras personas', opts:['Para medir la temperatura','Para cocinar una receta','Para hacer deporte'] },
+  { emoji:'⌨️', pregunta:'¿Qué puedes hacer con un procesador de textos?', correcta:'Crear, editar, dar formato y guardar un documento', opts:['Tomar fotografías','Escuchar canciones','Medir el tiempo'] },
+  { emoji:'🔍', pregunta:'Al usar internet para buscar información, ¿qué es importante evaluar?', correcta:'Que la fuente sea segura y confiable', opts:['Solo el diseño de la página','Que sea la primera que aparece','El color del texto'] },
+];
+
+export function genTecDigital4Round(){
+  const item = pick(TEC_DIGITAL_4_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}
+
 const TEC_DIGITAL_BANK = [
   { emoji:'🖌️', pregunta:'¿Para qué usarías un software de dibujo en el computador?', correcta:'Para crear y representar ideas con imágenes', opts:['Para escuchar música','Para cocinar una receta','Para hacer ejercicio'] },
   { emoji:'⌨️', pregunta:'¿Para qué sirve un procesador de textos?', correcta:'Para crear, editar y guardar información escrita', opts:['Para tomar fotografías','Para dibujar figuras 3D','Para escuchar canciones'] },

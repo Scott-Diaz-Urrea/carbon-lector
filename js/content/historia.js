@@ -108,6 +108,128 @@ export const HISTORIA_MODULES_G2 = [
 ];
 export const HISTORIA_POS_G2 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
 
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/historia-geografia-ciencias-sociales/4-basico):
+   HI04 OA01-04 -> Civilizaciones Americanas (maya, azteca, inca) — cubre
+   SOLO logros culturales/tecnológicos bien documentados y no controvertidos
+   (astronomía, escritura, arquitectura, caminos); deliberadamente se excluyen
+   aspectos del OA01 oficial como "guerras y sacrificios humanos", que son
+   históricamente reales pero no apropiados para un quiz de opción múltiple
+   dirigido a niños — mismo criterio que ya excluyó contenido sensible en
+   otras asignaturas. OA06,08 -> Geografía de América (coordenadas, paisajes).
+   OA07,09 -> Recursos Naturales (renovables/no renovables). OA11-14 ->
+   Formación Ciudadana IV (poderes del Estado, derechos del niño, honestidad,
+   respeto sin discriminación).
+   Quedan fuera OA05 (investigación propia), OA10 (comparación de paisajes
+   propios con América, requiere contexto local específico del estudiante) y
+   OA15-18 (participación en proyectos escolares, resolución de conflictos
+   por votación, opinar con fundamentos — desempeño/actitudinal). */
+export const HISTORIA_MODULES_G4 = [
+  {id:'civilizaciones4', label:'Civilizaciones Americanas', open:true, key:'civilizaciones4'},
+  {id:'geografiaamerica4', label:'Geografía de América', open:true, key:'geografiaamerica4'},
+  {id:'recursosnaturales4', label:'Recursos Naturales', open:true, key:'recursosnaturales4'},
+  {id:'ciudadania4', label:'Formación Ciudadana IV', open:true, key:'ciudadania4'},
+];
+export const HISTORIA_POS_G4 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
+
+const CIVILIZACIONES_BANK = [
+  { emoji:'🔭', label:'Desarrollaron avanzados conocimientos de astronomía y matemática', civ:'MAYA' },
+  { emoji:'📜', label:'Crearon uno de los primeros sistemas de escritura de América', civ:'MAYA' },
+  { emoji:'🏙️', label:'Construyeron la gran ciudad de Tenochtitlán sobre un lago', civ:'AZTECA' },
+  { emoji:'🌽', label:'Cultivaban en chinampas, islas artificiales flotantes para sembrar', civ:'AZTECA' },
+  { emoji:'🛤️', label:'Construyeron una extensa red de caminos por la cordillera de los Andes', civ:'INCA' },
+  { emoji:'🏔️', label:'Construyeron la ciudadela de Machu Picchu en las montañas', civ:'INCA' },
+];
+const PAISAJES_AMERICA_BANK = [
+  { emoji:'🏔️', label:'LA CORDILLERA DE LOS ANDES', tipo:'MONTAÑA' },
+  { emoji:'🌳', label:'LA SELVA AMAZÓNICA', tipo:'SELVA' },
+  { emoji:'🏜️', label:'EL DESIERTO DE ATACAMA', tipo:'DESIERTO' },
+  { emoji:'🌊', label:'EL RÍO AMAZONAS', tipo:'RÍO' },
+];
+const COORDENADAS_BANK = [
+  { pregunta:'¿Qué usamos para ubicar un lugar exacto en un mapa con líneas horizontales y verticales?', correcta:'Coordenadas geográficas', opts:['El nombre de la calle','El color del mapa','La cantidad de ciudades'] },
+];
+const RECURSOS_NATURALES_BANK = [
+  { emoji:'☀️', label:'ENERGÍA SOLAR', tipo:'RENOVABLE' },
+  { emoji:'💨', label:'ENERGÍA EÓLICA (DEL VIENTO)', tipo:'RENOVABLE' },
+  { emoji:'🌊', label:'ENERGÍA DEL AGUA', tipo:'RENOVABLE' },
+  { emoji:'🛢️', label:'PETRÓLEO', tipo:'NO RENOVABLE' },
+  { emoji:'⛏️', label:'CARBÓN', tipo:'NO RENOVABLE' },
+  { emoji:'💎', label:'MINERALES (COMO EL COBRE)', tipo:'NO RENOVABLE' },
+];
+const PODERES_ESTADO_BANK = [
+  { cargo:'PRESIDENTE(A)', funcion:'Dirige el gobierno del país' },
+  { cargo:'DIPUTADOS(AS) Y SENADORES(AS)', funcion:'Crean y aprueban las leyes del país' },
+  { cargo:'ALCALDE O ALCALDESA', funcion:'Dirige el gobierno de una comuna' },
+  { cargo:'MINISTROS(AS)', funcion:'Dirigen áreas específicas del gobierno, como salud o educación' },
+];
+const DERECHOS_NINO_BANK = [
+  { correcta:'Todos los niños tienen derecho a la educación', incorrectas:['Solo algunos niños tienen derecho a estudiar','La educación es un privilegio, no un derecho','No es importante que todos los niños estudien'] },
+  { correcta:'Todos los niños tienen derecho a alimentación y vivienda adecuada', incorrectas:['Solo los niños con dinero merecen buena alimentación','La vivienda no es un derecho de los niños','No importa si un niño tiene dónde vivir'] },
+  { correcta:'Los niños tienen derecho a ser protegidos del abandono y el maltrato', incorrectas:['Es normal que un niño sea maltratado','El maltrato infantil no es un problema','Los niños no tienen derecho a protección'] },
+];
+
+export function genCivilizaciones4Round(){
+  const item = pick(CIVILIZACIONES_BANK);
+  const opts = shuffle(['MAYA','AZTECA','INCA']).map(function(c){ return {label:c, value:c}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿A qué civilización americana pertenece esto?</p>',
+    options: opts, correctValue: item.civ, speakText: item.label, cols:4, kind:'word',
+    explain: 'Ese es un logro de la civilización <b>'+item.civ.toLowerCase()+'</b>.',
+  };
+}
+
+export function genGeografiaAmerica4Round(){
+  if(Math.random()<0.4){
+    const item = pick(COORDENADAS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es "'+item.correcta+'".',
+    };
+  }
+  const item = pick(PAISAJES_AMERICA_BANK);
+  const distract = PAISAJES_AMERICA_BANK.filter(function(p){ return p.tipo!==item.tipo; }).map(function(p){ return p.tipo; });
+  const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Qué tipo de paisaje es?</p>',
+    options: opts, correctValue: item.tipo, speakText: item.label, cols:4, kind:'word',
+    explain: item.label+' es un(a) <b>'+item.tipo.toLowerCase()+'</b>.',
+  };
+}
+
+export function genRecursosNaturales4Round(){
+  const item = pick(RECURSOS_NATURALES_BANK);
+  const opts = shuffle([{label:'RENOVABLE', value:'RENOVABLE'},{label:'NO RENOVABLE', value:'NO RENOVABLE'}]);
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Es un recurso renovable o no renovable?</p>',
+    options: opts, correctValue: item.tipo, speakText: item.label, cols:2, panel:true,
+    explain: item.label+' es un recurso <b>'+item.tipo.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCiudadania4Round(){
+  if(Math.random()<0.5){
+    const item = pick(PODERES_ESTADO_BANK);
+    const distract = PODERES_ESTADO_BANK.filter(function(p){ return p.cargo!==item.cargo; }).map(function(p){ return p.funcion; });
+    const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Qué función cumple el/la '+item.cargo.toLowerCase()+'?</p>',
+      options: opts, correctValue: item.funcion, speakText: '¿Qué función cumple el/la '+item.cargo+'?', cols:2, panel:true,
+      explain: 'El/la '+item.cargo.toLowerCase()+' '+item.funcion.toLowerCase()+'.',
+    };
+  }
+  const item = pick(DERECHOS_NINO_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas afirmaciones sobre los derechos de los niños es correcta?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas afirmaciones es correcta?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" es correcto: es un derecho de todos los niños.',
+  };
+}
+
 const PUEBLOS_BANK = [
   { emoji:'🏔️', pueblo:'AIMARA', zona:'NORTE' },
   { emoji:'🌲', pueblo:'MAPUCHE', zona:'SUR' },

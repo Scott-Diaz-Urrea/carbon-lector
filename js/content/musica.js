@@ -51,6 +51,34 @@ export const MUSICA_MODULES_G2 = [
 ];
 export const MUSICA_POS_G2 = [{x:50,y:50}];
 
+/* ---------------- Contenido Música 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/musica/4-basico): MU04 OA01 -> Dinámica Musical (crescendo/
+   decrescendo, contraste entre secciones) — el ángulo de "dinámica" que ni
+   1°, 2° ni 3° básico cubrieron todavía de este eje. Fuera OA02-06,08
+   (expresión subjetiva, repertorio, cantar/tocar, improvisar, presentar,
+   autoevaluación) y OA07 (reflexión personal). */
+export const MUSICA_MODULES_G4 = [
+  {id:'dinamica4', label:'Dinámica Musical', open:true, key:'dinamica4'},
+];
+export const MUSICA_POS_G4 = [{x:50,y:50}];
+
+const DINAMICA_BANK = [
+  { pregunta:'¿Qué es un "crescendo" en la música?', correcta:'El volumen va aumentando poco a poco', opts:['El volumen va bajando poco a poco','La música se detiene','El ritmo se hace más lento'] },
+  { pregunta:'¿Qué es un "decrescendo" en la música?', correcta:'El volumen va bajando poco a poco', opts:['El volumen va aumentando poco a poco','La música se acelera','El ritmo no cambia'] },
+  { pregunta:'¿Qué significa que una canción tenga "contraste" entre dos partes?', correcta:'Que suenan claramente distintas entre sí', opts:['Que suenan exactamente igual','Que no tiene ninguna parte','Que solo hay silencio'] },
+];
+
+export function genDinamica4Round(){
+  const item = pick(DINAMICA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}
+
 const TIMBRE_BANK = [
   { emoji:'🥁', instrumento:'TAMBOR', desc:'Un sonido seco y golpeado, como un golpe fuerte.' },
   { emoji:'🎻', instrumento:'VIOLÍN', desc:'Un sonido que se desliza y vibra, como un canto largo.' },

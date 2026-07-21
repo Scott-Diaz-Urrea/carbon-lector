@@ -156,6 +156,238 @@ export const CIENCIAS_POS_G2 = [
   {x:22,y:92},{x:68,y:77},{x:24,y:61},{x:70,y:45},{x:24,y:26},{x:70,y:8}
 ];
 
+/* ---------------- Contenido Ciencias Naturales 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/ciencias-naturales/4-basico):
+   OA1-4 -> Ecosistemas · OA5-8 -> Mi Cuerpo: Huesos, Músculos y Nervios
+   (incluye una mención breve y factual del efecto del alcohol, OA8) ·
+   OA9-11 -> Estados de la Materia · OA12-13 -> Fuerzas ·
+   OA15-17 -> La Tierra y sus Capas.
+   Quedan fuera OA14 (diseñar un objeto tecnológico que use la fuerza —
+   producción propia). */
+export const CIENCIAS_MODULES_G4 = [
+  {id:'ecosistemas4', label:'Ecosistemas', open:true, key:'ecosistemas4'},
+  {id:'cuerposistemas4', label:'Huesos, Músculos y Nervios', open:true, key:'cuerposistemas4'},
+  {id:'estadosmateria4', label:'Estados de la Materia', open:true, key:'estadosmateria4'},
+  {id:'fuerzas4', label:'Fuerzas', open:true, key:'fuerzas4'},
+  {id:'tierracapas4', label:'La Tierra y sus Capas', open:true, key:'tierracapas4'},
+];
+export const CIENCIAS_POS_G4 = [{x:22,y:90},{x:68,y:73},{x:24,y:55},{x:70,y:35},{x:24,y:14}];
+
+const ECOSISTEMA_ELEMENTOS = [
+  { emoji:'🐿️', label:'ARDILLA', tipo:'VIVO' }, { emoji:'🌳', label:'ÁRBOL', tipo:'VIVO' }, { emoji:'🍄', label:'HONGO', tipo:'VIVO' },
+  { emoji:'🪨', label:'PIEDRA', tipo:'NO VIVO' }, { emoji:'💧', label:'AGUA', tipo:'NO VIVO' }, { emoji:'☀️', label:'SOL', tipo:'NO VIVO' },
+];
+const ADAPTACIONES_BANK = [
+  { emoji:'🦔', pregunta:'¿Para qué le sirven las púas a un erizo?', correcta:'Para protegerse de depredadores', opts:['Para volar','Para nadar más rápido','Para hacer ruido'] },
+  { emoji:'🦒', pregunta:'¿Para qué le sirve el cuello largo a la jirafa?', correcta:'Para alcanzar hojas altas de los árboles', opts:['Para nadar','Para excavar la tierra','Para hacer nidos'] },
+  { emoji:'🐻', pregunta:'¿Por qué los osos hibernan en invierno?', correcta:'Para ahorrar energía cuando hay poco alimento', opts:['Para hacerse más grandes','Para cambiar de color','Para aprender a nadar'] },
+  { emoji:'🦎', pregunta:'¿Para qué le sirve el camuflaje a un camaleón?', correcta:'Para esconderse de otros animales', opts:['Para volar más alto','Para nadar más rápido','Para hacer más ruido'] },
+];
+const CADENA_ALIMENTARIA_BANK = [
+  { rol:'PRODUCTOR', ejemplo:'Una planta que fabrica su propio alimento con luz solar' },
+  { rol:'CONSUMIDOR', ejemplo:'Un animal que se alimenta de plantas u otros animales' },
+  { rol:'DESCOMPONEDOR', ejemplo:'Un hongo que descompone restos de plantas y animales muertos' },
+];
+const CUIDADO_ECOSISTEMA_BANK = [
+  { correcta:'Proteger los parques nacionales y su vida silvestre', incorrectas:['Talar bosques sin control','Contaminar los ríos con basura','Cazar animales en peligro de extinción'] },
+  { correcta:'Evitar botar basura en la naturaleza', incorrectas:['Dejar basura en el bosque','Quemar pastizales sin cuidado','Sacar animales de su hábitat natural'] },
+];
+
+const SISTEMA_ESQUELETICO_BANK = [
+  { hueso:'COSTILLAS', funcion:'Protege órganos como el corazón y los pulmones' },
+  { hueso:'CRÁNEO', funcion:'Protege el cerebro' },
+  { hueso:'COLUMNA VERTEBRAL', funcion:'Da soporte y sostiene el cuerpo' },
+  { hueso:'FÉMUR', funcion:'Permite el movimiento de la pierna' },
+];
+const SISTEMA_NERVIOSO_BANK = [
+  { parte:'CEREBRO', funcion:'Elabora y controla los pensamientos y movimientos' },
+  { parte:'MÉDULA ESPINAL', funcion:'Conduce información entre el cerebro y el cuerpo' },
+  { parte:'NERVIOS', funcion:'Llevan información por todo el cuerpo' },
+];
+const ALCOHOL_BANK = [
+  { texto:'El consumo excesivo de alcohol puede causar descoordinación y confusión', v:true },
+  { texto:'El alcohol no afecta en nada la coordinación ni el pensamiento', v:false },
+];
+
+const ESTADOS_MATERIA_BANK = [
+  { propiedad:'Puede fluir y toma la forma de su recipiente, pero su volumen no cambia', estado:'LÍQUIDO' },
+  { propiedad:'Mantiene su forma y su volumen propios', estado:'SÓLIDO' },
+  { propiedad:'No tiene forma ni volumen propio: se expande para llenar su recipiente', estado:'GASEOSO' },
+];
+const INSTRUMENTOS_MEDIDA_BANK = [
+  { instrumento:'BALANZA', mide:'LA MASA' },
+  { instrumento:'TERMÓMETRO', mide:'LA TEMPERATURA' },
+  { instrumento:'VASO GRADUADO', mide:'EL VOLUMEN' },
+];
+
+const FUERZAS_BANK = [
+  { emoji:'🛝', pregunta:'¿Qué fuerza hace que un objeto arrastrado por el suelo sienta resistencia?', correcta:'FUERZA DE ROCE', opts:['FUERZA MAGNÉTICA','PESO (GRAVEDAD)','NINGUNA'] },
+  { emoji:'🍎', pregunta:'¿Qué fuerza hace que las cosas caigan al suelo?', correcta:'PESO (GRAVEDAD)', opts:['FUERZA DE ROCE','FUERZA MAGNÉTICA','NINGUNA'] },
+  { emoji:'🧲', pregunta:'¿Qué fuerza atrae objetos de metal hacia un imán?', correcta:'FUERZA MAGNÉTICA', opts:['FUERZA DE ROCE','PESO (GRAVEDAD)','NINGUNA'] },
+];
+const EFECTOS_FUERZA_BANK = [
+  { texto:'Empujar una pelota puede cambiar su dirección', v:true },
+  { texto:'Una fuerza puede cambiar la forma, la rapidez o la dirección de un objeto', v:true },
+  { texto:'Las fuerzas nunca cambian el movimiento de los objetos', v:false },
+];
+
+const CAPAS_TIERRA_BANK = [
+  { capa:'CORTEZA', desc:'La capa más externa y delgada, donde vivimos' },
+  { capa:'MANTO', desc:'La capa intermedia, gruesa y con rocas muy calientes' },
+  { capa:'NÚCLEO', desc:'La capa más interna y caliente del planeta' },
+];
+const FENOMENOS_TIERRA_BANK = [
+  { emoji:'🌋', label:'ERUPCIÓN VOLCÁNICA' },
+  { emoji:'🏚️', label:'SISMO (TERREMOTO)' },
+  { emoji:'🌊', label:'TSUNAMI' },
+];
+const PREVENCION_RIESGO_BANK = [
+  { correcta:'Conocer las vías de evacuación de tu casa y colegio', incorrectas:['Ignorar los simulacros de sismo','Correr sin rumbo durante un sismo','Quedarse cerca de ventanas durante un sismo'] },
+  { correcta:'Tener un kit de emergencia en casa', incorrectas:['No preocuparse por estar preparado','Guardar objetos pesados en lugares altos e inestables','Ignorar las alertas de tsunami'] },
+];
+
+export function genEcosistemas4Round(){
+  const roll = Math.random();
+  if(roll<0.25){
+    const item = pick(ECOSISTEMA_ELEMENTOS);
+    const opts = shuffle([{label:'VIVO', value:'VIVO'},{label:'NO VIVO', value:'NO VIVO'}]);
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Es un elemento vivo o no vivo del ecosistema?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.label, cols:2, panel:true,
+      explain: item.label+' es un elemento <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.5){
+    const item = pick(ADAPTACIONES_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es "'+item.correcta+'".',
+    };
+  }
+  if(roll<0.75){
+    const item = pick(CADENA_ALIMENTARIA_BANK);
+    const distract = CADENA_ALIMENTARIA_BANK.filter(function(c){ return c.rol!==item.rol; }).map(function(c){ return c.rol; });
+    const opts = shuffle([item.rol].concat(distract)).map(function(r){ return {label:r, value:r}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.ejemplo+'. ¿Qué rol cumple en la cadena alimentaria?</p>',
+      options: opts, correctValue: item.rol, speakText: item.ejemplo, cols:4, kind:'word',
+      explain: 'Ese es el rol de <b>'+item.rol.toLowerCase()+'</b> en la cadena alimentaria.',
+    };
+  }
+  const item = pick(CUIDADO_ECOSISTEMA_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones ayuda a cuidar los ecosistemas?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones ayuda a cuidar los ecosistemas?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" ayuda a proteger los ecosistemas.',
+  };
+}
+
+export function genCuerpoSistemas4Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(SISTEMA_ESQUELETICO_BANK);
+    const distract = SISTEMA_ESQUELETICO_BANK.filter(function(h){ return h.hueso!==item.hueso; }).map(function(h){ return h.funcion; });
+    const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Qué función cumple '+(item.hueso==='COLUMNA VERTEBRAL'?'la':'el')+' '+item.hueso.toLowerCase()+'?</p>',
+      options: opts, correctValue: item.funcion, speakText: '¿Qué función cumple '+item.hueso+'?', cols:2, panel:true,
+      explain: item.hueso.charAt(0)+item.hueso.slice(1).toLowerCase()+' '+item.funcion.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(SISTEMA_NERVIOSO_BANK);
+    const distract = SISTEMA_NERVIOSO_BANK.filter(function(p){ return p.parte!==item.parte; }).map(function(p){ return p.funcion; });
+    const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Qué función cumple '+item.parte.toLowerCase()+'?</p>',
+      options: opts, correctValue: item.funcion, speakText: '¿Qué función cumple '+item.parte+'?', cols:2, panel:true,
+      explain: item.parte.charAt(0)+item.parte.slice(1).toLowerCase()+' '+item.funcion.toLowerCase()+'.',
+    };
+  }
+  const item = pick(ALCOHOL_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
+    options: opts, correctValue: item.v, speakText: item.texto, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genEstadosMateria4Round(){
+  if(Math.random()<0.5){
+    const item = pick(ESTADOS_MATERIA_BANK);
+    const distract = ESTADOS_MATERIA_BANK.filter(function(e){ return e.estado!==item.estado; }).map(function(e){ return e.estado; });
+    const opts = shuffle([item.estado].concat(distract)).map(function(e){ return {label:e, value:e}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.propiedad+'. ¿Qué estado de la materia es?</p>',
+      options: opts, correctValue: item.estado, speakText: item.propiedad, cols:4, kind:'word',
+      explain: item.propiedad+', eso es el estado <b>'+item.estado.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(INSTRUMENTOS_MEDIDA_BANK);
+  const distract = INSTRUMENTOS_MEDIDA_BANK.filter(function(i){ return i.instrumento!==item.instrumento; }).map(function(i){ return i.mide; });
+  const opts = shuffle([item.mide].concat(distract)).map(function(m){ return {label:m, value:m}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Qué mide una '+item.instrumento.toLowerCase()+'?</p>',
+    options: opts, correctValue: item.mide, speakText: '¿Qué mide una '+item.instrumento+'?', cols:2, kind:'word', panel:true,
+    explain: 'La '+item.instrumento.toLowerCase()+' mide <b>'+item.mide.toLowerCase()+'</b>.',
+  };
+}
+
+export function genFuerzas4Round(){
+  if(Math.random()<0.5){
+    const item = pick(FUERZAS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(EFECTOS_FUERZA_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
+    options: opts, correctValue: item.v, speakText: item.texto, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genTierraCapas4Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(CAPAS_TIERRA_BANK);
+    const distract = CAPAS_TIERRA_BANK.filter(function(c){ return c.capa!==item.capa; }).map(function(c){ return c.capa; });
+    const opts = shuffle([item.capa].concat(distract)).map(function(c){ return {label:c, value:c}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.desc+'. ¿Qué capa de la Tierra es?</p>',
+      options: opts, correctValue: item.capa, speakText: item.desc, cols:4, kind:'word',
+      explain: item.desc+', esa es la <b>'+item.capa.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(FENOMENOS_TIERRA_BANK);
+    const distract = FENOMENOS_TIERRA_BANK.filter(function(f){ return f.label!==item.label; }).map(function(f){ return f.label; });
+    const opts = shuffle([item.label].concat(distract)).map(function(l){ return {label:l, value:l}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué fenómeno natural es este?</p>',
+      options: opts, correctValue: item.label, speakText: '¿Qué fenómeno natural es este?', cols:2, kind:'word', panel:true,
+      explain: 'Este fenómeno es un(a) <b>'+item.label.toLowerCase()+'</b>, relacionado con el movimiento de las placas tectónicas.',
+    };
+  }
+  const item = pick(PREVENCION_RIESGO_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena medida de prevención ante riesgos naturales?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena medida de prevención ante riesgos naturales?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" ayuda a estar preparado ante riesgos naturales.',
+  };
+}
+
 const VERTEBRADOS_BANK = [
   { emoji:'🐶', label:'PERRO', tipo:'MAMÍFERO' },
   { emoji:'🐱', label:'GATO', tipo:'MAMÍFERO' },

@@ -66,6 +66,46 @@ export const ARTES_MODULES_G2 = [
 ];
 export const ARTES_POS_G2 = [{x:50,y:50}];
 
+/* ---------------- Contenido Artes Visuales 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/artes-visuales/4-basico): AR04 OA02 -> Forma y Color IV
+   (figurativa/no figurativa, tono/matiz). Fuera OA01,03 (producción propia)
+   y OA04-05 (opinión personal, subjetivo). */
+export const ARTES_MODULES_G4 = [
+  {id:'formacolor4', label:'Forma y Color IV', open:true, key:'formacolor4'},
+];
+export const ARTES_POS_G4 = [{x:50,y:50}];
+
+const FORMA_FIGURATIVA_BANK = [
+  { desc:'Un dibujo que muestra claramente un perro reconocible', tipo:'FIGURATIVA' },
+  { desc:'Un dibujo que muestra la cara de una persona reconocible', tipo:'FIGURATIVA' },
+  { desc:'Una pintura con solo formas y colores, sin representar algo real', tipo:'NO FIGURATIVA' },
+  { desc:'Un cuadro con líneas y manchas de color sin figuras reconocibles', tipo:'NO FIGURATIVA' },
+];
+const TONO_MATIZ_BANK = [
+  { pregunta:'Si mezclas rojo con blanco y obtienes un rosado más claro, ¿qué cambiaste?', correcta:'EL TONO', opts:['EL MATIZ','LA TEXTURA','LA FORMA'] },
+  { pregunta:'El nombre básico de un color, como "azul" o "amarillo", ¿cómo se llama?', correcta:'MATIZ', opts:['TONO','TEXTURA','FORMA'] },
+];
+
+export function genFormaColor4Round(){
+  if(Math.random()<0.5){
+    const item = pick(FORMA_FIGURATIVA_BANK);
+    const opts = shuffle([{label:'FIGURATIVA', value:'FIGURATIVA'},{label:'NO FIGURATIVA', value:'NO FIGURATIVA'}]);
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.desc+'. ¿Es una obra figurativa o no figurativa?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, panel:true,
+      explain: 'Esa obra es <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(TONO_MATIZ_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:4, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
 const LINEAS_G2_BANK = ['VERTICAL','HORIZONTAL','DIAGONAL','ESPIRAL','QUEBRADA'];
 const COLORES_PRIM_SEC = [
   { label:'ROJO', tipo:'PRIMARIO' },

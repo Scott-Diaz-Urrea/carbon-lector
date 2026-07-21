@@ -197,6 +197,41 @@ export function crisalidaSVG(size){
     '<line x1="36" y1="55" x2="64" y2="55" stroke="#5E7A45" stroke-width="2" opacity="0.6"/>'+
   '</svg>';
 }
+/* nidoSVG/groundSVG/cojinSVG: objetos de REFERENCIA para preguntas de
+   ubicación relativa (p.ej. "el pajarito está ___ de su nido", "el gato
+   duerme ___ los dos cojines") — antes esas escenas solo mostraban al
+   sujeto (el pajarito, el gato) sin mostrar el nido/cojín contra el que se
+   compara, dejando la mitad de la oración sin respaldo visual. No existe un
+   emoji confiable de nido/tierra/cojín (🪺/🪹 son adiciones 2021 con el
+   mismo riesgo de no renderizarse que 🪥/🪮/etc.), así que se dibujan a
+   mano, del mismo tamaño que el sujeto, para armar una escena de 2-3
+   íconos en vez de uno solo. */
+export function nidoSVG(size){
+  size = size || 60;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<ellipse cx="50" cy="66" rx="40" ry="18" fill="#B08968" stroke="#7A5B44" stroke-width="4"/>'+
+    '<path d="M14 62 Q50 74 86 62" fill="none" stroke="#7A5B44" stroke-width="3" opacity="0.7"/>'+
+    '<path d="M20 54 Q50 66 80 54" fill="none" stroke="#7A5B44" stroke-width="3" opacity="0.7"/>'+
+    '<ellipse cx="40" cy="52" rx="7" ry="9" fill="#EBD9B4"/>'+
+    '<ellipse cx="58" cy="50" rx="7" ry="9" fill="#EBD9B4"/>'+
+  '</svg>';
+}
+export function groundSVG(size){
+  size = size || 60;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<rect x="4" y="52" width="92" height="40" fill="#B08968"/>'+
+    '<path d="M4 52 L96 52" stroke="#5E7A45" stroke-width="6"/>'+
+    '<path d="M18 52 L14 40 M38 52 L34 38 M58 52 L62 40 M78 52 L82 38" stroke="#5E7A45" stroke-width="3" stroke-linecap="round"/>'+
+  '</svg>';
+}
+export function cojinSVG(size){
+  size = size || 60;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<rect x="14" y="14" width="72" height="72" rx="18" fill="#7C6FF0" stroke="#5C4FC0" stroke-width="4"/>'+
+    '<path d="M32 32 Q50 44 68 32" fill="none" stroke="#5C4FC0" stroke-width="3" opacity="0.6"/>'+
+    '<path d="M32 68 Q50 56 68 68" fill="none" stroke="#5C4FC0" stroke-width="3" opacity="0.6"/>'+
+  '</svg>';
+}
 /* gusanoSVG/focaSVG/piedraSVG/bebidaDulceSVG: dibujados a mano por el mismo
    motivo que el resto de este bloque (el emoji correspondiente no se
    renderiza en varios navegadores), pero además — a pedido explícito del

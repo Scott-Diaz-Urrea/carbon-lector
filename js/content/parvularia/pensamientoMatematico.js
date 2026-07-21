@@ -1,5 +1,5 @@
-import { pick, shuffle, randInt, uniqueDistractors } from '../../utils.js';
-import { shapeSVG, solid3DSVG, toothbrushSVG, gusanoSVG } from '../../svg.js';
+import { pick, shuffle, randInt, uniqueDistractors, sceneRefsHTML } from '../../utils.js';
+import { shapeSVG, solid3DSVG, toothbrushSVG, gusanoSVG, nidoSVG, groundSVG, cojinSVG } from '../../svg.js';
 import { SHAPES } from '../matematica.js';
 
 /* ---------------- Pensamiento Matemático — Educación Parvularia, NT ----------------
@@ -50,16 +50,25 @@ const CLASIFICAR_GRUPOS = [
    `texto` con el hueco relleno por la respuesta correcta, así queda una
    oración completa y específica de la escena en vez de un genérico
    "La palabra correcta es X". El gusano usa gusanoSVG() en vez de 🪱
-   (que no se renderiza — recuadro vacío — en varios navegadores). */
+   (que no se renderiza — recuadro vacío — en varios navegadores).
+
+   Cada escena trae además `refs` (1-2 íconos del objeto de referencia:
+   nido, agua, casa, cueva, cojines): antes solo se mostraba al sujeto sin
+   la referencia contra la que se ubica, dejando la mitad de la oración sin
+   respaldo visual — el mismo problema que se corrigió en
+   corporalidadMovimiento.js (Ubicación Espacial) tras el aviso del
+   usuario sobre la escena del vaso de agua. Para "ARRIBA" (nube/globo) se
+   usa una casa 🏠 como punto de referencia en el suelo, porque "arriba" no
+   tiene sentido visual sin algo abajo con qué compararlo. */
 const POSICION_ESCENAS = [
-  { emoji:'🐦', texto:'El pajarito está ___ de su nido.', correct:'DENTRO', pregunta:'¿Dónde está el pajarito?' },
-  { emoji:'🐟', texto:'El pez nada ___ del agua.', correct:'DENTRO', pregunta:'¿Dónde nada el pez?' },
-  { emoji:'☁️', texto:'La nube está ___ en el cielo.', correct:'ARRIBA', pregunta:'¿Dónde está la nube?' },
-  { emoji: gusanoSVG(30), texto:'El gusano está ___ de la tierra.', correct:'ABAJO', pregunta:'¿Dónde está el gusano?' },
-  { emoji:'🐿️', texto:'La ardilla salió ___ de su casa a jugar.', correct:'FUERA', pregunta:'¿Dónde salió a jugar la ardilla?' },
-  { emoji:'🧸', texto:'El osito está ___ de las dos almohadas.', correct:'ENTRE', pregunta:'¿Dónde está el osito?' },
-  { emoji:'🎈', texto:'El globo voló ___ hacia el cielo.', correct:'ARRIBA', pregunta:'¿Hacia dónde voló el globo?' },
-  { emoji:'🐇', texto:'El conejo se escondió ___ de la cueva.', correct:'DENTRO', pregunta:'¿Dónde se escondió el conejo?' },
+  { emoji:'🐦', refs:[nidoSVG(44)], texto:'El pajarito está ___ de su nido.', correct:'DENTRO', pregunta:'¿Dónde está el pajarito?' },
+  { emoji:'🐟', refs:['💧'], texto:'El pez nada ___ del agua.', correct:'DENTRO', pregunta:'¿Dónde nada el pez?' },
+  { emoji:'☁️', refs:['🏠'], texto:'La nube está ___ en el cielo.', correct:'ARRIBA', pregunta:'¿Dónde está la nube?' },
+  { emoji: gusanoSVG(30), refs:[groundSVG(44)], texto:'El gusano está ___ de la tierra.', correct:'ABAJO', pregunta:'¿Dónde está el gusano?' },
+  { emoji:'🐿️', refs:['🏠'], texto:'La ardilla salió ___ de su casa a jugar.', correct:'FUERA', pregunta:'¿Dónde salió a jugar la ardilla?' },
+  { emoji:'🧸', refs:[cojinSVG(40), cojinSVG(40)], texto:'El osito está ___ de las dos almohadas.', correct:'ENTRE', pregunta:'¿Dónde está el osito?' },
+  { emoji:'🎈', refs:['🏠'], texto:'El globo voló ___ hacia el cielo.', correct:'ARRIBA', pregunta:'¿Hacia dónde voló el globo?' },
+  { emoji:'🐇', refs:['🕳️'], texto:'El conejo se escondió ___ de la cueva.', correct:'DENTRO', pregunta:'¿Dónde se escondió el conejo?' },
 ];
 const POSICION_OPTS_POOL = ['ARRIBA','ABAJO','DENTRO','FUERA','ENTRE'];
 
@@ -124,7 +133,7 @@ export function genPosicionRound(){
   const distract = shuffle(POSICION_OPTS_POOL.filter(function(p){ return p!==item.correct; })).slice(0,3);
   const opts = shuffle([item.correct].concat(distract)).map(function(p){ return {label:p, value:p}; });
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto.replace('___','<span class="blank">___</span>')+'</p>',
+    promptHTML: sceneRefsHTML(item.emoji, item.refs)+'<p class="prompt-hint">'+item.texto.replace('___','<span class="blank">___</span>')+'</p>',
     options: opts, correctValue: item.correct, speakText: item.pregunta, cols:4, kind:'word',
     explain: item.texto.replace('___', item.correct),
   };

@@ -1,5 +1,5 @@
-import { pick, shuffle } from '../../utils.js';
-import { personActionSVG, vasoAguaSVG } from '../../svg.js';
+import { pick, shuffle, sceneRefsHTML } from '../../utils.js';
+import { personActionSVG, vasoAguaSVG, cojinSVG } from '../../svg.js';
 
 /* Núcleo Corporalidad y Movimiento — Educación Parvularia, NT (Decreto
    481/2017, ámbito Desarrollo Personal y Social,
@@ -42,16 +42,24 @@ export const CORPORALIDAD_MOVIMIENTO_POS = [
    de "adelante"/"atrás"/"al lado" y no solo repita la misma frase. El vaso
    de agua usa vasoAguaSVG() en vez de 🥛 — ese emoji es literalmente "vaso
    de LECHE" (líquido opaco), mostraba el concepto equivocado para una
-   escena que dice explícitamente "el vaso de agua". */
+   escena que dice explícitamente "el vaso de agua".
+
+   Cada escena ahora trae `refs` (1 o 2 íconos del objeto/persona contra la
+   que se ubica el sujeto — dueño, amigos, plato, cojines, etc.): antes solo
+   se mostraba el sujeto (p.ej. el vaso) y no la referencia (el plato), así
+   que la mitad de la oración no tenía respaldo visual — un problema
+   detectado por el usuario justo en la escena del vaso de agua. Para las
+   2 escenas de "ENTRE" esto es especialmente importante: "entre los dos
+   cojines" no tiene ningún sentido visual si no se ven los cojines. */
 const ESCENAS_ESPACIAL_NT = [
-  { emoji:'🐕', texto:'El perro camina ___ de su dueño, tirando de la correa.', correct:'ADELANTE', pregunta:'¿Dónde camina el perro?' },
-  { emoji:'🏃', texto:'La niña corre ___ de sus amigos porque es la más rápida.', correct:'ADELANTE', pregunta:'¿Dónde corre la niña?' },
-  { emoji:'🐌', texto:'El caracol quedó ___ en la carrera, porque es muy lento.', correct:'ATRÁS', pregunta:'¿Dónde quedó el caracol?' },
-  { emoji:'🚶', texto:'El último niño de la fila quedó bien ___ de todos.', correct:'ATRÁS', pregunta:'¿Dónde quedó el último niño de la fila?' },
-  { emoji:'🧸', texto:'El osito está sentado ___ de la niña, bien pegadito a ella.', correct:'AL LADO', pregunta:'¿Dónde está sentado el osito?' },
-  { emoji: vasoAguaSVG(56), texto:'El vaso de agua está ___ del plato, sobre la mesa.', correct:'AL LADO', pregunta:'¿Dónde está el vaso de agua?' },
-  { emoji:'🐈', texto:'El gato duerme ___ los dos cojines del sillón.', correct:'ENTRE', pregunta:'¿Dónde duerme el gato?' },
-  { emoji:'⚽', texto:'La pelota rodó y quedó ___ las dos sillas.', correct:'ENTRE', pregunta:'¿Dónde quedó la pelota?' },
+  { emoji:'🐕', refs:['🧍'], texto:'El perro camina ___ de su dueño, tirando de la correa.', correct:'ADELANTE', pregunta:'¿Dónde camina el perro?' },
+  { emoji:'🏃', refs:['👫'], texto:'La niña corre ___ de sus amigos porque es la más rápida.', correct:'ADELANTE', pregunta:'¿Dónde corre la niña?' },
+  { emoji:'🐌', refs:['🏁'], texto:'El caracol quedó ___ en la carrera, porque es muy lento.', correct:'ATRÁS', pregunta:'¿Dónde quedó el caracol?' },
+  { emoji:'🚶', refs:['🧍🧍'], texto:'El último niño de la fila quedó bien ___ de todos.', correct:'ATRÁS', pregunta:'¿Dónde quedó el último niño de la fila?' },
+  { emoji:'🧸', refs:['🧒'], texto:'El osito está sentado ___ de la niña, bien pegadito a ella.', correct:'AL LADO', pregunta:'¿Dónde está sentado el osito?' },
+  { emoji: vasoAguaSVG(48), refs:['🍽️'], texto:'El vaso de agua está ___ del plato, sobre la mesa.', correct:'AL LADO', pregunta:'¿Dónde está el vaso de agua?' },
+  { emoji:'🐈', refs:[cojinSVG(44), cojinSVG(44)], texto:'El gato duerme ___ los dos cojines del sillón.', correct:'ENTRE', pregunta:'¿Dónde duerme el gato?' },
+  { emoji:'⚽', refs:['🪑','🪑'], texto:'La pelota rodó y quedó ___ las dos sillas.', correct:'ENTRE', pregunta:'¿Dónde quedó la pelota?' },
 ];
 const ESPACIAL_OPTS_POOL = ['ADELANTE','ATRÁS','AL LADO','ENTRE'];
 
@@ -92,7 +100,7 @@ export function genUbicacionEspacialNTRound(){
   const distract = shuffle(ESPACIAL_OPTS_POOL.filter(function(p){ return p!==item.correct; })).slice(0,3);
   const opts = shuffle([item.correct].concat(distract)).map(function(p){ return {label:p, value:p}; });
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto.replace('___','<span class="blank">___</span>')+'</p>',
+    promptHTML: sceneRefsHTML(item.emoji, item.refs)+'<p class="prompt-hint">'+item.texto.replace('___','<span class="blank">___</span>')+'</p>',
     options: opts, correctValue: item.correct, speakText: item.pregunta, cols:4, kind:'word',
     explain: item.texto.replace('___', item.correct),
   };

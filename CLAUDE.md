@@ -441,6 +441,28 @@ empanada≈dumpling, 🍯 para "panal" pese a ser un tarro de miel y no un
 panal): no valía la pena forzar un SVG nuevo cuando el emoji ya comunica el
 concepto con suficiente fidelidad para un niño de 6-7 años.
 
+**Escenas de ubicación relativa sin objeto de referencia (2026-07-21,
+seguimiento del punto anterior):** el usuario revisó la corrección del vaso
+de agua y notó un problema más profundo, no solo de qué ícono usar: la
+escena solo mostraba el vaso, no el plato — la mitad de la oración ("___
+del plato") no tenía ningún respaldo visual. Todas las preguntas de
+ubicación relativa de la app seguían este mismo patrón (mostrar solo al
+sujeto, nunca la referencia), incluyendo `POSICION_ESCENAS` en
+`pensamientoMatematico.js` (ya existía antes de esta sesión) — el osito
+"entre las dos almohadas" tampoco mostraba las almohadas. Se agregó
+`refs` (1-2 íconos de la referencia) a cada escena de
+`ESCENAS_ESPACIAL_NT` (`corporalidadMovimiento.js`) y `POSICION_ESCENAS`
+(`pensamientoMatematico.js`), y un helper compartido
+`sceneRefsHTML(subject, refs)` en `utils.js` que arma
+referencia-sujeto-referencia (si hay 2, para "entre") o sujeto-referencia
+(si hay 1) — así la mitad de la oración que antes solo existía en texto
+ahora también se ve. Para referencias sin buen emoji se dibujaron
+`nidoSVG()`, `groundSVG()` y `cojinSVG()` en `svg.js` (mismo criterio que
+el resto de SVGs propios: emoji de nido/cojín son adiciones Unicode
+2021-2022 con el mismo riesgo de no renderizarse que 🪥/🪮/etc.); donde ya
+existía un emoji confiable se reusó directamente (🍽️ plato, 🏠 casa, 🪑
+silla, 💧 agua, 🕳️ cueva, 🧍/🏁/👫 como referencias de persona/grupo/meta).
+
 ### Educación Parvularia — ✅ completa (8 de 8 núcleos, nivel NT)
 Basado en el Decreto 481/2017, nivel Transición (NT), repartido en 3 ámbitos.
 Sala Cuna y Nivel Medio no están en `PARVULARIA_NIVELES` en absoluto (ni bloqueados):

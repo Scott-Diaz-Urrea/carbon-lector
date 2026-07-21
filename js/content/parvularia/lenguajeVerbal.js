@@ -1,4 +1,5 @@
 import { pick, shuffle, uniqueDistractors } from '../../utils.js';
+import { focaSVG } from '../../svg.js';
 
 /* Núcleo Lenguaje Verbal — Educación Parvularia, NT (Decreto 481/2017, ámbito
    Comunicación Integral, curriculumnacional.cl/curriculum/educacion-parvularia/
@@ -43,7 +44,7 @@ const SILABAS_NT_BANK = [
 const RIDDLES_NT_BANK = [
   { text:'Tengo alas de colores y vuelo de flor en flor. ¿Qué soy?', correct:'🦋', opts:['🐝','🐌','🐞'], reason:'las mariposas tienen alas de colores y vuelan entre flores' },
   { text:'Doy leche y digo "muu". ¿Qué soy?', correct:'🐄', opts:['🐑','🐷','🐴'], reason:'la vaca da leche y hace "muu"' },
-  { text:'Brillo en el cielo de noche y soy redonda. ¿Qué soy?', correct:'🌙', opts:['☀️','⭐','☁️'], reason:'la luna brilla de noche' },
+  { text:'Brillo en el cielo de noche y soy redonda. ¿Qué soy?', correct:'🌕', opts:['☀️','⭐','☁️'], reason:'la luna brilla de noche y se ve redonda' },
   { text:'Tengo cuatro patas, ladro y soy el mejor amigo de las personas. ¿Qué soy?', correct:'🐶', opts:['🐱','🐰','🐦'], reason:'el perro ladra y es el mejor amigo del ser humano' },
   { text:'Soy amarillo, caliente, y salgo todas las mañanas. ¿Qué soy?', correct:'☀️', opts:['🌙','⭐','🌧️'], reason:'el sol es amarillo, caliente y sale de día' },
   { text:'Nado en el agua y tengo escamas. ¿Qué soy?', correct:'🐟', opts:['🐦','🐸','🐢'], reason:'los peces nadan y tienen escamas' },
@@ -57,21 +58,21 @@ const VOCAB_SINONIMOS_BANK = [
   { palabra:'RÁPIDO', sinonimo:'VELOZ', distract:['LENTO','QUIETO','SUAVE'] },
   { palabra:'BONITO', sinonimo:'LINDO', distract:['FEO','SUCIO','ROTO'] },
   { palabra:'PEQUEÑO', sinonimo:'CHICO', distract:['GIGANTE','LARGO','ANCHO'] },
-  { palabra:'VALIENTE', sinonimo:'ATREVIDO', distract:['MIEDOSO','TÍMIDO','CALLADO'] },
+  { palabra:'VALIENTE', sinonimo:'VALEROSO', distract:['MIEDOSO','TÍMIDO','CALLADO'] },
   { palabra:'LIMPIO', sinonimo:'ASEADO', distract:['SUCIO','MOJADO','ROTO'] },
   { palabra:'CANSADO', sinonimo:'AGOTADO', distract:['DESPIERTO','ALEGRE','FUERTE'] },
 ];
 
 const LETRAS_NT_BANK = [
-  { word:'MESA', emoji:'🪑', inicial:'M' },
+  { word:'MANO', emoji:'✋', inicial:'M' },
   { word:'PATO', emoji:'🦆', inicial:'P' },
   { word:'SAPO', emoji:'🐸', inicial:'S' },
   { word:'LIBRO', emoji:'📖', inicial:'L' },
   { word:'TREN', emoji:'🚂', inicial:'T' },
   { word:'CASA', emoji:'🏠', inicial:'C' },
-  { word:'BOTE', emoji:'⛵', inicial:'B' },
+  { word:'BOTE', emoji:'🛶', inicial:'B' },
   { word:'DEDO', emoji:'👆', inicial:'D' },
-  { word:'FOCA', emoji:'🦭', inicial:'F' },
+  { word:'FOCA', emoji: focaSVG(38), inicial:'F' },
   { word:'GATO', emoji:'🐱', inicial:'G' },
   { word:'NUBE', emoji:'☁️', inicial:'N' },
   { word:'ROSA', emoji:'🌹', inicial:'R' },

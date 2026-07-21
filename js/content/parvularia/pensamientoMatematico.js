@@ -1,5 +1,5 @@
 import { pick, shuffle, randInt, uniqueDistractors } from '../../utils.js';
-import { shapeSVG, solid3DSVG } from '../../svg.js';
+import { shapeSVG, solid3DSVG, toothbrushSVG, gusanoSVG } from '../../svg.js';
 import { SHAPES } from '../matematica.js';
 
 /* ---------------- Pensamiento Matemático — Educación Parvularia, NT ----------------
@@ -38,21 +38,34 @@ const CLASIFICAR_GRUPOS = [
   { atributo:'el tamaño', items:[{emoji:'🐘',val:'grande'},{emoji:'🦏',val:'grande'},{emoji:'🦒',val:'grande'},{emoji:'🐭',val:'pequeño'}] },
   { atributo:'dónde viven', items:[{emoji:'🐟',val:'agua'},{emoji:'🐬',val:'agua'},{emoji:'🐳',val:'agua'},{emoji:'🐶',val:'tierra'}] },
   { atributo:'cómo se mueven', items:[{emoji:'🐦',val:'vuelan'},{emoji:'🦋',val:'vuelan'},{emoji:'🐝',val:'vuelan'},{emoji:'🐌',val:'reptan'}] },
+  { atributo:'la temperatura', items:[{emoji:'🧊',val:'frío'},{emoji:'❄️',val:'frío'},{emoji:'🍦',val:'frío'},{emoji:'☀️',val:'caliente'}] },
+  { atributo:'la cantidad de patas', items:[{emoji:'🐦',val:'dos patas'},{emoji:'🐔',val:'dos patas'},{emoji:'🦩',val:'dos patas'},{emoji:'🐕',val:'cuatro patas'}] },
+  { atributo:'el tipo de alimento', items:[{emoji:'🍎',val:'fruta'},{emoji:'🍌',val:'fruta'},{emoji:'🍇',val:'fruta'},{emoji:'🥕',val:'verdura'}] },
 ];
 
+/* Cada escena trae su propio `pregunta` (para speakText) en vez de derivarlo
+   de `texto.replace('___','')`: quitar el hueco a secas dejaba oraciones
+   agramaticales al leerlas en voz alta (p.ej. "El pez nada  del agua" pierde
+   la preposición, y puede sonar a "nada" = "nothing"). `explain` reutiliza
+   `texto` con el hueco relleno por la respuesta correcta, así queda una
+   oración completa y específica de la escena en vez de un genérico
+   "La palabra correcta es X". El gusano usa gusanoSVG() en vez de 🪱
+   (que no se renderiza — recuadro vacío — en varios navegadores). */
 const POSICION_ESCENAS = [
-  { emoji:'🐦', texto:'El pajarito está ___ de su nido.', correct:'DENTRO' },
-  { emoji:'🐟', texto:'El pez nada ___ del agua.', correct:'DENTRO' },
-  { emoji:'☁️', texto:'La nube está ___ en el cielo.', correct:'ARRIBA' },
-  { emoji:'🪱', texto:'El gusano está ___ de la tierra.', correct:'ABAJO' },
-  { emoji:'🐿️', texto:'La ardilla salió ___ de su casa a jugar.', correct:'FUERA' },
-  { emoji:'🧸', texto:'El osito está ___ de las dos almohadas.', correct:'ENTRE' },
+  { emoji:'🐦', texto:'El pajarito está ___ de su nido.', correct:'DENTRO', pregunta:'¿Dónde está el pajarito?' },
+  { emoji:'🐟', texto:'El pez nada ___ del agua.', correct:'DENTRO', pregunta:'¿Dónde nada el pez?' },
+  { emoji:'☁️', texto:'La nube está ___ en el cielo.', correct:'ARRIBA', pregunta:'¿Dónde está la nube?' },
+  { emoji: gusanoSVG(30), texto:'El gusano está ___ de la tierra.', correct:'ABAJO', pregunta:'¿Dónde está el gusano?' },
+  { emoji:'🐿️', texto:'La ardilla salió ___ de su casa a jugar.', correct:'FUERA', pregunta:'¿Dónde salió a jugar la ardilla?' },
+  { emoji:'🧸', texto:'El osito está ___ de las dos almohadas.', correct:'ENTRE', pregunta:'¿Dónde está el osito?' },
+  { emoji:'🎈', texto:'El globo voló ___ hacia el cielo.', correct:'ARRIBA', pregunta:'¿Hacia dónde voló el globo?' },
+  { emoji:'🐇', texto:'El conejo se escondió ___ de la cueva.', correct:'DENTRO', pregunta:'¿Dónde se escondió el conejo?' },
 ];
 const POSICION_OPTS_POOL = ['ARRIBA','ABAJO','DENTRO','FUERA','ENTRE'];
 
 const RUTINA_DIA_PARV = [
   { emoji:'☀️', label:'Despertar', orden:1 },
-  { emoji:'🪥', label:'Lavarse los dientes', orden:2 },
+  { emoji:'<span style="display:inline-flex;vertical-align:middle;">'+toothbrushSVG(24)+'</span>', label:'Lavarse los dientes', orden:2 },
   { emoji:'🍞', label:'Desayunar', orden:3 },
   { emoji:'🎒', label:'Ir al jardín', orden:4 },
   { emoji:'🍽️', label:'Almorzar', orden:5 },
@@ -112,8 +125,8 @@ export function genPosicionRound(){
   const opts = shuffle([item.correct].concat(distract)).map(function(p){ return {label:p, value:p}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto.replace('___','<span class="blank">___</span>')+'</p>',
-    options: opts, correctValue: item.correct, speakText: item.texto.replace('___',''), cols:4, kind:'word',
-    explain: 'La palabra correcta es <b>'+item.correct+'</b>.',
+    options: opts, correctValue: item.correct, speakText: item.pregunta, cols:4, kind:'word',
+    explain: item.texto.replace('___', item.correct),
   };
 }
 
@@ -192,7 +205,7 @@ export function genFormasCuerposRound(){
     return {
       promptHTML: '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué cuerpo geométrico es?</p>',
       options: opts, correctValue: item.label, speakText: item.label, cols:4, kind:'word',
-      explain: 'Esta figura es un(a) <b>'+item.label.toLowerCase()+'</b>, un cuerpo geométrico 3D.',
+      explain: 'Esta figura es '+(item.id==='esfera'?'una':'un')+' <b>'+item.label.toLowerCase()+'</b>, un cuerpo geométrico 3D.',
     };
   }
   const item = pick(SHAPES);
@@ -201,7 +214,7 @@ export function genFormasCuerposRound(){
   return {
     promptHTML: '<div class="shape-display">'+shapeSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué forma es?</p>',
     options: opts, correctValue: item.id, speakText: item.label, cols:4, kind:'word',
-    explain: 'Esta figura es un <b>'+item.label+'</b>, una figura plana 2D.',
+    explain: 'Esta figura es un <b>'+item.label.toLowerCase()+'</b>, una figura plana 2D.',
   };
 }
 

@@ -170,6 +170,63 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   entrada inicial. Pedido explícito del usuario: fomentar que el trazado se sienta como
   dibujar, no como tipear, dado que es un hito real de pre-escritura en Transición
   (OA08 de Lenguaje Verbal, ver más abajo).
+- **Tipografías de trazado (`TYPO_STYLES` en `js/games/traza.js`):** además de las
+  formas de grafomotricidad, el texto guía se puede dibujar en 4 tipografías —
+  imprenta MAYÚSCULA, imprenta minúscula, manuscrita MAYÚSCULA y manuscrita
+  minúscula — pedido explícito del usuario para que la práctica de escritura no
+  se limite a un solo estilo de letra. Imprenta usa Baloo 2 (la fuente de
+  siempre). Manuscrita minúscula usa **Playwrite CL**, una tercera fuente de
+  Google Fonts agregada solo para esto (mismo mecanismo CDN ya aprobado para
+  Baloo 2/Quicksand, ver "Stack técnico") — es la fuente que Google/TypeTogether
+  diseñaron específicamente para modelar la "letra ligada" que se enseña en las
+  escuelas chilenas (familia Playwrite, con una variante por país), y su
+  minúscula es fiel a ese modelo real.
+  **Manuscrita MAYÚSCULA usa Baloo 2, NO Playwrite CL** (misma fuente que
+  imprenta-mayus) — decisión tomada tras pedirle al usuario que confirmara
+  después de que señalara que las mayúsculas de Playwrite CL "estaban
+  erradas": investigando la ficha oficial del tipo en Google Fonts se
+  confirmó que el diseño por defecto de Playwrite CL mezcla mayúsculas
+  "simples" (A, N — se ven como una minúscula agrandada) con mayúsculas
+  "decorativas" muy ornamentadas (Q, T, Z — difíciles de leer para un niño de
+  5-6 años); TypeTogether documenta esa mezcla como característica
+  intencional del diseño, no un bug, y no hay forma vía CSS de pedir la
+  variante de mayúscula simplificada (se probaron los stylistic sets ss01-09
+  y character variants cv01-10 sin ningún efecto — la versión que sirve
+  Google Fonts vía CDN no expone esos alternates). Además, el modelo real que
+  usan los cuadernos de caligrafía chilenos más comunes (Cuadernos Rubio,
+  Santillana) es híbrido: minúscula ligada + MAYÚSCULA de imprenta sin unir,
+  no la mayúscula cursiva ornamentada — así que Baloo 2 para la mayúscula
+  manuscrita es a la vez más legible y más fiel a lo que de verdad se enseña
+  en la sala. Como esto hace que "Manuscrita MAYÚSCULA" se vea idéntica a
+  "Imprenta MAYÚSCULA", `styleNote(styleId)` (también en `traza.js`) genera
+  una aclaración de una línea ("En letra ligada las mayúsculas se escriben
+  igual que en imprenta...") que "Escribe tu Nombre" y "Caligrafía" muestran
+  bajo el selector — sin ella, la coincidencia visual se leería como un bug
+  de la app en vez de una decisión pedagógica. Para dígitos (que no tienen
+  mayús/minús) el estilo "Manuscrita" del cuaderno de Caligrafía usa el id
+  `manuscrita-minus` en vez de `manuscrita-mayus` — precisamente para
+  seguir apuntando a la cursiva real de Playwrite CL y no heredar el cambio
+  a Baloo 2 que solo aplica a letras.
+  `guide` en `initTraceCanvas()` acepta `{text, styleId}` además del string
+  plano (compatibilidad hacia atrás: un string sigue dibujándose en imprenta
+  MAYÚSCULA, el look original) y del objeto `{shape}` para grafomotricidad.
+  Como una fuente recién solicitada puede no estar descargada en el primer
+  `fillText()` (se dibuja con la fuente de respaldo del navegador mientras
+  carga, y `document.fonts.ready` no es una señal confiable para saber cuándo
+  terminó — un `<canvas>` no siempre cuenta como "necesito esta fuente" a
+  tiempo para ese promise), `initTraceCanvas()` pide la carga explícita de la
+  fuente puntual vía `document.fonts.load()`/`check()` antes de dibujar, y
+  además el módulo precarga las 4 variantes de `TYPO_STYLES` apenas se
+  importa. Cada llamada a `initTraceCanvas()` clona y reemplaza el `<canvas>`
+  en el DOM (en vez de reutilizar el nodo existente) para descartar los
+  listeners de pointerdown/move/up de una llamada anterior — necesario
+  porque "Escribe tu Nombre" ahora deja al niño cambiar de estilo sin
+  re-renderizar toda la pantalla, y sin este descarte los listeners se
+  acumularían uno por cada cambio de estilo. "Escribe tu Nombre" agrega un
+  selector de 4 chips (`.typo-selector`/`.typo-chip` en `styles.css`) para
+  elegir el estilo; "Caligrafía" practica las 5 vocales en las 4 tipografías y
+  los números 1-5 en 2 (imprenta/manuscrita), por lo que el cuaderno pasó de
+  18 a 38 hojas (8 trazos básicos + 5×4 vocales + 5×2 números).
 - **Jerarquía de pantallas:** `home` → `etapaMap` (Parvularia/Básica/Media/EPJA) →
   `gradeMap` (islas 1°-8° básico, `selectGrade(id)` guarda `state.currentGrade`) →
   `subjectMap` (lista de asignaturas, lee `state.currentGrade`) →
@@ -299,6 +356,75 @@ Sala Cuna y Nivel Medio no están en `PARVULARIA_NIVELES` en absoluto (ni bloque
 son edades donde el juego en pantalla no es desarrollo-apropiado (así lo indica el
 propio Decreto 481/2017 para esos niveles), así que no está previsto construir
 módulos jugables para ellos — ver "Educación Parvularia — níveles y núcleos" arriba.
+
+**Segunda auditoría exhaustiva de NT (2026-07-21):** pedido explícito del
+usuario de revisar a fondo íconos, letras, formas y preguntas de los 8
+núcleos. Se corrigieron ~30 problemas repartidos en varias categorías:
+
+- **Emoji que no se renderizan ("tofu"/recuadro vacío):** se detectó que
+  🪱🪥🦭🪮🪨🪟🪞🫘🪖🧋 (todas adiciones Unicode 2019-2022) se ven como un
+  recuadro vacío en varios navegadores/sistemas — el mismo problema que ya
+  había motivado `chileFlagSVG()`. Se agregaron 11 SVG propios en
+  `js/svg.js` (`toothbrushSVG`, `peinetaSVG`, `vidrioSVG`, `espejoSVG`,
+  `semillaSVG`, `cascoSVG`, `crisalidaSVG`, `gusanoSVG`, `focaSVG`,
+  `piedraSVG`, `bebidaDulceSVG`). **Pedido explícito del usuario, corrigiendo
+  el enfoque inicial:** la primera pasada había resuelto 4 de estos casos
+  cambiando la palabra/concepto por otro con emoji bien soportado (gusano→
+  hormiga, foca→foto, piedra→ladrillo, 🧋→🍹) — el usuario pidió que, en
+  vez de sustituir el concepto, siempre se dibuje a mano el concepto
+  original (ver [[feedback-custom-art-over-emoji-swap]] en memoria), así que
+  esos 4 se revirtieron a sus palabras originales con su propio SVG.
+  `cascoSVG()` además corrige un problema aparte: 🪖 es literalmente un
+  casco militar, no uno de bicicleta.
+- **Íconos de acción animados (Movimientos del Cuerpo):** por el mismo
+  pedido, los 8 emoji-metáfora de `MOVIMIENTOS_BANK` (🦘 para saltar, 🐍
+  para reptar, 💫 para girar, etc. — ninguno mostraba a una persona
+  haciendo la acción) se reemplazaron por `personActionSVG(accion, size)`:
+  una figura de palitos (cabeza/torso/brazos/piernas como elementos SVG
+  independientes con una clase por parte) animada con CSS `@keyframes` en
+  `styles.css` (un set de animación por acción: `act-saltar`, `act-correr`,
+  etc.), siguiendo el mismo mecanismo que ya usaba `.float` para animar a
+  Carboncito en la Home. Todas las animaciones usan solo `transform`
+  (nunca layout) para que corran livianas.
+- **Forma geométrica incorrecta:** `shapeSVG('rombo')` tenía diagonales
+  iguales (era matemáticamente un cuadrado rotado 45°, no un rombo) — se
+  corrigieron las proporciones.
+- **Errores de concordancia de género:** varios `explain` generados
+  concatenaban un sustantivo femenino con un adjetivo masculino ("La piedra
+  es rígido", "La corteza del árbol es rugoso", "La arena es áspero") —
+  corregidos a sus formas femeninas (o, en el caso de "piedra", cambiado a
+  "el ladrillo" al resolver el problema de renderizado del emoji). También
+  se corrigió un literal `"un(a)"` que aparecía sin resolver en el texto de
+  Formas y Cuerpos.
+- **`speakText` agramatical:** varios generadores construían el texto leído
+  en voz alta con `texto.replace('___','')`, dejando oraciones rotas (huecos
+  con doble espacio, comas huérfanas) — se agregó un campo `pregunta`
+  explícito por escena en vez de derivar el texto del hueco.
+- **Ambigüedad/contradicción de contenido:** dos oraciones de posición
+  relativa (perro/dueño, osito/niña) no tenían una única respuesta correcta
+  posible sin contexto adicional — se reformularon. Una carrera de tortuga
+  se cambió a caracol para no contradecir la moraleja de "la tortuga y la
+  liebre". Dos ítems de "Resolución Pacífica" eran escenarios de empatía,
+  no conflictos genuinos (fuera del alcance documentado OA05 del núcleo) —
+  se reemplazaron. Una pregunta de "instituciones" pedía una institución
+  pero la respuesta correcta (🚒) era un vehículo — se reformuló la
+  pregunta para pedir explícitamente el vehículo.
+- **`explain` genérico sin valor pedagógico:** varios generadores solo
+  repetían el emoji de la respuesta correcta ("La respuesta correcta es
+  🛁.") — se agregaron etiquetas de texto (`label`) por ítem para que el
+  explain nombre la respuesta en palabras.
+- **Ciclo de vida incompleto:** el ciclo de la mariposa solo tenía
+  huevo→oruga→mariposa, saltándose la etapa de crisálida — se agregó
+  (con `crisalidaSVG()`, ya que no existe un emoji para esto).
+- **Bancos de contenido ampliados/corregidos:** `SELLO_ALIMENTOS`/
+  `SIN_SELLO_ALIMENTOS` de 6 a 8 ítems cada uno; un grupo de "clasificar"
+  mezclaba una persona (🧑, "piernas") con animales bajo el atributo
+  "patas" — se cambió por 🦩.
+
+Los 31 módulos de NT se probaron con fuzz-testing (100 iteraciones cada
+uno vía consola del navegador) tras cada tanda de cambios: sin `undefined`,
+sin opciones duplicadas, `correctValue` siempre presente, `explain` siempre
+presente, `speakText` sin HTML embebido.
 
 **Ámbito Comunicación Integral** (curriculumnacional.cl/curriculum/educacion-parvularia/comunicacion-integral/nt-nivel-transicion):
 - **Lenguaje Verbal** (6): Escribe tu Nombre y Caligrafía (ambos trazado libre sobre

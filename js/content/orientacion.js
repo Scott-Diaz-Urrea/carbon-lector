@@ -203,3 +203,210 @@ export function genConvivenciaRound(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
+
+/* ---------------- Contenido Orientación 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/orientacion/3-basico):
+   Manejo Emocional -> OA02 (identificar emociones propias y ajenas,
+   estrategias de manejo emocional). Autocuidado -> OA04 (higiene,
+   descanso, alimentación, actividad física). Buen Trato y Resolución de
+   Conflictos -> OA05-06 (solidaridad, respeto, empatía, resolución de
+   conflictos entre pares). Hábitos de Trabajo Escolar -> OA08.
+   Quedan fuera: OA01 (valorar las propias fortalezas — autorreflexión
+   subjetiva), OA03 (sexualidad como expresión de amor y vínculo — un tema
+   sensible que requiere el acompañamiento de un adulto/docente, no una
+   trivia de opción múltiple) y OA07 (participar en la comunidad escolar —
+   ya cubierto de forma más específica por "Formación Ciudadana III" en
+   historia.js, para no duplicar contenido). */
+export const ORIENTACION_MODULES_G3 = [
+  {id:'manejoemocional3', label:'Manejo Emocional', open:true, key:'manejoemocional3'},
+  {id:'autocuidado3', label:'Autocuidado III', open:true, key:'autocuidado3'},
+  {id:'buentrato3', label:'Buen Trato y Resolución de Conflictos', open:true, key:'buentrato3'},
+  {id:'habitosestudio3', label:'Hábitos de Trabajo Escolar', open:true, key:'habitosestudio3'},
+];
+export const ORIENTACION_POS_G3 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
+
+const EMOCIONES_ESTRATEGIA_BANK = [
+  { situacion:'Un compañero te quitó tu lápiz sin permiso y sientes mucha rabia.', correcta:'Respirar profundo y contar hasta diez antes de reaccionar', malas:['Gritarle inmediatamente','Quitarle algo suyo de vuelta','Pegarle'] },
+  { situacion:'Te sientes triste porque tu mejor amigo no pudo venir a tu cumpleaños.', correcta:'Reconocer que estás triste y contarle a alguien cómo te sientes', malas:['Fingir que no te importa','Enojarte con tu amigo sin razón','Guardarte todo sin decir nada'] },
+  { situacion:'Un compañero está muy nervioso antes de una presentación.', correcta:'Escucharlo y ayudarlo a calmarse con palabras de ánimo', malas:['Reírte de sus nervios','Decirle que lo hará mal','Ignorarlo'] },
+  { situacion:'Sientes mucho miedo antes de una prueba importante.', correcta:'Reconocer el miedo y prepararte estudiando con tiempo', malas:['Evitar estudiar para no pensar en eso','Fingir que no tienes miedo y no hacer nada','Copiar en la prueba por miedo a fallar'] },
+  { situacion:'Un compañero llora porque perdió su juguete favorito.', correcta:'Acompañarlo y mostrar empatía por lo que siente', malas:['Decirle que no llore por tonterías','Reírte de él','Ignorarlo y seguir jugando'] },
+  { situacion:'Te sientes muy frustrado porque no te sale un ejercicio difícil.', correcta:'Tomarte un momento para calmarte y pedir ayuda si la necesitas', malas:['Romper tu cuaderno de la rabia','Gritarle a quien esté cerca','Rendirte sin intentarlo de nuevo'] },
+  { situacion:'Sientes envidia porque un compañero recibió un premio y tú no.', correcta:'Reconocer el sentimiento y felicitar a tu compañero igual', malas:['Decir que el premio no vale nada','Hablar mal de tu compañero','Ignorar a quien ganó el premio'] },
+  { situacion:'Sientes vergüenza porque te equivocaste al hablar frente al curso.', correcta:'Recordar que equivocarse es normal y seguir adelante con calma', malas:['Negarte a volver a hablar en público nunca más','Culpar a otros por tu error','Salir corriendo de la sala'] },
+];
+const AUTOCUIDADO_3_ITEMS = [
+  { label:'Dormir la cantidad de horas adecuadas ayuda a tu cuerpo y tu concentración en clases', v:true },
+  { label:'Lavarte los dientes después de cada comida ayuda a prevenir caries', v:true },
+  { label:'Comer alimentos variados, incluyendo frutas y verduras, es parte de cuidar tu cuerpo', v:true },
+  { label:'Hacer pausas activas y moverte durante el día es parte de una rutina saludable', v:true },
+  { label:'Tomar agua durante el día ayuda a que tu cuerpo funcione bien', v:true },
+  { label:'Da lo mismo cuántas horas duermas, siempre rindes igual en clases', v:false },
+  { label:'Comer solo un tipo de alimento todos los días es una alimentación balanceada', v:false },
+  { label:'No es necesario tomar agua si no tienes mucha sed', v:false },
+];
+const CONFLICTO_3_BANK = [
+  { texto:'Dos compañeros de grupo no se ponen de acuerdo en cómo repartirse el trabajo.', correcta:'Conversar y dividir el trabajo de forma justa entre todos', malas:['Que uno haga todo el trabajo solo','Discutir sin llegar a un acuerdo','Entregar el trabajo incompleto por no ponerse de acuerdo'] },
+  { texto:'Un compañero se enoja porque su equipo perdió un partido.', correcta:'Recordarle que lo importante es participar y seguir intentando', malas:['Burlarte de su equipo por perder','Decirle que es malo para el deporte','Dejar de hablarle por haber perdido'] },
+  { texto:'Dos amigos tienen opiniones distintas sobre qué película ver.', correcta:'Buscar un acuerdo, como turnarse para elegir la próxima vez', malas:['Imponer tu película a la fuerza','Pelear hasta que uno ceda por cansancio','Ver cada uno una película distinto y dejar de ser amigos'] },
+  { texto:'Un compañero copió una idea tuya sin decir que era tuya.', correcta:'Decirle con calma que esa idea era tuya y conversarlo', malas:['Gritarle delante de todos','Copiarle algo a él también para "vengarte"','Dejar de hablarle sin explicar por qué'] },
+  { texto:'Dos compañeros quieren usar el mismo computador de la sala de enlaces.', correcta:'Acordar turnos de tiempo para usarlo por partes iguales', malas:['Empujar al otro para quedarte con el computador','Apagar el computador para que nadie lo use','Pelear hasta que un adulto tenga que intervenir'] },
+  { texto:'Un compañero se burla del proyecto de otro delante del curso.', correcta:'Decirle que eso no está bien y apoyar a quien fue molestado', malas:['Reírte también para no quedar fuera','Ignorar la situación como si no pasara nada','Burlarte tú también del proyecto'] },
+  { texto:'Dos compañeros de equipo no logran ponerse de acuerdo en una jugada durante un juego.', correcta:'Detenerse un momento, escuchar ambas ideas y elegir una entre los dos', malas:['Seguir jugando cada uno a su manera sin acuerdo','Discutir a gritos frente al resto del equipo','Dejar de jugar en equipo por el desacuerdo'] },
+  { texto:'Un compañero no quiere participar en un trabajo grupal.', correcta:'Preguntarle qué le pasa y ver cómo puede aportar a su manera', malas:['Excluirlo del grupo sin conversar','Hacer todo el trabajo sin él y quejarse después','Obligarlo a participar a la fuerza'] },
+];
+const HABITOS_ESTUDIO_3_BANK = [
+  { label:'Organizar un horario para hacer tus tareas te ayuda a no dejarlas para último momento', v:true },
+  { label:'Tener un lugar ordenado y tranquilo para estudiar ayuda a concentrarte mejor', v:true },
+  { label:'Revisar tu mochila la noche anterior te ayuda a no olvidar materiales importantes', v:true },
+  { label:'Pedir ayuda cuando no entiendes algo es parte de tener buenos hábitos de estudio', v:true },
+  { label:'Dejar todas las tareas para el último día antes de la entrega es la mejor estrategia', v:false },
+  { label:'Estudiar rodeado de muchas distracciones no afecta en nada tu concentración', v:false },
+  { label:'Es mejor no preguntar nunca cuando no entiendes algo en clases', v:false },
+  { label:'Repasar lo aprendido en clases al llegar a casa ayuda a recordarlo mejor', v:true },
+];
+
+export function genManejoEmocional3Round(){
+  const item = pick(EMOCIONES_ESTRATEGIA_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción sin lastimarte a ti ni a otros.',
+  };
+}
+
+export function genAutocuidado3Round(){
+  const item = pick(AUTOCUIDADO_3_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genBuenTrato3Round(){
+  const item = pick(CONFLICTO_3_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema con respeto.',
+  };
+}
+
+export function genHabitosEstudio3Round(){
+  const item = pick(HABITOS_ESTUDIO_3_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+/* ---------------- Contenido Orientación 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/orientacion/4-basico): mismos 4 ángulos que 3° básico
+   (manejo emocional, autocuidado, buen trato/resolución de conflictos,
+   hábitos de estudio), pero con escenarios y afirmaciones nuevas — el
+   texto de los OA de 4° es casi idéntico al de 3°, así que se evita
+   repetir literalmente el mismo contenido de un año a otro.
+   Manejo Emocional II -> OA02. Autocuidado IV -> OA05. Buen Trato y
+   Resolución de Conflictos II -> OA06-07. Hábitos de Trabajo Escolar II ->
+   OA09. Quedan fuera: OA01 (valorar fortalezas propias, autorreflexión),
+   OA03 (sexualidad como expresión de amor y vínculo) y OA04 (desarrollo
+   afectivo y sexual — aún más explícito que el OA03 de 3° básico, mismo
+   criterio de requerir el acompañamiento real de un adulto) y OA08
+   (participar en la comunidad escolar — ya cubierto por Formación
+   Ciudadana IV en historia.js). */
+export const ORIENTACION_MODULES_G4 = [
+  {id:'manejoemocional4', label:'Manejo Emocional II', open:true, key:'manejoemocional4'},
+  {id:'autocuidado4', label:'Autocuidado IV', open:true, key:'autocuidado4'},
+  {id:'buentrato4', label:'Buen Trato y Resolución de Conflictos II', open:true, key:'buentrato4'},
+  {id:'habitosestudio4', label:'Hábitos de Trabajo Escolar II', open:true, key:'habitosestudio4'},
+];
+export const ORIENTACION_POS_G4 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
+
+const EMOCIONES_ESTRATEGIA4_BANK = [
+  { situacion:'Sientes celos porque tu hermano recibió más atención en una celebración familiar.', correcta:'Reconocer el sentimiento y conversarlo con un adulto de confianza', malas:['Portarte mal para llamar la atención','Culpar a tu hermano por tus celos','Guardarte el sentimiento y aislarte'] },
+  { situacion:'Te sientes decepcionado porque no ganaste un concurso en el que te esforzaste mucho.', correcta:'Aceptar la decepción y reconocer tu esfuerzo igual', malas:['Culpar a los jueces sin razón','Dejar de participar en cualquier concurso','Enojarte con quien ganó'] },
+  { situacion:'Sientes ansiedad antes de una presentación importante frente al curso.', correcta:'Reconocer la ansiedad y prepararte con anticipación', malas:['Evitar la presentación sin avisar','Fingir estar enfermo para no ir','Ignorar por completo la sensación'] },
+  { situacion:'Un compañero está pasando por un momento difícil y se nota triste.', correcta:'Acercarte con empatía y preguntarle cómo se siente', malas:['Ignorarlo porque no es tu problema','Burlarte de su tristeza','Contarle a todos lo que le pasa sin su permiso'] },
+  { situacion:'Sientes mucho orgullo después de terminar un proyecto difícil.', correcta:'Reconocer tu logro y compartir tu alegría con otros', malas:['Sentir que no lograste nada','Menospreciar tu propio esfuerzo','Guardarte la alegría sin compartirla'] },
+  { situacion:'Te sientes frustrado porque un juego de mesa no te está saliendo bien.', correcta:'Respirar, calmarte y seguir intentando con paciencia', malas:['Tirar el juego al suelo','Gritarle a quien esté jugando contigo','Rendirte inmediatamente'] },
+  { situacion:'Sientes vergüenza porque olvidaste tu tarea en casa.', correcta:'Reconocer el error con calma y avisarle al profesor', malas:['Mentir diciendo que la hiciste','Culpar a otro compañero','Esconderte para no dar explicaciones'] },
+  { situacion:'Un compañero te felicita por un logro y sientes alegría.', correcta:'Agradecer el gesto y disfrutar el momento', malas:['Desconfiar de la felicitación sin razón','Ignorar a quien te felicita','Sentir que no merecías el elogio'] },
+];
+const AUTOCUIDADO_4_ITEMS = [
+  { label:'Reconocer cuándo necesitas descansar y respetar ese límite es parte del autocuidado', v:true },
+  { label:'Practicar buenos hábitos de higiene, como ducharte y lavarte los dientes, cuida tu salud', v:true },
+  { label:'Elegir una alimentación variada, con frutas y verduras, ayuda a tu cuerpo a funcionar bien', v:true },
+  { label:'Tomarte pausas y estirarte después de estar mucho tiempo sentado ayuda a tu postura', v:true },
+  { label:'Pedir ayuda a un adulto de confianza cuando algo te preocupa es una forma de autocuidado', v:true },
+  { label:'Da lo mismo dormir poco todos los días, tu cuerpo se acostumbra sin ningún efecto', v:false },
+  { label:'No es necesario cambiar de postura nunca, aunque estés horas sentado igual', v:false },
+  { label:'Ignorar tus propias necesidades de descanso es la mejor forma de rendir más', v:false },
+];
+const CONFLICTO_4_BANK = [
+  { texto:'Un compañero de curso se burla de otro por su forma de hablar.', correcta:'Decirle que eso no está bien y apoyar a quien fue molestado', malas:['Reírte también para no quedar fuera','Ignorar la situación','Burlarte tú también'] },
+  { texto:'Dos compañeros de un mismo equipo no se ponen de acuerdo en una estrategia de juego.', correcta:'Escuchar ambas ideas y buscar un acuerdo entre los dos', malas:['Imponer una idea sin escuchar a nadie','Discutir sin llegar a un acuerdo','Dejar de jugar en equipo'] },
+  { texto:'Un nuevo estudiante llega a tu curso y no conoce a nadie.', correcta:'Acercarte, presentarte y ayudarlo a sentirse bienvenido', malas:['Ignorarlo por ser nuevo','Burlarte porque no conoce las reglas del curso','Excluirlo de los juegos del recreo'] },
+  { texto:'Un compañero te acusa de algo que no hiciste.', correcta:'Explicar con calma lo que realmente pasó', malas:['Gritarle sin explicar nada','Acusarlo de algo a tu vez para "vengarte"','Dejar de hablarle sin aclarar la situación'] },
+  { texto:'Dos amigos compiten por el mismo puesto en un equipo deportivo.', correcta:'Aceptar el resultado con deportividad, gane quien gane', malas:['Sabotear al otro para ganar','Dejar de ser su amigo si pierde','Quejarse injustamente del resultado'] },
+  { texto:'Un compañero comete un error que afecta a todo el grupo en un trabajo.', correcta:'Conversar con calma sobre cómo solucionarlo juntos', malas:['Culparlo frente a todo el curso','Excluirlo del resto del trabajo','Gritarle por el error'] },
+  { texto:'Ves que alguien está siendo tratado injustamente por un grupo de compañeros.', correcta:'Buscar ayuda de un adulto y no sumarte al trato injusto', malas:['Sumarte al grupo para no quedar fuera','Ignorar la situación','Burlarte también'] },
+  { texto:'Un compañero no está de acuerdo con una decisión tomada por el curso.', correcta:'Escuchar su opinión con respeto, aunque no estés de acuerdo', malas:['Ignorar lo que piensa','Burlarte de su opinión','Excluirlo por pensar diferente'] },
+];
+const HABITOS_ESTUDIO_4_BANK = [
+  { label:'Anotar las tareas y fechas de entrega en una agenda ayuda a organizarte mejor', v:true },
+  { label:'Estudiar un poco cada día, en vez de todo junto la noche anterior, ayuda a aprender mejor', v:true },
+  { label:'Revisar tus errores en una prueba te ayuda a entender qué debes reforzar', v:true },
+  { label:'Tener un horario fijo para estudiar te ayuda a crear un buen hábito', v:true },
+  { label:'Preguntar cuando no entiendes un tema es parte de un buen hábito de estudio', v:true },
+  { label:'Da lo mismo estudiar todo la noche antes de la prueba que estudiar durante varios días', v:false },
+  { label:'Ignorar tus errores en una prueba es la mejor forma de mejorar', v:false },
+  { label:'No es necesario tener ningún horario para estudiar, se puede improvisar siempre', v:false },
+];
+
+export function genManejoEmocional4Round(){
+  const item = pick(EMOCIONES_ESTRATEGIA4_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción sin lastimarte a ti ni a otros.',
+  };
+}
+
+export function genAutocuidado4Round(){
+  const item = pick(AUTOCUIDADO_4_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genBuenTrato4Round(){
+  const item = pick(CONFLICTO_4_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema con respeto.',
+  };
+}
+
+export function genHabitosEstudio4Round(){
+  const item = pick(HABITOS_ESTUDIO_4_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}

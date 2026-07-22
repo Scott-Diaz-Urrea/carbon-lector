@@ -1,12 +1,12 @@
-import { LENGUAJE_MODULES, LENGUAJE_POS, LENGUAJE_MODULES_G2, LENGUAJE_POS_G2 } from './content/lenguaje.js';
-import { MATE_MODULES, MATE_POS, MATE_MODULES_G2, MATE_POS_G2 } from './content/matematica.js';
-import { CIENCIAS_MODULES, CIENCIAS_POS, CIENCIAS_MODULES_G2, CIENCIAS_POS_G2 } from './content/ciencias.js';
-import { HISTORIA_MODULES, HISTORIA_POS, HISTORIA_MODULES_G2, HISTORIA_POS_G2 } from './content/historia.js';
-import { ARTES_MODULES, ARTES_POS, ARTES_MODULES_G2, ARTES_POS_G2 } from './content/artes.js';
-import { MUSICA_MODULES, MUSICA_POS, MUSICA_MODULES_G2, MUSICA_POS_G2 } from './content/musica.js';
-import { EDFISICA_MODULES, EDFISICA_POS, EDFISICA_MODULES_G2, EDFISICA_POS_G2 } from './content/edfisica.js';
-import { ORIENTACION_MODULES, ORIENTACION_POS, ORIENTACION_MODULES_G2, ORIENTACION_POS_G2 } from './content/orientacion.js';
-import { TECNOLOGIA_MODULES, TECNOLOGIA_POS, TECNOLOGIA_MODULES_G2, TECNOLOGIA_POS_G2 } from './content/tecnologia.js';
+import { LENGUAJE_MODULES, LENGUAJE_POS, LENGUAJE_MODULES_G2, LENGUAJE_POS_G2, LENGUAJE_MODULES_G3, LENGUAJE_POS_G3, LENGUAJE_MODULES_G4, LENGUAJE_POS_G4 } from './content/lenguaje.js';
+import { MATE_MODULES, MATE_POS, MATE_MODULES_G2, MATE_POS_G2, MATE_MODULES_G3, MATE_POS_G3, MATE_MODULES_G4, MATE_POS_G4 } from './content/matematica.js';
+import { CIENCIAS_MODULES, CIENCIAS_POS, CIENCIAS_MODULES_G2, CIENCIAS_POS_G2, CIENCIAS_MODULES_G3, CIENCIAS_POS_G3, CIENCIAS_MODULES_G4, CIENCIAS_POS_G4 } from './content/ciencias.js';
+import { HISTORIA_MODULES, HISTORIA_POS, HISTORIA_MODULES_G2, HISTORIA_POS_G2, HISTORIA_MODULES_G3, HISTORIA_POS_G3, HISTORIA_MODULES_G4, HISTORIA_POS_G4 } from './content/historia.js';
+import { ARTES_MODULES, ARTES_POS, ARTES_MODULES_G2, ARTES_POS_G2, ARTES_MODULES_G3, ARTES_POS_G3, ARTES_MODULES_G4, ARTES_POS_G4 } from './content/artes.js';
+import { MUSICA_MODULES, MUSICA_POS, MUSICA_MODULES_G2, MUSICA_POS_G2, MUSICA_MODULES_G3, MUSICA_POS_G3, MUSICA_MODULES_G4, MUSICA_POS_G4 } from './content/musica.js';
+import { EDFISICA_MODULES, EDFISICA_POS, EDFISICA_MODULES_G2, EDFISICA_POS_G2, EDFISICA_MODULES_G3, EDFISICA_POS_G3, EDFISICA_MODULES_G4, EDFISICA_POS_G4 } from './content/edfisica.js';
+import { ORIENTACION_MODULES, ORIENTACION_POS, ORIENTACION_MODULES_G2, ORIENTACION_POS_G2, ORIENTACION_MODULES_G3, ORIENTACION_POS_G3, ORIENTACION_MODULES_G4, ORIENTACION_POS_G4 } from './content/orientacion.js';
+import { TECNOLOGIA_MODULES, TECNOLOGIA_POS, TECNOLOGIA_MODULES_G2, TECNOLOGIA_POS_G2, TECNOLOGIA_MODULES_G3, TECNOLOGIA_POS_G3, TECNOLOGIA_MODULES_G4, TECNOLOGIA_POS_G4 } from './content/tecnologia.js';
 import { PENSAMIENTO_MATEMATICO_MODULES, PENSAMIENTO_MATEMATICO_POS } from './content/parvularia/pensamientoMatematico.js';
 import { LENGUAJE_VERBAL_MODULES, LENGUAJE_VERBAL_POS } from './content/parvularia/lenguajeVerbal.js';
 import { LENGUAJES_ARTISTICOS_MODULES, LENGUAJES_ARTISTICOS_POS } from './content/parvularia/lenguajesArtisticos.js';
@@ -19,38 +19,56 @@ import { COMPRENSION_ENTORNO_SOCIOCULTURAL_MODULES, COMPRENSION_ENTORNO_SOCIOCUL
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
   2: { modules: LENGUAJE_MODULES_G2, pos: LENGUAJE_POS_G2, height: 360 },
+  3: { modules: LENGUAJE_MODULES_G3, pos: LENGUAJE_POS_G3, height: 480 },
+  4: { modules: LENGUAJE_MODULES_G4, pos: LENGUAJE_POS_G4, height: 360 },
 };
 export const MATE_BY_GRADE = {
   1: { modules: MATE_MODULES, pos: MATE_POS, height: 360 },
   2: { modules: MATE_MODULES_G2, pos: MATE_POS_G2, height: 360 },
+  3: { modules: MATE_MODULES_G3, pos: MATE_POS_G3, height: 700 },
+  4: { modules: MATE_MODULES_G4, pos: MATE_POS_G4, height: 700 },
 };
 export const CIENCIAS_BY_GRADE = {
   1: { modules: CIENCIAS_MODULES, pos: CIENCIAS_POS, height: 420 },
   2: { modules: CIENCIAS_MODULES_G2, pos: CIENCIAS_POS_G2, height: 480 },
+  3: { modules: CIENCIAS_MODULES_G3, pos: CIENCIAS_POS_G3, height: 560 },
+  4: { modules: CIENCIAS_MODULES_G4, pos: CIENCIAS_POS_G4, height: 420 },
 };
 export const HISTORIA_BY_GRADE = {
   1: { modules: HISTORIA_MODULES, pos: HISTORIA_POS, height: 420 },
   2: { modules: HISTORIA_MODULES_G2, pos: HISTORIA_POS_G2, height: 360 },
+  3: { modules: HISTORIA_MODULES_G3, pos: HISTORIA_POS_G3, height: 340 },
+  4: { modules: HISTORIA_MODULES_G4, pos: HISTORIA_POS_G4, height: 340 },
 };
 export const ARTES_BY_GRADE = {
   1: { modules: ARTES_MODULES, pos: ARTES_POS, height: 340 },
   2: { modules: ARTES_MODULES_G2, pos: ARTES_POS_G2, height: 260 },
+  3: { modules: ARTES_MODULES_G3, pos: ARTES_POS_G3, height: 260 },
+  4: { modules: ARTES_MODULES_G4, pos: ARTES_POS_G4, height: 200 },
 };
 export const MUSICA_BY_GRADE = {
   1: { modules: MUSICA_MODULES, pos: MUSICA_POS, height: 280 },
   2: { modules: MUSICA_MODULES_G2, pos: MUSICA_POS_G2, height: 260 },
+  3: { modules: MUSICA_MODULES_G3, pos: MUSICA_POS_G3, height: 260 },
+  4: { modules: MUSICA_MODULES_G4, pos: MUSICA_POS_G4, height: 200 },
 };
 export const EDFISICA_BY_GRADE = {
   1: { modules: EDFISICA_MODULES, pos: EDFISICA_POS, height: 340 },
   2: { modules: EDFISICA_MODULES_G2, pos: EDFISICA_POS_G2, height: 340 },
+  3: { modules: EDFISICA_MODULES_G3, pos: EDFISICA_POS_G3, height: 260 },
+  4: { modules: EDFISICA_MODULES_G4, pos: EDFISICA_POS_G4, height: 260 },
 };
 export const ORIENTACION_BY_GRADE = {
   1: { modules: ORIENTACION_MODULES, pos: ORIENTACION_POS, height: 340 },
   2: { modules: ORIENTACION_MODULES_G2, pos: ORIENTACION_POS_G2, height: 360 },
+  3: { modules: ORIENTACION_MODULES_G3, pos: ORIENTACION_POS_G3, height: 360 },
+  4: { modules: ORIENTACION_MODULES_G4, pos: ORIENTACION_POS_G4, height: 360 },
 };
 export const TECNOLOGIA_BY_GRADE = {
   1: { modules: TECNOLOGIA_MODULES, pos: TECNOLOGIA_POS, height: 200 },
   2: { modules: TECNOLOGIA_MODULES_G2, pos: TECNOLOGIA_POS_G2, height: 200 },
+  3: { modules: TECNOLOGIA_MODULES_G3, pos: TECNOLOGIA_POS_G3, height: 200 },
+  4: { modules: TECNOLOGIA_MODULES_G4, pos: TECNOLOGIA_POS_G4, height: 200 },
 };
 
 export const SUBJECT_DEFS = [

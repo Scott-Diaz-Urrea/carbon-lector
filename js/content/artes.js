@@ -168,3 +168,106 @@ export function genMaterialesArteRound(){
     explain: item.uso+' Esa herramienta es <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
+
+/* ---------------- Contenido Artes Visuales 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/artes-visuales/3-basico):
+   Color Expresivo -> OA02 (color frío/cálido/expresivo — qué transmite
+   cada color, una idea ampliamente usada en la enseñanza de artes).
+   Materiales de Modelado, Reciclaje y Naturales -> OA03 (categorías de
+   materiales, no el proceso de crear con ellos).
+   Quedan fuera: OA01 (crear un trabajo propio a partir de observación),
+   OA04 (describir Y EXPRESAR lo que siente/piensa frente a una obra —
+   subjetivo) y OA05 (autoevaluación de fortalezas propias) — todos de
+   producción propia o apreciación subjetiva, no de reconocimiento con
+   respuesta objetiva. */
+export const ARTES_MODULES_G3 = [
+  {id:'colorexpresivo3', label:'Color Expresivo', open:true, key:'colorexpresivo3'},
+  {id:'materialesarte3', label:'Materiales de Modelado y Reciclaje', open:true, key:'materialesarte3'},
+];
+export const ARTES_POS_G3 = [{x:30,y:70},{x:70,y:30}];
+
+/* La asociación color-emoción es una convención ampliamente enseñada en
+   educación artística (no una verdad científica única), consistente con
+   el nivel de abstracción esperado para 3° básico. */
+const COLOR_EXPRESIVO_BANK = [
+  { color:'ROJO', emocion:'ENERGÍA O PASIÓN' },
+  { color:'AZUL', emocion:'CALMA O TRANQUILIDAD' },
+  { color:'AMARILLO', emocion:'ALEGRÍA' },
+  { color:'NEGRO', emocion:'MISTERIO O SERIEDAD' },
+  { color:'VERDE', emocion:'NATURALEZA O FRESCURA' },
+  { color:'NARANJO', emocion:'ENTUSIASMO' },
+  { color:'ROSADO', emocion:'TERNURA' },
+  { color:'MORADO', emocion:'CREATIVIDAD' },
+];
+const MATERIALES_ARTE3_BANK = [
+  { emoji:'🏺', material:'la arcilla', categoria:'MATERIAL DE MODELADO' },
+  { emoji:'🧶', material:'la plasticina', categoria:'MATERIAL DE MODELADO' },
+  { emoji:'📦', material:'una caja de cartón usada', categoria:'MATERIAL DE RECICLAJE' },
+  { emoji:'🥤', material:'una botella de plástico usada', categoria:'MATERIAL DE RECICLAJE' },
+  { emoji:'🥫', material:'una lata de bebida usada', categoria:'MATERIAL DE RECICLAJE' },
+  { emoji:'🍃', material:'las hojas secas', categoria:'MATERIAL NATURAL' },
+  { emoji:'🌰', material:'las semillas', categoria:'MATERIAL NATURAL' },
+  { emoji:'🪵', material:'las ramitas', categoria:'MATERIAL NATURAL' },
+];
+
+export function genColorExpresivo3Round(){
+  const item = pick(COLOR_EXPRESIVO_BANK);
+  const distract = shuffle(COLOR_EXPRESIVO_BANK.filter(function(c){ return c.color!==item.color; })).slice(0,3).map(function(c){ return c.emocion; });
+  const opts = shuffle([item.emocion].concat(distract)).map(function(e){ return {label:e, value:e}; });
+  return {
+    promptHTML: '<div class="shape-display">'+colorSwatchSVG(item.color,90)+'</div><p class="prompt-hint">El color '+item.color+'. ¿Qué sensación transmite generalmente en una obra de arte?</p>',
+    options: opts, correctValue: item.emocion, speakText: 'El color '+item.color, cols:2, panel:true,
+    explain: 'El '+item.color.toLowerCase()+' suele transmitir <b>'+item.emocion.toLowerCase()+'</b>.',
+  };
+}
+
+export function genMaterialesArte3Round(){
+  const item = pick(MATERIALES_ARTE3_BANK);
+  const distract = shuffle(MATERIALES_ARTE3_BANK.filter(function(m){ return m.categoria!==item.categoria; })).map(function(m){ return m.categoria; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
+  const opts = shuffle([item.categoria].concat(distract)).map(function(c){ return {label:c, value:c}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿A qué categoría pertenece '+item.material+'?</p>',
+    options: opts, correctValue: item.categoria, speakText: '¿A qué categoría pertenece '+item.material+'?', cols:2, kind:'word', panel:true,
+    explain: (item.material.charAt(0).toUpperCase()+item.material.slice(1))+' es un <b>'+item.categoria.toLowerCase()+'</b>.',
+  };
+}
+
+/* ---------------- Contenido Artes Visuales 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/artes-visuales/4-basico):
+   Lenguaje Visual II -> OA02 (línea de contorno, tono y matiz de un color,
+   forma figurativa y no figurativa — conceptos nuevos respecto a 3° básico,
+   que cubrió color cálido/frío/expresivo y categorías de material).
+   Quedan fuera: OA01,03 (crear un trabajo propio a partir de observación,
+   con materiales de modelado/reciclaje/naturales — producción propia, ya
+   cubierto conceptualmente por "Materiales de Modelado y Reciclaje" de 3°
+   básico), OA04 (describir Y expresar lo que se siente frente a una obra —
+   subjetivo) y OA05 (autoevaluación de fortalezas propias). */
+export const ARTES_MODULES_G4 = [
+  {id:'lenguajevisual4', label:'Lenguaje Visual II', open:true, key:'lenguajevisual4'},
+];
+export const ARTES_POS_G4 = [{x:50,y:50}];
+
+const LENGUAJE_VISUAL4_BANK = [
+  { pregunta:'¿Qué es una línea de contorno en un dibujo?', correcta:'La línea que marca el borde o silueta de una figura', opts:['El color de fondo del dibujo','La textura de la superficie','El título de la obra'] },
+  { pregunta:'¿Para qué sirve la línea de contorno al dibujar un objeto?', correcta:'Para definir claramente su forma y separarlo del fondo', opts:['Para llenar todo el espacio de color','Para borrar el dibujo','Para escribir el nombre del autor'] },
+  { pregunta:'Si agregas blanco a un color para aclararlo, ¿qué estás cambiando?', correcta:'SU TONO', opts:['SU FORMA','SU TEXTURA','SU TAMAÑO'] },
+  { pregunta:'Si oscureces un color agregándole negro, ¿qué estás cambiando?', correcta:'SU TONO', opts:['SU FORMA','SU TEXTURA','SU TAMAÑO'] },
+  { pregunta:'¿Qué es el "matiz" de un color?', correcta:'La variación específica de ese color (como un rojo más anaranjado o más violeta)', opts:['El tamaño del dibujo','La textura de la pintura','El nombre del artista'] },
+  { pregunta:'Un dibujo de un gato bien reconocible, con orejas, bigotes y cola, es una forma...', correcta:'FIGURATIVA', opts:['NO FIGURATIVA (ABSTRACTA)','TRANSPARENTE','SIMÉTRICA'] },
+  { pregunta:'Una mancha de pintura sin forma reconocible es una forma...', correcta:'NO FIGURATIVA (ABSTRACTA)', opts:['FIGURATIVA','TRANSPARENTE','SIMÉTRICA'] },
+  { pregunta:'Un dibujo de una casa con techo, puerta y ventanas es una forma...', correcta:'FIGURATIVA', opts:['NO FIGURATIVA (ABSTRACTA)','TRANSPARENTE','SIMÉTRICA'] },
+  { pregunta:'Un patrón de líneas y colores que no representa nada concreto es una forma...', correcta:'NO FIGURATIVA (ABSTRACTA)', opts:['FIGURATIVA','TRANSPARENTE','SIMÉTRICA'] },
+  { pregunta:'Un retrato realista de una persona, donde se reconoce su cara, es una forma...', correcta:'FIGURATIVA', opts:['NO FIGURATIVA (ABSTRACTA)','TRANSPARENTE','SIMÉTRICA'] },
+];
+
+export function genLenguajeVisual4Round(){
+  const item = pick(LENGUAJE_VISUAL4_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}

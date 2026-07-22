@@ -106,3 +106,114 @@ export function genInstrumentosRound(){
     explain: item.label+' es un instrumento <b>'+item.tipo.toLowerCase()+'</b>.',
   };
 }
+
+/* ---------------- Contenido Música 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/musica/3-basico):
+   Lenguaje Musical -> OA01 (pulso, acento y forma musical A-AB-ABA — los
+   elementos del lenguaje musical que sí se pueden representar y reconocer
+   sin depender de audio real). Música en la Sociedad -> OA07 (identificar
+   en qué situación cotidiana o celebración se usa cierta música).
+   Quedan fuera: OA02 (expresar sensaciones/emociones personales — subjetivo),
+   OA03 (escuchar repertorio extenso de distintas culturas — depende de
+   audio real, no de una descripción textual), OA04-06 (cantar, tocar,
+   improvisar, presentar — desempeño real) y OA08 (reflexionar sobre las
+   propias fortalezas — autoevaluación). */
+export const MUSICA_MODULES_G3 = [
+  {id:'lenguajemusical3', label:'Lenguaje Musical', open:true, key:'lenguajemusical3'},
+  {id:'musicasociedad3', label:'Música en la Sociedad', open:true, key:'musicasociedad3'},
+];
+export const MUSICA_POS_G3 = [{x:30,y:70},{x:70,y:30}];
+
+const FORMA_MUSICAL_BANK = [
+  { patron:['A','A','A'], forma:'A-A-A (SE REPITE LA MISMA SECCIÓN)' },
+  { patron:['A','B','A'], forma:'A-B-A (VUELVE A LA SECCIÓN INICIAL)' },
+  { patron:['A','A','B'], forma:'A-A-B (DOS VECES LO MISMO Y LUEGO ALGO NUEVO)' },
+  { patron:['A','B','B'], forma:'A-B-B (ALGO NUEVO QUE SE REPITE)' },
+  { patron:['A','B','C'], forma:'A-B-C (TRES SECCIONES DISTINTAS)' },
+  { patron:['A','B','A','B'], forma:'A-B-A-B (DOS SECCIONES QUE SE ALTERNAN)' },
+];
+const PULSO_ACENTO_BANK = [
+  { pregunta:'¿Cómo se llama el "latido" constante y regular que se repite en una canción, como el tic-tac de un reloj?', correcta:'EL PULSO', opts:['EL ACENTO','LA MELODÍA','EL SILENCIO'] },
+  { pregunta:'¿Cómo se llama cuando un golpe o nota suena más fuerte que las demás dentro del pulso?', correcta:'EL ACENTO', opts:['EL PULSO','LA PAUSA','EL TONO'] },
+];
+const MUSICA_SOCIEDAD_BANK = [
+  { situacion:'Una fiesta de cumpleaños, justo cuando traen la torta con velitas', correcta:'"FELIZ CUMPLEAÑOS" (CUMPLEAÑOS FELIZ)', opts:['UN HIMNO NACIONAL','UNA CANCIÓN DE CUNA','UNA MARCHA FÚNEBRE'] },
+  { situacion:'Un bebé que no se puede dormir en la noche', correcta:'UNA CANCIÓN DE CUNA', opts:['UNA CANCIÓN DE CUMPLEAÑOS','UNA MARCHA MILITAR','UN HIMNO NACIONAL'] },
+  { situacion:'Una ceremonia oficial del país, como un acto cívico en la escuela', correcta:'EL HIMNO NACIONAL', opts:['UNA CANCIÓN DE CUNA','UNA CANCIÓN DE CUMPLEAÑOS','UN JINGLE PUBLICITARIO'] },
+  { situacion:'Un anuncio de televisión que quiere que recuerdes un producto', correcta:'UN JINGLE PUBLICITARIO', opts:['UN HIMNO NACIONAL','UNA CANCIÓN DE CUNA','UNA MARCHA FÚNEBRE'] },
+  { situacion:'Una fiesta patria como el 18 de septiembre en Chile', correcta:'CUECA (MÚSICA FOLCLÓRICA CHILENA)', opts:['UNA CANCIÓN DE CUNA','UN JINGLE PUBLICITARIO','UNA ÓPERA'] },
+  { situacion:'Un partido de fútbol, cuando el equipo sale a la cancha', correcta:'UN HIMNO O CÁNTICO DEL EQUIPO', opts:['UNA CANCIÓN DE CUNA','UN VALS CLÁSICO','UNA MARCHA FÚNEBRE'] },
+  { situacion:'Una boda, justo cuando la novia entra caminando', correcta:'LA MARCHA NUPCIAL', opts:['UN JINGLE PUBLICITARIO','UNA CANCIÓN DE CUNA','EL HIMNO NACIONAL'] },
+  { situacion:'Una ceremonia solemne y triste de despedida', correcta:'UNA MARCHA FÚNEBRE', opts:['UNA CANCIÓN DE CUMPLEAÑOS','UN JINGLE PUBLICITARIO','LA CUECA'] },
+];
+
+export function genLenguajeMusical3Round(){
+  if(Math.random()<0.5){
+    const item = pick(FORMA_MUSICAL_BANK);
+    const distract = shuffle(FORMA_MUSICAL_BANK.filter(function(f){ return f.forma!==item.forma; })).slice(0,3).map(function(f){ return f.forma; });
+    const opts = shuffle([item.forma].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<p class="prompt-count" style="font-size:32px;">'+item.patron.join(' - ')+'</p><p class="prompt-hint">¿Qué forma musical tiene esta secuencia de secciones?</p>',
+      options: opts, correctValue: item.forma, speakText: '¿Qué forma musical es '+item.patron.join('-')+'?', cols:2, panel:true,
+      explain: 'La secuencia '+item.patron.join('-')+' corresponde a la forma <b>'+item.forma.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(PULSO_ACENTO_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genMusicaSociedad3Round(){
+  const item = pick(MUSICA_SOCIEDAD_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.situacion+'. ¿Qué tipo de música es más probable escuchar ahí?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion+'. ¿Qué música es más probable escuchar ahí?', cols:2, kind:'word',
+    explain: 'En esa situación, lo más común es escuchar <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+/* ---------------- Contenido Música 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/musica/4-basico): MU04 OA01 menciona explícitamente
+   "dinámica" y "tempo" dentro de los elementos del lenguaje musical, un
+   ángulo que "Lenguaje Musical" de 3° básico no cubrió (esa cubrió pulso,
+   acento y forma A-AB-ABA). OA07 (música en situaciones cotidianas) ya se
+   cubrió en 3° básico con contenido casi idéntico, así que no se repite
+   aquí para no duplicar. Quedan fuera OA02-06,08 (expresión subjetiva,
+   escuchar repertorio extenso, cantar/tocar/improvisar/presentar,
+   autoevaluación) por las mismas razones que en años anteriores. */
+export const MUSICA_MODULES_G4 = [
+  {id:'dinamicatempo4', label:'Dinámica y Tempo', open:true, key:'dinamicatempo4'},
+];
+export const MUSICA_POS_G4 = [{x:50,y:50}];
+
+const DINAMICA_BANK = [
+  { desc:'Un volumen muy suave, casi un susurro musical', termino:'PIANO (SUAVE)' },
+  { desc:'Un volumen muy fuerte y potente', termino:'FORTE (FUERTE)' },
+  { desc:'Un volumen que va aumentando poco a poco, de suave a fuerte', termino:'CRESCENDO' },
+  { desc:'Un volumen que va disminuyendo poco a poco, de fuerte a suave', termino:'DECRESCENDO' },
+];
+const TEMPO_BANK = [
+  { desc:'Una canción que se toca muy rápido', termino:'ALLEGRO (RÁPIDO)' },
+  { desc:'Una canción que se toca muy lenta y calmada', termino:'LARGO (MUY LENTO)' },
+  { desc:'Una canción que se toca a velocidad moderada, ni rápida ni lenta', termino:'MODERATO' },
+  { desc:'Una canción que se toca a un paso tranquilo, como una caminata', termino:'ANDANTE' },
+];
+
+export function genDinamicaTempo4Round(){
+  const bank = Math.random()<0.5 ? DINAMICA_BANK : TEMPO_BANK;
+  const item = pick(bank);
+  const distract = shuffle(bank.filter(function(b){ return b.termino!==item.termino; })).map(function(b){ return b.termino; });
+  const opts = shuffle([item.termino].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué término musical describe esto?</p>',
+    options: opts, correctValue: item.termino, speakText: item.desc, cols:2, kind:'word',
+    explain: 'Ese término musical es <b>'+item.termino.toLowerCase()+'</b>.',
+  };
+}

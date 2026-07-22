@@ -85,3 +85,72 @@ export function genHerramientasTecRound(){
     explain: item.uso+' Ese material es <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
+
+/* ---------------- Contenido Tecnología 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/tecnologia/3-basico): TE03 OA05-07 -> Tecnología Digital III
+   (software de presentaciones, buscadores de internet, seguridad al usar
+   internet — contenido nuevo, sin repetir lo ya cubierto por "Tecnología
+   Digital" de 2° básico). Quedan fuera OA01-04 (diseñar, planificar,
+   elaborar y evaluar un objeto tecnológico propio) por ser un proceso de
+   producción práctica, no apto para opción múltiple. */
+export const TECNOLOGIA_MODULES_G3 = [
+  {id:'tecdigital3', label:'Tecnología Digital III', open:true, key:'tecdigital3'},
+];
+export const TECNOLOGIA_POS_G3 = [{x:48,y:50}];
+
+const TEC_DIGITAL_3_BANK = [
+  { emoji:'📊', pregunta:'¿Para qué usarías un software de presentaciones (diapositivas) en un trabajo escolar?', correcta:'Para organizar y mostrar tus ideas de forma clara con texto e imágenes', opts:['Para cocinar una receta','Para escuchar música','Para hacer ejercicio'] },
+  { emoji:'🔍', pregunta:'¿Qué debes hacer antes de usar información que encontraste en un buscador de internet?', correcta:'Revisar que venga de una fuente confiable y segura', opts:['Usarla sin revisar de dónde viene','Copiarla sin leerla','Compartirla sin verificarla'] },
+  { emoji:'🔑', pregunta:'¿Qué es lo más seguro hacer con tu contraseña de internet?', correcta:'Mantenerla en secreto y no compartirla con desconocidos', opts:['Compartirla con cualquiera','Escribirla en un lugar público','Usar la misma que otra persona'] },
+  { emoji:'📧', pregunta:'Si alguien desconocido te escribe por internet pidiéndote datos personales, ¿qué debes hacer?', correcta:'No responder y contarle a un adulto de confianza', opts:['Darle tus datos si insiste','Responderle con tu dirección','Aceptar ser su amigo sin decirle a nadie'] },
+  { emoji:'💻', pregunta:'¿Para qué sirve principalmente un buscador de internet?', correcta:'Para encontrar información sobre un tema específico', opts:['Para escuchar música sin internet','Para imprimir documentos','Para cargar la batería del computador'] },
+  { emoji:'⏰', pregunta:'¿Por qué es importante limitar el tiempo frente a pantallas cada día?', correcta:'Para equilibrar el tiempo con otras actividades como jugar y descansar', opts:['Porque las pantallas se gastan si se usan mucho','No es importante, se puede usar sin límite','Porque las pantallas se calientan mucho'] },
+  { emoji:'📄', pregunta:'¿Qué opción describe mejor un uso responsable de un procesador de textos para presentar un trabajo?', correcta:'Revisar la ortografía y organizar la información en párrafos claros', opts:['Copiar y pegar sin revisar nada','Escribir todo en una sola línea sin espacios','No revisar el trabajo antes de entregarlo'] },
+  { emoji:'🔒', pregunta:'¿Qué debes hacer si una página de internet te pide datos que no te parecen necesarios?', correcta:'Consultar con un adulto antes de ingresar esos datos', opts:['Ingresarlos de inmediato','Ignorar la duda y seguir no más','Compartir la página con desconocidos'] },
+];
+
+export function genTecDigital3Round(){
+  const item = pick(TEC_DIGITAL_3_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}
+
+/* ---------------- Contenido Tecnología 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/tecnologia/4-basico): TE04 OA05-07 -> Tecnología Digital IV.
+   OA05 agrega explícitamente "hojas de cálculo" respecto al OA05 de 3°
+   básico (que solo mencionaba presentaciones) — contenido nuevo, además de
+   preguntas frescas de presentaciones/procesador de texto/seguridad en
+   internet distintas de las de 3° básico. Quedan fuera OA01-04 (diseñar/
+   planificar/elaborar/evaluar un objeto tecnológico propio — producción
+   práctica). */
+export const TECNOLOGIA_MODULES_G4 = [
+  {id:'tecdigital4', label:'Tecnología Digital IV', open:true, key:'tecdigital4'},
+];
+export const TECNOLOGIA_POS_G4 = [{x:48,y:50}];
+
+const TEC_DIGITAL_4_BANK = [
+  { pregunta:'¿Para qué usarías una hoja de cálculo?', correcta:'Para organizar datos en filas y columnas, y hacer cálculos automáticos', opts:['Para escuchar música','Para tomar fotografías','Para hacer ejercicio'] },
+  { pregunta:'¿Qué tipo de información se organiza mejor en una hoja de cálculo?', correcta:'Listas de números y datos, como resultados de una encuesta', opts:['Un dibujo artístico','Una canción','Un video'] },
+  { pregunta:'¿Para qué usarías un software de presentaciones en un trabajo grupal?', correcta:'Para mostrar tus ideas en diapositivas con texto e imágenes', opts:['Para hacer cálculos matemáticos','Para escuchar música','Para hacer ejercicio'] },
+  { pregunta:'Antes de usar información de un sitio web para una tarea, ¿qué debes evaluar?', correcta:'Si la fuente es confiable y segura', opts:['Solo el color de la página','Cuántos anuncios tiene','Nada, se puede usar cualquier información'] },
+  { pregunta:'¿Qué debes hacer si una página web te pide muchos datos personales sin una razón clara?', correcta:'Ser precavido y consultar con un adulto antes de continuar', opts:['Ingresar todos los datos de inmediato','Compartir la página con desconocidos','Ignorar la duda'] },
+  { pregunta:'¿Qué elemento de diseño puedes agregar en un procesador de textos para mejorar un documento?', correcta:'Títulos, negritas e imágenes', opts:['Solo texto sin ningún formato','Un video musical','Un juego interactivo'] },
+  { pregunta:'¿Por qué es importante guardar tu trabajo con frecuencia mientras usas un computador?', correcta:'Para no perder tu progreso si el programa falla', opts:['Para que el computador se apague','Para que el archivo se borre','No es importante'] },
+  { pregunta:'¿Qué debes revisar en un correo electrónico antes de hacer clic en un enlace?', correcta:'Que el remitente sea alguien conocido y confiable', opts:['Solo el color del correo','El día en que fue enviado','No es necesario revisar nada'] },
+];
+
+export function genTecDigital4Round(){
+  const item = pick(TEC_DIGITAL_4_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}

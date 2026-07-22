@@ -375,7 +375,7 @@ export function lineTypeSVG(tipo, size){
    Matemático) — mismo enfoque que shapeSVG() para las figuras 2D. */
 export function solid3DSVG(id, size){
   size = size || 100;
-  const colors = { cubo:'#7C6FF0', esfera:'#FF6B6B', cono:'#FFB627', cilindro:'#12A594', paralelepipedo:'#0EA5A0' };
+  const colors = { cubo:'#7C6FF0', esfera:'#FF6B6B', cono:'#FFB627', cilindro:'#12A594', paralelepipedo:'#0EA5A0', piramide:'#E8829A' };
   const fill = colors[id] || '#12A594';
   let shape = '';
   if(id==='paralelepipedo'){
@@ -398,7 +398,68 @@ export function solid3DSVG(id, size){
       '<ellipse cx="50" cy="80" rx="28" ry="9" fill="rgba(0,0,0,0.15)"/>'+
       '<ellipse cx="50" cy="25" rx="28" ry="9" fill="'+fill+'"/>'+
       '<ellipse cx="50" cy="25" rx="28" ry="9" fill="rgba(255,255,255,0.2)"/>';
+  }else if(id==='piramide'){
+    shape = '<polygon points="50,10 88,78 12,78" fill="'+fill+'"/>'+
+      '<polygon points="50,10 50,78 12,78" fill="rgba(0,0,0,0.18)"/>'+
+      '<polygon points="50,10 50,78 88,78" fill="rgba(255,255,255,0.18)"/>';
   }
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+shape+'</svg>';
+}
+
+/* Círculo dividido en `den` sectores iguales, con `num` de ellos coloreados
+   (Matemática 3° básico, OA11: fracciones de uso común). Dibujado a mano en
+   vez de buscar un emoji de "fracción" (no existe uno preciso). */
+export function fraccionSVG(num, den, size){
+  size = size || 100;
+  const cx = 50, cy = 50, r = 44;
+  let paths = '';
+  for(let i=0; i<den; i++){
+    const a0 = (i/den)*2*Math.PI - Math.PI/2;
+    const a1 = ((i+1)/den)*2*Math.PI - Math.PI/2;
+    const x0 = cx + r*Math.cos(a0), y0 = cy + r*Math.sin(a0);
+    const x1 = cx + r*Math.cos(a1), y1 = cy + r*Math.sin(a1);
+    const largeArc = (a1-a0) > Math.PI ? 1 : 0;
+    const fill = i < num ? '#FF6B6B' : '#F1F3F6';
+    paths += '<path d="M '+cx+' '+cy+' L '+x0+' '+y0+' A '+r+' '+r+' 0 '+largeArc+' 1 '+x1+' '+y1+' Z" fill="'+fill+'" stroke="#FFFFFF" stroke-width="2"/>';
+  }
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+paths+'</svg>';
+}
+
+/* Barra dividida en `den` partes iguales, con `num` coloreadas — una
+   segunda representación visual de la misma fracción (además del círculo
+   de fraccionSVG()), para que el juego de Fracciones no repita siempre la
+   misma imagen para cada fracción de uso común (1/2, 1/3, 2/3, 1/4, 2/4,
+   3/4 son solo 6 valores posibles; con dos estilos de dibujo por valor se
+   duplica la variedad real sin inventar fracciones fuera del currículum). */
+export function fraccionBarraSVG(num, den, size){
+  size = size || 100;
+  const w = 90, h = 40, x0 = 5, y0 = 30;
+  const partW = w/den;
+  let rects = '';
+  for(let i=0; i<den; i++){
+    const fill = i < num ? '#FF6B6B' : '#F1F3F6';
+    rects += '<rect x="'+(x0+i*partW)+'" y="'+y0+'" width="'+partW+'" height="'+h+'" fill="'+fill+'" stroke="#FFFFFF" stroke-width="2"/>';
+  }
+  return '<svg width="'+size+'" height="'+(size*0.6)+'" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">'+rects+'</svg>';
+}
+
+/* Ángulo formado por dos rayos (Matemática 3° básico, OA18): recto (90°),
+   agudo (menor a 90°) u obtuso (mayor a 90°). */
+export function anguloSVG(tipo, size){
+  size = size || 100;
+  const deg = tipo==='RECTO' ? 90 : tipo==='AGUDO' ? 45 : 130;
+  const rad = deg * Math.PI/180;
+  const cx = 15, cy = 85, r = 70;
+  const x1 = cx + r, y1 = cy;
+  const x2 = cx + r*Math.cos(rad), y2 = cy - r*Math.sin(rad);
+  const arcR = 22;
+  const ax = cx + arcR, ay = cy;
+  const bx = cx + arcR*Math.cos(rad), by = cy - arcR*Math.sin(rad);
+  const largeArc = deg > 180 ? 1 : 0;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<line x1="'+cx+'" y1="'+cy+'" x2="'+x1+'" y2="'+y1+'" stroke="#1D3557" stroke-width="5" stroke-linecap="round"/>'+
+    '<line x1="'+cx+'" y1="'+cy+'" x2="'+x2+'" y2="'+y2+'" stroke="#1D3557" stroke-width="5" stroke-linecap="round"/>'+
+    '<path d="M '+ax+' '+ay+' A '+arcR+' '+arcR+' 0 '+largeArc+' 0 '+bx+' '+by+'" fill="none" stroke="#FF6B6B" stroke-width="3"/>'+
+  '</svg>';
 }
 

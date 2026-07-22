@@ -342,3 +342,216 @@ export function genComunidadRound(){
   };
 }
 
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/historia-geografia-ciencias-sociales/3-basico):
+   Civilizaciones Antiguas -> OA01-04,10 (vida cotidiana de Grecia y Roma,
+   su legado, comparación con la actualidad, factores geográficos). Los
+   hechos usados (polis, democracia ateniense, Juegos Olímpicos, Partenón,
+   Coliseo, gladiadores, acueductos, latín, togas) son datos de historia
+   universal ampliamente documentados, no específicos de una fuente única
+   (distinto del caso de "personajes históricos" chilenos puntuales que se
+   excluyó en 1° básico por riesgo de imprecisión sin una fuente adicional).
+   Geografía -> OA06-09 (cuadrícula y puntos cardinales, hemisferios/
+   continentes/océanos, zonas climáticas). Formación Ciudadana -> OA11-16
+   (deberes, valores cívicos, honestidad, derechos del niño, instituciones,
+   participación). Queda fuera OA05 (investigar sobre un tema de interés en
+   diversas fuentes — un proceso de indagación propio, no una pregunta de
+   opción múltiple). */
+export const HISTORIA_MODULES_G3 = [
+  {id:'civilizaciones3', label:'Grecia y Roma', open:true, key:'civilizaciones3'},
+  {id:'geografia3', label:'Geografía del Mundo', open:true, key:'geografia3'},
+  {id:'ciudadania3', label:'Formación Ciudadana III', open:true, key:'ciudadania3'},
+];
+export const HISTORIA_POS_G3 = [{x:24,y:82},{x:68,y:50},{x:24,y:18}];
+
+const CIVILIZACIONES_BANK = [
+  { pregunta:'¿Cómo se llamaban las ciudades-estado de la antigua Grecia?', correcta:'POLIS', opts:['IMPERIOS','REINOS','TRIBUS'] },
+  { pregunta:'¿En qué ciudad griega nació la democracia?', correcta:'ATENAS', opts:['ESPARTA','ROMA','TROYA'] },
+  { pregunta:'¿Qué forma de gobierno inventaron los griegos, en la que el pueblo participa en las decisiones?', correcta:'LA DEMOCRACIA', opts:['LA MONARQUÍA ABSOLUTA','LA DICTADURA','EL FEUDALISMO'] },
+  { pregunta:'¿Qué competencia deportiva crearon los griegos, que todavía existe hoy?', correcta:'LOS JUEGOS OLÍMPICOS', opts:['EL TOUR DE FRANCIA','LA COPA AMÉRICA','EL SUPER BOWL'] },
+  { pregunta:'¿Cómo se llama el templo griego dedicado a la diosa Atenea, en Atenas?', correcta:'EL PARTENÓN', opts:['EL COLISEO','LA GRAN MURALLA','LAS PIRÁMIDES'] },
+  { pregunta:'¿Dónde luchaban los gladiadores en la antigua Roma?', correcta:'EN EL COLISEO', opts:['EN EL PARTENÓN','EN UNA PIRÁMIDE','EN UN ACUEDUCTO'] },
+  { pregunta:'¿Qué construían los romanos para transportar agua desde lejos hasta las ciudades?', correcta:'ACUEDUCTOS', opts:['PIRÁMIDES','TEMPLOS GRIEGOS','MURALLAS CHINAS'] },
+  { pregunta:'¿Qué idioma hablaban los antiguos romanos, origen del español?', correcta:'LATÍN', opts:['GRIEGO','EGIPCIO','ÁRABE'] },
+  { pregunta:'¿Qué ropa típica usaban los antiguos romanos?', correcta:'LA TOGA', opts:['EL KILT ESCOCÉS','EL SARI INDIO','EL PONCHO CHILENO'] },
+  { pregunta:'A diferencia de hoy, ¿cómo se alumbraban de noche en la antigua Grecia y Roma?', correcta:'Con velas y antorchas de fuego', opts:['Con ampolletas eléctricas','Con linternas a pilas','Con luces LED'] },
+  { pregunta:'A diferencia de hoy, ¿cómo se transportaban las personas en la antigua Roma?', correcta:'A pie, a caballo o en carros tirados por caballos', opts:['En auto','En avión','En metro'] },
+];
+
+const CUADRANTES_BANK = [
+  { pregunta:'En un mapa, ¿hacia dónde apunta generalmente el Norte?', correcta:'HACIA ARRIBA', opts:['HACIA ABAJO','HACIA LA IZQUIERDA','HACIA LA DERECHA'] },
+  { pregunta:'¿Cuáles son los 4 puntos cardinales?', correcta:'NORTE, SUR, ESTE, OESTE', opts:['ARRIBA, ABAJO, IZQUIERDA, DERECHA','ROJO, AZUL, VERDE, AMARILLO','PRIMERO, SEGUNDO, TERCERO, CUARTO'] },
+];
+const HEMISFERIOS_BANK = [
+  { pregunta:'¿Cuántos hemisferios tiene la Tierra?', correcta:'DOS (NORTE Y SUR)', opts:['UNO','TRES','CUATRO'] },
+  { pregunta:'¿Qué línea imaginaria divide la Tierra en hemisferio norte y sur?', correcta:'EL ECUADOR', opts:['EL POLO NORTE','UN TRÓPICO','UN MERIDIANO'] },
+  { pregunta:'¿Cuántos continentes tiene el planeta Tierra?', correcta:'SEIS', opts:['CUATRO','OCHO','DIEZ'] },
+  { pregunta:'¿Cuál es el océano que baña las costas de Chile?', correcta:'EL OCÉANO PACÍFICO', opts:['EL OCÉANO ATLÁNTICO','EL OCÉANO ÍNDICO','EL MAR MEDITERRÁNEO'] },
+  { pregunta:'¿Dónde están ubicados los polos de la Tierra?', correcta:'EN LOS EXTREMOS NORTE Y SUR DEL PLANETA', opts:['EN EL ECUADOR','EN EL CENTRO DEL PLANETA','EN EL CONTINENTE AFRICANO'] },
+];
+const ZONAS_CLIMATICAS_BANK = [
+  { pregunta:'¿Cómo es el clima cerca del Ecuador?', correcta:'CÁLIDO Y HÚMEDO (TROPICAL)', opts:['MUY FRÍO Y HELADO','SIEMPRE NEVADO','SECO Y DESÉRTICO TODO EL AÑO'] },
+  { pregunta:'¿Cómo es el clima cerca de los polos?', correcta:'MUY FRÍO (POLAR)', opts:['MUY CALUROSO','TROPICAL','TEMPLADO'] },
+  { pregunta:'¿Qué zona climática tiene las 4 estaciones marcadas (verano, otoño, invierno, primavera)?', correcta:'ZONA TEMPLADA', opts:['ZONA POLAR','ZONA TROPICAL','ZONA DESÉRTICA'] },
+];
+
+const CIUDADANIA3_BANK = [
+  { correcta:'Cumplir con las tareas y responsabilidades escolares a tiempo', incorrectas:['Dejar todo para el último momento','Copiar las tareas de un compañero','No traer los materiales pedidos'] },
+  { correcta:'Decir la verdad aunque sea difícil o hayas cometido un error', incorrectas:['Mentir para no meterte en problemas','Culpar a otro de tu error','Esconder lo que hiciste'] },
+  { correcta:'Jugar limpio y respetar las reglas, incluso cuando nadie mira', incorrectas:['Hacer trampa si nadie te ve','Cambiar las reglas a tu favor','Culpar a otros cuando pierdes'] },
+  { correcta:'Todos los niños y niñas tienen derecho a recibir cuidado, educación y protección', incorrectas:['Solo algunos niños tienen derechos','Los niños deben trabajar todo el día','Los niños no necesitan ir a la escuela'] },
+  { correcta:'Participar activamente proponiendo ideas para tu curso', incorrectas:['No opinar nunca en las actividades del curso','Imponer tu idea sin escuchar a otros','Negarte a colaborar con el grupo'] },
+  { correcta:'Asumir tu responsabilidad cuando cometes un error', incorrectas:['Culpar siempre a los demás','Negar haber hecho algo que sí hiciste','Esconder tus errores para no asumirlos'] },
+  { correcta:'Ayudar a organizar y participar en las actividades de tu hogar', incorrectas:['No colaborar nunca en la casa','Dejar que otros hagan todo el trabajo','Quejarte sin ofrecer ayudar'] },
+];
+const INSTITUCIONES3_BANK = [
+  { pregunta:'¿A qué institución vas a pedir prestado un libro para leer en casa?', correcta:'LA BIBLIOTECA PÚBLICA', opts:['EL HOSPITAL','LA MUNICIPALIDAD','EL CUARTEL DE BOMBEROS'] },
+  { pregunta:'¿Qué institución se encarga de organizar y cuidar tu comuna?', correcta:'LA MUNICIPALIDAD', opts:['LA BIBLIOTECA','EL HOSPITAL','LOS BOMBEROS'] },
+  { pregunta:'¿A qué institución acudes si te enfermas gravemente?', correcta:'EL HOSPITAL', opts:['LA MUNICIPALIDAD','LA BIBLIOTECA','EL CORREO'] },
+];
+
+export function genCivilizaciones3Round(){
+  const item = pick(CIVILIZACIONES_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genGeografia3Round(){
+  const roll = Math.random();
+  const bank = roll<0.34 ? CUADRANTES_BANK : roll<0.67 ? HEMISFERIOS_BANK : ZONAS_CLIMATICAS_BANK;
+  const item = pick(bank);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCiudadania3Round(){
+  if(Math.random()<0.6){
+    const item = pick(CIUDADANIA3_BANK);
+    const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
+      options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
+      explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+    };
+  }
+  const item = pick(INSTITUCIONES3_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/historia-geografia-ciencias-sociales/4-basico):
+   Civilizaciones Americanas -> OA01-04 (maya, azteca, inca — ubicación,
+   organización, hitos culturales ampliamente documentados en historia
+   universal: Tenochtitlán, Machu Picchu, el quipu, los chasquis — mismo
+   criterio que Grecia y Roma en 3° básico: hechos de una civilización
+   entera, no afirmaciones sobre personajes históricos puntuales de una
+   sola fuente). Geografía de América -> OA06-10 (coordenadas geográficas,
+   recursos renovables/no renovables, paisajes y climas de América).
+   Formación Ciudadana IV -> OA11-16 (actores políticos, derechos,
+   honestidad, no discriminación, participación democrática, resolución de
+   conflictos). Quedan fuera: OA05 (investigar sobre el presente de los
+   pueblos indígenas — proceso de indagación propio) y OA17-18 (diseñar un
+   proyecto grupal, opinar y argumentar — producción propia o habilidad de
+   argumentación, no un hecho con respuesta única). */
+export const HISTORIA_MODULES_G4 = [
+  {id:'civilizacionesamericanas4', label:'Civilizaciones Americanas', open:true, key:'civilizacionesamericanas4'},
+  {id:'geografiaamerica4', label:'Geografía de América', open:true, key:'geografiaamerica4'},
+  {id:'ciudadania4', label:'Formación Ciudadana IV', open:true, key:'ciudadania4'},
+];
+export const HISTORIA_POS_G4 = [{x:24,y:82},{x:68,y:50},{x:24,y:18}];
+
+const CIVILIZACIONES_AMERICANAS_BANK = [
+  { pregunta:'¿En qué región vivía la civilización Maya?', correcta:'AMÉRICA CENTRAL (PENÍNSULA DE YUCATÁN)', opts:['LOS ANDES DE SUDAMÉRICA','EL VALLE DE MÉXICO','LA PATAGONIA'] },
+  { pregunta:'¿Cuál era la capital del imperio Azteca?', correcta:'TENOCHTITLÁN', opts:['CUSCO','MACHU PICCHU','CHICHÉN ITZÁ'] },
+  { pregunta:'¿En qué región vivía la civilización Inca?', correcta:'LA CORDILLERA DE LOS ANDES', opts:['LA PENÍNSULA DE YUCATÁN','EL VALLE DE MÉXICO','EL CARIBE'] },
+  { pregunta:'¿Cuál era la capital del imperio Inca?', correcta:'CUSCO', opts:['TENOCHTITLÁN','CHICHÉN ITZÁ','TIKAL'] },
+  { pregunta:'¿Qué construyeron los aztecas para cultivar alimentos sobre el lago donde estaba su ciudad?', correcta:'LAS CHINAMPAS (ISLAS ARTIFICIALES)', opts:['EL CAMINO INCA','LAS PIRÁMIDES ESCALONADAS','LOS QUIPUS'] },
+  { pregunta:'¿Cómo se llamaban los mensajeros incas que corrían por el imperio llevando noticias?', correcta:'LOS CHASQUIS', opts:['LOS AZTECAS','LOS MAYAS','LOS FARAONES'] },
+  { pregunta:'¿Qué usaban los incas para registrar información, ya que no tenían un alfabeto escrito?', correcta:'EL QUIPU (CUERDAS CON NUDOS)', opts:['JEROGLÍFICOS','UN ALFABETO','TABLILLAS DE ARCILLA'] },
+  { pregunta:'¿En qué destacaban los mayas, además de la arquitectura?', correcta:'La astronomía y un calendario muy preciso', opts:['No conocían los números','Nunca observaban el cielo','No sabían medir el tiempo'] },
+  { pregunta:'¿Qué construcción famosa hicieron los incas en lo alto de la cordillera?', correcta:'MACHU PICCHU', opts:['TENOCHTITLÁN','CHICHÉN ITZÁ','LAS CHINAMPAS'] },
+  { pregunta:'¿Qué idioma hablaban los aztecas?', correcta:'NÁHUATL', opts:['QUECHUA','MAYA','ESPAÑOL'] },
+  { pregunta:'¿Qué idioma hablaban los incas, que todavía se habla hoy en países como Perú y Bolivia?', correcta:'QUECHUA', opts:['NÁHUATL','MAYA','LATÍN'] },
+];
+
+const GEOGRAFIA_AMERICA_BANK = [
+  { pregunta:'¿Qué son los paralelos en un mapa?', correcta:'Líneas imaginarias horizontales que rodean la Tierra', opts:['Líneas verticales que van de polo a polo','Los nombres de los países','Los colores de un mapa'] },
+  { pregunta:'¿Qué son los meridianos en un mapa?', correcta:'Líneas imaginarias verticales que van de polo a polo', opts:['Líneas horizontales que rodean la Tierra','Los ríos más largos','Las montañas más altas'] },
+  { pregunta:'¿Cuál de estos es un recurso natural renovable?', correcta:'LA ENERGÍA SOLAR', opts:['EL PETRÓLEO','EL CARBÓN','EL GAS NATURAL'] },
+  { pregunta:'¿Cuál de estos es un recurso natural NO renovable?', correcta:'EL PETRÓLEO', opts:['EL VIENTO','LA MADERA DE UN BOSQUE MANEJADO','EL AGUA DE LLUVIA'] },
+  { pregunta:'¿Cuál es el río más largo de América del Sur?', correcta:'EL RÍO AMAZONAS', opts:['EL RÍO MAPOCHO','EL RÍO BIOBÍO','EL RÍO COLORADO'] },
+  { pregunta:'¿Qué idioma se habla en la mayor parte de Brasil, a diferencia del resto de Sudamérica?', correcta:'PORTUGUÉS', opts:['ESPAÑOL','INGLÉS','FRANCÉS'] },
+  { pregunta:'¿Cómo es el clima de la selva amazónica?', correcta:'CÁLIDO Y MUY LLUVIOSO', opts:['MUY FRÍO Y SECO','DESÉRTICO','NEVADO TODO EL AÑO'] },
+  { pregunta:'¿Cómo es el clima de Alaska, en América del Norte?', correcta:'MUY FRÍO', opts:['MUY CALUROSO','TROPICAL','DESÉRTICO'] },
+  { pregunta:'¿Qué tienen en común Chile, Perú y Bolivia?', correcta:'Comparten la Cordillera de los Andes', opts:['Comparten el mismo idioma que Brasil','Están todos en América del Norte','No tienen montañas'] },
+];
+
+const CIUDADANIA4_ACTORES_BANK = [
+  { pregunta:'¿Quién es la máxima autoridad de un país como Chile?', correcta:'EL PRESIDENTE O LA PRESIDENTA', opts:['EL ALCALDE','UN SENADOR','UN DIPUTADO'] },
+  { pregunta:'¿Quién es la autoridad máxima de una comuna?', correcta:'EL ALCALDE O LA ALCALDESA', opts:['EL PRESIDENTE','UN MINISTRO','UN SENADOR'] },
+  { pregunta:'¿Quiénes ayudan al Presidente a dirigir distintas áreas del país, como salud o educación?', correcta:'LOS MINISTROS', opts:['LOS ALCALDES','LOS JUECES','LOS PROFESORES'] },
+  { pregunta:'¿Qué hacen los senadores y diputados en el Congreso?', correcta:'Crean, discuten y aprueban las leyes del país', opts:['Dirigen las escuelas','Manejan los hospitales','Organizan el tránsito'] },
+];
+const CIUDADANIA4_VALORES_BANK = [
+  { correcta:'Todos los niños tienen derecho a la educación, alimentación y vivienda', incorrectas:['Solo algunos niños tienen esos derechos','Esos derechos no aplican a todos los niños','Los niños no tienen derechos'] },
+  { correcta:'Decir siempre la verdad, incluso cuando cometes un error', incorrectas:['Mentir para evitar un castigo','Culpar a otros de tus errores','Esconder la verdad'] },
+  { correcta:'Tratar con respeto a todas las personas, sin importar su condición física, social o económica', incorrectas:['Discriminar a alguien por su condición económica','Burlarte de alguien por su apariencia física','Tratar mal a alguien por su situación social'] },
+  { correcta:'Votar y participar en la elección de la directiva de tu curso', incorrectas:['No participar nunca en las elecciones del curso','Imponer quién debe ser el representante sin votación','Ignorar el proceso de elección'] },
+  { correcta:'Dialogar y buscar una solución cuando hay un conflicto con un compañero', incorrectas:['Pelear sin buscar solución','Ignorar el conflicto sin resolverlo','Buscar venganza en vez de dialogar'] },
+  { correcta:'Identificar la causa de un problema antes de buscar una solución', incorrectas:['Buscar una solución sin entender el problema','Culpar a alguien sin analizar la situación','Ignorar por qué ocurrió el conflicto'] },
+];
+
+export function genCivilizacionesAmericanas4Round(){
+  const item = pick(CIVILIZACIONES_AMERICANAS_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genGeografiaAmerica4Round(){
+  const item = pick(GEOGRAFIA_AMERICA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCiudadania4Round(){
+  if(Math.random()<0.4){
+    const item = pick(CIUDADANIA4_ACTORES_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(CIUDADANIA4_VALORES_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+  };
+}
+

@@ -8,26 +8,32 @@ if('speechSynthesis' in window){
   loadVoices();
   window.speechSynthesis.onvoiceschanged = loadVoices;
 }
-function pickBestVoice(){
-  const es = cachedVoices.filter(v=>v.lang && v.lang.toLowerCase().indexOf('es')===0);
-  if(!es.length) return null;
+function pickBestVoice(lang){
+  const prefix = lang || 'es';
+  const matches = cachedVoices.filter(v=>v.lang && v.lang.toLowerCase().indexOf(prefix)===0);
+  if(!matches.length) return null;
   function score(v){
     let s=0;
     if(/google/i.test(v.name)) s+=5;
     if(/natural|neural|online|premium/i.test(v.name)) s+=4;
-    if(/paulina|mónica|monica|helena|sabina|elvira|lucia|lupe|laura/i.test(v.name)) s+=3;
+    if(prefix==='es' && /paulina|mónica|monica|helena|sabina|elvira|lucia|lupe|laura/i.test(v.name)) s+=3;
     if(v.localService===false) s+=1;
     return s;
   }
-  return es.slice().sort((a,b)=>score(b)-score(a))[0];
+  return matches.slice().sort((a,b)=>score(b)-score(a))[0];
 }
-export function speak(text){
+/* `lang` es opcional ('es' por defecto): Inglés de 5° básico es la primera
+   asignatura con contenido en otro idioma, y leerlo con una voz en español
+   sonaría con acento/pronunciación incorrecta — un problema real para un
+   módulo que enseña pronunciación. Se pasa 'en' explícitamente desde esos
+   generadores (ver content/ingles.js) para que busque una voz en inglés. */
+export function speak(text, lang){
   try{
     if(!('speechSynthesis' in window)) return;
     const utter = new SpeechSynthesisUtterance(text);
-    const v = pickBestVoice();
+    const v = pickBestVoice(lang);
     if(v) utter.voice = v;
-    utter.lang = (v && v.lang) || 'es-ES';
+    utter.lang = (v && v.lang) || (lang==='en' ? 'en-US' : 'es-ES');
     utter.rate = 0.96;
     utter.pitch = 1.08;
     window.speechSynthesis.cancel();

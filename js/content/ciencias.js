@@ -1028,3 +1028,233 @@ export function genTierra4Round(){
     explain: '"'+item.correcta+'" te ayuda a estar más seguro ante un riesgo natural.',
   };
 }
+
+/* ---------------- Contenido Ciencias Naturales 5° Básico ----------------
+   Basado en OA del Decreto 439/2012, 5° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/ciencias-naturales/5-basico):
+   Célula y Sistemas del Cuerpo -> OA01-04 (la célula como unidad básica de
+   los seres vivos, sistema digestivo, respiratorio y circulatorio).
+   Alimentación y Salud -> OA05-07 (función de los alimentos en el
+   crecimiento, efectos nocivos del cigarrillo, microorganismos beneficiosos
+   y dañinos). Electricidad -> OA08-11 (transformación de energía eléctrica,
+   circuito eléctrico simple, materiales conductores/aisladores, ahorro de
+   energía). Agua en la Tierra -> OA12-14 (distribución de agua dulce y
+   salada, características de océanos y lagos, efectos de la actividad
+   humana y su protección). Los 14 OA de 5° básico son todos observables o
+   explicativos, así que ninguno queda fuera del motor de opción múltiple. */
+export const CIENCIAS_MODULES_G5 = [
+  {id:'celulasistemas5', label:'Célula y Sistemas del Cuerpo', open:true, key:'celulasistemas5'},
+  {id:'alimentacionsalud5', label:'Alimentación y Salud', open:true, key:'alimentacionsalud5'},
+  {id:'electricidad5', label:'Electricidad', open:true, key:'electricidad5'},
+  {id:'aguatierra5', label:'Agua en la Tierra', open:true, key:'aguatierra5'},
+];
+export const CIENCIAS_POS_G5 = [{x:22,y:88},{x:68,y:64},{x:24,y:38},{x:70,y:12}];
+
+const CELULA_BANK = [
+  { pregunta:'¿Cuál es la unidad básica que forma a todos los seres vivos?', correcta:'LA CÉLULA', opts:['EL ÓRGANO','EL TEJIDO','EL HUESO'] },
+  { pregunta:'Una bacteria está formada por una sola célula. ¿Cómo se llama este tipo de ser vivo?', correcta:'UNICELULAR', opts:['MULTICELULAR','PLURICELULAR','SIN CÉLULAS'] },
+  { pregunta:'Un ser humano está formado por billones de células trabajando juntas. ¿Cómo se llama este tipo de ser vivo?', correcta:'MULTICELULAR', opts:['UNICELULAR','MONOCELULAR','ACELULAR'] },
+  { pregunta:'Una planta también está formada por muchas células. ¿Cómo se llama este tipo de ser vivo?', correcta:'MULTICELULAR', opts:['UNICELULAR','SIN CÉLULAS','MONOCELULAR'] },
+];
+const DIGESTIVO_BANK = [
+  { parte:'LA BOCA', funcion:'TRITURAR Y COMENZAR A DESCOMPONER EL ALIMENTO' },
+  { parte:'EL ESÓFAGO', funcion:'TRANSPORTAR EL ALIMENTO HACIA EL ESTÓMAGO' },
+  { parte:'EL ESTÓMAGO', funcion:'DESCOMPONER EL ALIMENTO CON JUGOS GÁSTRICOS' },
+  { parte:'EL INTESTINO DELGADO', funcion:'ABSORBER LOS NUTRIENTES DEL ALIMENTO' },
+];
+const RESPIRATORIO_BANK = [
+  { parte:'LA NARIZ', funcion:'FILTRAR Y CALENTAR EL AIRE QUE RESPIRAMOS' },
+  { parte:'LA TRÁQUEA', funcion:'CONDUCIR EL AIRE HACIA LOS PULMONES' },
+  { parte:'LOS PULMONES', funcion:'INTERCAMBIAR OXÍGENO Y DIÓXIDO DE CARBONO CON LA SANGRE' },
+];
+const CIRCULATORIO_BANK = [
+  { parte:'EL CORAZÓN', funcion:'BOMBEAR LA SANGRE POR TODO EL CUERPO' },
+  { parte:'LAS ARTERIAS', funcion:'LLEVAR SANGRE DESDE EL CORAZÓN HACIA EL RESTO DEL CUERPO' },
+  { parte:'LAS VENAS', funcion:'LLEVAR SANGRE DE VUELTA HACIA EL CORAZÓN' },
+];
+function sistemaRound(bank, sistemaLabel){
+  const item = pick(bank);
+  const distract = shuffle(bank.filter(function(b){ return b.funcion!==item.funcion; })).map(function(b){ return b.funcion; });
+  const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+item.parte+'</p><p class="prompt-hint">Esta parte pertenece al sistema '+sistemaLabel+'. ¿Cuál es su función principal?</p>',
+    options: opts, correctValue: item.funcion, speakText: item.parte, cols:2, panel:true,
+    explain: item.parte+': '+item.funcion.toLowerCase()+'.',
+  };
+}
+export function genCelulaSistemas5Round(){
+  const roll = Math.random();
+  if(roll<0.25){
+    const item = pick(CELULA_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.5) return sistemaRound(DIGESTIVO_BANK,'digestivo');
+  if(roll<0.75) return sistemaRound(RESPIRATORIO_BANK,'respiratorio');
+  return sistemaRound(CIRCULATORIO_BANK,'circulatorio');
+}
+
+const CONSUMO_ALIMENTOS_BANK = [
+  { pregunta:'Los alimentos ricos en proteínas, como la carne, el huevo y las legumbres, ayudan principalmente a...', correcta:'CRECER Y REPARAR LOS TEJIDOS DEL CUERPO', opts:['DAR SOLO SABOR DULCE A LAS COMIDAS','ENFRIAR EL CUERPO','EVITAR QUE TE DÉ SUEÑO'] },
+  { pregunta:'Los alimentos ricos en carbohidratos, como el pan, el arroz y la papa, entregan principalmente...', correcta:'ENERGÍA PARA LAS ACTIVIDADES DIARIAS', opts:['CALCIO PARA LOS HUESOS','PROTECCIÓN CONTRA EL FRÍO','COLOR A LA PIEL'] },
+  { pregunta:'Comer frutas y verduras variadas todos los días ayuda principalmente a...', correcta:'ENTREGAR VITAMINAS Y MINERALES QUE EL CUERPO NECESITA', opts:['HACER QUE CREZCA EL CABELLO MÁS RÁPIDO','REEMPLAZAR LA NECESIDAD DE DORMIR','EVITAR TENER QUE HACER EJERCICIO'] },
+  { pregunta:'¿Por qué es importante comer alimentos variados y no solo un tipo de comida?', correcta:'PORQUE CADA GRUPO DE ALIMENTOS APORTA NUTRIENTES DISTINTOS QUE EL CUERPO NECESITA', opts:['PORQUE ASÍ LA COMIDA ES MÁS BARATA','PORQUE ASÍ SE OCUPAN MENOS PLATOS','PORQUE EL CUERPO SOLO NECESITA UN NUTRIENTE'] },
+];
+const CIGARRILLO_BANK = [
+  { pregunta:'¿Qué órgano resulta dañado principalmente por el humo del cigarrillo?', correcta:'LOS PULMONES', opts:['LOS HUESOS','LAS UÑAS','EL CABELLO'] },
+  { pregunta:'El cigarrillo contiene una sustancia llamada nicotina, que puede generar en quien fuma...', correcta:'ADICCIÓN, ES DECIR, UNA NECESIDAD DIFÍCIL DE CONTROLAR DE SEGUIR FUMANDO', opts:['MÁS ENERGÍA PARA HACER DEPORTE','MEJOR VISIÓN NOCTURNA','MÁS APETITO POR VERDURAS'] },
+  { pregunta:'¿Qué le puede pasar a una persona que fuma durante muchos años?', correcta:'PUEDE DESARROLLAR ENFERMEDADES RESPIRATORIAS GRAVES', opts:['MEJORA SU CAPACIDAD PULMONAR','NO LE AFECTA EN NADA A SU SALUD','CRECE MÁS RÁPIDO'] },
+  { pregunta:'¿Por qué respirar el humo de alguien que fuma cerca (fumador pasivo) también es dañino?', correcta:'PORQUE ESE HUMO TAMBIÉN CONTIENE SUSTANCIAS DAÑINAS PARA QUIEN LO RESPIRA', opts:['PORQUE HUELE MAL, PERO NO HACE DAÑO','PORQUE SOLO AFECTA A QUIEN FUMA DIRECTAMENTE','PORQUE MEJORA LA CALIDAD DEL AIRE'] },
+];
+const MICROORGANISMOS_BANK = [
+  { nombre:'LAS BACTERIAS QUE TRANSFORMAN LA LECHE EN YOGUR', tipo:'BENEFICIOSO' },
+  { nombre:'LA LEVADURA QUE HACE CRECER EL PAN', tipo:'BENEFICIOSO' },
+  { nombre:'EL MOHO QUE APARECE EN EL PAN VIEJO', tipo:'DAÑINO' },
+  { nombre:'LAS BACTERIAS QUE CAUSAN UNA INFECCIÓN A LA GARGANTA', tipo:'DAÑINO' },
+  { nombre:'LAS BACTERIAS QUE AYUDAN A LA DIGESTIÓN EN EL INTESTINO', tipo:'BENEFICIOSO' },
+  { nombre:'EL VIRUS QUE CAUSA EL RESFRÍO COMÚN', tipo:'DAÑINO' },
+];
+export function genAlimentacionSalud5Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(CONSUMO_ALIMENTOS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(CIGARRILLO_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(MICROORGANISMOS_BANK);
+  const opts = shuffle([{label:'BENEFICIOSO PARA LA SALUD', value:'BENEFICIOSO'},{label:'DAÑINO PARA LA SALUD', value:'DAÑINO'}]);
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.nombre+'</p><p class="prompt-hint">¿Este microorganismo es beneficioso o dañino para la salud?</p>',
+    options: opts, correctValue: item.tipo, speakText: item.nombre, cols:2, panel:true,
+    explain: 'Es <b>'+item.tipo.toLowerCase()+'</b> para la salud.',
+  };
+}
+
+const TRANSFORMACION_ELECTRICA_BANK = [
+  { objeto:'UNA AMPOLLETA ENCENDIDA', correcta:'LUZ Y CALOR', opts:['SONIDO','MOVIMIENTO','FRÍO'] },
+  { objeto:'UN PARLANTE REPRODUCIENDO MÚSICA', correcta:'SONIDO', opts:['LUZ','FRÍO','OLOR'] },
+  { objeto:'UN VENTILADOR ENCENDIDO', correcta:'MOVIMIENTO', opts:['SONIDO SOLAMENTE','LUZ SOLAMENTE','OLOR'] },
+  { objeto:'UNA PLANCHA DE ROPA ENCENDIDA', correcta:'CALOR', opts:['SONIDO','FRÍO','LUZ DE COLORES'] },
+];
+const CIRCUITO_BANK = [
+  { componente:'LA PILA', funcion:'ENTREGAR LA ENERGÍA ELÉCTRICA AL CIRCUITO' },
+  { componente:'EL CABLE', funcion:'CONDUCIR LA CORRIENTE ELÉCTRICA ENTRE LOS COMPONENTES' },
+  { componente:'EL INTERRUPTOR', funcion:'ABRIR O CERRAR EL PASO DE LA CORRIENTE' },
+  { componente:'LA AMPOLLETA', funcion:'TRANSFORMAR LA ELECTRICIDAD EN LUZ' },
+];
+const CONDUCTORES_AISLANTES_BANK = [
+  { material:'EL COBRE (UN METAL)', conductor:true }, { material:'EL ALUMINIO (UN METAL)', conductor:true },
+  { material:'EL AGUA CON SAL', conductor:true }, { material:'LA MADERA SECA', conductor:false },
+  { material:'EL PLÁSTICO', conductor:false }, { material:'EL VIDRIO', conductor:false },
+  { material:'LA GOMA (CAUCHO)', conductor:false }, { material:'EL PAPEL', conductor:false },
+];
+const AHORRO_ENERGIA_BANK = [
+  { accion:'APAGAR LAS LUCES AL SALIR DE UNA HABITACIÓN VACÍA', ahorra:true },
+  { accion:'DESCONECTAR LOS APARATOS QUE NO SE ESTÁN USANDO', ahorra:true },
+  { accion:'USAR AMPOLLETAS DE BAJO CONSUMO (LED)', ahorra:true },
+  { accion:'DEJAR EL TELEVISOR ENCENDIDO TODA LA NOCHE SIN VERLO', ahorra:false },
+  { accion:'DEJAR LA PUERTA DEL REFRIGERADOR ABIERTA POR MUCHO RATO', ahorra:false },
+  { accion:'APROVECHAR LA LUZ NATURAL DURANTE EL DÍA EN VEZ DE ENCENDER LUCES', ahorra:true },
+];
+export function genElectricidad5Round(){
+  const roll = Math.random();
+  if(roll<0.25){
+    const item = pick(TRANSFORMACION_ELECTRICA_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.objeto+'</p><p class="prompt-hint">¿En qué transforma principalmente la energía eléctrica?</p>',
+      options: opts, correctValue: item.correcta, speakText: item.objeto, cols:2, kind:'word', panel:true,
+      explain: 'Transforma la electricidad en <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.5){
+    const item = pick(CIRCUITO_BANK);
+    const distract = shuffle(CIRCUITO_BANK.filter(function(c){ return c.funcion!==item.funcion; })).map(function(c){ return c.funcion; });
+    const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+item.componente+'</p><p class="prompt-hint">En un circuito eléctrico simple, ¿cuál es la función de esta parte?</p>',
+      options: opts, correctValue: item.funcion, speakText: item.componente, cols:2, panel:true,
+      explain: item.componente+': '+item.funcion.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.75){
+    const item = pick(CONDUCTORES_AISLANTES_BANK);
+    const opts = shuffle([{label:'ES CONDUCTOR (DEJA PASAR LA ELECTRICIDAD)', value:true},{label:'ES AISLANTE (NO DEJA PASAR LA ELECTRICIDAD)', value:false}]);
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.material+'</p><p class="prompt-hint">¿Este material es conductor o aislante de la electricidad?</p>',
+      options: opts, correctValue: item.conductor, speakText: item.material, cols:2, panel:true,
+      explain: item.conductor ? item.material+' es <b>conductor</b>: deja pasar la corriente eléctrica.' : item.material+' es <b>aislante</b>: no deja pasar la corriente eléctrica.',
+    };
+  }
+  const item = pick(AHORRO_ENERGIA_BANK);
+  const opts = shuffle([{label:'SÍ AYUDA A AHORRAR ENERGÍA', value:true},{label:'NO AYUDA A AHORRAR ENERGÍA', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.accion+'</p><p class="prompt-hint">¿Esta acción ayuda a ahorrar energía eléctrica?</p>',
+    options: opts, correctValue: item.ahorra, speakText: item.accion, cols:2, panel:true,
+    explain: item.ahorra ? 'Sí: '+item.accion.toLowerCase()+' ayuda a ahorrar energía.' : 'No: '+item.accion.toLowerCase()+' desperdicia energía.',
+  };
+}
+
+const DISTRIBUCION_AGUA_BANK = [
+  { pregunta:'¿Dónde se encuentra la mayor parte del agua de nuestro planeta?', correcta:'EN LOS OCÉANOS (AGUA SALADA)', opts:['EN LOS RÍOS (AGUA DULCE)','EN LOS GLACIARES SOLAMENTE','EN LAS NUBES SOLAMENTE'] },
+  { pregunta:'¿Qué tipo de agua es la que podemos beber directamente sin procesarla mucho?', correcta:'EL AGUA DULCE', opts:['EL AGUA SALADA DE MAR','EL AGUA DE MAR HIRVIENDO','NINGÚN TIPO DE AGUA ES POTABLE'] },
+  { pregunta:'¿Por qué el agua dulce es un recurso que se debe cuidar, aunque parezca abundante?', correcta:'PORQUE SOLO ES UNA PEQUEÑA PARTE DE TODA EL AGUA DEL PLANETA', opts:['PORQUE NO EXISTE EN NINGÚN LUGAR','PORQUE ES MÁS ABUNDANTE QUE EL AGUA SALADA','PORQUE NUNCA SE PUEDE CONTAMINAR'] },
+];
+const OCEANOS_LAGOS_BANK = [
+  { caracteristica:'TIENE AGUA SALADA Y MAREAS', tipo:'OCÉANO' },
+  { caracteristica:'GENERALMENTE TIENE AGUA DULCE Y ESTÁ RODEADO DE TIERRA POR TODOS LADOS', tipo:'LAGO' },
+  { caracteristica:'ES LA MASA DE AGUA MÁS GRANDE Y PROFUNDA DEL PLANETA', tipo:'OCÉANO' },
+  { caracteristica:'SUELE SER MÁS PEQUEÑO Y NO ESTÁ CONECTADO DIRECTAMENTE CON EL MAR', tipo:'LAGO' },
+];
+const PROTECCION_AGUA_BANK = [
+  { accion:'BOTAR BASURA O QUÍMICOS A UN RÍO', protege:false },
+  { accion:'NO DESPERDICIAR AGUA POTABLE EN LA CASA', protege:true },
+  { accion:'LIMPIAR LA ORILLA DE UN LAGO DE BASURA', protege:true },
+  { accion:'VERTER ACEITE DE COCINA POR EL DESAGÜE HACIA LOS RÍOS', protege:false },
+  { accion:'CUIDAR QUE LAS FÁBRICAS NO CONTAMINEN LOS CUERPOS DE AGUA', protege:true },
+];
+export function genAguaTierra5Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(DISTRIBUCION_AGUA_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(OCEANOS_LAGOS_BANK);
+    const opts = shuffle([{label:'OCÉANO', value:'OCÉANO'},{label:'LAGO', value:'LAGO'}]);
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.caracteristica+'</p><p class="prompt-hint">¿Es una característica de un océano o de un lago?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.caracteristica, cols:2, kind:'word',
+      explain: 'Esta es una característica típica de un(a) <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(PROTECCION_AGUA_BANK);
+  const opts = shuffle([{label:'SÍ PROTEGE LOS CUERPOS DE AGUA', value:true},{label:'NO PROTEGE, LOS DAÑA', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.accion+'</p><p class="prompt-hint">¿Esta acción protege los cuerpos de agua o los daña?</p>',
+    options: opts, correctValue: item.protege, speakText: item.accion, cols:2, panel:true,
+    explain: item.protege ? 'Sí: esta acción ayuda a proteger los cuerpos de agua.' : 'No: esta acción daña o contamina los cuerpos de agua.',
+  };
+}

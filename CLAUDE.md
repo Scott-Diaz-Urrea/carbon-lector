@@ -55,7 +55,11 @@ js/
   svg.js                   helpers de SVG a mano (shapeSVG, mascotSVG, chileFlagSVG,
                            colorSwatchSVG, starSVG, lockIconSVG, backIconSVG).
   audio.js                 voz (speak, pickBestVoice) y sonidos Web Audio (sfxCorrect,
-                           sfxWrong, sfxStreak, sfxLevelup).
+                           sfxWrong, sfxStreak, sfxLevelup). `speak(text, lang)` acepta
+                           un `lang` opcional ('es' por defecto) para buscar una voz en
+                           otro idioma — usado por content/ingles.js (5° básico, la
+                           primera asignatura en otro idioma) vía `speakLang:'en'` en
+                           la ronda, reenviado por mcEngine.js al botón "Escuchar".
   state.js                 state global, screenStack, goTo/goBack/selectGrade,
                            XP/nivel/estrellas (awardXP, level, totalStars, maxStars),
                            showToast.
@@ -82,6 +86,8 @@ js/
     edfisica.js               ídem Educación Física y Salud.
     orientacion.js            ídem Orientación.
     tecnologia.js             ídem Tecnología.
+    ingles.js                 Inglés (desde 5° básico, primera asignatura en otro
+                              idioma — ver "Estado actual del contenido").
     parvularia/               los 8 núcleos jugables de Educación Parvularia NT — cada
                               archivo sigue el mismo patrón que un archivo de asignatura
                               de Básica (bancos + genXxxRound + MODULES/POS), pero viven
@@ -889,7 +895,134 @@ cada archivo.
   internet — OA05-07). Fuera: OA01-04 (diseñar/elaborar/evaluar un objeto
   tecnológico propio).
 
-### 5° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
+### 5° Básico — ✅ completo (35 módulos, las 9 asignaturas + Inglés nuevo)
+Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
+curriculum/1o-6o-basico/<asignatura>/5-basico. **Primera aparición de Inglés en la
+app**: se verificó primero (no se asumió) que el currículum vigente recién
+introduce Inglés como Idioma Extranjero en 5° básico
+(curriculumnacional.cl/curriculum/1o-6o-basico/ingles/5-basico), así que se creó
+`content/ingles.js` + `INGLES_BY_GRADE` + una entrada nueva en `SUBJECT_DEFS`
+(ícono 🔤, no la bandera 🇬🇧 — mismo riesgo de renderizado como texto plano "GB"
+que ya motivó `chileFlagSVG()`). Como es la primera asignatura con contenido en
+otro idioma, `speak()` (`js/audio.js`) ahora acepta un segundo parámetro opcional
+`lang` (`pickBestVoice(lang)` filtra por ese prefijo de idioma en vez de fijo
+"es") — los generadores de Inglés pasan `speakLang:'en'` en su ronda y
+`mcEngine.js` reenvía ese valor al botón "Escuchar"; todo generador anterior
+sigue funcionando igual porque el parámetro es opcional y por defecto sigue
+siendo español.
+
+- **Lenguaje** (5): Comprensión V (estrategias de comprensión con 4 ángulos:
+  inferencia narrativa, texto no literario, evaluación crítica de información
+  -emisor/propósito/suficiencia-, idea principal — OA02,04,06-08), Recursos
+  Poéticos (personificación, comparación, apelar a los sentidos — OA05, un
+  ángulo nuevo que ningún año anterior había cubierto), Vocabulario y
+  Sinónimos V (raíces/afijos, matices entre sinónimos — OA12,20), Gramática V
+  (conjugación de verbos regulares — OA21), Ortografía III (c/s/z, raya de
+  diálogo, acentuación — reglas distintas de Ortografía de 3°/4° básico —
+  OA22). Fuera: OA01 (lectura oral fluida), OA03 (repertorio de géneros
+  literarios — ya cubierto por "Géneros Literarios" de 3° básico, no
+  duplicar), OA09-11 (gusto por la lectura, biblioteca, buscar en fuentes —
+  actitudinal/proceso), OA13-19 (producción escrita), OA23-30 (comunicación
+  oral — desempeño real o depende de audio).
+- **Matemática** (10): Números Grandes (hasta 900 millones, valor posicional
+  — OA01), Multiplicar (cálculo mental, 2 dígitos — OA02-03), Dividir
+  (dividendo 3 dígitos, resto — OA04), Operaciones y Dinero (orden de
+  operaciones, problemas con dinero — OA05-06), Fracciones III (propias/
+  impropias, sumar/restar denominadores ≤12 — OA07-09), Decimales II
+  (fracción a decimal, comparar, sumar decimales hasta la milésima —
+  OA10-13), Patrones y Ecuaciones III (sucesiones, ecuaciones/inecuaciones
+  un paso — OA14-15), Geometría V (plano cartesiano, lados paralelos/
+  perpendiculares, congruencia vía traslación/reflexión/rotación —
+  presentada como identificar el concepto a partir de una descripción, no
+  comparar imágenes antes/después — OA16-18), Medición y Área (longitud,
+  conversión de unidades, diseñar rectángulos dado el perímetro, área de
+  triángulo/paralelogramo/trapecio — OA19-22), Datos y Probabilidades III
+  (promedio, probabilidad cualitativa, comparar probabilidades sin
+  calcularlas, gráficos, diagrama de tallo y hojas -tabla HTML simple,
+  clase `.stem-leaf` sin CSS dedicado, mismo criterio que `.bar-chart`- —
+  OA23-27). Ningún OA de 5° básico queda fuera del motor de opción múltiple.
+- **Ciencias Naturales** (4): Célula y Sistemas del Cuerpo (la célula como
+  unidad básica uni/multicelular, sistema digestivo/respiratorio/circulatorio
+  — OA01-04), Alimentación y Salud (función de los alimentos en el
+  crecimiento, efectos nocivos del cigarrillo, microorganismos beneficiosos/
+  dañinos — OA05-07), Electricidad (transformación de energía eléctrica,
+  circuito eléctrico simple, materiales conductores/aisladores, ahorro de
+  energía — OA08-11), Agua en la Tierra (distribución agua dulce/salada,
+  océanos vs. lagos, efectos de la actividad humana y su protección —
+  OA12-14). Ningún OA de 5° básico queda fuera: los 14 son observables o
+  explicativos.
+- **Historia, Geografía y Cs. Sociales** (4): Descubrimiento y Conquista de
+  América (viajes de Colón/Magallanes, conquista de América y Chile, impacto
+  en Europa/América, efectos sobre pueblos indígenas — OA01-04), La Colonia
+  en Chile (sociedad, oficios, costumbres coloniales, dependencia de España,
+  la relación españoles-mapuches presentada de forma neutral y factual -Guerra
+  de Arauco, parlamentos de paz-, patrimonio colonial — OA05-08), Geografía
+  de Chile (zonas geográficas, recursos naturales, riesgos naturales —
+  OA09-12), Formación Ciudadana V (derechos y deberes, mérito y esfuerzo,
+  actitudes cívicas, elecciones de curso, proyectos escolares, formas de
+  organización comunitaria — OA13-19). Fuera: OA20-22 (opinar y argumentar
+  con fundamentos, evaluar soluciones y justificar, informarse por diarios/
+  TIC — habilidades de argumentación o proceso de indagación propio).
+- **Artes Visuales** (1): Lenguaje Visual III (color complementario, formas
+  abiertas/cerradas, luz y sombra -sombra propia vs. proyectada- — conceptos
+  nuevos respecto a 3°-4° básico — OA02). Fuera: OA01,03 (crear trabajos
+  propios), OA04-05 (analizar obras reales/comparar trabajos de pares —
+  subjetivo, además de requerir datos verificables sobre obras específicas).
+- **Música** (1): Texturas y Estructura Musical (monofonía/homofonía/
+  polifonía, estructura de pregunta-respuesta — OA01, ángulos que 3°-4°
+  básico no cubrieron: pulso/acento/forma y dinámica/tempo respectivamente).
+  Fuera: OA02 (sensaciones personales), OA03 (escuchar repertorio — depende
+  de audio real), OA04-06 (cantar/tocar/improvisar/presentar — desempeño),
+  OA07-08 (relación obra-contexto histórico específico, autoevaluación).
+- **Educación Física y Salud** (2): Vida Activa y Postura V (intensidad del
+  ejercicio, planificar actividad física regular, hábitos de higiene y
+  posturales — OA06-09, ángulos nuevos respecto a 4° básico que solo cubrió
+  los 4 componentes de la condición física y el pulso), Liderazgo y
+  Seguridad V (responsabilidad, liderazgo, comportamientos seguros, con
+  escenarios nuevos — OA10-11). Fuera: OA01-05 (habilidades motrices,
+  juegos, deportes, danza nacional — práctica física real).
+- **Orientación** (5): Manejo Emocional V (identificar emociones
+  considerando el impacto en uno mismo Y en otros — OA02, un ángulo más que
+  años anteriores), Autocuidado Digital V (comunicación familiar, proteger
+  la intimidad en redes sociales, uso seguro de internet — OA04, tema
+  completamente nuevo), Prevención y Vida Saludable (factores protectores
+  frente al consumo de drogas: hábitos saludables, familia, amistades
+  positivas — OA05, presentado siempre en clave preventiva y positiva, sin
+  describir sustancias ni detalles operativos, complementando sin repetir el
+  ángulo biológico de Ciencias Naturales), Buen Trato y Resolución de
+  Conflictos V (solidaridad, empatía, resolución autónoma — OA06-07),
+  Hábitos de Trabajo Escolar V (metas propias, trabajo colaborativo — OA09).
+  Fuera: OA01 (valorar fortalezas propias), OA03 (desarrollo afectivo y
+  sexual en la pubertad — requiere el acompañamiento real de un adulto,
+  mismo criterio que años anteriores) y OA08 (participación en la comunidad
+  escolar — ya cubierta por Formación Ciudadana V en historia.js).
+- **Tecnología** (1): Tecnología Digital V (opciones de formato en un
+  procesador de textos -fuentes, alineación, tablas- y comunicación en línea
+  responsable — OA05-07, con escenarios completamente nuevos ya que el texto
+  de estos OA repite casi lo mismo que años anteriores: presentaciones ya en
+  3°, hojas de cálculo ya en 4°, procesador de texto y seguridad en internet
+  ya en 2°-4°). Fuera: OA01-04 (diseñar/planificar/elaborar/evaluar un
+  objeto tecnológico propio).
+- **Inglés** (2, asignatura nueva): Vocabulario Básico (ver una imagen y
+  elegir la palabra en inglés que la nombra — OA05,13), Lectura Simple
+  (textos breves en inglés con una pregunta de comprensión — OA06-09).
+  Fuera: OA01-04 (comprensión auditiva — depende de audio real en inglés),
+  OA10-12 (expresión oral — desempeño real), OA14-16 (expresión escrita —
+  producción propia).
+
+**Bugs de opciones duplicadas encontrados y corregidos durante el
+fuzz-testing de 5° básico:** 6 módulos (`colonia5`, `ciudadania5`,
+`manejoemocional5`, `buentrato5`, `habitosestudio5`, `tecdigital5`) tenían un
+banco con exactamente el mismo tamaño que `rounds:8` (o menos), garantizando
+una repetición en el 100% de las sesiones simuladas — el mismo tipo de bug ya
+documentado en 4° básico. Se corrigió ampliando cada banco con contenido real
+dentro del mismo OA ya citado (nunca inventando un OA nuevo) hasta dejar
+margen de +2 a +4 sobre `rounds`. Verificado: los 35 módulos nuevos, y los 191
+módulos de toda la app, pasan 300 sesiones simuladas cada uno sin ningún
+repetido, y 100-300 iteraciones de fuzz estructural sin `undefined`, opciones
+duplicadas dentro de una ronda, ni `correctValue` ausente de las opciones.
+
+### 6° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false`. Para desbloquear un año, cambiar su
 `open` a `true` Y crear su entrada correspondiente en `LENGUAJE_BY_GRADE` /
 `MATE_BY_GRADE` (si no existe una entrada, `renderComingSoonSubject()` se muestra
@@ -922,36 +1055,47 @@ para esta iniciativa).
    años futuros: los generadores con distractores derivados de un banco pequeño
    necesitan revisar cuántas categorías/valores ÚNICOS existen realmente antes
    de decidir cuántas opciones ofrecer.
-4. **Siguiente:** extraer los OA de 5° básico de curriculumnacional.cl
-   (`curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/5-basico`, mismo
-   patrón que funcionó para 2°-4° básico) para las 9 asignaturas — más Inglés,
-   que podría empezar en 5° básico según el currículum vigente, verificar antes
-   de asumir — y repetir el patrón: `<NOMBRE>_MODULES_G5`/`_POS_G5` en cada
-   `content/<asignatura>.js`, agregar `5: {...}` a cada `*_BY_GRADE` en
+4. ~~Completar 5° básico~~ — ✅ hecho (2026-07-22), las 9 asignaturas de
+   Básica completas más Inglés como asignatura nueva (primera vez que la app
+   tiene contenido en otro idioma — ver "Estado actual del contenido"
+   arriba), 35 módulos. Se verificó primero que Inglés efectivamente
+   comienza en 5° básico según el currículum vigente, en vez de asumirlo.
+   `speak()`/`pickBestVoice()` en `js/audio.js` ahora aceptan un parámetro
+   opcional de idioma para no leer el inglés con voz en español. 6 módulos
+   con bug de opciones duplicadas (banco del mismo tamaño que `rounds`, o
+   menor) encontrados por fuzz-testing y corregidos ampliando contenido real.
+5. **Siguiente:** extraer los OA de 6° básico de curriculumnacional.cl
+   (`curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/6-basico`, mismo
+   patrón que funcionó para 2°-5° básico) para las 9 asignaturas más Inglés
+   (ya verificado que corresponde, continúa desde 5° básico) — y repetir el
+   patrón: `<NOMBRE>_MODULES_G6`/`_POS_G6` en cada `content/<asignatura>.js`
+   (más `content/ingles.js`), agregar `6: {...}` a cada `*_BY_GRADE` en
    `gradeContent.js`, registrar en `MC_GAMES`/`MC_KEYS`, agregar estrellas en
    `state.js` y títulos en `rewards.js`. Antes de dar por terminado cada
    generador: (a) revisar el tamaño de cada banco de contenido contra
-   `rounds:8`, y (b) revisar cuántos valores/categorías realmente distintos
-   tiene cada banco antes de decidir cuántas opciones de respuesta ofrecer (ver
-   los 3 bugs de 4° básico arriba). Luego repetir para 6°, 7° y 8° básico en
-   orden (7°-8° son parte de Educación Básica en la trayectoria chilena actual,
-   verificar la lista exacta de asignaturas vigente para esos años en
-   curriculumnacional.cl antes de asumir que es la misma que 1°-6°).
-5. Una vez completa toda Educación Básica, definir con el usuario el mismo patrón
+   `rounds:8` (con margen real de +2, no justo al límite), y (b) revisar
+   cuántos valores/categorías realmente distintos tiene cada banco antes de
+   decidir cuántas opciones de respuesta ofrecer (ver los bugs de 4° y 5°
+   básico arriba). Luego repetir para 7° y 8° básico en orden (son parte de
+   Educación Básica en la trayectoria chilena actual, verificar la lista
+   exacta de asignaturas vigente para esos años en curriculumnacional.cl
+   antes de asumir que es la misma que 1°-6°, dado que 7°-8° podrían agregar
+   o quitar asignaturas respecto al ciclo 1°-6°).
+6. Una vez completa toda Educación Básica, definir con el usuario el mismo patrón
    para Educación Media (probablemente asignaturas distintas: Física/Química/
    Biología separadas, Filosofía, etc. — pedir la lista real antes de asumir) y
    luego EPJA (currículum propio, organizado por niveles que agrupan varios años
    en uno, no por año individual — revisar su decreto específico antes de construir,
    no asumir que es igual a Básica/Media regular).
-6. ~~Evaluar agregar persistencia real (localStorage)~~ — ✅ hecho (`js/persistence.js`).
+7. ~~Evaluar agregar persistencia real (localStorage)~~ — ✅ hecho (`js/persistence.js`).
    Si más adelante se quiere progreso sincronizado entre dispositivos, ahí sí se
    necesitaría un backend real (Firebase/Supabase u otro) — GitHub Pages es hosting
    estático puro, no puede correr una base de datos ni lógica de servidor.
-7. Si se quiere cobertura 100% literal de 1° básico, revisar los OA marcados "fuera"
+8. Si se quiere cobertura 100% literal de 1° básico, revisar los OA marcados "fuera"
    en cada asignatura (arriba) y decidir si vale la pena forzarlos al motor de opción
    múltiple o si requieren un tipo de juego nuevo (p. ej. grabación de voz para Música,
    o un lienzo de dibujo para Artes Visuales).
-8. ~~Construir los 7 núcleos restantes de Educación Parvularia NT~~ — ✅ hecho, los 8
+9. ~~Construir los 7 núcleos restantes de Educación Parvularia NT~~ — ✅ hecho, los 8
    núcleos de NT están completos (ver "Estado actual del contenido" arriba). Si más
    adelante se quiere cobertura 100% literal de algún núcleo, revisar los OA marcados
    "fuera" arriba y decidir si vale la pena forzarlos al motor de opción múltiple o si
@@ -960,7 +1104,7 @@ para esta iniciativa).
    Medio/Sala Cuna tiene sentido en algún momento, dado que ese rango de edad
    generalmente no usa juego en pantalla (revisar el Decreto 481/2017 para esos
    niveles antes de decidir).
-9. **Ideas del usuario para explorar más adelante (aún no implementadas, solo
+10. **Ideas del usuario para explorar más adelante (aún no implementadas, solo
    anotadas — 2026-07-20):**
    - Evaluar qué tan distinto debería ser el diseño (colores, formas, sonidos, ritmo
      de feedback) para captar la atención de perfiles neurotípicos vs. neurodivergentes.

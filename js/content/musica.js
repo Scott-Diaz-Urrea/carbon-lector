@@ -217,3 +217,52 @@ export function genDinamicaTempo4Round(){
     explain: 'Ese término musical es <b>'+item.termino.toLowerCase()+'</b>.',
   };
 }
+
+/* ---------------- Contenido Música 5° Básico ----------------
+   Basado en OA del Decreto 439/2012, 5° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/musica/5-basico): MU05 OA01 nombra explícitamente "texturas"
+   y "preguntas-respuestas" como elementos del lenguaje musical, dos ángulos
+   que ningún año anterior había cubierto (3° básico cubrió pulso/acento/
+   forma A-AB-ABA, 4° básico cubrió dinámica/tempo). Quedan fuera: OA02
+   (expresar sensaciones personales — subjetivo), OA03 (escuchar repertorio
+   extenso de distintas culturas — depende de audio real), OA04-06
+   (cantar/tocar/improvisar/presentar — desempeño real) y OA07-08 (explicar
+   la relación entre obras y su contexto histórico, y autoevaluación —
+   requiere datos verificables sobre obras específicas o es subjetivo). */
+export const MUSICA_MODULES_G5 = [
+  {id:'texturamusical5', label:'Texturas y Estructura Musical', open:true, key:'texturamusical5'},
+];
+export const MUSICA_POS_G5 = [{x:50,y:50}];
+
+const TEXTURA_MUSICAL_BANK = [
+  { desc:'Una persona cantando sola, sin ningún acompañamiento musical', tipo:'MONOFONÍA' },
+  { desc:'Todo el curso cantando el mismo himno al unísono, sin ninguna otra voz sonando', tipo:'MONOFONÍA' },
+  { desc:'Un solista cantando la melodía principal mientras la guitarra toca acordes de acompañamiento', tipo:'HOMOFONÍA' },
+  { desc:'Una banda donde el cantante lleva la melodía y los demás instrumentos tocan acordes de fondo', tipo:'HOMOFONÍA' },
+  { desc:'Un coro donde cada grupo de voces canta una melodía distinta al mismo tiempo, como en un canon', tipo:'POLIFONÍA' },
+  { desc:'Varios instrumentos tocando cada uno su propia melodía independiente, entrelazadas entre sí', tipo:'POLIFONÍA' },
+];
+const PREGUNTA_RESPUESTA_BANK = [
+  { desc:'Una frase musical que suena como una "pregunta", seguida de otra frase que la "responde", como una conversación musical', correcta:'ESTRUCTURA DE PREGUNTA-RESPUESTA' },
+  { desc:'Un instrumento toca una frase corta y luego otro instrumento le contesta con una frase parecida, como si conversaran', correcta:'ESTRUCTURA DE PREGUNTA-RESPUESTA' },
+];
+export function genTexturaMusical5Round(){
+  if(Math.random()<0.6){
+    const item = pick(TEXTURA_MUSICAL_BANK);
+    const todos = ['MONOFONÍA','HOMOFONÍA','POLIFONÍA'];
+    const distract = todos.filter(function(t){ return t!==item.tipo; });
+    const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué textura musical describe esta situación?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, kind:'word',
+      explain: 'Esta situación es un ejemplo de <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(PREGUNTA_RESPUESTA_BANK);
+  const opts = shuffle([{label:item.correcta, value:item.correcta},{label:'FORMA A-B-A', value:'FORMA A-B-A'},{label:'CRESCENDO', value:'CRESCENDO'},{label:'MONOFONÍA', value:'MONOFONÍA'}]);
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Cómo se llama esta estructura musical?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
+    explain: 'Esta estructura se llama <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}

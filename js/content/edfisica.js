@@ -327,3 +327,79 @@ export function genSeguridad4Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
+
+/* ---------------- Contenido Educación Física y Salud 5° Básico ----------------
+   Basado en OA del Decreto 439/2012, 5° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/educacion-fisica-salud/5-basico):
+   Vida Activa y Postura V -> OA06-09 (intensidad del ejercicio, planificar
+   actividad física regular, medir el esfuerzo con el pulso o escalas, y
+   hábitos de higiene y posturales — ángulos nuevos respecto a 4° básico,
+   que cubrió los 4 componentes de la condición física y solo la medición
+   del pulso). Liderazgo y Seguridad V -> OA10-11 (responsabilidad,
+   liderazgo, respeto y comportamientos seguros, con escenarios nuevos).
+   Quedan fuera OA01-05 (habilidades motrices, juegos colectivos, deportes,
+   entornos, danza nacional) por depender de práctica física real. */
+export const EDFISICA_MODULES_G5 = [
+  {id:'vidapostura5', label:'Vida Activa y Postura V', open:true, key:'vidapostura5'},
+  {id:'liderazgo5', label:'Liderazgo y Seguridad V', open:true, key:'liderazgo5'},
+];
+export const EDFISICA_POS_G5 = [{x:30,y:70},{x:70,y:30}];
+
+const INTENSIDAD_ACTIVIDAD_BANK = [
+  { actividad:'Caminar tranquilamente hasta la casa de un vecino', intensidad:'BAJA' },
+  { actividad:'Quedarse sentado leyendo un libro', intensidad:'BAJA' },
+  { actividad:'Trotar suave durante 15 minutos', intensidad:'MODERADA' },
+  { actividad:'Andar en bicicleta a paso constante', intensidad:'MODERADA' },
+  { actividad:'Correr a máxima velocidad en una carrera', intensidad:'ALTA' },
+  { actividad:'Jugar un partido de fútbol completo sin parar', intensidad:'ALTA' },
+];
+const PLANIFICACION_POSTURA_BANK = [
+  { label:'Planificar hacer actividad física varias veces por semana ayuda a mantener un cuerpo sano', v:true },
+  { label:'Hacer ejercicio solo una vez al año es suficiente para mantenerse en buena condición física', v:false },
+  { label:'Sentarse con la espalda encorvada por muchas horas seguidas es una buena postura', v:false },
+  { label:'Cargar la mochila del colegio con las dos correas sobre ambos hombros cuida tu espalda', v:true },
+  { label:'Mantener la espalda derecha al sentarse ayuda a cuidar tu postura', v:true },
+  { label:'No importa la postura que tengas al estudiar o ver una pantalla', v:false },
+  { label:'Medir tu esfuerzo físico con el pulso o con una escala te ayuda a saber qué tan intenso fue el ejercicio', v:true },
+];
+export function genVidaPostura5Round(){
+  const roll = Math.random();
+  if(roll<0.4){
+    const item = pick(INTENSIDAD_ACTIVIDAD_BANK);
+    const todos = ['BAJA','MODERADA','ALTA'];
+    const distract = todos.filter(function(t){ return t!==item.intensidad; });
+    const opts = shuffle([item.intensidad].concat(distract)).map(function(i){ return {label:'INTENSIDAD '+i, value:i}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué intensidad de esfuerzo físico tiene esta actividad?</p>',
+      options: opts, correctValue: item.intensidad, speakText: item.actividad, cols:2, panel:true,
+      explain: 'Esta actividad tiene una intensidad <b>'+item.intensidad.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(PLANIFICACION_POSTURA_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+const LIDERAZGO_SEGURIDAD5_ITEMS = [
+  { label:'Asumir el rol de capitán de un equipo implica organizar y motivar a tus compañeros con respeto', v:true },
+  { label:'Un buen líder de equipo escucha las ideas de sus compañeros antes de decidir', v:true },
+  { label:'Ignorar por completo la opinión de tus compañeros de equipo es una forma de buen liderazgo', v:false },
+  { label:'Revisar que el espacio de juego esté libre de peligros antes de empezar es una conducta segura', v:true },
+  { label:'Usar los implementos deportivos (conos, pelotas, colchonetas) de forma responsable evita accidentes', v:true },
+  { label:'Presionar a un compañero para que juegue lesionado es un comportamiento seguro', v:false },
+  { label:'Aceptar las decisiones del árbitro o profesor, incluso cuando no te gustan, es jugar limpio', v:true },
+  { label:'Da lo mismo seguir o no las normas de seguridad si el juego se pone competitivo', v:false },
+];
+export function genLiderazgo5Round(){
+  const item = pick(LIDERAZGO_SEGURIDAD5_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}

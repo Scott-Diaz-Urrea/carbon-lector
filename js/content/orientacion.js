@@ -410,3 +410,140 @@ export function genHabitosEstudio4Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
+
+/* ---------------- Contenido Orientación 5° Básico ----------------
+   Basado en OA del Decreto 439/2012, 5° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/orientacion/5-basico):
+   Manejo Emocional V -> OA02 (distinguir y expresar emociones considerando
+   el impacto en uno mismo Y en otras personas — un ángulo más que los años
+   anteriores, que solo pedían identificar la emoción y una estrategia).
+   Autocuidado Digital V -> OA04 (comunicación familiar, proteger la
+   intimidad en redes sociales, uso seguro de internet — un tema
+   completamente nuevo, los autocuidado de años anteriores cubrieron
+   higiene/descanso/alimentación, nunca seguridad digital).
+   Prevención y Vida Saludable -> OA05 (factores protectores frente al
+   consumo de drogas: hábitos saludables, familia, amistades positivas,
+   deporte — presentado siempre en clave preventiva y positiva, sin
+   describir sustancias ni detalles operativos, igual que un texto escolar
+   real de este nivel; complementa, sin repetir, el ángulo biológico que
+   cubre CN05 OA06 en "Alimentación y Salud" de Ciencias Naturales).
+   Buen Trato y Resolución de Conflictos V -> OA06-07 (solidaridad, empatía,
+   resolución autónoma de conflictos, con escenarios nuevos).
+   Hábitos de Trabajo Escolar V -> OA09 (metas propias y trabajo
+   colaborativo, con afirmaciones nuevas).
+   Quedan fuera: OA01 (valorar fortalezas propias, autorreflexión), OA03
+   (desarrollo afectivo y sexual en la pubertad — igual que en años
+   anteriores, requiere el acompañamiento real de un adulto, no una trivia
+   de opción múltiple) y OA08 (participar en la comunidad escolar — ya
+   cubierto por Formación Ciudadana V en historia.js). */
+export const ORIENTACION_MODULES_G5 = [
+  {id:'manejoemocional5', label:'Manejo Emocional V', open:true, key:'manejoemocional5'},
+  {id:'autocuidadodigital5', label:'Autocuidado Digital V', open:true, key:'autocuidadodigital5'},
+  {id:'prevencionsaludable5', label:'Prevención y Vida Saludable', open:true, key:'prevencionsaludable5'},
+  {id:'buentrato5', label:'Buen Trato y Resolución de Conflictos V', open:true, key:'buentrato5'},
+  {id:'habitosestudio5', label:'Hábitos de Trabajo Escolar V', open:true, key:'habitosestudio5'},
+];
+export const ORIENTACION_POS_G5 = [{x:20,y:92},{x:66,y:74},{x:22,y:52},{x:66,y:28},{x:22,y:6}];
+
+const EMOCIONES_IMPACTO5_BANK = [
+  { situacion:'Estás muy enojado porque perdiste un juego, y sientes ganas de gritarle a tu compañero de equipo.', correcta:'Reconocer tu enojo, respirar, y expresarlo con calma sin herir a tu compañero', malas:['Gritarle a tu compañero para desahogarte','Culparlo del resultado del juego','Guardarte el enojo y tratarlo mal en silencio'] },
+  { situacion:'Sientes mucha alegría porque te fue muy bien en una prueba, pero tu compañero de al lado reprobó.', correcta:'Celebrar tu logro con moderación, siendo considerado con cómo se siente tu compañero', malas:['Presumir tu resultado frente a quien reprobó','Ignorar por completo cómo se siente tu compañero','Burlarte de quien le fue mal'] },
+  { situacion:'Estás frustrado porque un trabajo grupal no avanza como esperabas, y tus compañeros también están cansados.', correcta:'Expresar tu frustración con calma y proponer una solución en conjunto', malas:['Explotar de rabia frente al grupo','Culpar a todos sin proponer nada','Abandonar el trabajo sin avisar'] },
+  { situacion:'Sientes tristeza por una mala noticia, y notas que tu expresión está afectando el ánimo de tus amigos.', correcta:'Reconocer tu tristeza y comunicarla, cuidando también el ánimo del grupo', malas:['Contagiar tu mal humor a todo el grupo a propósito','Fingir que no pasa nada y explotar después','Aislarte sin decir qué te pasa'] },
+  { situacion:'Sientes celos porque un amigo pasa más tiempo con otro compañero nuevo.', correcta:'Reconocer el sentimiento sin culpar a nadie, y hablarlo con tu amigo', malas:['Tratar mal al compañero nuevo por celos','Dejar de hablarle a tu amigo sin explicación','Hacer comentarios negativos a espaldas de ambos'] },
+  { situacion:'Sientes mucho orgullo por un logro personal, y quieres compartirlo con tu curso.', correcta:'Compartir tu alegría con humildad, sin hacer sentir mal a quienes no lograron lo mismo', malas:['Presumir de forma exagerada frente a todos','Burlarte de quienes no lo lograron','Guardarte el logro y no compartirlo nunca'] },
+  { situacion:'Sientes miedo antes de una prueba difícil, y notas que tu nerviosismo pone tenso a tu compañero de al lado.', correcta:'Reconocer tu miedo, calmarte con respiración, y no contagiar tu tensión a los demás', malas:['Contagiar tu nerviosismo hablando fuerte con todos','Ignorar por completo el miedo hasta que sea incontrolable','Culpar a la prueba de tu propio nerviosismo'] },
+  { situacion:'Sientes admiración por un compañero que logró algo difícil, pero también un poco de envidia.', correcta:'Reconocer ambos sentimientos y felicitar genuinamente a tu compañero', malas:['Ignorar el logro de tu compañero por envidia','Hacer comentarios negativos sobre su logro','Fingir que no te importa cuando sí te importa'] },
+  { situacion:'Te sientes aliviado después de resolver un problema, y notas que tu grupo también se relaja.', correcta:'Compartir tu alivio con el grupo y reconocer el esfuerzo de todos', malas:['Atribuirte todo el mérito sin reconocer al grupo','Ignorar cómo se siente el resto del grupo','Minimizar el esfuerzo de tus compañeros'] },
+];
+export function genManejoEmocional5Round(){
+  const item = pick(EMOCIONES_IMPACTO5_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer, pensando en ti y en los demás?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así reconoces tu emoción sin dañar a quienes te rodean.',
+  };
+}
+
+const AUTOCUIDADO_DIGITAL5_ITEMS = [
+  { label:'Contarle a un adulto de confianza si algo te incomoda en internet es una buena práctica', v:true },
+  { label:'Compartir tu dirección o teléfono con desconocidos en redes sociales es seguro', v:false },
+  { label:'Mantener conversaciones frecuentes con tu familia sobre lo que haces en internet ayuda a tu seguridad', v:true },
+  { label:'Aceptar solicitudes de amistad de cualquier desconocido en redes sociales es una buena idea', v:false },
+  { label:'Revisar la configuración de privacidad de tus redes sociales ayuda a proteger tu información', v:true },
+  { label:'Da lo mismo compartir fotos o datos personales con cualquier persona en internet', v:false },
+  { label:'Pedir permiso a un adulto antes de usar una aplicación o red social nueva es una práctica segura', v:true },
+  { label:'Si alguien en internet te pide guardar un secreto incómodo, lo correcto es contárselo a un adulto', v:true },
+];
+export function genAutocuidadoDigital5Round(){
+  const item = pick(AUTOCUIDADO_DIGITAL5_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+const PREVENCION_SALUDABLE5_ITEMS = [
+  { label:'Mantener buenos hábitos, como dormir bien y hacer deporte, es un factor protector para la salud', v:true },
+  { label:'Tener una buena comunicación con tu familia es un factor protector importante', v:true },
+  { label:'Elegir amistades que te apoyan y respetan es un factor protector para tomar buenas decisiones', v:true },
+  { label:'Aceptar cualquier presión de un grupo, aunque vaya contra tus valores, es una buena decisión', v:false },
+  { label:'Practicar un deporte o una actividad que te guste ayuda a ocupar bien tu tiempo libre', v:true },
+  { label:'Da lo mismo con quién pasas tu tiempo libre, nunca influye en tus decisiones', v:false },
+  { label:'Saber decir "no" ante una situación que te hace sentir incómodo es una habilidad protectora', v:true },
+  { label:'Pedir ayuda a un adulto de confianza cuando algo te preocupa es una buena estrategia de prevención', v:true },
+];
+export function genPrevencionSaludable5Round(){
+  const item = pick(PREVENCION_SALUDABLE5_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+const CONFLICTO_5_BANK = [
+  { texto:'Un grupo de compañeros deja fuera de los juegos del recreo a un estudiante nuevo, sin motivo.', correcta:'Invitar al estudiante nuevo a participar y hablar con el grupo sobre incluirlo', malas:['Sumarte al grupo que lo excluye','Ignorar la situación por completo','Burlarte también del estudiante nuevo'] },
+  { texto:'Dos compañeros de curso tienen opiniones opuestas sobre cómo organizar una actividad y empiezan a discutir fuerte.', correcta:'Proponer que cada uno escuche al otro y busquen una solución en conjunto', malas:['Tomar partido por uno sin escuchar al otro','Dejar que la discusión escale sin intervenir','Burlarte de ambos por discutir'] },
+  { texto:'Un compañero comparte en el curso un rumor falso sobre otro estudiante.', correcta:'No repetir el rumor y conversar con quien lo compartió sobre el daño que puede causar', malas:['Repetir el rumor a más personas','Sumarte a burlarte del estudiante afectado','Ignorar el daño que puede causar el rumor'] },
+  { texto:'Un compañero se siente excluido porque nadie lo elige para trabajar en grupo.', correcta:'Invitarlo a tu grupo de trabajo y tratarlo con respeto', malas:['Seguir excluyéndolo como el resto','Burlarte de que nadie lo elige','Ignorar cómo se siente'] },
+  { texto:'Un compañero de curso tiene una discapacidad y algunos estudiantes se burlan de él.', correcta:'Defenderlo con respeto y avisar a un adulto sobre la burla', malas:['Sumarte a la burla para no quedar fuera','Ignorar la situación','Reírte en silencio sin decir nada'] },
+  { texto:'Dos amigos discuten porque uno siente que el otro no cumplió su palabra.', correcta:'Conversar con calma sobre lo ocurrido y buscar reconstruir la confianza', malas:['Terminar la amistad sin conversarlo','Contarle a otros compañeros para "hacerle quedar mal"','Ignorar el problema esperando que se resuelva solo'] },
+  { texto:'Un grupo de trabajo no logra ponerse de acuerdo en cómo repartir las tareas de un proyecto.', correcta:'Proponer repartir las tareas según las fortalezas de cada integrante, dialogando en conjunto', malas:['Repartir las tareas sin preguntarle a nadie','Dejar que una sola persona haga todo el trabajo','Discutir sin llegar a ningún acuerdo'] },
+  { texto:'Un compañero comenta en tono de burla el acento o la forma de hablar de un estudiante de otra región.', correcta:'Hacerle notar que eso no está bien y valorar la diversidad de acentos y culturas', malas:['Reírte también para no quedar fuera del grupo','Ignorar el comentario ofensivo','Sumarte a la burla'] },
+];
+export function genBuenTrato5Round(){
+  const item = pick(CONFLICTO_5_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que se puede hacer en esta situación?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el conflicto con respeto y empatía.',
+  };
+}
+
+const HABITOS_ESTUDIO_5_BANK = [
+  { label:'Establecer una meta clara antes de empezar una tarea ayuda a organizarte mejor', v:true },
+  { label:'Trabajar en colaboración con tus compañeros, repartiendo tareas, ayuda a lograr mejores resultados', v:true },
+  { label:'Revisar tu progreso hacia una meta te ayuda a saber si necesitas ajustar tu esfuerzo', v:true },
+  { label:'Perseverar cuando una tarea se pone difícil, en vez de abandonar de inmediato, es un buen hábito', v:true },
+  { label:'Da lo mismo tener una meta o no tenerla, el resultado siempre es igual', v:false },
+  { label:'Ignorar por completo las ideas de tus compañeros en un trabajo grupal ayuda a avanzar más rápido', v:false },
+  { label:'Abandonar una tarea apenas se pone un poco difícil es la mejor estrategia', v:false },
+  { label:'Dividir una tarea grande en pasos más pequeños ayuda a no sentirte abrumado', v:true },
+  { label:'Celebrar los avances pequeños hacia una meta ayuda a mantener la motivación', v:true },
+  { label:'Comparar constantemente tu progreso con el de otros, en vez de con tus propias metas, es lo más útil', v:false },
+];
+export function genHabitosEstudio5Round(){
+  const item = pick(HABITOS_ESTUDIO_5_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}

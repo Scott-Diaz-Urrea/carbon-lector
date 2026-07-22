@@ -1268,11 +1268,140 @@ la ruta real, verificando cada reemplazo antes de escribir; se verificó
 después que todos los cambios efectivamente quedaron en el checkout real
 antes de dar la auditoría por terminada.
 
-### 7° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
+### 7° Básico — ✅ completo (34 módulos, las 9 asignaturas + Inglés)
+**Cambio de decreto curricular:** a partir de 7° básico, el currículum vigente
+pasa del Decreto 439/2012 (que rige 1°-6° básico) al **Decreto 614/2013**
+("Bases Curriculares 7° básico a 2° medio"), verificado en curriculumnacional.cl
+antes de construir este año — numeración de OA completamente distinta a la de
+años anteriores, y la asignatura de Lenguaje se renombra oficialmente a
+**"Lengua y Literatura"** desde este año (la app mantiene el mismo
+`lenguajeMap`/ícono por continuidad de navegación, ya que para el usuario final
+es la misma pantalla de siempre).
+
+- **Lenguaje** (5): Comprensión VII (inferencia, textos no literarios,
+  conflicto narrativo, roles de personaje, disposición temporal —
+  OA03,10-11), Rima y Métrica (rima consonante/asonante con versos reales,
+  el romance como forma poética tradicional — OA04-05), Pensamiento
+  Crítico: Hechos y Opiniones (distinguir hecho de opinión, postura del
+  autor, estereotipos — OA08-09), Vocabulario y Gramática VII
+  (concordancia sujeto-predicado, sinonimia/hiperonimia, tiempos verbales —
+  OA16-18), Ortografía V (por qué/porque/porqué/por que — OA19). Fuera:
+  OA01-02,07 (actitudinal/subjetivo), OA06 (mitos, ya cubierto en 3°
+  básico), OA12-15 (producción escrita), OA20-23 (comunicación oral),
+  OA24-25 (proceso de investigación propio).
+- **Matemática** (8): Números Enteros (OA01), Fracciones y Decimales II
+  (OA02-03), Porcentaje y Potencias (OA04-05), Álgebra I (traducir frases a
+  expresiones algebraicas, reducir términos semejantes — OA06-07),
+  Proporciones y Ecuaciones II (proporcionalidad directa/inversa, ecuaciones
+  de un paso — OA08-09), Geometría VII (suma de ángulos interiores de
+  polígonos, radio/diámetro, plano cartesiano — OA10-11,14), Estadística y
+  Muestreo (OA15-17), Probabilidades II (probabilidad teórica como fracción,
+  frecuencia experimental — OA18-19). Fuera: OA12 (producción/diseño
+  propio) y OA13 (ya cubierto por "Medición y Área" de 5° básico, mismo
+  contenido).
+- **Ciencias Naturales** (5): **Sexualidad y Reproducción** (CN07 OA01-03 —
+  ciclo menstrual y gametos, métodos anticonceptivos, ITS: qué son, cómo
+  prevenirlas, y la importancia de consultar a un adulto/profesional de
+  salud ante cualquier duda, siempre en tono clínico/preventivo, nunca
+  gráfico ni explícito; decisión confirmada explícitamente con el usuario
+  vía pregunta directa antes de construir este módulo, dado el salto real de
+  madurez del contenido respecto a 6° básico — ver "Sexualidad y Reproducción
+  7° básico" en el comentario de `ciencias.js`), Sistema Inmunológico y
+  Microorganismos (barreras defensivas, virus/bacterias/hongos,
+  biotecnología — OA04-06), Fuerzas y Presión (OA07-08), Geología y Clima
+  (tectónica de placas, volcanes, ciclo de las rocas — OA09-11), La Materia
+  y los Gases (estados, clasificación, cambios físicos vs. químicos —
+  OA12-14). Ningún OA de Ciencias 7° queda fuera del alcance verificado.
+- **Historia, Geografía y Cs. Sociales** (6): Prehistoria y Primeras
+  Civilizaciones (hominización, agricultura, Sumeria, Egipto — OA01-04),
+  Grecia y Roma: Sociedad y Política (democracia ateniense, derecho romano,
+  legado cultural — OA05-08,17-18), Edad Media (tradiciones
+  grecorromana/judeocristiana/germana, orden estamental, cambios del siglo
+  XII — OA09-12), Civilizaciones Americanas II (tecnologías maya/azteca,
+  quipu, mita, quechua — profundiza lo ya visto de forma más básica en 4°
+  básico — OA13-16), Formación Ciudadana VII (diversidad cultural,
+  convivencia entre culturas — OA19-20), Geografía y Medioambiente
+  (factores de asentamiento, calentamiento global, mitigación — OA21-23).
+  Fuera: OA24-26 (opinar/argumentar, evaluar soluciones, investigar en
+  fuentes — a verificar si se repiten en 8° básico antes de asumir el mismo
+  criterio).
+- **Artes Visuales** (1): Espacios de Difusión del Arte (museo, galería,
+  mural/arte público, espacio público, y su función social distinta —
+  OA06). Fuera: OA01-05,07 (producción propia, investigar artistas/obras
+  específicas con riesgo de datos inexactos, apreciación subjetiva).
+- **Música** (1): Procedimientos Compositivos (ostinato y secuencia
+  melódica — ángulo nuevo que ningún año anterior había cubierto, distinto
+  de "variación"/"reiteración" de 6° básico — OA02). Fuera: OA01,03-08
+  (crear música propia, repertorio real, desempeño, contexto histórico
+  específico, autoevaluación).
+- **Educación Física y Salud** (1): Estrategias y Tácticas Deportivas
+  (ocupar espacios, anticipar jugadas, trabajo en equipo, comunicación y
+  planificación deportiva — un ángulo conceptual/reconocible sin requerir
+  desempeño físico real — OA02). Fuera: OA01,03-05 (habilidades motrices
+  reales) y OA06-11 (ya cubiertos en años anteriores).
+- **Orientación** (5): Prevención de Conductas de Riesgo (factores de
+  riesgo/protección únicamente, sin detalle de sexualidad -eso es del OA02
+  excluido- — decisión confirmada explícitamente con el usuario vía
+  pregunta directa — OA03), Bienestar y Vida Saludable (OA04), Relaciones
+  Saludables en Redes Sociales (uso responsable, ciberacoso, huella digital
+  — ángulo nuevo — OA05), Resolución de Conflictos VII (OA06), Autonomía en
+  el Aprendizaje (OA09-10). Fuera: OA01 (fortalezas propias, subjetivo),
+  OA02 (sexualidad como dimensión del desarrollo humano — mismo criterio de
+  siempre: requiere acompañamiento real de un adulto, no una trivia),
+  OA07 (ya cubierta por Formación Ciudadana en historia.js), OA08
+  (proyecto de vida personal, subjetivo).
+- **Tecnología** (1): Soluciones Tecnológicas y su Impacto (evaluar
+  beneficios y riesgos de una solución tecnológica sobre las personas y el
+  medioambiente — OA05-06). Fuera: OA01-04 (diseñar/elaborar/evaluar una
+  solución tecnológica propia) y OA07-08 (ya cubiertos por Tecnología
+  Digital de años anteriores).
+- **Inglés** (2): Vocabulario Avanzado (funciones del lenguaje:
+  cantidades/descripciones comparativas, obligación/sugerencia/necesidad —
+  IN07 OA08,16), Lectura Intermedia (comprensión de textos no literarios y
+  literarios, incluyendo tema/personajes/entorno/trama — IN07 OA09-11).
+  Fuera: OA01-07 (comprensión y producción oral, dependen de audio real),
+  OA12 (estrategias de lectura como proceso propio), OA13-15 (expresión
+  escrita, producción propia).
+
+**Hallazgos técnicos de esta ronda:**
+- **Bug ya conocido, reencontrado al escribir contenido nuevo**: el
+  placeholder literal `"un(a)"` sin resolver apareció de nuevo en dos
+  generadores nuevos (`genEspaciosDifusion7Round` en `artes.js`,
+  `genPensamientoCritico7Round` en `lenguaje.js`) — mismo patrón detectado
+  y corregido en la auditoría de 6° básico, ahora evitado reformulando el
+  texto del `explain` para no necesitar artículo de género en absoluto
+  ("Esto describe: ___" / "Esto es: ___") en vez de intentar resolverlo con
+  un helper.
+- **12 de los 34 módulos nuevos tenían bank ≤ `rounds:8`** (repetición
+  garantizada en el 100% de las sesiones simuladas, detectado por la misma
+  metodología de simulación de 150-200 sesiones ya usada en años
+  anteriores): `rimametrica7`, `ortografia7`, `prehistoriacivilizaciones7`,
+  `greciaroma7`, `edadmedia7`, `civilizacionesamericanas7`, `ciudadania7`,
+  `geografiamedioambiente7`, `espaciosdifusion7`,
+  `procedimientoscompositivos7`, `estrategiastacticas7`,
+  `resolucionconflictos7` — todos ampliados con contenido real dentro del
+  mismo OA ya citado (nunca inventando un OA nuevo) hasta dejar margen real
+  sobre `rounds:8`; dos de ellos (`geografiamedioambiente7`,
+  `estrategiastacticas7`) necesitaron una segunda ronda de ampliación
+  porque la primera solo llegó a exactamente 8 ítems, sin margen. Verificado
+  al final: los 34 módulos nuevos, y los 265 módulos de toda la app, pasan
+  200 sesiones simuladas cada uno sin ningún repetido.
+- **Investigación de OA verificada con fuente en vivo** antes de escribir
+  contenido: Historia (Decreto 614/2013, confirmando el listado completo de
+  OA01-23 y la ausencia de personajes históricos puntuales riesgosos) e
+  Inglés (`curriculumnacional.cl/curriculum/7o-basico-2o-medio/ingles/
+  7-basico`, confirmando la reorganización en 3 ejes -Comunicación Oral,
+  Comprensión de Lectura, Expresión Escrita- distinta a la de 1°-6° básico).
+
+### 8° Básico, Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false`. Para desbloquear un año, cambiar su
 `open` a `true` Y crear su entrada correspondiente en `LENGUAJE_BY_GRADE` /
 `MATE_BY_GRADE` (si no existe una entrada, `renderComingSoonSubject()` se muestra
 automáticamente como placeholder — no rompe nada, pero tampoco es jugable).
+Antes de construir 8° básico, verificar si su currículum también usa el
+Decreto 614/2013 (probable, dado que ese decreto cubre "7° básico a 2° medio")
+y si repite la misma lista de asignaturas — no asumir sin confirmar en
+curriculumnacional.cl, siguiendo la regla de oro del proyecto.
 
 ## Próximos pasos sugeridos (en orden)
 
@@ -1332,26 +1461,46 @@ para esta iniciativa).
    fuzz-testing y corregidos ampliando contenido real — lección reforzada:
    revisar el tamaño real de cada banco ANTES de dar por terminado un
    módulo, no solo al final.
-6. **Siguiente:** extraer los OA de 7° básico de curriculumnacional.cl para
-   las 9 asignaturas más Inglés (verificar primero la lista exacta de
-   asignaturas vigente para 7°-8° básico en curriculumnacional.cl — podrían
-   agregar o quitar asignaturas respecto al ciclo 1°-6°, no asumir que es
-   igual) y repetir el patrón: `<NOMBRE>_MODULES_G7`/`_POS_G7` en cada
-   `content/<asignatura>.js` (más `content/ingles.js`), agregar `7: {...}` a
-   cada `*_BY_GRADE` en `gradeContent.js`, registrar en `MC_GAMES`/`MC_KEYS`,
-   agregar estrellas en `state.js` y títulos en `rewards.js`. Antes de dar
-   por terminado cada generador: (a) revisar el tamaño de cada banco de
-   contenido contra `rounds:8` con margen real de +2 a +4 (no justo al
-   límite — 12 módulos de 6° básico cayeron en esto pese a la advertencia ya
-   documentada desde 4°/5° básico, así que conviene contar los ítems de cada
-   banco explícitamente antes de seguir, no solo "a ojo"), (b) revisar
-   cuántos valores/categorías realmente distintos tiene cada banco antes de
-   decidir cuántas opciones de respuesta ofrecer, y (c) revisar que ningún
-   nombre de banco (`const NOMBRE_BANK`) choque con uno ya existente en el
-   mismo archivo de años anteriores (pasó con `CADENA_ALIMENTARIA_BANK` en
-   6° básico, que ya existía desde años previos en ciencias.js — un
-   `SyntaxError` en tiempo de carga de módulo, fácil de detectar al servir
-   la app pero conviene revisar antes). Luego repetir para 8° básico.
+6. ~~Completar 7° básico~~ — ✅ hecho (2026-07-22), las 9 asignaturas más
+   Inglés completas, 34 módulos (ver "Estado actual del contenido" arriba).
+   Primer año que usa el Decreto 614/2013 en vez del 439/2012 — verificado
+   antes de construir, incluyendo la nueva numeración de OA y el renombre
+   de Lenguaje a "Lengua y Literatura". El usuario preguntó explícitamente
+   por el contenido de Sexualidad y Reproducción (Ciencias) y Prevención de
+   Conductas de Riesgo (Orientación) antes de escribirlos, dado el salto de
+   madurez respecto a 6° básico — confirmado vía AskUserQuestion: tono
+   clínico/completo para Ciencias, solo factores de riesgo/protección (sin
+   detalle de sexualidad) para Orientación. Igual que en años anteriores, el
+   mismo bug del placeholder `"un(a)"` sin resolver reapareció en 2
+   generadores nuevos pese a estar documentado desde la auditoría de 6°
+   básico — lección reforzada: no basta con documentar un bug pasado, hay
+   que grepear por el patrón (`un\(a\)`) en el contenido nuevo antes de
+   darlo por terminado. 12 de los 34 módulos nuevos tenían bank ≤
+   `rounds:8` (repetición garantizada), y 2 de esos 12 necesitaron una
+   segunda ronda de ampliación porque la primera pasada solo llegó a
+   exactamente 8 ítems sin margen real — lección reforzada: verificar el
+   conteo final después de expandir, no asumir que "agregué algunos ítems"
+   fue suficiente.
+7. **Siguiente:** antes de construir 8° básico, verificar en
+   curriculumnacional.cl si su currículum también usa el Decreto 614/2013
+   (probable, dado que ese decreto cubre "7° básico a 2° medio") y si
+   repite la misma lista de 10 asignaturas de 7° básico — no asumirlo.
+   Luego repetir el patrón ya establecido: `<NOMBRE>_MODULES_G8`/`_POS_G8`
+   en cada `content/<asignatura>.js` (más `content/ingles.js`), agregar
+   `8: {...}` a cada `*_BY_GRADE` en `gradeContent.js`, registrar en
+   `MC_GAMES`/`MC_KEYS`, agregar estrellas en `state.js` y títulos en
+   `rewards.js`. Antes de dar por terminado cada generador: (a) contar
+   explícitamente los ítems de cada banco contra `rounds:8`, dejando margen
+   real de +2 a +4 (no justo al límite — le pasó a 12 módulos de 6° básico
+   y a 12 de 7° básico pese a la advertencia ya documentada dos veces, así
+   que conviene contar y volver a contar después de cualquier expansión),
+   (b) revisar cuántos valores/categorías realmente distintos tiene cada
+   banco antes de decidir cuántas opciones de respuesta ofrecer, (c)
+   revisar que ningún nombre de banco (`const NOMBRE_BANK`) choque con uno
+   ya existente en el mismo archivo de años anteriores, y (d) grepear el
+   contenido nuevo por el patrón `un\(a\)` sin resolver antes de darlo por
+   terminado (bug recurrente en Lenguaje/Matemática/Artes en 6° y 7°
+   básico).
 7. Una vez completa toda Educación Básica, definir con el usuario el mismo patrón
    para Educación Media (probablemente asignaturas distintas: Física/Química/
    Biología separadas, Filosofía, etc. — pedir la lista real antes de asumir) y

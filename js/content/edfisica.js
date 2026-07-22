@@ -476,3 +476,39 @@ export function genLiderazgo6Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
+
+/* ---------------- Contenido Educación Física y Salud 7° Básico ----------------
+   Basado en Decreto 614/2013. OA02 -> Estrategias y Tácticas Deportivas
+   (reconocer principios básicos de estrategia en juegos y deportes:
+   marcar espacios, anticipar jugadas, ocupar posiciones, trabajo en
+   equipo — un ángulo conceptual/reconocible sin requerir desempeño físico
+   real). Quedan fuera OA01,03-05 (habilidades motrices específicas,
+   variedad de actividad física, entornos naturales — práctica física
+   real) y OA06-11 (condición física medida, vida activa, juego limpio —
+   ya cubiertos en años anteriores con contenido equivalente). */
+export const EDFISICA_MODULES_G7 = [
+  {id:'estrategiastacticas7', label:'Estrategias y Tácticas Deportivas', open:true, key:'estrategiastacticas7'},
+];
+export const EDFISICA_POS_G7 = [{x:50,y:50}];
+
+const ESTRATEGIA_DEPORTIVA_BANK = [
+  { desc:'En un partido de fútbol, un jugador se mueve hacia un espacio vacío de la cancha antes de que le pasen la pelota, en vez de quedarse quieto', correcta:'OCUPAR ESPACIOS LIBRES', opts:['QUEDARSE SIEMPRE EN EL MISMO LUGAR','IGNORAR A SUS COMPAÑEROS DE EQUIPO','CORRER SIN NINGÚN OBJETIVO'] },
+  { desc:'En vóleibol, un equipo se organiza para que cada jugador cubra una zona distinta de la cancha, sin dejar espacios sin cubrir', correcta:'DISTRIBUIRSE EN POSICIONES DE JUEGO', opts:['AGRUPARSE TODOS EN UN SOLO LUGAR','JUGAR CADA UNO POR SU CUENTA SIN ORGANIZACIÓN','IGNORAR LA POSICIÓN DE LOS RIVALES'] },
+  { desc:'En básquetbol, un jugador observa hacia dónde se mueve el rival para adelantarse a su próxima jugada, en vez de solo reaccionar', correcta:'ANTICIPAR LA JUGADA DEL RIVAL', opts:['ESPERAR SIN OBSERVAR NADA','COPIAR SIEMPRE EL MISMO MOVIMIENTO','IGNORAR POR COMPLETO AL RIVAL'] },
+  { desc:'Antes de comenzar un partido en equipo, los jugadores conversan para decidir quién cubrirá qué función durante el juego', correcta:'PLANIFICAR EL TRABAJO EN EQUIPO', opts:['JUGAR SIN NINGÚN ACUERDO PREVIO','DEJAR QUE UN SOLO JUGADOR HAGA TODO EL TRABAJO','IGNORAR LOS ROLES DENTRO DEL EQUIPO'] },
+  { desc:'En un partido de handball, dos jugadores se pasan la pelota rápidamente para confundir a la defensa rival antes de intentar anotar', correcta:'USAR UNA JUGADA COORDINADA CON UN COMPAÑERO', opts:['JUGAR SIEMPRE EN SOLITARIO SIN PASAR LA PELOTA','DETENERSE POR COMPLETO AL VER AL RIVAL','IGNORAR A LOS COMPAÑEROS DE EQUIPO'] },
+  { desc:'Durante un partido, un equipo cambia su forma de jugar al notar que el rival es muy rápido atacando por un lado de la cancha', correcta:'ADAPTAR LA ESTRATEGIA SEGÚN LO QUE HACE EL RIVAL', opts:['SEGUIR EXACTAMENTE EL MISMO PLAN SIN IMPORTAR LO QUE HAGA EL RIVAL','IGNORAR POR COMPLETO CÓMO JUEGA EL EQUIPO CONTRARIO','ABANDONAR EL PARTIDO AL NOTAR LA DIFERENCIA'] },
+  { desc:'En básquetbol, un jugador se comunica con sus compañeros gritando indicaciones sobre dónde está el rival', correcta:'COMUNICARSE CON EL EQUIPO DURANTE EL JUEGO', opts:['JUGAR EN COMPLETO SILENCIO SIN AVISAR NADA A NADIE','IGNORAR LAS INDICACIONES DE LOS COMPAÑEROS','GRITARLE SOLO AL ÁRBITRO'] },
+  { desc:'Antes de un partido de vóleibol, el equipo revisa en qué zona de la cancha el rival tiene más dificultad para recibir', correcta:'ANALIZAR LAS DEBILIDADES DEL EQUIPO RIVAL PARA APROVECHARLAS', opts:['IGNORAR POR COMPLETO CÓMO JUEGA EL RIVAL','JUGAR SIEMPRE DE LA MISMA FORMA SIN ANALIZAR NADA','ENFOCARSE SOLO EN LOS ERRORES PROPIOS DEL EQUIPO'] },
+  { desc:'En un partido de fútbol, un jugador que se cansó le hace una seña a un compañero en la banca para que lo reemplace en el momento justo', correcta:'USAR LOS CAMBIOS DE JUGADORES COMO PARTE DE LA ESTRATEGIA DEL EQUIPO', opts:['JUGAR SIEMPRE CON LOS MISMOS JUGADORES SIN IMPORTAR EL CANSANCIO','IGNORAR POR COMPLETO A LOS JUGADORES EN LA BANCA','SALIR DE LA CANCHA SIN AVISARLE A NADIE'] },
+  { desc:'Un equipo de básquetbol practica una jugada específica varias veces antes del partido para ejecutarla bien cuando la necesite', correcta:'PREPARAR JUGADAS ESTRATÉGICAS CON ANTICIPACIÓN', opts:['IMPROVISAR TODAS LAS JUGADAS SIN NINGÚN TIPO DE PREPARACIÓN','JUGAR SIEMPRE IGUAL SIN PRACTICAR NADA NUEVO','IGNORAR CUALQUIER TIPO DE ESTRATEGIA ANTES DEL PARTIDO'] },
+];
+export function genEstrategiasTacticas7Round(){
+  const item = pick(ESTRATEGIA_DEPORTIVA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué estrategia deportiva se muestra aquí?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
+    explain: 'Esto es un ejemplo de: '+item.correcta.toLowerCase()+'.',
+  };
+}

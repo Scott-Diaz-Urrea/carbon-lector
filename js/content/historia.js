@@ -871,3 +871,174 @@ export function genCiudadania6Round(){
   };
 }
 
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 7° Básico ----------------
+   Basado en OA del Decreto 614/2013, "Bases Curriculares 7° básico a 2°
+   medio" (curriculumnacional.cl/curriculum/7o-basico-2o-medio/historia-
+   geografia-ciencias-sociales/7-basico). El currículum de 7° básico
+   profundiza en Grecia/Roma y Maya/Azteca/Inca (ya tratados de forma más
+   básica en 3° y 4° básico respectivamente) con procesos históricos
+   concretos y específicos -instituciones, tecnologías, organización- en vez
+   de solo hitos generales, así que el contenido es genuinamente nuevo y más
+   avanzado, no una repetición.
+   Prehistoria y Primeras Civilizaciones -> OA01-04 (hominización, agricultura
+   y sedentarización, formación de estados, primeras civilizaciones como
+   Sumeria y Egipto). Grecia y Roma: Sociedad y Política -> OA05-08,17-18
+   (el Mediterráneo, democracia ateniense, la civilización romana y su
+   legado, el canon cultural clásico, mecanismos de limitación del poder en
+   Atenas/Roma, comparación de conceptos políticos clásicos con la
+   actualidad). Edad Media -> OA09-12 (formación de la civilización europea,
+   sociedad medieval, relaciones entre mundo europeo/bizantino/islámico,
+   transformaciones del siglo XII). Civilizaciones Americanas II: Maya,
+   Azteca e Inca -> OA13-16 (tecnologías de transformación del territorio,
+   organización del Imperio Inca, características culturales, legado
+   presente en Latinoamérica). Formación Ciudadana VII -> OA19-20
+   (diversidad cultural como enriquecimiento, formas de convivencia y
+   conflicto entre culturas). Geografía y Medioambiente -> OA21-23
+   (adaptación ser humano-medio, impacto humano en el ambiente, problemas
+   medioambientales como el calentamiento global).
+   Quedan fuera: OA24-26 (opinar y argumentar con fundamentos, evaluar y
+   justificar soluciones, informarse por diarios/TICs — no aplica a este
+   currículum en el mismo número, revisar en años posteriores si el
+   currículum de 8° básico repite esta numeración). */
+export const HISTORIA_MODULES_G7 = [
+  {id:'prehistoriacivilizaciones7', label:'Prehistoria y Primeras Civilizaciones', open:true, key:'prehistoriacivilizaciones7'},
+  {id:'greciaroma7', label:'Grecia y Roma: Sociedad y Política', open:true, key:'greciaroma7'},
+  {id:'edadmedia7', label:'Edad Media', open:true, key:'edadmedia7'},
+  {id:'civilizacionesamericanas7', label:'Civilizaciones Americanas II', open:true, key:'civilizacionesamericanas7'},
+  {id:'ciudadania7', label:'Formación Ciudadana VII', open:true, key:'ciudadania7'},
+  {id:'geografiamedioambiente7', label:'Geografía y Medioambiente', open:true, key:'geografiamedioambiente7'},
+];
+export const HISTORIA_POS_G7 = [{x:22,y:92},{x:68,y:76},{x:22,y:58},{x:68,y:42},{x:22,y:24},{x:68,y:6}];
+
+const PREHISTORIA_BANK = [
+  { pregunta:'¿Cómo se llama el proceso evolutivo mediante el cual la especie humana desarrolló las características que la distinguen de otros primates?', correcta:'HOMINIZACIÓN', opts:['SEDENTARIZACIÓN','DOMESTICACIÓN','COLONIZACIÓN'] },
+  { pregunta:'¿Qué avance permitió a los primeros seres humanos dejar de depender solo de la caza y la recolección para alimentarse?', correcta:'LA AGRICULTURA Y LA DOMESTICACIÓN DE ANIMALES', opts:['LA INVENCIÓN DE LA RUEDA SOLAMENTE','EL DESCUBRIMIENTO DEL FUEGO SOLAMENTE','LA INVENCIÓN DE LA ESCRITURA SOLAMENTE'] },
+  { pregunta:'¿Qué es la sedentarización?', correcta:'EL PROCESO POR EL CUAL LOS GRUPOS HUMANOS DEJARON DE SER NÓMADAS Y SE ESTABLECIERON EN UN LUGAR FIJO', opts:['EL PROCESO DE DOMESTICAR ANIMALES SALVAJES','LA INVENCIÓN DE NUEVAS HERRAMIENTAS DE PIEDRA','EL DESARROLLO DEL LENGUAJE ESCRITO'] },
+  { pregunta:'¿Qué desarrollo permitió a las primeras civilizaciones llevar registros de sus bienes y transacciones comerciales?', correcta:'LA ESCRITURA Y LOS SISTEMAS DE CONTABILIDAD', opts:['LA RUEDA','EL FUEGO','LA AGRICULTURA POR SÍ SOLA'] },
+  { pregunta:'¿Qué cambio en la forma de vida trajo consigo la sedentarización de los primeros grupos humanos?', correcta:'LA POSIBILIDAD DE FORMAR ALDEAS Y ACUMULAR RECURSOS PERMANENTES', opts:['EL FIN DE CUALQUIER TIPO DE ORGANIZACIÓN SOCIAL','LA DESAPARICIÓN DE LA AGRICULTURA','UN AUMENTO DEL NOMADISMO'] },
+  { pregunta:'¿Por qué la domesticación de animales fue un avance importante para las primeras sociedades humanas?', correcta:'PORQUE ASEGURÓ UNA FUENTE MÁS ESTABLE DE ALIMENTO Y TRABAJO', opts:['PORQUE ELIMINÓ POR COMPLETO LA NECESIDAD DE COMER','PORQUE IMPIDIÓ EL DESARROLLO DE LA AGRICULTURA','PORQUE HIZO DESAPARECER A TODOS LOS ANIMALES SALVAJES'] },
+];
+const PRIMERAS_CIVILIZACIONES_BANK = [
+  { pregunta:'¿Cuál de estas fue una de las primeras civilizaciones de la historia, ubicada en Mesopotamia?', correcta:'LA CIVILIZACIÓN SUMERIA', opts:['LA CIVILIZACIÓN OLMECA','LA CIVILIZACIÓN INCA','LA CIVILIZACIÓN VIKINGA'] },
+  { pregunta:'¿En qué río se desarrolló la civilización egipcia antigua?', correcta:'EL RÍO NILO', opts:['EL RÍO ÁMAZONAS','EL RÍO BIOBÍO','EL RÍO TÍBER'] },
+  { pregunta:'¿Qué caracterizaba a las primeras civilizaciones en cuanto a su organización social?', correcta:'UNA ESTRATIFICACIÓN SOCIAL, CON DISTINTOS GRUPOS O CLASES', opts:['UNA IGUALDAD TOTAL ENTRE TODAS LAS PERSONAS','LA AUSENCIA COMPLETA DE GOBIERNO','LA AUSENCIA COMPLETA DE CIUDADES'] },
+  { pregunta:'¿Qué región comprendía Mesopotamia, cuna de la civilización sumeria?', correcta:'LA ZONA ENTRE LOS RÍOS TIGRIS Y ÉUFRATES', opts:['LA ZONA ENTRE LOS ANDES Y EL PACÍFICO','LA PENÍNSULA ITÁLICA','LA ISLA DE GRAN BRETAÑA'] },
+  { pregunta:'¿Por qué las crecidas periódicas del río Nilo fueron importantes para la civilización egipcia?', correcta:'PORQUE FERTILIZABAN LA TIERRA Y PERMITÍAN LA AGRICULTURA EN UNA ZONA DESÉRTICA', opts:['PORQUE IMPEDÍAN POR COMPLETO LA AGRICULTURA','PORQUE OBLIGABAN A ABANDONAR LA REGIÓN CADA AÑO','PORQUE NO TENÍAN NINGÚN EFECTO EN LOS CULTIVOS'] },
+];
+const GRECIA_ROMA_7_BANK = [
+  { pregunta:'¿Qué mar fue central para el desarrollo de la civilización griega y romana, permitiendo el comercio y el intercambio cultural?', correcta:'EL MAR MEDITERRÁNEO', opts:['EL OCÉANO PACÍFICO','EL MAR CARIBE','EL OCÉANO ÍNDICO'] },
+  { pregunta:'¿Cómo se llamaba la unidad política básica de la antigua Grecia, una ciudad independiente con su propio gobierno?', correcta:'LA POLIS (CIUDAD-ESTADO)', opts:['EL IMPERIO','LA PROVINCIA','EL VIRREINATO'] },
+  { pregunta:'¿En qué ciudad-estado griega se desarrolló la forma de democracia más conocida de la Antigüedad?', correcta:'ATENAS', opts:['ESPARTA','ROMA','CARTAGO'] },
+  { pregunta:'¿Qué sistema legal desarrolló el Imperio Romano, que influye hasta hoy en muchos países?', correcta:'EL DERECHO ROMANO', opts:['LA DEMOCRACIA ATENIENSE','EL SISTEMA FEUDAL','EL CÓDIGO DE HAMMURABI'] },
+  { pregunta:'¿Qué mecanismo usaba la democracia ateniense para evitar que una sola persona acumulara demasiado poder por mucho tiempo?', correcta:'LA TEMPORALIDAD DE LOS CARGOS (SE ROTABAN PERIÓDICAMENTE)', opts:['LA HERENCIA DEL CARGO DE PADRE A HIJO PARA SIEMPRE','LA ELECCIÓN DE UN GOBERNANTE ÚNICO DE POR VIDA','LA AUSENCIA TOTAL DE CUALQUIER CARGO PÚBLICO'] },
+  { pregunta:'¿Qué rol cumplía el Senado en la República romana?', correcta:'ASESORAR Y AYUDAR A LIMITAR EL PODER DE LOS MAGISTRADOS', opts:['NO TENÍA NINGÚN ROL EN EL GOBIERNO','SOLO SE ENCARGABA DE ORGANIZAR FIESTAS','SU ÚNICA FUNCIÓN ERA COBRAR IMPUESTOS'] },
+  { pregunta:'¿Qué aspectos de las sociedades actuales reciben influencia del legado cultural de Grecia y Roma?', correcta:'LA ESCRITURA ALFABÉTICA, LA FILOSOFÍA, EL DERECHO Y LAS CIENCIAS, ENTRE OTROS', opts:['NINGÚN ASPECTO DE HOY TIENE RELACIÓN CON ESA ÉPOCA','SOLO LA FORMA DE VESTIR ACTUAL','SOLO LOS NOMBRES DE LOS MESES DEL AÑO'] },
+  { pregunta:'¿Quiénes podían participar directamente en las decisiones de la democracia ateniense?', correcta:'LOS CIUDADANOS VARONES ADULTOS, EXCLUYENDO A MUJERES Y ESCLAVOS', opts:['TODOS LOS HABITANTES DE LA CIUDAD POR IGUAL, SIN NINGUNA EXCEPCIÓN','SOLO UN REY Y SU FAMILIA','SOLO LOS EXTRANJEROS QUE VISITABAN LA CIUDAD'] },
+  { pregunta:'¿Qué evento deportivo de la Antigua Grecia sigue existiendo hoy, adaptado a los tiempos modernos?', correcta:'LOS JUEGOS OLÍMPICOS', opts:['EL CAMPEONATO MUNDIAL DE FÚTBOL','LOS JUEGOS DEL COLISEO','LAS CARRERAS DE CARROS ROMANAS'] },
+];
+const EDAD_MEDIA_BANK = [
+  { pregunta:'¿Qué tradiciones confluyeron en la formación de la civilización europea medieval?', correcta:'LA GRECORROMANA, LA JUDEOCRISTIANA Y LA GERMANA', opts:['SOLO LA TRADICIÓN EGIPCIA','SOLO LA TRADICIÓN CHINA','SOLO LA TRADICIÓN INCA'] },
+  { pregunta:'¿Qué institución fue clave en articular estas tradiciones y legitimar el poder político durante la Edad Media europea?', correcta:'LA IGLESIA CATÓLICA', opts:['EL SENADO ROMANO','LA ASAMBLEA ATENIENSE','EL IMPERIO INCA'] },
+  { pregunta:'¿Cómo se llama el sistema social medieval, dividido en grupos con derechos y deberes distintos (nobleza, clero, campesinado)?', correcta:'EL ORDEN ESTAMENTAL', opts:['LA DEMOCRACIA DIRECTA','EL SISTEMA REPUBLICANO','LA MERITOCRACIA MODERNA'] },
+  { pregunta:'¿Qué caracterizaba principalmente la vida económica y social durante gran parte de la Edad Media?', correcta:'LA VIDA RURAL, CON UN DECLIVE DE LA VIDA URBANA', opts:['GRANDES CIUDADES INDUSTRIALIZADAS','EL COMERCIO ELECTRÓNICO','LOS VIAJES ESPACIALES'] },
+  { pregunta:'¿Qué cambios importantes ocurrieron en Europa a partir del siglo XII?', correcta:'RENACIMIENTO DE LA VIDA URBANA, MÁS COMERCIO Y EL SURGIMIENTO DE LAS UNIVERSIDADES', opts:['LA DESAPARICIÓN COMPLETA DE LAS CIUDADES','EL FIN DEL COMERCIO EN TODA EUROPA','LA INVENCIÓN DE INTERNET'] },
+  { pregunta:'¿A qué grupo social pertenecían quienes trabajaban la tierra dentro del sistema estamental medieval?', correcta:'AL CAMPESINADO', opts:['A LA NOBLEZA','AL CLERO','A LA REALEZA'] },
+  { pregunta:'¿Qué función cumplían los monasterios durante gran parte de la Edad Media europea?', correcta:'CONSERVAR Y COPIAR MANUSCRITOS, ADEMÁS DE OFICIAR COMO CENTROS RELIGIOSOS Y DE ESTUDIO', opts:['ORGANIZAR COMPETENCIAS DEPORTIVAS','FUNCIONAR COMO CENTROS DE COMERCIO MARÍTIMO ÚNICAMENTE','SERVIR SOLO COMO FORTALEZAS MILITARES'] },
+  { pregunta:'¿Qué caracterizaba a las relaciones de vasallaje típicas del sistema feudal medieval?', correcta:'UN SEÑOR OTORGABA TIERRAS A UN VASALLO A CAMBIO DE FIDELIDAD Y SERVICIOS', opts:['TODOS LOS HABITANTES TENÍAN EXACTAMENTE LOS MISMOS DERECHOS Y TIERRAS','NO EXISTÍA NINGÚN TIPO DE JERARQUÍA SOCIAL','LAS TIERRAS SE REPARTÍAN POR SORTEO CADA AÑO'] },
+  { pregunta:'¿Qué institución fundada en el siglo XII marcó un cambio importante en la educación europea?', correcta:'LAS PRIMERAS UNIVERSIDADES', opts:['LOS PRIMEROS COLEGIOS EN LÍNEA','LAS PRIMERAS ESCUELAS DE CONDUCCIÓN','LOS PRIMEROS HOSPITALES PÚBLICOS MODERNOS'] },
+];
+const CIVILIZACIONES_AMERICANAS_2_BANK = [
+  { pregunta:'¿Qué tecnologías usaron los mayas y aztecas para transformar el territorio que habitaban?', correcta:'CANALES, ACUEDUCTOS Y SISTEMAS DE CULTIVO', opts:['SATÉLITES Y COMPUTADORES','MOTORES A VAPOR','ENERGÍA NUCLEAR'] },
+  { pregunta:'¿Qué sistema de caminos y comunicación ayudó a mantener unido al Imperio Inca?', correcta:'LA RED DE CAMINOS Y EL SISTEMA DE CHASQUIS (MENSAJEROS)', opts:['EL TELÉFONO','EL FERROCARRIL','EL CORREO POSTAL MODERNO'] },
+  { pregunta:'¿Cómo se llamaba el sistema de trabajo colectivo y rotativo en el Imperio Inca?', correcta:'LA MITA', opts:['LA ENCOMIENDA','LA HACIENDA','EL FEUDALISMO'] },
+  { pregunta:'¿Qué idioma se convirtió en la lengua oficial y de administración del Imperio Inca?', correcta:'EL QUECHUA', opts:['EL NÁHUATL','EL LATÍN','EL MAYA'] },
+  { pregunta:'¿Cómo se llamaba la capital del Imperio Inca, centro político y religioso del Tahuantinsuyo?', correcta:'CUSCO', opts:['TENOCHTITLÁN','MACHU PICCHU','TIAHUANACO'] },
+  { pregunta:'¿Qué construcción monumental inca, ubicada en lo alto de los Andes, es hoy uno de los sitios arqueológicos más visitados del mundo?', correcta:'MACHU PICCHU', opts:['LA GRAN PIRÁMIDE DE GUIZA','EL COLISEO ROMANO','LA MURALLA CHINA'] },
+  { pregunta:'¿Qué era Tenochtitlán, la capital del Imperio Azteca?', correcta:'UNA CIUDAD CONSTRUIDA SOBRE UN LAGO, CON CANALES Y CHINAMPAS (ISLAS ARTIFICIALES DE CULTIVO)', opts:['UNA CIUDAD CONSTRUIDA EN LO ALTO DE UNA MONTAÑA NEVADA','UN PUERTO EN LA COSTA DEL OCÉANO PACÍFICO','UNA CIUDAD SUBTERRÁNEA'] },
+  { pregunta:'¿Qué sistema de escritura y registro numérico usaban los incas para llevar cuentas administrativas, sin tener escritura alfabética?', correcta:'EL QUIPU (UN SISTEMA DE CUERDAS Y NUDOS)', opts:['TABLILLAS DE ARCILLA CON ESCRITURA CUNEIFORME','PAPIRO CON JEROGLÍFICOS','PERGAMINOS CON ALFABETO LATINO'] },
+  { pregunta:'¿Qué característica compartían las civilizaciones maya, azteca e inca en cuanto a sus construcciones monumentales?', correcta:'CONSTRUYERON GRANDES PIRÁMIDES O TEMPLOS CON UN ALTO NIVEL DE PLANIFICACIÓN URBANA', opts:['NINGUNA DE LAS TRES CONSTRUYÓ EDIFICACIONES DE PIEDRA','TODAS VIVÍAN ÚNICAMENTE EN CARPAS NÓMADAS','NO TENÍAN NINGÚN TIPO DE CIUDADES'] },
+];
+const CIUDADANIA7_BANK = [
+  { correcta:'Reconocer que distintas culturas del pasado (árabes, judeocristianas, germanas, entre otras) aportaron ciencia, religión y lenguaje a las sociedades europeas', incorrectas:['Ignorar por completo los aportes de culturas distintas a la propia','Creer que solo una cultura ha aportado algo valioso a la historia','Rechazar cualquier influencia cultural externa'] },
+  { correcta:'Valorar la diversidad cultural como una forma de enriquecer a las sociedades', incorrectas:['Pensar que la diversidad cultural siempre debilita a una sociedad','Ignorar la existencia de otras culturas','Rechazar el respeto hacia culturas distintas a la propia'] },
+  { correcta:'Reconocer que puede haber convivencia y también conflicto entre culturas distintas, y que el diálogo ayuda a resolverlo', incorrectas:['Creer que la convivencia entre culturas nunca ha existido en la historia','Pensar que el conflicto entre culturas nunca se puede resolver con diálogo','Ignorar los conflictos históricos entre culturas por completo'] },
+  { correcta:'Comparar cómo conceptos como ciudadanía o democracia han cambiado desde el mundo clásico hasta hoy', incorrectas:['Pensar que estos conceptos nunca han cambiado desde la Antigüedad','Creer que la democracia actual es idéntica a la de Atenas en todo sentido','Ignorar la historia de estos conceptos por completo'] },
+  { correcta:'Escuchar con respeto costumbres o creencias distintas a las propias antes de emitir un juicio sobre ellas', incorrectas:['Rechazar de inmediato cualquier costumbre distinta a la propia sin conocerla','Burlarse de las creencias de otras culturas','Exigir que todos adopten exactamente las mismas costumbres'] },
+  { correcta:'Reconocer que el aporte de distintos pueblos y culturas a la historia ha sido variado y complementario', incorrectas:['Creer que solo un pueblo ha construido toda la historia de la humanidad','Ignorar el aporte de culturas no europeas a la historia mundial','Pensar que la historia comenzó con una sola civilización'] },
+  { correcta:'Fundamentar una opinión sobre un tema histórico con hechos y evidencia, en vez de solo prejuicios', incorrectas:['Formar una opinión sin buscar ningún tipo de evidencia','Repetir una opinión ajena sin analizarla nunca','Ignorar por completo los hechos históricos al opinar'] },
+  { correcta:'Reconocer que distintas civilizaciones antiguas, como Grecia, Roma o los incas, desarrollaron formas propias de organizar el poder', incorrectas:['Creer que solo una civilización antigua tuvo alguna forma de organización política','Pensar que ninguna civilización antigua tuvo gobierno alguno','Ignorar que existieron distintas formas de organización política en la historia'] },
+  { correcta:'Participar activamente en discusiones grupales sobre temas históricos, respetando los turnos de habla', incorrectas:['Interrumpir constantemente a los demás sin dejarlos hablar','Negarse a participar en cualquier discusión grupal','Imponer tu opinión sin escuchar la de otros'] },
+];
+const GEOGRAFIA_MEDIOAMBIENTE_7_BANK = [
+  { pregunta:'¿Qué factor puede influir en dónde decide asentarse un grupo humano?', correcta:'LA DISPONIBILIDAD DE RECURSOS Y AGUA CERCA DEL LUGAR', opts:['EL COLOR DEL CIELO EN ESA ZONA','LA CANTIDAD DE ESTRELLAS VISIBLES DE NOCHE','EL NOMBRE QUE TENGA EL LUGAR'] },
+  { pregunta:'¿Qué es el calentamiento global?', correcta:'EL AUMENTO PROGRESIVO DE LA TEMPERATURA PROMEDIO DEL PLANETA', opts:['LA DISMINUCIÓN CONSTANTE DE LA TEMPERATURA DEL PLANETA','UN FENÓMENO QUE SOLO OCURRE EN EL ESPACIO','UN TIPO DE ERUPCIÓN VOLCÁNICA'] },
+  { pregunta:'¿Cuál es una medida para mitigar los efectos negativos de la acción humana sobre el medioambiente?', correcta:'REDUCIR EL USO DE COMBUSTIBLES CONTAMINANTES Y CUIDAR LOS RECURSOS NATURALES', opts:['AUMENTAR SIN LÍMITE EL USO DE COMBUSTIBLES CONTAMINANTES','IGNORAR POR COMPLETO EL CUIDADO DE LOS RECURSOS NATURALES','TALAR TODOS LOS BOSQUES SIN NINGÚN CONTROL'] },
+  { pregunta:'¿Cómo puede la acción humana afectar negativamente el medio ambiente de una localidad?', correcta:'CONTAMINANDO EL AGUA, EL AIRE O EL SUELO CON DESECHOS', opts:['PLANTANDO MÁS ÁRBOLES NATIVOS','RECICLANDO LOS MATERIALES DE FORMA RESPONSABLE','PROTEGIENDO LAS ÁREAS NATURALES'] },
+  { pregunta:'¿Por qué muchos asentamientos humanos, antiguos y actuales, se ubican cerca de ríos o costas?', correcta:'PORQUE FACILITAN EL ACCESO AL AGUA, EL TRANSPORTE Y EL COMERCIO', opts:['PORQUE ES EL LUGAR MÁS FRÍO DEL TERRITORIO','PORQUE ASÍ SE EVITA POR COMPLETO CUALQUIER RIESGO NATURAL','PORQUE NO HAY NINGUNA RAZÓN PRÁCTICA PARA ELLO'] },
+  { pregunta:'¿Qué relación existe entre el relieve de un territorio y el tipo de actividades económicas que se desarrollan en él?', correcta:'EL RELIEVE INFLUYE EN QUÉ ACTIVIDADES SON MÁS FÁCILES DE REALIZAR, COMO LA AGRICULTURA EN VALLES O LA MINERÍA EN ZONAS MONTAÑOSAS', opts:['EL RELIEVE NO TIENE NINGUNA RELACIÓN CON LA ECONOMÍA DE UN LUGAR','TODAS LAS ACTIVIDADES ECONÓMICAS SON IGUAL DE FÁCILES EN CUALQUIER RELIEVE','SOLO LAS ZONAS PLANAS PUEDEN TENER ALGÚN TIPO DE ACTIVIDAD ECONÓMICA'] },
+  { pregunta:'¿Qué acción concreta puede tomar una comunidad para reducir su impacto ambiental en el uso del agua?', correcta:'REPARAR FUGAS Y EVITAR EL DESPERDICIO INNECESARIO DE AGUA POTABLE', opts:['DEJAR TODAS LAS LLAVES DE AGUA ABIERTAS PERMANENTEMENTE','AUMENTAR EL DESPERDICIO DE AGUA SIN NINGÚN CONTROL','IGNORAR CUALQUIER FUGA DE AGUA QUE SE DETECTE'] },
+  { pregunta:'¿Por qué la deforestación de un bosque puede afectar negativamente el clima de una zona?', correcta:'PORQUE LOS ÁRBOLES AYUDAN A REGULAR LA TEMPERATURA Y A RETENER AGUA EN EL SUELO', opts:['PORQUE LOS ÁRBOLES NO TIENEN NINGÚN EFECTO EN EL CLIMA','PORQUE MÁS ÁRBOLES SIEMPRE AUMENTAN LA TEMPERATURA','PORQUE LA DEFORESTACIÓN SIEMPRE MEJORA EL CLIMA LOCAL'] },
+  { pregunta:'¿Qué relación existe entre el aumento de gases de efecto invernadero y el calentamiento global?', correcta:'ESOS GASES ATRAPAN MÁS CALOR EN LA ATMÓSFERA, CONTRIBUYENDO A QUE AUMENTE LA TEMPERATURA DEL PLANETA', opts:['ESOS GASES NO TIENEN NINGUNA RELACIÓN CON LA TEMPERATURA DEL PLANETA','ESOS GASES SIEMPRE ENFRÍAN LA ATMÓSFERA','EL CALENTAMIENTO GLOBAL NO TIENE NINGUNA CAUSA CONOCIDA'] },
+  { pregunta:'¿Qué medida de transporte ayuda a reducir el impacto ambiental de una comunidad?', correcta:'USAR MÁS EL TRANSPORTE PÚBLICO, LA BICICLETA O CAMINAR EN VEZ DEL AUTO PARTICULAR', opts:['USAR EL AUTO PARTICULAR PARA CUALQUIER TRAYECTO, POR CORTO QUE SEA','AUMENTAR SIN LÍMITE LA CANTIDAD DE AUTOS EN CIRCULACIÓN','EVITAR POR COMPLETO CUALQUIER FORMA DE TRANSPORTE'] },
+];
+
+export function genPrehistoriaCivilizaciones7Round(){
+  const item = pick(Math.random()<0.5 ? PREHISTORIA_BANK : PRIMERAS_CIVILIZACIONES_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genGreciaRoma7Round(){
+  const item = pick(GRECIA_ROMA_7_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genEdadMedia7Round(){
+  const item = pick(EDAD_MEDIA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCivilizacionesAmericanas7Round(){
+  const item = pick(CIVILIZACIONES_AMERICANAS_2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCiudadania7Round(){
+  const item = pick(CIUDADANIA7_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+  };
+}
+
+export function genGeografiaMedioambiente7Round(){
+  const item = pick(GEOGRAFIA_MEDIOAMBIENTE_7_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+

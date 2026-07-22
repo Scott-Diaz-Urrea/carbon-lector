@@ -338,3 +338,41 @@ export function genMelodiaVariaciones6Round(){
     explain: 'Esto se llama <b>'+item.correcta.toLowerCase()+'</b>.',
   };
 }
+
+/* ---------------- Contenido Música 7° Básico ----------------
+   Basado en Decreto 614/2013. OA02 -> Procedimientos Compositivos, un
+   ángulo nuevo que ningún año anterior había ejercitado: ostinato (un
+   patrón musical corto que se repite sin cambios durante toda o gran
+   parte de una pieza) y secuencia melódica (repetir una idea melódica
+   corta, pero desplazada a un tono más alto o más bajo cada vez), ambos
+   distintos de "variación" (6° básico, una repetición CON cambios de
+   ritmo/dinámica) y de "reiteración" (6° básico, repetir la MISMA frase
+   sin ningún desplazamiento de tono). Quedan fuera OA01,03-08 (crear
+   música propia, escuchar repertorio real, cantar/tocar/improvisar,
+   contexto histórico específico, presentación, autoevaluación). */
+export const MUSICA_MODULES_G7 = [
+  {id:'procedimientoscompositivos7', label:'Procedimientos Compositivos', open:true, key:'procedimientoscompositivos7'},
+];
+export const MUSICA_POS_G7 = [{x:50,y:50}];
+
+const OSTINATO_BANK = [
+  { desc:'Mientras la melodía principal cambia, el bajo repite exactamente el mismo patrón corto de 4 notas una y otra vez, sin variar, durante toda la canción', correcta:'OSTINATO', opts:['SECUENCIA MELÓDICA','VARIACIÓN','SILENCIO'] },
+  { desc:'La percusión toca el mismo patrón rítmico corto, sin ningún cambio, repetido continuamente como base de toda la pieza', correcta:'OSTINATO', opts:['SECUENCIA MELÓDICA','CONTRASTE','ACORDE'] },
+  { desc:'Un pianista toca la mano izquierda con el mismo patrón de notas repetido sin cambios durante toda la canción, mientras la mano derecha toca la melodía principal', correcta:'OSTINATO', opts:['SECUENCIA MELÓDICA','REITERACIÓN DE FRASE COMPLETA','DISEÑO MELÓDICO ONDULANTE'] },
+  { desc:'En una canción de cuna, un mismo patrón corto de guitarra se repite igual desde el principio hasta el final, sin ningún cambio', correcta:'OSTINATO', opts:['SECUENCIA MELÓDICA','VARIACIÓN','CONTRASTE'] },
+];
+const SECUENCIA_MELODICA_BANK = [
+  { desc:'Un compositor toca una frase corta de 3 notas, y luego repite esa misma frase pero empezando 2 notas más arriba, y después otra vez empezando aún más arriba', correcta:'SECUENCIA MELÓDICA', opts:['OSTINATO','SILENCIO','PAUSA'] },
+  { desc:'Una melodía corta se repite varias veces seguidas, cada vez desplazada a un tono más bajo que la anterior, manteniendo la misma forma', correcta:'SECUENCIA MELÓDICA', opts:['OSTINATO','ACORDE','DINÁMICA'] },
+  { desc:'Un violinista toca un pequeño motivo musical, y luego lo repite tres veces más, cada vez un poco más agudo que la anterior', correcta:'SECUENCIA MELÓDICA', opts:['OSTINATO','SILENCIO','ACORDE'] },
+  { desc:'Una melodía de 4 notas se repite manteniendo la misma forma, pero cada repetición comienza más abajo que la anterior, como bajando una escalera', correcta:'SECUENCIA MELÓDICA', opts:['OSTINATO','VARIACIÓN','CONTRASTE'] },
+];
+export function genProcedimientosCompositivos7Round(){
+  const item = pick(Math.random()<0.5 ? OSTINATO_BANK : SECUENCIA_MELODICA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué procedimiento compositivo se usa aquí?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word',
+    explain: 'Esto se llama <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}

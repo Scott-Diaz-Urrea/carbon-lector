@@ -1028,3 +1028,254 @@ export function genOrtografia6Round(){
     explain: item.regla,
   };
 }
+
+/* ---------------- Contenido Lengua y Literatura 7° Básico ----------------
+   Desde 7° básico el currículum chileno cambia de decreto: "Bases
+   Curriculares 7° básico a 2° medio" (Decreto 614/2013, curriculumnacional.cl/
+   curriculum/7o-basico-2o-medio/lengua-literatura/7-basico) en vez del
+   Decreto 439/2012 usado en 1°-6° básico. La asignatura también cambia de
+   nombre: "Lenguaje y Comunicación" pasa a llamarse "Lengua y Literatura" —
+   se mantiene el mismo ícono/pantalla (`lenguajeMap`) para no romper la
+   navegación ya existente, el cambio de nombre queda documentado aquí y en
+   el título que ve el usuario dentro del módulo.
+   Comprensión VII -> OA03,10-11 (estructura narrativa: conflicto, roles de
+   personajes, disposición temporal -incluye flashback/retrospección-,
+   comprensión de textos no literarios). Rima y Métrica -> OA04-05 (recursos
+   sonoros nuevos respecto a años anteriores: rima consonante/asonante, y
+   características del romance como género de la poesía popular). Pensamiento
+   Crítico: Hechos y Opiniones -> OA08-09 (distinguir hecho de opinión,
+   identificar la postura de un autor, reconocer estereotipos en textos
+   mediáticos — un ángulo más analítico que "Evaluar Mensajes Publicitarios"
+   de 6° básico, que solo pedía identificar emisor/intención de un aviso).
+   Vocabulario y Gramática VII -> OA16-18 (concordancia sujeto-predicado,
+   sustitución léxica mediante sinonimia e hiperonimia -ya se trabajó
+   hipónimos en 6°, ahora el ángulo inverso-, tiempos verbales del indicativo
+   al narrar). Ortografía V -> OA19 (por qué / porque / porqué / por que,
+   una regla distinta a las ya cubiertas en 3°-6° básico).
+   Quedan fuera: OA01 (gusto por la lectura, actitudinal), OA02,07
+   (reflexión personal sobre la experiencia humana y conexión con dilemas
+   propios, subjetivo), OA06 (mitos — ya cubierto el género en 3° básico),
+   OA12-15 (producción escrita), OA20-23 (comunicación oral, depende de
+   audio/desempeño), OA24-25 (investigar en fuentes, síntesis de un proceso
+   propio de estudio — proceso, no un hecho con respuesta única). */
+export const LENGUAJE_MODULES_G7 = [
+  {id:'comprension7', label:'Comprensión VII', open:true, key:'comprension7'},
+  {id:'rimametrica7', label:'Rima y Métrica', open:true, key:'rimametrica7'},
+  {id:'pensamientocritico7', label:'Pensamiento Crítico: Hechos y Opiniones', open:true, key:'pensamientocritico7'},
+  {id:'vocabulariogramatica7', label:'Vocabulario y Gramática VII', open:true, key:'vocabulariogramatica7'},
+  {id:'ortografia7', label:'Ortografía V', open:true, key:'ortografia7'},
+];
+export const LENGUAJE_POS_G7 = [{x:22,y:90},{x:68,y:70},{x:22,y:50},{x:68,y:30},{x:22,y:10}];
+
+const CONFLICTO_NARRATIVO_BANK = [
+  { text:'Marco y su mejor amigo dejan de hablarse por un malentendido, y pasan el resto del cuento tratando de reconciliarse.', question:'¿Cuál es el conflicto principal de esta historia?', correct:'LA RUPTURA DE UNA AMISTAD POR UN MALENTENDIDO', opts:['UNA COMPETENCIA DEPORTIVA','UN VIAJE A OTRO PAÍS','LA BÚSQUEDA DE UN TESORO'] },
+  { text:'Una joven debe elegir entre quedarse en su pueblo a cuidar a su familia o aceptar una beca en la ciudad para estudiar lo que ama.', question:'¿Cuál es el conflicto principal de esta historia?', correct:'UN DILEMA ENTRE EL DEBER FAMILIAR Y UNA OPORTUNIDAD PERSONAL', opts:['UNA PELEA POR DINERO','UN PROBLEMA CON UN VECINO','LA PÉRDIDA DE UNA MASCOTA'] },
+  { text:'Un explorador debe cruzar un desierto sin agua suficiente para llegar a la única ciudad cercana.', question:'¿Cuál es el conflicto principal de esta historia?', correct:'LA LUCHA POR SOBREVIVIR EN UN AMBIENTE HOSTIL', opts:['UN CONFLICTO ENTRE DOS HERMANOS','UNA COMPETENCIA DE BAILE','UNA CONFUSIÓN DE IDENTIDAD'] },
+];
+const ROLES_PERSONAJE_BANK = [
+  { pregunta:'¿Cómo se llama el personaje principal de una historia, alrededor de quien gira la trama?', correcta:'PROTAGONISTA', opts:['ANTAGONISTA','NARRADOR','PERSONAJE SECUNDARIO'] },
+  { pregunta:'¿Cómo se llama el personaje que se opone a los objetivos del protagonista?', correcta:'ANTAGONISTA', opts:['PROTAGONISTA','NARRADOR','PERSONAJE SECUNDARIO'] },
+  { pregunta:'¿Cómo se llama un personaje que acompaña la trama pero no es central en el conflicto principal?', correcta:'PERSONAJE SECUNDARIO', opts:['PROTAGONISTA','ANTAGONISTA','NARRADOR'] },
+];
+const DISPOSICION_TEMPORAL_BANK = [
+  { desc:'Un cuento comienza mostrando el final de la historia, y luego retrocede en el tiempo para contar cómo los personajes llegaron ahí.', correcta:'RETROSPECCIÓN (FLASHBACK)', opts:['ORDEN CRONOLÓGICO LINEAL','DIÁLOGO DIRECTO','DESCRIPCIÓN DE AMBIENTE'] },
+  { desc:'Un cuento narra los hechos exactamente en el orden en que ocurrieron, del principio al final.', correcta:'ORDEN CRONOLÓGICO LINEAL', opts:['RETROSPECCIÓN (FLASHBACK)','UN DIÁLOGO','UNA DESCRIPCIÓN'] },
+  { desc:'Una novela interrumpe la historia principal para mostrar brevemente un adelanto de algo que ocurrirá más adelante.', correcta:'ANTICIPACIÓN (FLASH-FORWARD)', opts:['ORDEN CRONOLÓGICO LINEAL','RETROSPECCIÓN (FLASHBACK)','UN MONÓLOGO'] },
+];
+const COMPRENSION7_NOLITERARIO_BANK = [
+  { text:'Un artículo científico explica que el 71% de la superficie de la Tierra está cubierta por océanos, y que estos regulan gran parte del clima del planeta.', question:'¿Qué porcentaje de la superficie terrestre está cubierta por océanos, según el texto?', correct:'71%', opts:['25%','50%','99%'] },
+  { text:'Un manual de primeros auxilios indica: primero evalúa la seguridad del lugar, luego revisa si la persona respira, y recién después llama a emergencias.', question:'¿Qué se debe hacer justo después de evaluar la seguridad del lugar?', correct:'REVISAR SI LA PERSONA RESPIRA', opts:['LLAMAR A EMERGENCIAS DE INMEDIATO','MOVER A LA PERSONA','IGNORAR LA SITUACIÓN'] },
+  { text:'Una noticia informa que la biblioteca municipal amplió su horario de atención tras una encuesta donde el 80% de los vecinos pidió más horas disponibles.', question:'¿Por qué la biblioteca amplió su horario, según el texto?', correct:'PORQUE LA MAYORÍA DE LOS VECINOS ENCUESTADOS LO PIDIÓ', opts:['PORQUE EL GOBIERNO LO ORDENÓ SIN CONSULTAR A NADIE','PORQUE IBA A CERRAR DEFINITIVAMENTE','PORQUE NADIE LA VISITABA'] },
+];
+export function genComprension7Round(){
+  const roll = Math.random();
+  if(roll<0.25){
+    const item = pick(CONFLICTO_NARRATIVO_BANK);
+    const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+      options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
+      explain: 'El conflicto principal es: '+item.correct.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.5){
+    const item = pick(ROLES_PERSONAJE_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.75){
+    const item = pick(DISPOSICION_TEMPORAL_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'</p><p class="prompt-hint">¿Qué recurso de disposición temporal se usa aquí?</p>',
+      options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
+      explain: 'Este recurso se llama <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(COMPRENSION7_NOLITERARIO_BANK);
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correct.toLowerCase()+'.',
+  };
+}
+
+const RIMA_BANK = [
+  { verso:'"Verde que te quiero verde. / Verde viento. Verdes ramas."', tipo:'RIMA ASONANTE', explicacion:'Solo coinciden las vocales finales desde la última sílaba acentuada ("verde"/"ramas" comparten el sonido "e-a" de forma parecida, sin que coincidan también las consonantes).' },
+  { verso:'"Volverán las oscuras golondrinas / en tu balcón sus nidos a colgar"', tipo:'RIMA CONSONANTE', explicacion:'Coinciden tanto las vocales como las consonantes desde la última sílaba acentuada.' },
+  { verso:'Una canción donde "corazón" rima con "canción" y "razón" (coinciden todas las letras finales)', tipo:'RIMA CONSONANTE', explicacion:'Cuando coinciden exactamente todos los sonidos finales (vocales y consonantes), es rima consonante.' },
+  { verso:'Un poema donde "cielo" rima con "sueño" (solo coinciden las vocales e-o, no las consonantes)', tipo:'RIMA ASONANTE', explicacion:'Cuando solo coinciden los sonidos vocálicos finales, es rima asonante.' },
+  { verso:'Una canción donde "ventana" rima con "mañana" (coinciden todas las letras desde la sílaba acentuada)', tipo:'RIMA CONSONANTE', explicacion:'Coinciden exactamente todos los sonidos finales, vocales y consonantes, así que es rima consonante.' },
+  { verso:'Un poema donde "camino" rima con "destino" (coinciden todas las letras desde la sílaba acentuada)', tipo:'RIMA CONSONANTE', explicacion:'Cuando coinciden tanto vocales como consonantes desde la sílaba acentuada, es rima consonante.' },
+  { verso:'Un romance donde "prado" rima con "campo" (solo coinciden las vocales a-o, no las consonantes)', tipo:'RIMA ASONANTE', explicacion:'Solo coinciden los sonidos vocálicos finales, sin que coincidan también las consonantes, así que es rima asonante.' },
+  { verso:'Una copla donde "montaña" rima con "extraña" (coinciden todas las letras desde la sílaba acentuada)', tipo:'RIMA CONSONANTE', explicacion:'Coinciden exactamente todos los sonidos, vocales y consonantes, desde la última sílaba acentuada.' },
+];
+const ROMANCE_BANK = [
+  { pregunta:'¿Qué es un romance, dentro de la poesía popular?', correcta:'UN POEMA NARRATIVO TRADICIONAL, GENERALMENTE EN VERSOS DE OCHO SÍLABAS CON RIMA ASONANTE EN LOS VERSOS PARES', opts:['UNA CARTA DE AMOR EN PROSA','UN TIPO DE BAILE FOLCLÓRICO','UN INSTRUMENTO MUSICAL DE CUERDAS'] },
+  { pregunta:'¿Qué solían contar tradicionalmente los romances, transmitidos oralmente de generación en generación?', correcta:'HISTORIAS, HAZAÑAS Y SUCESOS QUE INTERESABAN AL PUEBLO', opts:['SOLO RECETAS DE COCINA','SOLO FECHAS DE CALENDARIO','SOLO NOMBRES DE PLANTAS'] },
+  { pregunta:'¿Cuántas sílabas suelen tener los versos de un romance tradicional?', correcta:'OCHO SÍLABAS', opts:['DOS SÍLABAS','VEINTE SÍLABAS','UNA SÍLABA'] },
+  { pregunta:'¿Por qué los romances eran fáciles de recordar y transmitir de generación en generación sin escribirlos?', correcta:'PORQUE SU RITMO Y SU RIMA AYUDABAN A MEMORIZARLOS', opts:['PORQUE ERAN MUY LARGOS Y COMPLICADOS','PORQUE SE ESCRIBÍAN EN VARIOS IDIOMAS A LA VEZ','PORQUE NO TENÍAN NINGÚN RITMO NI RIMA'] },
+  { pregunta:'¿Qué verso de un romance suele llevar la rima asonante, según su estructura tradicional?', correcta:'LOS VERSOS PARES (EL SEGUNDO, EL CUARTO, Y ASÍ SUCESIVAMENTE)', opts:['SOLO EL PRIMER VERSO','NINGÚN VERSO LLEVA RIMA','TODOS LOS VERSOS SIN EXCEPCIÓN'] },
+  { pregunta:'¿Qué tipo de temas solían tratar los romances históricos, además de hazañas del pueblo?', correcta:'SUCESOS HISTÓRICOS, GUERRAS Y PERSONAJES CONOCIDOS POR LA COMUNIDAD', opts:['SOLO TEMAS DE MATEMÁTICA','SOLO INSTRUCCIONES DE COCINA','SOLO EL PRONÓSTICO DEL CLIMA'] },
+];
+export function genRimaMetrica7Round(){
+  if(Math.random()<0.6){
+    const item = pick(RIMA_BANK);
+    const opts = shuffle([{label:'RIMA CONSONANTE', value:'RIMA CONSONANTE'},{label:'RIMA ASONANTE', value:'RIMA ASONANTE'}]);
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.verso+'</p><p class="prompt-hint">¿Qué tipo de rima se usa aquí?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.verso, cols:2, panel:true,
+      explain: item.explicacion,
+    };
+  }
+  const item = pick(ROMANCE_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const HECHO_OPINION_BANK = [
+  { frase:'El agua hierve a 100 grados Celsius a nivel del mar.', tipo:'HECHO' },
+  { frase:'Esta es la mejor película que se ha hecho jamás.', tipo:'OPINIÓN' },
+  { frase:'Chile tiene una superficie de aproximadamente 756 mil kilómetros cuadrados.', tipo:'HECHO' },
+  { frase:'La música clásica es más aburrida que la música pop.', tipo:'OPINIÓN' },
+  { frase:'El fútbol es el deporte más entretenido que existe.', tipo:'OPINIÓN' },
+  { frase:'La Tierra completa una vuelta alrededor del Sol en aproximadamente 365 días.', tipo:'HECHO' },
+  { frase:'Ese equipo de fútbol tiene la mejor hinchada del país.', tipo:'OPINIÓN' },
+  { frase:'El libro fue publicado originalmente en 1967.', tipo:'HECHO' },
+];
+const POSTURA_AUTOR_BANK = [
+  { texto:'"Es evidente que los parques urbanos deberían tener más árboles: mejoran la calidad del aire, bajan la temperatura y dan espacio de recreación a la comunidad."', pregunta:'¿Cuál es la postura del autor de este texto?', correcta:'A FAVOR DE AUMENTAR LOS ÁRBOLES EN LOS PARQUES URBANOS', opts:['EN CONTRA DE TENER PARQUES EN LA CIUDAD','NEUTRAL, SIN OPINIÓN AL RESPECTO','A FAVOR DE ELIMINAR TODOS LOS ÁRBOLES'] },
+  { texto:'"Cambiar el horario de inicio de clases a más tarde ayudaría a que los estudiantes duerman más y rindan mejor, según varios estudios."', pregunta:'¿Cuál es la postura del autor de este texto?', correcta:'A FAVOR DE RETRASAR EL HORARIO DE INICIO DE CLASES', opts:['A FAVOR DE ADELANTAR EL HORARIO DE CLASES','EN CONTRA DE QUE LOS ESTUDIANTES DUERMAN MÁS','NEUTRAL, SIN NINGUNA POSTURA'] },
+];
+const ESTEREOTIPO_BANK = [
+  { texto:'Un aviso muestra solo a hombres reparando autos y solo a mujeres cocinando en la casa, como si esas fueran las únicas opciones posibles para cada género.', pregunta:'¿Qué recurso está usando este texto?', correcta:'UN ESTEREOTIPO DE GÉNERO', opts:['UN DATO CIENTÍFICO VERIFICABLE','UNA CITA DE UN EXPERTO','UNA ESTADÍSTICA OFICIAL'] },
+  { texto:'Un artículo asegura que "todos los jóvenes de esa ciudad son perezosos", generalizando a partir de la conducta de solo un par de personas.', pregunta:'¿Qué problema tiene esta afirmación?', correcta:'GENERALIZA A UN GRUPO ENTERO A PARTIR DE POCOS CASOS, UN ESTEREOTIPO', opts:['ES UNA CONCLUSIÓN BASADA EN UN ESTUDIO AMPLIO Y RIGUROSO','ES UN HECHO COMPROBADO CIENTÍFICAMENTE','NO TIENE NINGÚN PROBLEMA'] },
+];
+export function genPensamientoCritico7Round(){
+  const roll = Math.random();
+  if(roll<0.4){
+    const item = pick(HECHO_OPINION_BANK);
+    const opts = shuffle([{label:'HECHO', value:'HECHO'},{label:'OPINIÓN', value:'OPINIÓN'}]);
+    return {
+      promptHTML: '<p class="prompt-sentence">"'+item.frase+'"</p><p class="prompt-hint">¿Esto es un hecho (se puede comprobar) o una opinión (un juicio personal)?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.frase, cols:2, panel:true,
+      explain: 'Esto es: <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.7){
+    const item = pick(POSTURA_AUTOR_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+      explain: 'La postura del autor es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(ESTEREOTIPO_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const CONCORDANCIA_SUJETO_PREDICADO_BANK = [
+  { texto:'Los estudiantes de ese curso ___ un proyecto muy interesante.', correcto:'PRESENTARON', malas:['PRESENTÓ','PRESENTAMOS','PRESENTAS'] },
+  { texto:'Mi vecina y su hija ___ temprano todos los domingos.', correcto:'SALEN', malas:['SALE','SALGO','SALES'] },
+  { texto:'El equipo completo ___ satisfecho con el resultado del partido.', correcto:'QUEDÓ', malas:['QUEDARON','QUEDAMOS','QUEDASTE'] },
+  { texto:'Tú y yo ___ responsables de terminar este trabajo.', correcto:'SOMOS', malas:['ES','SON','ERES'] },
+];
+const SINONIMIA_HIPERONIMIA_BANK = [
+  { palabra:'FELIZ', tipo:'SINÓNIMO', correcta:'CONTENTO', opts:['TRISTE','ENOJADO','CANSADO'] },
+  { palabra:'RÁPIDO', tipo:'SINÓNIMO', correcta:'VELOZ', opts:['LENTO','PESADO','SUAVE'] },
+  { palabra:'ROSA', tipo:'HIPERÓNIMO (PALABRA MÁS GENERAL)', correcta:'FLOR', opts:['PÉTALO','JARDÍN','MACETA'] },
+  { palabra:'CAMIÓN', tipo:'HIPERÓNIMO (PALABRA MÁS GENERAL)', correcta:'VEHÍCULO', opts:['MOTOR','RUEDA','CARGA'] },
+];
+const TIEMPOS_VERBALES_BANK = [
+  { texto:'Ayer caminé al colegio, saludé a mis amigos y luego entré a la sala.', tiempo:'PRETÉRITO (PASADO)' },
+  { texto:'Todos los días camino al colegio, saludo a mis amigos y luego entro a la sala.', tiempo:'PRESENTE' },
+  { texto:'Mañana caminaré al colegio, saludaré a mis amigos y luego entraré a la sala.', tiempo:'FUTURO' },
+];
+export function genVocabularioGramatica7Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(CONCORDANCIA_SUJETO_PREDICADO_BANK);
+    const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué verbo mantiene la concordancia correcta con el sujeto?</p>',
+      options: opts, correctValue: item.correcto, speakText: item.texto.replace('___', item.correcto), cols:4, kind:'word',
+      explain: '<b>'+item.correcto+'</b> concuerda correctamente en número y persona con el sujeto de la oración.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(SINONIMIA_HIPERONIMIA_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+item.palabra+'</p><p class="prompt-hint">¿Cuál palabra es un '+item.tipo.toLowerCase()+' de "'+item.palabra.toLowerCase()+'"?</p>',
+      options: opts, correctValue: item.correcta, speakText: '¿Cuál es un '+item.tipo.toLowerCase()+' de '+item.palabra.toLowerCase()+'?', cols:2, kind:'word',
+      explain: '<b>'+item.correcta+'</b> es un '+item.tipo.toLowerCase()+' de "'+item.palabra.toLowerCase()+'".',
+    };
+  }
+  const item = pick(TIEMPOS_VERBALES_BANK);
+  const todos = ['PRETÉRITO (PASADO)','PRESENTE','FUTURO'];
+  const distract = todos.filter(function(t){ return t!==item.tiempo; });
+  const opts = shuffle([item.tiempo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿En qué tiempo verbal está narrado este texto?</p>',
+    options: opts, correctValue: item.tiempo, speakText: item.texto, cols:2, kind:'word',
+    explain: 'Este texto está narrado en <b>'+item.tiempo.toLowerCase()+'</b>.',
+  };
+}
+
+const POR_QUE_BANK = [
+  { incorrecta:'Porque llegaste tarde hoy?', correcta:'¿Por qué llegaste tarde hoy?', regla:'Para preguntar, se escribe "por qué" en dos palabras y con tilde en la "e".' },
+  { incorrecta:'No entiendo porqué te enojaste conmigo.', correcta:'No entiendo por qué te enojaste conmigo.', regla:'En una pregunta indirecta ("no entiendo por qué..."), se escribe "por qué" en dos palabras y con tilde.' },
+  { incorrecta:'Llegué tarde por que había mucho tráfico.', correcta:'Llegué tarde porque había mucho tráfico.', regla:'Para dar una razón o explicación, se escribe "porque" junto y sin tilde.' },
+  { incorrecta:'No me explicaron el porque de esa decisión.', correcta:'No me explicaron el porqué de esa decisión.', regla:'Cuando funciona como sustantivo (equivale a "la razón" o "el motivo"), se escribe "porqué" junto y con tilde, generalmente acompañado de "el/un".' },
+  { incorrecta:'Ese es el motivo porque decidí venir.', correcta:'Ese es el motivo por que decidí venir.', regla:'Cuando "que" es un pronombre relativo que se puede reemplazar por "el cual" (aquí: "el motivo por el cual"), se escribe "por que" en dos palabras y sin tilde.' },
+  { incorrecta:'Quiero saber el porque de tu decisión.', correcta:'Quiero saber el porqué de tu decisión.', regla:'Cuando funciona como sustantivo (equivale a "la razón"), se escribe "porqué" junto y con tilde.' },
+  { incorrecta:'Por que no viniste ayer a la fiesta?', correcta:'¿Por qué no viniste ayer a la fiesta?', regla:'Para preguntar, se escribe "por qué" en dos palabras y con tilde.' },
+  { incorrecta:'No fui a la escuela por que estaba enfermo.', correcta:'No fui a la escuela porque estaba enfermo.', regla:'Para dar una razón, se escribe "porque" junto y sin tilde.' },
+  { incorrecta:'Nadie sabe porque se fue tan temprano.', correcta:'Nadie sabe por qué se fue tan temprano.', regla:'En una pregunta indirecta, se escribe "por qué" en dos palabras y con tilde.' },
+  { incorrecta:'Ese fue el porque de todo el problema.', correcta:'Ese fue el porqué de todo el problema.', regla:'Cuando funciona como sustantivo (equivale a "la razón"), se escribe "porqué" junto y con tilde, especialmente tras "el/un".' },
+  { incorrecta:'Este es el motivo por qué te llamé.', correcta:'Este es el motivo por que te llamé.', regla:'Cuando "que" es un pronombre relativo reemplazable por "el cual", se escribe "por que" en dos palabras y sin tilde.' },
+];
+export function genOrtografia7Round(){
+  const item = pick(POR_QUE_BANK);
+  const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál oración está bien escrita?</p>',
+    options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
+    explain: item.regla,
+  };
+}

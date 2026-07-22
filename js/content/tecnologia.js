@@ -229,3 +229,38 @@ export function genTecDigital6Round(){
     explain: 'La respuesta correcta es "'+item.correcta+'".',
   };
 }
+
+/* ---------------- Contenido Tecnología 7° Básico ----------------
+   Basado en Decreto 614/2013. OA05-06 -> Soluciones Tecnológicas y su
+   Impacto (reconocer que las soluciones tecnológicas tienen efectos
+   positivos y negativos en las personas y el medioambiente, y evaluar
+   ese impacto). Quedan fuera OA01-04 (diseñar/planificar/elaborar/evaluar
+   una solución tecnológica propia — producción práctica) y OA07-08
+   (habilidades TIC de manejo de software específico y comunicación en
+   línea — ya cubiertas por Tecnología Digital en años anteriores). */
+export const TECNOLOGIA_MODULES_G7 = [
+  {id:'solucionestecnologicas7', label:'Soluciones Tecnológicas y su Impacto', open:true, key:'solucionestecnologicas7'},
+];
+export const TECNOLOGIA_POS_G7 = [{x:48,y:50}];
+
+const IMPACTO_TECNOLOGICO_7_BANK = [
+  { pregunta:'El auto permitió a las personas trasladarse más rápido, pero también genera contaminación del aire. ¿Qué muestra este ejemplo?', correcta:'Que una solución tecnológica puede tener efectos positivos y negativos al mismo tiempo', opts:['Que toda tecnología es completamente positiva','Que toda tecnología es completamente negativa','Que el auto no tiene ningún efecto en el medioambiente'] },
+  { pregunta:'El teléfono celular facilita la comunicación a distancia, pero su uso excesivo puede afectar el descanso y la concentración. ¿Qué muestra esto?', correcta:'Que evaluar una tecnología significa considerar tanto sus beneficios como sus riesgos', opts:['Que el celular no tiene ningún beneficio real','Que usar el celular nunca trae ningún problema','Que la tecnología no afecta la vida de las personas'] },
+  { pregunta:'Una fábrica que usa maquinaria automatizada produce más rápido, pero genera desechos que pueden contaminar un río cercano. ¿Qué debería considerar esa fábrica?', correcta:'Buscar formas de reducir el impacto negativo en el medioambiente, como tratar los desechos', opts:['Ignorar por completo el impacto en el río','Producir aún más rápido sin cambiar nada','Dejar de usar cualquier tipo de maquinaria'] },
+  { pregunta:'Las bolsas plásticas facilitaron el transporte de productos, pero tardan mucho tiempo en descomponerse y contaminan el ambiente. ¿Qué alternativa refleja una solución con menor impacto negativo?', correcta:'Usar bolsas reutilizables hechas de materiales que se degradan más rápido', opts:['Usar todavía más bolsas plásticas desechables','Ignorar el problema porque las bolsas son útiles','Dejar de transportar cualquier producto'] },
+  { pregunta:'Los paneles solares generan electricidad limpia, pero fabricarlos requiere materiales y energía. ¿Qué muestra este caso?', correcta:'Que incluso las soluciones tecnológicas más limpias tienen algún tipo de impacto que vale la pena evaluar', opts:['Que los paneles solares no tienen ningún impacto en absoluto','Que los paneles solares son completamente inútiles','Que toda la energía limpia es igual de contaminante que la no renovable'] },
+  { pregunta:'El uso de plaguicidas ayuda a proteger los cultivos de plagas, pero puede afectar la salud de las personas y de otros seres vivos si se usa en exceso.  ¿Qué debería hacer un agricultor responsable?', correcta:'Usar la cantidad adecuada y buscar alternativas menos dañinas cuando sea posible', opts:['Usar la mayor cantidad posible sin ningún límite','Dejar de proteger los cultivos por completo','Ignorar cualquier efecto en la salud de las personas'] },
+  { pregunta:'Las redes sociales permiten mantenerse conectado con personas lejanas, pero también pueden exponer a los usuarios a información falsa. ¿Qué refleja mejor una evaluación equilibrada de esta tecnología?', correcta:'Reconocer que trae beneficios de conexión, pero requiere pensamiento crítico frente a la información que circula', opts:['Que las redes sociales solo traen beneficios','Que las redes sociales solo traen problemas','Que no vale la pena pensar en sus efectos'] },
+  { pregunta:'Los electrodomésticos como la lavadora ahorran mucho tiempo de trabajo doméstico, pero consumen agua y electricidad. ¿Qué muestra este ejemplo sobre evaluar una tecnología?', correcta:'Que conviene usarla de forma eficiente para aprovechar el beneficio reduciendo el gasto de recursos', opts:['Que no vale la pena usar ningún electrodoméstico','Que el consumo de agua y electricidad no importa en absoluto','Que ahorrar tiempo es lo único que se debe considerar'] },
+  { pregunta:'Los envases desechables de comida rápida son muy prácticos para el consumidor, pero generan mucha basura difícil de reciclar. ¿Qué alternativa reduciría mejor el impacto negativo?', correcta:'Preferir envases reutilizables o de materiales más fáciles de reciclar', opts:['Usar aún más envases desechables cada día','Ignorar el problema de la basura generada','Dejar de comer cualquier tipo de comida'] },
+  { pregunta:'La inteligencia artificial puede ayudar a resolver problemas complejos rápidamente, pero también puede cometer errores o ser usada de forma poco ética. ¿Qué actitud refleja mejor evaluar su impacto?', correcta:'Aprovechar sus beneficios mientras se revisan sus resultados con sentido crítico', opts:['Confiar en ella sin revisar nunca ningún resultado','Rechazarla por completo sin considerar sus beneficios','Usarla sin pensar en ninguna consecuencia'] },
+];
+export function genSolucionesTecnologicas7Round(){
+  const item = pick(IMPACTO_TECNOLOGICO_7_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}

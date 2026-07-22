@@ -424,3 +424,49 @@ export function genLenguajeVisual6Round(){
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
   };
 }
+
+/* ---------------- Contenido Artes Visuales 7° Básico ----------------
+   Basado en Decreto 614/2013. OA06 -> Espacios de Difusión del Arte
+   (reconocer distintos espacios donde el arte visual se muestra o
+   comparte con el público: museo, galería, espacio público/mural, y su
+   función social distinta). Quedan fuera OA01-05,07 (crear trabajos
+   visuales propios, investigar referentes/artistas específicos con riesgo
+   de datos inexactos sin fuente adicional, y evaluar/fundamentar
+   apreciaciones personales — producción propia u opinión subjetiva). */
+export const ARTES_MODULES_G7 = [
+  {id:'espaciosdifusion7', label:'Espacios de Difusión del Arte', open:true, key:'espaciosdifusion7'},
+];
+export const ARTES_POS_G7 = [{x:50,y:50}];
+
+const ESPACIOS_DIFUSION_BANK = [
+  { desc:'Un edificio que conserva y exhibe colecciones de obras de arte, muchas veces antiguas o históricas, para que el público las visite', correcta:'MUSEO', opts:['GALERÍA', 'MURAL', 'TALLER DE ARTISTA'] },
+  { desc:'Un local más pequeño que un museo, donde se exhiben y también se venden obras de artistas, muchas veces contemporáneos', correcta:'GALERÍA', opts:['MUSEO', 'BIBLIOTECA', 'TEATRO'] },
+  { desc:'Una obra de gran tamaño pintada directamente sobre una pared o muro, visible para cualquiera que pase por ese lugar', correcta:'MURAL (ARTE PÚBLICO)', opts:['MUSEO', 'GALERÍA', 'ESCULTURA DE INTERIOR'] },
+  { desc:'Un espacio en una plaza o calle donde se instala una escultura para que toda la comunidad pueda verla libremente', correcta:'ESPACIO PÚBLICO', opts:['UN MUSEO CON ENTRADA PAGADA', 'UNA GALERÍA PRIVADA', 'EL TALLER PERSONAL DE UN ARTISTA'] },
+  { desc:'Un centro cultural organiza una exposición temporal de fotografía, abierta al público durante solo un par de meses', correcta:'GALERÍA', opts:['MUSEO', 'MURAL (ARTE PÚBLICO)', 'ESPACIO PÚBLICO'] },
+  { desc:'Un edificio patrimonial exhibe de forma permanente una colección de pinturas de hace más de cien años', correcta:'MUSEO', opts:['GALERÍA', 'MURAL (ARTE PÚBLICO)', 'ESPACIO PÚBLICO'] },
+];
+const FUNCION_SOCIAL_ESPACIOS_BANK = [
+  { pregunta:'¿Qué diferencia principal hay entre ver una obra en un museo y ver un mural en la calle?', correcta:'EL MURAL ESTÁ AL ALCANCE DE CUALQUIERA QUE PASE POR AHÍ, SIN NECESIDAD DE ENTRAR A UN EDIFICIO', opts:['NO HAY NINGUNA DIFERENCIA ENTRE AMBOS', 'EL MURAL SOLO PUEDE VERSE PAGANDO ENTRADA', 'LOS MUSEOS SIEMPRE ESTÁN AL AIRE LIBRE'] },
+  { pregunta:'¿Por qué el arte en espacios públicos (como un mural o una escultura en una plaza) puede llegar a más personas que el arte en un museo?', correcta:'PORQUE CUALQUIERA QUE TRANSITE POR ESE LUGAR PUEDE VERLO, SIN NECESIDAD DE DECIDIR VISITAR UN MUSEO', opts:['PORQUE LOS MUSEOS ESTÁN SIEMPRE CERRADOS', 'PORQUE EL ARTE PÚBLICO ES SIEMPRE MÁS PEQUEÑO', 'PORQUE NADIE VISITA NUNCA LOS MUSEOS'] },
+  { pregunta:'¿Qué ventaja tiene una galería frente a un museo para un artista que recién comienza su carrera?', correcta:'LA GALERÍA SUELE EXHIBIR Y VENDER OBRAS DE ARTISTAS CONTEMPORÁNEOS, MÁS ACCESIBLE PARA ARTISTAS NUEVOS', opts:['LA GALERÍA NUNCA MUESTRA OBRAS DE ARTISTAS NUEVOS', 'LOS MUSEOS SIEMPRE ACEPTAN A CUALQUIER ARTISTA SIN REQUISITOS', 'NO EXISTE NINGUNA DIFERENCIA ENTRE AMBOS ESPACIOS'] },
+  { pregunta:'¿Por qué algunas comunidades eligen pintar murales en sus barrios en vez de solo exhibir arte en museos?', correcta:'PARA QUE EL ARTE FORME PARTE DE LA VIDA COTIDIANA Y REFLEJE LA IDENTIDAD DEL BARRIO', opts:['PORQUE LOS MUSEOS ESTÁN PROHIBIDOS EN ESA COMUNIDAD', 'PORQUE ES IMPOSIBLE EXHIBIR ARTE DE OTRA FORMA', 'PORQUE LOS MURALES SON SIEMPRE MÁS BARATOS QUE CUALQUIER OTRA OPCIÓN'] },
+];
+export function genEspaciosDifusion7Round(){
+  if(Math.random()<0.6){
+    const item = pick(ESPACIOS_DIFUSION_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué espacio de difusión del arte es este?</p>',
+      options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word', panel:true,
+      explain: 'Esto describe: <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(FUNCION_SOCIAL_ESPACIOS_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}

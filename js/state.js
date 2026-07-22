@@ -70,7 +70,17 @@ export const state = {
            vidapostura6:0, liderazgo6:0,
            manejoemocional6:0, autocuidadodigital6:0, prevencion6:0, buentrato6:0, habitosestudio6:0,
            tecdigital6:0,
-           vocabularioingles6:0, lecturasimple6:0 },
+           vocabularioingles6:0, lecturasimple6:0,
+           comprension7:0, rimametrica7:0, pensamientocritico7:0, vocabulariogramatica7:0, ortografia7:0,
+           enteros7:0, fraccionesdecimales7:0, porcentajepotencias7:0, algebra7:0, proporcionesecuaciones7:0, geometria7:0, estadisticamuestreo7:0, probabilidades7:0,
+           sexualidadreproduccion7:0, inmunologicomicroorganismos7:0, fuerzaspresion7:0, geologiaclima7:0, materiagases7:0,
+           prehistoriacivilizaciones7:0, greciaroma7:0, edadmedia7:0, civilizacionesamericanas7:0, ciudadania7:0, geografiamedioambiente7:0,
+           espaciosdifusion7:0,
+           procedimientoscompositivos7:0,
+           estrategiastacticas7:0,
+           prevencionriesgo7:0, bienestarvida7:0, redessociales7:0, resolucionconflictos7:0, autonomiaaprendizaje7:0,
+           solucionestecnologicas7:0,
+           vocabularioavanzado7:0, lecturaintermedia7:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

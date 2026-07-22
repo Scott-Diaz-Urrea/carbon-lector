@@ -5,6 +5,7 @@ import {
   genGramatica3Round, genOrtografia3Round,
   genComprension4Round, genVocabulario4Round, genGramatica4Round, genOrtografia4Round,
   genComprension5Round, genRecursosPoeticos5Round, genVocabulario5Round, genGramatica5Round, genOrtografia5Round,
+  genComprension6Round, genRecursosPoeticos6Round, genVocabulario6Round, genGramatica6Round, genOrtografia6Round,
 } from './content/lenguaje.js';
 import {
   genCountRound, genAddRound, genCompareRound, genFormaRound, genSaltaRound, genMultiplicarRound,
@@ -15,6 +16,9 @@ import {
   genDecimales4Round, genPatrones4Round, genGeometria4Round, genMedicion4Round, genDatos4Round,
   genNumeros5Round, genMultiplicar5Round, genDividir5Round, genOperaciones5Round, genFracciones5Round,
   genDecimales5Round, genPatrones5Round, genGeometria5Round, genMedicion5Round, genDatos5Round,
+  genMultiplosFactores6Round, genOperatoria6Round, genRazonesPorcentajes6Round, genFraccionesMixtas6Round,
+  genDecimales6Round, genPatronesEcuaciones6Round, genTriangulosTeselados6Round, genAngulos6Round,
+  genAreaVolumen6Round, genDatos6Round,
 } from './content/matematica.js';
 import {
   genSeresVivosRound, genPlantasRound, genCuerpoRound, genMaterialesRound, genDiaNocheRound,
@@ -23,6 +27,8 @@ import {
   genLuz3Round, genSonido3Round, genSistemaSolar3Round,
   genEcosistemas4Round, genCuerpoHumano4Round, genMateria4Round, genFuerzas4Round, genTierra4Round,
   genCelulaSistemas5Round, genAlimentacionSalud5Round, genElectricidad5Round, genAguaTierra5Round,
+  genFotosintesisCadenas6Round, genHabitosSaludables6Round, genEnergiaTransformaciones6Round,
+  genCalorTemperatura6Round, genTierraSueloErosion6Round,
 } from './content/ciencias.js';
 import {
   genCalendarioRound, genMiIdentidadRound, genSimbolosRound, genMapasRound, genComunidadRound,
@@ -30,18 +36,21 @@ import {
   genCivilizaciones3Round, genGeografia3Round, genCiudadania3Round,
   genCivilizacionesAmericanas4Round, genGeografiaAmerica4Round, genCiudadania4Round,
   genConquista5Round, genColonia5Round, genGeografiaChile5Round, genCiudadania5Round,
+  genIndependencia6Round, genRepublica6Round, genSalitre6Round, genSigloxx6Round, genGeografiaChile6Round, genCiudadania6Round,
 } from './content/historia.js';
 import {
   genColoresRound, genLineasTexturasRound, genMaterialesArteRound, genLineasColores2Round,
   genColorExpresivo3Round, genMaterialesArte3Round,
   genLenguajeVisual4Round,
   genLenguajeVisual5Round,
+  genLenguajeVisual6Round,
 } from './content/artes.js';
 import {
   genSonidosRound, genInstrumentosRound, genTimbrePulso2Round,
   genLenguajeMusical3Round, genMusicaSociedad3Round,
   genDinamicaTempo4Round,
   genTexturaMusical5Round,
+  genMelodiaVariaciones6Round,
 } from './content/musica.js';
 import {
   genMovimientoRound, genVidaActivaRound, genSeguridadRound,
@@ -49,6 +58,7 @@ import {
   genVidaActiva3Round, genSeguridad3Round,
   genCondicionFisica4Round, genSeguridad4Round,
   genVidaPostura5Round, genLiderazgo5Round,
+  genVidaPostura6Round, genLiderazgo6Round,
 } from './content/edfisica.js';
 import {
   genEmocionesRound, genAutocuidadoRound, genConvivenciaRound,
@@ -56,9 +66,10 @@ import {
   genManejoEmocional3Round, genAutocuidado3Round, genBuenTrato3Round, genHabitosEstudio3Round,
   genManejoEmocional4Round, genAutocuidado4Round, genBuenTrato4Round, genHabitosEstudio4Round,
   genManejoEmocional5Round, genAutocuidadoDigital5Round, genPrevencionSaludable5Round, genBuenTrato5Round, genHabitosEstudio5Round,
+  genManejoEmocional6Round, genAutocuidadoDigital6Round, genPrevencion6Round, genBuenTrato6Round, genHabitosEstudio6Round,
 } from './content/orientacion.js';
-import { genHerramientasTecRound, genTecDigital2Round, genTecDigital3Round, genTecDigital4Round, genTecDigital5Round } from './content/tecnologia.js';
-import { genVocabularioIngles5Round, genLecturaSimple5Round } from './content/ingles.js';
+import { genHerramientasTecRound, genTecDigital2Round, genTecDigital3Round, genTecDigital4Round, genTecDigital5Round, genTecDigital6Round } from './content/tecnologia.js';
+import { genVocabularioIngles5Round, genLecturaSimple5Round, genVocabularioIngles6Round, genLecturaSimple6Round } from './content/ingles.js';
 import {
   genPatronesRound, genClasificarRound, genPosicionRound, genCuantificadoresRound,
   genSecuenciaTemporalRound, genContarVeinteRound, genSumarQuitarRound,
@@ -143,7 +154,17 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'vidapostura5','liderazgo5',
   'manejoemocional5','autocuidadodigital5','prevencionsaludable5','buentrato5','habitosestudio5',
   'tecdigital5',
-  'vocabularioingles5','lecturasimple5'];
+  'vocabularioingles5','lecturasimple5',
+  'comprension6','recursospoeticos6','vocabulario6','gramatica6','ortografia6',
+  'multiplosfactores6','operatoria6','razonesporcentajes6','fraccionesmixtas6','decimales6','patronesecuaciones6','triangulosteselados6','angulos6','areavolumen6','datos6',
+  'fotosintesiscadenas6','habitossaludables6','energiatransformaciones6','calortemperatura6','tierrasueloerosion6',
+  'independencia6','republica6','salitre6','sigloxx6','geografiachile6','ciudadania6',
+  'lenguajevisual6',
+  'melodiavariaciones6',
+  'vidapostura6','liderazgo6',
+  'manejoemocional6','autocuidadodigital6','prevencion6','buentrato6','habitosestudio6',
+  'tecdigital6',
+  'vocabularioingles6','lecturasimple6'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -337,6 +358,44 @@ export const MC_GAMES = {
   tecdigital5:   { title:'Tecnología Digital V', gen: genTecDigital5Round, rounds:8 },
   vocabularioingles5: { title:'Vocabulario Básico', gen: genVocabularioIngles5Round, rounds:8 },
   lecturasimple5: { title:'Lectura Simple',   gen: genLecturaSimple5Round, rounds:8 },
+  comprension6:  { title:'Comprensión VI',    gen: genComprension6Round, rounds:8 },
+  recursospoeticos6: { title:'Recursos Poéticos II', gen: genRecursosPoeticos6Round, rounds:8 },
+  vocabulario6:  { title:'Vocabulario VI',    gen: genVocabulario6Round, rounds:8 },
+  gramatica6:    { title:'Gramática VI',      gen: genGramatica6Round, rounds:8 },
+  ortografia6:   { title:'Ortografía IV',     gen: genOrtografia6Round, rounds:8 },
+  multiplosfactores6: { title:'Múltiplos y Factores', gen: genMultiplosFactores6Round, rounds:8 },
+  operatoria6:   { title:'Operatoria Combinada', gen: genOperatoria6Round, rounds:8 },
+  razonesporcentajes6: { title:'Razones y Porcentajes', gen: genRazonesPorcentajes6Round, rounds:8 },
+  fraccionesmixtas6: { title:'Fracciones y Números Mixtos', gen: genFraccionesMixtas6Round, rounds:8 },
+  decimales6:    { title:'Decimales III',     gen: genDecimales6Round, rounds:8 },
+  patronesecuaciones6: { title:'Patrones, Tablas y Ecuaciones', gen: genPatronesEcuaciones6Round, rounds:8 },
+  triangulosteselados6: { title:'Triángulos y Teselados', gen: genTriangulosTeselados6Round, rounds:8 },
+  angulos6:      { title:'Ángulos VI',        gen: genAngulos6Round, rounds:8 },
+  areavolumen6:  { title:'Área y Volumen',    gen: genAreaVolumen6Round, rounds:8 },
+  datos6:        { title:'Datos y Probabilidades IV', gen: genDatos6Round, rounds:8 },
+  fotosintesiscadenas6: { title:'Fotosíntesis y Cadenas Alimentarias', gen: genFotosintesisCadenas6Round, rounds:8 },
+  habitossaludables6: { title:'Hábitos Saludables y Prevención', gen: genHabitosSaludables6Round, rounds:8 },
+  energiatransformaciones6: { title:'Energía y sus Transformaciones', gen: genEnergiaTransformaciones6Round, rounds:8 },
+  calortemperatura6: { title:'Calor, Temperatura y Estados de la Materia', gen: genCalorTemperatura6Round, rounds:8 },
+  tierrasueloerosion6: { title:'La Tierra: Capas, Suelo y Erosión', gen: genTierraSueloErosion6Round, rounds:8 },
+  independencia6: { title:'Independencia de Chile', gen: genIndependencia6Round, rounds:8 },
+  republica6:    { title:'La República en el Siglo XIX', gen: genRepublica6Round, rounds:8 },
+  salitre6:      { title:'Salitre y Expansión Territorial', gen: genSalitre6Round, rounds:8 },
+  sigloxx6:      { title:'Chile en el Siglo XX', gen: genSigloxx6Round, rounds:8 },
+  geografiachile6: { title:'Geografía de Chile VI', gen: genGeografiaChile6Round, rounds:8 },
+  ciudadania6:   { title:'Formación Ciudadana VI', gen: genCiudadania6Round, rounds:8 },
+  lenguajevisual6: { title:'Lenguaje Visual IV', gen: genLenguajeVisual6Round, rounds:8 },
+  melodiavariaciones6: { title:'Melodía: Diseños y Variaciones', gen: genMelodiaVariaciones6Round, rounds:8 },
+  vidapostura6:  { title:'Vida Activa y Postura VI', gen: genVidaPostura6Round, rounds:8 },
+  liderazgo6:    { title:'Liderazgo y Seguridad VI', gen: genLiderazgo6Round, rounds:8 },
+  manejoemocional6: { title:'Manejo Emocional VI', gen: genManejoEmocional6Round, rounds:8 },
+  autocuidadodigital6: { title:'Autocuidado Digital VI', gen: genAutocuidadoDigital6Round, rounds:8 },
+  prevencion6:   { title:'Prevención VI',      gen: genPrevencion6Round, rounds:8 },
+  buentrato6:    { title:'Buen Trato y Resolución de Conflictos VI', gen: genBuenTrato6Round, rounds:8 },
+  habitosestudio6: { title:'Hábitos de Trabajo Escolar VI', gen: genHabitosEstudio6Round, rounds:8 },
+  tecdigital6:   { title:'Tecnología Digital VI', gen: genTecDigital6Round, rounds:8 },
+  vocabularioingles6: { title:'Vocabulario Intermedio', gen: genVocabularioIngles6Round, rounds:8 },
+  lecturasimple6: { title:'Lectura Simple II', gen: genLecturaSimple6Round, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

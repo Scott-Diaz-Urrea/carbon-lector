@@ -1,4 +1,4 @@
-import { pick, shuffle } from '../utils.js';
+import { pick, shuffle, randInt } from '../utils.js';
 import { toothbrushSVG, piedraSVG, semillaSVG, vasoVacioSVG, plasticinaSVG, estomagoSVG } from '../svg.js';
 
 export const CIENCIAS_MODULES = [
@@ -1256,5 +1256,279 @@ export function genAguaTierra5Round(){
     promptHTML: '<p class="prompt-sentence">'+item.accion+'</p><p class="prompt-hint">¿Esta acción protege los cuerpos de agua o los daña?</p>',
     options: opts, correctValue: item.protege, speakText: item.accion, cols:2, panel:true,
     explain: item.protege ? 'Sí: esta acción ayuda a proteger los cuerpos de agua.' : 'No: esta acción daña o contamina los cuerpos de agua.',
+  };
+}
+
+/* ---------------- Contenido Ciencias Naturales 6° Básico ----------------
+   Basado en OA del Decreto 439/2012, 6° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/ciencias-naturales/6-basico):
+   Fotosíntesis y Cadenas Alimentarias -> OA01-03 (requerimientos y productos
+   de la fotosíntesis, roles en una cadena alimentaria, impacto de acciones
+   humanas sobre redes alimentarias). Hábitos Saludables y Prevención ->
+   OA06-07 (ventajas de la actividad física e higiene durante el crecimiento,
+   efectos nocivos de las drogas y conductas de protección — en clave
+   preventiva y factual, mismo criterio que Alimentación y Salud de 5°
+   básico y Prevención y Vida Saludable de Orientación 5°). Energía y sus
+   Transformaciones -> OA08-09,11 (transformaciones energéticas, recursos
+   renovables/no renovables, uso responsable de la energía en general, no
+   solo eléctrica como en 5° básico). Calor, Temperatura y Estados de la
+   Materia -> OA10,12-15 (el calor fluye de lo caliente a lo frío, la
+   materia como partículas en movimiento, cambios de estado, diferencia
+   entre calor y temperatura). La Tierra: Capas, Suelo y Erosión -> OA16-18
+   (atmósfera/litósfera/hidrósfera, formación y propiedades del suelo,
+   agentes y consecuencias de la erosión).
+   Quedan fuera: OA04-05 (estructuras y funciones del sistema reproductor
+   humano, y los cambios de la pubertad en profundidad anatómica — mismo
+   criterio que excluye "desarrollo afectivo y sexual" en Orientación desde
+   3° básico: requiere el acompañamiento real de un adulto/profesor en una
+   instancia dedicada, no una trivia de opción múltiple en una app general). */
+export const CIENCIAS_MODULES_G6 = [
+  {id:'fotosintesiscadenas6', label:'Fotosíntesis y Cadenas Alimentarias', open:true, key:'fotosintesiscadenas6'},
+  {id:'habitossaludables6', label:'Hábitos Saludables y Prevención', open:true, key:'habitossaludables6'},
+  {id:'energiatransformaciones6', label:'Energía y sus Transformaciones', open:true, key:'energiatransformaciones6'},
+  {id:'calortemperatura6', label:'Calor, Temperatura y Estados de la Materia', open:true, key:'calortemperatura6'},
+  {id:'tierrasueloerosion6', label:'La Tierra: Capas, Suelo y Erosión', open:true, key:'tierrasueloerosion6'},
+];
+export const CIENCIAS_POS_G6 = [{x:20,y:92},{x:64,y:74},{x:24,y:54},{x:66,y:34},{x:22,y:12}];
+
+const FOTOSINTESIS_BANK = [
+  { pregunta:'¿Qué necesita una planta para realizar la fotosíntesis?', correcta:'AGUA, DIÓXIDO DE CARBONO Y LUZ SOLAR', opts:['SOLO AGUA Y OSCURIDAD','SOLO TIERRA Y AIRE FRÍO','SOLO SEMILLAS Y VIENTO'] },
+  { pregunta:'¿Qué produce la fotosíntesis, además del azúcar que alimenta a la planta?', correcta:'OXÍGENO', opts:['DIÓXIDO DE CARBONO SOLAMENTE','AGUA SOLAMENTE','NITRÓGENO'] },
+  { pregunta:'¿En qué parte de la planta ocurre principalmente la fotosíntesis?', correcta:'EN LAS HOJAS', opts:['EN LAS RAÍCES','EN LAS SEMILLAS','EN LA CORTEZA DEL TRONCO'] },
+  { pregunta:'¿Qué le pasaría a una planta si nunca recibiera luz solar?', correcta:'NO PODRÍA REALIZAR LA FOTOSÍNTESIS Y MORIRÍA', opts:['CRECERÍA MÁS RÁPIDO QUE NUNCA','LE SALDRÍAN MÁS FLORES','NO LE AFECTARÍA EN NADA'] },
+];
+const CADENA_ALIMENTARIA6_BANK = [
+  { cadena:['PASTO','CONEJO','ZORRO'] },
+  { cadena:['ALGAS','PEZ PEQUEÑO','PEZ GRANDE'] },
+  { cadena:['TRIGO','RATÓN','BÚHO'] },
+  { cadena:['FITOPLANCTON','KRILL','BALLENA'] },
+];
+const ROLES_CADENA = ['PRODUCTOR (HACE SU PROPIO ALIMENTO)','CONSUMIDOR PRIMARIO (SE ALIMENTA DEL PRODUCTOR)','CONSUMIDOR SECUNDARIO (SE ALIMENTA DE OTRO CONSUMIDOR)'];
+const IMPACTO_HUMANO_BANK = [
+  { afirmacion:'Talar un bosque puede eliminar la fuente de alimento de muchos animales', v:true },
+  { afirmacion:'Sobrepescar una especie puede afectar a los depredadores que se alimentan de ella', v:true },
+  { afirmacion:'Introducir una especie que no es nativa de un lugar nunca afecta a las redes alimentarias locales', v:false },
+  { afirmacion:'Contaminar un río puede afectar a toda la cadena alimentaria que depende de esa agua', v:true },
+  { afirmacion:'Las acciones humanas nunca tienen ningún efecto sobre las redes alimentarias naturales', v:false },
+];
+export function genFotosintesisCadenas6Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(FOTOSINTESIS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(CADENA_ALIMENTARIA6_BANK);
+    const idx = randInt(0,2);
+    const organismo = item.cadena[idx];
+    const correct = ROLES_CADENA[idx];
+    const distract = ROLES_CADENA.filter(function(r){ return r!==correct; });
+    const opts = shuffle([correct].concat(distract)).map(function(r){ return {label:r, value:r}; });
+    return {
+      promptHTML: '<p class="prompt-count" style="font-size:20px;">'+item.cadena.join(' → ')+'</p><p class="prompt-hint">En esta cadena alimentaria, ¿qué rol cumple "'+organismo+'"?</p>',
+      options: opts, correctValue: correct, speakText: '¿Qué rol cumple '+organismo+' en esta cadena alimentaria?', cols:2, panel:true,
+      explain: '"'+organismo+'" es el <b>'+correct.toLowerCase()+'</b> en esta cadena.',
+    };
+  }
+  const item = pick(IMPACTO_HUMANO_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',
+    options: opts, correctValue: item.v, speakText: item.afirmacion, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+const HABITOS_CRECIMIENTO_BANK = [
+  { afirmacion:'Mantener una buena higiene personal, como ducharse regularmente, es importante durante el crecimiento', v:true },
+  { afirmacion:'Practicar actividad física regular ayuda al desarrollo saludable del cuerpo', v:true },
+  { afirmacion:'Dormir muy pocas horas cada noche no afecta en nada el desarrollo del cuerpo', v:false },
+  { afirmacion:'Cambiar de ropa y lavarla regularmente es parte de una buena higiene', v:true },
+  { afirmacion:'Da lo mismo lavarse las manos antes de comer o no', v:false },
+  { afirmacion:'Una alimentación variada apoya el crecimiento saludable del cuerpo', v:true },
+];
+const DROGAS_EFECTOS_BANK = [
+  { pregunta:'¿Cuál es un efecto nocivo del consumo de tabaco en el cuerpo?', correcta:'DAÑA LOS PULMONES Y EL CORAZÓN', opts:['MEJORA LA CAPACIDAD PULMONAR','FORTALECE EL SISTEMA INMUNE','AYUDA A DORMIR MEJOR'] },
+  { pregunta:'¿Cuál es un efecto nocivo del consumo de alcohol en el cuerpo?', correcta:'AFECTA EL HÍGADO Y EL SISTEMA NERVIOSO', opts:['FORTALECE LOS HUESOS','MEJORA LA CONCENTRACIÓN','AYUDA A LA DIGESTIÓN'] },
+  { pregunta:'¿Cuál de estas es una conducta de protección frente a las drogas?', correcta:'RODEARSE DE AMISTADES QUE RESPETEN TUS DECISIONES', opts:['PROBAR CUALQUIER COSA QUE OFREZCA UN AMIGO','IGNORAR LOS CONSEJOS DE LA FAMILIA','GUARDAR EL PROBLEMA EN SECRETO SIEMPRE'] },
+  { pregunta:'¿Qué factor ayuda a prevenir el consumo de drogas en la adolescencia?', correcta:'TENER UNA BUENA COMUNICACIÓN CON LA FAMILIA', opts:['AISLARSE DE LA FAMILIA POR COMPLETO','EVITAR HABLAR DE CUALQUIER PROBLEMA','SEGUIR SIEMPRE LA PRESIÓN DE UN GRUPO'] },
+];
+export function genHabitosSaludables6Round(){
+  if(Math.random()<0.5){
+    const item = pick(HABITOS_CRECIMIENTO_BANK);
+    const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',
+      options: opts, correctValue: item.v, speakText: item.afirmacion, cols:2, panel:true,
+      explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    };
+  }
+  const item = pick(DROGAS_EFECTOS_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const TRANSFORMACION_ENERGIA6_BANK = [
+  { objeto:'UNA VELA ENCENDIDA', correcta:'LUZ Y CALOR', opts:['SONIDO','MOVIMIENTO','FRÍO'] },
+  { objeto:'UN PANEL SOLAR', correcta:'ENERGÍA ELÉCTRICA', opts:['SONIDO','OLOR','FRÍO'] },
+  { objeto:'UN MOLINO DE VIENTO (AEROGENERADOR)', correcta:'ENERGÍA ELÉCTRICA O MECÁNICA', opts:['LUZ SOLAMENTE','OLOR','FRÍO'] },
+  { objeto:'UNA PILA QUE ENCIENDE UNA LINTERNA', correcta:'ENERGÍA QUÍMICA A ENERGÍA ELÉCTRICA Y LUZ', opts:['ENERGÍA SONORA A ENERGÍA SOLAR','FRÍO A CALOR','MOVIMIENTO A OLOR'] },
+];
+const RECURSOS_RENOVABLES6_BANK = [
+  { recurso:'ENERGÍA SOLAR', tipo:'RENOVABLE' }, { recurso:'ENERGÍA EÓLICA (VIENTO)', tipo:'RENOVABLE' },
+  { recurso:'ENERGÍA HIDRÁULICA (AGUA)', tipo:'RENOVABLE' }, { recurso:'EL PETRÓLEO', tipo:'NO RENOVABLE' },
+  { recurso:'EL CARBÓN', tipo:'NO RENOVABLE' }, { recurso:'EL GAS NATURAL', tipo:'NO RENOVABLE' },
+];
+const USO_RESPONSABLE_ENERGIA_BANK = [
+  { accion:'Usar la bicicleta o caminar para trayectos cortos en vez del auto', ayuda:true },
+  { accion:'Usar electrodomésticos eficientes que consuman menos energía', ayuda:true },
+  { accion:'Dejar todas las luces de la casa encendidas todo el día sin necesidad', ayuda:false },
+  { accion:'Compartir el auto con otras personas que van al mismo lugar (carpool)', ayuda:true },
+  { accion:'Usar el auto para recorrer distancias muy cortas que se podrían caminar', ayuda:false },
+];
+export function genEnergiaTransformaciones6Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(TRANSFORMACION_ENERGIA6_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.objeto+'</p><p class="prompt-hint">¿En qué transforma principalmente la energía?</p>',
+      options: opts, correctValue: item.correcta, speakText: item.objeto, cols:2, kind:'word', panel:true,
+      explain: 'Transforma la energía en <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(RECURSOS_RENOVABLES6_BANK);
+    const opts = shuffle([{label:'RENOVABLE', value:'RENOVABLE'},{label:'NO RENOVABLE', value:'NO RENOVABLE'}]);
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.recurso+'</p><p class="prompt-hint">¿Es un recurso energético renovable o no renovable?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.recurso, cols:2, panel:true,
+      explain: item.recurso+' es un recurso <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(USO_RESPONSABLE_ENERGIA_BANK);
+  const opts = shuffle([{label:'SÍ AYUDA A USAR LA ENERGÍA DE FORMA RESPONSABLE', value:true},{label:'NO AYUDA, ES UN USO IRRESPONSABLE', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.accion+'</p><p class="prompt-hint">¿Esta acción ayuda a usar la energía de forma responsable?</p>',
+    options: opts, correctValue: item.ayuda, speakText: item.accion, cols:2, panel:true,
+    explain: item.ayuda ? 'Sí: esta acción ayuda a usar la energía de forma responsable.' : 'No: esta acción desperdicia energía.',
+  };
+}
+
+const CALOR_FLUJO_BANK = [
+  { escenario:'Pones un cubo de hielo en un vaso de agua tibia', correcta:'DEL AGUA TIBIA HACIA EL HIELO', opts:['DEL HIELO HACIA EL AGUA TIBIA','NO HAY NINGÚN FLUJO DE CALOR','EL CALOR DESAPARECE POR COMPLETO'] },
+  { escenario:'Tocas una taza de té caliente con la mano fría', correcta:'DE LA TAZA CALIENTE HACIA TU MANO', opts:['DE TU MANO HACIA LA TAZA','NO HAY NINGÚN FLUJO DE CALOR','EL CALOR SE QUEDA SOLO EN LA TAZA'] },
+  { escenario:'Dejas una bebida fría al sol en un día caluroso', correcta:'DEL AIRE CALIENTE HACIA LA BEBIDA FRÍA', opts:['DE LA BEBIDA FRÍA HACIA EL AIRE','NO HAY NINGÚN FLUJO DE CALOR','LA BEBIDA SE ENFRÍA AÚN MÁS'] },
+];
+const ESTADOS_PARTICULAS_BANK = [
+  { desc:'Las partículas están muy juntas y apenas se mueven, manteniendo una forma fija', estado:'SÓLIDO' },
+  { desc:'Las partículas están más separadas y se deslizan unas sobre otras, tomando la forma del recipiente', estado:'LÍQUIDO' },
+  { desc:'Las partículas están muy separadas entre sí y se mueven rápidamente en todas direcciones', estado:'GASEOSO' },
+];
+const CAMBIOS_ESTADO_BANK = [
+  { desc:'Un cubo de hielo se derrite y se convierte en agua líquida', proceso:'FUSIÓN' },
+  { desc:'El agua de un charco desaparece poco a poco al sol, convirtiéndose en vapor', proceso:'EVAPORACIÓN' },
+  { desc:'El agua hirviendo en una olla se convierte rápidamente en vapor', proceso:'EBULLICIÓN' },
+  { desc:'El vapor de agua en el espejo del baño se convierte en gotitas de agua', proceso:'CONDENSACIÓN' },
+  { desc:'El agua líquida se convierte en hielo al meterla al congelador', proceso:'SOLIDIFICACIÓN' },
+  { desc:'El hielo seco (dióxido de carbono sólido) se convierte directamente en gas, sin pasar por líquido', proceso:'SUBLIMACIÓN' },
+];
+const CALOR_TEMPERATURA_BANK = [
+  { pregunta:'¿Qué mide un termómetro: el calor o la temperatura?', correcta:'LA TEMPERATURA', opts:['EL CALOR','EL SONIDO','LA HUMEDAD'] },
+  { pregunta:'¿Qué es el calor?', correcta:'LA ENERGÍA QUE SE TRANSFIERE DE UN OBJETO A OTRO', opts:['UNA UNIDAD PARA MEDIR EL PESO','UN INSTRUMENTO DE MEDICIÓN','UN TIPO DE SONIDO'] },
+];
+export function genCalorTemperatura6Round(){
+  const roll = Math.random();
+  if(roll<0.25){
+    const item = pick(CALOR_FLUJO_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.escenario+'.</p><p class="prompt-hint">¿Hacia dónde fluye el calor en esta situación?</p>',
+      options: opts, correctValue: item.correcta, speakText: item.escenario, cols:2, panel:true,
+      explain: 'El calor siempre fluye de lo más caliente a lo más frío: <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.5){
+    const item = pick(ESTADOS_PARTICULAS_BANK);
+    const todos = ['SÓLIDO','LÍQUIDO','GASEOSO'];
+    const distract = todos.filter(function(e){ return e!==item.estado; });
+    const opts = shuffle([item.estado].concat(distract)).map(function(e){ return {label:e, value:e}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿A qué estado de la materia corresponde esta descripción?</p>',
+      options: opts, correctValue: item.estado, speakText: item.desc, cols:2, kind:'word', panel:true,
+      explain: 'Esta descripción corresponde al estado <b>'+item.estado.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.75){
+    const item = pick(CAMBIOS_ESTADO_BANK);
+    const distract = shuffle(CAMBIOS_ESTADO_BANK.filter(function(c){ return c.proceso!==item.proceso; })).slice(0,3).map(function(c){ return c.proceso; });
+    const opts = shuffle([item.proceso].concat(distract)).map(function(p){ return {label:p, value:p}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué cambio de estado ocurre en esta situación?</p>',
+      options: opts, correctValue: item.proceso, speakText: item.desc, cols:2, kind:'word',
+      explain: 'Este cambio de estado se llama <b>'+item.proceso.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(CALOR_TEMPERATURA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const CAPAS_TIERRA6_BANK = [
+  { capa:'ATMÓSFERA', desc:'La capa de aire y gases que rodea la Tierra y nos permite respirar' },
+  { capa:'LITÓSFERA', desc:'La capa sólida de rocas y suelo sobre la que caminamos y construimos' },
+  { capa:'HIDRÓSFERA', desc:'Toda el agua del planeta: océanos, ríos, lagos y glaciares' },
+];
+const SUELO_BANK = [
+  { pregunta:'¿De qué se forma principalmente el suelo?', correcta:'DE ROCAS DESCOMPUESTAS Y MATERIA ORGÁNICA (RESTOS DE PLANTAS Y ANIMALES)', opts:['SOLO DE AGUA DE LLUVIA','SOLO DE AIRE ATRAPADO','SOLO DE HIELO DERRETIDO'] },
+  { pregunta:'¿Cuál de estas es una propiedad importante del suelo que se puede observar u medir?', correcta:'SU CAPACIDAD DE RETENER AGUA', opts:['SU VELOCIDAD DE VUELO','SU TEMPERATURA DE EBULLICIÓN','SU CONDUCTIVIDAD ELÉCTRICA'] },
+  { pregunta:'¿Por qué es importante proteger el suelo de la contaminación?', correcta:'PORQUE LAS PLANTAS Y LOS CULTIVOS DEPENDEN DE UN SUELO SANO PARA CRECER', opts:['PORQUE EL SUELO SE USA PARA RESPIRAR','PORQUE EL SUELO NUNCA SE CONTAMINA','PORQUE NO TIENE NINGUNA FUNCIÓN IMPORTANTE'] },
+];
+const EROSION_BANK = [
+  { agente:'EL VIENTO', desc:'Arrastra partículas de arena y tierra, desgastando rocas con el tiempo' },
+  { agente:'EL AGUA', desc:'La lluvia y los ríos arrastran tierra y desgastan rocas al fluir sobre ellas' },
+  { agente:'LAS ACTIVIDADES HUMANAS', desc:'Talar bosques o sobreexplotar terrenos deja el suelo más expuesto y vulnerable' },
+];
+export function genTierraSueloErosion6Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(CAPAS_TIERRA6_BANK);
+    const distract = shuffle(CAPAS_TIERRA6_BANK.filter(function(c){ return c.capa!==item.capa; })).map(function(c){ return c.capa; });
+    const opts = shuffle([item.capa].concat(distract)).map(function(c){ return {label:c, value:c}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué capa de la Tierra es?</p>',
+      options: opts, correctValue: item.capa, speakText: item.desc, cols:2, kind:'word', panel:true,
+      explain: item.capa+': '+item.desc.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(SUELO_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(EROSION_BANK);
+  const distract = shuffle(EROSION_BANK.filter(function(e){ return e.agente!==item.agente; })).map(function(e){ return e.agente; });
+  const opts = shuffle([item.agente].concat(distract)).map(function(a){ return {label:a, value:a}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué agente de erosión se describe aquí?</p>',
+    options: opts, correctValue: item.agente, speakText: item.desc, cols:2, kind:'word', panel:true,
+    explain: item.agente+': '+item.desc.toLowerCase()+'.',
   };
 }

@@ -547,3 +547,131 @@ export function genHabitosEstudio5Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
+
+/* ---------------- Contenido Orientación 6° Básico ----------------
+   Basado en OA del Decreto 439/2012, 6° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/orientacion/6-basico): OA01-02,04-09 repiten casi textualmente la
+   redacción de 5° básico, así que los 5 módulos usan escenarios y afirmaciones
+   completamente nuevos. Manejo Emocional VI -> OA02. Autocuidado Digital VI ->
+   OA04. Prevención VI -> OA05 (esta vez el texto del OA nombra ejemplos
+   explícitos: tabaco, alcohol, marihuana — se incluyen de forma factual y
+   preventiva, sin detalles operativos, igual que en 5° básico). Buen Trato y
+   Resolución de Conflictos VI -> OA06-07. Hábitos de Trabajo Escolar VI ->
+   OA09. Quedan fuera: OA01 (valorar fortalezas propias), OA03 (desarrollo
+   afectivo y sexual en la pubertad — mismo criterio de todos los años
+   anteriores: requiere el acompañamiento real de un adulto) y OA08
+   (participación en la comunidad escolar — ya cubierta por Formación
+   Ciudadana VI en historia.js). */
+export const ORIENTACION_MODULES_G6 = [
+  {id:'manejoemocional6', label:'Manejo Emocional VI', open:true, key:'manejoemocional6'},
+  {id:'autocuidadodigital6', label:'Autocuidado Digital VI', open:true, key:'autocuidadodigital6'},
+  {id:'prevencion6', label:'Prevención VI', open:true, key:'prevencion6'},
+  {id:'buentrato6', label:'Buen Trato y Resolución de Conflictos VI', open:true, key:'buentrato6'},
+  {id:'habitosestudio6', label:'Hábitos de Trabajo Escolar VI', open:true, key:'habitosestudio6'},
+];
+export const ORIENTACION_POS_G6 = [{x:20,y:92},{x:66,y:74},{x:22,y:52},{x:66,y:28},{x:22,y:6}];
+
+const EMOCIONES_6_BANK = [
+  { situacion:'Sientes decepción porque no quedaste seleccionado en un equipo, y notas que otro compañero tampoco quedó y se ve muy triste.', correcta:'Reconocer tu propia decepción y apoyar a tu compañero que se siente igual', malas:['Burlarte de tu compañero por no quedar seleccionado','Ignorar tu decepción hasta explotar después','Culpar al entrenador sin ninguna razón'] },
+  { situacion:'Sientes mucho entusiasmo por un viaje familiar, pero notas que un amigo cercano está pasando por un momento difícil.', correcta:'Compartir tu alegría con moderación y mostrar interés genuino por lo que le pasa a tu amigo', malas:['Hablar solo de tu viaje sin preguntarle nada a tu amigo','Ocultar completamente tu alegría por su situación','Ignorar la situación de tu amigo'] },
+  { situacion:'Sientes inseguridad antes de presentar un proyecto importante frente al curso.', correcta:'Reconocer la inseguridad, prepararte bien y recordar tus fortalezas', malas:['Evitar presentar sin avisarle a nadie','Fingir estar enfermo para no presentar','Culpar al proyecto de tu inseguridad'] },
+  { situacion:'Sientes rabia porque un compañero de equipo cometió un error que les costó el partido.', correcta:'Expresar tu frustración con respeto y recordar que todos cometen errores', malas:['Gritarle al compañero frente a todo el equipo','Excluirlo de futuros partidos por el error','Guardar rencor sin conversarlo nunca'] },
+  { situacion:'Sientes envidia porque un compañero recibió un reconocimiento que tú también querías.', correcta:'Reconocer el sentimiento sin culpar a tu compañero, y felicitarlo genuinamente', malas:['Hablar mal de tu compañero a espaldas de todos','Ignorar por completo su logro con rencor','Exigir que te den el mismo reconocimiento sin merecerlo'] },
+  { situacion:'Sientes vergüenza porque te equivocaste al hablar frente a todo el curso.', correcta:'Reconocer el error con calma, sin dejar que la vergüenza te paralice', malas:['Evitar hablar en público nunca más','Culpar a otros por tu propio error','Salir corriendo de la sala'] },
+  { situacion:'Sientes calma y satisfacción después de resolver un conflicto con un amigo con quien estabas peleado.', correcta:'Reconocer ese bienestar y valorar el esfuerzo de ambos por resolverlo', malas:['Restregarle a tu amigo que tú tenías la razón','Desconfiar de la reconciliación sin motivo','Guardar resentimiento a pesar de haberlo resuelto'] },
+  { situacion:'Sientes miedo escénico antes de participar en una obra de teatro escolar, y notas que otro compañero también está nervioso.', correcta:'Reconocer el miedo, apoyar a tu compañero, y recordar que ambos se están preparando', malas:['Burlarte del nerviosismo de tu compañero','Abandonar la obra sin avisar a nadie','Fingir que no sientes nada de miedo'] },
+  { situacion:'Sientes tristeza porque te mudaste de colegio y extrañas a tus antiguos amigos.', correcta:'Reconocer la tristeza y buscar formas de mantener el contacto, mientras conoces gente nueva', malas:['Negarte a hacer nuevos amigos por lealtad a los anteriores','Ocultar por completo tu tristeza sin hablarlo con nadie','Culpar a tu familia por la mudanza'] },
+];
+export function genManejoEmocional6Round(){
+  const item = pick(EMOCIONES_6_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción con respeto hacia ti y hacia otros.',
+  };
+}
+
+const AUTOCUIDADO_DIGITAL6_ITEMS = [
+  { label:'Bloquear o reportar a alguien que te molesta en internet es una forma válida de protegerte', v:true },
+  { label:'Aceptar reunirte en persona con un desconocido que conociste por internet es una buena idea', v:false },
+  { label:'Revisar con un adulto los permisos que pide una aplicación antes de instalarla es una práctica segura', v:true },
+  { label:'Publicar tu ubicación en tiempo real en redes sociales para que cualquiera la vea es seguro', v:false },
+  { label:'Pensar antes de compartir una foto o video, considerando quién podría verlo, es una buena práctica digital', v:true },
+  { label:'Da lo mismo qué información personal compartes en internet, nunca tiene consecuencias', v:false },
+  { label:'Hablar con la familia sobre una situación incómoda vivida en internet ayuda a resolverla mejor', v:true },
+  { label:'Usar la misma contraseña simple para todas tus cuentas en internet es una práctica segura', v:false },
+  { label:'Revisar quién puede ver tus publicaciones antes de compartir algo en redes sociales es una buena práctica', v:true },
+];
+export function genAutocuidadoDigital6Round(){
+  const item = pick(AUTOCUIDADO_DIGITAL6_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+const PREVENCION_6_BANK = [
+  { pregunta:'¿Cuál es un efecto nocivo del consumo de tabaco en el cuerpo?', correcta:'DAÑA LOS PULMONES Y EL CORAZÓN', opts:['MEJORA LA CAPACIDAD PULMONAR','FORTALECE EL SISTEMA INMUNE','AYUDA A CONCENTRARSE MEJOR'] },
+  { pregunta:'¿Cuál es un efecto nocivo del consumo de alcohol en el cuerpo?', correcta:'AFECTA EL HÍGADO Y EL SISTEMA NERVIOSO', opts:['FORTALECE LOS HUESOS','MEJORA LOS REFLEJOS','AYUDA A LA DIGESTIÓN'] },
+  { pregunta:'¿Cuál es un efecto nocivo del consumo de marihuana en un niño o adolescente?', correcta:'PUEDE AFECTAR LA MEMORIA Y LA CONCENTRACIÓN', opts:['MEJORA EL RENDIMIENTO ESCOLAR','FORTALECE EL CORAZÓN','MEJORA LA VISIÓN'] },
+  { pregunta:'¿Cuál de estas es una buena estrategia para prevenir el consumo de drogas?', correcta:'PRACTICAR UN DEPORTE O ACTIVIDAD QUE TE GUSTE Y RODEARTE DE BUENAS AMISTADES', opts:['AISLARTE DE TU FAMILIA Y AMIGOS','ACEPTAR CUALQUIER COSA QUE TE OFREZCAN PARA ENCAJAR','IGNORAR TUS PROPIOS VALORES PARA SEGUIR AL GRUPO'] },
+  { pregunta:'¿Por qué es importante tener una buena comunicación con la familia respecto a estos temas?', correcta:'PORQUE AYUDA A RECIBIR APOYO Y CONSEJOS ANTE SITUACIONES DIFÍCILES', opts:['PORQUE NO TIENE NINGUNA UTILIDAD','PORQUE ASÍ SE EVITA HABLAR DEL TEMA PARA SIEMPRE','PORQUE LA FAMILIA NUNCA PUEDE AYUDAR EN ESTOS TEMAS'] },
+  { pregunta:'¿Qué es un "factor protector" frente al consumo de drogas?', correcta:'ALGO QUE AYUDA A UNA PERSONA A TOMAR DECISIONES SALUDABLES, COMO EL DEPORTE O LA FAMILIA', opts:['UNA SUSTANCIA QUE SE CONSUME PARA PROTEGERSE','UN TIPO DE MEDICAMENTO PARA DORMIR','UNA REGLA QUE OBLIGA A CONSUMIR DROGAS'] },
+  { pregunta:'¿Qué deberías hacer si un conocido te ofrece probar tabaco, alcohol o marihuana?', correcta:'RECHAZARLO CON SEGURIDAD Y ALEJARTE DE LA SITUACIÓN SI ES NECESARIO', opts:['ACEPTARLO PARA NO QUEDAR MAL','PROBARLO SOLO UNA VEZ SIN DECIRLE A NADIE','GUARDAR EL SECRETO PARA SIEMPRE'] },
+  { pregunta:'¿Por qué el cuerpo de un niño o adolescente es especialmente vulnerable a los efectos de las drogas?', correcta:'PORQUE SU CUERPO Y CEREBRO TODAVÍA ESTÁN EN DESARROLLO', opts:['PORQUE LOS NIÑOS SON MÁS FUERTES QUE LOS ADULTOS','PORQUE NO LES AFECTA EN NADA','PORQUE SU CUERPO YA TERMINÓ DE DESARROLLARSE'] },
+  { pregunta:'¿Cuál de estas es una señal de que alguien podría necesitar ayuda con un problema de consumo de sustancias?', correcta:'CAMBIOS BRUSCOS DE ÁNIMO Y ALEJAMIENTO DE SUS SERES QUERIDOS', opts:['SACAR SIEMPRE BUENAS NOTAS','DORMIR LAS HORAS RECOMENDADAS','PRACTICAR DEPORTE REGULARMENTE'] },
+];
+export function genPrevencion6Round(){
+  const item = pick(PREVENCION_6_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const CONFLICTO_6_BANK = [
+  { texto:'En redes sociales del curso, un grupo empieza a burlarse de un compañero por su forma de vestir.', correcta:'No participar en la burla, defender a tu compañero y avisar a un adulto', malas:['Sumarte a la burla en el chat','Ignorar por completo lo que está pasando','Compartir la conversación con más personas para "hacerlo viral"'] },
+  { texto:'Dos amigos del curso compiten por el mismo premio en una feria científica y la relación se empieza a tensar.', correcta:'Recordar que la amistad vale más que la competencia y apoyarse mutuamente', malas:['Sabotear el proyecto del otro para ganar','Dejar de hablarle a tu amigo hasta que termine la competencia','Hacer trampa para asegurar el premio'] },
+  { texto:'Un grupo de trabajo no logra ponerse de acuerdo porque dos integrantes quieren liderar el proyecto.', correcta:'Proponer dividir responsabilidades de forma justa, escuchando a ambos', malas:['Dejar que ambos discutan sin intervenir','Elegir un líder al azar sin conversarlo','Abandonar el proyecto por el conflicto'] },
+  { texto:'Un compañero comparte por error información privada de otro estudiante en el chat del curso.', correcta:'Pedirle que la borre, no reenviarla, y avisar a un adulto si es necesario', malas:['Reenviar la información a otros grupos','Guardar la información para usarla después','Burlarte de la situación frente a todos'] },
+  { texto:'Un compañero nuevo se une al curso a mitad de año y algunos estudiantes lo ignoran deliberadamente.', correcta:'Acercarte, incluirlo en las actividades y ayudarlo a integrarse al curso', malas:['Seguir ignorándolo como el resto','Burlarte de que es nuevo','Excluirlo de los trabajos grupales'] },
+  { texto:'Dos compañeros de curso discuten fuerte porque uno acusó al otro de copiar en una prueba.', correcta:'Sugerir que hablen con calma y, si es necesario, con un profesor presente', malas:['Sumarte a acusar sin pruebas','Difundir el rumor a todo el curso','Tomar partido sin conocer los hechos'] },
+  { texto:'Un grupo de amigos deja de invitar a alguien a sus juntas sin darle ninguna explicación.', correcta:'Preguntar qué pasó y buscar una conversación honesta con la persona excluida', malas:['Seguir excluyéndola sin explicación','Hablar mal de ella para justificar la exclusión','Ignorar cómo se siente'] },
+  { texto:'Un estudiante comparte contenido ofensivo sobre otro compañero en un grupo de mensajería del curso.', correcta:'No reenviarlo, pedir que se elimine, y avisar a un adulto responsable', malas:['Reenviarlo a otros grupos','Agregar más comentarios ofensivos','Guardarlo para compartirlo después'] },
+];
+export function genBuenTrato6Round(){
+  const item = pick(CONFLICTO_6_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que se puede hacer en esta situación?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el conflicto con respeto.',
+  };
+}
+
+const HABITOS_ESTUDIO_6_BANK = [
+  { label:'Revisar tu calendario de pruebas y tareas cada semana ayuda a organizarte con anticipación', v:true },
+  { label:'Estudiar en un lugar tranquilo, sin muchas distracciones, ayuda a concentrarte mejor', v:true },
+  { label:'Repasar lo aprendido unos días antes de una prueba es mejor que estudiarlo todo la noche anterior', v:true },
+  { label:'Pedir ayuda a un profesor o compañero cuando no entiendes algo es un buen hábito de estudio', v:true },
+  { label:'Postergar siempre las tareas hasta el último momento es la mejor estrategia de estudio', v:false },
+  { label:'Da lo mismo el orden y la limpieza del lugar donde estudias', v:false },
+  { label:'Fijarte metas realistas para cada sesión de estudio ayuda a mantenerte motivado', v:true },
+  { label:'Alternar entre distintas materias en una sesión larga de estudio puede ayudar a mantener la concentración', v:true },
+  { label:'Ignorar los comentarios del profesor sobre tus pruebas es la mejor forma de aprender', v:false },
+  { label:'Tomar pequeños descansos durante una sesión larga de estudio ayuda a mantener la concentración', v:true },
+];
+export function genHabitosEstudio6Round(){
+  const item = pick(HABITOS_ESTUDIO_6_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}

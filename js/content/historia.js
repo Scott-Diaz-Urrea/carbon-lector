@@ -665,3 +665,194 @@ export function genCiudadania5Round(){
   };
 }
 
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 6° Básico ----------------
+   Basado en OA del Decreto 439/2012, 6° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/historia-geografia-ciencias-sociales/6-basico). Hechos históricos
+   verificados con fuentes adicionales antes de escribir el contenido (Guerra del
+   Pacífico, voto femenino) dada la sensibilidad de acertar fechas y datos exactos.
+   Independencia de Chile -> OA01-02 (Primera Junta de 1810, Reconquista española,
+   cruce de los Andes, batalla de Maipú 1818 — hitos ampliamente documentados de
+   historia nacional, no afirmaciones de una sola fuente). La República en el Siglo
+   XIX -> OA03-04,09 (Constitución de 1833, ferrocarril, avances educativos, cambios
+   y continuidades en el derecho a voto). Salitre y Expansión Territorial -> OA05-06
+   (Guerra del Pacífico 1879-1883 presentada de forma neutral y factual -Chile
+   incorpora territorios del actual norte del país-, período salitrero, la
+   "cuestión social" descrita a nivel básico sin profundizar en episodios de
+   violencia específicos). Chile en el Siglo XX: Democratización -> OA07 (voto
+   femenino: ley aprobada en 1949, verificado con fuentes). Geografía de Chile VI
+   -> OA10-14 (territorio tricontinental -América, Oceanía con Isla de Pascua, y
+   la Antártica-, ambientes naturales, desafíos/oportunidades, el terremoto de
+   Valdivia de 1960 como el mayor registrado en la historia -hecho científico
+   ampliamente documentado-). Formación Ciudadana VI -> OA15-23 (poderes del
+   Estado, la Constitución, derechos y deberes, actitudes cívicas, trabajo en
+   equipo, elecciones de curso, proyectos comunitarios).
+   Quedan deliberadamente fuera: **OA08** ("Comparar visiones sobre el quiebre
+   democrático, régimen militar y recuperación democrática, considerando múltiples
+   perspectivas") — el propio texto del OA pide "múltiples perspectivas" sobre un
+   período históricamente contestado y sensible en la sociedad chilena; esto
+   requiere una discusión guiada por un profesor en la sala de clases, no una
+   trivia de opción múltiple con una única respuesta correcta en una app general.
+   También quedan fuera OA21 (autoridades político-administrativas de una región,
+   cuyo nombre/cargo cambió con la reforma de 2021 -de intendente a gobernador
+   regional electo- y podría volver a cambiar, arriesgando desactualizarse) y
+   OA24-26 (opinar y argumentar con fundamentos, evaluar y justificar soluciones,
+   informarse por diarios/TICs — habilidades de argumentación o proceso de
+   indagación propio, no hechos con respuesta única). */
+export const HISTORIA_MODULES_G6 = [
+  {id:'independencia6', label:'Independencia de Chile', open:true, key:'independencia6'},
+  {id:'republica6', label:'La República en el Siglo XIX', open:true, key:'republica6'},
+  {id:'salitre6', label:'Salitre y Expansión Territorial', open:true, key:'salitre6'},
+  {id:'sigloxx6', label:'Chile en el Siglo XX', open:true, key:'sigloxx6'},
+  {id:'geografiachile6', label:'Geografía de Chile VI', open:true, key:'geografiachile6'},
+  {id:'ciudadania6', label:'Formación Ciudadana VI', open:true, key:'ciudadania6'},
+];
+export const HISTORIA_POS_G6 = [{x:22,y:92},{x:68,y:76},{x:22,y:58},{x:68,y:42},{x:22,y:24},{x:68,y:6}];
+
+const INDEPENDENCIA_BANK = [
+  { pregunta:'¿En qué fecha se formó la Primera Junta Nacional de Gobierno, dando inicio al proceso de independencia de Chile?', correcta:'EL 18 DE SEPTIEMBRE DE 1810', opts:['EL 12 DE FEBRERO DE 1818','EL 5 DE ABRIL DE 1817','EL 1 DE ENERO DE 1900'] },
+  { pregunta:'¿Quién es considerado el principal líder militar de la independencia de Chile?', correcta:'BERNARDO O\'HIGGINS', opts:['PEDRO DE VALDIVIA','DIEGO DE ALMAGRO','FRANCISCO PIZARRO'] },
+  { pregunta:'¿Qué hazaña militar realizó el Ejército Libertador de los Andes en 1817 para liberar a Chile?', correcta:'CRUZARON LA CORDILLERA DE LOS ANDES CON UN EJÉRCITO', opts:['NAVEGARON ALREDEDOR DEL MUNDO','CONSTRUYERON UN FERROCARRIL','FIRMARON UN TRATADO COMERCIAL'] },
+  { pregunta:'¿Qué batalla de 1818 consolidó definitivamente la independencia de Chile?', correcta:'LA BATALLA DE MAIPÚ', opts:['LA BATALLA DE RANCAGUA','LA GUERRA DEL PACÍFICO','LA BATALLA DE CHACABUCO'] },
+  { pregunta:'¿Cómo se llama el período (1814-1817) en que España recuperó el control de Chile, antes de la independencia definitiva?', correcta:'LA RECONQUISTA', opts:['LA COLONIA','LA REPÚBLICA','LA CONFEDERACIÓN'] },
+  { pregunta:'¿Qué buscaban lograr los criollos americanos con los procesos de independencia de inicios del siglo XIX?', correcta:'GOBERNARSE A SÍ MISMOS, SIN DEPENDER DE UNA POTENCIA EUROPEA', opts:['SEGUIR DEPENDIENDO DE ESPAÑA PARA SIEMPRE','UNIRSE A OTRO IMPERIO EUROPEO','ELIMINAR TODAS LAS CIUDADES EXISTENTES'] },
+  { pregunta:'¿Qué batalla de 1817 marcó el triunfo del ejército libertador tras cruzar los Andes, abriendo camino a Santiago?', correcta:'LA BATALLA DE CHACABUCO', opts:['LA BATALLA DE RANCAGUA','LA GUERRA DEL PACÍFICO','LA BATALLA DE MAIPÚ'] },
+  { pregunta:'¿Qué batalla de 1814 significó una derrota patriota que dio paso a la Reconquista española?', correcta:'LA BATALLA DE RANCAGUA', opts:['LA BATALLA DE CHACABUCO','LA BATALLA DE MAIPÚ','LA GUERRA DEL PACÍFICO'] },
+  { pregunta:'¿Qué título ocupó Bernardo O’Higgins tras la independencia, como máxima autoridad de Chile entre 1817 y 1823?', correcta:'DIRECTOR SUPREMO', opts:['REY DE CHILE','VIRREY','EMPERADOR'] },
+  { pregunta:'¿De qué país dejó de depender Chile como resultado del proceso de independencia?', correcta:'DE ESPAÑA', opts:['DE FRANCIA','DE PORTUGAL','DE INGLATERRA'] },
+];
+const REPUBLICA_SIGLO19_BANK = [
+  { pregunta:'¿Qué documento estableció las normas fundamentales para organizar el gobierno de Chile en 1833?', correcta:'LA CONSTITUCIÓN DE 1833', opts:['EL TRATADO DE ANCÓN','LA LEY DE SUFRAGIO FEMENINO','LA PRIMERA JUNTA DE GOBIERNO'] },
+  { pregunta:'¿Qué avance tecnológico del siglo XIX transformó el transporte de personas y mercancías en Chile?', correcta:'EL FERROCARRIL', opts:['EL AVIÓN','INTERNET','EL TELÉFONO CELULAR'] },
+  { pregunta:'Durante el siglo XIX, ¿qué área tuvo avances importantes en Chile, con la fundación de escuelas y liceos?', correcta:'LA EDUCACIÓN', opts:['LOS VIAJES ESPACIALES','LA TELEVISIÓN','LA ENERGÍA NUCLEAR'] },
+  { afirmacion:'En el siglo XIX, solo un pequeño grupo de hombres podía votar en Chile; hoy votar es un derecho de la gran mayoría de los ciudadanos adultos', v:true },
+  { afirmacion:'Desde el siglo XIX hasta hoy, el derecho a votar en Chile nunca ha cambiado para nadie', v:false },
+  { pregunta:'¿Qué tipo de gobierno estableció la Constitución de 1833, con un Presidente con amplias atribuciones?', correcta:'UN GOBIERNO PRESIDENCIALISTA', opts:['UNA MONARQUÍA HEREDITARIA','UN GOBIERNO SIN NINGÚN PRESIDENTE','UNA REPÚBLICA SIN LEYES'] },
+  { pregunta:'¿Qué permitió el ferrocarril en Chile durante el siglo XIX?', correcta:'TRANSPORTAR PERSONAS Y PRODUCTOS DE FORMA MÁS RÁPIDA ENTRE CIUDADES', opts:['VIAJAR AL EXTRANJERO EN AVIÓN','ENVIAR MENSAJES POR INTERNET','VER TELEVISIÓN EN CASA'] },
+  { afirmacion:'Durante el siglo XIX se fundaron nuevas escuelas y liceos, ampliando el acceso a la educación en Chile', v:true },
+];
+const SALITRE_EXPANSION_BANK = [
+  { pregunta:'¿Qué conflicto bélico (1879-1883) enfrentó a Chile contra Perú y Bolivia?', correcta:'LA GUERRA DEL PACÍFICO', opts:['LA GUERRA DE ARAUCO','LA GUERRA CIVIL DE 1891','LA REVOLUCIÓN DE 1810'] },
+  { pregunta:'Como resultado de la Guerra del Pacífico, ¿qué ocurrió con el territorio de Chile?', correcta:'CHILE INCORPORÓ TERRITORIOS DEL ACTUAL NORTE DEL PAÍS, COMO ANTOFAGASTA Y TARAPACÁ', opts:['CHILE PERDIÓ TODO SU TERRITORIO NORTE','CHILE NO GANÓ NI PERDIÓ NINGÚN TERRITORIO','CHILE SE DIVIDIÓ EN DOS PAÍSES'] },
+  { pregunta:'¿Qué mineral impulsó una gran expansión económica en el norte de Chile a fines del siglo XIX?', correcta:'EL SALITRE', opts:['EL ORO','EL CARBÓN','EL PETRÓLEO'] },
+  { pregunta:'¿Para qué se usaba principalmente el salitre que Chile exportaba al mundo?', correcta:'COMO FERTILIZANTE PARA LA AGRICULTURA', opts:['COMO COMBUSTIBLE PARA AUTOS','COMO MATERIAL DE CONSTRUCCIÓN','COMO ALIMENTO'] },
+  { pregunta:'¿Qué se conoce como la "cuestión social" de fines del siglo XIX y comienzos del XX en Chile?', correcta:'LAS DIFÍCILES CONDICIONES DE VIDA Y TRABAJO DE LOS OBREROS DE LA ÉPOCA', opts:['UN NUEVO SISTEMA EDUCATIVO GRATUITO PARA TODOS','UNA ÉPOCA DE MUCHO BIENESTAR PARA TODOS LOS OBREROS','UNA LEY QUE MEJORÓ INMEDIATAMENTE TODOS LOS SALARIOS'] },
+  { pregunta:'¿En qué zona de Chile se concentró principalmente la explotación del salitre?', correcta:'EN EL NORTE DEL PAÍS', opts:['EN LA ZONA AUSTRAL','EN LA ISLA DE PASCUA','EN LA CORDILLERA DE LOS ANDES DEL SUR'] },
+  { pregunta:'¿Por qué llegaron muchos trabajadores desde otras zonas de Chile hacia las salitreras del norte?', correcta:'BUSCANDO TRABAJO EN LA INDUSTRIA DEL SALITRE', opts:['BUSCANDO UN CLIMA MÁS LLUVIOSO','HUYENDO DE UNA GUERRA CON ARGENTINA','PARA ESTUDIAR EN NUEVAS UNIVERSIDADES'] },
+  { pregunta:'¿Cómo se llamaban los campamentos de trabajadores donde se extraía y procesaba el salitre?', correcta:'OFICINAS SALITRERAS', opts:['UNIVERSIDADES','FORTALEZAS MILITARES','PUERTOS PESQUEROS'] },
+  { pregunta:'¿Qué ocurrió con la industria del salitre chileno después de que se inventó el salitre sintético a comienzos del siglo XX?', correcta:'ENTRÓ EN DECLIVE, YA QUE EL SALITRE SINTÉTICO ERA MÁS BARATO DE PRODUCIR', opts:['CRECIÓ AÚN MÁS QUE ANTES','NO TUVO NINGÚN EFECTO','SE VOLVIÓ EL ÚNICO PRODUCTO DE EXPORTACIÓN DE CHILE PARA SIEMPRE'] },
+  { pregunta:'¿Qué buscaban mejorar los primeros movimientos obreros durante la época de la "cuestión social"?', correcta:'LAS CONDICIONES LABORALES Y DE VIDA DE LOS TRABAJADORES', opts:['EL PRECIO DE LAS JOYAS','LOS IMPUESTOS A LOS TURISTAS','EL PRECIO DE LOS AUTOS'] },
+];
+const SIGLOXX_DEMOCRATIZACION_BANK = [
+  { pregunta:'¿En qué año se aprobó la ley que dio a las mujeres chilenas el derecho a votar en elecciones presidenciales y parlamentarias?', correcta:'1949', opts:['1810','1883','2000'] },
+  { pregunta:'Antes de la ley de 1949, ¿quiénes principalmente tenían derecho a votar en las elecciones presidenciales de Chile?', correcta:'SOLO LOS HOMBRES', opts:['SOLO LAS MUJERES','TODOS LOS NIÑOS MAYORES DE 10 AÑOS','NADIE PODÍA VOTAR'] },
+  { pregunta:'¿Qué cambio importante en la participación ciudadana ocurrió durante el siglo XX en Chile?', correcta:'EL DERECHO A VOTAR SE FUE EXTENDIENDO A MÁS PERSONAS, INCLUYENDO A LAS MUJERES', opts:['SE ELIMINÓ POR COMPLETO EL DERECHO A VOTAR','SOLO SE PERMITIÓ VOTAR A LOS EXTRANJEROS','EL VOTO DEJÓ DE EXISTIR'] },
+  { pregunta:'¿En qué año pudieron votar las mujeres chilenas por primera vez en elecciones municipales?', correcta:'1934', opts:['1810','1949','2000'] },
+  { pregunta:'¿En qué elección presidencial votaron las mujeres chilenas por primera vez, tras la ley de 1949?', correcta:'LA ELECCIÓN PRESIDENCIAL DE 1952', opts:['LA ELECCIÓN DE 1810','LA ELECCIÓN DE 1883','NUNCA HAN PODIDO VOTAR EN UNA ELECCIÓN PRESIDENCIAL'] },
+  { pregunta:'¿Qué significa que el derecho a voto se haya ido "democratizando" a lo largo del siglo XX en Chile?', correcta:'QUE CADA VEZ MÁS PERSONAS PUDIERON PARTICIPAR EN LAS ELECCIONES', opts:['QUE CADA VEZ MENOS PERSONAS PUDIERON VOTAR','QUE SOLO LOS MÁS RICOS PODÍAN VOTAR','QUE EL VOTO SE VOLVIÓ OBLIGATORIO SOLO PARA UN GRUPO'] },
+  { pregunta:'¿Bajo qué presidente se aprobó la ley que dio a las mujeres chilenas el voto en elecciones presidenciales?', correcta:'GABRIEL GONZÁLEZ VIDELA', opts:['BERNARDO O HIGGINS','ARTURO PRAT','DIEGO PORTALES'] },
+  { pregunta:'¿Quién fue elegido Presidente de Chile en 1952, en la primera elección con voto femenino?', correcta:'CARLOS IBÁÑEZ DEL CAMPO', opts:['BERNARDO O HIGGINS','JOSÉ DE SAN MARTÍN','PEDRO DE VALDIVIA'] },
+  { pregunta:'¿Qué institución del Estado se encarga de organizar y fiscalizar las elecciones en Chile?', correcta:'EL SERVICIO ELECTORAL', opts:['EL EJÉRCITO','UNA EMPRESA PRIVADA CUALQUIERA','UN PERIÓDICO'] },
+];
+const GEOGRAFIA_CHILE6_BANK = [
+  { pregunta:'Chile es un país tricontinental. ¿Qué significa esto?', correcta:'TIENE TERRITORIO EN TRES CONTINENTES: AMÉRICA, OCEANÍA Y LA ANTÁRTICA', opts:['TIENE TRES CAPITALES DIFERENTES','ESTÁ FORMADO POR TRES PAÍSES UNIDOS','TIENE TRES IDIOMAS OFICIALES'] },
+  { pregunta:'¿Qué isla chilena en el océano Pacífico forma parte de Oceanía?', correcta:'ISLA DE PASCUA (RAPA NUI)', opts:['LA ISLA GRANDE DE CHILOÉ','LA ISLA JUAN FERNÁNDEZ','TIERRA DEL FUEGO'] },
+  { pregunta:'¿Qué tipo de ambiente natural predomina en el norte de Chile?', correcta:'DESÉRTICO', opts:['SELVA TROPICAL','GLACIARES Y HIELO','PANTANOS Y MANGLARES'] },
+  { pregunta:'¿Qué desafío enfrentan las personas que viven en una zona desértica como el norte de Chile?', correcta:'LA ESCASEZ DE AGUA', opts:['EL EXCESO DE LLUVIA','EL FRÍO EXTREMO TODO EL AÑO','LA FALTA DE SOL'] },
+  { pregunta:'¿Cuál es el mayor terremoto registrado instrumentalmente en la historia, ocurrido en el sur de Chile en 1960?', correcta:'EL TERREMOTO DE VALDIVIA', opts:['EL TERREMOTO DE HAITÍ','EL TERREMOTO DE JAPÓN DE 2011','NO SE HA REGISTRADO NUNCA UN TERREMOTO EN CHILE'] },
+  { pregunta:'¿Qué oportunidad ofrece el ambiente marítimo de gran parte de la costa chilena?', correcta:'LA PESCA Y EL TURISMO', opts:['LA MINERÍA DEL CARBÓN SOLAMENTE','LA AGRICULTURA DE ARROZ SOLAMENTE','NINGUNA OPORTUNIDAD ECONÓMICA'] },
+  { pregunta:'¿Qué tipo de ambiente natural predomina en la Zona Central de Chile?', correcta:'CLIMA MEDITERRÁNEO, CON VERANO SECO E INVIERNO LLUVIOSO', opts:['DESIERTO ABSOLUTO TODO EL AÑO','SELVA TROPICAL LLUVIOSA','HIELO Y NIEVE TODO EL AÑO'] },
+  { pregunta:'¿Qué desafío enfrentan las personas que viven en zonas con alto riesgo de terremotos, como gran parte de Chile?', correcta:'CONSTRUIR EDIFICIOS PREPARADOS PARA RESISTIR MOVIMIENTOS SÍSMICOS', opts:['NO EXISTE NINGÚN DESAFÍO','EVITAR CONSTRUIR CUALQUIER TIPO DE EDIFICIO','MUDARSE A OTRO CONTINENTE'] },
+  { pregunta:'¿Qué recurso natural importante se obtiene de los bosques templados del sur de Chile?', correcta:'LA MADERA', opts:['EL COBRE','EL SALITRE','EL PETRÓLEO'] },
+];
+const PODERES_ESTADO_BANK = [
+  { poder:'PODER EJECUTIVO', funcion:'GOBERNAR Y ADMINISTRAR EL PAÍS (EL PRESIDENTE Y SUS MINISTROS)' },
+  { poder:'PODER LEGISLATIVO', funcion:'CREAR, DISCUTIR Y APROBAR LAS LEYES (EL CONGRESO NACIONAL)' },
+  { poder:'PODER JUDICIAL', funcion:'APLICAR LA LEY Y RESOLVER CONFLICTOS LEGALES (LOS TRIBUNALES)' },
+];
+const CIUDADANIA6_BANK = [
+  { correcta:'La Constitución Política establece cómo se organiza el gobierno del país y protege los derechos de las personas', incorrectas:['La Constitución no tiene relación con los derechos de las personas','Cualquier persona puede cambiar la Constitución sola, sin ningún procedimiento','La Constitución solo aplica a algunas personas del país'] },
+  { correcta:'Tener un derecho también genera deberes y responsabilidades hacia los demás', incorrectas:['Los derechos no generan ningún deber','Solo los adultos tienen deberes','Los deberes no tienen relación con los derechos'] },
+  { correcta:'Trabajar en equipo, asumiendo un rol responsable, ayuda a lograr mejores resultados en un proyecto', incorrectas:['Trabajar en equipo nunca mejora un resultado','Es mejor no asumir ningún rol en un trabajo grupal','Ignorar el trabajo de los demás ayuda al equipo'] },
+  { correcta:'Participar en la elección de la directiva de curso, evaluando las propuestas de cada candidato, es un ejemplo de buena ciudadanía', incorrectas:['Votar sin conocer ninguna propuesta es lo más responsable','No participar nunca en las elecciones del curso','Imponer un candidato sin votación'] },
+  { correcta:'Proponer un proyecto comunitario, como una campaña de reciclaje, considerando un plan simple, es una forma de participación ciudadana', incorrectas:['Los proyectos comunitarios no tienen ningún valor','Es mejor no proponer nunca ninguna idea para la comunidad','Un proyecto comunitario no necesita ningún plan'] },
+  { correcta:'Si los derechos de una persona no son respetados, existen formas de protegerla, como acudir a un adulto responsable o a una institución', incorrectas:['Si no se respetan tus derechos, no existe ninguna forma de protegerte','Es mejor no hacer nada si no se respetan tus derechos','Solo los adultos pueden tener sus derechos protegidos'] },
+];
+
+export function genIndependencia6Round(){
+  const item = pick(INDEPENDENCIA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genRepublica6Round(){
+  const item = pick(REPUBLICA_SIGLO19_BANK);
+  if(item.afirmacion){
+    const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',
+      options: opts, correctValue: item.v, speakText: item.afirmacion, cols:2, panel:true,
+      explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    };
+  }
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genSalitre6Round(){
+  const item = pick(SALITRE_EXPANSION_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genSigloxx6Round(){
+  const item = pick(SIGLOXX_DEMOCRATIZACION_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genGeografiaChile6Round(){
+  const item = pick(GEOGRAFIA_CHILE6_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCiudadania6Round(){
+  if(Math.random()<0.4){
+    const item = pick(PODERES_ESTADO_BANK);
+    const distract = shuffle(PODERES_ESTADO_BANK.filter(function(p){ return p.poder!==item.poder; })).map(function(p){ return p.funcion; });
+    const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+item.poder+'</p><p class="prompt-hint">¿Cuál es la función de este poder del Estado?</p>',
+      options: opts, correctValue: item.funcion, speakText: item.poder, cols:2, panel:true,
+      explain: item.poder+': '+item.funcion.toLowerCase()+'.',
+    };
+  }
+  const item = pick(CIUDADANIA6_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+  };
+}
+

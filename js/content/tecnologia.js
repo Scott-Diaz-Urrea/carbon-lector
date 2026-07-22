@@ -193,3 +193,39 @@ export function genTecDigital5Round(){
     explain: 'La respuesta correcta es "'+item.correcta+'".',
   };
 }
+
+/* ---------------- Contenido Tecnología 6° Básico ----------------
+   Basado en OA del Decreto 439/2012, 6° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/tecnologia/6-basico): TE06 OA05-07 vuelven a repetir casi el
+   mismo texto de años anteriores (software para organizar/comunicar,
+   procesador de textos, internet), agregando "revisar" un documento (OA06) y
+   "publicar" información (OA07) como matices nuevos. Tecnología Digital VI
+   usa escenarios completamente nuevos centrados en esos dos matices: revisar
+   y mejorar un documento antes de compartirlo, y publicar información de
+   forma responsable en línea. Quedan fuera OA01-04 (diseñar/planificar/
+   elaborar/evaluar un objeto o servicio tecnológico propio). */
+export const TECNOLOGIA_MODULES_G6 = [
+  {id:'tecdigital6', label:'Tecnología Digital VI', open:true, key:'tecdigital6'},
+];
+export const TECNOLOGIA_POS_G6 = [{x:48,y:50}];
+
+const TEC_DIGITAL_6_BANK = [
+  { pregunta:'Antes de entregar un trabajo escrito, ¿qué es importante revisar además de la ortografía?', correcta:'Que las ideas estén ordenadas y sean fáciles de entender', opts:['Que tenga la mayor cantidad de colores posible','Que sea lo más largo posible sin importar el contenido','No es necesario revisar nada más'] },
+  { pregunta:'¿Qué significa "publicar" información en internet de forma responsable?', correcta:'Compartir contenido verificado y respetuoso, considerando quién lo va a ver', opts:['Compartir cualquier cosa sin revisarla','Publicar información privada de otras personas sin permiso','Publicar todo lo posible sin pensar en las consecuencias'] },
+  { pregunta:'¿Qué deberías hacer antes de publicar una investigación grupal en un blog o sitio del colegio?', correcta:'Revisar que la información sea correcta y que todos los integrantes estén de acuerdo', opts:['Publicarla de inmediato sin que nadie más la revise','Copiar información de internet sin citar la fuente','Publicar solo tu parte, ignorando al resto del grupo'] },
+  { pregunta:'¿Para qué sirve la función de "control de cambios" o "comentarios" en un procesador de textos colaborativo?', correcta:'Para que varias personas puedan revisar y sugerir mejoras a un mismo documento', opts:['Para borrar el documento automáticamente','Para cambiar el idioma del documento','Para imprimir el documento más rápido'] },
+  { pregunta:'¿Qué deberías revisar antes de compartir un enlace o un archivo con toda tu clase en línea?', correcta:'Que el contenido sea apropiado y venga de una fuente confiable', opts:['Que el archivo tenga un nombre llamativo','Que el archivo sea lo más pesado posible','No es necesario revisar nada'] },
+  { pregunta:'¿Qué deberías hacer si notas un error en un documento que ya publicaste en línea?', correcta:'Corregirlo y avisar a quienes ya lo vieron si el error era importante', opts:['Dejarlo como está para no llamar la atención','Borrar el documento sin avisarle a nadie','Publicar el error en otro sitio también'] },
+  { pregunta:'¿Qué es recomendable hacer antes de reutilizar una imagen de internet en un trabajo que vas a publicar?', correcta:'Verificar que se pueda usar libremente o dar el crédito correspondiente', opts:['Usarla sin revisar nada','Cambiarle el nombre al archivo solamente','Publicarla como si fuera propia sin ningún crédito'] },
+  { pregunta:'¿Qué opción de un software de organización de ideas ayuda a comunicar los resultados de una investigación con claridad?', correcta:'Ordenar la información con títulos, gráficos e imágenes relevantes', opts:['Escribir todo en un solo párrafo sin ningún orden','Usar solo texto sin ningún elemento visual','Copiar la información sin organizarla'] },
+  { pregunta:'¿Qué deberías hacer si vas a publicar los resultados de una encuesta que hiciste con tus compañeros?', correcta:'Mostrar los datos de forma clara y honesta, sin inventar resultados', opts:['Inventar resultados para que se vean mejor','Publicar solo los resultados que te convienen','No es necesario mostrar los datos reales'] },
+];
+export function genTecDigital6Round(){
+  const item = pick(TEC_DIGITAL_6_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}

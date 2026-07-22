@@ -1022,7 +1022,134 @@ módulos de toda la app, pasan 300 sesiones simuladas cada uno sin ningún
 repetido, y 100-300 iteraciones de fuzz estructural sin `undefined`, opciones
 duplicadas dentro de una ronda, ni `correctValue` ausente de las opciones.
 
-### 6° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
+### 6° Básico — ✅ completo (38 módulos, las 9 asignaturas + Inglés)
+Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
+curriculum/1o-6o-basico/<asignatura>/6-basico. Varios OA de 6° básico repiten
+textualmente el mismo texto de 5° básico (Música, Ed. Física, Orientación,
+Tecnología) — igual que en años anteriores, esos módulos usan escenarios y
+afirmaciones completamente nuevos en vez de duplicar contenido.
+
+- **Lenguaje** (5): Comprensión VI (los mismos 4 ángulos de Comprensión V más
+  un quinto: evaluar críticamente mensajes publicitarios — OA02,04,06-08,25),
+  Recursos Poéticos II (hipérbole y efectos sonoros -aliteración, onomatopeya-
+  además de repasar personificación/comparación con versos nuevos — OA05),
+  Vocabulario VI (sufijos -ángulo nuevo respecto a prefijos de 4° y raíces de
+  5°- e hipónimos/locuciones -más allá de sinónimos con matices de 5°- —
+  OA12,20), Gramática VI (participios irregulares: roto, escrito, dicho,
+  hecho, puesto, visto, abierto, muerto, resuelto, cubierto, vuelto — OA21),
+  Ortografía IV (tilde diacrítica: él/el, tú/tu, mí/mi, sí/si, sé/se, dé/de,
+  té/te, más/mas — OA22). Fuera: OA01 (lectura oral), OA03 (repertorio
+  literario, ya cubierto en 3°), OA09-11 (actitudinal/proceso), OA13-19
+  (producción escrita), OA23-24,26-31 (comunicación oral, desempeño o audio).
+- **Matemática** (10): Múltiplos y Factores (primos/compuestos — OA01),
+  Operatoria Combinada (números mayores a 10 000 — OA02), Razones y
+  Porcentajes (OA03-04), Fracciones y Números Mixtos (OA05-06,08), Decimales
+  III (multiplicar/dividir decimales — OA07-08), Patrones, Tablas y
+  Ecuaciones (tabla de valores, expresiones algebraicas, ecuaciones un paso —
+  OA09-11), Triángulos y Teselados (clasificar por lados, traslación/
+  reflexión/rotación en un mosaico — OA12,14), Ángulos VI (clasificación por
+  grados incluyendo extendido/completo -presentado como dato numérico, sin
+  necesidad de dibujar un ángulo de 180°/360°-, complementarios, opuestos por
+  el vértice/correspondientes en paralelas, suma de ángulos interiores —
+  OA15-17,20-21), Área y Volumen (superficie y volumen de cubos/
+  paralelepípedos — OA13,18-19), Datos y Probabilidades IV (comparar
+  promedios de dos grupos, conjeturas sobre experimentos aleatorios, gráfico
+  de barra doble y gráfico circular nuevos -`doubleBarChartHTML()`/
+  `pieChartHTML()`/`pieChartSVG()`- — OA22-24). Ningún OA de 6° básico queda
+  fuera.
+- **Ciencias Naturales** (5): Fotosíntesis y Cadenas Alimentarias (OA01-03),
+  Hábitos Saludables y Prevención (actividad física/higiene durante el
+  crecimiento, efectos nocivos de las drogas — OA06-07), Energía y sus
+  Transformaciones (OA08-09,11), Calor, Temperatura y Estados de la Materia
+  (OA10,12-15), La Tierra: Capas, Suelo y Erosión (OA16-18). **Fuera
+  deliberadamente: OA04-05** (estructuras y funciones del sistema
+  reproductor humano, y los cambios de la pubertad en profundidad anatómica)
+  — mismo criterio que excluye "desarrollo afectivo y sexual" en Orientación
+  desde 3° básico: requiere el acompañamiento real de un adulto/profesor en
+  una instancia dedicada, no una trivia de opción múltiple en una app
+  general que también usan familias con niños más pequeños.
+- **Historia, Geografía y Cs. Sociales** (6): Independencia de Chile
+  (Primera Junta 1810, cruce de los Andes, batalla de Maipú 1818 — OA01-02),
+  La República en el Siglo XIX (Constitución de 1833, ferrocarril, educación
+  — OA03-04,09), Salitre y Expansión Territorial (Guerra del Pacífico
+  1879-1883 presentada de forma neutral y factual, período salitrero,
+  "cuestión social" — OA05-06), Chile en el Siglo XX (voto femenino: ley de
+  1949, verificado con fuentes adicionales — OA07), Geografía de Chile VI
+  (territorio tricontinental, ambientes naturales, terremoto de Valdivia
+  1960 — OA10-14), Formación Ciudadana VI (poderes del Estado, la
+  Constitución, derechos y deberes, elecciones de curso, proyectos
+  comunitarios — OA15-23). **Fuera deliberadamente: OA08** ("Comparar
+  visiones sobre el quiebre democrático, régimen militar y recuperación
+  democrática, considerando múltiples perspectivas") — el propio texto del
+  OA exige "múltiples perspectivas" sobre un período histórico
+  contestado y sensible en la sociedad chilena; eso requiere una discusión
+  guiada por un profesor en la sala de clases, no una trivia de opción
+  múltiple con una única respuesta correcta. También fuera: OA21
+  (autoridades político-administrativas de una región, cuyo nombre/cargo
+  cambió con la reforma de 2021 y podría volver a cambiar) y OA24-26
+  (opinar/argumentar, evaluar y justificar soluciones, informarse por
+  diarios/TICs — habilidades de argumentación o proceso de indagación
+  propio).
+- **Artes Visuales** (1): Lenguaje Visual IV (OA02 esta vez sí nombra
+  elementos nuevos: "color -gamas y contrastes-; volumen -lleno y vacío-",
+  distintos de los ya cubiertos en 3°-5° básico). Fuera: OA01,03 (producción
+  propia), OA04-05 (apreciación/evaluación subjetiva de obras).
+- **Música** (1): Melodía: Diseños y Variaciones (MU06 OA01 repite la misma
+  lista de elementos que MU05 OA01; de ahí, "reiteración/contraste",
+  "diseño melódico" -ascendente/descendente/ondulante- y "variación" son los
+  únicos términos que ningún año anterior había cubierto). Fuera: OA02-08
+  (subjetivo, depende de audio real, desempeño, autoevaluación).
+- **Educación Física y Salud** (2): Vida Activa y Postura VI, Liderazgo y
+  Seguridad VI (OA06-11, mismo texto que 5° básico, con escenarios nuevos).
+  Fuera: OA01-05 (práctica física real).
+- **Orientación** (5): Manejo Emocional VI (OA02), Autocuidado Digital VI
+  (OA04), Prevención VI (OA05, esta vez nombrando ejemplos explícitos:
+  tabaco/alcohol/marihuana, en clave preventiva y factual), Buen Trato y
+  Resolución de Conflictos VI (OA06-07), Hábitos de Trabajo Escolar VI
+  (OA09) — todos con escenarios completamente nuevos ya que el texto de los
+  OA repite casi lo mismo que 5° básico. Fuera: OA01, OA03 (desarrollo
+  afectivo y sexual — mismo criterio de siempre), OA08 (ya cubierta por
+  Formación Ciudadana VI en historia.js).
+- **Tecnología** (1): Tecnología Digital VI (OA06 agrega "revisar" un
+  documento, OA07 agrega "publicar" información — matices nuevos respecto a
+  años anteriores, con escenarios frescos). Fuera: OA01-04 (producción
+  práctica).
+- **Inglés** (2): Vocabulario Intermedio (clima y verbos con emoji, días de
+  la semana como traducción español-inglés ya que no tienen representación
+  visual distintiva — OA05,13), Lectura Simple II (notas, postales,
+  invitaciones, tarjetas de saludo, menús, rimas/poemas/cómics —
+  literalmente los formatos que nombra OA06-07, distintos de las oraciones
+  sueltas de 5° básico). Fuera: OA01-04 (audio), OA10-13 (oral), OA14-16
+  (producción escrita).
+
+**Hallazgos técnicos de esta ronda:**
+- **`.bar-chart`/`.bar-col`/`.bar-fill`/`.bar-label`/`.bar-value` no tenían
+  NINGÚN CSS propio** desde que existen (2° básico en adelante) — solo el
+  `height` inline que arma `barChartHTML()`. Sin flexbox/ancho/color, las
+  columnas se apilaban como bloques planos en vez de verse como un gráfico
+  de barras. Se detectó al construir el gráfico de barra doble de 6° básico
+  y se corrigió con CSS real en `styles.css`, beneficiando también los
+  gráficos de barra de 2°-5° básico. Se agregó CSS real también para
+  `.stem-leaf` (diagrama de tallo y hojas, 5°-6° básico) y `.pie-legend`
+  (leyenda del gráfico circular nuevo).
+- **Bug de opciones duplicadas en el generador de "Lenguaje Visual IV"**
+  (contraste de color): con solo 2 categorías de contraste posibles, tomar
+  todas las demás entradas del banco como distractores podía repetir la
+  misma categoría dos veces. Corregido calculando la única "otra" categoría
+  en vez de filtrar el banco completo.
+- **12 módulos con bank ≤ `rounds:8`** encontrados por fuzz-testing
+  (`independencia6`, `republica6`, `salitre6`, `sigloxx6`, `geografiachile6`,
+  `lenguajevisual6`, `manejoemocional6`, `autocuidadodigital6`,
+  `prevencion6`, `buentrato6`, `habitosestudio6`, `tecdigital6`) —
+  ampliados con contenido real dentro del mismo OA ya citado hasta dejar
+  margen sobre `rounds`. Verificado: los 38 módulos nuevos, y los 229
+  módulos de toda la app, pasan 300 sesiones simuladas cada uno sin ningún
+  repetido.
+- **`js/audio.js`**: `speak(text, lang)` y `pickBestVoice(lang)` (agregado en
+  5° básico para Inglés) siguen funcionando igual; 6° básico los reutiliza
+  sin cambios adicionales.
+
+### 7° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false`. Para desbloquear un año, cambiar su
 `open` a `true` Y crear su entrada correspondiente en `LENGUAJE_BY_GRADE` /
 `MATE_BY_GRADE` (si no existe una entrada, `renderComingSoonSubject()` se muestra
@@ -1064,38 +1191,56 @@ para esta iniciativa).
    opcional de idioma para no leer el inglés con voz en español. 6 módulos
    con bug de opciones duplicadas (banco del mismo tamaño que `rounds`, o
    menor) encontrados por fuzz-testing y corregidos ampliando contenido real.
-5. **Siguiente:** extraer los OA de 6° básico de curriculumnacional.cl
-   (`curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/6-basico`, mismo
-   patrón que funcionó para 2°-5° básico) para las 9 asignaturas más Inglés
-   (ya verificado que corresponde, continúa desde 5° básico) — y repetir el
-   patrón: `<NOMBRE>_MODULES_G6`/`_POS_G6` en cada `content/<asignatura>.js`
-   (más `content/ingles.js`), agregar `6: {...}` a cada `*_BY_GRADE` en
-   `gradeContent.js`, registrar en `MC_GAMES`/`MC_KEYS`, agregar estrellas en
-   `state.js` y títulos en `rewards.js`. Antes de dar por terminado cada
-   generador: (a) revisar el tamaño de cada banco de contenido contra
-   `rounds:8` (con margen real de +2, no justo al límite), y (b) revisar
+5. ~~Completar 6° básico~~ — ✅ hecho (2026-07-22), las 9 asignaturas más
+   Inglés completas, 38 módulos (ver "Estado actual del contenido" arriba).
+   Se excluyó deliberadamente HI06 OA08 (quiebre democrático/régimen militar
+   — el propio OA pide "múltiples perspectivas", impropio para MC) y CN06
+   OA04-05 (sistema reproductor/pubertad — mismo criterio de Orientación
+   desde 3° básico). Se encontró y corrigió un bug real de CSS ausente en
+   `.bar-chart`/`.bar-col`/etc. que llevaba desde 2° básico (los gráficos de
+   barra se veían como bloques planos, sin flexbox ni color) — corregido
+   para todos los años que ya usaban gráficos de barra, no solo 6°. Se
+   agregaron `doubleBarChartHTML()`/`pieChartSVG()`/`pieChartHTML()` para
+   los gráficos nuevos de Datos y Probabilidades IV. 12 módulos con bug de
+   opciones duplicadas (banco ≤ `rounds:8`) encontrados por fuzz-testing y
+   corregidos ampliando contenido real — lección reforzada: revisar el
+   tamaño real de cada banco ANTES de dar por terminado un módulo, no solo
+   al final.
+6. **Siguiente:** extraer los OA de 7° básico de curriculumnacional.cl para
+   las 9 asignaturas más Inglés (verificar primero la lista exacta de
+   asignaturas vigente para 7°-8° básico en curriculumnacional.cl — podrían
+   agregar o quitar asignaturas respecto al ciclo 1°-6°, no asumir que es
+   igual) y repetir el patrón: `<NOMBRE>_MODULES_G7`/`_POS_G7` en cada
+   `content/<asignatura>.js` (más `content/ingles.js`), agregar `7: {...}` a
+   cada `*_BY_GRADE` en `gradeContent.js`, registrar en `MC_GAMES`/`MC_KEYS`,
+   agregar estrellas en `state.js` y títulos en `rewards.js`. Antes de dar
+   por terminado cada generador: (a) revisar el tamaño de cada banco de
+   contenido contra `rounds:8` con margen real de +2 a +4 (no justo al
+   límite — 12 módulos de 6° básico cayeron en esto pese a la advertencia ya
+   documentada desde 4°/5° básico, así que conviene contar los ítems de cada
+   banco explícitamente antes de seguir, no solo "a ojo"), (b) revisar
    cuántos valores/categorías realmente distintos tiene cada banco antes de
-   decidir cuántas opciones de respuesta ofrecer (ver los bugs de 4° y 5°
-   básico arriba). Luego repetir para 7° y 8° básico en orden (son parte de
-   Educación Básica en la trayectoria chilena actual, verificar la lista
-   exacta de asignaturas vigente para esos años en curriculumnacional.cl
-   antes de asumir que es la misma que 1°-6°, dado que 7°-8° podrían agregar
-   o quitar asignaturas respecto al ciclo 1°-6°).
-6. Una vez completa toda Educación Básica, definir con el usuario el mismo patrón
+   decidir cuántas opciones de respuesta ofrecer, y (c) revisar que ningún
+   nombre de banco (`const NOMBRE_BANK`) choque con uno ya existente en el
+   mismo archivo de años anteriores (pasó con `CADENA_ALIMENTARIA_BANK` en
+   6° básico, que ya existía desde años previos en ciencias.js — un
+   `SyntaxError` en tiempo de carga de módulo, fácil de detectar al servir
+   la app pero conviene revisar antes). Luego repetir para 8° básico.
+7. Una vez completa toda Educación Básica, definir con el usuario el mismo patrón
    para Educación Media (probablemente asignaturas distintas: Física/Química/
    Biología separadas, Filosofía, etc. — pedir la lista real antes de asumir) y
    luego EPJA (currículum propio, organizado por niveles que agrupan varios años
    en uno, no por año individual — revisar su decreto específico antes de construir,
    no asumir que es igual a Básica/Media regular).
-7. ~~Evaluar agregar persistencia real (localStorage)~~ — ✅ hecho (`js/persistence.js`).
+8. ~~Evaluar agregar persistencia real (localStorage)~~ — ✅ hecho (`js/persistence.js`).
    Si más adelante se quiere progreso sincronizado entre dispositivos, ahí sí se
    necesitaría un backend real (Firebase/Supabase u otro) — GitHub Pages es hosting
    estático puro, no puede correr una base de datos ni lógica de servidor.
-8. Si se quiere cobertura 100% literal de 1° básico, revisar los OA marcados "fuera"
+9. Si se quiere cobertura 100% literal de 1° básico, revisar los OA marcados "fuera"
    en cada asignatura (arriba) y decidir si vale la pena forzarlos al motor de opción
    múltiple o si requieren un tipo de juego nuevo (p. ej. grabación de voz para Música,
    o un lienzo de dibujo para Artes Visuales).
-9. ~~Construir los 7 núcleos restantes de Educación Parvularia NT~~ — ✅ hecho, los 8
+10. ~~Construir los 7 núcleos restantes de Educación Parvularia NT~~ — ✅ hecho, los 8
    núcleos de NT están completos (ver "Estado actual del contenido" arriba). Si más
    adelante se quiere cobertura 100% literal de algún núcleo, revisar los OA marcados
    "fuera" arriba y decidir si vale la pena forzarlos al motor de opción múltiple o si
@@ -1104,7 +1249,7 @@ para esta iniciativa).
    Medio/Sala Cuna tiene sentido en algún momento, dado que ese rango de edad
    generalmente no usa juego en pantalla (revisar el Decreto 481/2017 para esos
    niveles antes de decidir).
-10. **Ideas del usuario para explorar más adelante (aún no implementadas, solo
+11. **Ideas del usuario para explorar más adelante (aún no implementadas, solo
    anotadas — 2026-07-20):**
    - Evaluar qué tan distinto debería ser el diseño (colores, formas, sonidos, ritmo
      de feedback) para captar la atención de perfiles neurotípicos vs. neurodivergentes.

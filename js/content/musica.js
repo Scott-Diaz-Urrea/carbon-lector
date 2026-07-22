@@ -266,3 +266,70 @@ export function genTexturaMusical5Round(){
     explain: 'Esta estructura se llama <b>'+item.correcta.toLowerCase()+'</b>.',
   };
 }
+
+/* ---------------- Contenido Música 6° Básico ----------------
+   Basado en OA del Decreto 439/2012, 6° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/musica/6-basico): MU06 OA01 repite textualmente la misma lista de
+   elementos del lenguaje musical que MU05 OA01 (reiteraciones, contrastes,
+   pulsos, acentos, patrones rítmicos y melódicos, diseños melódicos,
+   variaciones, dinámica, tempo, secciones A-AB-ABA, preguntas-respuestas,
+   texturas). De esa lista, "reiteración/contraste" (a nivel de frase musical),
+   "diseño melódico" (la forma que dibuja una melodía: ascendente, descendente,
+   ondulante) y "variación" (una repetición modificada de una idea musical) son
+   los únicos términos que ningún año anterior había ejercitado (3° cubrió
+   pulso/acento/forma, 4° dinámica/tempo, 5° texturas/preguntas-respuestas).
+   Melodía: Diseños y Variaciones -> OA01 (ese ángulo nuevo).
+   Quedan fuera: OA02 (sensaciones personales — subjetivo), OA03 (escuchar
+   repertorio — depende de audio real), OA04-06 (cantar/tocar/improvisar/
+   presentar — desempeño), OA07-08 (relación obra-contexto histórico
+   específico, autoevaluación). */
+export const MUSICA_MODULES_G6 = [
+  {id:'melodiavariaciones6', label:'Melodía: Diseños y Variaciones', open:true, key:'melodiavariaciones6'},
+];
+export const MUSICA_POS_G6 = [{x:50,y:50}];
+
+const REITERACION_CONTRASTE_BANK = [
+  { desc:'Una canción repite exactamente la misma frase musical dos veces seguidas', tipo:'REITERACIÓN' },
+  { desc:'Una canción toca una frase suave y calmada, y luego una frase completamente distinta, fuerte y agitada', tipo:'CONTRASTE' },
+  { desc:'Un coro canta la misma melodía una y otra vez a lo largo de toda la canción, sin cambiar nada', tipo:'REITERACIÓN' },
+  { desc:'Una pieza musical pasa de una sección lenta y triste a una sección rápida y alegre, muy diferente a la anterior', tipo:'CONTRASTE' },
+];
+const DISENO_MELODICO_BANK = [
+  { desc:'Una melodía que va subiendo de tono, nota por nota, de más grave a más aguda', diseno:'ASCENDENTE' },
+  { desc:'Una melodía que va bajando de tono, nota por nota, de más aguda a más grave', diseno:'DESCENDENTE' },
+  { desc:'Una melodía que sube y baja de tono varias veces, como las olas del mar', diseno:'ONDULANTE' },
+];
+const VARIACION_BANK = [
+  { desc:'Una canción presenta su melodía principal, y luego la repite pero un poco más rápido y con un instrumento distinto', pregunta:'¿Cómo se llama a repetir una idea musical con algunos cambios, en vez de repetirla exactamente igual?', correcta:'VARIACIÓN', opts:['SILENCIO','PAUSA','ACORDE'] },
+  { desc:'Un compositor toma un tema musical simple y lo repite varias veces, cada vez con un ritmo o una dinámica distinta', pregunta:'¿Cómo se llama a esta técnica de repetir un tema con cambios?', correcta:'VARIACIÓN', opts:['SILENCIO','PAUSA','ACORDE'] },
+];
+export function genMelodiaVariaciones6Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(REITERACION_CONTRASTE_BANK);
+    const opts = shuffle([{label:'REITERACIÓN', value:'REITERACIÓN'},{label:'CONTRASTE', value:'CONTRASTE'}]);
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Esto es una reiteración o un contraste?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, panel:true,
+      explain: 'Esto es una <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(DISENO_MELODICO_BANK);
+    const todos = ['ASCENDENTE','DESCENDENTE','ONDULANTE'];
+    const distract = todos.filter(function(d){ return d!==item.diseno; });
+    const opts = shuffle([item.diseno].concat(distract)).map(function(d){ return {label:d, value:d}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué diseño melódico describe esto?</p>',
+      options: opts, correctValue: item.diseno, speakText: item.desc, cols:2, kind:'word',
+      explain: 'Este es un diseño melódico <b>'+item.diseno.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(VARIACION_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word',
+    explain: 'Esto se llama <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}

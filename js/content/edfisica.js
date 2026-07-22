@@ -255,3 +255,75 @@ export function genSeguridad3Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
+
+/* ---------------- Contenido Educación Física y Salud 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/educacion-fisica-salud/4-basico):
+   Condición Física y Pulso -> OA06,08 (los 4 componentes de la condición
+   física — resistencia cardiovascular, fuerza, flexibilidad, velocidad — y
+   medir el pulso, un ángulo nuevo respecto a 3° básico). Seguridad y Juego
+   Limpio IV -> OA09-11 (higiene, hábitos posturales, responsabilidad,
+   honestidad, comportamientos seguros). Quedan fuera OA01-05 (habilidades
+   motrices, juegos colectivos, danzas, entornos) por depender de práctica
+   física real. */
+export const EDFISICA_MODULES_G4 = [
+  {id:'condicionfisica4', label:'Condición Física y Pulso', open:true, key:'condicionfisica4'},
+  {id:'seguridad4', label:'Seguridad y Juego Limpio IV', open:true, key:'seguridad4'},
+];
+export const EDFISICA_POS_G4 = [{x:30,y:70},{x:70,y:30}];
+
+const COMPONENTES_FISICOS_BANK = [
+  { actividad:'Correr una larga distancia sin parar', componente:'RESISTENCIA CARDIOVASCULAR' },
+  { actividad:'Trotar 20 minutos seguidos', componente:'RESISTENCIA CARDIOVASCULAR' },
+  { actividad:'Levantar un objeto pesado', componente:'FUERZA' },
+  { actividad:'Hacer flexiones de brazos', componente:'FUERZA' },
+  { actividad:'Tocarse los dedos de los pies sin doblar las rodillas', componente:'FLEXIBILIDAD' },
+  { actividad:'Hacer estiramientos antes de entrenar', componente:'FLEXIBILIDAD' },
+  { actividad:'Correr los 50 metros lo más rápido posible', componente:'VELOCIDAD' },
+  { actividad:'Hacer una carrera corta a máxima velocidad', componente:'VELOCIDAD' },
+];
+const PULSO_BANK = [
+  { pregunta:'¿Qué pasa con tu pulso (los latidos del corazón) cuando haces ejercicio intenso?', correcta:'Aumenta, late más rápido', opts:['Disminuye','No cambia','Se detiene'] },
+  { pregunta:'¿Dónde puedes sentir tu pulso fácilmente con los dedos?', correcta:'En la muñeca o el cuello', opts:['En los pies','En las orejas','En el pelo'] },
+  { pregunta:'¿Por qué es útil medir tu pulso antes y después de hacer ejercicio?', correcta:'Para saber cómo responde tu cuerpo a la actividad física', opts:['Para saber qué hora es','Para saber cuánto pesas','Para saber qué comer'] },
+];
+const SEGURIDAD_4_ITEMS = [
+  { label:'Cumplir con el rol que te asignan en un juego colectivo es parte de la responsabilidad deportiva', v:true },
+  { label:'Respetar las reglas del juego, incluso cuando nadie te está mirando, es jugar limpio', v:true },
+  { label:'Conocer bien el espacio donde te mueves es parte de practicar actividad física de forma segura', v:true },
+  { label:'Usar la ropa y el calzado adecuado para cada actividad reduce el riesgo de lesiones', v:true },
+  { label:'Avisar si te sientes mal o lesionado durante una actividad física es lo correcto', v:true },
+  { label:'No importa dejar de seguir las reglas de un juego si quieres ganar a toda costa', v:false },
+  { label:'Ignorar el rol que te asignaron en un juego de equipo no tiene ninguna consecuencia', v:false },
+  { label:'Jugar en un espacio con objetos peligrosos sin avisarle a nadie es seguro', v:false },
+];
+
+export function genCondicionFisica4Round(){
+  if(Math.random()<0.7){
+    const item = pick(COMPONENTES_FISICOS_BANK);
+    const distract = shuffle(['RESISTENCIA CARDIOVASCULAR','FUERZA','FLEXIBILIDAD','VELOCIDAD'].filter(function(c){ return c!==item.componente; }));
+    const opts = shuffle([item.componente].concat(distract)).map(function(c){ return {label:c, value:c}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué componente de la condición física se está trabajando?</p>',
+      options: opts, correctValue: item.componente, speakText: item.actividad, cols:2, kind:'word',
+      explain: 'Esa actividad trabaja principalmente la <b>'+item.componente.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(PULSO_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}
+
+export function genSeguridad4Round(){
+  const item = pick(SEGURIDAD_4_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}

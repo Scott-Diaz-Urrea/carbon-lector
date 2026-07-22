@@ -753,3 +753,278 @@ export function genDiaNocheRound(){
     explain: item.label+', eso ocurre en <b>'+item.season.toLowerCase()+'</b>.',
   };
 }
+
+/* ---------------- Contenido Ciencias Naturales 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/ciencias-naturales/4-basico):
+   Ecosistemas -> OA01-04 (elementos vivos/no vivos, adaptaciones, cadenas
+   alimentarias, cuidado de ecosistemas de Chile). Cuerpo Humano IV ->
+   OA05-07 (sistema esquelético, movimiento, sistema nervioso). La Materia
+   -> OA09-11 (masa y espacio, estados de la materia, instrumentos de
+   medición). Fuerzas -> OA12-13 (efectos y tipos de fuerza). La Tierra ->
+   OA15-17 (capas de la Tierra, placas tectónicas, prevención de riesgos).
+   Queda fuera OA08 ("investigar en diversas fuentes y comunicar los
+   efectos" del consumo de alcohol — un proceso de indagación y
+   comunicación propio, no una pregunta de opción múltiple, mismo criterio
+   que excluye otros OA de "investigar") y OA14 (diseñar y construir un
+   objeto tecnológico — producción práctica). */
+export const CIENCIAS_MODULES_G4 = [
+  {id:'ecosistemas4', label:'Ecosistemas', open:true, key:'ecosistemas4'},
+  {id:'cuerpohumano4', label:'Cuerpo Humano IV', open:true, key:'cuerpohumano4'},
+  {id:'materia4', label:'La Materia', open:true, key:'materia4'},
+  {id:'fuerzas4', label:'Las Fuerzas', open:true, key:'fuerzas4'},
+  {id:'tierra4', label:'La Tierra', open:true, key:'tierra4'},
+];
+export const CIENCIAS_POS_G4 = [{x:22,y:90},{x:68,y:70},{x:24,y:50},{x:70,y:30},{x:24,y:10}];
+
+const ECOSISTEMA_ELEMENTOS_BANK = [
+  { emoji:'🐦', elemento:'un pájaro', tipo:'ELEMENTO VIVO' },
+  { emoji:'🌳', elemento:'un árbol', tipo:'ELEMENTO VIVO' },
+  { emoji:'🦋', elemento:'una mariposa', tipo:'ELEMENTO VIVO' },
+  { emoji:'🪨', elemento:'una roca', tipo:'ELEMENTO NO VIVO' },
+  { emoji:'💧', elemento:'el agua', tipo:'ELEMENTO NO VIVO' },
+  { emoji:'☀️', elemento:'la luz del sol', tipo:'ELEMENTO NO VIVO' },
+];
+const ADAPTACIONES_BANK = [
+  { emoji:'🦒', animal:'la jirafa', adaptacion:'Tiene el cuello largo para alcanzar hojas altas de los árboles' },
+  { emoji:'🐫', animal:'el camello', adaptacion:'Almacena grasa en la joroba para sobrevivir sin agua por varios días' },
+  { emoji:'🐧', animal:'el pingüino', adaptacion:'Tiene una capa de grasa gruesa que lo protege del frío extremo' },
+  { emoji:'🦎', animal:'el camaleón', adaptacion:'Cambia de color para camuflarse y protegerse de depredadores' },
+  { emoji:'🌵', animal:'el cactus', adaptacion:'Guarda agua en su tallo grueso para sobrevivir en el desierto' },
+];
+const CADENA_ALIMENTARIA_BANK = [
+  { emoji:'🌱', rol:'PRODUCTOR', desc:'Fabrica su propio alimento usando la luz del sol (como una planta)' },
+  { emoji:'🐇', rol:'CONSUMIDOR', desc:'Se alimenta de otros seres vivos (como un animal herbívoro o carnívoro)' },
+  { emoji:'🍄', rol:'DESCOMPONEDOR', desc:'Descompone los restos de seres vivos muertos y devuelve nutrientes a la tierra' },
+];
+const CUIDADO_ECOSISTEMA_BANK = [
+  { correcta:'Proteger los bosques nativos de Chile de la tala ilegal', incorrectas:['Talar árboles sin control','Quemar bosques para hacer espacio','Ignorar los incendios forestales'] },
+  { correcta:'No contaminar los ríos y lagos con basura o químicos', incorrectas:['Botar basura a los ríos','Verter químicos en el agua','Ignorar la contaminación del agua'] },
+  { correcta:'Proteger a los animales en peligro de extinción, como el huemul', incorrectas:['Cazar animales en peligro de extinción','Destruir su hábitat natural','Capturar animales silvestres como mascotas'] },
+  { correcta:'Informarse y cuidar las especies nativas de tu región', incorrectas:['Introducir especies que no son de la zona sin cuidado','Ignorar el daño a especies nativas','Dañar el hábitat de especies locales'] },
+];
+
+const HUESOS_BANK = [
+  { emoji:'💀', hueso:'EL CRÁNEO', funcion:'Protege el cerebro' },
+  { emoji:'🦴', hueso:'LAS COSTILLAS', funcion:'Protegen el corazón y los pulmones' },
+  { emoji:'🦵', hueso:'EL FÉMUR', funcion:'Es el hueso más largo, está en el muslo y sostiene el peso del cuerpo' },
+  { emoji:'🖐️', hueso:'LOS HUESOS DE LA MANO', funcion:'Permiten sujetar objetos con precisión' },
+  { emoji:'🦴', hueso:'LA COLUMNA VERTEBRAL', funcion:'Sostiene el cuerpo y protege la médula espinal' },
+];
+const MOVIMIENTO_CUERPO_BANK = [
+  { pregunta:'¿Qué parte del cuerpo se contrae y se relaja para mover los huesos?', correcta:'LOS MÚSCULOS', opts:['LOS TENDONES','LA PIEL','LA SANGRE'] },
+  { pregunta:'¿Qué conecta a los músculos con los huesos?', correcta:'LOS TENDONES', opts:['LOS MÚSCULOS','LOS NERVIOS','LA PIEL'] },
+  { pregunta:'¿Cómo se llama el punto donde se unen dos huesos y permite el movimiento?', correcta:'LA ARTICULACIÓN', opts:['EL TENDÓN','EL MÚSCULO','EL NERVIO'] },
+];
+const SISTEMA_NERVIOSO_BANK = [
+  { emoji:'🧠', estructura:'EL CEREBRO', funcion:'Controla el pensamiento, el movimiento y las emociones' },
+  { emoji:'🦴', estructura:'LA MÉDULA ESPINAL', funcion:'Lleva las señales entre el cerebro y el resto del cuerpo' },
+  { emoji:'⚡', estructura:'LOS NERVIOS', funcion:'Transmiten información entre el cerebro y todo el cuerpo' },
+];
+
+const ESTADOS_MATERIA4_BANK = [
+  { emoji:'🧊', ejemplo:'un cubo de hielo', estado:'SÓLIDO' },
+  { emoji:'💧', ejemplo:'el agua líquida', estado:'LÍQUIDO' },
+  { emoji:'💨', ejemplo:'el vapor de agua', estado:'GASEOSO' },
+  { emoji:'🪨', ejemplo:'una piedra', estado:'SÓLIDO' },
+  { emoji:'🧈', ejemplo:'el aceite', estado:'LÍQUIDO' },
+  { emoji:'🎈', ejemplo:'el aire dentro de un globo', estado:'GASEOSO' },
+];
+const INSTRUMENTOS_MEDICION_BANK = [
+  { emoji:'⚖️', instrumento:'LA BALANZA', mide:'LA MASA' },
+  { emoji:'🌡️', instrumento:'EL TERMÓMETRO', mide:'LA TEMPERATURA' },
+  { emoji:'🥤', instrumento:'LA PROBETA (VASO GRADUADO)', mide:'EL VOLUMEN' },
+];
+const MATERIA_PROPIEDADES_BANK = [
+  { texto:'Toda la materia tiene masa y ocupa un espacio', valor:true },
+  { texto:'El aire no ocupa ningún espacio porque no se puede ver', valor:false },
+  { texto:'Un objeto muy pequeño puede tener masa aunque no lo notemos', valor:true },
+  { texto:'La materia solo existe en estado sólido', valor:false },
+];
+
+const FUERZA_EFECTOS_BANK = [
+  { emoji:'⚽', texto:'Patear una pelota la hace moverse', efecto:'CAMBIA SU MOVIMIENTO' },
+  { emoji:'🧲', texto:'Un imán atrae un clip de metal', efecto:'CAMBIA SU MOVIMIENTO' },
+  { emoji:'🖌️', texto:'Apretar la plasticina cambia su forma', efecto:'CAMBIA SU FORMA' },
+  { emoji:'🎈', texto:'Inflar un globo lo estira y cambia su forma', efecto:'CAMBIA SU FORMA' },
+];
+const TIPOS_FUERZA_BANK = [
+  { emoji:'🧲', texto:'La fuerza que atrae objetos de metal sin tocarlos', tipo:'FUERZA MAGNÉTICA' },
+  { emoji:'🍎', texto:'La fuerza que hace que las cosas caigan hacia el suelo', tipo:'FUERZA DE GRAVEDAD' },
+  { emoji:'🤚', texto:'La fuerza que se hace al empujar o tirar de un objeto directamente', tipo:'FUERZA DE CONTACTO' },
+  { emoji:'👟', texto:'La fuerza que frena un objeto al rozar con una superficie', tipo:'FUERZA DE ROCE' },
+];
+
+const CAPAS_TIERRA_BANK = [
+  { capa:'LA CORTEZA', desc:'Es la capa más externa y delgada, donde vivimos' },
+  { capa:'EL MANTO', desc:'Es la capa intermedia, muy caliente y en parte fundida' },
+  { capa:'EL NÚCLEO', desc:'Es la capa más interna y caliente, en el centro de la Tierra' },
+];
+const PLACAS_TECTONICAS_BANK = [
+  { pregunta:'¿Qué son las placas tectónicas?', correcta:'Grandes bloques de la corteza terrestre que se mueven muy lentamente', opts:['Las capas de la atmósfera','Los océanos del planeta','Las estrellas del sistema solar'] },
+  { pregunta:'¿Qué puede pasar cuando dos placas tectónicas chocan o se rozan?', correcta:'Pueden producirse terremotos o formarse montañas', opts:['El clima cambia de inmediato','Aparece un arcoíris','El día se hace más largo'] },
+];
+const RIESGOS_NATURALES_BANK = [
+  { correcta:'Saber dónde están las zonas seguras de tu casa o escuela en caso de terremoto', incorrectas:['No saber qué hacer en caso de emergencia','Correr sin rumbo durante un terremoto','Ignorar los simulacros de emergencia'] },
+  { correcta:'Tener un kit de emergencia con agua y linterna en casa', incorrectas:['No prepararse nunca para una emergencia','Guardar solo cosas innecesarias','Ignorar las alertas de emergencia'] },
+  { correcta:'Alejarte de la costa si sientes un terremoto fuerte cerca del mar', incorrectas:['Acercarte a la playa después de un terremoto','Ignorar las alertas de tsunami','Quedarte cerca del mar a mirar'] },
+  { correcta:'Conocer las vías de evacuación de tu escuela', incorrectas:['No saber por dónde salir en una emergencia','Bloquear las salidas de emergencia','Ignorar los simulacros de evacuación'] },
+];
+
+export function genEcosistemas4Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(ECOSISTEMA_ELEMENTOS_BANK);
+    const opts = shuffle([{label:'ELEMENTO VIVO', value:'ELEMENTO VIVO'},{label:'ELEMENTO NO VIVO', value:'ELEMENTO NO VIVO'}]);
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.elemento.charAt(0).toUpperCase()+item.elemento.slice(1)+'. ¿Es un elemento vivo o no vivo de un ecosistema?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.elemento, cols:2, panel:true,
+      explain: (item.elemento.charAt(0).toUpperCase()+item.elemento.slice(1))+' es un <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.6){
+    const item = pick(ADAPTACIONES_BANK);
+    const distract = shuffle(ADAPTACIONES_BANK.filter(function(a){ return a.animal!==item.animal; })).slice(0,3).map(function(a){ return a.animal; });
+    const opts = shuffle([item.animal.toUpperCase()].concat(distract.map(function(a){ return a.toUpperCase(); }))).map(function(a){ return {label:a, value:a}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.adaptacion+'.</p><p class="prompt-hint">¿Qué animal o planta tiene esta adaptación?</p>',
+      options: opts, correctValue: item.animal.toUpperCase(), speakText: item.adaptacion, cols:2, kind:'word', panel:true,
+      explain: item.emoji+' '+(item.animal.charAt(0).toUpperCase()+item.animal.slice(1))+' se adaptó así: '+item.adaptacion.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.8){
+    const item = pick(CADENA_ALIMENTARIA_BANK);
+    const distract = shuffle(CADENA_ALIMENTARIA_BANK.filter(function(c){ return c.rol!==item.rol; })).map(function(c){ return c.rol; });
+    const opts = shuffle([item.rol].concat(distract)).map(function(r){ return {label:r, value:r}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué función cumple en la cadena alimentaria?</p>',
+      options: opts, correctValue: item.rol, speakText: item.desc, cols:2, kind:'word', panel:true,
+      explain: 'Esa función corresponde a un <b>'+item.rol.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(CUIDADO_ECOSISTEMA_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones ayuda a cuidar los ecosistemas de Chile?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones ayuda a cuidar los ecosistemas de Chile?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" ayuda a proteger el ecosistema.',
+  };
+}
+
+export function genCuerpoHumano4Round(){
+  const roll = Math.random();
+  if(roll<0.4){
+    const item = pick(HUESOS_BANK);
+    const distract = shuffle(HUESOS_BANK.filter(function(h){ return h.hueso!==item.hueso; })).slice(0,3).map(function(h){ return h.funcion; });
+    const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.hueso+'. ¿Cuál es su función principal?</p>',
+      options: opts, correctValue: item.funcion, speakText: item.hueso, cols:2, panel:true,
+      explain: item.hueso+': '+item.funcion.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.7){
+    const item = pick(MOVIMIENTO_CUERPO_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(SISTEMA_NERVIOSO_BANK);
+  const distract = shuffle(SISTEMA_NERVIOSO_BANK.filter(function(s){ return s.estructura!==item.estructura; })).map(function(s){ return s.funcion; });
+  const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+  return {
+    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.estructura+'. ¿Cuál es su función?</p>',
+    options: opts, correctValue: item.funcion, speakText: item.estructura, cols:2, panel:true,
+    explain: item.estructura+': '+item.funcion.toLowerCase()+'.',
+  };
+}
+
+export function genMateria4Round(){
+  const roll = Math.random();
+  if(roll<0.4){
+    const item = pick(ESTADOS_MATERIA4_BANK);
+    const distract = shuffle(['SÓLIDO','LÍQUIDO','GASEOSO'].filter(function(e){ return e!==item.estado; }));
+    const opts = shuffle([item.estado].concat(distract)).map(function(e){ return {label:e, value:e}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+(item.ejemplo.charAt(0).toUpperCase()+item.ejemplo.slice(1))+'. ¿En qué estado de la materia está?</p>',
+      options: opts, correctValue: item.estado, speakText: item.ejemplo, cols:2, kind:'word', panel:true,
+      explain: (item.ejemplo.charAt(0).toUpperCase()+item.ejemplo.slice(1))+' está en estado <b>'+item.estado.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.7){
+    const item = pick(INSTRUMENTOS_MEDICION_BANK);
+    const distract = shuffle(INSTRUMENTOS_MEDICION_BANK.filter(function(i){ return i.instrumento!==item.instrumento; })).map(function(i){ return i.mide; });
+    const opts = shuffle([item.mide].concat(distract)).map(function(m){ return {label:m, value:m}; });
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.instrumento+'. ¿Qué mide este instrumento?</p>',
+      options: opts, correctValue: item.mide, speakText: item.instrumento, cols:2, kind:'word', panel:true,
+      explain: item.instrumento+' mide <b>'+item.mide.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(MATERIA_PROPIEDADES_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
+    options: opts, correctValue: item.valor, speakText: item.texto, cols:2, panel:true,
+    explain: item.valor ? 'Es verdadero: '+item.texto.toLowerCase()+'.' : 'Es falso: toda la materia (incluido el aire) ocupa espacio y tiene masa, y existe en más de un estado.',
+  };
+}
+
+export function genFuerzas4Round(){
+  if(Math.random()<0.5){
+    /* Solo existen 2 categorías reales de efecto (cambia movimiento / cambia
+       forma) — antes se armaban 4 opciones filtrando el banco, pero con
+       solo 1 categoría "distinta" disponible eso dejaba 2 opciones
+       idénticas repetidas. Al ser una clasificación binaria real, la
+       pregunta usa 2 opciones, no 4. */
+    const item = pick(FUERZA_EFECTOS_BANK);
+    const otroEfecto = ['CAMBIA SU MOVIMIENTO','CAMBIA SU FORMA'].filter(function(e){ return e!==item.efecto; })[0];
+    const opts = shuffle([{label:item.efecto, value:item.efecto},{label:otroEfecto, value:otroEfecto}]);
+    return {
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto+'. ¿Qué efecto de la fuerza es?</p>',
+      options: opts, correctValue: item.efecto, speakText: item.texto, cols:2, kind:'word', panel:true,
+      explain: item.texto+': la fuerza <b>'+item.efecto.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(TIPOS_FUERZA_BANK);
+  const distract = shuffle(TIPOS_FUERZA_BANK.filter(function(t){ return t.tipo!==item.tipo; })).map(function(t){ return t.tipo; });
+  const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'.</p><p class="prompt-hint">¿Qué tipo de fuerza es?</p>',
+    options: opts, correctValue: item.tipo, speakText: item.texto, cols:2, kind:'word', panel:true,
+    explain: 'Esa es la <b>'+item.tipo.toLowerCase()+'</b>.',
+  };
+}
+
+export function genTierra4Round(){
+  const roll = Math.random();
+  if(roll<0.4){
+    const item = pick(CAPAS_TIERRA_BANK);
+    const distract = shuffle(CAPAS_TIERRA_BANK.filter(function(c){ return c.capa!==item.capa; })).map(function(c){ return c.capa; });
+    const opts = shuffle([item.capa].concat(distract)).map(function(c){ return {label:c, value:c}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué capa de la Tierra es?</p>',
+      options: opts, correctValue: item.capa, speakText: item.desc, cols:2, kind:'word', panel:true,
+      explain: item.capa+': '+item.desc.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.7){
+    const item = pick(PLACAS_TECTONICAS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es "'+item.correcta+'".',
+    };
+  }
+  const item = pick(RIESGOS_NATURALES_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena medida de prevención ante riesgos naturales?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena medida de prevención ante riesgos naturales?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" te ayuda a estar más seguro ante un riesgo natural.',
+  };
+}

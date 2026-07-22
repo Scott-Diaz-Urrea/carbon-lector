@@ -119,3 +119,38 @@ export function genTecDigital3Round(){
     explain: 'La respuesta correcta es "'+item.correcta+'".',
   };
 }
+
+/* ---------------- Contenido Tecnología 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/tecnologia/4-basico): TE04 OA05-07 -> Tecnología Digital IV.
+   OA05 agrega explícitamente "hojas de cálculo" respecto al OA05 de 3°
+   básico (que solo mencionaba presentaciones) — contenido nuevo, además de
+   preguntas frescas de presentaciones/procesador de texto/seguridad en
+   internet distintas de las de 3° básico. Quedan fuera OA01-04 (diseñar/
+   planificar/elaborar/evaluar un objeto tecnológico propio — producción
+   práctica). */
+export const TECNOLOGIA_MODULES_G4 = [
+  {id:'tecdigital4', label:'Tecnología Digital IV', open:true, key:'tecdigital4'},
+];
+export const TECNOLOGIA_POS_G4 = [{x:48,y:50}];
+
+const TEC_DIGITAL_4_BANK = [
+  { pregunta:'¿Para qué usarías una hoja de cálculo?', correcta:'Para organizar datos en filas y columnas, y hacer cálculos automáticos', opts:['Para escuchar música','Para tomar fotografías','Para hacer ejercicio'] },
+  { pregunta:'¿Qué tipo de información se organiza mejor en una hoja de cálculo?', correcta:'Listas de números y datos, como resultados de una encuesta', opts:['Un dibujo artístico','Una canción','Un video'] },
+  { pregunta:'¿Para qué usarías un software de presentaciones en un trabajo grupal?', correcta:'Para mostrar tus ideas en diapositivas con texto e imágenes', opts:['Para hacer cálculos matemáticos','Para escuchar música','Para hacer ejercicio'] },
+  { pregunta:'Antes de usar información de un sitio web para una tarea, ¿qué debes evaluar?', correcta:'Si la fuente es confiable y segura', opts:['Solo el color de la página','Cuántos anuncios tiene','Nada, se puede usar cualquier información'] },
+  { pregunta:'¿Qué debes hacer si una página web te pide muchos datos personales sin una razón clara?', correcta:'Ser precavido y consultar con un adulto antes de continuar', opts:['Ingresar todos los datos de inmediato','Compartir la página con desconocidos','Ignorar la duda'] },
+  { pregunta:'¿Qué elemento de diseño puedes agregar en un procesador de textos para mejorar un documento?', correcta:'Títulos, negritas e imágenes', opts:['Solo texto sin ningún formato','Un video musical','Un juego interactivo'] },
+  { pregunta:'¿Por qué es importante guardar tu trabajo con frecuencia mientras usas un computador?', correcta:'Para no perder tu progreso si el programa falla', opts:['Para que el computador se apague','Para que el archivo se borre','No es importante'] },
+  { pregunta:'¿Qué debes revisar en un correo electrónico antes de hacer clic en un enlace?', correcta:'Que el remitente sea alguien conocido y confiable', opts:['Solo el color del correo','El día en que fue enviado','No es necesario revisar nada'] },
+];
+
+export function genTecDigital4Round(){
+  const item = pick(TEC_DIGITAL_4_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}

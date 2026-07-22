@@ -403,3 +403,76 @@ export function genLiderazgo5Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
+
+/* ---------------- Contenido Educación Física y Salud 6° Básico ----------------
+   Basado en OA del Decreto 439/2012, 6° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/educacion-fisica-salud/6-basico): OA06-11 repiten textualmente
+   la misma redacción que EF05 OA06-11, así que ambos módulos usan escenarios
+   y afirmaciones completamente nuevos en vez de duplicar contenido.
+   Vida Activa y Postura VI -> OA06-09. Liderazgo y Seguridad VI -> OA10-11.
+   Quedan fuera OA01-05 (habilidades motrices, juegos colectivos, deportes,
+   entornos, danza nacional) por depender de práctica física real. */
+export const EDFISICA_MODULES_G6 = [
+  {id:'vidapostura6', label:'Vida Activa y Postura VI', open:true, key:'vidapostura6'},
+  {id:'liderazgo6', label:'Liderazgo y Seguridad VI', open:true, key:'liderazgo6'},
+];
+export const EDFISICA_POS_G6 = [{x:30,y:70},{x:70,y:30}];
+
+const INTENSIDAD_ACTIVIDAD6_BANK = [
+  { actividad:'Ver una película sentado en el sillón', intensidad:'BAJA' },
+  { actividad:'Hacer las tareas del colegio sentado en el escritorio', intensidad:'BAJA' },
+  { actividad:'Bailar a un ritmo constante durante 20 minutos', intensidad:'MODERADA' },
+  { actividad:'Nadar a un ritmo tranquilo en la piscina', intensidad:'MODERADA' },
+  { actividad:'Correr una carrera de velocidad a máximo esfuerzo', intensidad:'ALTA' },
+  { actividad:'Jugar un partido completo de básquetbol sin parar', intensidad:'ALTA' },
+];
+const HABITOS_VI_BANK = [
+  { label:'Planificar un horario semanal con tiempo para actividad física ayuda a mantener una vida activa', v:true },
+  { label:'No es necesario planificar nunca cuándo hacer ejercicio, se puede improvisar siempre sin ningún horario', v:false },
+  { label:'Mantener una buena postura al usar el celular o la tablet, sin encorvar el cuello, cuida tu columna', v:true },
+  { label:'Da lo mismo la postura que tengas al usar dispositivos electrónicos por horas', v:false },
+  { label:'Ducharse y cambiar de ropa después de hacer ejercicio es un buen hábito de higiene', v:true },
+  { label:'Medir tu esfuerzo con el pulso te ayuda a saber si tu actividad física fue de intensidad baja, moderada o alta', v:true },
+  { label:'Es imposible saber si un ejercicio fue intenso o no, no existe ninguna forma de medirlo', v:false },
+];
+export function genVidaPostura6Round(){
+  const roll = Math.random();
+  if(roll<0.4){
+    const item = pick(INTENSIDAD_ACTIVIDAD6_BANK);
+    const todos = ['BAJA','MODERADA','ALTA'];
+    const distract = todos.filter(function(t){ return t!==item.intensidad; });
+    const opts = shuffle([item.intensidad].concat(distract)).map(function(i){ return {label:'INTENSIDAD '+i, value:i}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué intensidad de esfuerzo físico tiene esta actividad?</p>',
+      options: opts, correctValue: item.intensidad, speakText: item.actividad, cols:2, panel:true,
+      explain: 'Esta actividad tiene una intensidad <b>'+item.intensidad.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(HABITOS_VI_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+const LIDERAZGO_SEGURIDAD6_ITEMS = [
+  { label:'Motivar a un compañero desanimado durante un partido es una muestra de buen liderazgo', v:true },
+  { label:'Un buen capitán reparte los roles del equipo considerando las fortalezas de cada integrante', v:true },
+  { label:'Gritarle a un compañero por cometer un error es una forma aceptable de liderar un equipo', v:false },
+  { label:'Guardar correctamente los materiales deportivos al terminar la actividad evita accidentes futuros', v:true },
+  { label:'Revisar el estado de una pelota o una red antes de usarla es parte de un comportamiento seguro', v:true },
+  { label:'Jugar de forma imprudente para impresionar a los demás es un comportamiento seguro', v:false },
+  { label:'Reconocer cuando un rival juega mejor, sin dejar de esforzarte, es parte del juego limpio', v:true },
+  { label:'Hacer trampa para ganar un juego es una forma válida de liderazgo', v:false },
+];
+export function genLiderazgo6Round(){
+  const item = pick(LIDERAZGO_SEGURIDAD6_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}

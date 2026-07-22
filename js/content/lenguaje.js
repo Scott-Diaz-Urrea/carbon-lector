@@ -799,3 +799,229 @@ export function genOrtografia5Round(){
     explain: item.regla,
   };
 }
+
+/* ---------------- Contenido Lenguaje 6° Básico ----------------
+   Basado en OA del Decreto 439/2012, 6° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/lenguaje-comunicacion/6-basico):
+   Comprensión VI -> OA02,04,06-08,25 (los mismos 4 ángulos de Comprensión V
+   más un quinto: evaluar críticamente mensajes publicitarios identificando
+   emisor/intención/audiencia — OA25 es de comunicación oral en el texto
+   curricular, pero el mismo razonamiento aplica igual de bien a un aviso
+   escrito, así que se incluye aquí en vez de descartarlo). Recursos
+   Poéticos II -> OA05 (hipérbole y efectos sonoros -aliteración,
+   onomatopeya- además de repasar personificación/comparación con versos
+   nuevos, ya que el texto del OA vuelve a nombrar los 4 recursos juntos).
+   Vocabulario VI -> OA12,20 (sufijos -ángulo nuevo respecto a los prefijos
+   de 4° básico y las raíces de 5°- e hipónimos/locuciones -más allá de
+   sinónimos con matices, ya cubierto en 5°-). Gramática VI -> OA21
+   (participios irregulares: roto, escrito, dicho, hecho, puesto, visto,
+   abierto, muerto, resuelto, cubierto, vuelto). Ortografía IV -> OA22
+   (tilde diacrítica: él/el, tú/tu, mí/mi, sí/si, sé/se, dé/de, té/te,
+   más/mas — una regla distinta a las ya cubiertas en Ortografía de
+   3°-5° básico: mayúsculas/puntuación, b/v/h/ay-hay-ahí, c/s/z/raya de
+   diálogo).
+   Quedan fuera: OA01 (lectura oral fluida), OA03 (repertorio de géneros
+   literarios — ya cubierto por "Géneros Literarios" de 3° básico), OA09-11
+   (gusto por la lectura, biblioteca, buscar en fuentes — actitudinal o de
+   proceso), OA13-19 (producción escrita), OA23-24,26-31 (comunicación oral:
+   escuchar narraciones, teatro, diálogo, exposición, declamación — desempeño
+   real o depende de audio). */
+export const LENGUAJE_MODULES_G6 = [
+  {id:'comprension6', label:'Comprensión VI', open:true, key:'comprension6'},
+  {id:'recursospoeticos6', label:'Recursos Poéticos II', open:true, key:'recursospoeticos6'},
+  {id:'vocabulario6', label:'Vocabulario VI', open:true, key:'vocabulario6'},
+  {id:'gramatica6', label:'Gramática VI', open:true, key:'gramatica6'},
+  {id:'ortografia6', label:'Ortografía IV', open:true, key:'ortografia6'},
+];
+export const LENGUAJE_POS_G6 = [{x:22,y:90},{x:68,y:70},{x:22,y:50},{x:68,y:30},{x:22,y:10}];
+
+const COMPRENSION6_NARRATIVA_BANK = [
+  { text:'Mientras todos los demás excursionistas se quejaban del frío, Elena sonreía y ayudaba a armar las carpas sin que nadie se lo pidiera.', question:'¿Qué opinión podemos formarnos de Elena?', correct:'Que tiene una actitud positiva y colaboradora', opts:['Que le molesta ayudar a los demás','Que no soporta el frío','Que prefiere estar sola'], reason:'Sonreír y ayudar sin que se lo pidan, incluso en una situación incómoda, muestra una actitud positiva y colaboradora.' },
+  { text:'El general observaba el campo de batalla con el ceño fruncido, sabiendo que sus tropas ya no tenían provisiones para resistir otro día.', question:'¿Qué ambiente y situación describe este fragmento?', correct:'Un momento tenso, de guerra, con pocos recursos para continuar', opts:['Una fiesta alegre y despreocupada','Un día tranquilo de descanso','Una celebración de victoria'], reason:'El ceño fruncido, el campo de batalla y la falta de provisiones describen una situación tensa de guerra.' },
+  { text:'Como un río desbordado que arrasa todo a su paso, la noticia se esparció por el pueblo en cuestión de minutos.', question:'¿Qué compara este fragmento con la velocidad de la noticia?', correct:'Un río desbordado', opts:['Una tortuga lenta','Un lago tranquilo','Una nube inmóvil'], reason:'El texto compara explícitamente la velocidad de la noticia con "un río desbordado que arrasa todo a su paso".' },
+  { text:'Dos textos distintos describen el mismo terremoto: uno dice "la tierra tembló por unos segundos eternos", y el otro dice "el sismo duró exactamente 45 segundos, según los instrumentos".', question:'¿Qué diferencia principal hay entre ambos textos?', correct:'Uno usa lenguaje figurado y emocional, el otro usa datos precisos y objetivos', opts:['Ambos textos dicen exactamente lo mismo de la misma forma','El segundo texto es un poema','El primer texto es un informe científico'], reason:'El primero usa una expresión figurada ("segundos eternos"), mientras el segundo entrega un dato medido y objetivo (45 segundos).' },
+  { text:'Aunque el examen era difícil, Tomás mantuvo la calma, repasó cada pregunta con cuidado, y entregó la prueba con una sonrisa serena.', question:'¿Qué actitud demuestra Tomás durante el examen?', correct:'Calma y confianza a pesar de la dificultad', opts:['Pánico y desesperación','Indiferencia total con el resultado','Enojo con la prueba'], reason:'Mantener la calma, repasar con cuidado y sonreír al final muestra una actitud serena y confiada.' },
+  { text:'El casco del barco crujía como los huesos de un anciano, mientras las olas lo golpeaban una y otra vez en la tormenta.', question:'¿Con qué se compara el sonido del casco del barco?', correct:'Con los huesos de un anciano', opts:['Con el canto de un pájaro','Con el motor de un auto','Con una campana de iglesia'], reason:'El texto compara explícitamente el crujido del casco con "los huesos de un anciano".' },
+  { text:'Tras perder el primer partido de la temporada, el equipo se reunió, analizó sus errores y volvió a entrenar con más disciplina que antes.', question:'¿Qué podemos inferir sobre la actitud del equipo frente a la derrota?', correct:'Que la usaron como una oportunidad para mejorar', opts:['Que se rindieron después de perder','Que culparon al árbitro sin analizar nada','Que dejaron de entrenar'], reason:'Analizar los errores y entrenar con más disciplina muestra que usaron la derrota para mejorar.' },
+  { text:'La abuela guardaba sus cartas antiguas atadas con un listón rojo, y las releía cada aniversario de su boda.', question:'¿Qué importancia tienen esas cartas para la abuela?', correct:'Tienen un gran valor sentimental y emocional', opts:['No tienen ningún valor especial para ella','Planea quemarlas pronto','Las guarda por obligación'], reason:'Guardarlas con cuidado y releerlas cada aniversario muestra su gran valor sentimental.' },
+];
+const COMPRENSION6_NOLITERARIO_BANK = [
+  { text:'Un estudio reciente indica que dormir entre 9 y 11 horas es lo recomendado para niños de 6 a 13 años, ya que favorece la concentración y el ánimo durante el día.', question:'¿Cuántas horas de sueño se recomiendan para un niño de esa edad?', correct:'Entre 9 y 11 horas', opts:['Entre 3 y 5 horas','Solo 6 horas','Más de 15 horas'], reason:'El texto lo indica explícitamente: "entre 9 y 11 horas".' },
+  { text:'El manual de instrucciones señala: primero desconecta el aparato, luego retira la tapa girándola en sentido contrario a las agujas del reloj, y finalmente limpia el filtro con agua tibia.', question:'¿Qué se debe hacer justo antes de limpiar el filtro?', correct:'Retirar la tapa girándola', opts:['Conectar el aparato','Comprar un filtro nuevo','Guardar el manual'], reason:'El texto indica ese orden: retirar la tapa y luego "limpia el filtro con agua tibia".' },
+  { text:'Un artículo explica que los pulpos tienen tres corazones y sangre de color azul, debido a una proteína distinta a la de los humanos que transporta el oxígeno.', question:'¿De qué color es la sangre de un pulpo, según el texto?', correct:'Azul', opts:['Roja','Verde','Transparente'], reason:'El texto lo indica explícitamente: "sangre de color azul".' },
+  { text:'El aviso de la biblioteca municipal informa que el préstamo de libros dura 14 días, y que se puede renovar una vez si nadie más lo ha solicitado.', question:'¿Cuántos días dura el préstamo de un libro?', correct:'14 días', opts:['7 días','30 días','Un año'], reason:'El texto lo indica explícitamente: "el préstamo de libros dura 14 días".' },
+  { text:'Una infografía sobre reciclaje explica que una botella de plástico puede tardar hasta 500 años en descomponerse en un vertedero.', question:'¿Cuánto puede tardar una botella de plástico en descomponerse, según el texto?', correct:'Hasta 500 años', opts:['Solo 5 días','Una semana','Nunca se descompone'], reason:'El texto lo indica explícitamente: "puede tardar hasta 500 años".' },
+  { text:'El itinerario del viaje escolar indica: 8:00 salida en bus, 10:30 llegada al museo, 12:30 almuerzo, 14:00 visita guiada al parque, 17:00 regreso al colegio.', question:'¿Qué actividad ocurre justo después del almuerzo?', correct:'La visita guiada al parque', opts:['La salida en bus','La llegada al museo','El regreso al colegio'], reason:'Según el itinerario, después del almuerzo (12:30) sigue la visita guiada al parque (14:00).' },
+];
+const MENSAJES_PUBLICITARIOS_BANK = [
+  { aviso:'Un aviso muestra a niños sonriendo mientras comen un cereal muy azucarado, con el texto "¡El desayuno favorito de los campeones!".', pregunta:'¿Cuál es la intención principal de este aviso?', correcta:'CONVENCER A LOS NIÑOS DE COMPRAR ESE CEREAL', opts:['INFORMAR DE FORMA OBJETIVA SOBRE NUTRICIÓN','ENSEÑAR UNA RECETA DE COCINA','ADVERTIR SOBRE LOS RIESGOS DEL AZÚCAR'] },
+  { aviso:'Un comercial de zapatillas deportivas muestra a un jugador profesional anotando un punto decisivo, sugiriendo que esas zapatillas ayudan a ganar.', pregunta:'¿A qué público está dirigido principalmente este aviso?', correcta:'A PERSONAS INTERESADAS EN EL DEPORTE Y QUE ADMIRAN A ESE JUGADOR', opts:['A PERSONAS QUE NUNCA HACEN DEPORTE','A BEBÉS RECIÉN NACIDOS','A ADULTOS MAYORES QUE NO CAMINAN'] },
+  { aviso:'Un aviso de un jugo en caja dice "100% natural" en letras grandes, pero en la lista de ingredientes (letra pequeña) aparece azúcar añadida.', pregunta:'¿Por qué es importante leer la lista de ingredientes completa y no solo el eslogan?', correcta:'PORQUE EL ESLOGAN PUEDE NO MOSTRAR TODA LA INFORMACIÓN REAL DEL PRODUCTO', opts:['PORQUE LA LETRA PEQUEÑA SIEMPRE ES FALSA','PORQUE NO ES NECESARIO REVISAR NADA MÁS','PORQUE EL ESLOGAN ES SIEMPRE MÁS IMPORTANTE'] },
+  { aviso:'Un aviso de un parque de diversiones muestra a una familia riendo en los juegos, con el texto "¡El lugar más divertido para toda la familia!".', pregunta:'¿Cuál es el emisor más probable de este aviso?', correcta:'LA EMPRESA DUEÑA DEL PARQUE DE DIVERSIONES', opts:['UN CIENTÍFICO INDEPENDIENTE','EL GOBIERNO','UN MEDIO DE NOTICIAS SIN INTERÉS COMERCIAL'] },
+  { aviso:'Un aviso de un videojuego usa colores brillantes, música emocionante y la frase "¡Todos tus amigos ya lo están jugando!" para invitarte a comprarlo.', pregunta:'¿Qué recurso usa este aviso para intentar convencer, además de la imagen y la música?', correcta:'LA PRESIÓN DE GRUPO ("TODOS TUS AMIGOS YA LO ESTÁN JUGANDO")', opts:['UN INFORME CIENTÍFICO SOBRE VIDEOJUEGOS','UNA ENCUESTA OFICIAL DEL GOBIERNO','UN DATO HISTÓRICO VERIFICABLE'] },
+  { aviso:'Un aviso de protector solar muestra a un dermatólogo explicando los beneficios del producto y citando estudios sobre protección UV.', pregunta:'¿Por qué este aviso podría parecer más confiable que uno sin ningún respaldo?', correcta:'PORQUE CITA A UN EXPERTO Y ESTUDIOS VERIFICABLES', opts:['PORQUE USA COLORES MÁS BONITOS','PORQUE ES MÁS LARGO QUE OTROS AVISOS','PORQUE TIENE MÚSICA DE FONDO'] },
+];
+const IDEA_PRINCIPAL6_BANK = [
+  { parrafo:'Aprender un segundo idioma no solo permite comunicarse con más personas: también mejora la memoria, ayuda a resolver problemas de otras formas, y abre puertas a nuevas culturas.', correcta:'Aprender un segundo idioma trae múltiples beneficios', opts:['Aprender un segundo idioma no sirve para nada','Solo los adultos pueden aprender otro idioma','La memoria empeora al aprender otro idioma'] },
+  { parrafo:'Los arrecifes de coral cubren menos del 1% del fondo oceánico, pero albergan cerca de una cuarta parte de todas las especies marinas conocidas.', correcta:'Los arrecifes de coral son pequeños en tamaño pero enormemente importantes para la vida marina', opts:['Los arrecifes de coral cubren la mayor parte del océano','Los arrecifes de coral no tienen relación con la vida marina','Ninguna especie marina vive en los arrecifes'] },
+  { parrafo:'Reciclar el papel ahorra árboles y energía, reciclar el vidrio se puede repetir casi infinitas veces sin perder calidad, y reciclar el plástico reduce la basura en los océanos.', correcta:'Reciclar distintos materiales trae beneficios distintos para el planeta', opts:['Solo el papel se puede reciclar','Reciclar no tiene ningún beneficio real','El vidrio no se puede reciclar nunca'] },
+  { parrafo:'Practicar un instrumento musical desde niño ayuda a desarrollar la disciplina, mejora la coordinación entre manos y mente, y puede fortalecer la memoria a largo plazo.', correcta:'Aprender un instrumento musical desde temprano trae varios beneficios', opts:['Aprender música no tiene ningún beneficio más allá del sonido','Solo sirve para presentarse en conciertos','La coordinación no tiene relación con la música'] },
+];
+
+export function genComprension6Round(){
+  const roll = Math.random();
+  if(roll<0.2){
+    const item = pick(COMPRENSION6_NARRATIVA_BANK);
+    const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+      options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
+      explain: item.reason,
+    };
+  }
+  if(roll<0.4){
+    const item = pick(COMPRENSION6_NOLITERARIO_BANK);
+    const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+      options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
+      explain: item.reason,
+    };
+  }
+  if(roll<0.6){
+    const item = pick(MENSAJES_PUBLICITARIOS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.aviso+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.aviso, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(IDEA_PRINCIPAL6_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.parrafo+'</p><p class="prompt-hint">¿Cuál oración resume mejor la idea principal del párrafo?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.parrafo, cols:2, panel:true,
+    explain: 'La idea principal es: <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+const RECURSOS_POETICOS2_BANK = [
+  { verso:'La montaña dormía cubierta de niebla, esperando el amanecer.', recurso:'PERSONIFICACIÓN', explicacion:'Le da a la montaña una acción humana ("dormía", "esperando") que en realidad no puede hacer.' },
+  { verso:'Su sonrisa era como un rayo de sol en un día nublado.', recurso:'COMPARACIÓN', explicacion:'Usa la palabra "como" para comparar la sonrisa con un rayo de sol.' },
+  { verso:'Te lo he repetido un millón de veces y todavía no me escuchas.', recurso:'HIPÉRBOLE', explicacion:'Es una exageración enorme para enfatizar que se ha repetido muchas veces, no literalmente un millón.' },
+  { verso:'Lloré tantas lágrimas que podría haber llenado el océano entero.', recurso:'HIPÉRBOLE', explicacion:'Es una exageración imposible (llenar un océano con lágrimas) para enfatizar la intensidad del llanto.' },
+  { verso:'El reloj de la abuela hacía tic-tac, tic-tac, en el silencio de la noche.', recurso:'ONOMATOPEYA', explicacion:'"Tic-tac" imita el sonido real que hace un reloj — eso es una onomatopeya.' },
+  { verso:'Las abejas hacían bzzz, bzzz alrededor de las flores del jardín.', recurso:'ONOMATOPEYA', explicacion:'"Bzzz" imita el sonido real que hacen las abejas al volar — eso es una onomatopeya.' },
+  { verso:'El viento veloz volaba entre los árboles del valle.', recurso:'ALITERACIÓN', explicacion:'Se repite el sonido de la "v" varias veces seguidas ("veloz", "volaba", "valle") — eso es una aliteración.' },
+  { verso:'Tres tristes tigres tragaban trigo en un trigal.', recurso:'ALITERACIÓN', explicacion:'Se repite el sonido "tr" varias veces seguidas — eso es una aliteración.' },
+  { verso:'El río conversaba en voz baja con las piedras del camino.', recurso:'PERSONIFICACIÓN', explicacion:'Le da al río la capacidad humana de "conversar", que en realidad no tiene.' },
+  { verso:'Sus palabras eran afiladas como cuchillos.', recurso:'COMPARACIÓN', explicacion:'Usa la palabra "como" para comparar las palabras con cuchillos.' },
+];
+export function genRecursosPoeticos6Round(){
+  const item = pick(RECURSOS_POETICOS2_BANK);
+  const todos = ['PERSONIFICACIÓN','COMPARACIÓN','HIPÉRBOLE','ONOMATOPEYA','ALITERACIÓN'];
+  const distract = shuffle(todos.filter(function(r){ return r!==item.recurso; })).slice(0,3);
+  const opts = shuffle([item.recurso].concat(distract)).map(function(r){ return {label:r, value:r}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">"'+item.verso+'"</p><p class="prompt-hint">¿Qué recurso del lenguaje poético se usa en este verso?</p>',
+    options: opts, correctValue: item.recurso, speakText: item.verso, cols:2, kind:'word', panel:true,
+    explain: item.explicacion,
+  };
+}
+
+const SUFIJOS_BANK = [
+  { palabra:'VELOCIDAD', sufijo:'-DAD', significadoSufijo:'Indica una cualidad (ser veloz)', base:'VELOZ' },
+  { palabra:'LENTAMENTE', sufijo:'-MENTE', significadoSufijo:'Indica el modo en que se hace algo (de forma lenta)', base:'LENTA' },
+  { palabra:'PANADERO', sufijo:'-ERO', significadoSufijo:'Indica el oficio de alguien (que trabaja con pan)', base:'PAN' },
+  { palabra:'CARIÑOSO', sufijo:'-OSO', significadoSufijo:'Indica que algo tiene esa cualidad en abundancia (lleno de cariño)', base:'CARIÑO' },
+  { palabra:'FELICIDAD', sufijo:'-DAD', significadoSufijo:'Indica una cualidad (ser feliz)', base:'FELIZ' },
+  { palabra:'JARDINERO', sufijo:'-ERO', significadoSufijo:'Indica el oficio de alguien (que trabaja en el jardín)', base:'JARDÍN' },
+];
+const HIPERONIMOS_GRUPOS = [
+  { hiperonimo:'MUEBLE', hiponimos:['SILLA','MESA','CAMA'] },
+  { hiperonimo:'FLOR', hiponimos:['ROSA','CLAVEL','TULIPÁN'] },
+  { hiperonimo:'VEHÍCULO', hiponimos:['AUTO','BICICLETA','CAMIÓN'] },
+  { hiperonimo:'HERRAMIENTA', hiponimos:['MARTILLO','DESTORNILLADOR','SIERRA'] },
+];
+const LOCUCIONES_BANK = [
+  { locucion:'DE VEZ EN CUANDO', significado:'A VECES, NO SIEMPRE', opts:['TODOS LOS DÍAS SIN FALTA','NUNCA JAMÁS','SOLO UNA VEZ EN LA VIDA'] },
+  { locucion:'EN UN ABRIR Y CERRAR DE OJOS', significado:'MUY RÁPIDAMENTE', opts:['MUY LENTAMENTE','DESPUÉS DE MUCHOS AÑOS','SIN NINGÚN APURO'] },
+  { locucion:'A MÁS TARDAR', significado:'COMO PLAZO MÁXIMO', opts:['SIN NINGÚN LÍMITE DE TIEMPO','LO MÁS TEMPRANO POSIBLE','NUNCA'] },
+  { locucion:'POCO A POCO', significado:'LENTAMENTE Y CON CALMA', opts:['DE UNA SOLA VEZ Y MUY RÁPIDO','SIN NINGÚN ORDEN','DE FORMA VIOLENTA'] },
+  { locucion:'DE PIES A CABEZA', significado:'COMPLETAMENTE, DE PRINCIPIO A FIN', opts:['SOLO UNA PEQUEÑA PARTE','DE FORMA DESORDENADA','NUNCA POR COMPLETO'] },
+];
+export function genVocabulario6Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(SUFIJOS_BANK);
+    const distract = shuffle(SUFIJOS_BANK.filter(function(s){ return s.sufijo!==item.sufijo; })).slice(0,3).map(function(s){ return s.significadoSufijo; });
+    const opts = shuffle([item.significadoSufijo].concat(distract)).map(function(s){ return {label:s, value:s}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+item.palabra+'</p><p class="prompt-hint">Esta palabra viene de "'+item.base.toLowerCase()+'" más el sufijo "'+item.sufijo+'". ¿Qué indica ese sufijo?</p>',
+      options: opts, correctValue: item.significadoSufijo, speakText: item.palabra, cols:2, panel:true,
+      explain: 'El sufijo "'+item.sufijo+'" '+item.significadoSufijo.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.67){
+    const grupo = pick(HIPERONIMOS_GRUPOS);
+    const correct = pick(grupo.hiponimos);
+    const otros = HIPERONIMOS_GRUPOS.filter(function(g){ return g.hiperonimo!==grupo.hiperonimo; });
+    const distract = shuffle(otros.map(function(g){ return pick(g.hiponimos); }));
+    const opts = shuffle([correct].concat(distract)).map(function(h){ return {label:h, value:h}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+grupo.hiperonimo+'</p><p class="prompt-hint">¿Cuál de estas palabras es un hipónimo (una palabra más específica) de "'+grupo.hiperonimo.toLowerCase()+'"?</p>',
+      options: opts, correctValue: correct, speakText: '¿Cuál palabra es más específica que '+grupo.hiperonimo.toLowerCase()+'?', cols:2, kind:'word', panel:true,
+      explain: '<b>'+correct+'</b> es un tipo específico de '+grupo.hiperonimo.toLowerCase()+'.',
+    };
+  }
+  const item = pick(LOCUCIONES_BANK);
+  const opts = shuffle([item.significado].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">"'+item.locucion+'"</p><p class="prompt-hint">¿Qué significa esta expresión?</p>',
+    options: opts, correctValue: item.significado, speakText: item.locucion, cols:2, panel:true,
+    explain: '"'+item.locucion+'" significa <b>'+item.significado.toLowerCase()+'</b>.',
+  };
+}
+
+const PARTICIPIOS_IRREGULARES_BANK = [
+  { texto:'Ya he ___ (ROMPER) el jarrón sin querer.', correcto:'ROTO', malas:['ROMPIDO','ROMPIENDO','ROMPE'] },
+  { texto:'Ella ha ___ (ESCRIBIR) tres cartas esta semana.', correcto:'ESCRITO', malas:['ESCRIBIDO','ESCRIBIENDO','ESCRIBE'] },
+  { texto:'Nunca me había ___ (DECIR) algo tan bonito.', correcto:'DICHO', malas:['DECIDO','DECIENDO','DICE'] },
+  { texto:'¿Ya has ___ (HACER) toda la tarea?', correcto:'HECHO', malas:['HACIDO','HACIENDO','HACE'] },
+  { texto:'Hemos ___ (PONER) la mesa para la cena.', correcto:'PUESTO', malas:['PONIDO','PONIENDO','PONE'] },
+  { texto:'¿Alguna vez has ___ (VER) una ballena de cerca?', correcto:'VISTO', malas:['VEIDO','VIENDO','VE'] },
+  { texto:'El viento ha ___ (ABRIR) la ventana de golpe.', correcto:'ABIERTO', malas:['ABRIDO','ABRIENDO','ABRE'] },
+  { texto:'El científico ha ___ (RESOLVER) el problema matemático.', correcto:'RESUELTO', malas:['RESOLVIDO','RESOLVIENDO','RESUELVE'] },
+  { texto:'La nieve ha ___ (CUBRIR) todo el jardín esta mañana.', correcto:'CUBIERTO', malas:['CUBRIDO','CUBRIENDO','CUBRE'] },
+  { texto:'Mi hermana ya ha ___ (VOLVER) de su viaje.', correcto:'VUELTO', malas:['VOLVIDO','VOLVIENDO','VUELVE'] },
+];
+export function genGramatica6Round(){
+  const item = pick(PARTICIPIOS_IRREGULARES_BANK);
+  const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Cuál es el participio correcto de ese verbo?</p>',
+    options: opts, correctValue: item.correcto, speakText: item.texto, cols:4, kind:'word',
+    explain: '<b>'+item.correcto+'</b> es el participio irregular correcto — no sigue la terminación regular "-ado/-ido".',
+  };
+}
+
+const TILDE_DIACRITICA_BANK = [
+  { incorrecta:'Este es el regalo de el.', correcta:'Este es el regalo de él.', regla:'"Él" (pronombre que reemplaza a una persona) lleva tilde; sin tilde, "el" es artículo (como en "el regalo").' },
+  { incorrecta:'Se que tu vendrás a mi fiesta.', correcta:'Sé que tú vendrás a mi fiesta.', regla:'"Sé" (del verbo saber) y "tú" (pronombre) llevan tilde, a diferencia de "se" (pronombre) y "tu" (posesivo, como en "tu fiesta").' },
+  { incorrecta:'Si no vienes, dimelo a mi.', correcta:'Si no vienes, dímelo a mí.', regla:'"Mí" (pronombre) lleva tilde para diferenciarse de "mi" (posesivo, como en "mi casa").' },
+  { incorrecta:'El profesor me pidió que le de la tarea.', correcta:'El profesor me pidió que le dé la tarea.', regla:'"Dé" (del verbo dar) lleva tilde para diferenciarse de la preposición "de".' },
+  { incorrecta:'Si, yo se la respuesta correcta.', correcta:'Sí, yo sé la respuesta correcta.', regla:'"Sí" (afirmación) y "sé" (del verbo saber) llevan tilde, a diferencia de "si" (condicional) y "se" (pronombre).' },
+  { incorrecta:'Quiero mas te, por favor.', correcta:'Quiero más té, por favor.', regla:'"Más" (cantidad) y "té" (la bebida) llevan tilde, a diferencia de "mas" (equivale a "pero") y "te" (pronombre).' },
+  { incorrecta:'Tu hermano trajo el te para ti.', correcta:'Tu hermano trajo el té para ti.', regla:'"Té" (la bebida) lleva tilde para diferenciarse de "te" (pronombre, como en "te lo traigo").' },
+  { incorrecta:'El me dijo que si vendría.', correcta:'Él me dijo que sí vendría.', regla:'"Él" (pronombre) y "sí" (afirmación) llevan tilde, a diferencia de "el" (artículo) y "si" (condicional).' },
+];
+export function genOrtografia6Round(){
+  const item = pick(TILDE_DIACRITICA_BANK);
+  const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál oración está bien escrita?</p>',
+    options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
+    explain: item.regla,
+  };
+}

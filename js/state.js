@@ -60,7 +60,17 @@ export const state = {
            vidapostura5:0, liderazgo5:0,
            manejoemocional5:0, autocuidadodigital5:0, prevencionsaludable5:0, buentrato5:0, habitosestudio5:0,
            tecdigital5:0,
-           vocabularioingles5:0, lecturasimple5:0 },
+           vocabularioingles5:0, lecturasimple5:0,
+           comprension6:0, recursospoeticos6:0, vocabulario6:0, gramatica6:0, ortografia6:0,
+           multiplosfactores6:0, operatoria6:0, razonesporcentajes6:0, fraccionesmixtas6:0, decimales6:0, patronesecuaciones6:0, triangulosteselados6:0, angulos6:0, areavolumen6:0, datos6:0,
+           fotosintesiscadenas6:0, habitossaludables6:0, energiatransformaciones6:0, calortemperatura6:0, tierrasueloerosion6:0,
+           independencia6:0, republica6:0, salitre6:0, sigloxx6:0, geografiachile6:0, ciudadania6:0,
+           lenguajevisual6:0,
+           melodiavariaciones6:0,
+           vidapostura6:0, liderazgo6:0,
+           manejoemocional6:0, autocuidadodigital6:0, prevencion6:0, buentrato6:0, habitosestudio6:0,
+           tecdigital6:0,
+           vocabularioingles6:0, lecturasimple6:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

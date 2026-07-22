@@ -347,3 +347,72 @@ export function genLenguajeVisual5Round(){
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
   };
 }
+
+/* ---------------- Contenido Artes Visuales 6° Básico ----------------
+   Basado en OA del Decreto 439/2012, 6° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/artes-visuales/6-basico):
+   Lenguaje Visual IV -> OA02, que esta vez sí nombra elementos nuevos:
+   "color (gamas y contrastes); volumen (lleno y vacío)" — distintos de los ya
+   cubiertos en 3°-5° básico (cálido/frío/expresivo, tono/matiz/forma
+   figurativa, complementario/formas abiertas-cerradas/luz y sombra).
+   Quedan fuera: OA01,03 (crear trabajos propios a partir de la observación
+   del entorno contemporáneo, con materiales/herramientas — producción
+   propia) y OA04-05 (analizar obras de arte contemporáneo reales y evaluar
+   críticamente trabajos propios/de pares — apreciación subjetiva, además de
+   requerir datos verificables sobre obras específicas). Las actitudes
+   (OAA A-G) tampoco aplican al motor de opción múltiple. */
+export const ARTES_MODULES_G6 = [
+  {id:'lenguajevisual6', label:'Lenguaje Visual IV', open:true, key:'lenguajevisual6'},
+];
+export const ARTES_POS_G6 = [{x:50,y:50}];
+
+const GAMA_COLOR_BANK = [
+  { desc:'Una pintura usa solo tonos de rojo, naranjo y amarillo, dando una sensación cálida y energética', gama:'GAMA CÁLIDA' },
+  { desc:'Un afiche usa solo tonos de azul, verde y morado, dando una sensación fresca y calmada', gama:'GAMA FRÍA' },
+  { desc:'Un cuadro combina distintos tonos de un mismo color, como varios tonos de azul, del más claro al más oscuro', gama:'MONOCROMÁTICA' },
+  { desc:'Un mural usa solo tonos de amarillo, naranjo y rojo intenso para transmitir el calor de un atardecer', gama:'GAMA CÁLIDA' },
+  { desc:'Una ilustración de un paisaje invernal usa solo tonos de celeste, azul y blanco grisáceo', gama:'GAMA FRÍA' },
+  { desc:'Un dibujo usa distintos tonos de verde, desde uno muy claro hasta uno muy oscuro, para representar un bosque', gama:'MONOCROMÁTICA' },
+];
+const CONTRASTE_COLOR_BANK = [
+  { desc:'Una ilustración combina un fondo muy oscuro con una figura muy clara, para que resalte con fuerza', tipo:'CONTRASTE CLARO-OSCURO' },
+  { desc:'Un diseño combina rojo y verde, dos colores que están justo enfrente en el círculo cromático, para resaltar ambos al máximo', tipo:'CONTRASTE DE COMPLEMENTARIOS' },
+  { desc:'Un afiche usa letras blancas sobre un fondo negro, para que el texto se lea con claridad a la distancia', tipo:'CONTRASTE CLARO-OSCURO' },
+  { desc:'Un logo combina azul y naranjo, dos colores opuestos en el círculo cromático, para que ambos se vean más intensos', tipo:'CONTRASTE DE COMPLEMENTARIOS' },
+];
+const VOLUMEN_LLENO_VACIO_BANK = [
+  { desc:'Una escultura de greda tiene partes sólidas y partes con huecos o espacios abiertos que dejan ver a través de ella', pregunta:'¿Cómo se llaman esas dos partes en el lenguaje del volumen?', correcta:'LLENO (SÓLIDO) Y VACÍO (ESPACIO ABIERTO)', opts:['CLARO Y OSCURO SOLAMENTE','CÁLIDO Y FRÍO SOLAMENTE','GRANDE Y PEQUEÑO SOLAMENTE'] },
+  { desc:'Al modelar una figura en arcilla, la parte de material que ocupa espacio se llama "lleno", y el hueco o espacio que queda alrededor o dentro se llama "vacío"', pregunta:'¿Por qué es importante el "vacío" en una escultura, y no solo el "lleno"?', correcta:'PORQUE EL ESPACIO VACÍO TAMBIÉN FORMA PARTE DE LA COMPOSICIÓN VISUAL DE LA OBRA', opts:['PORQUE EL VACÍO NUNCA SE CONSIDERA PARTE DE LA OBRA','PORQUE LAS ESCULTURAS SIEMPRE DEBEN SER TOTALMENTE SÓLIDAS','PORQUE EL VACÍO ARRUINA CUALQUIER ESCULTURA'] },
+  { desc:'Una escultura de madera calada (con agujeros a propósito) deja ver el espacio detrás de ella a través de sus huecos', pregunta:'¿Qué parte de la escultura representa el "vacío"?', correcta:'LOS HUECOS QUE DEJAN VER A TRAVÉS DE LA ESCULTURA', opts:['LA MADERA SÓLIDA QUE FORMA LA FIGURA','EL COLOR DE LA MADERA','LA BASE QUE SOSTIENE LA ESCULTURA'] },
+];
+export function genLenguajeVisual6Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(GAMA_COLOR_BANK);
+    const todos = ['GAMA CÁLIDA','GAMA FRÍA','MONOCROMÁTICA'];
+    const distract = todos.filter(function(g){ return g!==item.gama; });
+    const opts = shuffle([item.gama].concat(distract)).map(function(g){ return {label:g, value:g}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué gama de color se usa en esta obra?</p>',
+      options: opts, correctValue: item.gama, speakText: item.desc, cols:2, kind:'word', panel:true,
+      explain: 'Esta obra usa una <b>'+item.gama.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(CONTRASTE_COLOR_BANK);
+    const otroTipo = ['CONTRASTE CLARO-OSCURO','CONTRASTE DE COMPLEMENTARIOS'].filter(function(t){ return t!==item.tipo; })[0];
+    const opts = shuffle([item.tipo, otroTipo, 'SIN NINGÚN CONTRASTE']).map(function(t){ return {label:t, value:t}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué tipo de contraste se usa aquí?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, panel:true,
+      explain: 'Aquí se usa un <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(VOLUMEN_LLENO_VACIO_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}

@@ -463,3 +463,25 @@ export function anguloSVG(tipo, size){
   '</svg>';
 }
 
+/* Gráfico circular (Matemática 6° básico, OA24: leer e interpretar gráficos
+   circulares). `categorias` es [{label, valor, color}]; los sectores se
+   dibujan proporcionales a valor/total, en el mismo estilo de arco a mano
+   que ya usa fraccionSVG(). */
+export function pieChartSVG(categorias, size){
+  size = size || 140;
+  const total = categorias.reduce(function(a,c){ return a+c.valor; }, 0);
+  const cx = 50, cy = 50, r = 46;
+  let paths = '';
+  let acc = 0;
+  categorias.forEach(function(c){
+    const a0 = (acc/total)*2*Math.PI - Math.PI/2;
+    acc += c.valor;
+    const a1 = (acc/total)*2*Math.PI - Math.PI/2;
+    const x0 = cx + r*Math.cos(a0), y0 = cy + r*Math.sin(a0);
+    const x1 = cx + r*Math.cos(a1), y1 = cy + r*Math.sin(a1);
+    const largeArc = (a1-a0) > Math.PI ? 1 : 0;
+    paths += '<path d="M '+cx+' '+cy+' L '+x0+' '+y0+' A '+r+' '+r+' 0 '+largeArc+' 1 '+x1+' '+y1+' Z" fill="'+c.color+'" stroke="#FFFFFF" stroke-width="2"/>';
+  });
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+paths+'</svg>';
+}
+

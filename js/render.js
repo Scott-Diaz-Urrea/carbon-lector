@@ -8,6 +8,7 @@ import { renderSecuenciaScreen, initSecuenciaGame } from './games/secuencia.js';
 import { renderMemoramaIntro } from './games/memorama.js';
 import { renderEscribeNombreScreen, initEscribeNombreGame } from './games/escribenombre.js';
 import { renderCaligrafiaScreen, initCaligrafiaGame } from './games/caligrafia.js';
+import { renderDiccionarioScreen, initDiccionario } from './games/diccionario.js';
 import {
   LENGUAJE_BY_GRADE, MATE_BY_GRADE, CIENCIAS_BY_GRADE, HISTORIA_BY_GRADE,
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
@@ -49,6 +50,8 @@ export function render(){
   else if(scr === 'memorama') body = renderMemoramaIntro();
   else if(scr === 'escribenombre') body = renderEscribeNombreScreen();
   else if(scr === 'caligrafia') body = renderCaligrafiaScreen();
+  else if(scr === 'diccionarioEs') body = renderDiccionarioScreen('es');
+  else if(scr === 'diccionarioEn') body = renderDiccionarioScreen('en');
 
   app.innerHTML =
     '<div class="topbar">'+
@@ -66,6 +69,7 @@ export function render(){
   else if(scr === 'secuencia') initSecuenciaGame();
   else if(scr === 'escribenombre') initEscribeNombreGame();
   else if(scr === 'caligrafia') initCaligrafiaGame();
+  else if(scr === 'diccionarioEs' || scr === 'diccionarioEn') initDiccionario();
 }
 
 function renderHome(){
@@ -99,6 +103,18 @@ function renderEtapaMap(){
       '<button class="subject-card locked" onclick="showToast(\'🚧 Etapa en preparación\')">'+
         '<span class="subject-icon">🌙</span>'+
         '<span class="subject-info"><b>Educación para Adultos</b><small>EPJA · jornada diurna y vespertina</small></span>'+
+      '</button>'+
+    '</div>'+
+    '<p class="section-title dicc-section-title">Herramientas de consulta</p>'+
+    '<p class="section-sub">Para acompañarte en cualquier etapa.</p>'+
+    '<div class="subject-list">'+
+      '<button class="subject-card" onclick="goTo(\'diccionarioEs\')">'+
+        '<span class="subject-icon">📖</span>'+
+        '<span class="subject-info"><b>Diccionario Español</b><small>Definiciones simples con voz</small></span>'+
+      '</button>'+
+      '<button class="subject-card" onclick="goTo(\'diccionarioEn\')">'+
+        '<span class="subject-icon">🔤</span>'+
+        '<span class="subject-info"><b>English Dictionary</b><small>Palabra, traducción y pronunciación</small></span>'+
       '</button>'+
     '</div>'+
   '</div>';

@@ -140,6 +140,31 @@ js/
                               dice "¡Terminar!" y llama a showResult() con 3 estrellas
                               fijas, mismo criterio que escribenombre.js (no hay
                               aciertos que contar, es práctica motriz).
+    diccionario.js             Diccionario Español + English Dictionary — herramienta
+                              de consulta transversal (NO es un juego: sin rondas,
+                              estrellas ni XP), accesible desde etapaMap bajo
+                              "Herramientas de consulta" (pedido explícito del usuario,
+                              2026-07-22). Un solo módulo con dos pantallas
+                              (`diccionarioEs`/`diccionarioEn` en render.js, ambas
+                              renderizadas por `renderDiccionarioScreen(lang)` +
+                              `initDiccionario()`). Contenido 100% curado dentro del
+                              archivo (~109 palabras ES con tipo/definición/ejemplo,
+                              ~84 pares EN con traducción/ejemplo) — deliberadamente
+                              SIN API externa: una API de diccionario no garantiza
+                              contenido apto para niños, requiere conexión y rompería
+                              la regla de cero dependencias. Buscador con
+                              normalización de tildes (NFD + strip de diacríticos:
+                              "volcan" encuentra "Volcán"); en inglés la búsqueda es
+                              bidireccional (por palabra inglesa o por su traducción).
+                              La voz reutiliza speak() — español por defecto, 'en'
+                              para el diccionario de inglés (mismo mecanismo
+                              speakLang de content/ingles.js). El botón 🔊 usa
+                              onclick="diccSpeak(i)" con un índice sobre la lista
+                              visible (module state) en vez de incrustar el texto en
+                              el atributo — así ninguna definición puede romper el
+                              HTML por comillas (la restricción documentada de
+                              speakText en mcEngine.js, resuelta aquí por diseño).
+                              CSS propio en styles.css (familia .dicc-*).
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

@@ -101,7 +101,7 @@ const CLIMA_VERBOS_BANK = [
   { emoji:'☀️', english:'SUNNY' }, { emoji:'🌧️', english:'RAINY' }, { emoji:'❄️', english:'SNOWY' },
   { emoji:'💨', english:'WINDY' }, { emoji:'☁️', english:'CLOUDY' },
   { emoji:'🏃', english:'RUN' }, { emoji:'🏊', english:'SWIM' }, { emoji:'✍️', english:'WRITE' },
-  { emoji:'😴', english:'SLEEP' }, { emoji:'⚽', english:'PLAY' },
+  { emoji:'😴', english:'SLEEP' }, { emoji:'⛹️', english:'PLAY' },
 ];
 const DIAS_SEMANA_BANK = [
   { spanish:'LUNES', english:'MONDAY' }, { spanish:'MARTES', english:'TUESDAY' }, { spanish:'MIÉRCOLES', english:'WEDNESDAY' },

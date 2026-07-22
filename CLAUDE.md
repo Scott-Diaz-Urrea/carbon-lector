@@ -1170,6 +1170,104 @@ afirmaciones completamente nuevos en vez de duplicar contenido.
   vivencia personal, o requiere acompañamiento de un adulto en un contexto
   dedicado), se documenta la exclusión con su razón específica.
 
+### Auditoría completa de contenido, 6° básico → Educación Parvularia (2026-07-22)
+
+Pedido explícito del usuario: revisar TODO el contenido ya construido (no solo
+lo nuevo) en 5 dimensiones — tipografía/presentación, sentido de la pregunta,
+imagen representativa, sin repetición de preguntas, y precisión de la
+información — con énfasis especial en una dimensión nueva: **¿podría una
+pregunta tener más de una respuesta correcta defendible?** Motivo explícito
+del usuario: la app debe ser "un apoyo vital para la enseñanza y/o
+acompañamiento escolar", así que la ambigüedad no es aceptable.
+
+**Metodología:** se paralelizó el trabajo en 7 agentes, divididos por
+**archivo de asignatura** (no por año/curso) para evitar que dos agentes
+editaran el mismo archivo a la vez, dado que cada `content/<asignatura>.js`
+contiene TODOS los años de esa asignatura en un solo archivo:
+1. `lenguaje.js` + `parvularia/lenguajeVerbal.js`
+2. `matematica.js` + `parvularia/pensamientoMatematico.js`
+3. `ciencias.js` + `parvularia/exploracionEntornoNatural.js`
+4. `historia.js` + `parvularia/comprensionEntornoSociocultural.js`
+5. `artes.js` + `musica.js` + `parvularia/lenguajesArtisticos.js`
+6. `edfisica.js` + `orientacion.js` + `parvularia/identidadAutonomia.js` +
+   `parvularia/convivenciaCiudadania.js` + `parvularia/corporalidadMovimiento.js`
+7. `tecnologia.js` + `ingles.js`
+
+Cada agente recibió instrucción explícita de NO tocar el contenido
+específicamente protegido (los hechos cronológicos del período 1973-1990 en
+`sigloxx6`, y el contenido de prevención de drogas en Orientación) salvo
+error factual genuino, y de reportar en vez de decidir frente a cualquier
+duda sobre contenido sensible.
+
+**Hallazgos y correcciones reales** (lista no exhaustiva, ver `git log` para
+el detalle completo por archivo):
+- **Ambigüedad de más de una respuesta correcta** (el hallazgo más
+  importante, la categoría nueva): triángulos generados con lados que
+  violaban la desigualdad triangular (6° básico); una pregunta de simetría
+  donde el banco completo tenía `simetrico:true` siempre, por lo que "NO"
+  nunca podía ser la respuesta correcta; un empate silencioso en "¿qué grupo
+  tiene mayor promedio?" resuelto arbitrariamente; dos instrumentos de clima
+  (veleta/anemómetro) con descripciones demasiado similares entre sí; dos
+  texturas (áspera/rugosa) descritas de forma casi idéntica; dos prefijos
+  (des-/in-) cuyas explicaciones se solapaban; dos categorías temporales en
+  Corporalidad y Movimiento NT (mañana/noche, antes/después) donde más de
+  una palabra completaba la oración correctamente.
+- **Precisión de la información**: fecha del voto femenino municipal
+  corregida de 1934 (año de la ley) a 1935 (año en que efectivamente se
+  votó, que es lo que la pregunta preguntaba) — verificado con fuente
+  adicional. Explicación de polifonía/canon corregida (un canon repite la
+  MISMA melodía desfasada en el tiempo, no melodías distintas).
+  Concordancia de género en "el agua es líquida" (agua es femenino pese al
+  artículo "el"). Ejemplo de aceite ilustrado con el emoji de mantequilla
+  (sólida) en vez de un líquido real.
+- **Imagen representativa**: pincel usado para "apretar la plasticina"
+  (ya existía `plasticinaSVG()` en el archivo, sin usar en ese ítem);
+  mantequilla para "aceite"; emoji de paleta usada para un ítem sin
+  relación alguna con arte; varios emoji de baja compatibilidad
+  (🪥🦭🪨) sin su SVG ya existente aplicado en algunos bancos que la
+  auditoría original de 2026-07-21 no había cubierto; tres instrumentos
+  musicales de Unicode reciente (🪇🪘🪣) sin SVG — se crearon
+  `maracasSVG()`/`djembeSVG()`/`baldeSVG()` nuevos.
+  Referencia de género inconsistente (🧒 genérico junto a texto que decía
+  "la niña") en una escena de posición relativa.
+- **Sentido de la pregunta / speakText roto**: 4 generadores de Gramática
+  (pronombres, concordancia verbal, conjugación, participios) dejaban el
+  placeholder `"___"` literal (y en dos casos la pista `"(VERBO)"` entre
+  paréntesis) dentro del texto que lee la voz de Carboncito en vez de leer
+  la oración ya completada — corregido rellenando el espacio en blanco
+  antes de pasarlo a `speakText`. Placeholder literal `"un(a)"` sin resolver
+  en 7 lugares distintos (Lenguaje y Matemática) — se agregaron helpers de
+  artículo por género gramatical en vez de dejar el texto sin resolver.
+  Una pregunta de perímetro con plural ambiguo ("¿cuáles dimensiones...
+  funcionan?") reformulada a singular. Un ítem de seguridad (Ed. Física)
+  que mezclaba dos afirmaciones distintas en una sola — separado para que
+  la afirmación verdadero/falso apunte a una sola idea.
+- **Tipografía/presentación**: `kind:'word'` faltante en un par de
+  generadores de Ciencias (inconsistente con sus generadores hermanos en el
+  mismo archivo).
+- **Contenido sensible revisado y dejado intacto, tal como se pidió**:
+  `reproductorpubertad6` (Ciencias), `PREVENCION_SALUDABLE5_ITEMS`/
+  `PREVENCION_6_BANK` (Orientación), y los 5 hechos cronológicos del período
+  1973-1990 en `SIGLOXX_DEMOCRATIZACION_BANK` (Historia) — todos revisados
+  por sus agentes respectivos y confirmados como ya correctos, sin necesidad
+  de cambios.
+
+**Verificación final**: los 230 módulos de la app pasan fuzz estructural
+(150 iteraciones cada uno) y simulación de sesión completa (150 sesiones
+cada uno) sin ningún duplicado, `undefined`, `correctValue` ausente, ni
+repetición — confirmando que ninguna de las correcciones de esta auditoría
+introdujo una regresión.
+
+**Nota técnica sobre el proceso**: varios agentes reportaron que su entorno
+de aislamiento (`isolation: "worktree"`) los apuntaba a un repositorio
+distinto y vacío (el superproyecto `aplicaciones web`, no `Carbon-Lector`,
+que es un repo Git independiente anidado dentro de esa carpeta), por lo que
+la herramienta de edición rechazaba escribir directamente. Los agentes que
+detectaron esto aplicaron sus correcciones vía Bash/PowerShell/Perl contra
+la ruta real, verificando cada reemplazo antes de escribir; se verificó
+después que todos los cambios efectivamente quedaron en el checkout real
+antes de dar la auditoría por terminada.
+
 ### 7° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false`. Para desbloquear un año, cambiar su
 `open` a `true` Y crear su entrada correspondiente en `LENGUAJE_BY_GRADE` /

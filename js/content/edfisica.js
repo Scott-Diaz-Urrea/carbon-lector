@@ -71,7 +71,7 @@ const SEGURIDAD_ITEMS = [
   { emoji:'😤', label:'Hacer trampa para ganar un juego es una buena forma de jugar', v:false },
   { emoji:'🙋', label:'Respetar el turno de los demás en un juego es parte del buen deportista', v:true },
   { emoji:'🩹', label:'Avisar a un adulto si te golpeas o te sientes mal jugando es lo correcto', v:true },
-  { emoji:'😡', label:'Si pierdes un juego, está bien enojarte y gritarle a tus compañeros', v:false },
+  { emoji:'😡', label:'Si pierdes un juego, gritarle a tus compañeros por eso es una buena forma de reaccionar', v:false },
   { emoji:'🧢', label:'Usar ropa y protección adecuada según el deporte ayuda a evitar lesiones', v:true },
   { emoji:'🎽', label:'Usar la ropa deportiva adecuada para cada actividad ayuda a jugar seguro', v:true },
   { emoji:'😤', label:'Presionar a un compañero para que juegue si no quiere está bien', v:false },

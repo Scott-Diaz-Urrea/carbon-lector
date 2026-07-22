@@ -45,16 +45,24 @@ const LINEAS_ITEMS = [
 ];
 /* 🪨/🪞 crudos no se renderizan en varios navegadores (mismo problema ya
    resuelto en otros archivos) — se reusan piedraSVG()/espejoSVG() aquí
-   también, en vez de repetir el emoji sin soporte. */
+   también, en vez de repetir el emoji sin soporte.
+   Auditoría 2026-07-22: ÁSPERA y RUGOSA tenían la misma descripción ("dura
+   y con relieve" / "con relieve"), sin ningún rasgo que las distinguiera —
+   un niño podía defender cualquiera de las dos para la misma piedra o la
+   misma corteza. Se reescribieron para diferenciar el rasgo real: ÁSPERA
+   raspa al tocarla (fricción), RUGOSA tiene arrugas/bultos pero no raspa.
+   También se sacó la mención a "un cactus" del ítem de corteza: un cactus
+   se reconoce por sus espinas (peligro al tocar), no por su textura de
+   superficie, así que mezclaba dos conceptos distintos en un mismo ítem. */
 const TEXTURAS_ITEMS = [
-  { emoji: piedraSVG(30), label:'ÁSPERA', desc:'Una piedra se siente así al tocarla: dura y con relieve.' },
-  { emoji:'🧱', label:'ÁSPERA', desc:'Un ladrillo sin pulir se siente así: dura y con relieve.' },
+  { emoji: piedraSVG(30), label:'ÁSPERA', desc:'Una piedra sin pulir se siente rasposa al tocarla: raspa un poco los dedos.' },
+  { emoji:'🧱', label:'ÁSPERA', desc:'Un ladrillo sin pulir se siente rasposo al tocarlo: raspa un poco los dedos.' },
   { emoji:'🧊', label:'LISA', desc:'Un vidrio o un hielo se sienten así: parejos, sin relieve.' },
   { emoji: espejoSVG(30), label:'LISA', desc:'Un espejo se siente así al tocarlo: parejo, sin relieve.' },
   { emoji:'🧶', label:'SUAVE', desc:'La lana o un peluche se sienten así: agradables y delicados.' },
   { emoji:'☁️', label:'SUAVE', desc:'Una almohada de plumas se siente así: agradable y delicada.' },
-  { emoji:'🌵', label:'RUGOSA', desc:'La corteza de un árbol o un cactus se sienten así: con relieve.' },
-  { emoji:'🍍', label:'RUGOSA', desc:'La cáscara de una piña se siente así: con relieve.' },
+  { emoji:'🌳', label:'RUGOSA', desc:'La corteza de un árbol tiene arrugas y bultos, pero no raspa al tocarla.' },
+  { emoji:'🍍', label:'RUGOSA', desc:'La cáscara de una piña tiene bultos y hendiduras, pero no raspa al tocarla.' },
 ];
 /* "PLASTICINA" usaba 🖍️ (un crayón, una herramienta de dibujo, no una masa
    moldeable) → plasticinaSVG(), el mismo helper que corrige el mismo error
@@ -329,7 +337,7 @@ export function genLenguajeVisual5Round(){
       return {
         promptHTML: '<div class="shape-display">'+shapeSVG(item.id,100)+'</div><p class="prompt-hint">¿Esta figura es una forma abierta o cerrada?</p>',
         options: opts, correctValue: true, speakText: '¿Es una forma abierta o cerrada?', cols:2, panel:true,
-        explain: 'Un(a) '+item.label.toLowerCase()+' es una <b>forma cerrada</b>: su línea vuelve al punto donde comenzó, encerrando un espacio.',
+        explain: 'Un '+item.label.toLowerCase()+' es una <b>forma cerrada</b>: su línea vuelve al punto donde comenzó, encerrando un espacio.',
       };
     }
     const desc = pick(FORMAS_ABIERTAS_DESC);

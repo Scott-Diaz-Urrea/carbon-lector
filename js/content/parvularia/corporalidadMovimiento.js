@@ -56,7 +56,7 @@ const ESCENAS_ESPACIAL_NT = [
   { emoji:'🏃', refs:['👫'], texto:'La niña corre ___ de sus amigos porque es la más rápida.', correct:'ADELANTE', pregunta:'¿Dónde corre la niña?' },
   { emoji:'🐌', refs:['🏁'], texto:'El caracol quedó ___ en la carrera, porque es muy lento.', correct:'ATRÁS', pregunta:'¿Dónde quedó el caracol?' },
   { emoji:'🚶', refs:['🧍🧍'], texto:'El último niño de la fila quedó bien ___ de todos.', correct:'ATRÁS', pregunta:'¿Dónde quedó el último niño de la fila?' },
-  { emoji:'🧸', refs:['🧒'], texto:'El osito está sentado ___ de la niña, bien pegadito a ella.', correct:'AL LADO', pregunta:'¿Dónde está sentado el osito?' },
+  { emoji:'🧸', refs:['👧'], texto:'El osito está sentado ___ de la niña, bien pegadito a ella.', correct:'AL LADO', pregunta:'¿Dónde está sentado el osito?' },
   { emoji: vasoAguaSVG(48), refs:['🍽️'], texto:'El vaso de agua está ___ del plato, sobre la mesa.', correct:'AL LADO', pregunta:'¿Dónde está el vaso de agua?' },
   { emoji:'🐈', refs:[cojinSVG(44), cojinSVG(44)], texto:'El gato duerme ___ los dos cojines del sillón.', correct:'ENTRE', pregunta:'¿Dónde duerme el gato?' },
   { emoji:'⚽', refs:['🪑','🪑'], texto:'La pelota rodó y quedó ___ las dos sillas.', correct:'ENTRE', pregunta:'¿Dónde quedó la pelota?' },
@@ -69,10 +69,10 @@ const ESPACIAL_OPTS_POOL = ['ADELANTE','ATRÁS','AL LADO','ENTRE'];
    guardar los juguetes), no a un día de la semana. */
 const ESCENAS_TEMPORAL_NT = [
   { emoji:'☀️', texto:'Jugamos en el patio durante el ___.', correct:'DÍA', pregunta:'¿Cuándo jugamos en el patio?' },
-  { emoji:'🌙', texto:'Dormimos durante la ___.', correct:'NOCHE', pregunta:'¿Cuándo dormimos?' },
+  { emoji:'🌙', texto:'Dormimos durante la ___.', correct:'NOCHE', excl:['MAÑANA'], pregunta:'¿Cuándo dormimos?' },
   { emoji:'📅', texto:'Vamos al jardín ___, no mañana.', correct:'HOY', pregunta:'¿Cuándo vamos al jardín?' },
-  { emoji:'🌅', texto:'Si hoy es lunes, ___ será martes.', correct:'MAÑANA', pregunta:'Si hoy es lunes, ¿qué día será después?' },
-  { emoji:'🔙', texto:'Fuimos al parque ___, no hoy.', correct:'AYER', pregunta:'¿Cuándo fuimos al parque?' },
+  { emoji:'🌅', texto:'Si hoy es lunes, ___ será martes.', correct:'MAÑANA', excl:['DESPUÉS'], pregunta:'Si hoy es lunes, ¿qué día será después?' },
+  { emoji:'🔙', texto:'Fuimos al parque ___, no hoy.', correct:'AYER', excl:['ANTES'], pregunta:'¿Cuándo fuimos al parque?' },
   { emoji:'🧼', texto:'___ de comer, nos lavamos las manos.', correct:'ANTES', pregunta:'¿Cuándo nos lavamos las manos?' },
   { emoji:'📖', texto:'___ el cuento, escuchamos con atención y en silencio.', correct:'DURANTE', pregunta:'¿Cuándo escuchamos con atención?' },
   { emoji:'🧸', texto:'___ de jugar, guardamos los juguetes en su lugar.', correct:'DESPUÉS', pregunta:'¿Cuándo guardamos los juguetes?' },
@@ -108,7 +108,16 @@ export function genUbicacionEspacialNTRound(){
 
 export function genAntesDespuesNTRound(){
   const item = pick(ESCENAS_TEMPORAL_NT);
-  const distract = shuffle(TEMPORAL_OPTS_POOL.filter(function(p){ return p!==item.correct; })).slice(0,3);
+  /* Algunas categorías temporales tienen doble sentido en español (MAÑANA
+     significa tanto "el día siguiente" como "la mañana del día"; ANTES
+     puede leerse como "antes de X" o como sinónimo suelto de "antes en el
+     tiempo", solapándose con AYER) — para ciertas escenas más de una
+     opción del banco era una respuesta defendible al completar la oración.
+     `excl` (opcional, por escena) saca esas categorías conflictivas del
+     pool de distractores para esa escena puntual, sin forzar una redacción
+     artificial para niños de NT. */
+  const excl = item.excl || [];
+  const distract = shuffle(TEMPORAL_OPTS_POOL.filter(function(p){ return p!==item.correct && excl.indexOf(p)===-1; })).slice(0,3);
   const opts = shuffle([item.correct].concat(distract)).map(function(p){ return {label:p, value:p}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto.replace('___','<span class="blank">___</span>')+'</p>',

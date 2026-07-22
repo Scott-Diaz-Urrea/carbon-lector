@@ -46,15 +46,15 @@ const AGUA_SOL_BANK = [
 /* Ampliado de 8 a 10 ítems (coincidía exactamente con rounds:8, sin
    margen — ver mcEngine.js). */
 const MATERIALES_NT_BANK = [
-  { objeto:'el vidrio', emoji: vidrioSVG(56), prop:'TRANSPARENTE', opts:['OPACO','RUGOSO','LÍQUIDO'] },
-  { objeto:'la piedra', emoji: piedraSVG(56), prop:'RÍGIDA', opts:['FLEXIBLE','SUAVE','LÍQUIDO'] },
+  { objeto:'el vidrio', emoji: vidrioSVG(56), prop:'TRANSPARENTE', opts:['OPACO','RUGOSO','LÍQUIDA'] },
+  { objeto:'la piedra', emoji: piedraSVG(56), prop:'RÍGIDA', opts:['FLEXIBLE','SUAVE','LÍQUIDA'] },
   { objeto:'el espejo', emoji: espejoSVG(56), prop:'LISO', opts:['RUGOSO','BLANDO','TRANSPARENTE'] },
-  { objeto:'la corteza del árbol', emoji:'🌳', prop:'RUGOSA', opts:['LISO','TRANSPARENTE','LÍQUIDO'] },
-  { objeto:'el agua', emoji:'💧', prop:'LÍQUIDO', opts:['RÍGIDO','RUGOSO','OPACO'] },
+  { objeto:'la corteza del árbol', emoji:'🌳', prop:'RUGOSA', opts:['LISO','TRANSPARENTE','LÍQUIDA'] },
+  { objeto:'el agua', emoji:'💧', prop:'LÍQUIDA', opts:['RÍGIDO','RUGOSO','OPACO'] },
   { objeto:'el algodón', emoji:'🧶', prop:'SUAVE', opts:['RÍGIDO','TRANSPARENTE','RUGOSO'] },
   { objeto:'el hielo', emoji:'🧊', prop:'FRÍO', opts:['CALIENTE','BLANDO','RUGOSO'] },
-  { objeto:'la arena', emoji:'🏖️', prop:'ÁSPERA', opts:['LISO','LÍQUIDO','TRANSPARENTE'] },
-  { objeto:'el sol', emoji:'☀️', prop:'CALIENTE', opts:['FRÍO','LÍQUIDO','BLANDO'] },
+  { objeto:'la arena', emoji:'🏖️', prop:'ÁSPERA', opts:['LISO','LÍQUIDA','TRANSPARENTE'] },
+  { objeto:'el sol', emoji:'☀️', prop:'CALIENTE', opts:['FRÍO','LÍQUIDA','BLANDO'] },
   { objeto:'la nieve', emoji:'❄️', prop:'FRÍA', opts:['CALIENTE','ÁSPERA','TRANSPARENTE'] },
 ];
 

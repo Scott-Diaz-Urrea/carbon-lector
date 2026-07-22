@@ -36,7 +36,14 @@ const COLORES_POOL = ['ROJO','AZUL','VERDE','AMARILLO','MORADO','NARANJO','ROSAD
 const FORMAS_POOL = ['circulo','cuadrado','triangulo','rectangulo','rombo','ovalo','pentagono','hexagono'];
 const LINEAS_POOL = ['VERTICAL','HORIZONTAL','DIAGONAL','ESPIRAL','QUEBRADA'];
 
-function genCompareRound(pool, renderItem, pregunta, atributo){
+/* `adjetivo` existe porque "distintos" no concuerda en género con los tres
+   atributos por igual (auditoría 2026-07-22): "colores distintos" es
+   correcto, pero "formas distintos" y "tipos de líneas distintos" quedaban
+   con concordancia de género rota (debía ser "formas distintas", y
+   "tipos de líneas distintas" para concordar con "líneas", el sustantivo
+   más cercano — mismo criterio que ya usa la pregunta de cada módulo). */
+function genCompareRound(pool, renderItem, pregunta, atributo, adjetivo){
+  adjetivo = adjetivo || 'distintos';
   let nA = randInt(2, Math.min(5, pool.length)), nB = randInt(2, Math.min(5, pool.length));
   while(nB === nA) nB = randInt(2, Math.min(5, pool.length));
   const obraA = shuffle(pool).slice(0, nA);
@@ -51,7 +58,7 @@ function genCompareRound(pool, renderItem, pregunta, atributo){
   return {
     promptHTML: '<div class="compare-row">'+panel(obraA,'A')+panel(obraB,'B')+'</div><p class="prompt-hint">'+pregunta+'</p>',
     options: opts, correctValue: correct, speakText: pregunta, cols:2, panel:true,
-    explain: 'La Obra '+correct+' usa '+(correct==='A'?nA:nB)+' '+atributo+' distintos, más que la otra.',
+    explain: 'La Obra '+correct+' usa '+(correct==='A'?nA:nB)+' '+atributo+' '+adjetivo+', más que la otra.',
   };
 }
 
@@ -60,9 +67,9 @@ export function genApreciarNTRound(){
 }
 
 export function genCompararFormasNTRound(){
-  return genCompareRound(FORMAS_POOL, function(f){ return shapeSVG(f, 34); }, '¿Cuál obra usa más formas distintas?', 'formas');
+  return genCompareRound(FORMAS_POOL, function(f){ return shapeSVG(f, 34); }, '¿Cuál obra usa más formas distintas?', 'formas', 'distintas');
 }
 
 export function genLineasDisenoNTRound(){
-  return genCompareRound(LINEAS_POOL, function(l){ return lineTypeSVG(l, 34); }, '¿Cuál obra usa más tipos de líneas distintas?', 'tipos de líneas');
+  return genCompareRound(LINEAS_POOL, function(l){ return lineTypeSVG(l, 34); }, '¿Cuál obra usa más tipos de líneas distintas?', 'tipos de líneas', 'distintas');
 }

@@ -181,7 +181,7 @@ export function genPueblos2Round(){
     const opts = shuffle(ZONAS_POOL).map(function(z){ return {label:z, value:z}; });
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿En qué zona de Chile vivía tradicionalmente el pueblo '+item.pueblo+'?</p>',
-      options: opts, correctValue: item.zona, speakText: '¿En qué zona vivía el pueblo '+item.pueblo+'?', cols:2, kind:'word', panel:true,
+      options: opts, correctValue: item.zona, speakText: '¿En qué zona vivía el pueblo '+item.pueblo+'?', cols:2, panel:true,
       explain: 'El pueblo <b>'+item.pueblo+'</b> vivía tradicionalmente en la zona <b>'+item.zona.toLowerCase()+'</b>.',
     };
   }
@@ -630,7 +630,7 @@ export function genConquista5Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
   };
 }
@@ -640,7 +640,7 @@ export function genColonia5Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
   };
 }
@@ -650,7 +650,7 @@ export function genGeografiaChile5Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
   };
 }
@@ -756,7 +756,7 @@ const SIGLOXX_DEMOCRATIZACION_BANK = [
   { pregunta:'¿En qué año se aprobó la ley que dio a las mujeres chilenas el derecho a votar en elecciones presidenciales y parlamentarias?', correcta:'1949', opts:['1810','1883','2000'] },
   { pregunta:'Antes de la ley de 1949, ¿quiénes principalmente tenían derecho a votar en las elecciones presidenciales de Chile?', correcta:'SOLO LOS HOMBRES', opts:['SOLO LAS MUJERES','TODOS LOS NIÑOS MAYORES DE 10 AÑOS','NADIE PODÍA VOTAR'] },
   { pregunta:'¿Qué cambio importante en la participación ciudadana ocurrió durante el siglo XX en Chile?', correcta:'EL DERECHO A VOTAR SE FUE EXTENDIENDO A MÁS PERSONAS, INCLUYENDO A LAS MUJERES', opts:['SE ELIMINÓ POR COMPLETO EL DERECHO A VOTAR','SOLO SE PERMITIÓ VOTAR A LOS EXTRANJEROS','EL VOTO DEJÓ DE EXISTIR'] },
-  { pregunta:'¿En qué año pudieron votar las mujeres chilenas por primera vez en elecciones municipales?', correcta:'1934', opts:['1810','1949','2000'] },
+  { pregunta:'¿En qué año pudieron votar las mujeres chilenas por primera vez en elecciones municipales?', correcta:'1935', opts:['1810','1949','2000'] },
   { pregunta:'¿En qué elección presidencial votaron las mujeres chilenas por primera vez, tras la ley de 1949?', correcta:'LA ELECCIÓN PRESIDENCIAL DE 1952', opts:['LA ELECCIÓN DE 1810','LA ELECCIÓN DE 1883','NUNCA HAN PODIDO VOTAR EN UNA ELECCIÓN PRESIDENCIAL'] },
   { pregunta:'¿Qué significa que el derecho a voto se haya ido "democratizando" a lo largo del siglo XX en Chile?', correcta:'QUE CADA VEZ MÁS PERSONAS PUDIERON PARTICIPAR EN LAS ELECCIONES', opts:['QUE CADA VEZ MENOS PERSONAS PUDIERON VOTAR','QUE SOLO LOS MÁS RICOS PODÍAN VOTAR','QUE EL VOTO SE VOLVIÓ OBLIGATORIO SOLO PARA UN GRUPO'] },
   { pregunta:'¿Bajo qué presidente se aprobó la ley que dio a las mujeres chilenas el voto en elecciones presidenciales?', correcta:'GABRIEL GONZÁLEZ VIDELA', opts:['BERNARDO O HIGGINS','ARTURO PRAT','DIEGO PORTALES'] },
@@ -798,7 +798,7 @@ export function genIndependencia6Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
   };
 }
@@ -826,7 +826,7 @@ export function genSalitre6Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
   };
 }
@@ -846,7 +846,7 @@ export function genGeografiaChile6Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
   };
 }

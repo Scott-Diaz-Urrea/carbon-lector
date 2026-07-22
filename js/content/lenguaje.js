@@ -362,6 +362,9 @@ const ORTOGRAFIA_BANK = [
   { incorrecta:'chile es un país largo y angosto', correcta:'Chile es un país largo y angosto.' },
 ];
 
+/* Artículo correcto por género gramatical, para no dejar el literal "un(a)"
+   sin resolver en el explain (bug encontrado en la auditoría 2026-07-22). */
+const GENERO_ARTICULO = { POEMA:'un', CUENTO:'un', FÁBULA:'una', LEYENDA:'una', MITO:'un', NOVELA:'una', HISTORIETA:'una' };
 export function genGenerosLiterarios3Round(){
   const item = pick(GENEROS_BANK);
   const distract = shuffle(GENEROS_POOL.filter(function(g){ return g!==item.label; })).slice(0,3);
@@ -369,7 +372,7 @@ export function genGenerosLiterarios3Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'</p><p class="prompt-hint">¿Qué género literario es?</p>',
     options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
-    explain: 'Esa descripción corresponde a un(a) <b>'+item.label.toLowerCase()+'</b>.',
+    explain: 'Esa descripción corresponde a '+GENERO_ARTICULO[item.label]+' <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
 
@@ -426,7 +429,7 @@ export function genGramatica3Round(){
   const opts = shuffle([item.correcto].concat(distract)).map(function(p){ return {label:p, value:p}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué pronombre completa la oración?</p>',
-    options: opts, correctValue: item.correcto, speakText: item.texto, cols:4, kind:'word',
+    options: opts, correctValue: item.correcto, speakText: item.texto.replace('___', item.correcto), cols:4, kind:'word',
     explain: 'El pronombre correcto es <b>'+item.correcto+'</b>, porque reemplaza a quien se menciona en la primera oración.',
   };
 }
@@ -491,9 +494,9 @@ const VOCABULARIO4_CONTEXTO_BANK = [
   { texto:'El abuelo era conocido por su ', palabra:'GENEROSIDAD', resto:', siempre dispuesto a ayudar sin esperar nada a cambio.', significado:'La cualidad de dar y compartir con otros', opts:['La cualidad de guardar todo para sí mismo','El miedo a las alturas','La costumbre de dormir temprano'] },
 ];
 const PREFIJOS_BANK = [
-  { prefijo:'DES-', ejemplo:'DESHACER', significadoPrefijo:'Indica lo contrario de la acción', base:'HACER' },
+  { prefijo:'DES-', ejemplo:'DESHACER', significadoPrefijo:'Indica que se deshace o revierte la acción', base:'HACER' },
   { prefijo:'RE-', ejemplo:'REHACER', significadoPrefijo:'Indica que la acción se repite', base:'HACER' },
-  { prefijo:'IN-', ejemplo:'INCAPAZ', significadoPrefijo:'Indica negación o lo contrario', base:'CAPAZ' },
+  { prefijo:'IN-', ejemplo:'INCAPAZ', significadoPrefijo:'Indica negación: que no tiene esa cualidad', base:'CAPAZ' },
   { prefijo:'PRE-', ejemplo:'PRECALENTAR', significadoPrefijo:'Indica que la acción ocurre antes', base:'CALENTAR' },
   { prefijo:'SUB-', ejemplo:'SUBMARINO', significadoPrefijo:'Indica que algo está debajo de', base:'MARINO' },
 ];
@@ -577,7 +580,7 @@ export function genGramatica4Round(){
   const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué verbo completa correctamente la oración?</p>',
-    options: opts, correctValue: item.correcto, speakText: item.texto, cols:4, kind:'word',
+    options: opts, correctValue: item.correcto, speakText: item.texto.replace('___', item.correcto), cols:4, kind:'word',
     explain: '<b>'+item.correcto+'</b> concuerda correctamente con el sujeto de la oración.',
   };
 }
@@ -773,7 +776,7 @@ export function genGramatica5Round(){
   const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué forma del verbo completa correctamente la oración?</p>',
-    options: opts, correctValue: item.correcto, speakText: item.texto, cols:4, kind:'word',
+    options: opts, correctValue: item.correcto, speakText: item.texto.replace(/\s*\([^)]*\)/,'').replace('___', item.correcto), cols:4, kind:'word',
     explain: '<b>'+item.correcto+'</b> es la conjugación correcta del verbo para ese momento y esa persona.',
   };
 }
@@ -1001,7 +1004,7 @@ export function genGramatica6Round(){
   const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Cuál es el participio correcto de ese verbo?</p>',
-    options: opts, correctValue: item.correcto, speakText: item.texto, cols:4, kind:'word',
+    options: opts, correctValue: item.correcto, speakText: item.texto.replace(/\s*\([^)]*\)/,'').replace('___', item.correcto), cols:4, kind:'word',
     explain: '<b>'+item.correcto+'</b> es el participio irregular correcto — no sigue la terminación regular "-ado/-ido".',
   };
 }

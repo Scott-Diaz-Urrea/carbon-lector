@@ -154,3 +154,42 @@ export function genTecDigital4Round(){
     explain: 'La respuesta correcta es "'+item.correcta+'".',
   };
 }
+
+/* ---------------- Contenido Tecnología 5° Básico ----------------
+   Basado en OA del Decreto 439/2012, 5° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/tecnologia/5-basico): TE05 OA05-07 -> Tecnología Digital V.
+   El texto de estos OA repite casi lo mismo que años anteriores
+   (presentaciones ya en 3°, hojas de cálculo ya en 4°, procesador de texto
+   ya en 2°, seguridad en internet en 2°-4°), así que el módulo usa
+   escenarios completamente nuevos en dos ángulos poco explorados: opciones
+   específicas de formato en un procesador de textos (fuentes, alineación,
+   inserción de imágenes) y comunicación en línea responsable (compartir
+   información de forma respetuosa y cuidando la privacidad de otros), en vez
+   de repetir literalmente las mismas preguntas de años anteriores. Quedan
+   fuera OA01-04 (diseñar/planificar/elaborar/evaluar un objeto tecnológico
+   propio) por ser un proceso de producción práctica. */
+export const TECNOLOGIA_MODULES_G5 = [
+  {id:'tecdigital5', label:'Tecnología Digital V', open:true, key:'tecdigital5'},
+];
+export const TECNOLOGIA_POS_G5 = [{x:48,y:50}];
+
+const TEC_DIGITAL_5_BANK = [
+  { pregunta:'¿Qué opción de formato usarías en un procesador de textos para destacar un título dentro de un documento?', correcta:'Aumentar el tamaño de la letra y ponerla en negrita', opts:['Escribirlo en el mismo tamaño que el resto del texto','Borrar el título','Escribirlo en un idioma distinto'] },
+  { pregunta:'¿Para qué sirve la opción de "alinear texto" (izquierda, centro, derecha) en un procesador de textos?', correcta:'Para ordenar visualmente cómo se ve el texto en la página', opts:['Para cambiar el idioma del documento','Para revisar la ortografía automáticamente','Para enviar el documento por correo'] },
+  { pregunta:'¿Qué debes hacer antes de insertar una imagen en un documento de un trabajo escolar?', correcta:'Verificar que la imagen sea adecuada y tenga relación con el contenido', opts:['Insertar cualquier imagen sin revisarla','Poner la imagen más grande posible sin importar el contenido','No es necesario revisar nada'] },
+  { pregunta:'¿Qué opción de un procesador de textos ayuda a organizar información en una lista?', correcta:'Usar viñetas o numeración', opts:['Cambiar el color de fondo de toda la página','Insertar un video','Borrar todo el texto'] },
+  { pregunta:'Al comunicarte por internet con compañeros de un trabajo grupal, ¿qué es lo más responsable?', correcta:'Compartir solo información relacionada con el trabajo y tratar a todos con respeto', opts:['Compartir información personal de otros sin permiso','Escribir mensajes groseros si alguien no está de acuerdo','Ignorar los mensajes del grupo sin avisar'] },
+  { pregunta:'¿Qué debes revisar antes de compartir un documento o presentación en un grupo en línea?', correcta:'Que no incluya datos personales innecesarios, como direcciones o teléfonos', opts:['Que tenga la mayor cantidad de colores posible','Que sea lo más largo posible','No es necesario revisar nada'] },
+  { pregunta:'Si un compañero de un grupo en línea comparte información falsa por error, ¿qué es lo más responsable?', correcta:'Avisarle con respeto y ayudar a corregir la información', opts:['Compartir la información falsa a más personas','Burlarte del error frente al grupo','Ignorarlo, no es tu problema'] },
+  { pregunta:'¿Qué opción de un procesador de textos ayuda a mostrar información en columnas ordenadas, como nombres y notas?', correcta:'Insertar una tabla', opts:['Cambiar el fondo de toda la página a un color oscuro','Insertar un video musical','Borrar el documento completo'] },
+  { pregunta:'¿Para qué sirve revisar la ortografía automática antes de entregar un documento?', correcta:'Para detectar y corregir errores de escritura antes de compartirlo', opts:['Para que el documento se vea con más colores','Para hacerlo más largo','No sirve para nada'] },
+];
+export function genTecDigital5Round(){
+  const item = pick(TEC_DIGITAL_5_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es "'+item.correcta+'".',
+  };
+}

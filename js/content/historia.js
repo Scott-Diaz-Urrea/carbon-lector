@@ -555,3 +555,113 @@ export function genCiudadania4Round(){
   };
 }
 
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 5° Básico ----------------
+   Basado en OA del Decreto 439/2012, 5° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/historia-geografia-ciencias-sociales/5-basico):
+   Descubrimiento y Conquista de América -> OA01-04 (viajes de Colón y
+   Magallanes, actores y proceso de la conquista de América y Chile, impacto
+   en Europa y América, efectos sobre los pueblos indígenas). La Colonia en
+   Chile -> OA05-08 (sociedad, oficios y costumbres coloniales, dependencia
+   de España, la relación entre españoles y mapuches -presentada de forma
+   neutral y factual: la Guerra de Arauco y los parlamentos de paz, sin
+   tomar partido-, patrimonio colonial). Geografía de Chile -> OA09-12
+   (zonas geográficas del país, recursos naturales, su valorización, riesgos
+   naturales). Formación Ciudadana V -> OA13-19 (derechos y deberes, mérito y
+   esfuerzo, actitudes cívicas, elecciones de curso, proyectos escolares,
+   formas de organización comunitaria).
+   Quedan fuera: OA20-22 (opinar y argumentar con fundamentos, evaluar
+   soluciones y justificar la elección, informarse por diarios/TIC —
+   habilidades de argumentación y proceso de indagación propio, no hechos
+   con respuesta única). */
+export const HISTORIA_MODULES_G5 = [
+  {id:'conquista5', label:'Descubrimiento y Conquista de América', open:true, key:'conquista5'},
+  {id:'colonia5', label:'La Colonia en Chile', open:true, key:'colonia5'},
+  {id:'geografiachile5', label:'Geografía de Chile', open:true, key:'geografiachile5'},
+  {id:'ciudadania5', label:'Formación Ciudadana V', open:true, key:'ciudadania5'},
+];
+export const HISTORIA_POS_G5 = [{x:24,y:88},{x:68,y:64},{x:24,y:38},{x:68,y:12}];
+
+const CONQUISTA_AMERICA_BANK = [
+  { pregunta:'¿Quién llegó a América en 1492, buscando una nueva ruta hacia Asia?', correcta:'CRISTÓBAL COLÓN', opts:['HERNANDO DE MAGALLANES','PEDRO DE VALDIVIA','FRANCISCO PIZARRO'] },
+  { pregunta:'¿Quién descubrió el estrecho que lleva su nombre, en el extremo sur de Chile, en 1520?', correcta:'HERNANDO DE MAGALLANES', opts:['CRISTÓBAL COLÓN','DIEGO DE ALMAGRO','PEDRO DE VALDIVIA'] },
+  { pregunta:'¿Quién fue el primer español en explorar el territorio de Chile, antes que Pedro de Valdivia?', correcta:'DIEGO DE ALMAGRO', opts:['HERNANDO DE MAGALLANES','FRANCISCO PIZARRO','CRISTÓBAL COLÓN'] },
+  { pregunta:'¿Quién fundó la ciudad de Santiago en 1541?', correcta:'PEDRO DE VALDIVIA', opts:['DIEGO DE ALMAGRO','FRANCISCO PIZARRO','HERNANDO DE MAGALLANES'] },
+  { pregunta:'¿Qué imperio conquistó Francisco Pizarro en Sudamérica?', correcta:'EL IMPERIO INCA', opts:['EL IMPERIO AZTECA','LOS MAYAS','LOS MAPUCHES'] },
+  { pregunta:'¿Qué buscaban principalmente los reinos europeos al financiar los viajes de descubrimiento?', correcta:'NUEVAS RUTAS COMERCIALES Y RIQUEZAS', opts:['CONOCER OTRAS COMIDAS SOLAMENTE','HACER TURISMO','APRENDER IDIOMAS NUEVOS'] },
+  { pregunta:'¿Qué le ocurrió a muchos pueblos indígenas americanos como consecuencia de la conquista?', correcta:'ENFERMARON CON ENFERMEDADES NUEVAS Y PERDIERON GRAN PARTE DE SUS TIERRAS', opts:['MEJORARON SU SITUACIÓN DE INMEDIATO','NO TUVIERON NINGÚN CAMBIO EN SU VIDA','GANARON MÁS TERRITORIO QUE ANTES'] },
+  { pregunta:'¿Qué consecuencia tuvo la conquista de América para Europa?', correcta:'EUROPA RECIBIÓ NUEVOS PRODUCTOS Y RIQUEZAS DE AMÉRICA', opts:['EUROPA PERDIÓ TODO CONTACTO CON AMÉRICA','EUROPA DEJÓ DE EXISTIR COMO CONTINENTE','EUROPA NO SE VIO AFECTADA EN NADA'] },
+];
+const COLONIA_CHILE_BANK = [
+  { pregunta:'¿De qué país europeo dependía Chile durante el período colonial?', correcta:'ESPAÑA', opts:['PORTUGAL','FRANCIA','INGLATERRA'] },
+  { pregunta:'¿Cómo se llamó el extenso conflicto entre españoles y mapuches durante gran parte de la Colonia?', correcta:'LA GUERRA DE ARAUCO', opts:['LA GUERRA DEL PACÍFICO','LA GUERRA CIVIL','LA GUERRA DE LOS CIEN AÑOS'] },
+  { pregunta:'¿Qué río marcó, durante gran parte de la Colonia, la frontera entre el territorio bajo control español y el territorio mapuche?', correcta:'EL RÍO BIOBÍO', opts:['EL RÍO MAPOCHO','EL RÍO LOA','EL RÍO MAULE'] },
+  { pregunta:'¿Qué eran los "parlamentos" que se realizaban entre españoles y mapuches?', correcta:'REUNIONES PARA NEGOCIAR ACUERDOS DE PAZ', opts:['FIESTAS SIN NINGÚN PROPÓSITO','ESCUELAS PARA NIÑOS','MERCADOS DE ANIMALES'] },
+  { pregunta:'¿Cuál de estos oficios era común en la vida colonial chilena?', correcta:'EL HERRERO, QUE TRABAJABA EL METAL A MANO', opts:['EL PROGRAMADOR DE COMPUTADORES','EL PILOTO DE AVIÓN','EL INGENIERO EN TELECOMUNICACIONES'] },
+  { pregunta:'¿Cuál de estas es un ejemplo de patrimonio colonial que todavía se puede ver en Chile hoy?', correcta:'UNA IGLESIA O CASA ANTIGUA DE ADOBE DE ESA ÉPOCA', opts:['UN EDIFICIO DE VIDRIO MODERNO','UN AEROPUERTO','UN CENTRO COMERCIAL NUEVO'] },
+  { pregunta:'¿Quiénes solían ocupar los cargos más importantes de gobierno en la sociedad colonial chilena?', correcta:'LOS ESPAÑOLES Y SUS DESCENDIENTES DIRECTOS', opts:['SE ELEGÍAN POR VOTACIÓN POPULAR ABIERTA A TODOS','SIEMPRE ERAN ELEGIDOS AL AZAR','NO EXISTÍAN CARGOS DE GOBIERNO'] },
+  { pregunta:'¿Qué actividad económica basada en la extracción de minerales fue importante durante la Colonia en Chile?', correcta:'LA MINERÍA (SOBRE TODO DE ORO Y PLATA)', opts:['LA FABRICACIÓN DE COMPUTADORES','LA INDUSTRIA AEROESPACIAL','LA PRODUCCIÓN DE ENERGÍA SOLAR'] },
+  { pregunta:'¿Cuál era una costumbre común en las celebraciones de la vida colonial chilena?', correcta:'LAS FIESTAS RELIGIOSAS Y PATRONALES CON MÚSICA Y BAILE', opts:['LOS CONCIERTOS DE MÚSICA ELECTRÓNICA','LOS VIAJES EN AVIÓN','LOS VIDEOJUEGOS EN LÍNEA'] },
+  { pregunta:'¿Qué tipo de construcción se usaba comúnmente en la arquitectura colonial chilena?', correcta:'CASAS Y EDIFICIOS DE ADOBE, CON TECHOS DE TEJA', opts:['RASCACIELOS DE VIDRIO Y ACERO','CASAS HECHAS COMPLETAMENTE DE PLÁSTICO','EDIFICIOS CON PANELES SOLARES'] },
+];
+const GEOGRAFIA_CHILE5_BANK = [
+  { pregunta:'¿Cómo es el clima y paisaje del Norte Grande de Chile?', correcta:'DESÉRTICO, MUY SECO Y CON POCAS LLUVIAS', opts:['MUY LLUVIOSO Y CUBIERTO DE BOSQUES','CON GLACIARES Y FIORDOS','TROPICAL Y HÚMEDO'] },
+  { pregunta:'¿Cómo es el clima de la Zona Central de Chile?', correcta:'TEMPLADO, CON UN VERANO SECO Y UN INVIERNO LLUVIOSO', opts:['DESÉRTICO TODO EL AÑO','CUBIERTO DE HIELO TODO EL AÑO','TROPICAL Y MUY CALUROSO TODO EL AÑO'] },
+  { pregunta:'¿Cómo es el paisaje de la Zona Sur de Chile?', correcta:'LLUVIOSO, CON BOSQUES, LAGOS Y VOLCANES', opts:['DESÉRTICO Y SIN VEGETACIÓN','CUBIERTO SOLO DE ARENA','SIN NINGÚN RÍO NI LAGO'] },
+  { pregunta:'¿Qué caracteriza a la Zona Austral de Chile?', correcta:'CLIMA FRÍO, CON GLACIARES Y FIORDOS', opts:['CLIMA DESÉRTICO Y CALUROSO','PLAYAS TROPICALES','SELVA AMAZÓNICA'] },
+  { pregunta:'¿Cuál es un recurso natural importante que se extrae principalmente en el norte de Chile?', correcta:'EL COBRE', opts:['LOS GLACIARES','LA MADERA NATIVA','LOS PECES DE AGUA DULCE'] },
+  { pregunta:'¿Cuál es un recurso natural importante en la Zona Sur de Chile, gracias a sus bosques?', correcta:'LA MADERA', opts:['EL COBRE','EL SALITRE','EL LITIO'] },
+  { pregunta:'¿Cuál de estos es un riesgo natural frecuente en Chile, por estar ubicado sobre el Cinturón de Fuego del Pacífico?', correcta:'LOS TERREMOTOS Y ERUPCIONES VOLCÁNICAS', opts:['LOS HURACANES TROPICALES','LAS TORMENTAS DE ARENA DEL DESIERTO DEL SAHARA','LOS TORNADOS FRECUENTES'] },
+  { pregunta:'Después de un terremoto grande en la costa, ¿qué otro riesgo natural puede ocurrir?', correcta:'UN TSUNAMI (MAREMOTO)', opts:['UNA SEQUÍA INMEDIATA','UNA NEVADA EN EL DESIERTO','NINGÚN RIESGO ADICIONAL'] },
+];
+const CIUDADANIA5_BANK = [
+  { correcta:'Todas las personas son sujetos de derecho y merecen ser respetadas por igual', incorrectas:['Solo algunas personas merecen respeto','Los derechos dependen de cuánto dinero tengas','Algunas personas no tienen derechos'] },
+  { correcta:'Reconocer que tener un derecho también implica cumplir con deberes y responsabilidades', incorrectas:['Los derechos no tienen ninguna relación con los deberes','Solo importan los derechos, nunca los deberes','Los deberes son solo para los adultos'] },
+  { correcta:'Reconocer que el esfuerzo y el mérito propio ayudan a lograr metas', incorrectas:['Los logros no dependen nunca del esfuerzo propio','Es mejor no esforzarse en nada','El mérito no tiene ninguna importancia'] },
+  { correcta:'Participar en la elección de la directiva de curso, entendiendo el rol de cada cargo', incorrectas:['No participar nunca en las elecciones del curso','Imponer un representante sin votación','Ignorar el proceso de elección del curso'] },
+  { correcta:'Proponer y participar en un proyecto para mejorar la convivencia o el cuidado del colegio', incorrectas:['No proponer nunca ninguna idea para mejorar el colegio','Ignorar los problemas del colegio','Dejar que otros resuelvan todo sin participar'] },
+  { correcta:'Organizarse en grupo, escuchando distintas opiniones, para resolver un problema de la comunidad', incorrectas:['Resolver los problemas de la comunidad sin escuchar a nadie más','Ignorar los problemas de la comunidad','Esperar que un problema se resuelva solo'] },
+  { correcta:'Ser honesto y actuar con responsabilidad en las tareas de la vida diaria', incorrectas:['Mentir cuando conviene','Actuar sin responsabilidad por las propias acciones','Culpar siempre a otros de los propios errores'] },
+  { correcta:'Cuidar los espacios comunes del colegio, como la biblioteca o el patio', incorrectas:['Dañar a propósito los espacios comunes','Ensuciar el patio sin preocuparse por los demás','Ignorar el estado de los espacios compartidos'] },
+  { correcta:'Escuchar distintos puntos de vista antes de tomar una decisión en grupo', incorrectas:['Decidir solo sin escuchar a nadie más','Ignorar las opiniones distintas a la propia','Imponer una decisión sin dialogar'] },
+];
+
+export function genConquista5Round(){
+  const item = pick(CONQUISTA_AMERICA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genColonia5Round(){
+  const item = pick(COLONIA_CHILE_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genGeografiaChile5Round(){
+  const item = pick(GEOGRAFIA_CHILE5_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCiudadania5Round(){
+  const item = pick(CIUDADANIA5_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+  };
+}
+

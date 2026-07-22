@@ -4,6 +4,7 @@ import {
   genGenerosLiterarios3Round, genComprension3Round, genVocabulario3Round, genAlfabetico3Round,
   genGramatica3Round, genOrtografia3Round,
   genComprension4Round, genVocabulario4Round, genGramatica4Round, genOrtografia4Round,
+  genComprension5Round, genRecursosPoeticos5Round, genVocabulario5Round, genGramatica5Round, genOrtografia5Round,
 } from './content/lenguaje.js';
 import {
   genCountRound, genAddRound, genCompareRound, genFormaRound, genSaltaRound, genMultiplicarRound,
@@ -12,6 +13,8 @@ import {
   genPatrones3Round, genGeometria3Round, genMedicion3Round, genDatos3Round,
   genNumeros4Round, genOperaciones4Round, genMultiplicarDividir4Round, genFracciones4Round,
   genDecimales4Round, genPatrones4Round, genGeometria4Round, genMedicion4Round, genDatos4Round,
+  genNumeros5Round, genMultiplicar5Round, genDividir5Round, genOperaciones5Round, genFracciones5Round,
+  genDecimales5Round, genPatrones5Round, genGeometria5Round, genMedicion5Round, genDatos5Round,
 } from './content/matematica.js';
 import {
   genSeresVivosRound, genPlantasRound, genCuerpoRound, genMaterialesRound, genDiaNocheRound,
@@ -19,36 +22,43 @@ import {
   genPlantas3Round, genCicloPlanta3Round, genCuidadoAmbiente3Round, genAlimentacion3Round,
   genLuz3Round, genSonido3Round, genSistemaSolar3Round,
   genEcosistemas4Round, genCuerpoHumano4Round, genMateria4Round, genFuerzas4Round, genTierra4Round,
+  genCelulaSistemas5Round, genAlimentacionSalud5Round, genElectricidad5Round, genAguaTierra5Round,
 } from './content/ciencias.js';
 import {
   genCalendarioRound, genMiIdentidadRound, genSimbolosRound, genMapasRound, genComunidadRound,
   genPueblos2Round, genPatrimonio2Round, genPaisajes2Round, genCiudadania2Round,
   genCivilizaciones3Round, genGeografia3Round, genCiudadania3Round,
   genCivilizacionesAmericanas4Round, genGeografiaAmerica4Round, genCiudadania4Round,
+  genConquista5Round, genColonia5Round, genGeografiaChile5Round, genCiudadania5Round,
 } from './content/historia.js';
 import {
   genColoresRound, genLineasTexturasRound, genMaterialesArteRound, genLineasColores2Round,
   genColorExpresivo3Round, genMaterialesArte3Round,
   genLenguajeVisual4Round,
+  genLenguajeVisual5Round,
 } from './content/artes.js';
 import {
   genSonidosRound, genInstrumentosRound, genTimbrePulso2Round,
   genLenguajeMusical3Round, genMusicaSociedad3Round,
   genDinamicaTempo4Round,
+  genTexturaMusical5Round,
 } from './content/musica.js';
 import {
   genMovimientoRound, genVidaActivaRound, genSeguridadRound,
   genCuerpoResponde2Round, genVidaActiva2Round, genLiderazgo2Round,
   genVidaActiva3Round, genSeguridad3Round,
   genCondicionFisica4Round, genSeguridad4Round,
+  genVidaPostura5Round, genLiderazgo5Round,
 } from './content/edfisica.js';
 import {
   genEmocionesRound, genAutocuidadoRound, genConvivenciaRound,
   genEmociones2Round, genAutocuidado2Round, genHabitosEscolares2Round, genConvivencia2Round,
   genManejoEmocional3Round, genAutocuidado3Round, genBuenTrato3Round, genHabitosEstudio3Round,
   genManejoEmocional4Round, genAutocuidado4Round, genBuenTrato4Round, genHabitosEstudio4Round,
+  genManejoEmocional5Round, genAutocuidadoDigital5Round, genPrevencionSaludable5Round, genBuenTrato5Round, genHabitosEstudio5Round,
 } from './content/orientacion.js';
-import { genHerramientasTecRound, genTecDigital2Round, genTecDigital3Round, genTecDigital4Round } from './content/tecnologia.js';
+import { genHerramientasTecRound, genTecDigital2Round, genTecDigital3Round, genTecDigital4Round, genTecDigital5Round } from './content/tecnologia.js';
+import { genVocabularioIngles5Round, genLecturaSimple5Round } from './content/ingles.js';
 import {
   genPatronesRound, genClasificarRound, genPosicionRound, genCuantificadoresRound,
   genSecuenciaTemporalRound, genContarVeinteRound, genSumarQuitarRound,
@@ -123,7 +133,17 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'dinamicatempo4',
   'condicionfisica4','seguridad4',
   'manejoemocional4','autocuidado4','buentrato4','habitosestudio4',
-  'tecdigital4'];
+  'tecdigital4',
+  'comprension5','recursospoeticos5','vocabulario5','gramatica5','ortografia5',
+  'numeros5','multiplicar5','dividir5','operaciones5','fracciones5','decimales5','patrones5','geometria5','medicion5','datos5',
+  'celulasistemas5','alimentacionsalud5','electricidad5','aguatierra5',
+  'conquista5','colonia5','geografiachile5','ciudadania5',
+  'lenguajevisual5',
+  'texturamusical5',
+  'vidapostura5','liderazgo5',
+  'manejoemocional5','autocuidadodigital5','prevencionsaludable5','buentrato5','habitosestudio5',
+  'tecdigital5',
+  'vocabularioingles5','lecturasimple5'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -282,6 +302,41 @@ export const MC_GAMES = {
   buentrato4:    { title:'Buen Trato y Resolución de Conflictos II', gen: genBuenTrato4Round, rounds:8 },
   habitosestudio4: { title:'Hábitos de Trabajo Escolar II', gen: genHabitosEstudio4Round, rounds:8 },
   tecdigital4:   { title:'Tecnología Digital IV', gen: genTecDigital4Round, rounds:8 },
+  comprension5:  { title:'Comprensión V',     gen: genComprension5Round, rounds:8 },
+  recursospoeticos5: { title:'Recursos Poéticos', gen: genRecursosPoeticos5Round, rounds:8 },
+  vocabulario5:  { title:'Vocabulario y Sinónimos V', gen: genVocabulario5Round, rounds:8 },
+  gramatica5:    { title:'Gramática V',       gen: genGramatica5Round, rounds:8 },
+  ortografia5:   { title:'Ortografía III',    gen: genOrtografia5Round, rounds:8 },
+  numeros5:      { title:'Números Grandes',   gen: genNumeros5Round,   rounds:8 },
+  multiplicar5:  { title:'Multiplicar',       gen: genMultiplicar5Round, rounds:8 },
+  dividir5:      { title:'Dividir',           gen: genDividir5Round,   rounds:8 },
+  operaciones5:  { title:'Operaciones y Dinero', gen: genOperaciones5Round, rounds:8 },
+  fracciones5:   { title:'Fracciones III',    gen: genFracciones5Round, rounds:8 },
+  decimales5:    { title:'Decimales II',      gen: genDecimales5Round, rounds:8 },
+  patrones5:     { title:'Patrones y Ecuaciones III', gen: genPatrones5Round, rounds:8 },
+  geometria5:    { title:'Geometría V',       gen: genGeometria5Round, rounds:8 },
+  medicion5:     { title:'Medición y Área',   gen: genMedicion5Round,  rounds:8 },
+  datos5:        { title:'Datos y Probabilidades III', gen: genDatos5Round, rounds:8 },
+  celulasistemas5: { title:'Célula y Sistemas del Cuerpo', gen: genCelulaSistemas5Round, rounds:8 },
+  alimentacionsalud5: { title:'Alimentación y Salud', gen: genAlimentacionSalud5Round, rounds:8 },
+  electricidad5: { title:'Electricidad',      gen: genElectricidad5Round, rounds:8 },
+  aguatierra5:   { title:'Agua en la Tierra', gen: genAguaTierra5Round, rounds:8 },
+  conquista5:    { title:'Descubrimiento y Conquista de América', gen: genConquista5Round, rounds:8 },
+  colonia5:      { title:'La Colonia en Chile', gen: genColonia5Round, rounds:8 },
+  geografiachile5: { title:'Geografía de Chile', gen: genGeografiaChile5Round, rounds:8 },
+  ciudadania5:   { title:'Formación Ciudadana V', gen: genCiudadania5Round, rounds:8 },
+  lenguajevisual5: { title:'Lenguaje Visual III', gen: genLenguajeVisual5Round, rounds:8 },
+  texturamusical5: { title:'Texturas y Estructura Musical', gen: genTexturaMusical5Round, rounds:8 },
+  vidapostura5:  { title:'Vida Activa y Postura V', gen: genVidaPostura5Round, rounds:8 },
+  liderazgo5:    { title:'Liderazgo y Seguridad V', gen: genLiderazgo5Round, rounds:8 },
+  manejoemocional5: { title:'Manejo Emocional V', gen: genManejoEmocional5Round, rounds:8 },
+  autocuidadodigital5: { title:'Autocuidado Digital V', gen: genAutocuidadoDigital5Round, rounds:8 },
+  prevencionsaludable5: { title:'Prevención y Vida Saludable', gen: genPrevencionSaludable5Round, rounds:8 },
+  buentrato5:    { title:'Buen Trato y Resolución de Conflictos V', gen: genBuenTrato5Round, rounds:8 },
+  habitosestudio5: { title:'Hábitos de Trabajo Escolar V', gen: genHabitosEstudio5Round, rounds:8 },
+  tecdigital5:   { title:'Tecnología Digital V', gen: genTecDigital5Round, rounds:8 },
+  vocabularioingles5: { title:'Vocabulario Básico', gen: genVocabularioIngles5Round, rounds:8 },
+  lecturasimple5: { title:'Lectura Simple',   gen: genLecturaSimple5Round, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */
@@ -332,7 +387,7 @@ function drawMCRound(){
     '</div>'+
     '<div class="prompt-card">'+
       r.promptHTML+
-      (r.speakText ? '<button class="speak-btn" onclick="speak(\''+r.speakText+'\')">🔊 Escuchar</button>' : '')+
+      (r.speakText ? '<button class="speak-btn" onclick="speak(\''+r.speakText+'\''+(r.speakLang?',\''+r.speakLang+'\'':'')+')">🔊 Escuchar</button>' : '')+
     '</div>'+
     '<div class="'+gridClass+'" id="mcoptions">'+
       r.options.map(function(o,i){ return '<button class="'+optClass+'" data-i="'+i+'" onclick="answerMC('+i+')">'+o.label+'</button>'; }).join('')+

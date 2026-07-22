@@ -591,3 +591,211 @@ export function genOrtografia4Round(){
     explain: item.regla,
   };
 }
+
+/* ---------------- Contenido Lenguaje 5° Básico ----------------
+   Basado en OA del Decreto 439/2012, 5° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/lenguaje-comunicacion/5-basico):
+   Comprensión V -> OA02,04,06-08 (estrategias de comprensión con 4 ángulos:
+   inferencia narrativa, comprensión de texto no literario, evaluación
+   crítica de la información -emisor/propósito/suficiencia- e identificar la
+   idea principal de un párrafo). Recursos Poéticos -> OA05 (cómo el lenguaje
+   de un poema apela a los sentidos, personificación y comparación — un
+   ángulo nuevo, ninguna otra asignatura/año había ejercitado recursos
+   poéticos específicos). Vocabulario y Sinónimos V -> OA12,20 (estrategias
+   para el significado de palabras nuevas vía raíces/afijos/contexto, y
+   distinguir matices de significado entre sinónimos — más allá de solo
+   "sinónimo por contexto" ya cubierto en años anteriores). Gramática V ->
+   OA21 (conjugar correctamente verbos regulares en primera/segunda/tercera
+   persona y distintos tiempos). Ortografía III -> OA22 (uso de c/s/z, raya
+   de diálogo y acentuación — reglas distintas a las ya cubiertas en
+   Ortografía de 3° básico -mayúsculas/puntuación- y 4° básico -b/v, h,
+   ay/hay/ahí-).
+   Quedan fuera: OA01 (lectura oral fluida), OA03 (repertorio de géneros
+   literarios — ya cubierto por "Géneros Literarios" de 3° básico, no
+   repetir contenido casi idéntico), OA09-11 (gusto por la lectura,
+   biblioteca, buscar información en fuentes — actitudinales o de proceso),
+   OA13-19 (producción escrita: poemas, narraciones, artículos, planificación,
+   revisión), OA23-30 (comunicación oral: escuchar narraciones, teatro,
+   diálogo, exposición, declamación) — todos requieren desempeño real,
+   producción propia o depende de audio. */
+export const LENGUAJE_MODULES_G5 = [
+  {id:'comprension5', label:'Comprensión V', open:true, key:'comprension5'},
+  {id:'recursospoeticos5', label:'Recursos Poéticos', open:true, key:'recursospoeticos5'},
+  {id:'vocabulario5', label:'Vocabulario y Sinónimos V', open:true, key:'vocabulario5'},
+  {id:'gramatica5', label:'Gramática V', open:true, key:'gramatica5'},
+  {id:'ortografia5', label:'Ortografía III', open:true, key:'ortografia5'},
+];
+export const LENGUAJE_POS_G5 = [{x:22,y:90},{x:68,y:70},{x:22,y:50},{x:68,y:30},{x:22,y:10}];
+
+const COMPRENSION5_NARRATIVA_BANK = [
+  { text:'Cuando Ignacio vio que su hermana menor lloraba porque se le rompió su juguete, le prestó el suyo sin que ella se lo pidiera.', question:'¿Qué opinión podemos formarnos de Ignacio?', correct:'Que es una persona generosa y empática', opts:['Que es una persona egoísta','Que no le importan los demás','Que le gusta romper juguetes'], reason:'Prestar su juguete sin que se lo pidan muestra generosidad y empatía hacia su hermana.' },
+  { text:'La expedición llevaba tres días caminando por el desierto sin encontrar el oasis que buscaban, y el agua ya casi se les acababa.', question:'¿Qué consecuencia es más probable si no encuentran agua pronto?', correct:'Que empiecen a sufrir de sed y deban regresar', opts:['Que encuentren un supermercado','Que decidan quedarse a vivir ahí para siempre','Que el desierto se convierta en un bosque'], reason:'Sin agua en el desierto, la consecuencia lógica es sufrir sed y tener que buscar ayuda o regresar.' },
+  { text:'El faro se alzaba solitario sobre el acantilado, azotado por vientos helados, mientras las olas rompían furiosas contra las rocas.', question:'¿Qué ambiente describe este fragmento?', correct:'Un lugar costero, frío y tormentoso', opts:['Una playa cálida y soleada','Un desierto tranquilo','Una ciudad llena de gente'], reason:'Las palabras "acantilado", "vientos helados" y "olas furiosas" describen un ambiente costero y tormentoso.' },
+  { text:'Valentina practicó su presentación de ciencias todas las noches durante dos semanas, repitiendo cada parte frente al espejo.', question:'¿Qué podemos inferir sobre Valentina?', correct:'Que se preparó con mucha dedicación', opts:['Que improvisó todo el día de la presentación','Que no le interesaba la nota','Que se olvidó de la presentación'], reason:'Practicar todas las noches durante dos semanas muestra una dedicación notable.' },
+  { text:'El anciano guardaba con cariño una vieja fotografía en blanco y negro, mirándola cada tarde antes de que oscureciera.', question:'¿Qué podemos inferir sobre esa fotografía para el anciano?', correct:'Que tiene un gran valor sentimental para él', opts:['Que la encontró esa misma tarde','Que planea botarla pronto','Que no significa nada para él'], reason:'Guardarla con cariño y mirarla cada tarde muestra que tiene un gran valor sentimental.' },
+  { text:'Apenas el equipo visitante anotó el segundo gol, la mitad de las graderías se quedó en silencio mientras la otra mitad estallaba en gritos.', question:'¿Qué podemos inferir sobre los dos grupos de hinchas?', correct:'Que cada grupo apoyaba a un equipo distinto', opts:['Que a nadie le interesaba el partido','Que ambos grupos apoyaban al mismo equipo','Que el partido había terminado'], reason:'Reacciones opuestas (silencio vs. gritos de alegría) indican que apoyaban a equipos distintos.' },
+  { text:'Aunque el mago aseguraba que su truco era magia real, el niño notó un hilo casi invisible atado a la carta que "flotaba".', question:'¿Qué podemos inferir sobre el truco?', correct:'Que en realidad era un truco con un hilo, no magia real', opts:['Que la magia sí era real','Que el niño estaba soñando','Que la carta volaba sola'], reason:'Notar un hilo atado a la carta sugiere que el truco tenía una explicación física, no magia.' },
+  { text:'Desde que empezó a regar su huerto todos los días y a sacar las hierbas no deseadas, las plantas de tomate de Sofía crecieron el doble.', question:'¿Qué podemos inferir sobre el cuidado de Sofía?', correct:'Que su dedicación ayudó a que las plantas crecieran mejor', opts:['Que regar plantas no sirve de nada','Que las plantas crecieron por casualidad','Que Sofía dejó de cuidar su huerto'], reason:'El cuidado constante (regar, quitar hierbas) explica por qué las plantas crecieron mejor.' },
+];
+const COMPRENSION5_NOLITERARIO_BANK = [
+  { text:'Los volcanes activos de Chile se concentran principalmente en la Cordillera de los Andes, y el país tiene más de 500 volcanes, de los cuales unos 60 han tenido erupciones registradas.', question:'¿Cuántos volcanes de Chile han tenido erupciones registradas, según el texto?', correct:'Unos 60', opts:['Los 500','Ninguno','Solo 5'], reason:'El texto dice explícitamente que "unos 60 han tenido erupciones registradas".' },
+  { text:'Para reciclar correctamente: separa el papel y cartón del plástico y el vidrio, enjuaga los envases antes de depositarlos, y evita mezclar materiales orgánicos con los reciclables.', question:'¿Qué se debe hacer con los envases antes de reciclarlos?', correct:'Enjuagarlos', opts:['Romperlos en pedazos','Mezclarlos con basura orgánica','Quemarlos'], reason:'El texto indica explícitamente: "enjuaga los envases antes de depositarlos".' },
+  { text:'El artículo explica que la miel nunca se echa a perder si se guarda bien sellada, gracias a su bajo contenido de agua y su acidez natural, que impiden el crecimiento de bacterias.', question:'¿Por qué la miel no se echa a perder?', correct:'Porque su bajo contenido de agua y acidez impiden que crezcan bacterias', opts:['Porque siempre se guarda en el refrigerador','Porque no tiene ningún tipo de sabor','Porque se cocina antes de envasarla'], reason:'El texto explica la causa: "bajo contenido de agua y su acidez natural" impiden el crecimiento de bacterias.' },
+  { text:'La receta indica: primero hierve el agua, luego agrega la pasta y cocina por 10 minutos, cuela y finalmente mezcla con la salsa ya preparada.', question:'¿Qué se hace justo después de agregar la pasta al agua hirviendo?', correct:'Cocinarla por 10 minutos', opts:['Mezclarla con la salsa','Colarla de inmediato','Hervir el agua'], reason:'El texto sigue este orden: agregar la pasta y luego "cocina por 10 minutos".' },
+  { text:'Un folleto informativo señala que las abejas polinizan cerca del 70% de los cultivos que consumen los seres humanos, por lo que su desaparición afectaría gravemente la producción de alimentos.', question:'¿Qué pasaría si las abejas desaparecieran, según el texto?', correct:'Se afectaría gravemente la producción de alimentos', opts:['No cambiaría nada en la agricultura','Los cultivos crecerían más rápido','Solo afectaría a las flores, no a los alimentos'], reason:'El texto lo indica directamente: "su desaparición afectaría gravemente la producción de alimentos".' },
+  { text:'El aviso del municipio informa que la piscina pública abrirá de martes a domingo, de 10:00 a 18:00 horas, y permanecerá cerrada los lunes por mantención.', question:'¿Qué día permanece cerrada la piscina?', correct:'Los lunes', opts:['Los domingos','Los martes','Todos los días'], reason:'El texto lo indica explícitamente: "permanecerá cerrada los lunes por mantención".' },
+];
+const EVALUAR_INFO_BANK = [
+  { escenario:'Un sitio web asegura "esta crema hace crecer el pelo en 3 días" pero no menciona ningún estudio, doctor ni fuente que lo respalde.', pregunta:'¿Esta afirmación tiene suficiente respaldo para creerla?', correcta:'NO, PORQUE NO ENTREGA NINGUNA FUENTE QUE LA RESPALDE', opts:['SÍ, PORQUE LO DICE UN SITIO WEB','SÍ, PORQUE SUENA CONVINCENTE','NO IMPORTA SI TIENE FUENTES O NO'] },
+  { escenario:'Un artículo de una revista científica explica un descubrimiento citando el estudio, la universidad donde se hizo y el nombre de los investigadores.', pregunta:'¿Este artículo entrega información confiable?', correcta:'SÍ, PORQUE CITA FUENTES VERIFICABLES', opts:['NO, PORQUE ES DEMASIADO LARGO','NO, PORQUE HABLA DE CIENCIA','SÍ, PERO SOLO SI ES GRATIS'] },
+  { escenario:'Un anuncio dice: "todos los niños que compran nuestro cereal se convierten en los mejores deportistas del colegio".', pregunta:'¿Cuál es el propósito principal de este texto?', correcta:'CONVENCER A LOS NIÑOS DE COMPRAR EL CEREAL', opts:['INFORMAR SOBRE NUTRICIÓN DE FORMA OBJETIVA','ENSEÑAR REGLAS DE UN DEPORTE','DAR INSTRUCCIONES DE COCINA'] },
+  { escenario:'Una noticia sobre el clima cita datos de la Dirección Meteorológica de Chile y explica cómo se hizo la medición.', pregunta:'¿Cuál es el propósito principal de este texto?', correcta:'INFORMAR CON DATOS VERIFICABLES', opts:['CONVENCER DE COMPRAR UN PARAGUAS','CONTAR UN CUENTO DE FANTASÍA','EXPRESAR UNA OPINIÓN SIN DATOS'] },
+  { escenario:'Un mensaje de cadena en redes sociales dice "comparte esto o te pasará algo malo" sin dar ninguna explicación real.', pregunta:'¿Qué deberías hacer frente a este mensaje?', correcta:'NO CREERLO NI COMPARTIRLO, PORQUE NO TIENE NINGÚN RESPALDO', opts:['COMPARTIRLO INMEDIATAMENTE POR SI ACASO','CREERLO PORQUE LO ENVIÓ UN AMIGO','IGNORAR SI TIENE RESPALDO O NO'] },
+  { escenario:'Un folleto de una farmacia explica los efectos de un medicamento citando al Instituto de Salud Pública y sugiere consultar a un médico.', pregunta:'¿Este folleto entrega información confiable?', correcta:'SÍ, PORQUE CITA UNA FUENTE OFICIAL Y RECOMIENDA UN EXPERTO', opts:['NO, PORQUE ES UN FOLLETO IMPRESO','NO, PORQUE MENCIONA UN MEDICAMENTO','SÍ, PERO SOLO SI TIENE COLORES LLAMATIVOS'] },
+];
+const IDEA_PRINCIPAL_BANK = [
+  { parrafo:'El reciclaje ayuda a cuidar el planeta porque reduce la basura que llega a los vertederos, ahorra energía al reutilizar materiales, y disminuye la necesidad de extraer nuevos recursos naturales.', correcta:'El reciclaje beneficia al planeta de varias formas', opts:['El reciclaje solo sirve para el papel','Los vertederos son buenos para el planeta','Nunca se deben extraer recursos naturales'] },
+  { parrafo:'Dormir suficientes horas es esencial para los niños: ayuda a la memoria, mejora el ánimo durante el día y permite que el cuerpo crezca y se recupere del cansancio.', correcta:'Dormir bien trae muchos beneficios para los niños', opts:['Dormir mucho hace que los niños crezcan menos','Solo los adultos necesitan dormir bien','El ánimo no tiene relación con el sueño'] },
+  { parrafo:'Los volcanes se forman cuando el magma del interior de la Tierra sube a la superficie a través de grietas, y al enfriarse forma la roca que da origen a la montaña volcánica.', correcta:'Los volcanes se forman por el magma que sube y se enfría', opts:['Los volcanes siempre están en erupción','Los volcanes se forman solo con agua','El magma nunca llega a la superficie'] },
+  { parrafo:'Practicar un deporte en equipo enseña a los niños a comunicarse, a respetar reglas y a valorar el esfuerzo de sus compañeros tanto como el propio.', correcta:'Los deportes en equipo enseñan valores importantes', opts:['Los deportes en equipo son solo para ganar premios','Jugar en equipo impide hacer amigos','Las reglas no importan en los deportes'] },
+  { parrafo:'Las abejas no solo producen miel: también son esenciales para polinizar las flores de muchas plantas que después se convierten en frutas y verduras que comemos.', correcta:'Las abejas son importantes por la miel y por la polinización', opts:['Las abejas solo sirven para hacer miel','Las plantas no necesitan polinización','Las abejas no tienen relación con los alimentos'] },
+];
+
+export function genComprension5Round(){
+  const roll = Math.random();
+  if(roll<0.25){
+    const item = pick(COMPRENSION5_NARRATIVA_BANK);
+    const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+      options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
+      explain: item.reason,
+    };
+  }
+  if(roll<0.5){
+    const item = pick(COMPRENSION5_NOLITERARIO_BANK);
+    const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+      options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
+      explain: item.reason,
+    };
+  }
+  if(roll<0.75){
+    const item = pick(EVALUAR_INFO_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.escenario+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.escenario, cols:2, panel:true,
+      explain: 'La respuesta correcta es: <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(IDEA_PRINCIPAL_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.parrafo+'</p><p class="prompt-hint">¿Cuál oración resume mejor la idea principal del párrafo?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.parrafo, cols:2, panel:true,
+    explain: 'La idea principal es: <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+const RECURSOS_POETICOS_BANK = [
+  { verso:'El viento susurraba secretos entre las hojas del bosque.', recurso:'PERSONIFICACIÓN', explicacion:'Le da al viento una acción humana ("susurrar secretos") que en realidad no puede hacer.' },
+  { verso:'La luna sonreía traviesa sobre el tejado de la casa.', recurso:'PERSONIFICACIÓN', explicacion:'Le da a la luna una expresión humana ("sonreía traviesa") que en realidad no tiene.' },
+  { verso:'Sus ojos brillaban como dos estrellas en la noche.', recurso:'COMPARACIÓN', explicacion:'Usa la palabra "como" para comparar los ojos con las estrellas.' },
+  { verso:'Su voz era tan suave como una caricia.', recurso:'COMPARACIÓN', explicacion:'Usa la palabra "como" para comparar la voz con una caricia.' },
+  { verso:'El río corría cantando alegre entre las piedras.', recurso:'PERSONIFICACIÓN', explicacion:'Le da al río la capacidad humana de "cantar", que en realidad no tiene.' },
+  { verso:'Sus manos eran frías como el hielo del invierno.', recurso:'COMPARACIÓN', explicacion:'Usa la palabra "como" para comparar sus manos con el hielo.' },
+  { verso:'El fuego devoraba con furia cada rincón del bosque.', recurso:'PERSONIFICACIÓN', explicacion:'Le da al fuego una acción y emoción humana ("devorar con furia").' },
+  { verso:'El aroma del pan recién horneado inundaba toda la casa.', recurso:'APELA AL OLFATO', explicacion:'Describe un olor (el aroma del pan) para que el lector casi pueda sentirlo.' },
+  { verso:'El sonido de las campanas retumbaba dulce en el silencio de la plaza.', recurso:'APELA AL OÍDO', explicacion:'Describe un sonido (las campanas) para que el lector casi pueda escucharlo.' },
+  { verso:'El sabor agridulce de la fruta madura llenó su boca.', recurso:'APELA AL GUSTO', explicacion:'Describe un sabor (agridulce) para que el lector casi pueda saborearlo.' },
+];
+export function genRecursosPoeticos5Round(){
+  const item = pick(RECURSOS_POETICOS_BANK);
+  const todos = ['PERSONIFICACIÓN','COMPARACIÓN','APELA AL OLFATO','APELA AL OÍDO','APELA AL GUSTO'];
+  const distract = shuffle(todos.filter(function(r){ return r!==item.recurso; })).slice(0,3);
+  const opts = shuffle([item.recurso].concat(distract)).map(function(r){ return {label:r, value:r}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">"'+item.verso+'"</p><p class="prompt-hint">¿Qué recurso del lenguaje poético se usa en este verso?</p>',
+    options: opts, correctValue: item.recurso, speakText: item.verso, cols:2, kind:'word', panel:true,
+    explain: item.explicacion,
+  };
+}
+
+const RAICES_AFIJOS_BANK = [
+  { palabra:'BIÓLOGO', raiz:'BIO', significadoRaiz:'Vida', significadoPalabra:'Persona que estudia los seres vivos' },
+  { palabra:'TELÉFONO', raiz:'TELE', significadoRaiz:'A distancia', significadoPalabra:'Aparato para hablar a distancia' },
+  { palabra:'ACUARIO', raiz:'ACUA', significadoRaiz:'Agua', significadoPalabra:'Lugar donde se guardan animales acuáticos' },
+  { palabra:'AUTOBIOGRAFÍA', raiz:'AUTO', significadoRaiz:'Uno mismo', significadoPalabra:'Historia de la vida de una persona escrita por ella misma' },
+  { palabra:'GEOGRAFÍA', raiz:'GEO', significadoRaiz:'Tierra', significadoPalabra:'Ciencia que estudia la superficie de la Tierra' },
+  { palabra:'FOTOGRAFÍA', raiz:'FOTO', significadoRaiz:'Luz', significadoPalabra:'Imagen capturada usando la luz' },
+];
+const MATICES_SINONIMOS_BANK = [
+  { oracion:'Después del maratón, el corredor estaba ___.', mejor:'EXHAUSTO', peor:'UN POCO CANSADO', explicacion:'"Exhausto" transmite un cansancio extremo, mucho más intenso que "un poco cansado" — mejor para describir a alguien que acaba de correr un maratón.' },
+  { oracion:'La sopa que preparó la abuela estaba ___.', mejor:'DELICIOSA', peor:'ALGO COMESTIBLE', explicacion:'"Deliciosa" transmite un sabor muy agradable, mientras que "algo comestible" apenas dice que se puede comer — mucho menos elogioso.' },
+  { oracion:'El examen fue tan difícil que Marco quedó ___.', mejor:'DESCONCERTADO', peor:'UN POCO CONFUNDIDO', explicacion:'"Desconcertado" transmite una confusión mucho más fuerte que "un poco confundido" — mejor para un examen muy difícil.' },
+  { oracion:'La noticia de que ganó el premio lo dejó ___.', mejor:'EUFÓRICO', peor:'MEDIANAMENTE CONTENTO', explicacion:'"Eufórico" transmite una alegría intensa, mucho mayor que "medianamente contento" — mejor para una noticia tan buena.' },
+  { oracion:'El silencio en la biblioteca era ___.', mejor:'ABSOLUTO', peor:'BASTANTE NOTORIO', explicacion:'"Absoluto" transmite que no había ningún ruido en lo absoluto, más preciso que "bastante notorio" para describir el silencio de una biblioteca.' },
+];
+export function genVocabulario5Round(){
+  if(Math.random()<0.5){
+    const item = pick(RAICES_AFIJOS_BANK);
+    const distract = shuffle(RAICES_AFIJOS_BANK.filter(function(r){ return r.raiz!==item.raiz; })).slice(0,3).map(function(r){ return r.significadoRaiz; });
+    const opts = shuffle([item.significadoRaiz].concat(distract)).map(function(s){ return {label:s, value:s}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+item.palabra+'</p><p class="prompt-hint">Esta palabra contiene la raíz "'+item.raiz.toLowerCase()+'". ¿Qué significa esa raíz?</p>',
+      options: opts, correctValue: item.significadoRaiz, speakText: item.palabra, cols:2, panel:true,
+      explain: 'La raíz "'+item.raiz.toLowerCase()+'" significa <b>'+item.significadoRaiz.toLowerCase()+'</b>, por eso "'+item.palabra.toLowerCase()+'" significa: '+item.significadoPalabra.toLowerCase()+'.',
+    };
+  }
+  const item = pick(MATICES_SINONIMOS_BANK);
+  const opts = shuffle([{label:item.mejor, value:'mejor'},{label:item.peor, value:'peor'}]);
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.oracion+'</p><p class="prompt-hint">¿Cuál palabra transmite la idea con más fuerza e intensidad?</p>',
+    options: opts, correctValue: 'mejor', speakText: item.oracion, cols:2, kind:'word',
+    explain: item.explicacion,
+  };
+}
+
+const CONJUGACION_BANK = [
+  { texto:'Ayer, yo ___ (CAMINAR) hasta la escuela.', correcto:'CAMINÉ', malas:['CAMINO','CAMINABA','CAMINARÁ'] },
+  { texto:'Mañana, ella ___ (ESTUDIAR) para la prueba.', correcto:'ESTUDIARÁ', malas:['ESTUDIÓ','ESTUDIA','ESTUDIABA'] },
+  { texto:'Todos los días, nosotros ___ (COMER) fruta en el recreo.', correcto:'COMEMOS', malas:['COMIMOS','COMERÁ','COMÍA'] },
+  { texto:'El año pasado, tú ___ (VIAJAR) a la playa con tu familia.', correcto:'VIAJASTE', malas:['VIAJAS','VIAJARÁS','VIAJANDO'] },
+  { texto:'Cuando era pequeño, yo ___ (JUGAR) todas las tardes en el parque.', correcto:'JUGABA', malas:['JUGARÉ','JUEGO','JUGUÉ'] },
+  { texto:'La próxima semana, ellos ___ (VISITAR) el museo.', correcto:'VISITARÁN', malas:['VISITARON','VISITAN','VISITABAN'] },
+  { texto:'Ahora mismo, el perro ___ (CORRER) por el jardín.', correcto:'CORRE', malas:['CORRIÓ','CORRERÁ','CORRÍA'] },
+  { texto:'Anoche, ustedes ___ (LEER) un cuento antes de dormir.', correcto:'LEYERON', malas:['LEEN','LEERÁN','LEÍAN'] },
+];
+export function genGramatica5Round(){
+  const item = pick(CONJUGACION_BANK);
+  const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué forma del verbo completa correctamente la oración?</p>',
+    options: opts, correctValue: item.correcto, speakText: item.texto, cols:4, kind:'word',
+    explain: '<b>'+item.correcto+'</b> es la conjugación correcta del verbo para ese momento y esa persona.',
+  };
+}
+
+const ORTOGRAFIA5_BANK = [
+  { incorrecta:'El sesped del jardín estaba recién cortado', correcta:'El césped del jardín estaba recién cortado', regla:'Se escribe con C: "césped".' },
+  { incorrecta:'Ella serró la caja con mucho cuidado', correcta:'Ella cerró la caja con mucho cuidado', regla:'Se escribe con Z: "cerró" (de cerrar), no con S.' },
+  { incorrecta:'La avestrus corrió muy rápido por la sabana', correcta:'La avestruz corrió muy rápido por la sabana', regla:'Se escribe con Z al final: "avestruz", no con S.' },
+  { incorrecta:'El vaso se rompió en mil pedasos', correcta:'El vaso se rompió en mil pedazos', regla:'Se escribe con Z: "pedazos".' },
+  { incorrecta:'—¿Vienes a mi cumpleaños? preguntó Camila.', correcta:'—¿Vienes a mi cumpleaños? —preguntó Camila.', regla:'Se necesita una segunda raya de diálogo antes de "preguntó", para separar la acotación del narrador de lo que dice el personaje.' },
+  { incorrecta:'—Ya casi llegamos, dijo el guía sin detenerse.', correcta:'—Ya casi llegamos —dijo el guía sin detenerse.', regla:'Se necesita una raya de diálogo antes de "dijo", para separar la acotación del narrador.' },
+  { incorrecta:'El sabado iremos de excursion a la montaña', correcta:'El sábado iremos de excursión a la montaña', regla:'Llevan tilde: "sábado" (esdrújula) y "excursión" (aguda terminada en N).' },
+  { incorrecta:'La musica del festival se escucho desde muy lejos', correcta:'La música del festival se escuchó desde muy lejos', regla:'Llevan tilde: "música" (esdrújula) y "escuchó" (aguda terminada en vocal).' },
+  { incorrecta:'El osso pardo hiberna durante el invierno', correcta:'El oso pardo hiberna durante el invierno', regla:'Se escribe con una sola S: "oso".' },
+  { incorrecta:'La bruja lansó un hechizo misterioso', correcta:'La bruja lanzó un hechizo misterioso', regla:'Se escribe con Z: "lanzó".' },
+];
+export function genOrtografia5Round(){
+  const item = pick(ORTOGRAFIA5_BANK);
+  const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál oración está bien escrita?</p>',
+    options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
+    explain: item.regla,
+  };
+}

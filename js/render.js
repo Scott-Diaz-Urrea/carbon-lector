@@ -11,7 +11,7 @@ import { renderCaligrafiaScreen, initCaligrafiaGame } from './games/caligrafia.j
 import {
   LENGUAJE_BY_GRADE, MATE_BY_GRADE, CIENCIAS_BY_GRADE, HISTORIA_BY_GRADE,
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
-  TECNOLOGIA_BY_GRADE, SUBJECT_DEFS, NUCLEO_DEFS,
+  TECNOLOGIA_BY_GRADE, INGLES_BY_GRADE, SUBJECT_DEFS, NUCLEO_DEFS,
 } from './gradeContent.js';
 
 export function render(){
@@ -42,6 +42,7 @@ export function render(){
   else if(scr === 'edfisicaMap') body = renderEdFisicaMap();
   else if(scr === 'orientacionMap') body = renderOrientacionMap();
   else if(scr === 'tecnologiaMap') body = renderTecnologiaMap();
+  else if(scr === 'inglesMap') body = renderInglesMap();
   else if(MC_KEYS.indexOf(scr) !== -1) body = renderMCScreen();
   else if(scr === 'silabas') body = renderSilabasScreen();
   else if(scr === 'secuencia') body = renderSecuenciaScreen();
@@ -291,4 +292,9 @@ function renderTecnologiaMap(){
   const data = TECNOLOGIA_BY_GRADE[state.currentGrade];
   if(!data) return renderComingSoonSubject('Tecnología');
   return renderModuleMap('Tecnología','⚙️ Alineado a Tecnología · '+gradeLabel(state.currentGrade), data.modules, data.pos, data.height);
+}
+function renderInglesMap(){
+  const data = INGLES_BY_GRADE[state.currentGrade];
+  if(!data) return renderComingSoonSubject('Inglés');
+  return renderModuleMap('Inglés','🔤 Alineado a Inglés · '+gradeLabel(state.currentGrade), data.modules, data.pos, data.height);
 }

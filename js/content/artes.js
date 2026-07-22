@@ -1,5 +1,5 @@
 import { pick, shuffle } from '../utils.js';
-import { colorSwatchSVG, lineTypeSVG, piedraSVG, espejoSVG, plasticinaSVG } from '../svg.js';
+import { colorSwatchSVG, lineTypeSVG, piedraSVG, espejoSVG, plasticinaSVG, shapeSVG } from '../svg.js';
 
 export const ARTES_MODULES = [
   {id:'colores', label:'Colores', open:true, key:'colores'},
@@ -269,5 +269,81 @@ export function genLenguajeVisual4Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+/* ---------------- Contenido Artes Visuales 5° Básico ----------------
+   Basado en OA del Decreto 439/2012, 5° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/artes-visuales/5-basico):
+   Lenguaje Visual III -> OA02 (color complementario; formas abiertas y
+   cerradas; luz y sombra — conceptos nuevos respecto a 3°-4° básico, que
+   cubrieron color cálido/frío/expresivo, tono/matiz y forma figurativa/no
+   figurativa). Quedan fuera: OA01,03 (crear trabajos de arte propios a
+   partir de la observación del entorno, con distintos materiales y
+   herramientas — producción propia) y OA04-05 (analizar/interpretar obras
+   de arte reales y comparar trabajos propios y de pares — apreciación
+   subjetiva, además de requerir datos verificables sobre obras específicas
+   que arriesgarían imprecisión sin una fuente adicional). */
+export const ARTES_MODULES_G5 = [
+  {id:'lenguajevisual5', label:'Lenguaje Visual III', open:true, key:'lenguajevisual5'},
+];
+export const ARTES_POS_G5 = [{x:50,y:50}];
+
+const COLOR_COMPLEMENTARIO_BANK = [
+  { color:'ROJO', complementario:'VERDE' }, { color:'AZUL', complementario:'NARANJO' }, { color:'AMARILLO', complementario:'MORADO' },
+];
+const FORMAS_CERRADAS_BANK = [
+  { id:'circulo', label:'CÍRCULO' }, { id:'cuadrado', label:'CUADRADO' },
+  { id:'triangulo', label:'TRIÁNGULO' }, { id:'rombo', label:'ROMBO' },
+  { id:'hexagono', label:'HEXÁGONO' },
+];
+const FORMAS_ABIERTAS_DESC = [
+  'Una línea en zigzag que nunca se junta consigo misma, sin encerrar ningún espacio.',
+  'Una línea curva que serpentea de un lado del papel al otro, sin volver al punto donde empezó.',
+  'Una línea recta que solo llega hasta la mitad del papel, sin formar ninguna figura cerrada.',
+  'Una línea en espiral que nunca termina de cerrarse sobre sí misma.',
+];
+const LUZ_SOMBRA_BANK = [
+  { pregunta:'¿Para qué se usa la sombra al dibujar un objeto redondo, como una pelota?', correcta:'PARA DARLE SENSACIÓN DE VOLUMEN Y PROFUNDIDAD', opts:['PARA BORRAR EL DIBUJO','PARA CAMBIAR SU FORMA REAL','PARA QUITARLE COLOR AL DIBUJO'] },
+  { pregunta:'¿Qué es la "sombra propia" de un objeto?', correcta:'LA PARTE DEL OBJETO QUE NO RECIBE LUZ DIRECTA', opts:['LA SOMBRA QUE EL OBJETO PROYECTA EN EL SUELO','EL COLOR ORIGINAL DEL OBJETO','EL BRILLO MÁS CLARO DEL OBJETO'] },
+  { pregunta:'¿Qué es la "sombra proyectada" de un objeto?', correcta:'LA SOMBRA QUE EL OBJETO ARROJA SOBRE OTRA SUPERFICIE, COMO EL SUELO', opts:['LA PARTE MÁS OSCURA DEL PROPIO OBJETO','EL COLOR MÁS BRILLANTE DEL OBJETO','LA FORMA EXACTA DEL OBJETO'] },
+  { pregunta:'Si la luz viene de un solo lado de un objeto, ¿qué ocurre en el lado opuesto?', correcta:'SE FORMA UNA ZONA DE SOMBRA', opts:['SE FORMA UN BRILLO MÁS INTENSO','EL OBJETO CAMBIA DE COLOR POR COMPLETO','NO OCURRE NINGÚN CAMBIO VISUAL'] },
+];
+export function genLenguajeVisual5Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(COLOR_COMPLEMENTARIO_BANK);
+    const todos = ['VERDE','NARANJO','MORADO','ROJO','AZUL','AMARILLO'];
+    const distract = shuffle(todos.filter(function(c){ return c!==item.complementario; })).slice(0,3);
+    const opts = shuffle([item.complementario].concat(distract)).map(function(c){ return {label:c, value:c}; });
+    return {
+      promptHTML: '<div class="shape-display">'+colorSwatchSVG(item.color,90)+'</div><p class="prompt-hint">El color '+item.color+'. ¿Cuál es su color complementario (el que está justo enfrente en el círculo cromático)?</p>',
+      options: opts, correctValue: item.complementario, speakText: '¿Cuál es el color complementario del '+item.color.toLowerCase()+'?', cols:4, kind:'word',
+      explain: 'El complementario del '+item.color.toLowerCase()+' es el <b>'+item.complementario.toLowerCase()+'</b>.',
+    };
+  }
+  if(roll<0.67){
+    const opts = shuffle([{label:'FORMA CERRADA', value:true},{label:'FORMA ABIERTA', value:false}]);
+    if(Math.random()<0.5){
+      const item = pick(FORMAS_CERRADAS_BANK);
+      return {
+        promptHTML: '<div class="shape-display">'+shapeSVG(item.id,100)+'</div><p class="prompt-hint">¿Esta figura es una forma abierta o cerrada?</p>',
+        options: opts, correctValue: true, speakText: '¿Es una forma abierta o cerrada?', cols:2, panel:true,
+        explain: 'Un(a) '+item.label.toLowerCase()+' es una <b>forma cerrada</b>: su línea vuelve al punto donde comenzó, encerrando un espacio.',
+      };
+    }
+    const desc = pick(FORMAS_ABIERTAS_DESC);
+    return {
+      promptHTML: '<p class="prompt-sentence">'+desc+'</p><p class="prompt-hint">¿Es una forma abierta o cerrada?</p>',
+      options: opts, correctValue: false, speakText: '¿Es una forma abierta o cerrada?', cols:2, panel:true,
+      explain: 'Esto es una <b>forma abierta</b>: su línea no vuelve al punto de partida, así que no encierra ningún espacio.',
+    };
+  }
+  const item = pick(LUZ_SOMBRA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
   };
 }

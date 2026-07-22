@@ -50,7 +50,17 @@ export const state = {
            dinamicatempo4:0,
            condicionfisica4:0, seguridad4:0,
            manejoemocional4:0, autocuidado4:0, buentrato4:0, habitosestudio4:0,
-           tecdigital4:0 },
+           tecdigital4:0,
+           comprension5:0, recursospoeticos5:0, vocabulario5:0, gramatica5:0, ortografia5:0,
+           numeros5:0, multiplicar5:0, dividir5:0, operaciones5:0, fracciones5:0, decimales5:0, patrones5:0, geometria5:0, medicion5:0, datos5:0,
+           celulasistemas5:0, alimentacionsalud5:0, electricidad5:0, aguatierra5:0,
+           conquista5:0, colonia5:0, geografiachile5:0, ciudadania5:0,
+           lenguajevisual5:0,
+           texturamusical5:0,
+           vidapostura5:0, liderazgo5:0,
+           manejoemocional5:0, autocuidadodigital5:0, prevencionsaludable5:0, buentrato5:0, habitosestudio5:0,
+           tecdigital5:0,
+           vocabularioingles5:0, lecturasimple5:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

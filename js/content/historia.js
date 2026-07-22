@@ -669,7 +669,8 @@ export function genCiudadania5Round(){
    Basado en OA del Decreto 439/2012, 6° básico (curriculumnacional.cl/curriculum/
    1o-6o-basico/historia-geografia-ciencias-sociales/6-basico). Hechos históricos
    verificados con fuentes adicionales antes de escribir el contenido (Guerra del
-   Pacífico, voto femenino) dada la sensibilidad de acertar fechas y datos exactos.
+   Pacífico, voto femenino, fechas del golpe de Estado/plebiscito/retorno a la
+   democracia) dada la sensibilidad de acertar fechas y datos exactos.
    Independencia de Chile -> OA01-02 (Primera Junta de 1810, Reconquista española,
    cruce de los Andes, batalla de Maipú 1818 — hitos ampliamente documentados de
    historia nacional, no afirmaciones de una sola fuente). La República en el Siglo
@@ -678,20 +679,29 @@ export function genCiudadania5Round(){
    (Guerra del Pacífico 1879-1883 presentada de forma neutral y factual -Chile
    incorpora territorios del actual norte del país-, período salitrero, la
    "cuestión social" descrita a nivel básico sin profundizar en episodios de
-   violencia específicos). Chile en el Siglo XX: Democratización -> OA07 (voto
-   femenino: ley aprobada en 1949, verificado con fuentes). Geografía de Chile VI
+   violencia específicos). Chile en el Siglo XX -> OA07 (voto femenino: ley
+   aprobada en 1949, verificado con fuentes) **y OA08** (revisado tras
+   conversarlo explícitamente con el usuario: la primera versión de este PR
+   excluía por completo OA08 porque el propio texto pide comparar "múltiples
+   perspectivas" sobre el quiebre democrático y el régimen militar — eso sigue
+   siendo cierto y la interpretación del período NO se incluye aquí. Pero hay
+   hechos puntuales indiscutibles y verificables -fechas, quién asumió, cuánto
+   duró- que sí tienen una única respuesta correcta y que un niño de 6° básico
+   necesita conocer como línea de tiempo básica del país: el golpe de Estado del
+   11 de septiembre de 1973, el plebiscito del 5 de octubre de 1988, y el
+   retorno a un gobierno electo democráticamente el 11 de marzo de 1990 con
+   Patricio Aylwin. Se agregaron esos 5 hechos cronológicos al banco de
+   SIGLOXX_DEMOCRATIZACION_BANK, deliberadamente sin ningún juicio de valor
+   sobre el período -ni "bueno/malo", ni causas, ni consecuencias, ni derechos
+   humanos- para no forzar una sola interpretación de un tema que el propio
+   currículum reconoce como multiperspectivo; esa conversación queda para la
+   sala de clases con un profesor, tal como pide el OA). Geografía de Chile VI
    -> OA10-14 (territorio tricontinental -América, Oceanía con Isla de Pascua, y
    la Antártica-, ambientes naturales, desafíos/oportunidades, el terremoto de
    Valdivia de 1960 como el mayor registrado en la historia -hecho científico
    ampliamente documentado-). Formación Ciudadana VI -> OA15-23 (poderes del
    Estado, la Constitución, derechos y deberes, actitudes cívicas, trabajo en
    equipo, elecciones de curso, proyectos comunitarios).
-   Quedan deliberadamente fuera: **OA08** ("Comparar visiones sobre el quiebre
-   democrático, régimen militar y recuperación democrática, considerando múltiples
-   perspectivas") — el propio texto del OA pide "múltiples perspectivas" sobre un
-   período históricamente contestado y sensible en la sociedad chilena; esto
-   requiere una discusión guiada por un profesor en la sala de clases, no una
-   trivia de opción múltiple con una única respuesta correcta en una app general.
    También quedan fuera OA21 (autoridades político-administrativas de una región,
    cuyo nombre/cargo cambió con la reforma de 2021 -de intendente a gobernador
    regional electo- y podría volver a cambiar, arriesgando desactualizarse) y
@@ -752,6 +762,11 @@ const SIGLOXX_DEMOCRATIZACION_BANK = [
   { pregunta:'¿Bajo qué presidente se aprobó la ley que dio a las mujeres chilenas el voto en elecciones presidenciales?', correcta:'GABRIEL GONZÁLEZ VIDELA', opts:['BERNARDO O HIGGINS','ARTURO PRAT','DIEGO PORTALES'] },
   { pregunta:'¿Quién fue elegido Presidente de Chile en 1952, en la primera elección con voto femenino?', correcta:'CARLOS IBÁÑEZ DEL CAMPO', opts:['BERNARDO O HIGGINS','JOSÉ DE SAN MARTÍN','PEDRO DE VALDIVIA'] },
   { pregunta:'¿Qué institución del Estado se encarga de organizar y fiscalizar las elecciones en Chile?', correcta:'EL SERVICIO ELECTORAL', opts:['EL EJÉRCITO','UNA EMPRESA PRIVADA CUALQUIERA','UN PERIÓDICO'] },
+  { pregunta:'¿En qué fecha ocurrió el golpe de Estado que terminó con el gobierno del presidente Salvador Allende?', correcta:'EL 11 DE SEPTIEMBRE DE 1973', opts:['EL 18 DE SEPTIEMBRE DE 1810','EL 11 DE MARZO DE 1990','EL 5 DE OCTUBRE DE 1988'] },
+  { pregunta:'¿En qué año se realizó el plebiscito en que la mayoría de los chilenos votó para no continuar bajo el mismo gobierno?', correcta:'1988', opts:['1973','1990','1810'] },
+  { pregunta:'¿En qué fecha asumió Patricio Aylwin la presidencia, marcando el retorno a un gobierno elegido democráticamente?', correcta:'EL 11 DE MARZO DE 1990', opts:['EL 11 DE SEPTIEMBRE DE 1973','EL 5 DE OCTUBRE DE 1988','EL 18 DE SEPTIEMBRE DE 1810'] },
+  { pregunta:'¿Cuántos años duró el período de gobierno militar en Chile, entre 1973 y 1990?', correcta:'17 AÑOS', opts:['5 AÑOS','50 AÑOS','2 AÑOS'] },
+  { pregunta:'¿Quién fue el primer Presidente elegido democráticamente después del período de gobierno militar?', correcta:'PATRICIO AYLWIN', opts:['SALVADOR ALLENDE','GABRIEL GONZÁLEZ VIDELA','CARLOS IBÁÑEZ DEL CAMPO'] },
 ];
 const GEOGRAFIA_CHILE6_BANK = [
   { pregunta:'Chile es un país tricontinental. ¿Qué significa esto?', correcta:'TIENE TERRITORIO EN TRES CONTINENTES: AMÉRICA, OCEANÍA Y LA ANTÁRTICA', opts:['TIENE TRES CAPITALES DIFERENTES','ESTÁ FORMADO POR TRES PAÍSES UNIDOS','TIENE TRES IDIOMAS OFICIALES'] },

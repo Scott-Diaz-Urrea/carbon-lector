@@ -39,7 +39,7 @@ export const CIENCIAS_BY_GRADE = {
   3: { modules: CIENCIAS_MODULES_G3, pos: CIENCIAS_POS_G3, height: 560 },
   4: { modules: CIENCIAS_MODULES_G4, pos: CIENCIAS_POS_G4, height: 420 },
   5: { modules: CIENCIAS_MODULES_G5, pos: CIENCIAS_POS_G5, height: 420 },
-  6: { modules: CIENCIAS_MODULES_G6, pos: CIENCIAS_POS_G6, height: 480 },
+  6: { modules: CIENCIAS_MODULES_G6, pos: CIENCIAS_POS_G6, height: 560 },
 };
 export const HISTORIA_BY_GRADE = {
   1: { modules: HISTORIA_MODULES, pos: HISTORIA_POS, height: 420 },

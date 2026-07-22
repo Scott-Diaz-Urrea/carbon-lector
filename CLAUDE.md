@@ -1022,7 +1022,7 @@ módulos de toda la app, pasan 300 sesiones simuladas cada uno sin ningún
 repetido, y 100-300 iteraciones de fuzz estructural sin `undefined`, opciones
 duplicadas dentro de una ronda, ni `correctValue` ausente de las opciones.
 
-### 6° Básico — ✅ completo (38 módulos, las 9 asignaturas + Inglés)
+### 6° Básico — ✅ completo (39 módulos, las 9 asignaturas + Inglés)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
 curriculum/1o-6o-basico/<asignatura>/6-basico. Varios OA de 6° básico repiten
 textualmente el mismo texto de 5° básico (Música, Ed. Física, Orientación,
@@ -1057,34 +1057,41 @@ afirmaciones completamente nuevos en vez de duplicar contenido.
   de barra doble y gráfico circular nuevos -`doubleBarChartHTML()`/
   `pieChartHTML()`/`pieChartSVG()`- — OA22-24). Ningún OA de 6° básico queda
   fuera.
-- **Ciencias Naturales** (5): Fotosíntesis y Cadenas Alimentarias (OA01-03),
-  Hábitos Saludables y Prevención (actividad física/higiene durante el
-  crecimiento, efectos nocivos de las drogas — OA06-07), Energía y sus
+- **Ciencias Naturales** (6): Fotosíntesis y Cadenas Alimentarias (OA01-03),
+  **Sistema Reproductor y Pubertad** (OA04-05 — estructuras y función del
+  sistema reproductor femenino/masculino, cambios físicos observables de la
+  pubertad, tratados de forma estrictamente anatómica y factual, igual que
+  los demás sistemas del cuerpo ya cubiertos en 5° básico; agregado tras
+  conversarlo explícitamente con el usuario — la primera versión de este PR
+  excluía el OA por completo, pero el currículum oficial sí lo cubre
+  clínicamente a esta edad. Lo afectivo/vincular/de intimidad sigue siendo
+  terreno exclusivo de Orientación, excluido ahí desde 3° básico), Hábitos
+  Saludables y Prevención (actividad física/higiene durante el crecimiento,
+  efectos nocivos de las drogas — OA06-07), Energía y sus
   Transformaciones (OA08-09,11), Calor, Temperatura y Estados de la Materia
-  (OA10,12-15), La Tierra: Capas, Suelo y Erosión (OA16-18). **Fuera
-  deliberadamente: OA04-05** (estructuras y funciones del sistema
-  reproductor humano, y los cambios de la pubertad en profundidad anatómica)
-  — mismo criterio que excluye "desarrollo afectivo y sexual" en Orientación
-  desde 3° básico: requiere el acompañamiento real de un adulto/profesor en
-  una instancia dedicada, no una trivia de opción múltiple en una app
-  general que también usan familias con niños más pequeños.
+  (OA10,12-15), La Tierra: Capas, Suelo y Erosión (OA16-18). Los 18 OA de
+  6° básico quedan cubiertos, ninguno queda fuera.
 - **Historia, Geografía y Cs. Sociales** (6): Independencia de Chile
   (Primera Junta 1810, cruce de los Andes, batalla de Maipú 1818 — OA01-02),
   La República en el Siglo XIX (Constitución de 1833, ferrocarril, educación
   — OA03-04,09), Salitre y Expansión Territorial (Guerra del Pacífico
   1879-1883 presentada de forma neutral y factual, período salitrero,
   "cuestión social" — OA05-06), Chile en el Siglo XX (voto femenino: ley de
-  1949, verificado con fuentes adicionales — OA07), Geografía de Chile VI
-  (territorio tricontinental, ambientes naturales, terremoto de Valdivia
-  1960 — OA10-14), Formación Ciudadana VI (poderes del Estado, la
-  Constitución, derechos y deberes, elecciones de curso, proyectos
-  comunitarios — OA15-23). **Fuera deliberadamente: OA08** ("Comparar
-  visiones sobre el quiebre democrático, régimen militar y recuperación
-  democrática, considerando múltiples perspectivas") — el propio texto del
-  OA exige "múltiples perspectivas" sobre un período histórico
-  contestado y sensible en la sociedad chilena; eso requiere una discusión
-  guiada por un profesor en la sala de clases, no una trivia de opción
-  múltiple con una única respuesta correcta. También fuera: OA21
+  1949; **y OA08** con hechos puramente cronológicos e indiscutibles del
+  golpe de Estado del 11 de septiembre de 1973, el plebiscito del 5 de
+  octubre de 1988, y el retorno a un gobierno electo el 11 de marzo de 1990
+  con Patricio Aylwin — fechas verificadas con fuentes adicionales antes de
+  escribir el contenido. Agregado tras conversarlo explícitamente con el
+  usuario: la primera versión de este PR excluía OA08 por completo porque
+  el propio texto pide comparar "múltiples perspectivas" sobre el quiebre
+  democrático y el régimen militar; esa interpretación sigue sin incluirse
+  -ningún juicio de valor, causa o consecuencia-, pero los hitos
+  cronológicos básicos sí tienen una única respuesta correcta y un niño de
+  6° básico necesita conocerlos como línea de tiempo del país — OA07-08),
+  Geografía de Chile VI (territorio tricontinental, ambientes naturales,
+  terremoto de Valdivia 1960 — OA10-14), Formación Ciudadana VI (poderes
+  del Estado, la Constitución, derechos y deberes, elecciones de curso,
+  proyectos comunitarios — OA15-23). Fuera: OA21
   (autoridades político-administrativas de una región, cuyo nombre/cargo
   cambió con la reforma de 2021 y podría volver a cambiar) y OA24-26
   (opinar/argumentar, evaluar y justificar soluciones, informarse por
@@ -1142,12 +1149,26 @@ afirmaciones completamente nuevos en vez de duplicar contenido.
   `lenguajevisual6`, `manejoemocional6`, `autocuidadodigital6`,
   `prevencion6`, `buentrato6`, `habitosestudio6`, `tecdigital6`) —
   ampliados con contenido real dentro del mismo OA ya citado hasta dejar
-  margen sobre `rounds`. Verificado: los 38 módulos nuevos, y los 229
-  módulos de toda la app, pasan 300 sesiones simuladas cada uno sin ningún
-  repetido.
+  margen sobre `rounds`. Verificado: los 39 módulos, y los 230 módulos de
+  toda la app, pasan 300 sesiones simuladas cada uno sin ningún repetido.
 - **`js/audio.js`**: `speak(text, lang)` y `pickBestVoice(lang)` (agregado en
   5° básico para Inglés) siguen funcionando igual; 6° básico los reutiliza
   sin cambios adicionales.
+- **Revisión post-merge de las exclusiones (2026-07-22):** el usuario
+  planteó dudas sobre excluir contenido por completo, dado que la app busca
+  ser un apoyo real para la enseñanza/acompañamiento escolar. Se conversó
+  explícitamente cada exclusión: el sistema reproductor (CN06 OA04-05) se
+  incorporó de forma anatómica/factual (ver "Sistema Reproductor y
+  Pubertad" arriba); el quiebre democrático (HI06 OA08) se incorporó
+  parcialmente, solo como hechos cronológicos indiscutibles, dejando la
+  interpretación multiperspectiva fuera del quiz (ver "Chile en el Siglo
+  XX" arriba). Ninguna exclusión se revierte "porque sí" — el criterio para
+  decidir qué sí entra al motor de opción múltiple sigue siendo el mismo de
+  siempre: ¿tiene una única respuesta correcta, factual y verificable? Si
+  la respuesta es sí, aunque el tema sea delicado, corresponde incluirlo
+  con el tono adecuado; si la respuesta es no (opinión, interpretación,
+  vivencia personal, o requiere acompañamiento de un adulto en un contexto
+  dedicado), se documenta la exclusión con su razón específica.
 
 ### 7° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false`. Para desbloquear un año, cambiar su
@@ -1192,20 +1213,27 @@ para esta iniciativa).
    con bug de opciones duplicadas (banco del mismo tamaño que `rounds`, o
    menor) encontrados por fuzz-testing y corregidos ampliando contenido real.
 5. ~~Completar 6° básico~~ — ✅ hecho (2026-07-22), las 9 asignaturas más
-   Inglés completas, 38 módulos (ver "Estado actual del contenido" arriba).
-   Se excluyó deliberadamente HI06 OA08 (quiebre democrático/régimen militar
-   — el propio OA pide "múltiples perspectivas", impropio para MC) y CN06
-   OA04-05 (sistema reproductor/pubertad — mismo criterio de Orientación
-   desde 3° básico). Se encontró y corrigió un bug real de CSS ausente en
-   `.bar-chart`/`.bar-col`/etc. que llevaba desde 2° básico (los gráficos de
-   barra se veían como bloques planos, sin flexbox ni color) — corregido
-   para todos los años que ya usaban gráficos de barra, no solo 6°. Se
-   agregaron `doubleBarChartHTML()`/`pieChartSVG()`/`pieChartHTML()` para
-   los gráficos nuevos de Datos y Probabilidades IV. 12 módulos con bug de
-   opciones duplicadas (banco ≤ `rounds:8`) encontrados por fuzz-testing y
-   corregidos ampliando contenido real — lección reforzada: revisar el
-   tamaño real de cada banco ANTES de dar por terminado un módulo, no solo
-   al final.
+   Inglés completas, 39 módulos (ver "Estado actual del contenido" arriba).
+   La primera versión excluía por completo HI06 OA08 (quiebre democrático/
+   régimen militar) y CN06 OA04-05 (sistema reproductor/pubertad); tras
+   conversarlo con el usuario (que planteó dudas sobre excluir contenido
+   dado el rol de la app como apoyo a la enseñanza), se revisó cada caso: el
+   sistema reproductor se incorporó de forma anatómica/factual, y el
+   quiebre democrático se incorporó parcialmente como hechos cronológicos
+   indiscutibles (fechas del golpe de 1973, el plebiscito de 1988, el
+   retorno a la democracia en 1990), dejando fuera del quiz solo la
+   interpretación multiperspectiva que el propio OA exige — ver "Revisión
+   post-merge de las exclusiones" en "Estado actual del contenido" arriba
+   para el criterio completo. Se encontró y corrigió un bug real de CSS
+   ausente en `.bar-chart`/`.bar-col`/etc. que llevaba desde 2° básico (los
+   gráficos de barra se veían como bloques planos, sin flexbox ni color) —
+   corregido para todos los años que ya usaban gráficos de barra, no solo
+   6°. Se agregaron `doubleBarChartHTML()`/`pieChartSVG()`/`pieChartHTML()`
+   para los gráficos nuevos de Datos y Probabilidades IV. 12 módulos con
+   bug de opciones duplicadas (banco ≤ `rounds:8`) encontrados por
+   fuzz-testing y corregidos ampliando contenido real — lección reforzada:
+   revisar el tamaño real de cada banco ANTES de dar por terminado un
+   módulo, no solo al final.
 6. **Siguiente:** extraer los OA de 7° básico de curriculumnacional.cl para
    las 9 asignaturas más Inglés (verificar primero la lista exacta de
    asignaturas vigente para 7°-8° básico en curriculumnacional.cl — podrían

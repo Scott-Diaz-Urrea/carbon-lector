@@ -223,6 +223,7 @@ export const MODULE_TITLES = {
   areavolumen6:'Ingeniero de Área y Volumen',
   datos6:'Estadístico Junior IV',
   fotosintesiscadenas6:'Biólogo de Ecosistemas',
+  reproductorpubertad6:'Biólogo del Cuerpo Humano II',
   habitossaludables6:'Guardián de la Salud VI',
   energiatransformaciones6:'Físico de la Energía',
   calortemperatura6:'Físico del Calor',

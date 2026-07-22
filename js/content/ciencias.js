@@ -1264,7 +1264,12 @@ export function genAguaTierra5Round(){
    1o-6o-basico/ciencias-naturales/6-basico):
    Fotosíntesis y Cadenas Alimentarias -> OA01-03 (requerimientos y productos
    de la fotosíntesis, roles en una cadena alimentaria, impacto de acciones
-   humanas sobre redes alimentarias). Hábitos Saludables y Prevención ->
+   humanas sobre redes alimentarias). Sistema Reproductor y Pubertad ->
+   OA04-05 (estructuras y función del sistema reproductor femenino y
+   masculino, cambios físicos observables de la pubertad — ver el comentario
+   junto a `SISTEMA_REPRODUCTOR_BANK` más abajo: se agregó tras conversarlo
+   explícitamente con el usuario, manteniendo el contenido estrictamente
+   anatómico/factual). Hábitos Saludables y Prevención ->
    OA06-07 (ventajas de la actividad física e higiene durante el crecimiento,
    efectos nocivos de las drogas y conductas de protección — en clave
    preventiva y factual, mismo criterio que Alimentación y Salud de 5°
@@ -1276,20 +1281,17 @@ export function genAguaTierra5Round(){
    materia como partículas en movimiento, cambios de estado, diferencia
    entre calor y temperatura). La Tierra: Capas, Suelo y Erosión -> OA16-18
    (atmósfera/litósfera/hidrósfera, formación y propiedades del suelo,
-   agentes y consecuencias de la erosión).
-   Quedan fuera: OA04-05 (estructuras y funciones del sistema reproductor
-   humano, y los cambios de la pubertad en profundidad anatómica — mismo
-   criterio que excluye "desarrollo afectivo y sexual" en Orientación desde
-   3° básico: requiere el acompañamiento real de un adulto/profesor en una
-   instancia dedicada, no una trivia de opción múltiple en una app general). */
+   agentes y consecuencias de la erosión). Los 18 OA de 6° básico quedan
+   cubiertos. */
 export const CIENCIAS_MODULES_G6 = [
   {id:'fotosintesiscadenas6', label:'Fotosíntesis y Cadenas Alimentarias', open:true, key:'fotosintesiscadenas6'},
+  {id:'reproductorpubertad6', label:'Sistema Reproductor y Pubertad', open:true, key:'reproductorpubertad6'},
   {id:'habitossaludables6', label:'Hábitos Saludables y Prevención', open:true, key:'habitossaludables6'},
   {id:'energiatransformaciones6', label:'Energía y sus Transformaciones', open:true, key:'energiatransformaciones6'},
   {id:'calortemperatura6', label:'Calor, Temperatura y Estados de la Materia', open:true, key:'calortemperatura6'},
   {id:'tierrasueloerosion6', label:'La Tierra: Capas, Suelo y Erosión', open:true, key:'tierrasueloerosion6'},
 ];
-export const CIENCIAS_POS_G6 = [{x:20,y:92},{x:64,y:74},{x:24,y:54},{x:66,y:34},{x:22,y:12}];
+export const CIENCIAS_POS_G6 = [{x:20,y:94},{x:64,y:80},{x:24,y:64},{x:66,y:48},{x:22,y:30},{x:66,y:10}];
 
 const FOTOSINTESIS_BANK = [
   { pregunta:'¿Qué necesita una planta para realizar la fotosíntesis?', correcta:'AGUA, DIÓXIDO DE CARBONO Y LUZ SOLAR', opts:['SOLO AGUA Y OSCURIDAD','SOLO TIERRA Y AIRE FRÍO','SOLO SEMILLAS Y VIENTO'] },
@@ -1336,6 +1338,53 @@ export function genFotosintesisCadenas6Round(){
     };
   }
   const item = pick(IMPACTO_HUMANO_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',
+    options: opts, correctValue: item.v, speakText: item.afirmacion, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+/* Sistema Reproductor y Pubertad -> CN06 OA04-05. Agregado tras conversarlo
+   explícitamente con el usuario: la primera versión de este PR excluía por
+   completo estos OA por cautela, pero el currículum oficial chileno sí
+   cubre la anatomía básica del sistema reproductor de forma clínica en 6°
+   básico (con diagramas simples), igual que ya se hizo aquí con los
+   sistemas digestivo/respiratorio/circulatorio en Ciencias de 5° básico.
+   El contenido se mantiene estrictamente anatómico/funcional y factual
+   (estructuras, función, cambios físicos observables de la pubertad) — lo
+   afectivo, vincular y de intimidad sigue siendo terreno exclusivo de
+   Orientación, donde permanece excluido desde 3° básico por requerir el
+   acompañamiento real de un adulto en una instancia dedicada. */
+const SISTEMA_REPRODUCTOR_BANK = [
+  { pregunta:'¿Cuál es la función principal de los ovarios en el sistema reproductor femenino?', correcta:'PRODUCIR ÓVULOS', opts:['DIGERIR LOS ALIMENTOS','BOMBEAR LA SANGRE','FILTRAR EL AIRE'] },
+  { pregunta:'¿Cuál es la función principal de los testículos en el sistema reproductor masculino?', correcta:'PRODUCIR ESPERMATOZOIDES', opts:['DIGERIR LOS ALIMENTOS','BOMBEAR LA SANGRE','FILTRAR EL AIRE'] },
+  { pregunta:'¿En qué órgano del sistema reproductor femenino se desarrolla un bebé durante el embarazo?', correcta:'EN EL ÚTERO', opts:['EN EL ESTÓMAGO','EN LOS PULMONES','EN EL CORAZÓN'] },
+  { pregunta:'¿Qué es la menstruación?', correcta:'LA ELIMINACIÓN MENSUAL DEL REVESTIMIENTO DEL ÚTERO CUANDO NO HAY EMBARAZO', opts:['UNA ENFERMEDAD QUE HAY QUE CURAR','UN PROBLEMA DIGESTIVO','UNA SEÑAL DE QUE ALGO ANDA MAL'] },
+  { pregunta:'¿Cuál es la función general del sistema reproductor humano?', correcta:'PERMITIR LA REPRODUCCIÓN Y CONTINUIDAD DE LA ESPECIE HUMANA', opts:['AYUDAR A RESPIRAR','AYUDAR A DIGERIR LOS ALIMENTOS','BOMBEAR LA SANGRE POR EL CUERPO'] },
+];
+const PUBERTAD_CAMBIOS_BANK = [
+  { afirmacion:'Durante la pubertad, es común que el cuerpo experimente un crecimiento acelerado (un "estirón")', v:true },
+  { afirmacion:'En las niñas, uno de los cambios comunes de la pubertad es el inicio de la menstruación', v:true },
+  { afirmacion:'En los niños, uno de los cambios comunes de la pubertad es el cambio de voz (se vuelve más grave)', v:true },
+  { afirmacion:'La pubertad es una etapa normal del desarrollo humano por la que pasan todas las personas', v:true },
+  { afirmacion:'Durante la pubertad es común que aparezca vello corporal y facial nuevo', v:true },
+  { afirmacion:'Todos los cambios de la pubertad ocurren exactamente a la misma edad y de la misma forma en todas las personas', v:false },
+  { afirmacion:'Sentir emociones más intensas o cambiantes durante la pubertad es algo anormal que nunca le pasa a nadie', v:false },
+  { afirmacion:'La pubertad solo afecta el cuerpo, nunca tiene relación con cómo se sienten las emociones de una persona', v:false },
+];
+export function genReproductorPubertad6Round(){
+  if(Math.random()<0.5){
+    const item = pick(SISTEMA_REPRODUCTOR_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(PUBERTAD_CAMBIOS_BANK);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',

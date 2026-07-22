@@ -744,7 +744,80 @@ fuera y por qué en el comentario inicial de su archivo `content/<asignatura>.js
   uso seguro de internet) — OA05-07. Fuera: OA01-04 (diseñar/elaborar/evaluar un
   objeto tecnológico propio — producción práctica).
 
-### 3° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
+### 3° Básico — ✅ completo (36 módulos, las 9 asignaturas)
+Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
+curriculum/1o-6o-basico/<asignatura>/3-basico. El currículum de 3° básico es
+sensiblemente más amplio que 1°-2° básico (p.ej. Matemática pasa de 9 a 26 OA,
+Lenguaje de un puñado a 31), así que varios módulos combinan más de un OA
+relacionado (mismo patrón ya usado en "Geometría"/"Medición" de 2° básico) en vez
+de crear un módulo por cada OA individual.
+
+- **Lenguaje** (6): Géneros Literarios (poema/cuento/fábula/leyenda/mito/novela/
+  historieta — OA03), Comprensión III (inferencia, textos no literarios, lenguaje
+  figurado simple — OA02,04-06), Vocabulario en Contexto (OA10), Orden Alfabético
+  (OA11), Gramática III (sustantivo/adjetivo/artículo, pronombres — OA20-21),
+  Ortografía (mayúsculas y signos de puntuación, incluye la regla real de que los
+  días de la semana NO llevan mayúscula en español — OA22). Fuera: OA01 (lectura
+  oral fluida), OA07-09 (gusto por la lectura, biblioteca, investigar en fuentes —
+  actitudinales o de proceso), OA12-19 (producción escrita: cuentos, cartas,
+  planificación, revisión), OA23-31 (comunicación oral: escuchar narraciones,
+  teatro, conversación, recitar) — todos requieren desempeño real, no reconocimiento.
+- **Matemática** (9): Números hasta 1000 (contar salteado, leer, comparar, valor
+  posicional — OA01-03,05), Sumar/Restar y Dinero (incluye problemas con pesos
+  chilenos — OA06-07,10), Tablas de Multiplicar (OA08), Dividir (OA09), Fracciones
+  (1/2,1/3,1/2,2/3,3/4 — dibujadas con el nuevo `fraccionSVG()`/`fraccionBarraSVG()`
+  en `svg.js`, alternando círculo/barra para no repetir siempre la misma imagen de
+  las 6 fracciones posibles — OA11), Patrones y Ecuaciones (OA12-13), Geometría III
+  (cuadrícula, cuerpos 3D incluyendo la `piramide` nueva en `solid3DSVG()`, ángulos
+  con el nuevo `anguloSVG()` — OA14-16,18), Medición III (hora con cuartos/
+  medias/menos cuarto, perímetro, peso — OA19-22), Datos y Gráficos (encuestas,
+  gráficos de barra — OA23-26). Fuera: OA04 (describir ESTRATEGIAS de cálculo
+  mental, un proceso propio) y OA17 (reconocer traslación/reflexión/rotación,
+  que requiere comparar una imagen animada antes/después).
+- **Ciencias Naturales** (7): Plantas: Partes y Especies de Chile (raíz/tallo/hojas
+  fusionado con copihue/araucaria/trigo/maíz/papa/vid porque "Partes de la Planta"
+  por sí solo solo tenía 3 ítems reales — OA01-02), Ciclo de Vida de la Planta
+  (OA03), Cuidado de Plantas y Ambiente (OA04-05), Alimentación e Higiene (OA06-07),
+  La Luz (OA08-09), El Sonido (OA10), Sistema Solar (incluye rotación/traslación y
+  fases de la luna — OA11-13). Ningún OA queda fuera: los 13 de 3° básico son
+  observables/descriptivos.
+- **Historia, Geografía y Cs. Sociales** (3): Grecia y Roma (polis, democracia
+  ateniense, Juegos Olímpicos, Partenón, Coliseo, acueductos, latín, togas — hechos
+  de historia universal ampliamente documentados, no de una fuente única, distinto
+  del caso de personajes históricos chilenos puntuales — OA01-04,10), Geografía del
+  Mundo (puntos cardinales, hemisferios/continentes/océanos, zonas climáticas —
+  OA06-09), Formación Ciudadana III (deberes, honestidad, derechos del niño,
+  instituciones, participación — OA11-16). Fuera: OA05 (investigar en fuentes,
+  proceso de indagación propio).
+- **Artes Visuales** (2): Color Expresivo (asociación color-emoción, una convención
+  pedagógica ampliamente enseñada, no una verdad científica única — OA02),
+  Materiales de Modelado y Reciclaje (arcilla/plasticina vs. cartón/botellas vs.
+  hojas/semillas — OA03). Fuera: OA01 (crear un trabajo propio), OA04 (describir Y
+  expresar lo que se siente frente a una obra — subjetivo), OA05 (autoevaluación).
+- **Música** (2): Lenguaje Musical (pulso, acento, forma A-AB-ABA — OA01), Música en
+  la Sociedad (qué música es típica de una celebración o situación cotidiana —
+  OA07). Fuera: OA02 (expresar sensaciones propias), OA03 (escuchar repertorio
+  extenso, depende de audio real), OA04-06 (cantar/tocar/improvisar/presentar),
+  OA08 (autoevaluación).
+- **Educación Física y Salud** (2): Vida Activa y Saludable III (actividad física
+  regular, respuestas corporales, hábitos — OA06-09), Juego Limpio y Seguridad III
+  (honestidad, reglas, comportamientos seguros — OA10-11). Fuera: OA01-05
+  (habilidades motrices, juegos predeportivos, danza, entornos — práctica física
+  real).
+- **Orientación** (4): Manejo Emocional (identificar emociones y estrategias de
+  manejo — OA02), Autocuidado III (higiene/descanso/alimentación — OA04), Buen
+  Trato y Resolución de Conflictos (solidaridad, empatía, conflictos entre pares —
+  OA05-06), Hábitos de Trabajo Escolar (OA08). Fuera: OA01 (valorar fortalezas
+  propias, autorreflexión), OA03 (sexualidad como expresión de amor y vínculo — un
+  tema sensible que requiere acompañamiento de un adulto, no una trivia de opción
+  múltiple) y OA07 (participar en la comunidad escolar — ya cubierto por Formación
+  Ciudadana III en historia.js, para no duplicar).
+- **Tecnología** (1): Tecnología Digital III (software de presentaciones,
+  buscadores, seguridad en internet — contenido nuevo, sin repetir lo ya cubierto
+  por "Tecnología Digital" de 2° básico — OA05-07). Fuera: OA01-04 (diseñar/
+  planificar/elaborar/evaluar un objeto tecnológico propio — producción práctica).
+
+### 4° a 8° Básico, Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false`. Para desbloquear un año, cambiar su
 `open` a `true` Y crear su entrada correspondiente en `LENGUAJE_BY_GRADE` /
 `MATE_BY_GRADE` (si no existe una entrada, `renderComingSoonSubject()` se muestra
@@ -759,16 +832,27 @@ para esta iniciativa).
 
 1. ~~Completar 2° básico~~ — ✅ hecho, las 9 asignaturas completas (ver "Estado
    actual del contenido" arriba).
-2. **Siguiente:** extraer los OA de 3° básico de curriculumnacional.cl
-   (`curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/3-basico`, mismo
-   patrón que funcionó para 2° básico) para las 9 asignaturas, y repetir el patrón:
-   `<NOMBRE>_MODULES_G3`/`_POS_G3` en cada `content/<asignatura>.js`, agregar
-   `3: {...}` a cada `*_BY_GRADE` en `gradeContent.js`, registrar en `MC_GAMES`/
-   `MC_KEYS`, agregar estrellas en `state.js` y títulos en `rewards.js`. Luego
-   repetir para 4°, 5°, 6°, 7° y 8° básico en orden (7°-8° son parte de Educación
-   Básica en la trayectoria chilena actual, verificar la lista exacta de asignaturas
-   vigente para esos años en curriculumnacional.cl antes de asumir que es la misma
-   que 1°-6°, ya que podría incluir asignaturas nuevas como Inglés desde 5° básico).
+2. ~~Completar 3° básico~~ — ✅ hecho (2026-07-21), las 9 asignaturas completas,
+   36 módulos (ver "Estado actual del contenido" arriba). El usuario pidió seguir
+   con 4°-8° en la misma sesión, pero se decidió mantener el patrón de "un año a
+   la vez con su propio PR" ya acordado (2026-07-20) en vez de generar 5 años de
+   contenido curricular sin revisión intermedia.
+3. **Siguiente:** extraer los OA de 4° básico de curriculumnacional.cl
+   (`curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/4-basico`, mismo
+   patrón que funcionó para 2° y 3° básico) para las 9 asignaturas, y repetir el
+   patrón: `<NOMBRE>_MODULES_G4`/`_POS_G4` en cada `content/<asignatura>.js`,
+   agregar `4: {...}` a cada `*_BY_GRADE` en `gradeContent.js`, registrar en
+   `MC_GAMES`/`MC_KEYS`, agregar estrellas en `state.js` y títulos en `rewards.js`.
+   Antes de escribir contenido: verificar si el currículum de 3° básico trajo OA
+   con más de una respuesta viable por módulo (como pasó con "Partes de la
+   Planta", que se tuvo que fusionar con otro módulo por tener solo 3 ítems
+   reales) — revisar el tamaño de cada banco de contenido contra `rounds:8` antes
+   de darlo por terminado, no después (la sesión de 3° básico encontró varios
+   bancos por debajo de rounds ya avanzada la implementación). Luego repetir para
+   5°, 6°, 7° y 8° básico en orden (7°-8° son parte de Educación Básica en la
+   trayectoria chilena actual, verificar la lista exacta de asignaturas vigente
+   para esos años en curriculumnacional.cl antes de asumir que es la misma que
+   1°-6°, ya que podría incluir asignaturas nuevas como Inglés desde 5° básico).
 3. Una vez completa toda Educación Básica, definir con el usuario el mismo patrón
    para Educación Media (probablemente asignaturas distintas: Física/Química/
    Biología separadas, Filosofía, etc. — pedir la lista real antes de asumir) y

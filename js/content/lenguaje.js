@@ -260,3 +260,183 @@ export function genComprension2Round(){
     explain: item.reason,
   };
 }
+
+/* ---------------- Contenido Lenguaje 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/lenguaje-comunicacion/3-basico):
+   Géneros Literarios -> OA03. Comprensión -> OA02,04,05,06 (estrategias de
+   comprensión, narraciones con inferencia, lenguaje figurado simple, textos
+   no literarios). Vocabulario en Contexto -> OA10. Orden Alfabético -> OA11.
+   Gramática -> OA20 (sustantivo/adjetivo/artículo) y OA21 (pronombres).
+   Ortografía -> OA22 (mayúsculas y signos de puntuación).
+   Quedan fuera: OA01 (lectura oral fluida), OA07-09 (gusto por la lectura,
+   biblioteca, investigación en fuentes — actitudinales o de proceso),
+   OA12-19 (producción escrita: cuentos, cartas, planificación, revisión —
+   producción propia, no reconocimiento), OA23-31 (comunicación oral:
+   escuchar narraciones, teatro, conversación, presentarse, recitar —
+   requieren desempeño oral real). */
+export const LENGUAJE_MODULES_G3 = [
+  {id:'generosliterarios3', label:'Géneros Literarios', open:true, key:'generosliterarios3'},
+  {id:'comprension3', label:'Comprensión III', open:true, key:'comprension3'},
+  {id:'vocabulario3', label:'Vocabulario en Contexto', open:true, key:'vocabulario3'},
+  {id:'alfabetico3', label:'Orden Alfabético', open:true, key:'alfabetico3'},
+  {id:'gramatica3', label:'Gramática III', open:true, key:'gramatica3'},
+  {id:'ortografia3', label:'Ortografía', open:true, key:'ortografia3'},
+];
+export const LENGUAJE_POS_G3 = [{x:22,y:92},{x:68,y:78},{x:24,y:62},{x:70,y:46},{x:24,y:28},{x:70,y:10}];
+
+const GENEROS_BANK = [
+  { desc:'Un texto breve con ritmo y a veces con rima, que expresa sentimientos.', label:'POEMA' },
+  { desc:'Texto que usa versos, y a veces rima, para expresar una emoción.', label:'POEMA' },
+  { desc:'Una historia corta e inventada, con personajes que enfrentan un problema y lo resuelven.', label:'CUENTO' },
+  { desc:'Una historia breve con animales que hablan y actúan como personas, y que termina con una enseñanza.', label:'FÁBULA' },
+  { desc:'Un cuento donde los animales hablan para enseñarnos una moraleja.', label:'FÁBULA' },
+  { desc:'Una historia tradicional que se cuenta de generación en generación, mezclando hechos reales con elementos fantásticos.', label:'LEYENDA' },
+  { desc:'Una historia antigua que explica el origen del mundo o de la naturaleza, protagonizada por dioses o héroes.', label:'MITO' },
+  { desc:'Una historia larga, dividida en capítulos, con varios personajes y una trama que se desarrolla poco a poco.', label:'NOVELA' },
+  { desc:'Una historia contada con dibujos en secuencia y globos de diálogo.', label:'HISTORIETA' },
+  { desc:'Relato que se lee como una serie de viñetas con imágenes y texto.', label:'HISTORIETA' },
+];
+const GENEROS_POOL = ['POEMA','CUENTO','FÁBULA','LEYENDA','MITO','NOVELA','HISTORIETA'];
+
+const COMPRENSION3_BANK = [
+  { text:'Sofía leyó las instrucciones del juego dos veces antes de empezar a jugar.', question:'¿Por qué Sofía leyó las instrucciones dos veces?', correct:'Para entender bien cómo se juega antes de empezar', opts:['Porque no sabía leer','Porque el juego no traía instrucciones','Porque quería aburrirse'], reason:'Leer con atención antes de actuar es una forma de asegurarse de entender bien algo.' },
+  { text:'Para cuidar una planta de interior: ponla cerca de una ventana con luz, riégala cada 3 días y quita las hojas secas.', question:'¿Cada cuánto se debe regar la planta según el texto?', correct:'Cada 3 días', opts:['Todos los días','Una vez al mes','Solo cuando se seque completamente'], reason:'El texto lo dice explícitamente: "riégala cada 3 días".' },
+  { text:"Cuando Pedro se enteró de la sorpresa, sintió que el corazón le daba saltos de alegría.", question:"¿Qué quiere decir la frase 'el corazón le daba saltos de alegría'?", correct:'Que estaba muy feliz y emocionado', opts:['Que su corazón literalmente saltaba','Que estaba haciendo ejercicio','Que tenía miedo'], reason:'Es una forma de decir que sintió mucha alegría, no que su corazón saltara de verdad — eso es lenguaje figurado.' },
+  { text:'Los bomberos llegaron rápido, apagaron el fuego y revisaron que no quedaran brasas encendidas.', question:'¿Qué hicieron los bomberos después de apagar el fuego?', correct:'Revisaron que no quedaran brasas encendidas', opts:['Se fueron de inmediato','Encendieron más fuego','Llamaron a más bomberos'], reason:'El texto dice el orden: apagar y luego revisar que no queden brasas.' },
+  { text:'Valentina practicó su presentación frente al espejo cinco veces antes de exponer en clases.', question:'¿Qué podemos inferir sobre Valentina?', correct:'Se preparó bien para su presentación', opts:['No le importaba la nota','Se aburrió de estudiar','No sabía de qué hablar'], reason:'Practicar varias veces antes de una presentación muestra que se preparó con dedicación.' },
+  { text:'Antes de cruzar la calle: detente en la vereda, mira a ambos lados, y cruza solo cuando no vengan autos.', question:'¿Qué debes hacer primero antes de cruzar la calle?', correct:'Detenerte en la vereda', opts:['Cruzar corriendo','Mirar el celular','Cerrar los ojos'], reason:'El texto dice el primer paso: "detente en la vereda".' },
+  { text:'Después de estudiar toda la semana para la prueba, Joaquín se sentía como si tuviera alas para volar.', question:"¿Qué significa 'sentía como si tuviera alas para volar'?", correct:'Que se sentía muy liviano, feliz y aliviado', opts:['Que literalmente podía volar','Que estaba muy cansado','Que tenía sueño'], reason:'Es una comparación (lenguaje figurado) para expresar que se sentía muy bien, no que tuviera alas de verdad.' },
+  { text:'El perro de Martina empezó a ladrar y a rascar la puerta apenas escuchó el timbre.', question:'¿Por qué el perro reaccionó así?', correct:'Porque escuchó el timbre y avisó que alguien llegó', opts:['Porque tenía hambre','Porque quería dormir','Porque estaba enojado con Martina'], reason:'El texto conecta la reacción del perro directamente con el sonido del timbre.' },
+  { text:'Recién Tomás terminó su tarea de matemáticas, guardó los cuadernos y se fue a jugar con su pelota.', question:'¿Qué hizo Tomás justo después de terminar la tarea?', correct:'Guardó los cuadernos', opts:['Se fue a dormir','Empezó otra tarea','Salió sin avisar'], reason:'El texto dice el orden: terminó la tarea, guardó los cuadernos, y luego jugó.' },
+  { text:'Cuando el equipo de Renata ganó el partido, ella sintió que el estómago se le llenó de mariposas.', question:"¿Qué significa que 'el estómago se le llenó de mariposas'?", correct:'Que sintió muchos nervios y emoción', opts:['Que se comió unas mariposas','Que le dolía el estómago','Que tenía hambre'], reason:'Es una expresión de lenguaje figurado para describir una sensación de nervios y emoción, no mariposas reales.' },
+];
+
+const VOCABULARIO3_BANK = [
+  { texto:'Después de subir la montaña, el grupo llegó ', palabra:'EXHAUSTO', resto:' al campamento.', significado:'Muy cansado', opts:['Muy alegre','Con mucho frío','Muy asustado'] },
+  { texto:'El mago hizo un truco tan ', palabra:'ASOMBROSO', resto:' que todos aplaudieron sorprendidos.', significado:'Que sorprende mucho', opts:['Aburrido','Muy simple','Peligroso'] },
+  { texto:'La biblioteca estaba en ', palabra:'PENUMBRA', resto:' porque se había cortado la luz.', significado:'Poca luz, casi oscuro', opts:['Mucha luz','Lleno de gente','Muy ordenado'] },
+  { texto:'El cachorro era tan ', palabra:'DIMINUTO', resto:' que cabía en la palma de la mano.', significado:'Muy pequeño', opts:['Muy grande','Muy ruidoso','Muy rápido'] },
+  { texto:'El científico observó el experimento con gran ', palabra:'CAUTELA', resto:' para no equivocarse.', significado:'Cuidado y precaución', opts:['Rapidez sin pensar','Aburrimiento','Enojo'] },
+  { texto:'La noticia del premio lo dejó ', palabra:'ATÓNITO', resto:', sin poder decir ni una palabra.', significado:'Muy sorprendido', opts:['Muy enojado','Con sueño','Aburrido'] },
+  { texto:'El camino hacia el pueblo era largo y ', palabra:'SINUOSO', resto:', lleno de curvas.', significado:'Con muchas curvas', opts:['Muy recto','Muy corto','Muy ancho'] },
+  { texto:'Después de la tormenta, el cielo quedó ', palabra:'DESPEJADO', resto:' y soleado.', significado:'Sin nubes', opts:['Muy nublado','Lleno de lluvia','Con mucho viento'] },
+  { texto:'El abuelo contaba historias con una voz ', palabra:'PAUSADA', resto:' y tranquila.', significado:'Lenta y calmada', opts:['Muy rápida','Muy fuerte y gritona','Muy aguda'] },
+  { texto:'La receta pedía una ', palabra:'PIZCA', resto:' de sal, apenas un poquito.', significado:'Una cantidad muy pequeña', opts:['Una cantidad enorme','La mitad del total','Ninguna cantidad'] },
+];
+
+const ALFABETICO_POOL = ['ARDILLA','BALLENA','CABALLO','DELFÍN','ELEFANTE','FOCA','GATO','HORMIGA','IGUANA','JIRAFA','KOALA','LEÓN','MARIPOSA','NUTRIA','OSO','PATO'];
+
+const ORACIONES_GRAMATICA_G3 = [
+  { texto:'El gato negro corre', articulo:'EL', sustantivo:'GATO', adjetivo:'NEGRO', otras:['CORRE'] },
+  { texto:'La casa grande brilla', articulo:'LA', sustantivo:'CASA', adjetivo:'GRANDE', otras:['BRILLA'] },
+  { texto:'Un perro pequeño ladra', articulo:'UN', sustantivo:'PERRO', adjetivo:'PEQUEÑO', otras:['LADRA'] },
+  { texto:'Las flores bonitas crecen', articulo:'LAS', sustantivo:'FLORES', adjetivo:'BONITAS', otras:['CRECEN'] },
+  { texto:'El pájaro azul canta', articulo:'EL', sustantivo:'PÁJARO', adjetivo:'AZUL', otras:['CANTA'] },
+  { texto:'Una niña feliz salta', articulo:'UNA', sustantivo:'NIÑA', adjetivo:'FELIZ', otras:['SALTA'] },
+];
+const PRONOMBRES_BANK = [
+  { texto:'Los niños jugaban en el patio. ___ se divertían mucho.', correcto:'ELLOS' },
+  { texto:'Mi hermana estudia mucho. ___ quiere ser doctora.', correcto:'ELLA' },
+  { texto:'El profesor explicó la tarea. ___ fue muy claro.', correcto:'ÉL' },
+  { texto:'Las flores del jardín son hermosas. ___ tienen muchos colores.', correcto:'ELLAS' },
+  { texto:'Tomás y yo iremos al cine. ___ compraremos palomitas.', correcto:'NOSOTROS' },
+  { texto:'Mi abuela cocina muy rico. ___ hace pasteles los domingos.', correcto:'ELLA' },
+  { texto:'Los pájaros cantan en la mañana. ___ despiertan a todos.', correcto:'ELLOS' },
+  { texto:'Mi papá arregla el auto. ___ sabe mucho de mecánica.', correcto:'ÉL' },
+];
+const PRONOMBRES_POOL = ['ÉL','ELLA','ELLOS','ELLAS','NOSOTROS'];
+
+/* "Hoy es Lunes"→"lunes" enseña una regla real y no intuitiva: en español los
+   días de la semana NO llevan mayúscula (a diferencia del inglés). */
+const ORTOGRAFIA_BANK = [
+  { incorrecta:'los niños juegan en el parque', correcta:'Los niños juegan en el parque.' },
+  { incorrecta:'maria vive en santiago', correcta:'María vive en Santiago.' },
+  { incorrecta:'Hoy es Lunes.', correcta:'Hoy es lunes.' },
+  { incorrecta:'mi perro se llama rocky', correcta:'Mi perro se llama Rocky.' },
+  { incorrecta:'Qué día es hoy', correcta:'¿Qué día es hoy?' },
+  { incorrecta:'Qué sorpresa tan linda', correcta:'¡Qué sorpresa tan linda!' },
+  { incorrecta:'vamos a la playa el sábado', correcta:'Vamos a la playa el sábado.' },
+  { incorrecta:'el río mapocho pasa por santiago', correcta:'El río Mapocho pasa por Santiago.' },
+  { incorrecta:'pedro y ana son hermanos', correcta:'Pedro y Ana son hermanos.' },
+  { incorrecta:'chile es un país largo y angosto', correcta:'Chile es un país largo y angosto.' },
+];
+
+export function genGenerosLiterarios3Round(){
+  const item = pick(GENEROS_BANK);
+  const distract = shuffle(GENEROS_POOL.filter(function(g){ return g!==item.label; })).slice(0,3);
+  const opts = shuffle([item.label].concat(distract)).map(function(g){ return {label:g, value:g}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'</p><p class="prompt-hint">¿Qué género literario es?</p>',
+    options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
+    explain: 'Esa descripción corresponde a un(a) <b>'+item.label.toLowerCase()+'</b>.',
+  };
+}
+
+export function genComprension3Round(){
+  const item = pick(COMPRENSION3_BANK);
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
+    explain: item.reason,
+  };
+}
+
+export function genVocabulario3Round(){
+  const item = pick(VOCABULARIO3_BANK);
+  const opts = shuffle([item.significado].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'<b>'+item.palabra+'</b>'+item.resto+'</p><p class="prompt-hint">¿Qué significa la palabra <b>'+item.palabra.toLowerCase()+'</b>?</p>',
+    options: opts, correctValue: item.significado, speakText: item.texto+item.palabra+item.resto, cols:2, panel:true,
+    explain: '<b>'+item.palabra+'</b> significa "'+item.significado.toLowerCase()+'".',
+  };
+}
+
+export function genAlfabetico3Round(){
+  const words = shuffle(ALFABETICO_POOL).slice(0,4);
+  const sorted = words.slice().sort();
+  const askFirst = Math.random()<0.5;
+  const correct = askFirst ? sorted[0] : sorted[sorted.length-1];
+  const opts = shuffle(words).map(function(w){ return {label:w, value:w}; });
+  return {
+    promptHTML: '<p class="prompt-count" style="font-size:22px;">'+words.join(' — ')+'</p><p class="prompt-hint">¿Cuál de estas palabras aparece '+(askFirst?'PRIMERO':'AL FINAL')+' en el orden alfabético?</p>',
+    options: opts, correctValue: correct, speakText: '¿Cuál palabra va '+(askFirst?'primero':'al final')+' en orden alfabético?', cols:4, kind:'word',
+    explain: 'En orden alfabético: '+sorted.join(' → ')+'. La respuesta '+(askFirst?'que va primero':'que va al final')+' es <b>'+correct+'</b>.',
+  };
+}
+
+export function genGramatica3Round(){
+  if(Math.random()<0.5){
+    const item = pick(ORACIONES_GRAMATICA_G3);
+    const roll = Math.random();
+    const kind = roll<0.34 ? 'sustantivo' : (roll<0.67 ? 'adjetivo' : 'articulo');
+    const correct = item[kind];
+    const otherTargets = ['sustantivo','adjetivo','articulo'].filter(function(k){ return k!==kind; }).map(function(k){ return item[k]; });
+    const opts = shuffle(otherTargets.concat(item.otras).concat([correct]).map(function(w){ return w.toUpperCase(); })).map(function(w){ return {label:w, value:w}; });
+    const kindLabel = kind==='sustantivo' ? 'sustantivo (nombra a alguien o algo)' : kind==='adjetivo' ? 'adjetivo (dice cómo es)' : 'artículo (el/la/un/una/los/las)';
+    return {
+      promptHTML: '<p class="prompt-sentence">"'+item.texto+'"</p><p class="prompt-hint">¿Cuál palabra es el '+kindLabel+'?</p>',
+      options: opts, correctValue: correct, speakText: item.texto, cols:4, kind:'word',
+      explain: '<b>'+correct+'</b> es el '+kind+' de la oración.',
+    };
+  }
+  const item = pick(PRONOMBRES_BANK);
+  const distract = shuffle(PRONOMBRES_POOL.filter(function(p){ return p!==item.correcto; })).slice(0,3);
+  const opts = shuffle([item.correcto].concat(distract)).map(function(p){ return {label:p, value:p}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué pronombre completa la oración?</p>',
+    options: opts, correctValue: item.correcto, speakText: item.texto, cols:4, kind:'word',
+    explain: 'El pronombre correcto es <b>'+item.correcto+'</b>, porque reemplaza a quien se menciona en la primera oración.',
+  };
+}
+
+export function genOrtografia3Round(){
+  const item = pick(ORTOGRAFIA_BANK);
+  const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál oración está bien escrita?</p>',
+    options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
+    explain: 'La forma correcta es: "'+item.correcta+'"',
+  };
+}

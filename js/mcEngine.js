@@ -1,30 +1,45 @@
 import {
   genVocalRound, genPalabraRound, genComprensionRound, genCombinacionRound,
   genGramatica2Round, genComprension2Round,
+  genGenerosLiterarios3Round, genComprension3Round, genVocabulario3Round, genAlfabetico3Round,
+  genGramatica3Round, genOrtografia3Round,
 } from './content/lenguaje.js';
 import {
   genCountRound, genAddRound, genCompareRound, genFormaRound, genSaltaRound, genMultiplicarRound,
   genGeometria2Round, genMedicion2Round,
+  genNumeros3Round, genOperaciones3Round, genMultiplicar3Round, genDividir3Round, genFracciones3Round,
+  genPatrones3Round, genGeometria3Round, genMedicion3Round, genDatos3Round,
 } from './content/matematica.js';
 import {
   genSeresVivosRound, genPlantasRound, genCuerpoRound, genMaterialesRound, genDiaNocheRound,
   genVertebrados2Round, genCiclosVida2Round, genHabitats2Round, genCuerpoDentro2Round, genAgua2Round, genClima2Round,
+  genPlantas3Round, genCicloPlanta3Round, genCuidadoAmbiente3Round, genAlimentacion3Round,
+  genLuz3Round, genSonido3Round, genSistemaSolar3Round,
 } from './content/ciencias.js';
 import {
   genCalendarioRound, genMiIdentidadRound, genSimbolosRound, genMapasRound, genComunidadRound,
   genPueblos2Round, genPatrimonio2Round, genPaisajes2Round, genCiudadania2Round,
+  genCivilizaciones3Round, genGeografia3Round, genCiudadania3Round,
 } from './content/historia.js';
-import { genColoresRound, genLineasTexturasRound, genMaterialesArteRound, genLineasColores2Round } from './content/artes.js';
-import { genSonidosRound, genInstrumentosRound, genTimbrePulso2Round } from './content/musica.js';
+import {
+  genColoresRound, genLineasTexturasRound, genMaterialesArteRound, genLineasColores2Round,
+  genColorExpresivo3Round, genMaterialesArte3Round,
+} from './content/artes.js';
+import {
+  genSonidosRound, genInstrumentosRound, genTimbrePulso2Round,
+  genLenguajeMusical3Round, genMusicaSociedad3Round,
+} from './content/musica.js';
 import {
   genMovimientoRound, genVidaActivaRound, genSeguridadRound,
   genCuerpoResponde2Round, genVidaActiva2Round, genLiderazgo2Round,
+  genVidaActiva3Round, genSeguridad3Round,
 } from './content/edfisica.js';
 import {
   genEmocionesRound, genAutocuidadoRound, genConvivenciaRound,
   genEmociones2Round, genAutocuidado2Round, genHabitosEscolares2Round, genConvivencia2Round,
+  genManejoEmocional3Round, genAutocuidado3Round, genBuenTrato3Round, genHabitosEstudio3Round,
 } from './content/orientacion.js';
-import { genHerramientasTecRound, genTecDigital2Round } from './content/tecnologia.js';
+import { genHerramientasTecRound, genTecDigital2Round, genTecDigital3Round } from './content/tecnologia.js';
 import {
   genPatronesRound, genClasificarRound, genPosicionRound, genCuantificadoresRound,
   genSecuenciaTemporalRound, genContarVeinteRound, genSumarQuitarRound,
@@ -81,7 +96,16 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'timbrepulso2',
   'cuerporesponde2','vidaactiva2','liderazgo2',
   'emociones2','autocuidado2','habitosescolares2','convivencia2',
-  'tecdigital2'];
+  'tecdigital2',
+  'generosliterarios3','comprension3','vocabulario3','alfabetico3','gramatica3','ortografia3',
+  'numeros3','operaciones3','multiplicar3','dividir3','fracciones3','patrones3','geometria3','medicion3','datos3',
+  'plantas3','cicloplanta3','cuidadoambiente3','alimentacion3','luz3','sonido3','sistemasolar3',
+  'civilizaciones3','geografia3','ciudadania3',
+  'colorexpresivo3','materialesarte3',
+  'lenguajemusical3','musicasociedad3',
+  'vidaactiva3','seguridad3',
+  'manejoemocional3','autocuidado3','buentrato3','habitosestudio3',
+  'tecdigital3'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -174,6 +198,42 @@ export const MC_GAMES = {
   habitosescolares2:{ title:'Hábitos de Trabajo Escolar', gen: genHabitosEscolares2Round, rounds:10 },
   convivencia2:  { title:'Buena Convivencia II', gen: genConvivencia2Round, rounds:8 },
   tecdigital2:   { title:'Tecnología Digital', gen: genTecDigital2Round,  rounds:8 },
+  generosliterarios3: { title:'Géneros Literarios', gen: genGenerosLiterarios3Round, rounds:8 },
+  comprension3:  { title:'Comprensión III',   gen: genComprension3Round, rounds:8 },
+  vocabulario3:  { title:'Vocabulario en Contexto', gen: genVocabulario3Round, rounds:8 },
+  alfabetico3:   { title:'Orden Alfabético',  gen: genAlfabetico3Round,  rounds:8 },
+  gramatica3:    { title:'Gramática III',     gen: genGramatica3Round,   rounds:8 },
+  ortografia3:   { title:'Ortografía',        gen: genOrtografia3Round,  rounds:8 },
+  numeros3:      { title:'Números hasta 1000', gen: genNumeros3Round,    rounds:8 },
+  operaciones3:  { title:'Sumar, Restar y Dinero', gen: genOperaciones3Round, rounds:8 },
+  multiplicar3:  { title:'Tablas de Multiplicar', gen: genMultiplicar3Round, rounds:8 },
+  dividir3:      { title:'Dividir',           gen: genDividir3Round,     rounds:8 },
+  fracciones3:   { title:'Fracciones',        gen: genFracciones3Round,  rounds:8 },
+  patrones3:     { title:'Patrones y Ecuaciones', gen: genPatrones3Round, rounds:8 },
+  geometria3:    { title:'Geometría III',     gen: genGeometria3Round,   rounds:8 },
+  medicion3:     { title:'Medición III',      gen: genMedicion3Round,    rounds:8 },
+  datos3:        { title:'Datos y Gráficos',  gen: genDatos3Round,       rounds:8 },
+  plantas3:      { title:'Plantas: Partes y Especies de Chile', gen: genPlantas3Round, rounds:8 },
+  cicloplanta3:  { title:'Ciclo de Vida de la Planta', gen: genCicloPlanta3Round, rounds:8 },
+  cuidadoambiente3: { title:'Cuidado de Plantas y Ambiente', gen: genCuidadoAmbiente3Round, rounds:8 },
+  alimentacion3: { title:'Alimentación e Higiene', gen: genAlimentacion3Round, rounds:8 },
+  luz3:          { title:'La Luz',            gen: genLuz3Round,         rounds:8 },
+  sonido3:       { title:'El Sonido',         gen: genSonido3Round,      rounds:8 },
+  sistemasolar3: { title:'Sistema Solar',     gen: genSistemaSolar3Round, rounds:8 },
+  civilizaciones3: { title:'Grecia y Roma',   gen: genCivilizaciones3Round, rounds:8 },
+  geografia3:    { title:'Geografía del Mundo', gen: genGeografia3Round, rounds:8 },
+  ciudadania3:   { title:'Formación Ciudadana III', gen: genCiudadania3Round, rounds:8 },
+  colorexpresivo3: { title:'Color Expresivo', gen: genColorExpresivo3Round, rounds:8 },
+  materialesarte3: { title:'Materiales de Modelado y Reciclaje', gen: genMaterialesArte3Round, rounds:8 },
+  lenguajemusical3: { title:'Lenguaje Musical', gen: genLenguajeMusical3Round, rounds:8 },
+  musicasociedad3: { title:'Música en la Sociedad', gen: genMusicaSociedad3Round, rounds:8 },
+  vidaactiva3:   { title:'Vida Activa y Saludable III', gen: genVidaActiva3Round, rounds:8 },
+  seguridad3:    { title:'Juego Limpio y Seguridad III', gen: genSeguridad3Round, rounds:8 },
+  manejoemocional3: { title:'Manejo Emocional', gen: genManejoEmocional3Round, rounds:8 },
+  autocuidado3:  { title:'Autocuidado III',   gen: genAutocuidado3Round, rounds:8 },
+  buentrato3:    { title:'Buen Trato y Resolución de Conflictos', gen: genBuenTrato3Round, rounds:8 },
+  habitosestudio3: { title:'Hábitos de Trabajo Escolar', gen: genHabitosEstudio3Round, rounds:8 },
+  tecdigital3:   { title:'Tecnología Digital III', gen: genTecDigital3Round, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

@@ -342,3 +342,113 @@ export function genComunidadRound(){
   };
 }
 
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/historia-geografia-ciencias-sociales/3-basico):
+   Civilizaciones Antiguas -> OA01-04,10 (vida cotidiana de Grecia y Roma,
+   su legado, comparación con la actualidad, factores geográficos). Los
+   hechos usados (polis, democracia ateniense, Juegos Olímpicos, Partenón,
+   Coliseo, gladiadores, acueductos, latín, togas) son datos de historia
+   universal ampliamente documentados, no específicos de una fuente única
+   (distinto del caso de "personajes históricos" chilenos puntuales que se
+   excluyó en 1° básico por riesgo de imprecisión sin una fuente adicional).
+   Geografía -> OA06-09 (cuadrícula y puntos cardinales, hemisferios/
+   continentes/océanos, zonas climáticas). Formación Ciudadana -> OA11-16
+   (deberes, valores cívicos, honestidad, derechos del niño, instituciones,
+   participación). Queda fuera OA05 (investigar sobre un tema de interés en
+   diversas fuentes — un proceso de indagación propio, no una pregunta de
+   opción múltiple). */
+export const HISTORIA_MODULES_G3 = [
+  {id:'civilizaciones3', label:'Grecia y Roma', open:true, key:'civilizaciones3'},
+  {id:'geografia3', label:'Geografía del Mundo', open:true, key:'geografia3'},
+  {id:'ciudadania3', label:'Formación Ciudadana III', open:true, key:'ciudadania3'},
+];
+export const HISTORIA_POS_G3 = [{x:24,y:82},{x:68,y:50},{x:24,y:18}];
+
+const CIVILIZACIONES_BANK = [
+  { pregunta:'¿Cómo se llamaban las ciudades-estado de la antigua Grecia?', correcta:'POLIS', opts:['IMPERIOS','REINOS','TRIBUS'] },
+  { pregunta:'¿En qué ciudad griega nació la democracia?', correcta:'ATENAS', opts:['ESPARTA','ROMA','TROYA'] },
+  { pregunta:'¿Qué forma de gobierno inventaron los griegos, en la que el pueblo participa en las decisiones?', correcta:'LA DEMOCRACIA', opts:['LA MONARQUÍA ABSOLUTA','LA DICTADURA','EL FEUDALISMO'] },
+  { pregunta:'¿Qué competencia deportiva crearon los griegos, que todavía existe hoy?', correcta:'LOS JUEGOS OLÍMPICOS', opts:['EL TOUR DE FRANCIA','LA COPA AMÉRICA','EL SUPER BOWL'] },
+  { pregunta:'¿Cómo se llama el templo griego dedicado a la diosa Atenea, en Atenas?', correcta:'EL PARTENÓN', opts:['EL COLISEO','LA GRAN MURALLA','LAS PIRÁMIDES'] },
+  { pregunta:'¿Dónde luchaban los gladiadores en la antigua Roma?', correcta:'EN EL COLISEO', opts:['EN EL PARTENÓN','EN UNA PIRÁMIDE','EN UN ACUEDUCTO'] },
+  { pregunta:'¿Qué construían los romanos para transportar agua desde lejos hasta las ciudades?', correcta:'ACUEDUCTOS', opts:['PIRÁMIDES','TEMPLOS GRIEGOS','MURALLAS CHINAS'] },
+  { pregunta:'¿Qué idioma hablaban los antiguos romanos, origen del español?', correcta:'LATÍN', opts:['GRIEGO','EGIPCIO','ÁRABE'] },
+  { pregunta:'¿Qué ropa típica usaban los antiguos romanos?', correcta:'LA TOGA', opts:['EL KILT ESCOCÉS','EL SARI INDIO','EL PONCHO CHILENO'] },
+  { pregunta:'A diferencia de hoy, ¿cómo se alumbraban de noche en la antigua Grecia y Roma?', correcta:'Con velas y antorchas de fuego', opts:['Con ampolletas eléctricas','Con linternas a pilas','Con luces LED'] },
+  { pregunta:'A diferencia de hoy, ¿cómo se transportaban las personas en la antigua Roma?', correcta:'A pie, a caballo o en carros tirados por caballos', opts:['En auto','En avión','En metro'] },
+];
+
+const CUADRANTES_BANK = [
+  { pregunta:'En un mapa, ¿hacia dónde apunta generalmente el Norte?', correcta:'HACIA ARRIBA', opts:['HACIA ABAJO','HACIA LA IZQUIERDA','HACIA LA DERECHA'] },
+  { pregunta:'¿Cuáles son los 4 puntos cardinales?', correcta:'NORTE, SUR, ESTE, OESTE', opts:['ARRIBA, ABAJO, IZQUIERDA, DERECHA','ROJO, AZUL, VERDE, AMARILLO','PRIMERO, SEGUNDO, TERCERO, CUARTO'] },
+];
+const HEMISFERIOS_BANK = [
+  { pregunta:'¿Cuántos hemisferios tiene la Tierra?', correcta:'DOS (NORTE Y SUR)', opts:['UNO','TRES','CUATRO'] },
+  { pregunta:'¿Qué línea imaginaria divide la Tierra en hemisferio norte y sur?', correcta:'EL ECUADOR', opts:['EL POLO NORTE','UN TRÓPICO','UN MERIDIANO'] },
+  { pregunta:'¿Cuántos continentes tiene el planeta Tierra?', correcta:'SEIS', opts:['CUATRO','OCHO','DIEZ'] },
+  { pregunta:'¿Cuál es el océano que baña las costas de Chile?', correcta:'EL OCÉANO PACÍFICO', opts:['EL OCÉANO ATLÁNTICO','EL OCÉANO ÍNDICO','EL MAR MEDITERRÁNEO'] },
+  { pregunta:'¿Dónde están ubicados los polos de la Tierra?', correcta:'EN LOS EXTREMOS NORTE Y SUR DEL PLANETA', opts:['EN EL ECUADOR','EN EL CENTRO DEL PLANETA','EN EL CONTINENTE AFRICANO'] },
+];
+const ZONAS_CLIMATICAS_BANK = [
+  { pregunta:'¿Cómo es el clima cerca del Ecuador?', correcta:'CÁLIDO Y HÚMEDO (TROPICAL)', opts:['MUY FRÍO Y HELADO','SIEMPRE NEVADO','SECO Y DESÉRTICO TODO EL AÑO'] },
+  { pregunta:'¿Cómo es el clima cerca de los polos?', correcta:'MUY FRÍO (POLAR)', opts:['MUY CALUROSO','TROPICAL','TEMPLADO'] },
+  { pregunta:'¿Qué zona climática tiene las 4 estaciones marcadas (verano, otoño, invierno, primavera)?', correcta:'ZONA TEMPLADA', opts:['ZONA POLAR','ZONA TROPICAL','ZONA DESÉRTICA'] },
+];
+
+const CIUDADANIA3_BANK = [
+  { correcta:'Cumplir con las tareas y responsabilidades escolares a tiempo', incorrectas:['Dejar todo para el último momento','Copiar las tareas de un compañero','No traer los materiales pedidos'] },
+  { correcta:'Decir la verdad aunque sea difícil o hayas cometido un error', incorrectas:['Mentir para no meterte en problemas','Culpar a otro de tu error','Esconder lo que hiciste'] },
+  { correcta:'Jugar limpio y respetar las reglas, incluso cuando nadie mira', incorrectas:['Hacer trampa si nadie te ve','Cambiar las reglas a tu favor','Culpar a otros cuando pierdes'] },
+  { correcta:'Todos los niños y niñas tienen derecho a recibir cuidado, educación y protección', incorrectas:['Solo algunos niños tienen derechos','Los niños deben trabajar todo el día','Los niños no necesitan ir a la escuela'] },
+  { correcta:'Participar activamente proponiendo ideas para tu curso', incorrectas:['No opinar nunca en las actividades del curso','Imponer tu idea sin escuchar a otros','Negarte a colaborar con el grupo'] },
+  { correcta:'Asumir tu responsabilidad cuando cometes un error', incorrectas:['Culpar siempre a los demás','Negar haber hecho algo que sí hiciste','Esconder tus errores para no asumirlos'] },
+  { correcta:'Ayudar a organizar y participar en las actividades de tu hogar', incorrectas:['No colaborar nunca en la casa','Dejar que otros hagan todo el trabajo','Quejarte sin ofrecer ayudar'] },
+];
+const INSTITUCIONES3_BANK = [
+  { pregunta:'¿A qué institución vas a pedir prestado un libro para leer en casa?', correcta:'LA BIBLIOTECA PÚBLICA', opts:['EL HOSPITAL','LA MUNICIPALIDAD','EL CUARTEL DE BOMBEROS'] },
+  { pregunta:'¿Qué institución se encarga de organizar y cuidar tu comuna?', correcta:'LA MUNICIPALIDAD', opts:['LA BIBLIOTECA','EL HOSPITAL','LOS BOMBEROS'] },
+  { pregunta:'¿A qué institución acudes si te enfermas gravemente?', correcta:'EL HOSPITAL', opts:['LA MUNICIPALIDAD','LA BIBLIOTECA','EL CORREO'] },
+];
+
+export function genCivilizaciones3Round(){
+  const item = pick(CIVILIZACIONES_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genGeografia3Round(){
+  const roll = Math.random();
+  const bank = roll<0.34 ? CUADRANTES_BANK : roll<0.67 ? HEMISFERIOS_BANK : ZONAS_CLIMATICAS_BANK;
+  const item = pick(bank);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCiudadania3Round(){
+  if(Math.random()<0.6){
+    const item = pick(CIUDADANIA3_BANK);
+    const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
+      options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
+      explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+    };
+  }
+  const item = pick(INSTITUCIONES3_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+

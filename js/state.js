@@ -32,7 +32,16 @@ export const state = {
            lineascolores2:0, timbrepulso2:0,
            cuerporesponde2:0, vidaactiva2:0, liderazgo2:0,
            emociones2:0, autocuidado2:0, habitosescolares2:0, convivencia2:0,
-           tecdigital2:0 },
+           tecdigital2:0,
+           generosliterarios3:0, comprension3:0, vocabulario3:0, alfabetico3:0, gramatica3:0, ortografia3:0,
+           numeros3:0, operaciones3:0, multiplicar3:0, dividir3:0, fracciones3:0, patrones3:0, geometria3:0, medicion3:0, datos3:0,
+           plantas3:0, cicloplanta3:0, cuidadoambiente3:0, alimentacion3:0, luz3:0, sonido3:0, sistemasolar3:0,
+           civilizaciones3:0, geografia3:0, ciudadania3:0,
+           colorexpresivo3:0, materialesarte3:0,
+           lenguajemusical3:0, musicasociedad3:0,
+           vidaactiva3:0, seguridad3:0,
+           manejoemocional3:0, autocuidado3:0, buentrato3:0, habitosestudio3:0,
+           tecdigital3:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

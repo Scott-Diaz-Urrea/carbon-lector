@@ -199,3 +199,59 @@ export function genSeguridadRound(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
+
+/* ---------------- Contenido Educación Física y Salud 3° Básico ----------------
+   Basado en OA del Decreto 439/2012, 3° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/educacion-fisica-salud/3-basico):
+   Vida Activa III -> OA06-09 (actividad física regular, respuestas
+   corporales, hábitos de higiene y vida saludable). Juego Limpio y
+   Seguridad III -> OA10-11 (honestidad, reglas, comportamientos seguros).
+   Quedan fuera OA01-05 (habilidades motrices combinadas, juegos
+   predeportivos, danzas, actividades en distintos entornos) por depender
+   de práctica física real. */
+export const EDFISICA_MODULES_G3 = [
+  {id:'vidaactiva3', label:'Vida Activa y Saludable III', open:true, key:'vidaactiva3'},
+  {id:'seguridad3', label:'Juego Limpio y Seguridad III', open:true, key:'seguridad3'},
+];
+export const EDFISICA_POS_G3 = [{x:30,y:70},{x:70,y:30}];
+
+const VIDA_ACTIVA_3_ITEMS = [
+  { label:'Practicar actividad física de manera regular, no solo de vez en cuando, mejora tu condición física', v:true },
+  { label:'Tu cuerpo necesita más oxígeno cuando haces ejercicio intenso, por eso respiras más rápido', v:true },
+  { label:'Mantener hábitos de higiene después de hacer deporte, como ducharte, es parte de una vida saludable', v:true },
+  { label:'Registrar cómo reacciona tu cuerpo al ejercicio (pulso, respiración) ayuda a entender tus propios límites', v:true },
+  { label:'Elegir posturas correctas al sentarte o pararte cuida tu columna a largo plazo', v:true },
+  { label:'Practicar deporte una sola vez al año es suficiente para mantenerte en buena condición física', v:false },
+  { label:'No importa cómo reacciona tu cuerpo al ejercicio, nunca hay que prestarle atención', v:false },
+  { label:'Es buena idea saltarse la ducha después de sudar mucho haciendo deporte', v:false },
+];
+const SEGURIDAD_3_ITEMS = [
+  { label:'Cumplir las reglas de un juego colectivo, incluso cuando estás perdiendo, es parte del juego limpio', v:true },
+  { label:'Ser honesto sobre una falta que cometiste durante un juego es parte de la buena deportividad', v:true },
+  { label:'Revisar que el lugar donde vas a jugar esté seguro y despejado antes de empezar es una buena práctica', v:true },
+  { label:'Usar la ropa y protección adecuada para cada actividad física ayuda a evitar lesiones', v:true },
+  { label:'Avisar a un adulto si te lesionas o ves que un compañero se lesiona es lo correcto', v:true },
+  { label:'Hacer trampa para ganar un juego está bien si nadie se da cuenta', v:false },
+  { label:'Cambiar las reglas del juego a mitad de camino, solo para ganar tú, es justo', v:false },
+  { label:'No es necesario avisar a nadie si un compañero se golpea jugando', v:false },
+];
+
+export function genVidaActiva3Round(){
+  const item = pick(VIDA_ACTIVA_3_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+export function genSeguridad3Round(){
+  const item = pick(SEGURIDAD_3_ITEMS);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}

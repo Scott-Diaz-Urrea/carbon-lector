@@ -30,7 +30,7 @@ const AUTOCUIDADO_ITEMS = [
   { emoji:'🔓', label:'No es necesario proteger tu cuerpo ni tu intimidad', v:false },
   { emoji:'💧', label:'Tomar agua durante el día es parte de cuidar tu cuerpo', v:true },
   { emoji:'🌙', label:'Acostarte muy tarde todos los días no afecta en nada', v:false },
-  { emoji:'🎨', label:'Reconocer los nuevos aprendizajes que vas logrando te ayuda a motivarte', v:true },
+  { emoji:'🌟', label:'Reconocer los nuevos aprendizajes que vas logrando te ayuda a motivarte', v:true },
 ];
 const CONVIVENCIA_ITEMS = [
   { emoji:'🙋', label:'Saludar y despedirte con buenos modales es una forma de buen trato', v:true },

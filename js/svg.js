@@ -64,6 +64,21 @@ export function shapeSVG(id, size){
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+shape+'</svg>';
 }
 
+/* Paralelogramo inclinado (no rectángulo, no rombo): a diferencia del resto
+   de shapeSVG() (todas figuras con al menos una línea de simetría), este
+   paralelogramo genérico NO tiene ninguna línea de simetría real — se
+   agregó porque Matemática 4° básico (Geometría IV, simetría) solo tenía
+   figuras simétricas en su banco de preguntas, así que la respuesta
+   correcta era siempre "SÍ TIENE LÍNEA DE SIMETRÍA" (bug encontrado en la
+   auditoría). No se agregó como id nuevo dentro de shapeSVG() para no
+   tocar esa función existente; se llama por separado donde corresponde. */
+export function paralelogramoSVG(size){
+  size = size || 100;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<polygon points="25,80 45,20 90,20 70,80" fill="#5A4CD6"/>'+
+  '</svg>';
+}
+
 /* Íconos propios para conceptos donde el emoji correspondiente no se
    renderiza en muchos sistemas (probado: 🪥🪮🪟🪞🫘🪖 se ven como un
    recuadro vacío/"tofu" en varios navegadores — todos son adiciones
@@ -292,6 +307,49 @@ export function cascoSVG(size){
     '<ellipse cx="70" cy="50" rx="7" ry="14" fill="#E85555" opacity="0.6"/>'+
     '<path d="M22 62 Q22 82 30 90" stroke="#1D3557" stroke-width="4" fill="none" stroke-linecap="round"/>'+
     '<path d="M78 62 Q78 82 70 90" stroke="#1D3557" stroke-width="4" fill="none" stroke-linecap="round"/>'+
+  '</svg>';
+}
+
+/* Íconos propios para Música 1° básico, módulo "Instrumentos" (audit
+   2026-07-22): 🪇 (maracas, Unicode 14.0/2021), 🪘 (djembé, Unicode
+   13.0/2020) y 🪣 (balde, Unicode 13.0/2020) son adiciones tan recientes
+   como 🪥🪮🪨🪟🪞🫘🪖 — el mismo lote que ya se confirmó como "tofu"/
+   recuadro vacío en varios navegadores/sistemas (ver comentario de
+   toothbrushSVG() arriba) — así que se dibujan a mano por el mismo motivo,
+   no porque el instrumento en sí fuera el equivocado. */
+export function maracasSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<g transform="rotate(-20 40 55)">'+
+      '<ellipse cx="40" cy="40" rx="16" ry="20" fill="#FFB627"/>'+
+      '<rect x="36" y="55" width="8" height="30" rx="4" fill="#8B5A2B"/>'+
+      '<circle cx="34" cy="34" r="2.5" fill="#B5791C"/>'+
+      '<circle cx="46" cy="38" r="2.5" fill="#B5791C"/>'+
+      '<circle cx="40" cy="48" r="2.5" fill="#B5791C"/>'+
+    '</g>'+
+    '<g transform="rotate(20 60 55)">'+
+      '<ellipse cx="60" cy="40" rx="16" ry="20" fill="#FF6B6B"/>'+
+      '<rect x="56" y="55" width="8" height="30" rx="4" fill="#8B5A2B"/>'+
+      '<circle cx="54" cy="34" r="2.5" fill="#D14B4B"/>'+
+      '<circle cx="66" cy="38" r="2.5" fill="#D14B4B"/>'+
+      '<circle cx="60" cy="48" r="2.5" fill="#D14B4B"/>'+
+    '</g>'+
+  '</svg>';
+}
+export function djembeSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<ellipse cx="50" cy="18" rx="26" ry="10" fill="#F0E4D0" stroke="#8B5A2B" stroke-width="3"/>'+
+    '<path d="M24 18 Q20 40 34 54 Q26 62 30 82 Q34 92 50 92 Q66 92 70 82 Q74 62 66 54 Q80 40 76 18 Z" fill="#B5791C" stroke="#8B5A2B" stroke-width="3"/>'+
+    '<ellipse cx="50" cy="18" rx="20" ry="7" fill="none" stroke="#8B5A2B" stroke-width="2"/>'+
+  '</svg>';
+}
+export function baldeSVG(size){
+  size = size || 90;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
+    '<path d="M22 30 L78 30 L70 88 Q70 92 66 92 L34 92 Q30 92 30 88 Z" fill="#7EC8E3" stroke="#12A594" stroke-width="4"/>'+
+    '<ellipse cx="50" cy="30" rx="28" ry="7" fill="none" stroke="#12A594" stroke-width="4"/>'+
+    '<path d="M30 30 Q50 6 70 30" fill="none" stroke="#12A594" stroke-width="4" stroke-linecap="round"/>'+
   '</svg>';
 }
 

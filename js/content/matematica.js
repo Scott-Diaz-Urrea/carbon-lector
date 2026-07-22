@@ -1,5 +1,5 @@
 import { pick, shuffle, randInt, uniqueDistractors } from '../utils.js';
-import { shapeSVG, solid3DSVG, fraccionSVG, fraccionBarraSVG, anguloSVG, pieChartSVG } from '../svg.js';
+import { shapeSVG, solid3DSVG, fraccionSVG, fraccionBarraSVG, anguloSVG, pieChartSVG, paralelogramoSVG } from '../svg.js';
 
 export const COUNT_EMOJIS = ['🍎','🍓','🐝','⚽','🎈','🐟','🌟','🚗','🐶','🍌'];
 
@@ -13,6 +13,16 @@ export const SHAPES = [
   { id:'pentagono', label:'PENTÁGONO' },
   { id:'hexagono', label:'HEXÁGONO' },
 ];
+
+/* Artículo correcto ("un"/"una") para figuras y cuerpos geométricos de este
+   archivo: casi todos son masculinos, pero ESFERA y PIRÁMIDE son femeninos.
+   Varios `explain` de abajo usaban el literal sin resolver "un(a)" (el niño
+   lo leería tal cual, "un(a) esfera") — mismo tipo de bug ya corregido en
+   Formas y Cuerpos de Parvularia (pensamientoMatematico.js), encontrado
+   pendiente aquí durante la auditoría. */
+function articuloFigura(id){
+  return (id==='esfera' || id==='piramide') ? 'una' : 'un';
+}
 
 export const MATE_MODULES = [
   {id:'contar', label:'Contar', open:true, key:'contar'},
@@ -175,7 +185,7 @@ function genFigura2DG2Round(){
   return {
     promptHTML: '<div class="shape-display">'+shapeSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué figura es?</p>',
     options: opts, correctValue: item.id, speakText: item.label, cols:2, kind:'word', panel:true,
-    explain: 'Esta figura es un(a) <b>'+item.label.toLowerCase()+'</b>.',
+    explain: 'Esta figura es un <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
 
@@ -186,7 +196,7 @@ function genSolido3DG2Round(){
   return {
     promptHTML: '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué cuerpo geométrico es?</p>',
     options: opts, correctValue: item.id, speakText: item.label, cols:2, kind:'word', panel:true,
-    explain: 'Este cuerpo geométrico es un(a) <b>'+item.label.toLowerCase()+'</b>.',
+    explain: 'Este cuerpo geométrico es '+articuloFigura(item.id)+' <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
 
@@ -506,7 +516,7 @@ export function genGeometria3Round(){
     return {
       promptHTML: '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué cuerpo geométrico es?</p>',
       options: opts, correctValue: item.id, speakText: item.label, cols:4, kind:'word',
-      explain: 'Este cuerpo geométrico es un(a) <b>'+item.label.toLowerCase()+'</b>.',
+      explain: 'Este cuerpo geométrico es '+articuloFigura(item.id)+' <b>'+item.label.toLowerCase()+'</b>.',
     };
   }
   const tipo = pick(ANGULOS_POOL);
@@ -634,6 +644,13 @@ const SIMETRIA_BANK = [
   { id:'triangulo', label:'TRIÁNGULO (EQUILÁTERO)', simetrico:true },
   { id:'ovalo', label:'ÓVALO', simetrico:true },
   { id:'rombo', label:'ROMBO', simetrico:true },
+  /* Único caso "NO simétrico" del banco (bug encontrado en la auditoría):
+     sin él, las 5 figuras de arriba son simétricas, así que la respuesta
+     correcta de este módulo era SIEMPRE "SÍ TIENE LÍNEA DE SIMETRÍA" — la
+     opción "NO" nunca podía ser la correcta. Un paralelogramo inclinado
+     (no rectángulo, no rombo) es la figura simple más clara sin ninguna
+     línea de simetría real. */
+  { id:'paralelogramo', label:'PARALELOGRAMO', simetrico:false },
 ];
 const OBJETOS_LONGITUD4 = [
   { emoji:'✏️', label:'El lápiz', cm:15 },
@@ -864,19 +881,23 @@ export function genGeometria4Round(){
     const distract = shuffle(['UN CUADRADO','UN CÍRCULO','UN TRIÁNGULO','UN RECTÁNGULO'].filter(function(v){ return v!==correct; })).slice(0,3);
     const opts = shuffle([correct].concat(distract)).map(function(v){ return {label:v, value:v}; });
     const vistaLabel = vista==='frente'?'DE FRENTE':vista==='lado'?'DE LADO':'DESDE ARRIBA';
+    const art = articuloFigura(item.id);
+    const participio = art==='una' ? 'vista' : 'visto';
     return {
       promptHTML: '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div><p class="prompt-hint">Si miras este cuerpo geométrico '+vistaLabel.toLowerCase()+', ¿qué forma ves?</p>',
       options: opts, correctValue: correct, speakText: 'Si miras este cuerpo '+vistaLabel.toLowerCase()+', ¿qué forma ves?', cols:2, kind:'word', panel:true,
-      explain: 'Un(a) '+item.label.toLowerCase()+' visto '+vistaLabel.toLowerCase()+' se ve como <b>'+correct.toLowerCase()+'</b>.',
+      explain: art+' '+item.label.toLowerCase()+' '+participio+' '+vistaLabel.toLowerCase()+' se ve como <b>'+correct.toLowerCase()+'</b>.',
     };
   }
   if(roll<0.75){
     const item = pick(SIMETRIA_BANK);
     const opts = shuffle([{label:'SÍ TIENE LÍNEA DE SIMETRÍA', value:true},{label:'NO TIENE LÍNEA DE SIMETRÍA', value:false}]);
+    const art = articuloFigura(item.id);
+    const dibujo = item.id==='paralelogramo' ? paralelogramoSVG(100) : shapeSVG(item.id,100);
     return {
-      promptHTML: '<div class="shape-display">'+shapeSVG(item.id,100)+'</div><p class="prompt-hint">Si doblaras esta figura por la mitad, ¿los dos lados coinciden exactamente?</p>',
+      promptHTML: '<div class="shape-display">'+dibujo+'</div><p class="prompt-hint">Si doblaras esta figura por la mitad, ¿los dos lados coinciden exactamente?</p>',
       options: opts, correctValue: item.simetrico, speakText: '¿Esta figura tiene una línea de simetría?', cols:2, panel:true,
-      explain: item.simetrico ? 'Un(a) '+item.label.toLowerCase()+' sí tiene línea de simetría: al doblarlo por la mitad, ambos lados coinciden.' : 'Un(a) '+item.label.toLowerCase()+' no tiene línea de simetría en este caso.',
+      explain: item.simetrico ? art+' '+item.label.toLowerCase()+' sí tiene línea de simetría: al doblarlo por la mitad, ambos lados coinciden.' : art+' '+item.label.toLowerCase()+' no tiene línea de simetría en este caso.',
     };
   }
   const tipoA = pick(ANGULOS_POOL);
@@ -1317,10 +1338,11 @@ export function genGeometria5Round(){
   if(roll<0.67){
     const item = pick(PARALELISMO_BANK);
     const opts = shuffle([{label:'SÍ TIENE LADOS PARALELOS', value:true},{label:'NO TIENE LADOS PARALELOS', value:false}]);
+    const art = articuloFigura(item.id);
     return {
       promptHTML: '<div class="shape-display">'+shapeSVG(item.id,100)+'</div><p class="prompt-hint">¿Esta figura tiene al menos un par de lados paralelos?</p>',
       options: opts, correctValue: item.paralelo, speakText: '¿Esta figura tiene lados paralelos?', cols:2, panel:true,
-      explain: item.paralelo ? 'Un(a) '+item.label.toLowerCase()+' sí tiene al menos un par de lados paralelos.' : 'Un(a) '+item.label.toLowerCase()+' no tiene lados paralelos.',
+      explain: item.paralelo ? art+' '+item.label.toLowerCase()+' sí tiene al menos un par de lados paralelos.' : art+' '+item.label.toLowerCase()+' no tiene lados paralelos.',
     };
   }
   const item = pick(TRANSFORMACIONES_BANK);
@@ -1379,13 +1401,25 @@ export function genMedicion5Round(){
       {label:largo+' × '+(ancho+2), value:'bad3'},
     ]);
     return {
-      promptHTML: '<p class="prompt-hint">Quieres diseñar un rectángulo con perímetro '+perimetro+'. ¿Cuáles dimensiones (largo × ancho) funcionan?</p>',
+      /* Antes decía "¿Cuáles dimensiones ... funcionan?" (plural) — lectura
+         ambigua, como si más de una de las 4 opciones pudiera ser correcta.
+         Solo una combinación (la exacta) da este perímetro; reformulado en
+         singular para que quede claro que se elige una sola opción. */
+      promptHTML: '<p class="prompt-hint">Quieres diseñar un rectángulo con perímetro '+perimetro+'. ¿Cuál de estas combinaciones de dimensiones (largo × ancho) da ese perímetro?</p>',
       options: opts, correctValue: 'ok', speakText: '¿Qué dimensiones dan ese perímetro?', cols:2, panel:true,
       explain: 'Con largo '+largo+' y ancho '+ancho+', el perímetro es 2×('+largo+'+'+ancho+') = <b>'+perimetro+'</b>.',
     };
   }
   const tipo = pick(['TRIÁNGULO','PARALELOGRAMO','TRAPECIO']);
-  const base = randInt(4,12), altura = randInt(3,10);
+  /* `altura` se fuerza PAR: el área de triángulo y trapecio se calcula
+     dividiendo por 2 (base×altura÷2, (base+base2)×altura÷2). Con una altura
+     impar y un producto impar, el resultado exacto podía salir con
+     decimales (p.ej. 5×3÷2 = 7,5) que luego se redondeaba en silencio a un
+     entero (8) mientras el `explain` mostraba la fórmula "exacta" con el
+     resultado real 7,5 pero declarando 8 como respuesta — inconsistencia
+     real encontrada en la auditoría. Con altura siempre par, la división
+     por 2 da un entero exacto, sin redondear nada. */
+  const base = randInt(4,12), altura = randInt(2,5)*2;
   let area, formula;
   if(tipo==='TRIÁNGULO'){ area = Math.round(base*altura/2); formula = '(base × altura) ÷ 2 = ('+base+' × '+altura+') ÷ 2'; }
   else if(tipo==='PARALELOGRAMO'){ area = base*altura; formula = 'base × altura = '+base+' × '+altura; }
@@ -1745,12 +1779,30 @@ const TESELADO_TRANSFORMACIONES_BANK = [
   { desc:'En un mosaico, cada figura aparece girada un cierto ángulo respecto a la anterior, alrededor de un punto fijo', tipo:'ROTACIÓN' },
   { desc:'En un mosaico, las figuras giran en círculo alrededor de un punto central, como las aspas de un molino', tipo:'ROTACIÓN' },
 ];
+/* Los 3 lados de un triángulo real deben cumplir la desigualdad triangular
+   (la suma de dos lados cualesquiera debe superar siempre al tercero) o el
+   "triángulo" descrito no podría existir geométricamente — bug encontrado
+   en la auditoría: los rangos fijos anteriores para ISÓSCELES (c en 3-10
+   sin relación con 2×a) y ESCALENO (3-6, 7-10, 11-14 fijos) a veces
+   generaban lados como 3,3,10 o 3,7,14 que NO forman un triángulo real
+   (3+3=6 no supera a 10; 3+7=10 no supera a 14). Ahora se usa muestreo por
+   rechazo: se generan los 3 lados y se descartan las combinaciones que no
+   cumplan la desigualdad triangular (o que no correspondan realmente al
+   tipo pedido), hasta obtener una válida. */
 const TRIANGULO_LADOS_BANK_GEN = function(){
   const tipo = pick(['EQUILÁTERO','ISÓSCELES','ESCALENO']);
   let a,b,c;
-  if(tipo==='EQUILÁTERO'){ a = randInt(3,10); b = a; c = a; }
-  else if(tipo==='ISÓSCELES'){ a = randInt(3,10); b = a; c = randInt(3,10); while(c===a) c = randInt(3,10); }
-  else { a = randInt(3,6); b = randInt(7,10); c = randInt(11,14); }
+  if(tipo==='EQUILÁTERO'){
+    a = randInt(3,10); b = a; c = a;
+  }else if(tipo==='ISÓSCELES'){
+    do{
+      a = randInt(3,10); b = a; c = randInt(2,12);
+    }while(c===a || a+b<=c);
+  }else{
+    do{
+      a = randInt(3,10); b = randInt(3,10); c = randInt(3,10);
+    }while(a===b || b===c || a===c || a+b<=c || a+c<=b || b+c<=a);
+  }
   return {a:a,b:b,c:c,tipo:tipo};
 };
 export function genTriangulosTeselados6Round(){
@@ -1916,10 +1968,19 @@ const CONJETURAS_BANK = [
 export function genDatos6Round(){
   const roll = Math.random();
   if(roll<0.34){
-    const gA = [randInt(3,9),randInt(3,9),randInt(3,9),randInt(3,9)];
-    const gB = [randInt(3,9),randInt(3,9),randInt(3,9),randInt(3,9)];
-    const promA = gA.reduce(function(a,b){return a+b;},0)/gA.length;
-    const promB = gB.reduce(function(a,b){return a+b;},0)/gB.length;
+    /* Se regenera hasta que los promedios sean distintos: con números al
+       azar los dos grupos podían empatar en promedio (bug encontrado en la
+       auditoría), y en ese caso el código igual declaraba "GRUPO B" como
+       correcto por cómo queda la comparación `promA>promB` cuando son
+       iguales — una respuesta arbitraria y matemáticamente incorrecta para
+       un empate real. */
+    let gA, gB, promA, promB;
+    do{
+      gA = [randInt(3,9),randInt(3,9),randInt(3,9),randInt(3,9)];
+      gB = [randInt(3,9),randInt(3,9),randInt(3,9),randInt(3,9)];
+      promA = gA.reduce(function(a,b){return a+b;},0)/gA.length;
+      promB = gB.reduce(function(a,b){return a+b;},0)/gB.length;
+    }while(promA===promB);
     const opts = shuffle([{label:'GRUPO A', value:'A'},{label:'GRUPO B', value:'B'}]);
     return {
       promptHTML: '<p class="prompt-sentence">Grupo A: '+gA.join(', ')+'<br>Grupo B: '+gB.join(', ')+'</p><p class="prompt-hint">¿Cuál grupo tiene mayor promedio?</p>',

@@ -1,4 +1,5 @@
 import { pick, shuffle } from '../utils.js';
+import { maracasSVG, djembeSVG, baldeSVG } from '../svg.js';
 
 export const MUSICA_MODULES = [
   {id:'sonidos', label:'Sonidos', open:true, key:'sonidos'},
@@ -27,15 +28,19 @@ const SONIDO_ITEMS = [
   { emoji:'🦗', label:'El canto de un grillo en la noche', cualidad:'AGUDO', par:['AGUDO','GRAVE'] },
   { emoji:'🥁', label:'El golpe seco de un tambor grande', cualidad:'GRAVE', par:['AGUDO','GRAVE'] },
 ];
+/* 🪇 (maracas), 🪘 (djembé) y 🪣 (balde) son adiciones Unicode 2020-2021 que
+   no se renderizan en varios navegadores/sistemas (mismo problema ya
+   documentado para 🪥🪮🪨🪞🫘🪖 en otros archivos) — se reemplazan por
+   maracasSVG()/djembeSVG()/baldeSVG() (ver svg.js). */
 const INSTRUMENTOS_ITEMS = [
   { emoji:'🥁', label:'TAMBOR', tipo:'CONVENCIONAL' },
-  { emoji:'🪇', label:'MARACAS', tipo:'CONVENCIONAL' },
-  { emoji:'🪘', label:'DJEMBÉ (TAMBOR AFRICANO)', tipo:'CONVENCIONAL' },
+  { emoji: maracasSVG(30), label:'MARACAS', tipo:'CONVENCIONAL' },
+  { emoji: djembeSVG(30), label:'DJEMBÉ (TAMBOR AFRICANO)', tipo:'CONVENCIONAL' },
   { emoji:'🎻', label:'VIOLÍN', tipo:'CONVENCIONAL' },
   { emoji:'🎺', label:'TROMPETA', tipo:'CONVENCIONAL' },
   { emoji:'🎸', label:'GUITARRA', tipo:'CONVENCIONAL' },
   { emoji:'🥫', label:'UNA LATA VACÍA', tipo:'NO CONVENCIONAL' },
-  { emoji:'🪣', label:'UN BALDE', tipo:'NO CONVENCIONAL' },
+  { emoji: baldeSVG(30), label:'UN BALDE', tipo:'NO CONVENCIONAL' },
   { emoji:'🥄', label:'DOS CUCHARAS', tipo:'NO CONVENCIONAL' },
   { emoji:'📦', label:'UNA CAJA DE CARTÓN', tipo:'NO CONVENCIONAL' },
 ];
@@ -239,7 +244,7 @@ const TEXTURA_MUSICAL_BANK = [
   { desc:'Todo el curso cantando el mismo himno al unísono, sin ninguna otra voz sonando', tipo:'MONOFONÍA' },
   { desc:'Un solista cantando la melodía principal mientras la guitarra toca acordes de acompañamiento', tipo:'HOMOFONÍA' },
   { desc:'Una banda donde el cantante lleva la melodía y los demás instrumentos tocan acordes de fondo', tipo:'HOMOFONÍA' },
-  { desc:'Un coro donde cada grupo de voces canta una melodía distinta al mismo tiempo, como en un canon', tipo:'POLIFONÍA' },
+  { desc:'Un coro donde cada grupo de voces va entrando con la misma melodía en momentos distintos, sobreponiéndose entre sí, como en un canon', tipo:'POLIFONÍA' },
   { desc:'Varios instrumentos tocando cada uno su propia melodía independiente, entrelazadas entre sí', tipo:'POLIFONÍA' },
 ];
 const PREGUNTA_RESPUESTA_BANK = [

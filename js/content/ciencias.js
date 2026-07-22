@@ -1,5 +1,5 @@
 import { pick, shuffle, randInt } from '../utils.js';
-import { toothbrushSVG, piedraSVG, semillaSVG, vasoVacioSVG, plasticinaSVG, estomagoSVG } from '../svg.js';
+import { toothbrushSVG, piedraSVG, semillaSVG, vasoVacioSVG, plasticinaSVG, estomagoSVG, focaSVG } from '../svg.js';
 
 export const CIENCIAS_MODULES = [
   {id:'seresvivos', label:'Seres Vivos', open:true, key:'seresvivos'},
@@ -58,14 +58,14 @@ const PLANT_PARTS = [
 const FRUIT_SIZE = [
   { emoji:'🌰', label:'CASTAÑA', size:1 },
   { emoji:'🍇', label:'UVA', size:2 },
-  { emoji:'🍓', label:'FRUTILLA', size:3 },
   { emoji:'🍒', label:'CEREZA', size:3 },
-  { emoji:'🍎', label:'MANZANA', size:4 },
-  { emoji:'🍐', label:'PERA', size:4 },
-  { emoji:'🥭', label:'MANGO', size:5 },
-  { emoji:'🍍', label:'PIÑA', size:6 },
-  { emoji:'🍉', label:'SANDÍA', size:7 },
-  { emoji:'🎃', label:'ZAPALLO', size:8 },
+  { emoji:'🍓', label:'FRUTILLA', size:4 },
+  { emoji:'🍐', label:'PERA', size:5 },
+  { emoji:'🍎', label:'MANZANA', size:6 },
+  { emoji:'🥭', label:'MANGO', size:7 },
+  { emoji:'🍍', label:'PIÑA', size:8 },
+  { emoji:'🍉', label:'SANDÍA', size:9 },
+  { emoji:'🎃', label:'ZAPALLO', size:10 },
 ];
 const SENTIDOS = [
   { emoji:'👁️', organ:'OJOS', sense:'VER' },
@@ -79,7 +79,7 @@ const SENTIDOS = [
    que describe el texto (NO lavarse). Se cambió a 🦠 (gérmenes), que sí
    ilustra la consecuencia de no lavarse las manos. */
 const HABITOS_SALUDABLES = [
-  { emoji:'🪥', label:'Cepillarse los dientes', bueno:true },
+  { emoji: toothbrushSVG(30), label:'Cepillarse los dientes', bueno:true },
   { emoji:'🥗', label:'Comer frutas y verduras', bueno:true },
   { emoji:'😴', label:'Dormir bien de noche', bueno:true },
   { emoji:'🧼', label:'Lavarse las manos antes de comer', bueno:true },
@@ -200,7 +200,7 @@ const CICLOS_G2 = [MARIPOSA_CICLO, RANA_CICLO, AVE_CICLO, MAMIFERO_CICLO];
 
 const HABITAT_ANIMALES = [
   { emoji:'🐧', label:'PINGÜINO', habitat:'POLO' },
-  { emoji:'🦭', label:'FOCA', habitat:'POLO' },
+  { emoji: focaSVG(30), label:'FOCA', habitat:'POLO' },
   { emoji:'🐫', label:'CAMELLO', habitat:'DESIERTO' },
   { emoji:'🦂', label:'ESCORPIÓN', habitat:'DESIERTO' },
   { emoji:'🐬', label:'DELFÍN', habitat:'OCÉANO' },
@@ -253,7 +253,7 @@ const AGUA_PROPIEDADES_BANK = [
 const INSTRUMENTOS_CLIMA_BANK = [
   { emoji:'🌡️', label:'TERMÓMETRO', mide:'LA TEMPERATURA' },
   { emoji:'☔', label:'PLUVIÓMETRO', mide:'LA LLUVIA' },
-  { emoji:'🎏', label:'VELETA', mide:'EL VIENTO' },
+  { emoji:'🎏', label:'VELETA', mide:'LA DIRECCIÓN DEL VIENTO' },
   { emoji:'🌬️', label:'ANEMÓMETRO', mide:'LA VELOCIDAD DEL VIENTO' },
   { emoji:'💧', label:'HIGRÓMETRO', mide:'LA HUMEDAD DEL AIRE' },
 ];
@@ -413,7 +413,7 @@ export function genSeresVivosRound(){
   const opts = shuffle([item.cubierta].concat(distract)).map(function(c){ return {label:c, value:c}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué cubre el cuerpo de este animal?</p>',
-    options: opts, correctValue: item.cubierta, speakText: item.label, cols:4,
+    options: opts, correctValue: item.cubierta, speakText: item.label, cols:4, kind:'word',
     explain: 'El '+item.label.toLowerCase()+' tiene el cuerpo cubierto de <b>'+item.cubierta.toLowerCase()+'</b>.',
   };
 }
@@ -477,7 +477,7 @@ export function genMaterialesRound(){
   const opts = shuffle([item.cause].concat(distract)).map(function(c){ return {label:c, value:c}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.text+'. ¿Qué produjo este cambio?</p>',
-    options: opts, correctValue: item.cause, speakText: item.text, cols:4,
+    options: opts, correctValue: item.cause, speakText: item.text, cols:4, kind:'word',
     explain: item.text+' por el <b>'+item.cause.toLowerCase()+'</b>.',
   };
 }
@@ -781,7 +781,7 @@ const ECOSISTEMA_ELEMENTOS_BANK = [
   { emoji:'🐦', elemento:'un pájaro', tipo:'ELEMENTO VIVO' },
   { emoji:'🌳', elemento:'un árbol', tipo:'ELEMENTO VIVO' },
   { emoji:'🦋', elemento:'una mariposa', tipo:'ELEMENTO VIVO' },
-  { emoji:'🪨', elemento:'una roca', tipo:'ELEMENTO NO VIVO' },
+  { emoji: piedraSVG(30), elemento:'una roca', tipo:'ELEMENTO NO VIVO' },
   { emoji:'💧', elemento:'el agua', tipo:'ELEMENTO NO VIVO' },
   { emoji:'☀️', elemento:'la luz del sol', tipo:'ELEMENTO NO VIVO' },
 ];
@@ -826,8 +826,8 @@ const ESTADOS_MATERIA4_BANK = [
   { emoji:'🧊', ejemplo:'un cubo de hielo', estado:'SÓLIDO' },
   { emoji:'💧', ejemplo:'el agua líquida', estado:'LÍQUIDO' },
   { emoji:'💨', ejemplo:'el vapor de agua', estado:'GASEOSO' },
-  { emoji:'🪨', ejemplo:'una piedra', estado:'SÓLIDO' },
-  { emoji:'🧈', ejemplo:'el aceite', estado:'LÍQUIDO' },
+  { emoji: piedraSVG(30), ejemplo:'una piedra', estado:'SÓLIDO' },
+  { emoji:'🥛', ejemplo:'la leche', estado:'LÍQUIDO' },
   { emoji:'🎈', ejemplo:'el aire dentro de un globo', estado:'GASEOSO' },
 ];
 const INSTRUMENTOS_MEDICION_BANK = [
@@ -845,7 +845,7 @@ const MATERIA_PROPIEDADES_BANK = [
 const FUERZA_EFECTOS_BANK = [
   { emoji:'⚽', texto:'Patear una pelota la hace moverse', efecto:'CAMBIA SU MOVIMIENTO' },
   { emoji:'🧲', texto:'Un imán atrae un clip de metal', efecto:'CAMBIA SU MOVIMIENTO' },
-  { emoji:'🖌️', texto:'Apretar la plasticina cambia su forma', efecto:'CAMBIA SU FORMA' },
+  { emoji: plasticinaSVG(30), texto:'Apretar la plasticina cambia su forma', efecto:'CAMBIA SU FORMA' },
   { emoji:'🎈', texto:'Inflar un globo lo estira y cambia su forma', efecto:'CAMBIA SU FORMA' },
 ];
 const TIPOS_FUERZA_BANK = [

@@ -177,3 +177,43 @@ export function genMusicaSociedad3Round(){
     explain: 'En esa situación, lo más común es escuchar <b>'+item.correcta.toLowerCase()+'</b>.',
   };
 }
+
+/* ---------------- Contenido Música 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/musica/4-basico): MU04 OA01 menciona explícitamente
+   "dinámica" y "tempo" dentro de los elementos del lenguaje musical, un
+   ángulo que "Lenguaje Musical" de 3° básico no cubrió (esa cubrió pulso,
+   acento y forma A-AB-ABA). OA07 (música en situaciones cotidianas) ya se
+   cubrió en 3° básico con contenido casi idéntico, así que no se repite
+   aquí para no duplicar. Quedan fuera OA02-06,08 (expresión subjetiva,
+   escuchar repertorio extenso, cantar/tocar/improvisar/presentar,
+   autoevaluación) por las mismas razones que en años anteriores. */
+export const MUSICA_MODULES_G4 = [
+  {id:'dinamicatempo4', label:'Dinámica y Tempo', open:true, key:'dinamicatempo4'},
+];
+export const MUSICA_POS_G4 = [{x:50,y:50}];
+
+const DINAMICA_BANK = [
+  { desc:'Un volumen muy suave, casi un susurro musical', termino:'PIANO (SUAVE)' },
+  { desc:'Un volumen muy fuerte y potente', termino:'FORTE (FUERTE)' },
+  { desc:'Un volumen que va aumentando poco a poco, de suave a fuerte', termino:'CRESCENDO' },
+  { desc:'Un volumen que va disminuyendo poco a poco, de fuerte a suave', termino:'DECRESCENDO' },
+];
+const TEMPO_BANK = [
+  { desc:'Una canción que se toca muy rápido', termino:'ALLEGRO (RÁPIDO)' },
+  { desc:'Una canción que se toca muy lenta y calmada', termino:'LARGO (MUY LENTO)' },
+  { desc:'Una canción que se toca a velocidad moderada, ni rápida ni lenta', termino:'MODERATO' },
+  { desc:'Una canción que se toca a un paso tranquilo, como una caminata', termino:'ANDANTE' },
+];
+
+export function genDinamicaTempo4Round(){
+  const bank = Math.random()<0.5 ? DINAMICA_BANK : TEMPO_BANK;
+  const item = pick(bank);
+  const distract = shuffle(bank.filter(function(b){ return b.termino!==item.termino; })).map(function(b){ return b.termino; });
+  const opts = shuffle([item.termino].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué término musical describe esto?</p>',
+    options: opts, correctValue: item.termino, speakText: item.desc, cols:2, kind:'word',
+    explain: 'Ese término musical es <b>'+item.termino.toLowerCase()+'</b>.',
+  };
+}

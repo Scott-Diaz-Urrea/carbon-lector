@@ -452,3 +452,106 @@ export function genCiudadania3Round(){
   };
 }
 
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/historia-geografia-ciencias-sociales/4-basico):
+   Civilizaciones Americanas -> OA01-04 (maya, azteca, inca — ubicación,
+   organización, hitos culturales ampliamente documentados en historia
+   universal: Tenochtitlán, Machu Picchu, el quipu, los chasquis — mismo
+   criterio que Grecia y Roma en 3° básico: hechos de una civilización
+   entera, no afirmaciones sobre personajes históricos puntuales de una
+   sola fuente). Geografía de América -> OA06-10 (coordenadas geográficas,
+   recursos renovables/no renovables, paisajes y climas de América).
+   Formación Ciudadana IV -> OA11-16 (actores políticos, derechos,
+   honestidad, no discriminación, participación democrática, resolución de
+   conflictos). Quedan fuera: OA05 (investigar sobre el presente de los
+   pueblos indígenas — proceso de indagación propio) y OA17-18 (diseñar un
+   proyecto grupal, opinar y argumentar — producción propia o habilidad de
+   argumentación, no un hecho con respuesta única). */
+export const HISTORIA_MODULES_G4 = [
+  {id:'civilizacionesamericanas4', label:'Civilizaciones Americanas', open:true, key:'civilizacionesamericanas4'},
+  {id:'geografiaamerica4', label:'Geografía de América', open:true, key:'geografiaamerica4'},
+  {id:'ciudadania4', label:'Formación Ciudadana IV', open:true, key:'ciudadania4'},
+];
+export const HISTORIA_POS_G4 = [{x:24,y:82},{x:68,y:50},{x:24,y:18}];
+
+const CIVILIZACIONES_AMERICANAS_BANK = [
+  { pregunta:'¿En qué región vivía la civilización Maya?', correcta:'AMÉRICA CENTRAL (PENÍNSULA DE YUCATÁN)', opts:['LOS ANDES DE SUDAMÉRICA','EL VALLE DE MÉXICO','LA PATAGONIA'] },
+  { pregunta:'¿Cuál era la capital del imperio Azteca?', correcta:'TENOCHTITLÁN', opts:['CUSCO','MACHU PICCHU','CHICHÉN ITZÁ'] },
+  { pregunta:'¿En qué región vivía la civilización Inca?', correcta:'LA CORDILLERA DE LOS ANDES', opts:['LA PENÍNSULA DE YUCATÁN','EL VALLE DE MÉXICO','EL CARIBE'] },
+  { pregunta:'¿Cuál era la capital del imperio Inca?', correcta:'CUSCO', opts:['TENOCHTITLÁN','CHICHÉN ITZÁ','TIKAL'] },
+  { pregunta:'¿Qué construyeron los aztecas para cultivar alimentos sobre el lago donde estaba su ciudad?', correcta:'LAS CHINAMPAS (ISLAS ARTIFICIALES)', opts:['EL CAMINO INCA','LAS PIRÁMIDES ESCALONADAS','LOS QUIPUS'] },
+  { pregunta:'¿Cómo se llamaban los mensajeros incas que corrían por el imperio llevando noticias?', correcta:'LOS CHASQUIS', opts:['LOS AZTECAS','LOS MAYAS','LOS FARAONES'] },
+  { pregunta:'¿Qué usaban los incas para registrar información, ya que no tenían un alfabeto escrito?', correcta:'EL QUIPU (CUERDAS CON NUDOS)', opts:['JEROGLÍFICOS','UN ALFABETO','TABLILLAS DE ARCILLA'] },
+  { pregunta:'¿En qué destacaban los mayas, además de la arquitectura?', correcta:'La astronomía y un calendario muy preciso', opts:['No conocían los números','Nunca observaban el cielo','No sabían medir el tiempo'] },
+  { pregunta:'¿Qué construcción famosa hicieron los incas en lo alto de la cordillera?', correcta:'MACHU PICCHU', opts:['TENOCHTITLÁN','CHICHÉN ITZÁ','LAS CHINAMPAS'] },
+  { pregunta:'¿Qué idioma hablaban los aztecas?', correcta:'NÁHUATL', opts:['QUECHUA','MAYA','ESPAÑOL'] },
+  { pregunta:'¿Qué idioma hablaban los incas, que todavía se habla hoy en países como Perú y Bolivia?', correcta:'QUECHUA', opts:['NÁHUATL','MAYA','LATÍN'] },
+];
+
+const GEOGRAFIA_AMERICA_BANK = [
+  { pregunta:'¿Qué son los paralelos en un mapa?', correcta:'Líneas imaginarias horizontales que rodean la Tierra', opts:['Líneas verticales que van de polo a polo','Los nombres de los países','Los colores de un mapa'] },
+  { pregunta:'¿Qué son los meridianos en un mapa?', correcta:'Líneas imaginarias verticales que van de polo a polo', opts:['Líneas horizontales que rodean la Tierra','Los ríos más largos','Las montañas más altas'] },
+  { pregunta:'¿Cuál de estos es un recurso natural renovable?', correcta:'LA ENERGÍA SOLAR', opts:['EL PETRÓLEO','EL CARBÓN','EL GAS NATURAL'] },
+  { pregunta:'¿Cuál de estos es un recurso natural NO renovable?', correcta:'EL PETRÓLEO', opts:['EL VIENTO','LA MADERA DE UN BOSQUE MANEJADO','EL AGUA DE LLUVIA'] },
+  { pregunta:'¿Cuál es el río más largo de América del Sur?', correcta:'EL RÍO AMAZONAS', opts:['EL RÍO MAPOCHO','EL RÍO BIOBÍO','EL RÍO COLORADO'] },
+  { pregunta:'¿Qué idioma se habla en la mayor parte de Brasil, a diferencia del resto de Sudamérica?', correcta:'PORTUGUÉS', opts:['ESPAÑOL','INGLÉS','FRANCÉS'] },
+  { pregunta:'¿Cómo es el clima de la selva amazónica?', correcta:'CÁLIDO Y MUY LLUVIOSO', opts:['MUY FRÍO Y SECO','DESÉRTICO','NEVADO TODO EL AÑO'] },
+  { pregunta:'¿Cómo es el clima de Alaska, en América del Norte?', correcta:'MUY FRÍO', opts:['MUY CALUROSO','TROPICAL','DESÉRTICO'] },
+  { pregunta:'¿Qué tienen en común Chile, Perú y Bolivia?', correcta:'Comparten la Cordillera de los Andes', opts:['Comparten el mismo idioma que Brasil','Están todos en América del Norte','No tienen montañas'] },
+];
+
+const CIUDADANIA4_ACTORES_BANK = [
+  { pregunta:'¿Quién es la máxima autoridad de un país como Chile?', correcta:'EL PRESIDENTE O LA PRESIDENTA', opts:['EL ALCALDE','UN SENADOR','UN DIPUTADO'] },
+  { pregunta:'¿Quién es la autoridad máxima de una comuna?', correcta:'EL ALCALDE O LA ALCALDESA', opts:['EL PRESIDENTE','UN MINISTRO','UN SENADOR'] },
+  { pregunta:'¿Quiénes ayudan al Presidente a dirigir distintas áreas del país, como salud o educación?', correcta:'LOS MINISTROS', opts:['LOS ALCALDES','LOS JUECES','LOS PROFESORES'] },
+  { pregunta:'¿Qué hacen los senadores y diputados en el Congreso?', correcta:'Crean, discuten y aprueban las leyes del país', opts:['Dirigen las escuelas','Manejan los hospitales','Organizan el tránsito'] },
+];
+const CIUDADANIA4_VALORES_BANK = [
+  { correcta:'Todos los niños tienen derecho a la educación, alimentación y vivienda', incorrectas:['Solo algunos niños tienen esos derechos','Esos derechos no aplican a todos los niños','Los niños no tienen derechos'] },
+  { correcta:'Decir siempre la verdad, incluso cuando cometes un error', incorrectas:['Mentir para evitar un castigo','Culpar a otros de tus errores','Esconder la verdad'] },
+  { correcta:'Tratar con respeto a todas las personas, sin importar su condición física, social o económica', incorrectas:['Discriminar a alguien por su condición económica','Burlarte de alguien por su apariencia física','Tratar mal a alguien por su situación social'] },
+  { correcta:'Votar y participar en la elección de la directiva de tu curso', incorrectas:['No participar nunca en las elecciones del curso','Imponer quién debe ser el representante sin votación','Ignorar el proceso de elección'] },
+  { correcta:'Dialogar y buscar una solución cuando hay un conflicto con un compañero', incorrectas:['Pelear sin buscar solución','Ignorar el conflicto sin resolverlo','Buscar venganza en vez de dialogar'] },
+  { correcta:'Identificar la causa de un problema antes de buscar una solución', incorrectas:['Buscar una solución sin entender el problema','Culpar a alguien sin analizar la situación','Ignorar por qué ocurrió el conflicto'] },
+];
+
+export function genCivilizacionesAmericanas4Round(){
+  const item = pick(CIVILIZACIONES_AMERICANAS_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genGeografiaAmerica4Round(){
+  const item = pick(GEOGRAFIA_AMERICA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genCiudadania4Round(){
+  if(Math.random()<0.4){
+    const item = pick(CIUDADANIA4_ACTORES_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
+      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(CIUDADANIA4_VALORES_BANK);
+  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
+    options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
+    explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+  };
+}
+

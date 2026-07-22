@@ -440,3 +440,154 @@ export function genOrtografia3Round(){
     explain: 'La forma correcta es: "'+item.correcta+'"',
   };
 }
+
+/* ---------------- Contenido Lenguaje 4° Básico ----------------
+   Basado en OA del Decreto 439/2012, 4° básico (curriculumnacional.cl/curriculum/
+   1o-6o-basico/lenguaje-comunicacion/4-basico):
+   Comprensión IV -> OA02-06 (estrategias de comprensión, géneros literarios,
+   consecuencias e inferencia en narraciones, lenguaje figurado, textos no
+   literarios — géneros literarios se integra como un tercer ángulo de esta
+   misma pregunta en vez de repetir el módulo "Géneros Literarios" ya
+   construido para 3° básico con contenido casi idéntico). Vocabulario en
+   Contexto II -> OA10 (ahora incluye el ángulo de prefijos/sufijos, no solo
+   sinónimo por contexto). Gramática IV -> OA19-20 (adverbios y verbos,
+   concordancia sujeto-verbo). Ortografía II -> OA21 (b/v, h, ay/hay/ahí,
+   acentuación — reglas distintas de las de Ortografía de 3° básico, que
+   cubría mayúsculas y signos de puntuación).
+   Quedan fuera: OA01 (lectura oral fluida), OA07-09 (gusto por la lectura,
+   biblioteca, buscar información en fuentes — actitudinales o de proceso),
+   OA11-18 (producción escrita: cuentos, cartas, planificación, revisión),
+   OA22-30 (comunicación oral: escuchar narraciones, teatro, conversación,
+   recitar) — todos requieren desempeño real o producción propia. */
+export const LENGUAJE_MODULES_G4 = [
+  {id:'comprension4', label:'Comprensión IV', open:true, key:'comprension4'},
+  {id:'vocabulario4', label:'Vocabulario en Contexto II', open:true, key:'vocabulario4'},
+  {id:'gramatica4', label:'Gramática IV', open:true, key:'gramatica4'},
+  {id:'ortografia4', label:'Ortografía II', open:true, key:'ortografia4'},
+];
+export const LENGUAJE_POS_G4 = [{x:22,y:88},{x:68,y:64},{x:24,y:38},{x:70,y:12}];
+
+const COMPRENSION4_BANK = [
+  { text:'Diego dejó su bicicleta afuera durante toda la noche de tormenta, y al día siguiente encontró óxido en la cadena.', question:'¿Por qué la cadena se oxidó?', correct:'Porque quedó expuesta a la lluvia toda la noche', opts:['Porque era una bicicleta nueva','Porque Diego la lavó con jabón','Porque la guardó en su pieza'], reason:'La lluvia sobre el metal durante horas es lo que produce el óxido.' },
+  { text:'Para cuidar tus dientes: cepíllalos después de cada comida, usa hilo dental una vez al día y visita al dentista cada 6 meses.', question:'¿Cada cuánto se recomienda visitar al dentista?', correct:'Cada 6 meses', opts:['Cada semana','Una vez al año','Solo cuando duele'], reason:'El texto lo dice explícitamente: "visita al dentista cada 6 meses".' },
+  { text:'Cuando el equipo de Martina anotó el gol decisivo, ella sintió que le explotaba el corazón de la emoción.', question:"¿Qué significa 'le explotaba el corazón de la emoción'?", correct:'Que sintió una emoción muy intensa', opts:['Que su corazón dejó de latir','Que se lastimó el pecho','Que sintió mucho frío'], reason:'Es lenguaje figurado para describir una emoción muy fuerte, no un hecho literal.' },
+  { text:'El explorador avanzaba con pasos de gigante por la selva, decidido a llegar antes del anochecer.', question:"¿Qué significa que avanzaba 'con pasos de gigante'?", correct:'Que caminaba muy rápido, con pasos largos y decididos', opts:['Que era literalmente un gigante','Que caminaba muy despacio','Que se perdió en la selva'], reason:'Es una comparación (lenguaje figurado) para expresar rapidez y decisión.' },
+  { text:'Rodrigo practicó su triple salto todos los días durante un mes antes de la competencia regional.', question:'¿Qué podemos inferir sobre Rodrigo?', correct:'Que se preparó con dedicación y disciplina para competir', opts:['Que no le interesaba ganar','Que improvisó el día de la competencia','Que se aburrió de entrenar'], reason:'Practicar todos los días durante un mes muestra dedicación y disciplina.' },
+  { text:'Para armar un velero de papel: dobla la hoja por la mitad, forma un triángulo en cada extremo, y despliega las alas del barco.', question:'¿Qué haces primero para armar el velero?', correct:'Doblar la hoja por la mitad', opts:['Desplegar las alas del barco','Formar los triángulos','Recortar la hoja en cuadrados'], reason:'El texto indica el primer paso: "dobla la hoja por la mitad".' },
+  { text:'Un cuento corto donde un zorro astuto engaña a un cuervo para que suelte su queso, y termina con una moraleja sobre la vanidad.', question:'¿Qué género literario es este texto?', correct:'FÁBULA', opts:['NOVELA','HISTORIETA','MITO'], reason:'Es una fábula: animales que actúan como personas y una moraleja al final.' },
+  { text:'Una historia extensa dividida en 20 capítulos, que sigue las aventuras de varios personajes a lo largo de varios años.', question:'¿Qué género literario es este texto?', correct:'NOVELA', opts:['POEMA','FÁBULA','HISTORIETA'], reason:'Una historia larga dividida en capítulos es una novela.' },
+  { text:'Una historia antigua que explica por qué el sol cruza el cielo cada día, protagonizada por un dios que conduce un carro de fuego.', question:'¿Qué género literario es este texto?', correct:'MITO', opts:['HISTORIETA','NOVELA','FÁBULA'], reason:'Un relato antiguo con dioses que explica un fenómeno natural es un mito.' },
+  { text:'Camila guardaba sus ahorros en una alcancía en forma de cerdo, contando las monedas cada domingo antes de dormir.', question:'¿Qué podemos inferir sobre Camila?', correct:'Que es cuidadosa y constante con sus ahorros', opts:['Que gasta todo su dinero de inmediato','Que no le interesa el dinero','Que perdió su alcancía'], reason:'Contar sus ahorros cada semana muestra que es constante y cuidadosa con el dinero.' },
+];
+
+/* Además de sinónimo-por-contexto (como en Vocabulario de 3° básico), se
+   agrega el ángulo de prefijos/sufijos que menciona explícitamente OA10:
+   cómo un prefijo cambia el significado de una palabra base. */
+const VOCABULARIO4_CONTEXTO_BANK = [
+  { texto:'El científico hizo un ', palabra:'MINUCIOSO', resto:' análisis de cada muestra, revisando cada detalle.', significado:'Muy detallado y cuidadoso', opts:['Muy rápido y descuidado','Aburrido','Peligroso'] },
+  { texto:'La actriz recibió una ', palabra:'OVACIÓN', resto:' del público al terminar la obra.', significado:'Un aplauso largo y entusiasta', opts:['Una crítica negativa','Un silencio incómodo','Una pregunta'] },
+  { texto:'El terreno era tan ', palabra:'ÁRIDO', resto:' que casi ninguna planta lograba crecer ahí.', significado:'Muy seco, con poca agua', opts:['Muy húmedo y fértil','Cubierto de nieve','Lleno de árboles'] },
+  { texto:'Su respuesta fue tan ', palabra:'AMBIGUA', resto:' que nadie entendió si estaba de acuerdo o no.', significado:'Que se puede entender de más de una forma', opts:['Muy clara y directa','Muy grosera','Muy larga'] },
+  { texto:'El abuelo era conocido por su ', palabra:'GENEROSIDAD', resto:', siempre dispuesto a ayudar sin esperar nada a cambio.', significado:'La cualidad de dar y compartir con otros', opts:['La cualidad de guardar todo para sí mismo','El miedo a las alturas','La costumbre de dormir temprano'] },
+];
+const PREFIJOS_BANK = [
+  { prefijo:'DES-', ejemplo:'DESHACER', significadoPrefijo:'Indica lo contrario de la acción', base:'HACER' },
+  { prefijo:'RE-', ejemplo:'REHACER', significadoPrefijo:'Indica que la acción se repite', base:'HACER' },
+  { prefijo:'IN-', ejemplo:'INCAPAZ', significadoPrefijo:'Indica negación o lo contrario', base:'CAPAZ' },
+  { prefijo:'PRE-', ejemplo:'PRECALENTAR', significadoPrefijo:'Indica que la acción ocurre antes', base:'CALENTAR' },
+  { prefijo:'SUB-', ejemplo:'SUBMARINO', significadoPrefijo:'Indica que algo está debajo de', base:'MARINO' },
+];
+
+const ADVERBIOS_BANK = [
+  { texto:'Caminaba LENTAMENTE por el parque.', palabra:'LENTAMENTE', tipo:'ADVERBIO DE MODO' },
+  { texto:'Llegaremos MAÑANA a la ciudad.', palabra:'MAÑANA', tipo:'ADVERBIO DE TIEMPO' },
+  { texto:'El gato duerme AQUÍ todas las tardes.', palabra:'AQUÍ', tipo:'ADVERBIO DE LUGAR' },
+  { texto:'Comió MUCHO en el almuerzo.', palabra:'MUCHO', tipo:'ADVERBIO DE CANTIDAD' },
+  { texto:'Ella canta MARAVILLOSAMENTE en el coro.', palabra:'MARAVILLOSAMENTE', tipo:'ADVERBIO DE MODO' },
+  { texto:'Nos vemos AYER en la tarde.', palabra:'AYER', tipo:'ADVERBIO DE TIEMPO' },
+  { texto:'El perro corre ALLÍ, cerca del árbol.', palabra:'ALLÍ', tipo:'ADVERBIO DE LUGAR' },
+  { texto:'Estudió POCO para la prueba de mañana.', palabra:'POCO', tipo:'ADVERBIO DE CANTIDAD' },
+];
+const VERBOS_CONCORDANCIA_BANK = [
+  { texto:'Los niños ___ en el patio.', correcto:'JUEGAN', malas:['JUEGA','JUEGO','JUGAMOS'] },
+  { texto:'Mi hermana ___ todos los días al colegio.', correcto:'CAMINA', malas:['CAMINAN','CAMINO','CAMINAMOS'] },
+  { texto:'Nosotros ___ un libro nuevo cada mes.', correcto:'LEEMOS', malas:['LEE','LEEN','LEO'] },
+  { texto:'Yo ___ mi pieza todos los sábados.', correcto:'ORDENO', malas:['ORDENA','ORDENAN','ORDENAMOS'] },
+  { texto:'Las plantas ___ agua para crecer.', correcto:'NECESITAN', malas:['NECESITA','NECESITO','NECESITAMOS'] },
+];
+
+/* Ortografía de 4° básico cubre reglas distintas a las de 3° básico
+   (mayúsculas/puntuación): b/v, h muda, ay/hay/ahí, y acentuación. */
+const ORTOGRAFIA4_BANK = [
+  { incorrecta:'El pájaro bolo muy alto', correcta:'El pájaro voló muy alto', regla:'Se escribe con V: "voló" (de volar), no con B.' },
+  { incorrecta:'Ella iva a la escuela caminando', correcta:'Ella iba a la escuela caminando', regla:'Se escribe con B: "iba" (del verbo ir en pasado).' },
+  { incorrecta:'Ay una fiesta en la plaza', correcta:'Hay una fiesta en la plaza', regla:'Se escribe "hay" (del verbo haber, indica que algo existe), no "ay".' },
+  { incorrecta:'No se donde deje mis llaves, hay están', correcta:'No sé dónde dejé mis llaves, ahí están', regla:'Se escribe "ahí" (lugar), no "hay" ni "ay".' },
+  { incorrecta:'Ella tiene un armonica nueva', correcta:'Ella tiene una armónica nueva', regla:'Lleva tilde: "armónica" es una palabra esdrújula.' },
+  { incorrecta:'El arbol del patio es muy alto', correcta:'El árbol del patio es muy alto', regla:'Lleva tilde: "árbol" es una palabra grave (el golpe de voz va en la penúltima sílaba) que termina en una consonante distinta de N o S, así que se acentúa.' },
+  { incorrecta:'ay mucha gente en el estadio', correcta:'Hay mucha gente en el estadio', regla:'Se escribe "hay" (del verbo haber), no "ay".' },
+  { incorrecta:'Los niños ivan corriendo al recreo', correcta:'Los niños iban corriendo al recreo', regla:'Se escribe con B: "iban" (del verbo ir en pasado).' },
+  { incorrecta:'La ambulancia llego rapido', correcta:'La ambulancia llegó rápido', regla:'Llevan tilde: "llegó" y "rápido".' },
+  { incorrecta:'Habia una vez un rey muy sabio', correcta:'Había una vez un rey muy sabio', regla:'Se escribe con B: "había" (del verbo haber).' },
+];
+
+export function genComprension4Round(){
+  const item = pick(COMPRENSION4_BANK);
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const kind = /^[A-ZÁÉÍÓÚÑ]/.test(item.correct) ? 'word' : undefined;
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    options: opts, correctValue: item.correct, speakText: item.text, cols: kind?2:2, kind: kind, panel:true,
+    explain: item.reason,
+  };
+}
+
+export function genVocabulario4Round(){
+  if(Math.random()<0.5){
+    const item = pick(VOCABULARIO4_CONTEXTO_BANK);
+    const opts = shuffle([item.significado].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto+'<b>'+item.palabra+'</b>'+item.resto+'</p><p class="prompt-hint">¿Qué significa la palabra <b>'+item.palabra.toLowerCase()+'</b>?</p>',
+      options: opts, correctValue: item.significado, speakText: item.texto+item.palabra+item.resto, cols:2, panel:true,
+      explain: '<b>'+item.palabra+'</b> significa "'+item.significado.toLowerCase()+'".',
+    };
+  }
+  const item = pick(PREFIJOS_BANK);
+  const distract = shuffle(PREFIJOS_BANK.filter(function(p){ return p.prefijo!==item.prefijo; })).slice(0,3).map(function(p){ return p.significadoPrefijo; });
+  const opts = shuffle([item.significadoPrefijo].concat(distract)).map(function(s){ return {label:s, value:s}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+item.ejemplo+'</p><p class="prompt-hint">La palabra base es "'+item.base.toLowerCase()+'". ¿Qué indica el prefijo "'+item.prefijo.toLowerCase()+'" en esta palabra?</p>',
+    options: opts, correctValue: item.significadoPrefijo, speakText: item.ejemplo, cols:2, panel:true,
+    explain: 'El prefijo "'+item.prefijo.toLowerCase()+'" '+item.significadoPrefijo.toLowerCase()+'.',
+  };
+}
+
+export function genGramatica4Round(){
+  if(Math.random()<0.5){
+    const item = pick(ADVERBIOS_BANK);
+    const distract = shuffle(['ADVERBIO DE MODO','ADVERBIO DE TIEMPO','ADVERBIO DE LUGAR','ADVERBIO DE CANTIDAD'].filter(function(t){ return t!==item.tipo; }));
+    const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto.replace(item.palabra,'<b>'+item.palabra+'</b>')+'</p><p class="prompt-hint">¿Qué tipo de adverbio es la palabra en negrita?</p>',
+      options: opts, correctValue: item.tipo, speakText: item.texto, cols:2, panel:true,
+      explain: '"'+item.palabra+'" es un <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(VERBOS_CONCORDANCIA_BANK);
+  const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué verbo completa correctamente la oración?</p>',
+    options: opts, correctValue: item.correcto, speakText: item.texto, cols:4, kind:'word',
+    explain: '<b>'+item.correcto+'</b> concuerda correctamente con el sujeto de la oración.',
+  };
+}
+
+export function genOrtografia4Round(){
+  const item = pick(ORTOGRAFIA4_BANK);
+  const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál oración está bien escrita?</p>',
+    options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
+    explain: item.regla,
+  };
+}

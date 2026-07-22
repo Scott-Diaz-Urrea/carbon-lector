@@ -41,7 +41,16 @@ export const state = {
            lenguajemusical3:0, musicasociedad3:0,
            vidaactiva3:0, seguridad3:0,
            manejoemocional3:0, autocuidado3:0, buentrato3:0, habitosestudio3:0,
-           tecdigital3:0 },
+           tecdigital3:0,
+           comprension4:0, vocabulario4:0, gramatica4:0, ortografia4:0,
+           numeros4:0, operaciones4:0, multiplicardividir4:0, fracciones4:0, decimales4:0, patrones4:0, geometria4:0, medicion4:0, datos4:0,
+           ecosistemas4:0, cuerpohumano4:0, materia4:0, fuerzas4:0, tierra4:0,
+           civilizacionesamericanas4:0, geografiaamerica4:0, ciudadania4:0,
+           lenguajevisual4:0,
+           dinamicatempo4:0,
+           condicionfisica4:0, seguridad4:0,
+           manejoemocional4:0, autocuidado4:0, buentrato4:0, habitosestudio4:0,
+           tecdigital4:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

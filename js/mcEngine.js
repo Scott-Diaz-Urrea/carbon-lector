@@ -27,7 +27,7 @@ import {
   genLuz3Round, genSonido3Round, genSistemaSolar3Round,
   genEcosistemas4Round, genCuerpoHumano4Round, genMateria4Round, genFuerzas4Round, genTierra4Round,
   genCelulaSistemas5Round, genAlimentacionSalud5Round, genElectricidad5Round, genAguaTierra5Round,
-  genFotosintesisCadenas6Round, genHabitosSaludables6Round, genEnergiaTransformaciones6Round,
+  genFotosintesisCadenas6Round, genReproductorPubertad6Round, genHabitosSaludables6Round, genEnergiaTransformaciones6Round,
   genCalorTemperatura6Round, genTierraSueloErosion6Round,
 } from './content/ciencias.js';
 import {
@@ -157,7 +157,7 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'vocabularioingles5','lecturasimple5',
   'comprension6','recursospoeticos6','vocabulario6','gramatica6','ortografia6',
   'multiplosfactores6','operatoria6','razonesporcentajes6','fraccionesmixtas6','decimales6','patronesecuaciones6','triangulosteselados6','angulos6','areavolumen6','datos6',
-  'fotosintesiscadenas6','habitossaludables6','energiatransformaciones6','calortemperatura6','tierrasueloerosion6',
+  'fotosintesiscadenas6','reproductorpubertad6','habitossaludables6','energiatransformaciones6','calortemperatura6','tierrasueloerosion6',
   'independencia6','republica6','salitre6','sigloxx6','geografiachile6','ciudadania6',
   'lenguajevisual6',
   'melodiavariaciones6',
@@ -374,6 +374,7 @@ export const MC_GAMES = {
   areavolumen6:  { title:'Área y Volumen',    gen: genAreaVolumen6Round, rounds:8 },
   datos6:        { title:'Datos y Probabilidades IV', gen: genDatos6Round, rounds:8 },
   fotosintesiscadenas6: { title:'Fotosíntesis y Cadenas Alimentarias', gen: genFotosintesisCadenas6Round, rounds:8 },
+  reproductorpubertad6: { title:'Sistema Reproductor y Pubertad', gen: genReproductorPubertad6Round, rounds:8 },
   habitossaludables6: { title:'Hábitos Saludables y Prevención', gen: genHabitosSaludables6Round, rounds:8 },
   energiatransformaciones6: { title:'Energía y sus Transformaciones', gen: genEnergiaTransformaciones6Round, rounds:8 },
   calortemperatura6: { title:'Calor, Temperatura y Estados de la Materia', gen: genCalorTemperatura6Round, rounds:8 },

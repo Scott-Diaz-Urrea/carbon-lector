@@ -63,7 +63,7 @@ export const state = {
            vocabularioingles5:0, lecturasimple5:0,
            comprension6:0, recursospoeticos6:0, vocabulario6:0, gramatica6:0, ortografia6:0,
            multiplosfactores6:0, operatoria6:0, razonesporcentajes6:0, fraccionesmixtas6:0, decimales6:0, patronesecuaciones6:0, triangulosteselados6:0, angulos6:0, areavolumen6:0, datos6:0,
-           fotosintesiscadenas6:0, habitossaludables6:0, energiatransformaciones6:0, calortemperatura6:0, tierrasueloerosion6:0,
+           fotosintesiscadenas6:0, reproductorpubertad6:0, habitossaludables6:0, energiatransformaciones6:0, calortemperatura6:0, tierrasueloerosion6:0,
            independencia6:0, republica6:0, salitre6:0, sigloxx6:0, geografiachile6:0, ciudadania6:0,
            lenguajevisual6:0,
            melodiavariaciones6:0,

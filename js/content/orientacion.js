@@ -675,3 +675,140 @@ export function genHabitosEstudio6Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
+
+/* ---------------- Contenido Orientación 7° Básico ----------------
+   Basado en Decreto 614/2013. Prevención de Conductas de Riesgo -> OA03
+   (decisión confirmada explícitamente con el usuario tras AskUserQuestion:
+   "Solo factores de riesgo/protección" — NO se incluyen detalles de
+   sexualidad, que corresponden al OA02 excluido, mismo criterio de todos
+   los años anteriores de requerir el acompañamiento real de un adulto).
+   Bienestar y Vida Saludable -> OA04. Relaciones Saludables en Redes
+   Sociales -> OA05 (uso responsable de redes, ciberacoso, huella digital
+   — un ángulo nuevo que ningún año anterior había cubierto con este nivel
+   de profundidad). Resolución de Conflictos VII -> OA06. Autonomía en el
+   Aprendizaje -> OA09-10 (organización del propio aprendizaje, toma de
+   decisiones sobre el estudio). Quedan fuera: OA01 (autoconocimiento y
+   fortalezas propias, subjetivo), OA02 (sexualidad como dimensión del
+   desarrollo humano — tema sensible que requiere acompañamiento real de
+   un adulto, no una trivia de opción múltiple), OA07 (participación y
+   pertenencia a la comunidad escolar, ya cubierta por Formación
+   Ciudadana en historia.js) y OA08 (proyecto de vida personal, subjetivo). */
+export const ORIENTACION_MODULES_G7 = [
+  {id:'prevencionriesgo7', label:'Prevención de Conductas de Riesgo', open:true, key:'prevencionriesgo7'},
+  {id:'bienestarvida7', label:'Bienestar y Vida Saludable', open:true, key:'bienestarvida7'},
+  {id:'redessociales7', label:'Relaciones Saludables en Redes Sociales', open:true, key:'redessociales7'},
+  {id:'resolucionconflictos7', label:'Resolución de Conflictos VII', open:true, key:'resolucionconflictos7'},
+  {id:'autonomiaaprendizaje7', label:'Autonomía en el Aprendizaje', open:true, key:'autonomiaaprendizaje7'},
+];
+export const ORIENTACION_POS_G7 = [{x:20,y:92},{x:66,y:74},{x:22,y:52},{x:66,y:28},{x:22,y:6}];
+
+const PREVENCION_RIESGO_7_BANK = [
+  { label:'Informarse con un adulto de confianza sobre los riesgos del consumo de alcohol y drogas es una conducta protectora', v:true },
+  { label:'Tener amigos y un adulto de confianza con quienes hablar de tus problemas es un factor de protección', v:true },
+  { label:'Ceder a la presión de un grupo para probar algo que sabes que es riesgoso es una conducta protectora', v:false },
+  { label:'Sentir que puedes decir "no" ante una propuesta riesgosa sin perder a tus amigos es un factor de protección', v:true },
+  { label:'Ocultarle a cualquier adulto una situación de riesgo que estás viviendo es una conducta protectora', v:false },
+  { label:'Participar en actividades deportivas o artísticas fuera del horario escolar es un factor de protección', v:true },
+  { label:'Aislarte por completo de tu familia y amigos es una conducta protectora frente a los riesgos', v:false },
+  { label:'Saber a quién acudir (familia, profesor, orientador) si tú o un amigo están en una situación de riesgo es un factor de protección', v:true },
+  { label:'Tener un entorno familiar donde te sientes escuchado es un factor de protección frente a conductas de riesgo', v:true },
+  { label:'Creer que "a mí nunca me va a pasar nada" es una forma segura de evaluar un riesgo real', v:false },
+  { label:'Contar con espacios seguros para expresar tus emociones, como hablar con un adulto o escribir un diario, es un factor de protección', v:true },
+];
+export function genPrevencionRiesgo7Round(){
+  const item = pick(PREVENCION_RIESGO_7_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+const BIENESTAR_VIDA_7_BANK = [
+  { situacion:'Tienes una semana muy cargada de pruebas y decides organizar horarios de estudio, sueño y descanso.', correcta:'Cuidar tu bienestar planificando tu tiempo de forma equilibrada', malas:['Sacrificar por completo el sueño para estudiar toda la noche','Ignorar por completo las pruebas hasta el último momento','Dejar de comer para tener más tiempo de estudio'] },
+  { situacion:'Notas que llevas varios días sintiéndote muy cansado y sin ánimo para hacer las cosas que antes disfrutabas.', correcta:'Reconocer la señal y conversarlo con un adulto de confianza', malas:['Ignorar la señal esperando que se pase sola','Aislarte de tu familia y amigos sin decir nada','Exigirte aún más para "superarlo" solo'] },
+  { situacion:'Un compañero te invita a almorzar comida chatarra todos los días en vez de la colación que trae de la casa.', correcta:'Mantener una alimentación equilibrada la mayor parte del tiempo', malas:['Comer solo comida chatarra desde ese día en adelante','Dejar de almorzar para evitar la decisión','Presionar a tu compañero para que también deje de comer bien'] },
+  { situacion:'Te acostaste muy tarde jugando videojuegos y al día siguiente te cuesta mucho concentrarte en clases.', correcta:'Reconocer que necesitas dormir mejor y fijarte un horario razonable para acostarte', malas:['Seguir acostándote tarde todos los días sin cambiar nada','Tomar bebidas con mucha cafeína para no sentir el cansancio','Faltar a clases para poder dormir más'] },
+  { situacion:'Llevas varias semanas sin hacer ninguna actividad física y notas que te cansas con facilidad al subir escaleras.', correcta:'Incorporar de a poco algo de actividad física a tu rutina semanal', malas:['Ignorar por completo la falta de actividad física','Exigirte un entrenamiento extremo de un día para otro','Evitar cualquier escalera de por vida'] },
+  { situacion:'Un amigo te cuenta que ha estado tomando bebidas energéticas todos los días para rendir más en el estudio.', correcta:'Sugerirle que hable con un adulto de confianza sobre formas más saludables de rendir mejor', malas:['Recomendarle que tome aún más bebidas energéticas','Ignorar completamente lo que te contó','Burlarte de la situación de tu amigo'] },
+  { situacion:'Sientes mucho estrés antes de una prueba importante y notas que se te acelera el corazón y te cuesta respirar con calma.', correcta:'Practicar una respiración calmada y recordar que preparaste el estudio con tiempo', malas:['Evitar por completo rendir la prueba','Contagiar tu estrés a tus compañeros de curso','Ignorar la sensación hasta que empeore'] },
+  { situacion:'Un compañero de curso te invita a saltarte el desayuno todos los días para "ahorrar tiempo" en las mañanas.', correcta:'Explicarle que el desayuno es importante para tu energía y bienestar durante el día', malas:['Dejar de desayunar todos los días sin cuestionarlo','Presionar a otros compañeros para que tampoco desayunen','Reemplazar el desayuno por dulces todos los días'] },
+];
+export function genBienestarVida7Round(){
+  const item = pick(BIENESTAR_VIDA_7_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
+    explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const REDES_SOCIALES_7_BANK = [
+  { label:'Compartir tu contraseña de redes sociales con un desconocido es una conducta segura', v:false },
+  { label:'Pensar antes de publicar algo, imaginando cómo podría afectar a otras personas, es un uso responsable de las redes', v:true },
+  { label:'Burlarse de alguien repetidamente por internet es una forma de ciberacoso', v:true },
+  { label:'Todo lo que se publica en internet puede quedar guardado o compartido, aunque después se borre', v:true },
+  { label:'Aceptar solicitudes de amistad de cualquier desconocido es una conducta segura en redes sociales', v:false },
+  { label:'Contarle a un adulto de confianza si ves que alguien está siendo víctima de ciberacoso es una buena decisión', v:true },
+  { label:'Publicar tu dirección o el colegio donde estudias en una red social pública es una conducta segura', v:false },
+  { label:'Revisar la configuración de privacidad de tus redes sociales de vez en cuando es una buena práctica', v:true },
+  { label:'Reenviar un rumor o una foto vergonzosa de un compañero por redes sociales es una conducta responsable', v:false },
+  { label:'Comparar tu vida con lo que ves en redes sociales, sabiendo que muestran solo una parte editada de la realidad, es una actitud saludable', v:true },
+  { label:'Responder con insultos a un comentario ofensivo en redes sociales es la mejor forma de resolverlo', v:false },
+];
+export function genRedesSociales7Round(){
+  const item = pick(REDES_SOCIALES_7_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+const RESOLUCION_CONFLICTOS_7_BANK = [
+  { situacion:'Dos compañeros de tu grupo de trabajo no se ponen de acuerdo sobre cómo dividir las tareas, y la discusión empieza a subir de tono.', correcta:'Proponer que cada uno exprese su punto de vista con calma y buscar una solución que considere a ambos', malas:['Tomar partido por uno sin escuchar al otro','Ignorar el conflicto esperando que se resuelva solo','Burlarte de ambos por no ponerse de acuerdo'] },
+  { situacion:'Sientes que un comentario de un compañero fue injusto contigo, y notas que te está costando controlar tu molestia.', correcta:'Esperar a calmarte y luego conversarlo directamente con esa persona', malas:['Responder de inmediato con un comentario aún más agresivo','Hablar mal de esa persona con el resto del curso','Guardarte la molestia sin decir nada nunca'] },
+  { situacion:'Ves que dos amigos tuyos están peleados y ambos te piden que tomes su bando en el conflicto.', correcta:'Escuchar a ambos sin tomar partido y animarlos a conversar entre ellos', malas:['Elegir un bando sin conocer toda la situación','Contarle a cada uno cosas negativas del otro','Terminar la amistad con ambos para evitar el problema'] },
+  { situacion:'En un trabajo grupal, un integrante no ha hecho su parte y el resto del grupo está molesto porque se acerca la fecha de entrega.', correcta:'Conversar con esa persona para entender qué pasó y buscar juntos una solución antes de la entrega', malas:['Excluirlo del grupo sin conversar nada con él','Entregar el trabajo incompleto sin decir nada al profesor','Hacer todo el trabajo por esa persona sin conversarlo'] },
+  { situacion:'Un compañero interpreta mal algo que dijiste y se ofende, aunque tú no tenías esa intención.', correcta:'Aclarar con calma lo que realmente quisiste decir y escuchar cómo se sintió', malas:['Insistir en que el problema es solo de la otra persona','Evitar hablarle nunca más sin explicar nada','Reírte de su reacción frente a otros compañeros'] },
+  { situacion:'Dos grupos del curso compiten por usar la misma cancha a la misma hora para entrenar antes de un campeonato.', correcta:'Conversar entre ambos grupos para acordar turnos que funcionen para todos', malas:['Pelear por la cancha hasta que uno se rinda','Avisar al profesor solo para acusar al otro grupo','Ocupar la cancha a la fuerza sin conversar nada'] },
+  { situacion:'Un amigo canceló un plan contigo a última hora por segunda vez, y sientes que no está respetando tu tiempo.', correcta:'Contarle con respeto cómo te sientes y escuchar su explicación antes de sacar conclusiones', malas:['Dejar de hablarle sin explicarle por qué','Hablar mal de él con el resto de tus amigos','Guardarte el enojo sin decir nunca nada'] },
+  { situacion:'Durante un juego en equipo, un compañero te acusa de haber cometido una falta que tú sientes que no hiciste.', correcta:'Explicar tu punto de vista con calma y escuchar el suyo, sin gritar', malas:['Discutir a gritos hasta que uno se retire del juego','Ignorar la acusación y seguir jugando enojado','Acusar a tu compañero de otra cosa para desviar el tema'] },
+  { situacion:'Un compañero de curso comparte sin tu permiso algo que le contaste en confianza, y te sientes traicionado.', correcta:'Conversar con esa persona sobre cómo te hizo sentir y por qué la confianza es importante para ti', malas:['Contar un secreto de esa persona para "vengarte"','Dejar de hablarle a todo el curso sin explicar nada','Hablar mal de esa persona con otros compañeros'] },
+  { situacion:'En un trabajo en parejas, tú y tu compañero tienen ideas muy distintas sobre cómo enfocar el tema y ninguno quiere ceder.', correcta:'Buscar una idea intermedia que combine lo mejor de ambas propuestas', malas:['Imponer tu idea sin considerar la de tu compañero','Negarte a seguir trabajando con esa persona','Entregar dos trabajos distintos sin ponerse de acuerdo'] },
+];
+export function genResolucionConflictos7Round(){
+  const item = pick(RESOLUCION_CONFLICTOS_7_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
+    explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const AUTONOMIA_APRENDIZAJE_7_BANK = [
+  { label:'Revisar tu propio avance y ajustar tu forma de estudiar si algo no te está resultando es parte de aprender de forma autónoma', v:true },
+  { label:'Esperar que un adulto te diga exactamente qué hacer en cada minuto de estudio es aprender de forma autónoma', v:false },
+  { label:'Fijarte tus propias metas de aprendizaje, además de las que da el profesor, ayuda a tu autonomía', v:true },
+  { label:'Buscar información adicional por tu cuenta cuando un tema te interesa es parte de la autonomía en el aprendizaje', v:true },
+  { label:'Copiar las respuestas de un compañero sin entenderlas es una forma de aprendizaje autónomo', v:false },
+  { label:'Reconocer en qué temas te cuesta más y buscar ayuda o practicar más en esas áreas es parte de la autonomía', v:true },
+  { label:'Organizar tu propio horario de estudio semanal, sin que un adulto tenga que recordártelo cada vez, es un signo de autonomía', v:true },
+  { label:'Depender siempre de que te digan exactamente qué leer y cuándo hacerlo es una muestra de autonomía en el aprendizaje', v:false },
+  { label:'Evaluar si una técnica de estudio te está funcionando y cambiarla si no da resultado es parte de aprender de forma autónoma', v:true },
+  { label:'Esperar que otros hagan tus tareas por ti es una forma de autonomía en el aprendizaje', v:false },
+  { label:'Usar herramientas como calendarios o listas de tareas para organizar tu propio estudio es parte de la autonomía', v:true },
+];
+export function genAutonomiaAprendizaje7Round(){
+  const item = pick(AUTONOMIA_APRENDIZAJE_7_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}

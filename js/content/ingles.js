@@ -149,3 +149,74 @@ export function genLecturaSimple6Round(){
     explain: 'The answer is <b>'+item.correct+'</b>.',
   };
 }
+
+/* ---------------- Contenido Inglés 7° Básico ----------------
+   Basado en OA del Decreto 614/2013, "Bases Curriculares 7° básico a 2°
+   medio" (curriculumnacional.cl/curriculum/7o-basico-2o-medio/ingles/
+   7-basico), verificado antes de construir este archivo. Los OA de este
+   currículum están organizados en 3 ejes: Comunicación Oral (IN07 OA01-08),
+   Comprensión de Lectura (IN07 OA09-12), Expresión Escrita (IN07 OA13-16).
+   Vocabulario Avanzado -> IN07 OA08,16 (demostrar conocimiento de
+   funciones del lenguaje: expresar cantidades, describir, sugerir,
+   expresar obligación y necesidad — aquí como reconocimiento de
+   vocabulario/expresiones, no como producción oral o escrita).
+   Lectura Intermedia -> IN07 OA09-11 (comprensión de ideas generales e
+   información explícita en textos no literarios y literarios, incluyendo
+   identificar tema, personajes, entorno y trama).
+   Quedan fuera: OA01-07 (comprensión y producción oral — dependen de
+   audio real), OA12 (estrategias de lectura como proceso propio) y
+   OA13-15 (expresión escrita — producción propia). Se evitan apóstrofes
+   en los textos en inglés, mismo criterio técnico que 6° básico (ver
+   comentario de esa sección). */
+export const INGLES_MODULES_G7 = [
+  {id:'vocabularioavanzado7', label:'Vocabulario Avanzado', open:true, key:'vocabularioavanzado7'},
+  {id:'lecturaintermedia7', label:'Lectura Intermedia', open:true, key:'lecturaintermedia7'},
+];
+export const INGLES_POS_G7 = [{x:30,y:70},{x:70,y:30}];
+
+const OBLIGACION_SUGERENCIA_BANK = [
+  { spanish:'Debes hacer esto (obligación).', english:'YOU MUST DO THIS', opts:['YOU CAN DO THIS','YOU MIGHT DO THIS','YOU LIKE THIS'] },
+  { spanish:'Deberías intentar esto (sugerencia).', english:'YOU SHOULD TRY THIS', opts:['YOU MUST TRY THIS','YOU NEVER TRY THIS','YOU HATE THIS'] },
+  { spanish:'Necesito ayuda (necesidad).', english:'I NEED HELP', opts:['I WANT HELP','I HAVE HELP','I GIVE HELP'] },
+  { spanish:'No se permite hacer esto (prohibición).', english:'YOU MUST NOT DO THIS', opts:['YOU SHOULD DO THIS','YOU CAN DO THIS','YOU ALWAYS DO THIS'] },
+  { spanish:'¿Y si vamos al parque? (sugerencia).', english:'HOW ABOUT GOING TO THE PARK', opts:['WE NEVER GO TO THE PARK','YOU MUST GO TO THE PARK','I HATE THE PARK'] },
+  { spanish:'Es obligatorio usar casco (obligación).', english:'YOU MUST WEAR A HELMET', opts:['YOU MIGHT WEAR A HELMET','YOU DISLIKE A HELMET','YOU SEE A HELMET'] },
+];
+const CANTIDADES_DESCRIPCIONES_BANK = [
+  { spanish:'Hay muchos libros en la mesa.', english:'THERE ARE MANY BOOKS ON THE TABLE', opts:['THERE IS ONE BOOK ON THE TABLE','THERE ARE NO BOOKS ON THE TABLE','THE TABLE HAS NO BOOKS'] },
+  { spanish:'Hay poca agua en el vaso.', english:'THERE IS LITTLE WATER IN THE GLASS', opts:['THERE IS A LOT OF WATER IN THE GLASS','THE GLASS IS COMPLETELY FULL','THE GLASS HAS NO WATER'] },
+  { spanish:'Esta caja es más pesada que esa.', english:'THIS BOX IS HEAVIER THAN THAT ONE', opts:['THIS BOX IS LIGHTER THAN THAT ONE','BOTH BOXES WEIGH THE SAME','THIS BOX HAS NO WEIGHT'] },
+  { spanish:'Ella es la persona más alta del grupo.', english:'SHE IS THE TALLEST PERSON IN THE GROUP', opts:['SHE IS THE SHORTEST PERSON IN THE GROUP','EVERYONE IS THE SAME HEIGHT','SHE IS NOT PART OF THE GROUP'] },
+];
+export function genVocabularioAvanzado7Round(){
+  const item = pick(Math.random()<0.5 ? OBLIGACION_SUGERENCIA_BANK : CANTIDADES_DESCRIPCIONES_BANK);
+  const opts = shuffle([item.english].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">How do you say this in English?</p>',
+    options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:1, kind:'word',
+    explain: 'Se dice <b>'+item.english+'</b> en inglés.',
+  };
+}
+
+const LECTURA_INTERMEDIA_BANK = [
+  { text:'Recycling helps the environment. It reduces waste and saves natural resources like trees and water.', question:'What does recycling help reduce?', correct:'WASTE', opts:['MONEY','TIME','FRIENDS'] },
+  { text:'Marco plays soccer every weekend with his friends at the local park near his house.', question:'What sport does Marco play?', correct:'SOCCER', opts:['BASKETBALL','TENNIS','SWIMMING'] },
+  { text:'Once upon a time, a young girl named Elena found a hidden map in an old chest that belonged to her grandmother. She decided to follow it.', question:'What did Elena find?', correct:'A HIDDEN MAP', opts:['A LETTER','A PHOTOGRAPH','A KEY'] },
+  { text:'In the story, the main character is a brave fox who lives in a big forest with many other animals.', question:'Where does the main character live?', correct:'IN A FOREST', opts:['IN A CITY','IN A DESERT','IN A CAVE'] },
+  { text:'The school announced a science fair next month. Students will present projects about renewable energy.', question:'What is the topic of the projects?', correct:'RENEWABLE ENERGY', opts:['ANCIENT HISTORY','SPORTS','MUSIC'] },
+  { text:'After the rain stopped, a beautiful rainbow appeared over the mountains, and everyone came outside to see it.', question:'What appeared after the rain?', correct:'A RAINBOW', opts:['A STORM','SNOW','A FIRE'] },
+  { text:'The novel follows two brothers who travel across the country to find their missing father.', question:'What are the two brothers looking for?', correct:'THEIR MISSING FATHER', opts:['A LOST TREASURE','A NEW HOME','A FAMOUS CITY'] },
+  { text:'Healthy eating includes fruits, vegetables, and drinking enough water every day.', question:'According to the text, what should you drink enough of every day?', correct:'WATER', opts:['SODA','COFFEE','JUICE ONLY'] },
+  { text:'The museum has a new exhibit about ancient Egypt, with real artifacts from over three thousand years ago.', question:'What is the new exhibit about?', correct:'ANCIENT EGYPT', opts:['MODERN ART','SPACE TRAVEL','OCEAN LIFE'] },
+  { text:'Every summer, the town holds a music festival where local bands perform in the main square.', question:'Where do the bands perform?', correct:'IN THE MAIN SQUARE', opts:['AT THE BEACH','IN A STADIUM','AT SCHOOL'] },
+  { text:'In this story, a clever crow drops stones into a jar of water to make the water level rise so it can drink.', question:'Why does the crow drop stones into the jar?', correct:'TO MAKE THE WATER LEVEL RISE', opts:['TO BUILD A NEST','TO PLAY A GAME','TO HIDE THE STONES'] },
+];
+export function genLecturaIntermedia7Round(){
+  const item = pick(LECTURA_INTERMEDIA_BANK);
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    options: opts, correctValue: item.correct, speakText: item.text, speakLang:'en', cols:2, kind:'word',
+    explain: 'The answer is <b>'+item.correct+'</b>.',
+  };
+}

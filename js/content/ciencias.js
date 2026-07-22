@@ -1581,3 +1581,266 @@ export function genTierraSueloErosion6Round(){
     explain: item.agente+': '+item.desc.toLowerCase()+'.',
   };
 }
+
+/* ---------------- Contenido Ciencias Naturales 7° Básico ----------------
+   Basado en OA del Decreto 614/2013, "Bases Curriculares 7° básico a 2°
+   medio" (curriculumnacional.cl/curriculum/7o-basico-2o-medio/ciencias-
+   naturales/7-basico) — currículum distinto al Decreto 439/2012 usado en
+   1°-6° básico, organizado en 3 ejes: Biología, Física, Química.
+   Sexualidad y Reproducción Humana -> OA01-03. **Decisión explícita
+   conversada con el usuario (2026-07-22)**: incluir estos 3 OA completos,
+   con tono clínico/factual (igual que el resto del contenido de anatomía ya
+   construido), sin detalle gráfico ni juicio de valor — el ciclo menstrual
+   y los gametos (OA02), qué son y para qué sirven los métodos
+   anticonceptivos en términos generales sin instrucciones de uso (OA02), y
+   las infecciones de transmisión sexual a nivel de contagio/prevención
+   general sin detalle de síntomas gráficos (OA03). Esto es un salto real de
+   madurez respecto a 6° básico (que solo llegó hasta anatomía reproductiva y
+   cambios de la pubertad) — se le preguntó al usuario explícitamente antes
+   de construir este módulo, dado el rol de la app como apoyo a familias con
+   niños de edades muy distintas.
+   Sistema Inmunológico y Microorganismos -> OA04-06 (barreras defensivas del
+   cuerpo, comparar virus/bacterias/hongos, biotecnología con
+   microorganismos). Fuerzas y Presión -> OA07-08. La Tierra: Geología y
+   Clima -> OA09-12 (tectónica de placas, volcanes, ciclo de rocas, clima
+   como sistema dinámico). Química: Materia y Gases -> OA13-15 (gases
+   ideales, clasificación de la materia, cambios físicos vs. químicos).
+   Ningún OA de 7° básico queda fuera del motor de opción múltiple. */
+export const CIENCIAS_MODULES_G7 = [
+  {id:'sexualidadreproduccion7', label:'Sexualidad y Reproducción Humana', open:true, key:'sexualidadreproduccion7'},
+  {id:'inmunologicomicroorganismos7', label:'Sistema Inmunológico y Microorganismos', open:true, key:'inmunologicomicroorganismos7'},
+  {id:'fuerzaspresion7', label:'Fuerzas y Presión', open:true, key:'fuerzaspresion7'},
+  {id:'geologiaclima7', label:'La Tierra: Geología y Clima', open:true, key:'geologiaclima7'},
+  {id:'materiagases7', label:'Química: Materia y Gases', open:true, key:'materiagases7'},
+];
+export const CIENCIAS_POS_G7 = [{x:20,y:92},{x:64,y:74},{x:24,y:54},{x:66,y:34},{x:22,y:12}];
+
+const CICLO_MENSTRUAL_GAMETOS_BANK = [
+  { pregunta:'¿Qué es el ciclo menstrual?', correcta:'UN PROCESO MENSUAL EN EL CUERPO DE LA MUJER QUE PREPARA AL ÚTERO PARA UN POSIBLE EMBARAZO', opts:['UNA ENFERMEDAD QUE HAY QUE CURAR','UN PROBLEMA DIGESTIVO','UNA SEÑAL DE QUE ALGO ANDA MAL EN EL CUERPO'] },
+  { pregunta:'¿Qué son los gametos?', correcta:'LAS CÉLULAS REPRODUCTIVAS: EL ÓVULO EN LA MUJER Y EL ESPERMATOZOIDE EN EL HOMBRE', opts:['LOS GLÓBULOS ROJOS DE LA SANGRE','LAS CÉLULAS DE LA PIEL','LAS CÉLULAS DEL SISTEMA NERVIOSO'] },
+  { pregunta:'¿Cómo se llama la unión de un óvulo y un espermatozoide?', correcta:'FECUNDACIÓN', opts:['DIGESTIÓN','RESPIRACIÓN','CIRCULACIÓN'] },
+  { pregunta:'¿Qué es la ovulación?', correcta:'LA LIBERACIÓN DE UN ÓVULO MADURO DESDE EL OVARIO', opts:['LA PRODUCCIÓN DE GLÓBULOS BLANCOS','LA DIGESTIÓN DE LOS ALIMENTOS','LA FORMACIÓN DE HUESOS NUEVOS'] },
+];
+const METODOS_ANTICONCEPTIVOS_BANK = [
+  { pregunta:'¿Para qué sirven principalmente los métodos anticonceptivos?', correcta:'PARA PREVENIR UN EMBARAZO NO PLANIFICADO', opts:['PARA CURAR RESFRIADOS','PARA MEJORAR LA VISIÓN','PARA FORTALECER LOS HUESOS'] },
+  { pregunta:'¿Cuál de estos es un método anticonceptivo de barrera?', correcta:'EL PRESERVATIVO (CONDÓN)', opts:['UNA VACUNA','UN ANALGÉSICO','UN ANTIBIÓTICO'] },
+  { pregunta:'Además de prevenir el embarazo, ¿qué otra función importante cumple el uso del preservativo?', correcta:'PREVENIR EL CONTAGIO DE INFECCIONES DE TRANSMISIÓN SEXUAL', opts:['MEJORAR EL RENDIMIENTO ESCOLAR','PREVENIR RESFRIADOS COMUNES','FORTALECER EL SISTEMA DIGESTIVO'] },
+  { pregunta:'¿Por qué es importante consultar a un profesional de la salud antes de elegir un método anticonceptivo?', correcta:'PARA RECIBIR INFORMACIÓN CORRECTA Y ELEGIR EL MÁS ADECUADO PARA LA SALUD DE CADA PERSONA', opts:['NO ES NECESARIO CONSULTAR A NADIE','PORQUE TODOS LOS MÉTODOS SON EXACTAMENTE IGUALES','PORQUE ES OBLIGATORIO POR LEY SIN NINGUNA RAZÓN DE SALUD'] },
+];
+const ITS_BANK = [
+  { pregunta:'¿Qué son las infecciones de transmisión sexual (ITS)?', correcta:'INFECCIONES QUE SE PUEDEN TRANSMITIR PRINCIPALMENTE POR CONTACTO SEXUAL', opts:['INFECCIONES QUE SOLO SE TRANSMITEN POR EL AIRE','ENFERMEDADES QUE SOLO AFECTAN A LOS ANIMALES','UN TIPO DE ALERGIA ALIMENTARIA'] },
+  { pregunta:'¿Cuál es una forma efectiva de prevenir el contagio de una ITS?', correcta:'USAR PRESERVATIVO Y MANTENER CONTROLES DE SALUD REGULARES', opts:['NO EXISTE NINGUNA FORMA DE PREVENCIÓN','SOLO LAVARSE LAS MANOS ES SUFICIENTE','IGNORAR EL TEMA POR COMPLETO'] },
+  { pregunta:'¿Qué se debe hacer si una persona sospecha que podría tener una ITS?', correcta:'CONSULTAR A UN PROFESIONAL DE LA SALUD LO ANTES POSIBLE', opts:['ESPERAR A QUE SE CURE SOLA SIN CONSULTAR A NADIE','OCULTARLO DE TODOS PARA SIEMPRE','AUTOMEDICARSE SIN SUPERVISIÓN MÉDICA'] },
+  { pregunta:'¿Por qué es importante hacerse exámenes médicos de manera regular?', correcta:'PORQUE ALGUNAS ITS PUEDEN NO PRESENTAR SEÑALES VISIBLES AL PRINCIPIO', opts:['PORQUE TODAS LAS ITS DUELEN MUCHO DESDE EL PRIMER DÍA','PORQUE LOS EXÁMENES MÉDICOS NUNCA SIRVEN DE NADA','PORQUE ES SOLO UNA FORMALIDAD SIN NINGÚN PROPÓSITO'] },
+];
+export function genSexualidadReproduccion7Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(CICLO_MENSTRUAL_GAMETOS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(METODOS_ANTICONCEPTIVOS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(ITS_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const BARRERAS_DEFENSIVAS_BANK = [
+  { pregunta:'¿Cuál es la primera barrera de defensa del cuerpo contra los agentes patógenos?', correcta:'LA PIEL', opts:['LOS HUESOS','EL CABELLO','LAS UÑAS'] },
+  { pregunta:'¿Qué función cumplen los glóbulos blancos en el cuerpo?', correcta:'DEFENDER AL CUERPO DE AGENTES PATÓGENOS COMO VIRUS Y BACTERIAS', opts:['TRANSPORTAR OXÍGENO POR LA SANGRE','DIGERIR LOS ALIMENTOS','FORMAR LOS HUESOS'] },
+  { pregunta:'¿Qué es una vacuna?', correcta:'UNA SUSTANCIA QUE PREPARA AL SISTEMA INMUNOLÓGICO PARA DEFENDERSE DE UN AGENTE ESPECÍFICO, SIN CAUSAR LA ENFERMEDAD', opts:['UN TIPO DE ALIMENTO','UN ANALGÉSICO PARA EL DOLOR','UN TRATAMIENTO PARA HUESOS ROTOS'] },
+  { pregunta:'¿Por qué a veces el cuerpo tiene fiebre cuando está combatiendo una infección?', correcta:'PORQUE ES UNA RESPUESTA DE DEFENSA QUE DIFICULTA LA REPRODUCCIÓN DE ALGUNOS AGENTES PATÓGENOS', opts:['PORQUE EL CUERPO ESTÁ FALLANDO POR COMPLETO','PORQUE ES UNA SEÑAL SIN NINGÚN PROPÓSITO','PORQUE EL CUERPO DEJA DE FUNCIONAR'] },
+];
+const VIRUS_BACTERIAS_HONGOS_BANK = [
+  { pregunta:'¿Qué característica distingue a un virus de una bacteria?', correcta:'EL VIRUS NECESITA UNA CÉLULA HUÉSPED PARA REPRODUCIRSE, LA BACTERIA PUEDE REPRODUCIRSE POR SÍ SOLA', opts:['EL VIRUS SIEMPRE ES MÁS GRANDE QUE LA BACTERIA','LAS BACTERIAS SIEMPRE SON DAÑINAS Y LOS VIRUS NUNCA','LOS VIRUS SIEMPRE VIVEN EN EL AGUA'] },
+  { pregunta:'¿Cuál de estos microorganismos puede ser beneficioso, como en la producción de pan o queso?', correcta:'LOS HONGOS (COMO LAS LEVADURAS)', opts:['SOLO LOS VIRUS','NINGÚN MICROORGANISMO PUEDE SER BENEFICIOSO','SOLO LOS PARÁSITOS'] },
+  { pregunta:'¿Qué tienen en común las bacterias con otros seres vivos, a diferencia de los virus?', correcta:'LAS BACTERIAS ESTÁN FORMADAS POR CÉLULAS, IGUAL QUE OTROS SERES VIVOS', opts:['LAS BACTERIAS NUNCA SE REPRODUCEN','LAS BACTERIAS SIEMPRE SON MICROSCÓPICAMENTE IDÉNTICAS A LOS VIRUS','LAS BACTERIAS NUNCA EXISTEN EN LA NATURALEZA'] },
+];
+const BIOTECNOLOGIA_BANK = [
+  { pregunta:'¿Para qué se usan microorganismos en la producción de alimentos como el yogur?', correcta:'PARA FERMENTAR LA LECHE Y TRANSFORMARLA EN YOGUR', opts:['PARA COLOREAR EL ENVASE','PARA ENFRIAR EL PRODUCTO','PARA AUMENTAR SU PESO'] },
+  { pregunta:'¿Cómo se pueden usar microorganismos para ayudar al medioambiente?', correcta:'ALGUNOS PUEDEN DESCOMPONER SUSTANCIAS CONTAMINANTES', opts:['NUNCA SE PUEDEN USAR PARA CUIDAR EL MEDIOAMBIENTE','SOLO SIRVEN PARA CONTAMINAR MÁS','SOLO EXISTEN PARA CAUSAR ENFERMEDADES'] },
+  { pregunta:'¿Qué producen algunos microorganismos al descomponer materia orgánica, que se puede usar como fuente de energía?', correcta:'METANO (BIOGÁS)', opts:['OXÍGENO PURO SOLAMENTE','AGUA POTABLE DIRECTAMENTE','SAL DE MESA'] },
+];
+export function genInmunologicoMicroorganismos7Round(){
+  const roll = Math.random();
+  if(roll<0.4){
+    const item = pick(BARRERAS_DEFENSIVAS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.7){
+    const item = pick(VIRUS_BACTERIAS_HONGOS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(BIOTECNOLOGIA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const FUERZAS7_BANK = [
+  { escenario:'Una manzana cae del árbol hacia el suelo', fuerza:'GRAVITACIONAL' },
+  { escenario:'Frotar las manos genera calor por el roce entre ellas', fuerza:'DE FRICCIÓN (ROCE)' },
+  { escenario:'Un resorte vuelve a su forma original después de estirarlo y soltarlo', fuerza:'ELÁSTICA' },
+  { escenario:'Una pelota rueda por el suelo y se detiene poco a poco por el roce con la superficie', fuerza:'DE FRICCIÓN (ROCE)' },
+  { escenario:'Un satélite es atraído hacia la Tierra y orbita alrededor de ella', fuerza:'GRAVITACIONAL' },
+  { escenario:'Una cama elástica (trampolín) impulsa hacia arriba a quien salta sobre ella', fuerza:'ELÁSTICA' },
+];
+const PRESION_BANK = [
+  { pregunta:'¿Por qué un cuchillo afilado corta mejor que uno sin filo, aplicando la misma fuerza?', correcta:'PORQUE CONCENTRA LA FUERZA EN UNA SUPERFICIE MÁS PEQUEÑA, AUMENTANDO LA PRESIÓN', opts:['PORQUE PESA MENOS','PORQUE ES MÁS LARGO','PORQUE ES DE OTRO COLOR'] },
+  { pregunta:'¿Qué le ocurre a la presión que siente un buzo a medida que se sumerge más profundo en el agua?', correcta:'AUMENTA', opts:['DISMINUYE','SE MANTIENE IGUAL SIEMPRE','DESAPARECE POR COMPLETO'] },
+  { pregunta:'¿Por qué usar raquetas de nieve o esquís ayuda a no hundirse tanto en la nieve?', correcta:'PORQUE REPARTEN EL PESO EN UNA SUPERFICIE MÁS GRANDE, DISMINUYENDO LA PRESIÓN', opts:['PORQUE SON MÁS PESADOS','PORQUE DERRITEN LA NIEVE','PORQUE SON DE COLOR BLANCO'] },
+];
+export function genFuerzasPresion7Round(){
+  if(Math.random()<0.6){
+    const item = pick(FUERZAS7_BANK);
+    const todos = ['GRAVITACIONAL','DE FRICCIÓN (ROCE)','ELÁSTICA'];
+    const distract = todos.filter(function(f){ return f!==item.fuerza; });
+    const opts = shuffle([item.fuerza].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.escenario+'.</p><p class="prompt-hint">¿Qué tipo de fuerza actúa principalmente en esta situación?</p>',
+      options: opts, correctValue: item.fuerza, speakText: item.escenario, cols:2, kind:'word', panel:true,
+      explain: 'Aquí actúa principalmente la fuerza <b>'+item.fuerza.toLowerCase()+'</b>.',
+    };
+  }
+  const item = pick(PRESION_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const TECTONICA_BANK = [
+  { pregunta:'¿Qué ocurre cuando dos placas tectónicas se separan una de la otra?', correcta:'ES UN LÍMITE DIVERGENTE, DONDE PUEDE SURGIR NUEVO MATERIAL DESDE EL INTERIOR DE LA TIERRA', opts:['SIEMPRE SE FORMA UN OCÉANO NUEVO DE INMEDIATO','LAS PLACAS DEJAN DE EXISTIR','NO OCURRE NINGÚN CAMBIO GEOLÓGICO'] },
+  { pregunta:'¿Qué ocurre cuando dos placas tectónicas chocan entre sí?', correcta:'ES UN LÍMITE CONVERGENTE, QUE PUEDE FORMAR CORDILLERAS O ZONAS DE ALTA ACTIVIDAD SÍSMICA', opts:['LAS PLACAS SE DETIENEN PARA SIEMPRE SIN CONSECUENCIAS','SIEMPRE SE FORMA UN VOLCÁN INSTANTÁNEAMENTE','NO TIENE NINGÚN EFECTO GEOLÓGICO'] },
+  { pregunta:'¿Qué propone la teoría de la deriva continental?', correcta:'QUE LOS CONTINENTES SE HAN MOVIDO A LO LARGO DEL TIEMPO GEOLÓGICO', opts:['QUE LOS CONTINENTES SIEMPRE HAN ESTADO EXACTAMENTE EN EL MISMO LUGAR','QUE LA TIERRA NO TIENE CONTINENTES','QUE LOS OCÉANOS NUNCA CAMBIAN DE TAMAÑO'] },
+];
+const VOLCANES_BANK = [
+  { pregunta:'¿Qué relación existe entre los volcanes y los límites de placas tectónicas?', correcta:'MUCHOS VOLCANES SE FORMAN CERCA DE LOS LÍMITES ENTRE PLACAS TECTÓNICAS', opts:['LOS VOLCANES NUNCA TIENEN RELACIÓN CON LAS PLACAS TECTÓNICAS','LOS VOLCANES SOLO EXISTEN EN EL OCÉANO','LOS VOLCANES APARECEN AL AZAR SIN NINGÚN PATRÓN'] },
+  { pregunta:'¿Cuál es una consecuencia social de una erupción volcánica importante?', correcta:'PUEDE OBLIGAR A EVACUAR A LA POBLACIÓN CERCANA POR SEGURIDAD', opts:['SIEMPRE MEJORA INMEDIATAMENTE LA ECONOMÍA LOCAL','NUNCA AFECTA A LAS PERSONAS QUE VIVEN CERCA','NO TIENE NINGÚN EFECTO EN LA SOCIEDAD'] },
+];
+const CICLO_ROCAS_BANK = [
+  { pregunta:'¿Cómo se forman las rocas ígneas?', correcta:'POR EL ENFRIAMIENTO Y SOLIDIFICACIÓN DEL MAGMA O LA LAVA', opts:['POR LA ACUMULACIÓN DE SEDIMENTOS SOLAMENTE','POR EL CALOR Y LA PRESIÓN SOBRE OTRA ROCA SOLAMENTE','POR LA EVAPORACIÓN DEL AGUA DE MAR'] },
+  { pregunta:'¿Cómo se forman las rocas sedimentarias?', correcta:'POR LA ACUMULACIÓN Y COMPACTACIÓN DE SEDIMENTOS A LO LARGO DEL TIEMPO', opts:['POR EL ENFRIAMIENTO DIRECTO DE LA LAVA','POR UNA EXPLOSIÓN VOLCÁNICA INSTANTÁNEA','POR LA CONGELACIÓN DEL AGUA'] },
+  { pregunta:'¿Cómo se forman las rocas metamórficas?', correcta:'CUANDO UNA ROCA EXISTENTE ES TRANSFORMADA POR CALOR Y PRESIÓN INTENSOS, SIN LLEGAR A DERRETIRSE POR COMPLETO', opts:['SOLO POR ACUMULACIÓN DE ARENA EN EL DESIERTO','SOLO POR LA ACCIÓN DEL VIENTO','SOLO POR CONGELAMIENTO RÁPIDO'] },
+];
+const CLIMA7_BANK = [
+  { pregunta:'¿Por qué se dice que el clima de un lugar es "dinámico"?', correcta:'PORQUE RESULTA DE LA INTERACCIÓN DE MÚLTIPLES VARIABLES QUE CAMBIAN CONSTANTEMENTE (TEMPERATURA, VIENTOS, HUMEDAD)', opts:['PORQUE EL CLIMA NUNCA CAMBIA EN NINGÚN LUGAR','PORQUE SOLO DEPENDE DE UN ÚNICO FACTOR FIJO','PORQUE ES IDÉNTICO EN TODOS LOS LUGARES DEL PLANETA'] },
+  { pregunta:'¿Qué factor geográfico puede influir en el clima de una zona costera en comparación con una zona de cordillera?', correcta:'LA CERCANÍA AL MAR Y LA ALTITUD SOBRE EL NIVEL DEL MAR', opts:['EL COLOR DE LAS CASAS DE ESA ZONA','EL NÚMERO DE HABITANTES DE LA ZONA','EL IDIOMA QUE SE HABLA EN ESA ZONA'] },
+];
+export function genGeologiaClima7Round(){
+  const roll = Math.random();
+  if(roll<0.25){
+    const item = pick(TECTONICA_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.5){
+    const item = pick(VOLCANES_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.75){
+    const item = pick(CICLO_ROCAS_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(CLIMA7_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const GASES_BANK = [
+  { pregunta:'Si comprimes un gas dentro de un recipiente cerrado (reduces su volumen) sin cambiar la temperatura, ¿qué le ocurre a su presión?', correcta:'AUMENTA', opts:['DISMINUYE','SE MANTIENE EXACTAMENTE IGUAL','DESAPARECE POR COMPLETO'] },
+  { pregunta:'Si calientas un gas dentro de un recipiente cerrado de volumen fijo, ¿qué le ocurre generalmente a su presión?', correcta:'AUMENTA', opts:['DISMINUYE','SE MANTIENE EXACTAMENTE IGUAL','SE CONVIERTE EN LÍQUIDO'] },
+  { pregunta:'Según la teoría cinético-molecular, ¿cómo se comportan las partículas de un gas?', correcta:'SE MUEVEN RÁPIDAMENTE Y AL AZAR, CON MUCHO ESPACIO ENTRE ELLAS', opts:['ESTÁN COMPLETAMENTE QUIETAS Y MUY JUNTAS','SE MUEVEN EN UNA SOLA DIRECCIÓN FIJA','NO SE MUEVEN NUNCA'] },
+];
+const CLASIFICACION_MATERIA7_BANK = [
+  { pregunta:'¿Qué es una sustancia pura?', correcta:'UNA SUSTANCIA FORMADA POR UN SOLO TIPO DE COMPONENTE, CON PROPIEDADES CONSTANTES', opts:['UNA COMBINACIÓN DE VARIOS MATERIALES DISTINTOS','UN LÍQUIDO DE CUALQUIER TIPO','UN OBJETO SÓLIDO DE CUALQUIER TIPO'] },
+  { pregunta:'¿Qué es una mezcla?', correcta:'LA COMBINACIÓN DE DOS O MÁS SUSTANCIAS QUE MANTIENEN SUS PROPIEDADES', opts:['UN ÚNICO ELEMENTO QUÍMICO PURO','UN GAS SIN NINGÚN OTRO COMPONENTE','UNA SUSTANCIA QUE NO SE PUEDE SEPARAR NUNCA'] },
+  { pregunta:'¿Qué técnica de separación usarías para separar arena de agua?', correcta:'FILTRACIÓN', opts:['DESTILACIÓN','IMANTACIÓN','NINGUNA TÉCNICA PUEDE SEPARARLAS'] },
+  { pregunta:'¿Qué técnica de separación se usa para separar el agua de la sal disuelta en ella (obteniendo agua pura)?', correcta:'DESTILACIÓN', opts:['FILTRACIÓN','IMANTACIÓN','NINGUNA TÉCNICA PUEDE SEPARARLAS'] },
+];
+const CAMBIOS_FISQUIM_BANK = [
+  { desc:'El agua se congela y se convierte en hielo', tipo:'CAMBIO FÍSICO' },
+  { desc:'Un papel se quema y se convierte en cenizas', tipo:'CAMBIO QUÍMICO' },
+  { desc:'Se corta una manzana en trozos más pequeños', tipo:'CAMBIO FÍSICO' },
+  { desc:'Un clavo de hierro se oxida y forma óxido de hierro', tipo:'CAMBIO QUÍMICO' },
+  { desc:'La sal se disuelve en agua', tipo:'CAMBIO FÍSICO' },
+  { desc:'La leche se corta y se transforma en yogur', tipo:'CAMBIO QUÍMICO' },
+];
+export function genMateriaGases7Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(GASES_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(CLASIFICACION_MATERIA7_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(CAMBIOS_FISQUIM_BANK);
+  const opts = shuffle([{label:'CAMBIO FÍSICO', value:'CAMBIO FÍSICO'},{label:'CAMBIO QUÍMICO', value:'CAMBIO QUÍMICO'}]);
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Es un cambio físico o un cambio químico?</p>',
+    options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, panel:true,
+    explain: 'Esto es un <b>'+item.tipo.toLowerCase()+'</b>'+(item.tipo==='CAMBIO QUÍMICO' ? ': se forma una sustancia nueva con propiedades distintas.' : ': la sustancia sigue siendo la misma, solo cambia su forma o estado.'),
+  };
+}

@@ -2021,3 +2021,279 @@ export function genDatos6Round(){
     explain: '<b>'+target.label+'</b> fue la opción '+(askMax?'más':'menos')+' elegida en esta encuesta.',
   };
 }
+
+/* ---------------- Contenido Matemática 7° Básico ----------------
+   Basado en OA del Decreto 614/2013, "Bases Curriculares 7° básico a 2°
+   medio" (curriculumnacional.cl/curriculum/7o-basico-2o-medio/matematica/
+   7-basico) — currículum distinto al Decreto 439/2012 usado en 1°-6°
+   básico. 19 OA agrupados en 8 módulos:
+   Números Enteros -> OA01. Fracciones y Decimales II -> OA02-03. Porcentaje
+   y Potencias -> OA04-05. Álgebra I -> OA06-07. Proporciones y Ecuaciones II
+   -> OA08-09. Geometría VII -> OA10-11,14 (ángulos de polígonos, círculo,
+   plano cartesiano con vectores — se dejó fuera OA13 -fórmula de área de
+   triángulo/paralelogramo/trapecio- porque ya se cubrió exactamente esa
+   habilidad en "Medición y Área" de 5° básico, OA19-22; repetirla aquí sería
+   duplicar contenido sin aportar nada nuevo). Estadística y Muestreo ->
+   OA15-17 (incluye "rango", ángulo nuevo respecto al promedio ya cubierto en
+   5°-6° básico). Probabilidades II -> OA18-19 (probabilidad teórica vs.
+   frecuencia experimental, cuantificado como fracción — más allá de las
+   conjeturas cualitativas de 6° básico).
+   Quedan fuera: OA12 (construir objetos geométricos con instrumentos o
+   software — producción práctica). */
+export const MATE_MODULES_G7 = [
+  {id:'enteros7', label:'Números Enteros', open:true, key:'enteros7'},
+  {id:'fraccionesdecimales7', label:'Fracciones y Decimales II', open:true, key:'fraccionesdecimales7'},
+  {id:'porcentajepotencias7', label:'Porcentaje y Potencias', open:true, key:'porcentajepotencias7'},
+  {id:'algebra7', label:'Álgebra I', open:true, key:'algebra7'},
+  {id:'proporcionesecuaciones7', label:'Proporciones y Ecuaciones II', open:true, key:'proporcionesecuaciones7'},
+  {id:'geometria7', label:'Geometría VII', open:true, key:'geometria7'},
+  {id:'estadisticamuestreo7', label:'Estadística y Muestreo', open:true, key:'estadisticamuestreo7'},
+  {id:'probabilidades7', label:'Probabilidades II', open:true, key:'probabilidades7'},
+];
+export const MATE_POS_G7 = [
+  {x:20,y:92},{x:64,y:82},{x:22,y:68},{x:66,y:54},
+  {x:20,y:40},{x:64,y:28},{x:22,y:16},{x:64,y:4},
+];
+
+export function genEnteros7Round(){
+  const roll = Math.random();
+  if(roll<0.5){
+    const a = randInt(-20,20), b = randInt(-20,20);
+    const suma = Math.random()<0.5;
+    const correct = suma ? a+b : a-b;
+    const opts = uniqueDistractors(correct, -60, 60, 6, 4).map(function(v){ return {label:String(v), value:v}; });
+    return {
+      promptHTML: '<p class="prompt-count" style="font-size:28px;">'+a+' '+(suma?'+':'-')+' ('+b+')</p><p class="prompt-hint">¿Cuánto es?</p>',
+      options: opts, correctValue: correct, speakText: '¿Cuánto es '+a+' '+(suma?'más':'menos')+' '+b+'?', cols:4,
+      explain: a+' '+(suma?'+':'-')+' ('+b+') = <b>'+correct+'</b>.',
+    };
+  }
+  const contexto = pick([
+    { unidad:'metros sobre el nivel del mar', inicio:randInt(-30,-5), cambio:randInt(10,40) },
+    { unidad:'grados de temperatura', inicio:randInt(-15,-1), cambio:randInt(5,25) },
+    { unidad:'pesos de deuda (en miles)', inicio:randInt(-50,-5), cambio:randInt(10,60) },
+  ]);
+  const correct = contexto.inicio + contexto.cambio;
+  const opts = uniqueDistractors(correct, -100, 100, 8, 4).map(function(v){ return {label:String(v), value:v}; });
+  return {
+    promptHTML: '<p class="prompt-hint">Un valor comienza en '+contexto.inicio+' '+contexto.unidad+', y luego sube '+contexto.cambio+'. ¿En qué valor queda?</p>',
+    options: opts, correctValue: correct, speakText: '¿En qué valor queda?', cols:4,
+    explain: contexto.inicio+' + '+contexto.cambio+' = <b>'+correct+'</b>.',
+  };
+}
+
+export function genFraccionesDecimales7Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const d1 = pick([2,3,4,5]), n1 = randInt(1,d1-1);
+    const d2 = pick([2,3,4,5]), n2 = randInt(1,d2-1);
+    const numResult = n1*n2, denResult = d1*d2;
+    const opts = uniqueDistractors(numResult, 1, denResult*2, 2, 4).map(function(v){ return {label:v+'/'+denResult, value:v+'/'+denResult}; });
+    return {
+      promptHTML: '<p class="prompt-count" style="font-size:26px;">'+n1+'/'+d1+' × '+n2+'/'+d2+'</p><p class="prompt-hint">¿Cuánto es?</p>',
+      options: opts, correctValue: numResult+'/'+denResult, speakText: '¿Cuánto es '+n1+'/'+d1+' por '+n2+'/'+d2+'?', cols:4,
+      explain: 'Se multiplican los numeradores entre sí y los denominadores entre sí: '+n1+'×'+n2+' / '+d1+'×'+d2+' = <b>'+numResult+'/'+denResult+'</b>.',
+    };
+  }
+  if(roll<0.67){
+    const d1 = pick([2,3,4]), n1 = randInt(1,d1-1);
+    const d2 = pick([2,3,4]), n2 = randInt(1,d2-1);
+    const numResult = n1*d2, denResult = d1*n2;
+    const opts = uniqueDistractors(numResult, 1, denResult*2, 2, 4).map(function(v){ return {label:v+'/'+denResult, value:v+'/'+denResult}; });
+    return {
+      promptHTML: '<p class="prompt-count" style="font-size:26px;">'+n1+'/'+d1+' ÷ '+n2+'/'+d2+'</p><p class="prompt-hint">¿Cuánto es? (Pista: multiplica por la fracción invertida)</p>',
+      options: opts, correctValue: numResult+'/'+denResult, speakText: '¿Cuánto es '+n1+'/'+d1+' dividido '+n2+'/'+d2+'?', cols:4,
+      explain: 'Dividir por una fracción es multiplicar por su inverso: '+n1+'/'+d1+' × '+d2+'/'+n2+' = <b>'+numResult+'/'+denResult+'</b>.',
+    };
+  }
+  const dec = randInt(11,99)/10;
+  const nat = randInt(2,9);
+  const multiplicar = Math.random()<0.5;
+  const correct = multiplicar ? Math.round(dec*nat*10)/10 : Math.round(dec/nat*100)/100;
+  const opts = uniqueDistractors(Math.round(correct*100), 5, 9000, 20, 4).map(function(v){ return {label:(v/100).toFixed(2), value:(v/100).toFixed(2)}; });
+  return {
+    promptHTML: '<p class="prompt-count" style="font-size:26px;">'+dec.toFixed(1)+' '+(multiplicar?'×':'÷')+' '+nat+'</p><p class="prompt-hint">¿Cuánto es?</p>',
+    options: opts, correctValue: correct.toFixed(2), speakText: '¿Cuánto es '+dec.toFixed(1)+' '+(multiplicar?'por':'dividido')+' '+nat+'?', cols:4,
+    explain: dec.toFixed(1)+' '+(multiplicar?'×':'÷')+' '+nat+' = <b>'+correct.toFixed(2)+'</b>.',
+  };
+}
+
+export function genPorcentajePotencias7Round(){
+  if(Math.random()<0.5){
+    const n = pick([50,80,120,150,200,250,400,500]);
+    const p = pick([5,10,15,20,30,40,60,75]);
+    const correct = Math.round(n*p)/100;
+    const opts = uniqueDistractors(Math.round(correct*10), 1, 4000, Math.max(5,Math.round(correct)), 4).map(function(v){ return {label:(v/10).toString(), value:(v/10).toString()}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Cuánto es el '+p+'% de '+n+'?</p>',
+      options: opts, correctValue: correct.toString(), speakText: '¿Cuánto es el '+p+' por ciento de '+n+'?', cols:4,
+      explain: 'El '+p+'% de '+n+' es <b>'+correct+'</b>.',
+    };
+  }
+  const exp = randInt(1,5);
+  const correct = Math.pow(10,exp);
+  const distractExps = shuffle([0,1,2,3,4,5,6].filter(function(e){ return e!==exp; })).slice(0,3);
+  const optsObj = shuffle([exp].concat(distractExps)).map(function(e){ const v = Math.pow(10,e); return {label:v.toLocaleString('es-CL'), value:v}; });
+  return {
+    promptHTML: '<p class="prompt-count" style="font-size:32px;">10<sup>'+exp+'</sup></p><p class="prompt-hint">¿Cuánto es esta potencia de base 10?</p>',
+    options: optsObj, correctValue: correct, speakText: '¿Cuánto es 10 elevado a '+exp+'?', cols:4,
+    explain: '10 elevado a '+exp+' es un 1 seguido de '+exp+' ceros: <b>'+correct.toLocaleString('es-CL')+'</b>.',
+  };
+}
+
+const FRASE_ALGEBRA7_BANK = [
+  { frase:'El triple de un número menos 7', expresion:'3n - 7' },
+  { frase:'La mitad de un número más 6', expresion:'n ÷ 2 + 6' },
+  { frase:'El cuádruple de un número más 2', expresion:'4n + 2' },
+  { frase:'Un número disminuido en 9', expresion:'n - 9' },
+  { frase:'El doble de un número aumentado en 3', expresion:'2n + 3' },
+];
+export function genAlgebra7Round(){
+  if(Math.random()<0.5){
+    const item = pick(FRASE_ALGEBRA7_BANK);
+    const distract = shuffle(FRASE_ALGEBRA7_BANK.filter(function(f){ return f.expresion!==item.expresion; })).slice(0,3).map(function(f){ return f.expresion; });
+    const opts = shuffle([item.expresion].concat(distract)).map(function(e){ return {label:e, value:e}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">"'+item.frase+'"</p><p class="prompt-hint">¿Qué expresión algebraica representa esta frase? (n = el número)</p>',
+      options: opts, correctValue: item.expresion, speakText: item.frase, cols:2,
+      explain: '"'+item.frase+'" se escribe como <b>'+item.expresion+'</b>.',
+    };
+  }
+  const a = randInt(2,9), b = randInt(2,9);
+  const c = randInt(1,15);
+  const correctA = a+b;
+  const opts = uniqueDistractors(correctA, 2, 30, 3, 4).map(function(v){ return {label:v+'x', value:v}; });
+  return {
+    promptHTML: '<p class="prompt-count" style="font-size:26px;">'+a+'x + '+b+'x + '+c+'</p><p class="prompt-hint">Al reunir los términos semejantes, ¿cuál es el coeficiente que acompaña a la "x"?</p>',
+    options: opts, correctValue: correctA, speakText: '¿Cuál es el coeficiente de equis, al reunir los términos semejantes?', cols:4,
+    explain: a+'x + '+b+'x = <b>'+correctA+'x</b> (se suman los coeficientes de los términos con la misma parte literal); el '+c+' no cambia porque no tiene "x".',
+  };
+}
+
+const PROPORCION_BANK = [
+  { contexto:'El precio total de una compra y la cantidad de artículos comprados (a más artículos, más precio)', tipo:'DIRECTA' },
+  { contexto:'La velocidad de un auto y el tiempo que tarda en llegar a un destino fijo (a más velocidad, menos tiempo)', tipo:'INVERSA' },
+  { contexto:'La cantidad de trabajadores en una tarea y el tiempo que toma terminarla, si todos trabajan al mismo ritmo (a más trabajadores, menos tiempo)', tipo:'INVERSA' },
+  { contexto:'La distancia recorrida y el tiempo, a una velocidad constante (a más tiempo, más distancia)', tipo:'DIRECTA' },
+  { contexto:'La cantidad de horas trabajadas y el pago total, si el pago por hora es fijo (a más horas, más pago)', tipo:'DIRECTA' },
+];
+export function genProporcionesEcuaciones7Round(){
+  if(Math.random()<0.5){
+    const item = pick(PROPORCION_BANK);
+    const opts = shuffle([{label:'PROPORCIÓN DIRECTA', value:'DIRECTA'},{label:'PROPORCIÓN INVERSA', value:'INVERSA'}]);
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.contexto+'.</p><p class="prompt-hint">¿Es una proporción directa o inversa?</p>',
+      options: opts, correctValue: item.tipo, speakText: '¿Es una proporción directa o inversa?', cols:2, panel:true,
+      explain: 'Esta es una proporción <b>'+item.tipo.toLowerCase()+'</b>.',
+    };
+  }
+  const x = randInt(1,25);
+  const coef = randInt(2,8);
+  const suma = randInt(1,30);
+  const total = coef*x+suma;
+  const opts = uniqueDistractors(x, 0, 80, 4, 4).map(function(v){ return {label:'x = '+v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-count" style="font-size:26px;">'+coef+'x + '+suma+' = '+total+'</p><p class="prompt-hint">¿Cuál es el valor de x?</p>',
+    options: opts, correctValue: x, speakText: '¿Cuál es el valor de equis?', cols:4,
+    explain: '('+total+' - '+suma+') ÷ '+coef+' = <b>'+x+'</b>, así que x = '+x+'.',
+  };
+}
+
+const POLIGONO_ANGULOS_BANK = [
+  { lados:3, nombre:'TRIÁNGULO' }, { lados:4, nombre:'CUADRILÁTERO' },
+  { lados:5, nombre:'PENTÁGONO' }, { lados:6, nombre:'HEXÁGONO' }, { lados:8, nombre:'OCTÓGONO' },
+];
+export function genGeometria7Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(POLIGONO_ANGULOS_BANK);
+    const sumaInterior = (item.lados-2)*180;
+    const opts = uniqueDistractors(sumaInterior, 90, 1500, 90, 4).map(function(v){ return {label:v+'°', value:v}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">Un '+item.nombre.toLowerCase()+' tiene '+item.lados+' lados.</p><p class="prompt-hint">¿Cuánto suman sus ángulos interiores? (Fórmula: (n - 2) × 180°)</p>',
+      options: opts, correctValue: sumaInterior, speakText: '¿Cuánto suman los ángulos interiores de un '+item.nombre.toLowerCase()+'?', cols:4,
+      explain: '('+item.lados+' - 2) × 180° = <b>'+sumaInterior+'°</b>.',
+    };
+  }
+  if(roll<0.67){
+    const radio = randInt(2,12);
+    const diametro = radio*2;
+    const preguntaDiametro = Math.random()<0.5;
+    const correct = preguntaDiametro ? diametro : radio;
+    const opts = uniqueDistractors(correct, 1, 30, 2, 4).map(function(v){ return {label:v+' cm', value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">Un círculo tiene '+(preguntaDiametro?'radio':'diámetro')+' de '+(preguntaDiametro?radio:diametro)+' cm. ¿Cuál es su '+(preguntaDiametro?'diámetro':'radio')+'?</p>',
+      options: opts, correctValue: correct, speakText: '¿Cuál es la medida que falta?', cols:4,
+      explain: preguntaDiametro ? 'El diámetro es el doble del radio: '+radio+' × 2 = <b>'+diametro+' cm</b>.' : 'El radio es la mitad del diámetro: '+diametro+' ÷ 2 = <b>'+radio+' cm</b>.',
+    };
+  }
+  const col = randInt(1,10), row = randInt(1,10);
+  const dx = randInt(-3,3) || 1, dy = randInt(-3,3) || 2;
+  const opts = shuffle([(col+dx)+','+(row+dy), col+','+(row+dy), (col+dx)+','+row, (col-dx)+','+(row-dy)]).map(function(c){ return {label:'('+c+')', value:c}; });
+  return {
+    promptHTML: '<p class="prompt-hint">Un punto está en la coordenada ('+col+', '+row+'). Si se desplaza según el vector ('+dx+', '+dy+'), ¿en qué coordenada queda?</p>',
+    options: opts, correctValue: (col+dx)+','+(row+dy), speakText: '¿En qué coordenada queda el punto?', cols:2, panel:true,
+    explain: 'Sumas '+dx+' a la primera coordenada y '+dy+' a la segunda: ('+(col+dx)+', '+(row+dy)+').',
+  };
+}
+
+export function genEstadisticaMuestreo7Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(DATOS_ENCUESTA);
+    const total = item.categorias.reduce(function(a,c){ return a+c.valor; }, 0);
+    const cat = pick(item.categorias);
+    const pctExacto = Math.round((cat.valor/total)*1000)/10;
+    const opts = uniqueDistractors(Math.round(pctExacto*10), 10, 900, 40, 4).map(function(v){ return {label:(v/10)+'%', value:(v/10)+'%'}; });
+    return {
+      promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' Aproximadamente, ¿qué porcentaje del total eligió "'+cat.label+'"?</p>',
+      options: opts, correctValue: pctExacto+'%', speakText: '¿Qué porcentaje eligió '+cat.label+'?', cols:4,
+      explain: cat.valor+' de '+total+' es aproximadamente <b>'+pctExacto+'%</b>.',
+    };
+  }
+  if(roll<0.67){
+    const datos = Array.from({length:5}, function(){ return randInt(1,20); });
+    const rango = Math.max.apply(null,datos) - Math.min.apply(null,datos);
+    const opts = uniqueDistractors(rango, 0, 25, 3, 4).map(function(v){ return {label:String(v), value:v}; });
+    return {
+      promptHTML: '<p class="prompt-count">'+datos.join(', ')+'</p><p class="prompt-hint">¿Cuál es el rango de este conjunto de datos (el valor máximo menos el valor mínimo)?</p>',
+      options: opts, correctValue: rango, speakText: '¿Cuál es el rango de estos datos?', cols:4,
+      explain: 'Rango = máximo - mínimo = '+Math.max.apply(null,datos)+' - '+Math.min.apply(null,datos)+' = <b>'+rango+'</b>.',
+    };
+  }
+  const item = pick(DATOS_ENCUESTA);
+  const opts = shuffle([{label:'TABLA DE FRECUENCIAS', value:'TABLA'},{label:'GRÁFICO DE BARRAS', value:'GRAFICO'}]);
+  const preguntaTabla = Math.random()<0.5;
+  return {
+    promptHTML: '<p class="prompt-hint">Si quieres mostrar visualmente, de un vistazo, qué categoría fue la más popular en una encuesta, ¿qué representación es más útil: una tabla de frecuencias o un gráfico de barras?</p>',
+    options: opts, correctValue: 'GRAFICO', speakText: '¿Qué representación es más útil para comparar categorías de un vistazo?', cols:2, panel:true,
+    explain: 'Un <b>gráfico de barras</b> permite comparar visualmente las categorías de un vistazo; la tabla es más precisa para leer valores exactos, pero menos inmediata para comparar.',
+  };
+}
+
+const PROBABILIDAD_TEORICA_BANK = [
+  { total:8, favorable:3, contexto:'bolitas rojas de un total de 8 bolitas en una bolsa' },
+  { total:6, favorable:1, contexto:'la cara marcada con el número 6, al lanzar un dado normal' },
+  { total:10, favorable:4, contexto:'cartas de color azul de un mazo de 10 cartas' },
+  { total:4, favorable:1, contexto:'obtener cara, al lanzar una moneda (dos resultados posibles, dividido en 4 para simplificar la fracción)' },
+];
+export function genProbabilidades7Round(){
+  if(Math.random()<0.5){
+    const item = pick(PROBABILIDAD_TEORICA_BANK.slice(0,3));
+    const opts = uniqueDistractors(item.favorable, 1, item.total-1, 1, Math.min(4,item.total-1)).map(function(v){ return {label:v+'/'+item.total, value:v+'/'+item.total}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Cuál es la probabilidad teórica de obtener '+item.contexto+'?</p>',
+      options: opts, correctValue: item.favorable+'/'+item.total, speakText: '¿Cuál es la probabilidad de obtener '+item.contexto+'?', cols:4,
+      explain: 'La probabilidad teórica es (casos favorables) ÷ (casos posibles) = <b>'+item.favorable+'/'+item.total+'</b>.',
+    };
+  }
+  const teorica = pick([0.5, 0.25, 0.75]);
+  const lanzamientos = pick([20,40,50,100]);
+  const experimental = Math.round(teorica*lanzamientos + (randInt(-3,3)));
+  const opts = shuffle([{label:'SÍ, ES ESPERABLE QUE HAYA UNA PEQUEÑA DIFERENCIA', value:true},{label:'NO, SIEMPRE DEBEN SER EXACTAMENTE IGUALES', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">La probabilidad teórica de un evento es '+(teorica*100)+'%. Al repetir el experimento '+lanzamientos+' veces, ocurrió '+experimental+' veces (en vez de exactamente '+Math.round(teorica*lanzamientos)+'). ¿Es normal que exista esta pequeña diferencia entre la frecuencia experimental y la probabilidad teórica?</p>',
+    options: opts, correctValue: true, speakText: '¿Es normal que exista esta diferencia?', cols:2, panel:true,
+    explain: 'Sí: la frecuencia experimental se acerca a la probabilidad teórica mientras más se repite el experimento, pero rara vez coincide exactamente en una cantidad limitada de repeticiones.',
+  };
+}

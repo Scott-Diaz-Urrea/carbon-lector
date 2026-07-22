@@ -5,7 +5,7 @@ export const GRADES = [
   { id:4, label:'4° Básico', open:true },
   { id:5, label:'5° Básico', open:true },
   { id:6, label:'6° Básico', open:true },
-  { id:7, label:'7° Básico', open:false },
+  { id:7, label:'7° Básico', open:true },
   { id:8, label:'8° Básico', open:false },
 ];
 export const GRADE_POS = [

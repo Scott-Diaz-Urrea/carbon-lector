@@ -1279,3 +1279,189 @@ export function genOrtografia7Round(){
     explain: item.regla,
   };
 }
+
+/* ---------------- Contenido Lengua y Literatura 8° Básico ----------------
+   Basado en OA del Decreto 614/2013 (curriculumnacional.cl/curriculum/
+   7o-basico-2o-medio/lengua-literatura/8-basico).
+   Comprensión VIII -> OA03,11-12 (análisis narrativo: conflicto, narrador,
+   estructura temporal; textos no literarios; estrategias de comprensión).
+   Géneros Dramáticos y Épicos -> OA05-07 (texto dramático, comedia,
+   fragmentos épicos en su contexto). Textos Argumentativos y Medios ->
+   OA09-10 (columnas de opinión, postura del autor, hechos vs. opiniones en
+   medios, estereotipos en medios). Gramática VIII -> OA17-19 (oraciones
+   complejas con referentes claros, correferencia por pronombres/
+   sustitución, modos verbales: indicativo/subjuntivo/imperativo).
+   Ortografía VI -> OA20 (usos de la coma -enumerativa, vocativo,
+   aclaratoria-, punto y coma, dos puntos — reglas no cubiertas por
+   Ortografía de 3°-7°).
+   Quedan fuera: OA01-02 (lectura por gusto personal, actitudinal), OA04
+   (lenguaje poético que apela a los sentidos — ya cubierto por Recursos
+   Poéticos de 5°-6° y Rima y Métrica de 7°), OA08 (interpretaciones
+   personales de obras, subjetivo), OA13-16 (producción escrita), OA21-24
+   (comunicación oral), OA25-26 (proceso de investigación propio). */
+export const LENGUAJE_MODULES_G8 = [
+  {id:'comprension8', label:'Comprensión VIII', open:true, key:'comprension8'},
+  {id:'generosdramaticos8', label:'Géneros Dramáticos y Épicos', open:true, key:'generosdramaticos8'},
+  {id:'argumentacionmedios8', label:'Textos Argumentativos y Medios', open:true, key:'argumentacionmedios8'},
+  {id:'gramatica8', label:'Gramática VIII', open:true, key:'gramatica8'},
+  {id:'ortografia8', label:'Ortografía VI', open:true, key:'ortografia8'},
+];
+export const LENGUAJE_POS_G8 = [{x:22,y:90},{x:68,y:70},{x:22,y:50},{x:68,y:30},{x:22,y:10}];
+
+const NARRADOR_BANK = [
+  { texto:'"Yo caminaba por la playa cuando encontré la botella. La abrí con mis propias manos y leí el mensaje."', pregunta:'¿Qué tipo de narrador tiene este fragmento?', correcta:'NARRADOR PROTAGONISTA (EN PRIMERA PERSONA)', opts:['NARRADOR OMNISCIENTE (SABE TODO)','NARRADOR TESTIGO EXTERNO','NO HAY NARRADOR'] },
+  { texto:'"Elena estaba nerviosa, aunque nadie lo notaba. Pensaba en su familia mientras sonreía. Al mismo tiempo, al otro lado de la ciudad, su hermano también pensaba en ella."', pregunta:'¿Qué tipo de narrador tiene este fragmento?', correcta:'NARRADOR OMNISCIENTE (CONOCE PENSAMIENTOS Y HECHOS QUE LOS PERSONAJES NO VEN)', opts:['NARRADOR PROTAGONISTA','NARRADOR TESTIGO QUE SOLO DESCRIBE LO VISIBLE','NO HAY NARRADOR'] },
+  { texto:'"Vi al hombre entrar al negocio. Compró pan, pagó y salió sin decir palabra. No sé qué pensaba ni a dónde iba después."', pregunta:'¿Qué tipo de narrador tiene este fragmento?', correcta:'NARRADOR TESTIGO (CUENTA SOLO LO QUE OBSERVA, SIN CONOCER PENSAMIENTOS AJENOS)', opts:['NARRADOR OMNISCIENTE','NARRADOR PROTAGONISTA DE LOS HECHOS PRINCIPALES','NO HAY NARRADOR'] },
+];
+const ESTRUCTURA_TEMPORAL_BANK = [
+  { texto:'Una novela comienza mostrando al protagonista anciano, y luego retrocede para contar toda su juventud.', pregunta:'¿Qué recurso temporal usa esta novela?', correcta:'RETROSPECCIÓN (VOLVER AL PASADO)', opts:['ORDEN ESTRICTAMENTE CRONOLÓGICO','ANTICIPACIÓN DEL FUTURO','AUSENCIA TOTAL DE TIEMPO'] },
+  { texto:'Un cuento narra los hechos exactamente en el orden en que ocurrieron, desde la mañana hasta la noche del mismo día.', pregunta:'¿Qué estructura temporal usa este cuento?', correcta:'ORDEN CRONOLÓGICO LINEAL', opts:['RETROSPECCIÓN CONSTANTE','SALTOS AL FUTURO','TIEMPO CIRCULAR SIN INICIO NI FIN'] },
+  { texto:'En medio del relato, el narrador adelanta: "Aquella decisión, aunque nadie lo sabía entonces, cambiaría su vida para siempre".', pregunta:'¿Qué recurso temporal usa este fragmento?', correcta:'ANTICIPACIÓN (ADELANTAR ALGO DEL FUTURO)', opts:['RETROSPECCIÓN AL PASADO','ORDEN CRONOLÓGICO SIMPLE','DESCRIPCIÓN SIN TIEMPO'] },
+];
+const NOLITERARIO_8_BANK = [
+  { texto:'Un reportaje sobre los océanos explica que la mayoría del plástico que llega al mar proviene de desechos mal gestionados en tierra, y que las corrientes lo concentran en grandes zonas de acumulación.', pregunta:'Según el texto, ¿de dónde proviene la mayoría del plástico que llega al mar?', correcta:'DE DESECHOS MAL GESTIONADOS EN TIERRA', opts:['DE LOS BARCOS PESQUEROS ÚNICAMENTE','DE LAS FÁBRICAS SUBMARINAS','EL TEXTO NO LO MENCIONA'] },
+  { texto:'Una infografía sobre el sueño adolescente indica que los expertos recomiendan entre 8 y 10 horas de sueño para esa edad, y que el uso de pantallas antes de dormir dificulta conciliar el sueño.', pregunta:'Según la infografía, ¿qué dificulta conciliar el sueño?', correcta:'EL USO DE PANTALLAS ANTES DE DORMIR', opts:['DORMIR ENTRE 8 Y 10 HORAS','LEER UN LIBRO IMPRESO','EL TEXTO NO LO MENCIONA'] },
+  { texto:'Un artículo de divulgación explica que los glaciares de los Andes centrales han retrocedido en las últimas décadas, y que esto afecta la disponibilidad de agua para las ciudades cercanas.', pregunta:'Según el artículo, ¿qué consecuencia tiene el retroceso de los glaciares?', correcta:'AFECTA LA DISPONIBILIDAD DE AGUA PARA LAS CIUDADES CERCANAS', opts:['AUMENTA LA DISPONIBILIDAD DE AGUA','NO TIENE NINGUNA CONSECUENCIA','HACE CRECER LOS GLACIARES DEL NORTE'] },
+  { texto:'Una noticia informa que una biblioteca municipal extendió su horario hasta las 21 horas de lunes a viernes, tras una encuesta donde los vecinos pidieron más tiempo para estudiar después del trabajo.', pregunta:'¿Por qué la biblioteca extendió su horario?', correcta:'PORQUE LOS VECINOS PIDIERON MÁS TIEMPO PARA ESTUDIAR DESPUÉS DEL TRABAJO', opts:['PORQUE CERRÓ LA BIBLIOTECA VECINA','PORQUE LO EXIGIÓ UNA LEY NUEVA','EL TEXTO NO EXPLICA EL MOTIVO'] },
+];
+export function genComprension8Round(){
+  const roll = Math.random();
+  if(roll<0.34){
+    const item = pick(NARRADOR_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  if(roll<0.67){
+    const item = pick(ESTRUCTURA_TEMPORAL_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(NOLITERARIO_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const GENERO_DRAMATICO_BANK = [
+  { pregunta:'¿Qué caracteriza a un texto dramático, a diferencia de un cuento o una novela?', correcta:'ESTÁ ESCRITO PARA SER REPRESENTADO EN ESCENA, CON DIÁLOGOS Y ACOTACIONES', opts:['SIEMPRE TIENE UN NARRADOR OMNISCIENTE','NUNCA TIENE PERSONAJES','SOLO PUEDE LEERSE EN SILENCIO'] },
+  { pregunta:'¿Cómo se llaman las indicaciones del texto dramático que describen movimientos, gestos o escenografía (y que no se dicen en voz alta)?', correcta:'ACOTACIONES', opts:['DIÁLOGOS','MONÓLOGOS','ESTROFAS'] },
+  { pregunta:'¿Qué es un monólogo dentro de una obra dramática?', correcta:'UN PARLAMENTO EXTENSO DICHO POR UN SOLO PERSONAJE', opts:['UNA CONVERSACIÓN ENTRE MUCHOS PERSONAJES','UNA INDICACIÓN DE ESCENOGRAFÍA','EL APLAUSO DEL PÚBLICO'] },
+  { pregunta:'¿Qué busca provocar la comedia, como género dramático, en el espectador?', correcta:'RISA Y ENTRETENCIÓN, MOSTRANDO DEFECTOS HUMANOS DE FORMA EXAGERADA O RIDÍCULA', opts:['MIEDO Y TERROR EXTREMO','LLANTO SIN NINGÚN ALIVIO','INDIFERENCIA TOTAL'] },
+  { pregunta:'¿Qué narra generalmente una epopeya o poema épico?', correcta:'LAS HAZAÑAS DE UN HÉROE, MEZCLANDO HECHOS EXTRAORDINARIOS Y VALORES DE SU PUEBLO', opts:['LA RUTINA COTIDIANA DE UNA PERSONA COMÚN SIN NINGÚN CONFLICTO','SOLO DESCRIPCIONES DE PAISAJES','INSTRUCCIONES PARA ARMAR UN OBJETO'] },
+  { pregunta:'"La Odisea", que narra el largo viaje de regreso del héroe Ulises, es un ejemplo clásico de...', correcta:'POEMA ÉPICO (EPOPEYA)', opts:['COMEDIA TEATRAL','NOTICIA PERIODÍSTICA','RECETA DE COCINA'] },
+  { pregunta:'¿Por qué es útil conocer el contexto histórico al leer un fragmento épico como "La Ilíada"?', correcta:'PORQUE AYUDA A ENTENDER LOS VALORES Y COSTUMBRES DEL PUEBLO QUE LO CREÓ', opts:['PORQUE SIN ESO ES IMPOSIBLE LEER LAS PALABRAS','PORQUE EL CONTEXTO CAMBIA LAS LETRAS DEL TEXTO','NO SIRVE DE NADA CONOCER EL CONTEXTO'] },
+  { pregunta:'En una obra dramática, ¿cómo se llama el problema central que enfrentan los personajes y que hace avanzar la acción?', correcta:'EL CONFLICTO DRAMÁTICO', opts:['LA ACOTACIÓN','EL TELÓN','EL VESTUARIO'] },
+  { pregunta:'¿Qué diferencia principal hay entre leer una obra dramática y verla representada en teatro?', correcta:'AL VERLA, LOS ACTORES DAN VIDA A LOS DIÁLOGOS Y LAS ACOTACIONES SE VUELVEN ACCIONES REALES EN ESCENA', opts:['NO HAY NINGUNA DIFERENCIA ENTRE AMBAS EXPERIENCIAS','LEERLA SIEMPRE TOMA MENOS TIEMPO QUE VERLA','AL VERLA DESAPARECE EL CONFLICTO DE LA HISTORIA'] },
+  { pregunta:'¿Qué personaje típico de la comedia clásica exagera un defecto (como la avaricia o la vanidad) para provocar risa?', correcta:'EL PERSONAJE TIPO O CARICATURESCO', opts:['EL NARRADOR OMNISCIENTE','EL PÚBLICO','EL ESCENÓGRAFO'] },
+];
+export function genGenerosDramaticos8Round(){
+  const item = pick(GENERO_DRAMATICO_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const POSTURA_ARGUMENTO_BANK = [
+  { texto:'"Las bibliotecas públicas deberían abrir también los domingos. Muchos estudiantes solo tienen ese día libre para estudiar con calma, y una ciudad que facilita el estudio invierte en su futuro."', pregunta:'¿Cuál es la postura del autor de esta columna?', correcta:'LAS BIBLIOTECAS PÚBLICAS DEBERÍAN ABRIR LOS DOMINGOS', opts:['LOS ESTUDIANTES NO NECESITAN BIBLIOTECAS','LAS BIBLIOTECAS DEBERÍAN CERRAR LOS SÁBADOS','EL AUTOR NO TIENE NINGUNA POSTURA'] },
+  { texto:'"Prohibir los celulares en la sala de clases es una medida necesaria. Diversos estudios muestran que las notificaciones interrumpen la concentración, y los propios estudiantes reconocen distraerse con ellos."', pregunta:'¿Qué evidencia usa el autor para apoyar su postura?', correcta:'ESTUDIOS SOBRE INTERRUPCIÓN DE LA CONCENTRACIÓN Y EL RECONOCIMIENTO DE LOS PROPIOS ESTUDIANTES', opts:['SOLO SU OPINIÓN PERSONAL SIN NINGÚN RESPALDO','UNA ENCUESTA SOBRE COMIDA ESCOLAR','NO USA NINGUNA EVIDENCIA'] },
+  { texto:'"El nuevo parque de la comuna es, sin duda, el mejor lugar que existe para las familias." — dice un vecino en una carta al director.', pregunta:'La frase "es el mejor lugar que existe" corresponde a...', correcta:'UNA OPINIÓN (UN JUICIO PERSONAL DEL VECINO)', opts:['UN HECHO COMPROBABLE CON DATOS','UNA CIFRA OFICIAL','UNA LEY DE LA REPÚBLICA'] },
+  { texto:'"El parque fue inaugurado el 15 de marzo y tiene 4 hectáreas de áreas verdes", informa una noticia municipal.', pregunta:'Esta afirmación corresponde a...', correcta:'UN HECHO (SE PUEDE COMPROBAR CON REGISTROS)', opts:['UNA OPINIÓN PERSONAL','UNA EXAGERACIÓN POÉTICA','UN DESEO DEL PERIODISTA'] },
+];
+const MEDIOS_BANK = [
+  { pregunta:'Un aviso publicitario muestra que "9 de cada 10 dentistas recomiendan" una pasta dental, sin citar ningún estudio. ¿Qué conviene hacer como lector crítico?', correcta:'PREGUNTARSE DE DÓNDE SALE ESA CIFRA Y SI EXISTE UNA FUENTE VERIFICABLE', opts:['CREER LA CIFRA SIN CUESTIONARLA','COMPRAR EL PRODUCTO DE INMEDIATO','ASUMIR QUE TODA PUBLICIDAD ES SIEMPRE FALSA SIN ANALIZARLA'] },
+  { pregunta:'Una serie de televisión muestra siempre a los científicos como personas despeinadas, solitarias y sin amigos. ¿Qué recurso problemático está usando?', correcta:'UN ESTEREOTIPO (UNA IMAGEN SIMPLIFICADA Y GENERALIZADA DE UN GRUPO)', opts:['UNA ESTADÍSTICA OFICIAL','UN HECHO CIENTÍFICO COMPROBADO','UNA ACOTACIÓN DRAMÁTICA'] },
+  { pregunta:'¿Cuál es el propósito principal de un aviso publicitario?', correcta:'PERSUADIR AL PÚBLICO PARA QUE COMPRE UN PRODUCTO O PREFIERA UNA MARCA', opts:['INFORMAR DE FORMA NEUTRAL Y COMPLETA','ENSEÑAR CONTENIDOS ESCOLARES','ENTRETENER SIN NINGUNA INTENCIÓN COMERCIAL'] },
+  { pregunta:'Una noticia y una columna de opinión tratan el mismo tema. ¿Cuál es la diferencia esperable entre ambas?', correcta:'LA NOTICIA BUSCA INFORMAR HECHOS; LA COLUMNA PRESENTA EL PUNTO DE VISTA DE SU AUTOR', opts:['NO HAY NINGUNA DIFERENCIA ENTRE AMBAS','LA COLUMNA NUNCA PUEDE MENCIONAR HECHOS','LA NOTICIA SIEMPRE DA OPINIONES PERSONALES'] },
+  { pregunta:'En un afiche, la imagen de una familia sonriente ocupa casi todo el espacio y el precio del producto aparece muy pequeño. ¿Qué efecto busca ese diseño?', correcta:'ASOCIAR EL PRODUCTO A EMOCIONES POSITIVAS, RESTANDO ATENCIÓN AL PRECIO', opts:['INFORMAR EL PRECIO CON LA MAYOR CLARIDAD POSIBLE','MOSTRAR DATOS TÉCNICOS DEL PRODUCTO','EVITAR QUE ALGUIEN MIRE EL AFICHE'] },
+  { pregunta:'¿Qué elemento de una columna de opinión permite evaluar si su argumentación es sólida?', correcta:'LA CALIDAD Y VERIFICABILIDAD DE LAS RAZONES Y EVIDENCIAS QUE ENTREGA', opts:['EL TAMAÑO DE LA LETRA DEL TÍTULO','LA CANTIDAD DE ADJETIVOS ELOGIOSOS','LA FAMA DEL AUTOR SIN IMPORTAR SUS ARGUMENTOS'] },
+];
+export function genArgumentacionMedios8Round(){
+  if(Math.random()<0.5){
+    const item = pick(POSTURA_ARGUMENTO_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    };
+  }
+  const item = pick(MEDIOS_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const MODO_VERBAL_BANK = [
+  { oracion:'Mañana viajaremos al sur en tren.', modo:'INDICATIVO', explicacion:'El modo indicativo expresa hechos reales o que se dan por ciertos.' },
+  { oracion:'Ojalá que llueva pronto en el norte.', modo:'SUBJUNTIVO', explicacion:'El modo subjuntivo expresa deseos, posibilidades o dudas — aquí, un deseo.' },
+  { oracion:'Cierra la puerta antes de salir.', modo:'IMPERATIVO', explicacion:'El modo imperativo expresa órdenes, peticiones o instrucciones.' },
+  { oracion:'El tren llegó puntual a la estación.', modo:'INDICATIVO', explicacion:'El modo indicativo expresa hechos reales — aquí, algo que efectivamente ocurrió.' },
+  { oracion:'Quizás vengan mis primos este verano.', modo:'SUBJUNTIVO', explicacion:'El modo subjuntivo expresa posibilidad o duda — "quizás vengan" no es un hecho seguro.' },
+  { oracion:'Lava las verduras antes de cocinarlas.', modo:'IMPERATIVO', explicacion:'El modo imperativo da una instrucción directa.' },
+  { oracion:'Espero que tengas un buen viaje.', modo:'SUBJUNTIVO', explicacion:'"Que tengas" expresa un deseo, propio del modo subjuntivo.' },
+  { oracion:'Los estudiantes rindieron la prueba ayer.', modo:'INDICATIVO', explicacion:'Es un hecho ya ocurrido, expresado en modo indicativo.' },
+  { oracion:'Guarden silencio durante la ceremonia.', modo:'IMPERATIVO', explicacion:'Es una orden dirigida a un grupo, en modo imperativo.' },
+];
+const REFERENTE_BANK = [
+  { oracion:'Marta le prestó su bicicleta a Sofía porque ELLA no tenía cómo llegar al ensayo.', pregunta:'¿A quién se refiere "ella" en esta oración?', correcta:'A SOFÍA', opts:['A MARTA','A LA BICICLETA','AL ENSAYO'] },
+  { oracion:'El profesor revisó los trabajos y LOS devolvió corregidos al día siguiente.', pregunta:'¿A qué se refiere "los" en esta oración?', correcta:'A LOS TRABAJOS', opts:['A LOS ESTUDIANTES','A LOS DÍAS','AL PROFESOR'] },
+  { oracion:'Compramos frutas en la feria. ESTAS estaban más frescas que las del supermercado.', pregunta:'¿A qué se refiere "estas"?', correcta:'A LAS FRUTAS DE LA FERIA', opts:['A LAS FRUTAS DEL SUPERMERCADO','A LAS FERIAS DE LA CIUDAD','A LAS COMPRADORAS'] },
+  { oracion:'Llegaron los nuevos libros a la biblioteca. EL MÁS SOLICITADO fue una novela de aventuras.', pregunta:'¿A qué grupo pertenece "el más solicitado"?', correcta:'A LOS NUEVOS LIBROS', opts:['A LAS BIBLIOTECAS DE LA COMUNA','A LOS ESTUDIANTES','A LAS NOVELAS ANTIGUAS'] },
+];
+export function genGramatica8Round(){
+  if(Math.random()<0.6){
+    const item = pick(MODO_VERBAL_BANK);
+    const opts = shuffle(['INDICATIVO','SUBJUNTIVO','IMPERATIVO']).map(function(m){ return {label:m, value:m}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">"'+item.oracion+'"</p><p class="prompt-hint">¿En qué modo verbal está esta oración?</p>',
+      options: opts, correctValue: item.modo, speakText: item.oracion, cols:3, kind:'word', panel:true,
+      explain: item.explicacion,
+    };
+  }
+  const item = pick(REFERENTE_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">"'+item.oracion+'"</p><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const PUNTUACION_8_BANK = [
+  { incorrecta:'Compré manzanas peras y naranjas en la feria.', correcta:'Compré manzanas, peras y naranjas en la feria.', regla:'En una enumeración, los elementos se separan con comas (excepto antes de la "y" final).' },
+  { incorrecta:'Sofía ven a ayudarme con las bolsas.', correcta:'Sofía, ven a ayudarme con las bolsas.', regla:'El vocativo (el nombre de la persona a quien se habla) se separa con coma.' },
+  { incorrecta:'Mi abuelo que vive en Valdivia cumple 80 años.', correcta:'Mi abuelo, que vive en Valdivia, cumple 80 años.', regla:'Las aclaraciones intercaladas en la oración van entre comas.' },
+  { incorrecta:'Trajimos todo lo necesario, carpa, sacos de dormir, linterna y comida.', correcta:'Trajimos todo lo necesario: carpa, sacos de dormir, linterna y comida.', regla:'Los dos puntos anuncian una enumeración que desarrolla lo dicho antes.' },
+  { incorrecta:'Unos alumnos prefieren el taller de teatro, otros el de música, y unos pocos el de ajedrez', correcta:'Unos alumnos prefieren el taller de teatro; otros, el de música; y unos pocos, el de ajedrez.', regla:'El punto y coma separa partes de una enumeración que ya contienen comas internas.' },
+  { incorrecta:'La profesora dijo, mañana habrá prueba.', correcta:'La profesora dijo: mañana habrá prueba.', regla:'Los dos puntos introducen una cita o el anuncio de lo que alguien dijo.' },
+  { incorrecta:'Pedro el capitán del equipo dio el discurso final.', correcta:'Pedro, el capitán del equipo, dio el discurso final.', regla:'La aposición explicativa (una aclaración sobre el sujeto) va entre comas.' },
+  { incorrecta:'No vino al ensayo, porque estaba enfermo, sin embargo avisó a tiempo.', correcta:'No vino al ensayo porque estaba enfermo; sin embargo, avisó a tiempo.', regla:'Antes de conectores como "sin embargo" se usa punto y coma (o punto), y después va coma.' },
+  { incorrecta:'Queridos vecinos les informamos que el agua se cortará el martes.', correcta:'Queridos vecinos: les informamos que el agua se cortará el martes.', regla:'Tras el saludo o encabezado de una carta o comunicado van dos puntos.' },
+  { incorrecta:'El viaje en resumen fue un éxito.', correcta:'El viaje, en resumen, fue un éxito.', regla:'Las expresiones intercaladas como "en resumen" o "por ejemplo" van entre comas.' },
+];
+export function genOrtografia8Round(){
+  const item = pick(PUNTUACION_8_BANK);
+  const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál oración está bien puntuada?</p>',
+    options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien puntuada?', cols:1, panel:true,
+    explain: item.regla,
+  };
+}

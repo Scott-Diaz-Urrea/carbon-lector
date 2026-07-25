@@ -2297,3 +2297,347 @@ export function genProbabilidades7Round(){
     explain: 'Sí: la frecuencia experimental se acerca a la probabilidad teórica mientras más se repite el experimento, pero rara vez coincide exactamente en una cantidad limitada de repeticiones.',
   };
 }
+
+/* ---------------- Contenido Matemática 8° Básico ----------------
+   Basado en OA del Decreto 614/2013 (curriculumnacional.cl/curriculum/
+   7o-basico-2o-medio/matematica/8-basico).
+   Enteros y Racionales -> MA08 OA01-02 (multiplicar/dividir enteros con
+   regla de signos; operar racionales). Potencias y Raíces -> OA03-04
+   (potencias de base natural y exponente hasta 3, multiplicación de
+   potencias de igual base, raíces cuadradas de cuadrados perfectos).
+   Variaciones Porcentuales -> OA05 (aumentos y descuentos porcentuales).
+   Álgebra y Ecuaciones VIII -> OA06,08-09 (reducir expresiones, ecuaciones
+   e inecuaciones lineales). Funciones -> OA07,10 (noción de función como
+   regla entre variables, función lineal f(x)=ax y función afín f(x)=ax+b,
+   evaluar en un valor). Geometría VIII: Pitágoras y Volumen -> OA11-12
+   (teorema de Pitágoras con tríos pitagóricos, volumen de prismas rectos y
+   cilindros). Transformaciones Geométricas -> OA13-14 (traslación/
+   rotación/reflexión descritas con puntos y vectores, presentadas como
+   identificar el movimiento a partir de una descripción — mismo criterio
+   que Geometría V de 5° básico, sin comparar imágenes animadas).
+   Estadística y Combinatoria -> OA15-17 (mediana/cuartiles como posición,
+   principio combinatorio multiplicativo, detección de gráficos engañosos). */
+export const MATE_MODULES_G8 = [
+  {id:'enterosracionales8', label:'Enteros y Racionales', open:true, key:'enterosracionales8'},
+  {id:'potenciasraices8', label:'Potencias y Raíces', open:true, key:'potenciasraices8'},
+  {id:'variacionesporcentuales8', label:'Variaciones Porcentuales', open:true, key:'variacionesporcentuales8'},
+  {id:'algebra8', label:'Álgebra y Ecuaciones VIII', open:true, key:'algebra8'},
+  {id:'funciones8', label:'Funciones', open:true, key:'funciones8'},
+  {id:'geometria8', label:'Geometría VIII: Pitágoras y Volumen', open:true, key:'geometria8'},
+  {id:'transformaciones8', label:'Transformaciones Geométricas', open:true, key:'transformaciones8'},
+  {id:'estadisticacombinatoria8', label:'Estadística y Combinatoria', open:true, key:'estadisticacombinatoria8'},
+];
+export const MATE_POS_G8 = [
+  {x:20,y:92},{x:64,y:82},{x:22,y:68},{x:66,y:54},
+  {x:20,y:40},{x:64,y:28},{x:22,y:16},{x:64,y:4},
+];
+
+export function genEnterosRacionales8Round(){
+  if(Math.random()<0.55){
+    const a = randInt(2,9) * (Math.random()<0.5 ? -1 : 1);
+    const b = randInt(2,9) * (Math.random()<0.5 ? -1 : 1);
+    const esDiv = Math.random()<0.4;
+    let correct, exprHTML, exprSpeak;
+    if(esDiv){
+      const producto = a*b;
+      correct = a;
+      exprHTML = '('+producto+') ÷ ('+b+')';
+      exprSpeak = producto+' dividido en '+b;
+    } else {
+      correct = a*b;
+      exprHTML = '('+a+') × ('+b+')';
+      exprSpeak = a+' por '+b;
+    }
+    const distractCandidates = [correct*-1];
+    while(distractCandidates.length<6){ distractCandidates.push(correct + pick([-2,-1,1,2])*randInt(1,4)); }
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+exprHTML+' = ?</p>',
+      options: opts, correctValue: correct, speakText: '¿Cuánto es '+exprSpeak+'?', cols:4,
+      explain: exprHTML+' = <b>'+correct+'</b>. Regla de signos: signos iguales dan positivo, signos distintos dan negativo.',
+    };
+  }
+  const num1 = randInt(1,5), den1 = pick([2,3,4,5]);
+  const num2 = randInt(1,5), den2 = pick([2,3,4,5]);
+  const numR = num1*num2, denR = den1*den2;
+  const correct = numR+'/'+denR;
+  const distractSet = [(num1*den2)+'/'+(den1*num2), (num1+num2)+'/'+(den1+den2), (numR+den1)+'/'+denR];
+  const finales = [];
+  for(const d of distractSet){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+  while(finales.length<3){
+    const cand = (numR+randInt(1,4))+'/'+denR;
+    if(cand!==correct && finales.indexOf(cand)===-1) finales.push(cand);
+  }
+  const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+num1+'/'+den1+' × '+num2+'/'+den2+' = ?</p>',
+    options: opts, correctValue: correct, speakText: '¿Cuánto es '+num1+' '+den1+'avos por '+num2+' '+den2+'avos?', cols:4,
+    explain: 'Para multiplicar fracciones, se multiplican los numeradores entre sí y los denominadores entre sí: '+num1+'×'+num2+'='+numR+' y '+den1+'×'+den2+'='+denR+', resultado <b>'+correct+'</b> (sin simplificar).',
+  };
+}
+
+export function genPotenciasRaices8Round(){
+  const roll = Math.random();
+  if(roll<0.4){
+    const base = randInt(2,6), exp = randInt(2,3);
+    const correct = Math.pow(base,exp);
+    const distractCandidates = [base*exp, Math.pow(base,exp)+base, Math.pow(base,exp-1), Math.pow(base+1,exp), correct+base, correct-exp];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && d>0 && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    while(finales.length<3){ const c = correct+randInt(1,10); if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+base+'<sup>'+exp+'</sup> = ?</p>',
+      options: opts, correctValue: correct, speakText: '¿Cuánto es '+base+' elevado a '+exp+'?', cols:4,
+      explain: base+'<sup>'+exp+'</sup> significa multiplicar '+base+' por sí mismo '+exp+' veces = <b>'+correct+'</b>.',
+    };
+  }
+  if(roll<0.7){
+    const base = randInt(2,7), e1 = randInt(1,3), e2 = randInt(1,3);
+    const correctExp = e1+e2;
+    const distractExps = [e1*e2, correctExp+1, Math.abs(e1-e2)||correctExp+2];
+    const finales = [];
+    for(const d of distractExps){ if(d!==correctExp && finales.indexOf(d)===-1) finales.push(d); }
+    while(finales.length<3){ const c = correctExp+randInt(2,4); if(finales.indexOf(c)===-1 && c!==correctExp) finales.push(c); }
+    const opts = shuffle([correctExp].concat(finales.slice(0,3))).map(function(e){ return {label:base+'^'+e, value:e}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+base+'<sup>'+e1+'</sup> × '+base+'<sup>'+e2+'</sup> = ?</p><p class="prompt-hint">Elige la potencia equivalente.</p>',
+      options: opts, correctValue: correctExp, speakText: base+' elevado a '+e1+' por '+base+' elevado a '+e2, cols:4,
+      explain: 'Al multiplicar potencias de la misma base, los exponentes se suman: '+e1+'+'+e2+' = <b>'+correctExp+'</b>, es decir '+base+'^'+correctExp+'.',
+    };
+  }
+  const raiz = randInt(2,12);
+  const cuadrado = raiz*raiz;
+  const finales = [];
+  let guardRaiz = 0;
+  while(finales.length<3 && guardRaiz<50){
+    guardRaiz++;
+    const d = raiz + pick([-2,-1,1,2])*randInt(1,2);
+    if(d>0 && d!==raiz && finales.indexOf(d)===-1) finales.push(d);
+  }
+  const opts = shuffle([raiz].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
+  return {
+    promptHTML: '<p class="prompt-word">√'+cuadrado+' = ?</p>',
+    options: opts, correctValue: raiz, speakText: '¿Cuánto es la raíz cuadrada de '+cuadrado+'?', cols:4,
+    explain: 'La raíz cuadrada de '+cuadrado+' es <b>'+raiz+'</b>, porque '+raiz+' × '+raiz+' = '+cuadrado+'.',
+  };
+}
+
+export function genVariacionesPorcentuales8Round(){
+  const precios = [1000,2000,4000,5000,8000,10000,20000];
+  const precio = pick(precios);
+  const p = pick([10,20,25,50]);
+  const esAumento = Math.random()<0.5;
+  const cambio = precio*p/100;
+  const correct = esAumento ? precio+cambio : precio-cambio;
+  const distract = [esAumento ? precio-cambio : precio+cambio, precio, correct + pick([-1,1])*precio/10];
+  const finales = [];
+  for(const d of distract){ if(d!==correct && finales.indexOf(d)===-1 && d>0) finales.push(d); }
+  while(finales.length<3){ const c = correct + randInt(1,5)*100; if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+  const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:'$'+v.toLocaleString('es-CL'), value:v}; });
+  const accion = esAumento ? 'sube' : 'baja (descuento)';
+  return {
+    promptHTML: '<p class="prompt-hint">Un producto cuesta $'+precio.toLocaleString('es-CL')+' y su precio '+accion+' un '+p+'%. ¿Cuál es el precio final?</p>',
+    options: opts, correctValue: correct, speakText: 'Un producto cuesta '+precio+' pesos y su precio '+(esAumento?'sube':'baja')+' un '+p+' por ciento. ¿Cuál es el precio final?', cols:2,
+    explain: 'El '+p+'% de $'+precio.toLocaleString('es-CL')+' es $'+cambio.toLocaleString('es-CL')+'. '+(esAumento?'Sumando':'Restando')+' queda <b>$'+correct.toLocaleString('es-CL')+'</b>.',
+  };
+}
+
+export function genAlgebra8Round(){
+  const roll = Math.random();
+  if(roll<0.4){
+    const a = randInt(2,7), b = randInt(2,7), c = randInt(1,9);
+    const coef = a+b;
+    const opts = shuffle([coef+'x + '+c, (a*b)+'x + '+c, coef+'x + '+(c+a), a+'x + '+(b+c)]).filter(function(v,i,arr){ return arr.indexOf(v)===i; }).slice(0,4).map(function(v){ return {label:v, value:v}; });
+    const correct = coef+'x + '+c;
+    if(!opts.some(function(o){ return o.value===correct; })) opts[0] = {label:correct, value:correct};
+    return {
+      promptHTML: '<p class="prompt-word">'+a+'x + '+b+'x + '+c+' = ?</p><p class="prompt-hint">Reduce los términos semejantes.</p>',
+      options: shuffle(opts), correctValue: correct, speakText: 'Reduce '+a+' equis más '+b+' equis más '+c, cols:2, kind:'word',
+      explain: 'Los términos con x se suman entre sí: '+a+'x + '+b+'x = '+coef+'x. El resultado es <b>'+coef+'x + '+c+'</b>.',
+    };
+  }
+  if(roll<0.7){
+    const x = randInt(2,9), a = randInt(2,6), b = randInt(1,15);
+    const resultado = a*x+b;
+    const finales = [];
+    let guardEc = 0;
+    while(finales.length<3 && guardEc<50){
+      guardEc++;
+      const d = x + pick([-2,-1,1,2])*randInt(1,2);
+      if(d>0 && d!==x && finales.indexOf(d)===-1) finales.push(d);
+    }
+    const opts = shuffle([x].concat(finales)).map(function(v){ return {label:'x = '+v, value:v}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+a+'x + '+b+' = '+resultado+'</p><p class="prompt-hint">¿Cuánto vale x?</p>',
+      options: opts, correctValue: x, speakText: a+' equis más '+b+' igual '+resultado+'. ¿Cuánto vale equis?', cols:4,
+      explain: 'Restando '+b+' a ambos lados queda '+a+'x = '+(resultado-b)+'; dividiendo por '+a+', <b>x = '+x+'</b>.',
+    };
+  }
+  const x = randInt(3,9), a = randInt(2,5);
+  const limite = a*x;
+  const correctLabel = 'x < '+x;
+  const opts = shuffle([
+    {label:'x < '+x, value:'menor'},
+    {label:'x > '+x, value:'mayor'},
+    {label:'x = '+x, value:'igual'},
+    {label:'x < '+(x+a), value:'otro'},
+  ]);
+  return {
+    promptHTML: '<p class="prompt-word">'+a+'x < '+limite+'</p><p class="prompt-hint">¿Qué valores de x cumplen esta inecuación?</p>',
+    options: opts, correctValue: 'menor', speakText: a+' equis menor que '+limite+'. ¿Qué valores de equis cumplen la inecuación?', cols:2, kind:'word',
+    explain: 'Dividiendo ambos lados por '+a+' (positivo, así que la desigualdad se mantiene): <b>'+correctLabel+'</b>.',
+  };
+}
+
+export function genFunciones8Round(){
+  if(Math.random()<0.55){
+    const a = randInt(2,6), x = randInt(1,9);
+    const correct = a*x;
+    const distractCandidates = [a+x, correct+a, correct-a, a*(x+1)];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && d>0 && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    while(finales.length<3){ const c = correct+randInt(1,8); if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
+    return {
+      promptHTML: '<p class="prompt-word">f(x) = '+a+'x</p><p class="prompt-hint">¿Cuánto vale f('+x+')?</p>',
+      options: opts, correctValue: correct, speakText: 'Si efe de equis es '+a+' equis, ¿cuánto vale efe de '+x+'?', cols:4,
+      explain: 'Se reemplaza x por '+x+': f('+x+') = '+a+' × '+x+' = <b>'+correct+'</b>.',
+    };
+  }
+  const a = randInt(2,5), b = randInt(1,9), x = randInt(1,8);
+  const correct = a*x+b;
+  const distractCandidates = [a*x, a*(x+b), correct+a, correct-b];
+  const finales = [];
+  for(const d of distractCandidates){ if(d!==correct && d>0 && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+  while(finales.length<3){ const c = correct+randInt(1,8); if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+  const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
+  return {
+    promptHTML: '<p class="prompt-word">f(x) = '+a+'x + '+b+'</p><p class="prompt-hint">¿Cuánto vale f('+x+')? (función afín: parte lineal más una constante)</p>',
+    options: opts, correctValue: correct, speakText: 'Si efe de equis es '+a+' equis más '+b+', ¿cuánto vale efe de '+x+'?', cols:4,
+    explain: 'Se reemplaza x por '+x+': f('+x+') = '+a+'×'+x+' + '+b+' = '+(a*x)+' + '+b+' = <b>'+correct+'</b>.',
+  };
+}
+
+const TRIOS_PITAGORICOS = [ [3,4,5], [6,8,10], [5,12,13], [9,12,15], [8,15,17] ];
+export function genGeometria8Round(){
+  if(Math.random()<0.5){
+    const trio = pick(TRIOS_PITAGORICOS);
+    const correct = trio[2];
+    const finales = [];
+    let guardHip = 0;
+    while(finales.length<3 && guardHip<50){
+      guardHip++;
+      const d = correct + pick([-2,-1,1,2])*randInt(1,2);
+      if(d>0 && d!==correct && finales.indexOf(d)===-1) finales.push(d);
+    }
+    const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v)+' cm', value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">Un triángulo rectángulo tiene catetos de '+trio[0]+' cm y '+trio[1]+' cm. Según el teorema de Pitágoras, ¿cuánto mide su hipotenusa?</p>',
+      options: opts, correctValue: correct, speakText: 'Un triángulo rectángulo tiene catetos de '+trio[0]+' y '+trio[1]+' centímetros. ¿Cuánto mide su hipotenusa?', cols:4,
+      explain: 'Por Pitágoras: '+trio[0]+'² + '+trio[1]+'² = '+(trio[0]*trio[0])+' + '+(trio[1]*trio[1])+' = '+(correct*correct)+', y √'+(correct*correct)+' = <b>'+correct+' cm</b>.',
+    };
+  }
+  if(Math.random()<0.5){
+    const largo = randInt(3,8), ancho = randInt(2,6), alto = randInt(2,6);
+    const correct = largo*ancho*alto;
+    const distractCandidates = [largo*ancho+alto, (largo+ancho+alto)*2, correct+largo, correct-ancho];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && d>0 && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    while(finales.length<3){ const c = correct+randInt(1,20); if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v)+' cm³', value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">Un prisma recto de base rectangular mide '+largo+' cm de largo, '+ancho+' cm de ancho y '+alto+' cm de alto. ¿Cuál es su volumen?</p>',
+      options: opts, correctValue: correct, speakText: '¿Cuál es el volumen de un prisma de '+largo+' por '+ancho+' por '+alto+' centímetros?', cols:4,
+      explain: 'Volumen del prisma = área de la base × altura = '+largo+'×'+ancho+'×'+alto+' = <b>'+correct+' cm³</b>.',
+    };
+  }
+  const opts = shuffle([
+    {label:'ÁREA DE LA BASE (π×r²) MULTIPLICADA POR LA ALTURA', value:'ok'},
+    {label:'PERÍMETRO DE LA BASE MÁS LA ALTURA', value:'m1'},
+    {label:'SOLO EL ÁREA DE LA BASE, SIN LA ALTURA', value:'m2'},
+    {label:'EL DIÁMETRO MULTIPLICADO POR LA ALTURA', value:'m3'},
+  ]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cómo se calcula el volumen de un cilindro?</p>',
+    options: opts, correctValue: 'ok', speakText: '¿Cómo se calcula el volumen de un cilindro?', cols:2, panel:true,
+    explain: 'El volumen de un cilindro es el área de su base circular (π por radio al cuadrado) multiplicada por la altura.',
+  };
+}
+
+const TRANSFORMACION_8_BANK = [
+  { desc:'El punto (2, 3) se mueve al punto (5, 3): se desplazó 3 unidades a la derecha, sin girar ni invertirse', correcta:'TRASLACIÓN', opts:['ROTACIÓN','REFLEXIÓN','NINGÚN MOVIMIENTO'] },
+  { desc:'Una figura gira 90° en torno al origen del plano cartesiano, manteniendo su forma y tamaño', correcta:'ROTACIÓN', opts:['TRASLACIÓN','REFLEXIÓN','AMPLIACIÓN'] },
+  { desc:'El punto (4, 1) pasa al punto (-4, 1): la figura se invirtió respecto al eje vertical, como en un espejo', correcta:'REFLEXIÓN', opts:['TRASLACIÓN','ROTACIÓN','REDUCCIÓN'] },
+  { desc:'Toda la figura se mueve según el vector (0, -4): baja 4 unidades sin cambiar su orientación', correcta:'TRASLACIÓN', opts:['ROTACIÓN','REFLEXIÓN','SIMETRÍA CENTRAL'] },
+  { desc:'Una figura da media vuelta (180°) alrededor de un punto fijo, quedando "de cabeza" pero del mismo tamaño', correcta:'ROTACIÓN', opts:['TRASLACIÓN','REFLEXIÓN','AMPLIACIÓN'] },
+  { desc:'El punto (3, 5) pasa al punto (3, -5): la figura se invirtió respecto al eje horizontal', correcta:'REFLEXIÓN', opts:['TRASLACIÓN','ROTACIÓN','NINGÚN MOVIMIENTO'] },
+  { desc:'Un mosaico se construye repitiendo la misma figura desplazada una y otra vez en la misma dirección, sin girarla', correcta:'TRASLACIÓN', opts:['ROTACIÓN','REFLEXIÓN','REDUCCIÓN'] },
+  { desc:'Las aspas de un molino repiten la misma forma girada en torno al centro, cada cierta cantidad de grados', correcta:'ROTACIÓN', opts:['TRASLACIÓN','REFLEXIÓN','AMPLIACIÓN'] },
+  { desc:'El diseño de una mariposa: su lado izquierdo es la imagen especular exacta de su lado derecho', correcta:'REFLEXIÓN', opts:['TRASLACIÓN','ROTACIÓN','NINGUNA TRANSFORMACIÓN'] },
+  { desc:'Al componer dos reflexiones seguidas sobre ejes paralelos, la figura termina simplemente desplazada, sin invertirse', correcta:'TRASLACIÓN', opts:['ROTACIÓN','REFLEXIÓN','REDUCCIÓN'] },
+];
+export function genTransformaciones8Round(){
+  const item = pick(TRANSFORMACION_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué transformación geométrica describe esto?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word', panel:true,
+    explain: 'Esto describe una <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+export function genEstadisticaCombinatoria8Round(){
+  const roll = Math.random();
+  if(roll<0.4){
+    const opciones1 = randInt(2,5), opciones2 = randInt(2,5);
+    const contextos = [
+      {a:'poleras', b:'pantalones', pregunta:'tenidas distintas (una polera con un pantalón)'},
+      {a:'sabores de helado', b:'tipos de cono', pregunta:'combinaciones distintas de helado'},
+      {a:'panes', b:'rellenos', pregunta:'sándwiches distintos'},
+      {a:'colores de lápiz', b:'tipos de papel', pregunta:'combinaciones distintas para dibujar'},
+    ];
+    const ctx = pick(contextos);
+    const correct = opciones1*opciones2;
+    const distractCandidates = [opciones1+opciones2, correct+opciones1, correct-opciones2, correct+1];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && d>0 && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    while(finales.length<3){ const c = correct+randInt(1,6); if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">Tienes '+opciones1+' '+ctx.a+' y '+opciones2+' '+ctx.b+'. ¿Cuántas '+ctx.pregunta+' puedes formar?</p>',
+      options: opts, correctValue: correct, speakText: 'Con '+opciones1+' '+ctx.a+' y '+opciones2+' '+ctx.b+', ¿cuántas combinaciones puedes formar?', cols:4,
+      explain: 'Principio multiplicativo: '+opciones1+' × '+opciones2+' = <b>'+correct+'</b> combinaciones posibles.',
+    };
+  }
+  if(roll<0.7){
+    const base = randInt(2,6);
+    const datos = [base, base+1, base+2, base+4, base+6, base+7, base+9].map(function(v){ return v; });
+    const mediana = datos[3];
+    const distract = [datos[2], datos[4], Math.round((datos[0]+datos[6])/2)];
+    const finales = [];
+    for(const d of distract){ if(d!==mediana && finales.indexOf(d)===-1) finales.push(d); }
+    while(finales.length<3){ const c = mediana+randInt(2,5); if(c!==mediana && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([mediana].concat(finales.slice(0,3))).map(function(v){ return {label:String(v), value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">Estos 7 datos están ordenados de menor a mayor: '+datos.join(', ')+'. ¿Cuál es la mediana (el valor que queda justo al centro)?</p>',
+      options: opts, correctValue: mediana, speakText: '¿Cuál es la mediana de estos datos?', cols:4,
+      explain: 'Con 7 datos ordenados, la mediana es el 4° valor (quedan 3 a cada lado): <b>'+mediana+'</b>.',
+    };
+  }
+  const enganosos = [
+    { desc:'Un gráfico de barras comienza su eje vertical en 90 en vez de 0, haciendo que una diferencia pequeña entre dos barras se vea enorme', pregunta:'¿Por qué este gráfico puede engañar al lector?', correcta:'PORQUE CORTAR EL EJE EXAGERA VISUALMENTE UNA DIFERENCIA QUE ES PEQUEÑA', opts:['PORQUE LOS GRÁFICOS DE BARRAS SIEMPRE MIENTEN','PORQUE EL COLOR DE LAS BARRAS ES INCORRECTO','NO HAY NINGÚN PROBLEMA CON ESE GRÁFICO'] },
+    { desc:'Una publicidad muestra un gráfico donde su producto aparece con una barra el doble de ancha (no más alta) que la del competidor', pregunta:'¿Qué problema tiene esta presentación?', correcta:'EL ANCHO DE LA BARRA NO REPRESENTA EL VALOR: SOLO LA ALTURA DEBERÍA COMPARARSE', opts:['LAS BARRAS ANCHAS SON SIEMPRE MÁS PRECISAS','NO HAY NINGÚN PROBLEMA','EL COMPETIDOR DEBERÍA TENER LA BARRA MÁS ANCHA'] },
+    { desc:'Un titular dice "las ventas se dispararon" pero el gráfico muestra un aumento de solo 1% en un eje muy ampliado', pregunta:'¿Qué conviene hacer como lector crítico frente a este gráfico?', correcta:'REVISAR LA ESCALA DEL EJE Y LOS VALORES REALES ANTES DE ACEPTAR LA CONCLUSIÓN DEL TITULAR', opts:['CREER EL TITULAR SIN MIRAR EL GRÁFICO','IGNORAR SIEMPRE TODOS LOS GRÁFICOS','ASUMIR QUE EL 1% ES UNA CIFRA ENORME'] },
+    { desc:'Dos diarios muestran los mismos datos de temperatura: uno usa un eje de 0 a 40 grados y el otro un eje de 28 a 32 grados', pregunta:'¿Por qué los dos gráficos se ven tan distintos si los datos son los mismos?', correcta:'PORQUE LA ESCALA DEL EJE CAMBIA LA IMPRESIÓN VISUAL, AUNQUE LOS DATOS SEAN IGUALES', opts:['PORQUE UNO DE LOS DIARIOS INVENTÓ LOS DATOS','PORQUE LA TEMPERATURA CAMBIÓ ENTRE UNA IMPRESIÓN Y OTRA','ES IMPOSIBLE QUE SE VEAN DISTINTOS'] },
+  ];
+  const item = pick(enganosos);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}

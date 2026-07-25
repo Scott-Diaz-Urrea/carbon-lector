@@ -376,3 +376,45 @@ export function genProcedimientosCompositivos7Round(){
     explain: 'Esto se llama <b>'+item.correcta.toLowerCase()+'</b>.',
   };
 }
+
+/* ---------------- Contenido Música 8° Básico ----------------
+   Basado en Decreto 614/2013. MU08 OA02 -> Armonía y Acompañamiento:
+   analizar elementos del lenguaje musical y procedimientos compositivos
+   "en relación con acompañamientos armónicos" (el propio OA05 de 8° nombra
+   los acompañamientos rítmicos, melódicos Y ARMÓNICOS como material del
+   nivel). Ángulo genuinamente nuevo: qué es un acorde, qué hace un
+   acompañamiento armónico, y la convención mayor/menor — nada de esto fue
+   cubierto en 3°-7° (pulso/forma, dinámica/tempo, texturas,
+   diseños melódicos, ostinato/secuencia). El carácter "alegre/luminoso" de
+   las tonalidades mayores y "melancólico/oscuro" de las menores se
+   presenta explícitamente como la convención expresiva de uso pedagógico
+   común, no como una verdad absoluta (mismo criterio que Color Expresivo
+   de 3° básico). Quedan fuera OA01 (sensaciones personales), OA03-05
+   (cantar/tocar/improvisar — desempeño real con audio), OA06
+   (autoevaluación) y OA07 (rol social — ya cubierto en 3° básico). */
+export const MUSICA_MODULES_G8 = [
+  {id:'armonia8', label:'Armonía y Acompañamiento', open:true, key:'armonia8'},
+];
+export const MUSICA_POS_G8 = [{x:50,y:50}];
+
+const ARMONIA_8_BANK = [
+  { pregunta:'¿Qué es un acorde?', correcta:'TRES O MÁS NOTAS QUE SUENAN AL MISMO TIEMPO', opts:['UNA SOLA NOTA MUY LARGA','UN SILENCIO ENTRE DOS NOTAS','EL NOMBRE DE UN INSTRUMENTO'] },
+  { pregunta:'¿Qué hace un acompañamiento armónico en una canción?', correcta:'SOSTIENE LA MELODÍA CON ACORDES QUE LE DAN CUERPO Y CARÁCTER', opts:['REEMPLAZA LA MELODÍA POR COMPLETO','ELIMINA EL RITMO DE LA CANCIÓN','SOLO SUBE EL VOLUMEN'] },
+  { pregunta:'Según la convención expresiva más usada en música, ¿qué carácter suele asociarse a una tonalidad MAYOR?', correcta:'UN CARÁCTER MÁS LUMINOSO O ALEGRE', opts:['SIEMPRE UN CARÁCTER TERRORÍFICO','NINGÚN CARÁCTER: NO SE USA EN CANCIONES','UN SONIDO IMPOSIBLE DE ESCUCHAR'] },
+  { pregunta:'Según esa misma convención, ¿qué carácter suele asociarse a una tonalidad MENOR?', correcta:'UN CARÁCTER MÁS MELANCÓLICO O ÍNTIMO', opts:['SIEMPRE UN CARÁCTER FESTIVO Y RUIDOSO','NINGUNO: LAS TONALIDADES MENORES NO EXISTEN','UN VOLUMEN MÁS BAJO OBLIGATORIO'] },
+  { pregunta:'¿Qué instrumento puede tocar acordes completos, y por eso suele acompañar al canto?', correcta:'LA GUITARRA (O EL PIANO)', opts:['EL TRIÁNGULO','LA FLAUTA DULCE TOCANDO UNA SOLA NOTA','EL BOMBO'] },
+  { pregunta:'En una canción típica, ¿qué relación hay entre melodía y acompañamiento?', correcta:'LA MELODÍA LLEVA EL PROTAGONISMO Y EL ACOMPAÑAMIENTO LA SOSTIENE CON ACORDES Y RITMO', opts:['SIEMPRE SUENAN EXACTAMENTE LAS MISMAS NOTAS','EL ACOMPAÑAMIENTO DEBE TAPAR LA MELODÍA','NO PUEDEN SONAR JUNTOS'] },
+  { pregunta:'¿Cómo se llama la sucesión de acordes que se repite como base de muchas canciones populares?', correcta:'PROGRESIÓN ARMÓNICA', opts:['ESCALA CROMÁTICA','SILENCIO DE NEGRA','CLAVE DE SOL'] },
+  { pregunta:'Si una misma melodía se acompaña con acordes distintos, ¿qué puede cambiar?', correcta:'EL CARÁCTER O COLOR EXPRESIVO DE LA CANCIÓN, AUNQUE LA MELODÍA SEA LA MISMA', opts:['NADA: EL ACOMPAÑAMIENTO NO INFLUYE EN NADA','LA LETRA CAMBIA AUTOMÁTICAMENTE','EL INSTRUMENTO DESAPARECE'] },
+  { pregunta:'¿Qué músico de una banda suele encargarse de la base armónica junto a la guitarra o el piano?', correcta:'EL BAJISTA, QUE REFUERZA LA NOTA FUNDAMENTAL DE CADA ACORDE', opts:['EL CANTANTE SOLISTA','QUIEN APLAUDE ENTRE CANCIONES','EL SONIDISTA DE LA SALA'] },
+  { pregunta:'¿Por qué se dice que la armonía es una dimensión "vertical" de la música?', correcta:'PORQUE MIRA LAS NOTAS QUE SUENAN SIMULTÁNEAMENTE, COMO UNA COLUMNA DE SONIDOS', opts:['PORQUE SOLO SE TOCA DE PIE','PORQUE LAS PARTITURAS SE LEEN DE ABAJO HACIA ARRIBA','PORQUE REQUIERE INSTRUMENTOS ALTOS'] },
+];
+export function genArmonia8Round(){
+  const item = pick(ARMONIA_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}

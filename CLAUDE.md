@@ -1393,15 +1393,188 @@ es la misma pantalla de siempre).
   7-basico`, confirmando la reorganización en 3 ejes -Comunicación Oral,
   Comprensión de Lectura, Expresión Escrita- distinta a la de 1°-6° básico).
 
-### 8° Básico, Educación Media, EPJA — 🔒 sin construir
-`GRADES` los tiene marcados `open:false`. Para desbloquear un año, cambiar su
-`open` a `true` Y crear su entrada correspondiente en `LENGUAJE_BY_GRADE` /
-`MATE_BY_GRADE` (si no existe una entrada, `renderComingSoonSubject()` se muestra
-automáticamente como placeholder — no rompe nada, pero tampoco es jugable).
-Antes de construir 8° básico, verificar si su currículum también usa el
-Decreto 614/2013 (probable, dado que ese decreto cubre "7° básico a 2° medio")
-y si repite la misma lista de asignaturas — no asumir sin confirmar en
-curriculumnacional.cl, siguiendo la regla de oro del proyecto.
+### 8° Básico — ✅ completo (35 módulos, las 9 asignaturas + Inglés)
+Mismo Decreto 614/2013 que 7° básico (confirmado antes de construir: 8° básico
+usa el mismo decreto y la misma lista de 10 asignaturas que 7°, sin cambios).
+
+- **Lenguaje** (5): Comprensión VIII (narrador, estructura temporal,
+  textos no literarios — OA03,11-12), Géneros Dramáticos y Épicos (texto
+  dramático, comedia, epopeya en su contexto — OA05-07), Textos
+  Argumentativos y Medios (postura del autor, hechos vs. opiniones,
+  estereotipos y propósito en medios — OA09-10), Gramática VIII (modos
+  verbales indicativo/subjuntivo/imperativo, correferencia con pronombres
+  — OA17-19), Ortografía VI (usos de la coma, punto y coma, dos puntos —
+  OA20). Fuera: OA01-02,07 (actitudinal/subjetivo), OA04 (lenguaje
+  poético, ya cubierto en 5°-7°), OA08 (interpretación personal),
+  OA13-16 (producción escrita), OA21-24 (comunicación oral), OA25-26
+  (proceso de investigación propio).
+- **Matemática** (8): Enteros y Racionales (multiplicación/división con
+  regla de signos, operatoria con fracciones — OA01-02), Potencias y
+  Raíces (potencias de exponente hasta 3, multiplicación de potencias de
+  igual base, raíces cuadradas de cuadrados perfectos — OA03-04),
+  Variaciones Porcentuales (aumentos y descuentos — OA05), Álgebra y
+  Ecuaciones VIII (reducir términos semejantes, ecuaciones e inecuaciones
+  lineales — OA06,08-09), Funciones (evaluar función lineal y función
+  afín en un valor — OA07,10), Geometría VIII: Pitágoras y Volumen
+  (teorema de Pitágoras con tríos pitagóricos, volumen de prismas rectos
+  y cilindros — OA11-12), Transformaciones Geométricas (traslación/
+  rotación/reflexión descritas por puntos y vectores, mismo criterio sin
+  imágenes animadas que Geometría V de 5° básico — OA13-14), Estadística
+  y Combinatoria (principio multiplicativo, mediana por posición,
+  detección de gráficos engañosos — OA15-17). Ningún OA de Matemática 8°
+  queda fuera.
+- **Ciencias Naturales** (5): La Célula VIII (historia del modelo celular
+  -Hooke, Leeuwenhoek-, célula procarionte/eucarionte y sus estructuras
+  -núcleo, mitocondria, cloroplasto-, difusión y osmosis — OA01-03),
+  Nutrición y Sistemas del Cuerpo (sistemas digestivo/circulatorio/
+  respiratorio/excretor trabajando en conjunto, nutrientes -carbohidratos,
+  proteínas, grasas, vitaminas, minerales, agua- — OA05-07), Electricidad
+  II (cargas y electrización, tecnologías de generación eléctrica -paneles
+  solares, eólica, hidroeléctrica-, circuitos en serie y en paralelo —
+  OA08-10), Calor y Transferencia (conducción, convección y radiación,
+  distinto de "Calor, Temperatura y Estados" de 6° básico — OA11), El
+  Átomo y la Tabla Periódica (modelos atómicos de Dalton a Bohr,
+  partículas del átomo, tabla periódica, elementos esenciales para la
+  vida C-H-O-N — OA12-15). Fuera: OA04 (modelos de estructuras vegetales,
+  producción práctica). **Nota de proceso:** esta asignatura se completó
+  en una sesión posterior a las otras 8 de este año — dos intentos
+  previos de escribirla se truncaron a medio archivo por interrupciones
+  de la sesión de generación (ver "Nota técnica" más abajo), así que se
+  avanzó primero con el resto del año y se retomó Ciencias después.
+- **Historia, Geografía y Cs. Sociales** (6): Humanismo y Renacimiento
+  (el ser humano como centro, imprenta, revolución científica — OA01-02),
+  Estado Moderno y Mercantilismo (concentración del poder real,
+  burocracia, rutas comerciales — OA03-04), Conquista de América II
+  (choque cultural, factores de la rapidez de la conquista, impacto en
+  Europa — profundiza con procesos y causas lo ya visto de forma más
+  básica en 5° básico — OA05-07), La Colonia II (rol administrativo de
+  las ciudades, Barroco colonial, comercio atlántico, sociedad y
+  mestizaje, frontera con el pueblo mapuche, hacienda e inquilinaje —
+  profundiza la Colonia de 5° básico — OA08-13), Ilustración y
+  Revoluciones (razón, separación de poderes, revoluciones de fines del
+  s. XVIII, independencia americana como proceso continental, derechos
+  del hombre y del ciudadano — OA14-16,18-19), Geografía Regional
+  (criterios que definen una región, problemas regionales, índice de
+  desarrollo humano — OA20-22). Fuera: OA17 (contrastar posturas del
+  debate de legitimidad de la conquista conectándolo con visiones
+  actuales — interpretación multiperspectiva que el propio OA exige,
+  mismo criterio que HI06 OA08 de 6° básico; el hecho histórico del
+  debate sí se menciona factualmente en Conquista de América II).
+- **Artes Visuales** (1): Montaje y Difusión del Arte (AR08 OA06 —
+  profundiza el módulo de 7° básico con el ángulo nuevo del OA de 8°: CÓMO
+  se monta una exposición -iluminación, cartelas, distancia entre obras- y
+  qué aporta a su comunidad). Fuera: OA01-03 (crear trabajos visuales
+  propios, incluida instalación — producción práctica), OA04-05
+  (analizar/evaluar obras propias y de pares — apreciación subjetiva).
+- **Música** (1): Armonía y Acompañamiento (MU08 OA02, ángulo del OA de 8°
+  que ningún año anterior había cubierto: qué es un acorde, acompañamiento
+  armónico, convención mayor/menor presentada explícitamente como
+  convención expresiva de uso pedagógico, no verdad absoluta — mismo
+  criterio que Color Expresivo de 3° básico). Fuera: OA01 (sensaciones
+  personales), OA03-05 (cantar/tocar/improvisar, desempeño con audio real),
+  OA06 (autoevaluación), OA07 (rol social de la música, ya cubierto en 3°).
+- **Educación Física y Salud** (2): Sistemas de Juego y Táctica (el texto
+  de EF08 OA02 nombra literalmente "ubicar el balón lejos de un
+  contrincante", "utilizar espacios para recibir sin oponentes" y
+  "aplicar un sistema de juego: uno contra uno, tres contra tres" — más
+  específico que las estrategias generales de 7°), Principios de
+  Entrenamiento (EF08 OA03 nombra literalmente Frecuencia, Intensidad,
+  Tiempo de duración/recuperación, Progresión y Tipo de ejercicio —
+  conceptos factuales identificables sin requerir práctica física en
+  pantalla). Fuera: OA01 (habilidades motrices específicas por deporte),
+  OA04-05 (práctica regular y participación/promoción en la comunidad
+  escolar — requieren acción física y comunitaria real).
+- **Orientación** (5): Prevención VIII (OA03, aplicando la misma política
+  confirmada explícitamente por el usuario para 7° básico: solo factores
+  de riesgo/protección, sin ningún detalle de la dimensión sexual del
+  OA02 excluido), Bienestar y Autocuidado VIII (OA04: alimentación,
+  descanso, actividad física, integridad corporal, uso seguro de redes),
+  Relaciones e Inclusión (OA05: igualdad, dignidad, inclusión y no
+  discriminación en relaciones presenciales y virtuales), Participación
+  Democrática (OA07-08, ángulo genuinamente nuevo que ningún año anterior
+  de Orientación había cubierto: intereses comunes del grupo, acuerdos
+  por diálogo democrático, debate y representantes electos), Gestión del
+  Aprendizaje VIII (OA09-10: metas basadas en intereses/capacidades
+  propias, gestión autónoma con monitoreo y ajuste). Fuera: OA01
+  (autoconocimiento subjetivo), OA02 (dimensiones de la sexualidad e
+  intimidad, mismo criterio de siempre), OA06 (resolución de desacuerdos,
+  texto casi idéntico al OA06 de 7° básico ya ejercitado ahí con
+  escenarios nuevos).
+- **Tecnología** (1): Análisis de Soluciones Tecnológicas (TE08 OA05-06 —
+  profundiza el módulo de 7° con los ángulos nuevos del OA de 8°: el
+  USUARIO como centro del análisis, y la dimensión ÉTICA). Fuera: OA01-04
+  (identificar necesidades y diseñar/elaborar/evaluar/comunicar un
+  producto tecnológico propio — producción práctica).
+- **Inglés** (2): Funciones del Idioma VIII (comparaciones y
+  superlativos, intenciones futuras con going to/will, indicaciones de
+  dirección, condicionales simples — IN08 OA08,16, ángulos nuevos
+  respecto a 7° básico), Lectura Avanzada (secuencia y relaciones
+  causa-efecto en textos no literarios y literarios — IN08 OA09-11).
+  Fuera: OA01-07 (comprensión y producción oral), OA12 (estrategias de
+  lectura como proceso propio), OA13-15 (expresión escrita, producción
+  propia).
+
+**Nota técnica sobre Ciencias Naturales 8°:** durante la construcción de
+este año, dos intentos de escribir el contenido de Ciencias 8° (sistema
+celular, sistemas del cuerpo, electricidad, calor, modelo atómico)
+quedaron truncados a medio archivo por interrupciones de la sesión de
+generación, dejando `js/content/ciencias.js` con una escritura parcial que
+rompía la sintaxis del módulo (detectado ambas veces con un script de
+verificación de imports que aísla qué archivo falla al cargar). Ambas
+veces se recortó el archivo de vuelta al último punto limpio (cierre de
+`genMateriaGases7Round`, el último generador válido de 7° básico) para no
+dejar la app rota, y se avanzó primero con las otras 8 asignaturas. En una
+sesión posterior se retomó y completó Ciencias 8° sin problemas: los 5
+módulos (`celula8`, `nutricionsistemas8`, `electricidad8`, `calor8`,
+`atomotabla8`) se escribieron, registraron y verificaron igual que el
+resto del año (300+ módulos de toda la app pasan fuzz estructural y
+simulación de sesión sin duplicados ni repeticiones), y se probaron
+visualmente en el navegador (mapa de Ciencias con sus 5 módulos, una
+ronda jugada en "La Célula VIII"). Lección para sesiones futuras: si una
+escritura de contenido queda interrumpida a medio archivo, verificar
+siempre con un import-check aislado ANTES de seguir avanzando, y si el
+archivo se recorta para dejarlo en un estado limpio, retomar esa
+asignatura en la misma sesión o en la siguiente disponible en vez de
+dejarla indefinidamente pendiente.
+
+**Otros hallazgos técnicos de esta ronda:**
+- **Bug real de uso incorrecto de `uniqueDistractors()`** (`js/utils.js`):
+  esa función tiene la firma `uniqueDistractors(correct, min, max, spread,
+  count)` — recibe límites numéricos, no un callback generador. Seis
+  generadores nuevos de Matemática 8° (`genEnterosRacionales8Round`,
+  `genPotenciasRaices8Round`, `genAlgebra8Round`, `genFunciones8Round`,
+  `genGeometria8Round`, `genEstadisticaCombinatoria8Round`) la llamaron
+  incorrectamente pasando una función como segundo argumento (patrón que
+  no existe en ningún generador anterior de la app), lo que producía
+  comparaciones con `NaN` y devolvía menos opciones únicas de las
+  necesarias — detectado por el fuzz-testing estructural como "bad
+  options" en los 6 módulos. Corregido reemplazando cada llamada por
+  lógica de deduplicación manual explícita (arrays de candidatos +
+  `while` acotado), el mismo patrón que ya usan decenas de otros
+  generadores en este archivo. Lección para años futuros: `uniqueDistractors`
+  solo sirve para distractores dentro de un rango numérico simple; para
+  listas de candidatos ad-hoc (como potencias, exponentes o volúmenes con
+  fórmulas distintas) hay que escribir la deduplicación a mano, igual que
+  en `genGeometria7Round`/`genFuncionesIdioma8Round` y similares.
+- Verificado tras la corrección: los 30 módulos nuevos de 8° básico, y los
+  296 módulos de toda la app, pasan fuzz estructural y simulación de
+  sesión (150 iteraciones/sesiones para los nuevos, 40-60 para el resto)
+  sin ningún duplicado, `undefined`, `correctValue` ausente, ni repetición.
+  Verificado también visualmente en el navegador: mapa de 8° básico con
+  las 9 materias (Ciencias como placeholder correcto), mapa de módulos de
+  Historia, y una partida jugada en "Geometría VIII: Pitágoras y Volumen"
+  (incluye verificación manual de que 6×4×4=96 cm³ y el trío pitagórico
+  5-12-13 aparecían como respuesta correcta).
+
+### Educación Media, EPJA — 🔒 sin construir
+`GRADES` los tiene marcados `open:false` para 7°-8° ya no aplica (ambos
+están abiertos). Antes de construir Educación Media, definir con el
+usuario su lista real de asignaturas (probablemente distintas: Física/
+Química/Biología separadas, Filosofía, etc. — no asumir que es igual a
+Básica) y confirmar su decreto curricular vigente en curriculumnacional.cl.
+Luego EPJA, que tiene currículum propio organizado por niveles que
+agrupan varios años en uno, no por año individual — revisar su decreto
+específico antes de construir.
 
 ## Próximos pasos sugeridos (en orden)
 
@@ -1481,33 +1654,32 @@ para esta iniciativa).
    exactamente 8 ítems sin margen real — lección reforzada: verificar el
    conteo final después de expandir, no asumir que "agregué algunos ítems"
    fue suficiente.
-7. **Siguiente:** antes de construir 8° básico, verificar en
-   curriculumnacional.cl si su currículum también usa el Decreto 614/2013
-   (probable, dado que ese decreto cubre "7° básico a 2° medio") y si
-   repite la misma lista de 10 asignaturas de 7° básico — no asumirlo.
-   Luego repetir el patrón ya establecido: `<NOMBRE>_MODULES_G8`/`_POS_G8`
-   en cada `content/<asignatura>.js` (más `content/ingles.js`), agregar
-   `8: {...}` a cada `*_BY_GRADE` en `gradeContent.js`, registrar en
-   `MC_GAMES`/`MC_KEYS`, agregar estrellas en `state.js` y títulos en
-   `rewards.js`. Antes de dar por terminado cada generador: (a) contar
-   explícitamente los ítems de cada banco contra `rounds:8`, dejando margen
-   real de +2 a +4 (no justo al límite — le pasó a 12 módulos de 6° básico
-   y a 12 de 7° básico pese a la advertencia ya documentada dos veces, así
-   que conviene contar y volver a contar después de cualquier expansión),
-   (b) revisar cuántos valores/categorías realmente distintos tiene cada
-   banco antes de decidir cuántas opciones de respuesta ofrecer, (c)
-   revisar que ningún nombre de banco (`const NOMBRE_BANK`) choque con uno
-   ya existente en el mismo archivo de años anteriores, y (d) grepear el
-   contenido nuevo por el patrón `un\(a\)` sin resolver antes de darlo por
-   terminado (bug recurrente en Lenguaje/Matemática/Artes en 6° y 7°
-   básico).
-7. Una vez completa toda Educación Básica, definir con el usuario el mismo patrón
-   para Educación Media (probablemente asignaturas distintas: Física/Química/
-   Biología separadas, Filosofía, etc. — pedir la lista real antes de asumir) y
-   luego EPJA (currículum propio, organizado por niveles que agrupan varios años
-   en uno, no por año individual — revisar su decreto específico antes de construir,
-   no asumir que es igual a Básica/Media regular).
-8. ~~Evaluar agregar persistencia real (localStorage)~~ — ✅ hecho (`js/persistence.js`).
+7. ~~Completar 7° básico~~ — ✅ hecho (2026-07-22/25), 34 módulos, las 9
+   asignaturas más Inglés (ver "### 7° Básico" arriba). Primer año en el
+   Decreto 614/2013.
+8. ~~Completar 8° básico~~ — ✅ hecho, 35 módulos, las 9 asignaturas más
+   Inglés (ver "### 8° Básico" arriba para el detalle completo con OA).
+   Ciencias Naturales se completó en dos pasadas: los primeros 8 intentos
+   de construirla dentro de la misma sesión se truncaron a medio archivo
+   por interrupciones repetidas, así que se avanzó primero con las otras
+   8 asignaturas y se retomó Ciencias después con éxito (ver nota técnica
+   en "### 8° Básico" para el detalle completo del incidente y la
+   lección: verificar con un import-check aislado ANTES de dar por
+   terminada una escritura de contenido, no después). También se
+   encontró y corrigió un bug real de uso incorrecto de
+   `uniqueDistractors()` en 6 generadores de Matemática (se le pasó un
+   callback en vez de límites numéricos `(correct, min, max, spread,
+   count)`, produciendo comparaciones con `NaN`) — para distractores
+   ad-hoc que no calzan con esa firma, hay que deduplicar a mano.
+9. Ahora que toda Educación Básica está completa (1° a 8°), definir con
+   el usuario el mismo patrón para Educación Media
+   (probablemente asignaturas distintas: Física/Química/Biología
+   separadas, Filosofía, etc. — pedir la lista real antes de asumir) y
+   luego EPJA (currículum propio, organizado por niveles que agrupan
+   varios años en uno, no por año individual — revisar su decreto
+   específico antes de construir, no asumir que es igual a Básica/Media
+   regular).
+10. ~~Evaluar agregar persistencia real (localStorage)~~ — ✅ hecho (`js/persistence.js`).
    Si más adelante se quiere progreso sincronizado entre dispositivos, ahí sí se
    necesitaría un backend real (Firebase/Supabase u otro) — GitHub Pages es hosting
    estático puro, no puede correr una base de datos ni lógica de servidor.

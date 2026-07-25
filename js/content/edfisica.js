@@ -512,3 +512,66 @@ export function genEstrategiasTacticas7Round(){
     explain: 'Esto es un ejemplo de: '+item.correcta.toLowerCase()+'.',
   };
 }
+
+/* ---------------- Contenido Educación Física y Salud 8° Básico ----------------
+   Basado en Decreto 614/2013. Sistemas de Juego y Táctica -> EF08 OA02
+   (el texto del OA nombra literalmente ejemplos como "ubicar el balón
+   lejos de un contrincante", "utilizar los espacios para recibir un
+   objeto sin oponentes" y "aplicar un sistema de juego: uno contra uno,
+   tres contra tres" — más específico que las estrategias generales de 7°).
+   Principios de Entrenamiento -> OA03 (el OA nombra literalmente los
+   componentes: Frecuencia, Intensidad, Tiempo de duración y recuperación,
+   Progresión y Tipo de ejercicio — conceptos factuales identificables sin
+   requerir práctica física en pantalla). Quedan fuera OA01 (habilidades
+   motrices específicas por deporte — práctica real), OA04-05 (práctica
+   regular de actividades y participación/promoción en la comunidad
+   escolar — requieren acción física y comunitaria real). */
+export const EDFISICA_MODULES_G8 = [
+  {id:'sistemasjuego8', label:'Sistemas de Juego y Táctica', open:true, key:'sistemasjuego8'},
+  {id:'entrenamiento8', label:'Principios de Entrenamiento', open:true, key:'entrenamiento8'},
+];
+export const EDFISICA_POS_G8 = [{x:30,y:70},{x:70,y:30}];
+
+const SISTEMAS_JUEGO_8_BANK = [
+  { desc:'En un partido de tenis, la jugadora golpea la pelota hacia el rincón opuesto a donde está su rival, obligándolo a correr', correcta:'UBICAR EL BALÓN LEJOS DEL CONTRINCANTE', opts:['GOLPEAR SIEMPRE HACIA EL MISMO LUGAR','APUNTAR DIRECTAMENTE AL RIVAL','DEVOLVER LO MÁS SUAVE POSIBLE SIN INTENCIÓN'] },
+  { desc:'En handball, un jugador corre hacia una zona vacía de la cancha justo cuando su compañero está por pasar el balón', correcta:'USAR LOS ESPACIOS PARA RECIBIR SIN OPONENTES CERCA', opts:['QUEDARSE PARADO JUNTO AL DEFENSOR RIVAL','SALIR DE LA CANCHA','PEDIR EL BALÓN DONDE HAY MÁS RIVALES'] },
+  { desc:'En un entrenamiento de básquetbol, el equipo practica el sistema "uno contra uno": cada jugador marca a un rival específico durante toda la defensa', correcta:'APLICAR UN SISTEMA DE JUEGO DE MARCA PERSONAL', opts:['DEFENDER SIN NINGUNA ORGANIZACIÓN','DEJAR LA DEFENSA A UN SOLO JUGADOR','MARCAR TODOS AL MISMO RIVAL'] },
+  { desc:'En un torneo de vóleibol tres contra tres, el equipo acuerda antes del partido quién recibe, quién levanta y quién remata', correcta:'DEFINIR ROLES DENTRO DE UN SISTEMA DE JUEGO REDUCIDO', opts:['QUE TODOS HAGAN TODO AL MISMO TIEMPO SIN ACUERDO','JUGAR SIN CONOCER LAS REGLAS','ESPERAR QUE EL RIVAL DECIDA LOS ROLES'] },
+  { desc:'El equipo pierde el balón y de inmediato todos retroceden ordenadamente a sus posiciones defensivas acordadas', correcta:'APLICAR UN REPLIEGUE DEFENSIVO ORGANIZADO', opts:['QUEDARSE MIRANDO SIN REACCIONAR','CORRER TODOS HACIA EL ARCO RIVAL','ABANDONAR LA CANCHA'] },
+  { desc:'En bádminton, el jugador alterna golpes largos al fondo y cortos a la red para desgastar y descolocar a su rival', correcta:'VARIAR LA UBICACIÓN DE LOS GOLPES COMO TÁCTICA', opts:['REPETIR SIEMPRE EXACTAMENTE EL MISMO GOLPE','GOLPEAR SIN MIRAR LA CANCHA','ESPERAR QUE EL RIVAL SE CANSE SOLO'] },
+  { desc:'Antes de un partido, el equipo estudia que el rival ataca casi siempre por la banda izquierda y decide reforzar esa zona', correcta:'AJUSTAR EL SISTEMA DEFENSIVO SEGÚN EL ANÁLISIS DEL RIVAL', opts:['IGNORAR LO QUE HACE EL RIVAL','REFORZAR UNA ZONA AL AZAR','CAMBIAR DE DEPORTE'] },
+  { desc:'En un contraataque de básquetbol, el jugador con el balón avanza por el centro mientras sus compañeros corren por los costados abriendo la defensa', correcta:'OCUPAR LA CANCHA EN AMPLITUD PARA CREAR VENTAJA NUMÉRICA', opts:['CORRER TODOS EN FILA POR EL MISMO COSTADO','DETENER EL JUEGO SIN MOTIVO','PASAR EL BALÓN HACIA ATRÁS SIEMPRE'] },
+  { desc:'El capitán nota que su equipo está cansado y pide un tiempo fuera para reordenar la táctica y dar descanso', correcta:'USAR EL TIEMPO FUERA COMO HERRAMIENTA TÁCTICA', opts:['SEGUIR JUGANDO SIN AJUSTAR NADA','RETIRARSE DEL PARTIDO','DISCUTIR CON EL ÁRBITRO'] },
+  { desc:'En fútbol, la delantera se mueve constantemente entre los defensores para que nunca sepan quién debe marcarla', correcta:'DESMARCARSE PARA GENERAR DUDAS EN LA DEFENSA RIVAL', opts:['QUEDARSE INMÓVIL TODO EL PARTIDO','SALIR DE LA CANCHA CADA JUGADA','AVISARLE AL RIVAL SUS MOVIMIENTOS'] },
+];
+export function genSistemasJuego8Round(){
+  const item = pick(SISTEMAS_JUEGO_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué táctica o sistema de juego se aplica aquí?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
+    explain: 'Esto es un ejemplo de: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const ENTRENAMIENTO_8_BANK = [
+  { pregunta:'Catalina entrena 3 veces por semana. ¿Qué componente del entrenamiento describe ese dato?', correcta:'LA FRECUENCIA (CUÁNTAS VECES SE ENTRENA POR SEMANA)', opts:['LA INTENSIDAD DEL ESFUERZO','EL TIPO DE EJERCICIO','LA FLEXIBILIDAD'] },
+  { pregunta:'Tomás corre a un ritmo que apenas le permite conversar, con el pulso muy elevado. ¿Qué componente describe ese dato?', correcta:'LA INTENSIDAD (QUÉ TAN EXIGENTE ES EL ESFUERZO)', opts:['LA FRECUENCIA SEMANAL','EL TIPO DE EJERCICIO','EL CALENTAMIENTO'] },
+  { pregunta:'Una rutina indica trotar 30 minutos y luego descansar 2 minutos entre ejercicios. ¿Qué componente describe esos datos?', correcta:'EL TIEMPO DE DURACIÓN Y DE RECUPERACIÓN', opts:['LA INTENSIDAD MÁXIMA','EL TIPO DE DEPORTE','LA COMPETENCIA'] },
+  { pregunta:'Cada dos semanas, Sofía aumenta un poco la distancia que corre, en vez de exigirse todo de una vez. ¿Qué principio aplica?', correcta:'LA PROGRESIÓN (AUMENTAR LA CARGA DE FORMA GRADUAL)', opts:['LA IMPROVISACIÓN TOTAL','ENTRENAR SIEMPRE EXACTAMENTE IGUAL','SALTARSE EL DESCANSO'] },
+  { pregunta:'Un plan combina trote (resistencia), ejercicios con el peso del cuerpo (fuerza) y elongaciones (flexibilidad). ¿Qué componente varía entre esas sesiones?', correcta:'EL TIPO DE EJERCICIO', opts:['SOLO LA HORA DEL DÍA','EL CLIMA','EL COLOR DE LA ROPA DEPORTIVA'] },
+  { pregunta:'¿Qué capacidad física desarrolla principalmente el trote continuo y prolongado?', correcta:'LA RESISTENCIA CARDIOVASCULAR', opts:['LA FUERZA MÁXIMA DE BRAZOS','LA PUNTERÍA','EL EQUILIBRIO ESTÁTICO ÚNICAMENTE'] },
+  { pregunta:'¿Qué capacidad física desarrollan principalmente los ejercicios de elongación sostenida?', correcta:'LA FLEXIBILIDAD', opts:['LA VELOCIDAD DE REACCIÓN','LA RESISTENCIA CARDIOVASCULAR','LA FUERZA EXPLOSIVA'] },
+  { pregunta:'¿Por qué es importante respetar los tiempos de recuperación entre sesiones exigentes?', correcta:'PORQUE EL CUERPO NECESITA DESCANSO PARA ADAPTARSE Y EVITAR LESIONES', opts:['PORQUE ENTRENAR TODOS LOS DÍAS SIN PARAR ES SIEMPRE MEJOR','PORQUE EL DESCANSO DEBILITA','NO ES IMPORTANTE'] },
+  { pregunta:'Si el objetivo es mejorar la velocidad, ¿qué tipo de ejercicio conviene incluir en el plan?', correcta:'CARRERAS CORTAS Y RÁPIDAS (PIQUES) CON PAUSAS DE RECUPERACIÓN', opts:['SOLO CAMINATAS MUY LENTAS','SOLO ELONGACIONES','NINGÚN EJERCICIO'] },
+  { pregunta:'¿Qué señal indica que la intensidad de un ejercicio aeróbico es moderada y adecuada?', correcta:'PODER HABLAR CON ALGO DE ESFUERZO MIENTRAS SE REALIZA', opts:['NO PODER RESPIRAR EN ABSOLUTO','NO SENTIR NINGÚN ESFUERZO EN NINGÚN MOMENTO','SENTIR DOLOR FUERTE'] },
+];
+export function genEntrenamiento8Round(){
+  const item = pick(ENTRENAMIENTO_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}

@@ -1042,3 +1042,164 @@ export function genGeografiaMedioambiente7Round(){
   };
 }
 
+/* ---------------- Contenido Historia, Geografía y Cs. Sociales 8° Básico ----------------
+   Basado en OA del Decreto 614/2013 (curriculumnacional.cl/curriculum/
+   7o-basico-2o-medio/historia-geografia-ciencias-sociales/8-basico).
+   Humanismo y Renacimiento -> HI08 OA01-02 (el ser humano como centro,
+   contraste sociedad medieval/moderna, imprenta, revolución científica).
+   Estado Moderno y Mercantilismo -> OA03-04 (concentración del poder en el
+   rey, burocracia, economía mercantilista, rutas comerciales).
+   Conquista de América II -> OA05-07 (choque cultural, factores de la
+   rapidez de la conquista, impacto en Europa — profundiza lo ya visto en
+   5° básico con procesos y causas, no solo hitos; tono neutral y factual,
+   mismo criterio de siempre). La Colonia II -> OA08-13 (rol administrativo
+   de las ciudades, el Barroco colonial, comercio atlántico y monopolio,
+   sociedad colonial y mestizaje, la frontera con el pueblo mapuche, la
+   hacienda y el inquilinaje — profundiza la Colonia de 5° básico).
+   Ilustración y Revoluciones -> OA14-16,18-19 (la razón como base, separación
+   de poderes, revoluciones de fines del s. XVIII, independencia americana
+   como proceso continental, derechos del hombre y del ciudadano).
+   Geografía Regional -> OA20-22 (criterios que definen una región, tipos
+   de regiones en Chile y América, problemas regionales, índice de
+   desarrollo humano). Quedan fuera: OA17 (contrastar posturas del debate
+   de legitimidad de la conquista conectándolo con visiones actuales —
+   interpretación multiperspectiva que el propio OA exige, mismo criterio
+   que HI06 OA08 en 6° básico; el hecho histórico del debate sí se menciona
+   factualmente en Conquista de América II). */
+export const HISTORIA_MODULES_G8 = [
+  {id:'humanismorenacimiento8', label:'Humanismo y Renacimiento', open:true, key:'humanismorenacimiento8'},
+  {id:'estadomoderno8', label:'Estado Moderno y Mercantilismo', open:true, key:'estadomoderno8'},
+  {id:'conquista8', label:'Conquista de América II', open:true, key:'conquista8'},
+  {id:'colonia8', label:'La Colonia II', open:true, key:'colonia8'},
+  {id:'ilustracionrevoluciones8', label:'Ilustración y Revoluciones', open:true, key:'ilustracionrevoluciones8'},
+  {id:'geografiaregional8', label:'Geografía Regional', open:true, key:'geografiaregional8'},
+];
+export const HISTORIA_POS_G8 = [{x:22,y:92},{x:68,y:76},{x:22,y:58},{x:68,y:42},{x:22,y:24},{x:68,y:6}];
+
+const HUMANISMO_8_BANK = [
+  { pregunta:'¿Qué idea puso al centro el Humanismo, el movimiento cultural que floreció en Europa desde el siglo XIV?', correcta:'EL SER HUMANO Y SU CAPACIDAD DE PENSAR, CREAR Y TRANSFORMAR EL MUNDO', opts:['QUE NADA PODÍA CAMBIARSE NI ESTUDIARSE','QUE SOLO IMPORTABA ACUMULAR TIERRAS','QUE EL ARTE DEBÍA PROHIBIRSE'] },
+  { pregunta:'¿Qué invento del siglo XV permitió reproducir libros en grandes cantidades y difundir las ideas mucho más rápido?', correcta:'LA IMPRENTA DE TIPOS MÓVILES', opts:['EL TELÉGRAFO','LA MÁQUINA A VAPOR','EL TELESCOPIO ESPACIAL'] },
+  { pregunta:'¿Qué caracterizó a la revolución científica de los siglos XVI y XVII?', correcta:'EXPLICAR LA NATURALEZA MEDIANTE OBSERVACIÓN, EXPERIMENTOS Y RAZONAMIENTO', opts:['RECHAZAR CUALQUIER TIPO DE OBSERVACIÓN','PROHIBIR EL USO DE INSTRUMENTOS','COPIAR SIN CUESTIONAR LOS TEXTOS ANTIGUOS'] },
+  { pregunta:'¿Qué artista del Renacimiento pintó la Mona Lisa y además estudió anatomía, ingeniería y vuelo?', correcta:'LEONARDO DA VINCI', opts:['CRISTÓBAL COLÓN','JOHANNES GUTENBERG','HERNÁN CORTÉS'] },
+  { pregunta:'¿Qué diferencia marcó a la época moderna respecto de la Edad Media en la vida cultural europea?', correcta:'MAYOR CONFIANZA EN LA RAZÓN HUMANA Y EN EL ESTUDIO DEL MUNDO', opts:['EL ABANDONO TOTAL DE LAS CIUDADES','LA DESAPARICIÓN DE LAS UNIVERSIDADES','EL FIN DE TODO EL COMERCIO'] },
+  { pregunta:'¿Dónde nació el Renacimiento, antes de extenderse por Europa?', correcta:'EN LAS CIUDADES DE LA PENÍNSULA ITÁLICA, COMO FLORENCIA', opts:['EN EL DESIERTO DE ATACAMA','EN LAS ISLAS DEL PACÍFICO SUR','EN EL POLO NORTE'] },
+  { pregunta:'¿Qué efecto tuvo la imprenta sobre el conocimiento en Europa?', correcta:'LOS LIBROS SE VOLVIERON MÁS BARATOS Y ACCESIBLES, Y LAS IDEAS CIRCULARON MÁS RÁPIDO', opts:['LOS LIBROS DESAPARECIERON POR COMPLETO','SOLO LOS REYES PUDIERON LEER DESDE ENTONCES','EL CONOCIMIENTO DEJÓ DE DIFUNDIRSE'] },
+  { pregunta:'¿Qué área del conocimiento avanzó con astrónomos como Copérnico y Galileo durante la revolución científica?', correcta:'LA COMPRENSIÓN DEL SISTEMA SOLAR Y EL MOVIMIENTO DE LOS PLANETAS', opts:['LA FABRICACIÓN DE AUTOMÓVILES','LA PROGRAMACIÓN DE COMPUTADORES','LA AVIACIÓN COMERCIAL'] },
+  { pregunta:'¿Cómo se relacionaba el arte renacentista con el conocimiento científico de su época?', correcta:'LOS ARTISTAS ESTUDIABAN ANATOMÍA, PROPORCIÓN Y PERSPECTIVA PARA REPRESENTAR MEJOR LA REALIDAD', opts:['EL ARTE Y LA CIENCIA ESTABAN COMPLETAMENTE PROHIBIDOS DE MEZCLARSE','LOS ARTISTAS NUNCA ESTUDIABAN NADA','LA PERSPECTIVA FUE INVENTADA EN EL SIGLO XX'] },
+  { pregunta:'¿Qué rol cumplieron ciudades como Florencia y Venecia en el Renacimiento?', correcta:'FUERON CENTROS DE COMERCIO Y MECENAZGO QUE FINANCIARON ARTE Y CULTURA', opts:['FUERON ABANDONADAS DURANTE TODO EL PERÍODO','PROHIBIERON LA ENTRADA DE ARTISTAS','NO TUVIERON NINGUNA RELACIÓN CON LA CULTURA'] },
+];
+export function genHumanismoRenacimiento8Round(){
+  const item = pick(HUMANISMO_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const ESTADO_MODERNO_8_BANK = [
+  { pregunta:'¿Qué caracterizó al Estado moderno europeo, a diferencia del poder repartido de la época medieval?', correcta:'LA CONCENTRACIÓN DEL PODER EN LA FIGURA DEL REY Y UNA ADMINISTRACIÓN CENTRALIZADA', opts:['LA AUSENCIA TOTAL DE GOBIERNO','EL PODER REPARTIDO ENTRE MILES DE SEÑORES SIN NINGÚN ORDEN','LA ELECCIÓN DEL REY POR VOTACIÓN POPULAR UNIVERSAL'] },
+  { pregunta:'¿Qué herramientas usó el Estado moderno para administrar su territorio?', correcta:'FUNCIONARIOS, IMPUESTOS REGULARES Y EJÉRCITOS PERMANENTES', opts:['NINGUNA: NO EXISTÍA ADMINISTRACIÓN','SOLO ACUERDOS VERBALES SIN REGISTRO','EL SORTEO ANUAL DE TODOS LOS CARGOS'] },
+  { pregunta:'¿Qué buscaba el mercantilismo, la política económica típica de los siglos XVI a XVIII?', correcta:'ACUMULAR METALES PRECIOSOS Y EXPORTAR MÁS DE LO QUE SE IMPORTABA', opts:['ELIMINAR TODO EL COMERCIO EXTERIOR','REGALAR LOS METALES PRECIOSOS A OTROS REINOS','PROHIBIR LA FABRICACIÓN DE PRODUCTOS PROPIOS'] },
+  { pregunta:'¿Qué efecto tuvo en Europa la llegada masiva de oro y plata desde América en el siglo XVI?', correcta:'UN ALZA GENERALIZADA DE LOS PRECIOS, CONOCIDA COMO REVOLUCIÓN DE LOS PRECIOS', opts:['LA DESAPARICIÓN DEL DINERO','QUE TODO SE VOLVIERA GRATIS','NINGÚN EFECTO EN LA ECONOMÍA'] },
+  { pregunta:'¿Cómo cambiaron las rutas comerciales europeas tras los viajes de exploración de los siglos XV y XVI?', correcta:'SE EXPANDIERON DEL MEDITERRÁNEO HACIA EL ATLÁNTICO Y OTROS OCÉANOS', opts:['SE REDUJERON SOLO AL MAR MEDITERRÁNEO','DESAPARECIERON POR COMPLETO','SE LIMITARON A LOS RÍOS INTERIORES'] },
+  { pregunta:'¿Por qué los reyes de los Estados modernos financiaron viajes de exploración?', correcta:'PARA ENCONTRAR NUEVAS RUTAS COMERCIALES Y AUMENTAR SUS RIQUEZAS', opts:['PARA REGALAR SUS BARCOS','PORQUE NO TENÍAN NINGÚN INTERÉS ECONÓMICO','PARA PERDER TERRITORIOS A PROPÓSITO'] },
+  { pregunta:'¿Qué es la burocracia, que creció junto con el Estado moderno?', correcta:'EL CONJUNTO DE FUNCIONARIOS Y OFICINAS QUE ADMINISTRAN EL ESTADO', opts:['UN TIPO DE BAILE CORTESANO','UNA MONEDA DE LA ÉPOCA','UN ESTILO DE PINTURA'] },
+  { pregunta:'¿Qué relación hubo entre el mercantilismo y las colonias americanas?', correcta:'LAS COLONIAS PROVEÍAN MATERIAS PRIMAS Y METALES, Y COMPRABAN PRODUCTOS DE LA METRÓPOLI', opts:['LAS COLONIAS NO TENÍAN NINGUNA RELACIÓN ECONÓMICA CON EUROPA','LAS COLONIAS EXPORTABAN COMPUTADORES','EUROPA REGALABA TODO A LAS COLONIAS'] },
+  { pregunta:'¿Qué significaba el "monopolio comercial" que España impuso a sus colonias americanas?', correcta:'LAS COLONIAS SOLO PODÍAN COMERCIAR CON ESPAÑA, NO CON OTROS REINOS', opts:['LAS COLONIAS PODÍAN COMERCIAR LIBREMENTE CON CUALQUIER PAÍS','ESPAÑA PROHIBÍA TODO TIPO DE COMERCIO','EL COMERCIO ERA ADMINISTRADO POR LOS PUEBLOS ORIGINARIOS'] },
+];
+export function genEstadoModerno8Round(){
+  const item = pick(ESTADO_MODERNO_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const CONQUISTA_8_BANK = [
+  { pregunta:'¿Por qué el encuentro entre europeos y pueblos americanos fue un choque entre dos mundos culturales?', correcta:'PORQUE TENÍAN IDIOMAS, CREENCIAS, TECNOLOGÍAS Y FORMAS DE VIDA PROFUNDAMENTE DISTINTAS', opts:['PORQUE YA SE CONOCÍAN DESDE SIEMPRE','PORQUE COMPARTÍAN EL MISMO IDIOMA','PORQUE SUS CULTURAS ERAN IDÉNTICAS'] },
+  { pregunta:'¿Qué factor contribuyó a la rapidez de la conquista de los grandes imperios americanos?', correcta:'LAS ALIANZAS DE LOS ESPAÑOLES CON PUEBLOS RIVALES DE ESOS IMPERIOS', opts:['LA AUSENCIA TOTAL DE RESISTENCIA INDÍGENA','QUE LOS IMPERIOS NO TUVIERAN EJÉRCITOS','QUE LOS ESPAÑOLES FUERAN MILLONES'] },
+  { pregunta:'¿Qué causó la mayor pérdida de población indígena tras la llegada de los europeos a América?', correcta:'LAS ENFERMEDADES TRAÍDAS DESDE EUROPA, PARA LAS QUE NO TENÍAN DEFENSAS', opts:['LAS ERUPCIONES VOLCÁNICAS DE LA ÉPOCA','LAS MIGRACIONES VOLUNTARIAS A EUROPA','EL CLIMA DEL CONTINENTE'] },
+  { pregunta:'¿Qué diferencia tecnológica militar existía entre conquistadores y pueblos americanos?', correcta:'LOS EUROPEOS CONTABAN CON ARMAS DE METAL, CABALLOS Y PÓLVORA, DESCONOCIDOS EN AMÉRICA', opts:['NO EXISTÍA NINGUNA DIFERENCIA TECNOLÓGICA','LOS PUEBLOS AMERICANOS TENÍAN TECNOLOGÍA MILITAR EUROPEA','LOS EUROPEOS NO LLEVABAN NINGÚN TIPO DE ARMAS'] },
+  { pregunta:'¿Cómo impactó la conquista de América en la visión del mundo que tenían los europeos?', correcta:'AMPLIÓ EL MUNDO CONOCIDO Y LOS OBLIGÓ A REPRESENTAR CONTINENTES, PLANTAS Y PUEBLOS NUEVOS', opts:['NO CAMBIÓ NADA EN SU VISIÓN DEL MUNDO','REDUJO EL TAMAÑO DEL MUNDO CONOCIDO','HIZO QUE ABANDONARAN LA CARTOGRAFÍA'] },
+  { pregunta:'¿Qué debate surgió en España en el siglo XVI a raíz de la conquista, con Bartolomé de las Casas como una de sus voces?', correcta:'UN DEBATE SOBRE LA LEGITIMIDAD DE LA CONQUISTA Y EL TRATO DADO A LOS PUEBLOS INDÍGENAS', opts:['UN DEBATE SOBRE EL COLOR DE LAS BANDERAS','UNA DISCUSIÓN SOBRE RECETAS DE COCINA','NINGÚN DEBATE: NADIE OPINÓ SOBRE LA CONQUISTA'] },
+  { pregunta:'¿Qué intercambio se produjo entre América y Europa tras el contacto de 1492?', correcta:'PLANTAS, ANIMALES Y ALIMENTOS VIAJARON EN AMBAS DIRECCIONES, COMO LA PAPA HACIA EUROPA Y EL TRIGO HACIA AMÉRICA', opts:['NO SE INTERCAMBIÓ ABSOLUTAMENTE NADA','SOLO VIAJARON PIEDRAS','LOS ALIMENTOS FUERON PROHIBIDOS EN AMBOS CONTINENTES'] },
+  { pregunta:'¿Qué interés movía principalmente a los conquistadores españoles en América?', correcta:'OBTENER RIQUEZAS, TIERRAS Y TÍTULOS, ADEMÁS DE EXPANDIR SU RELIGIÓN', opts:['ESTUDIAR LA FLORA AMERICANA SIN OTRO OBJETIVO','HACER TURISMO','APRENDER LOS IDIOMAS LOCALES POR CURIOSIDAD'] },
+  { pregunta:'¿Cómo se vio afectada la organización política de los grandes imperios americanos con la conquista?', correcta:'SUS ESTRUCTURAS DE GOBIERNO FUERON REEMPLAZADAS POR INSTITUCIONES COLONIALES ESPAÑOLAS', opts:['SIGUIERON GOBERNANDO EXACTAMENTE IGUAL QUE ANTES','SE TRASLADARON A GOBERNAR EN EUROPA','NO TENÍAN NINGUNA ORGANIZACIÓN POLÍTICA'] },
+];
+export function genConquista8Round(){
+  const item = pick(CONQUISTA_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const COLONIA_8_BANK = [
+  { pregunta:'¿Qué rol cumplían las ciudades fundadas por los españoles en América?', correcta:'CONCENTRABAN LA ADMINISTRACIÓN, LAS INSTITUCIONES Y EL PODER COLONIAL', opts:['ERAN SOLO LUGARES DE DESCANSO SIN NINGUNA FUNCIÓN','NO EXISTIERON CIUDADES EN LA COLONIA','FUNCIONABAN SIN NINGUNA AUTORIDAD'] },
+  { pregunta:'¿Qué estilo artístico y cultural marcó la vida colonial americana en los siglos XVII y XVIII, visible en iglesias, pinturas y música?', correcta:'EL BARROCO', opts:['EL CUBISMO','EL ARTE DIGITAL','EL IMPRESIONISMO'] },
+  { pregunta:'¿Cómo se formó la sociedad colonial americana?', correcta:'DEL MESTIZAJE ENTRE ESPAÑOLES, PUEBLOS INDÍGENAS Y PERSONAS AFRICANAS TRAÍDAS AL CONTINENTE', opts:['SOLO DE POBLACIÓN EUROPEA SIN NINGUNA MEZCLA','DE UN ÚNICO GRUPO SIN DIVERSIDAD','DE POBLACIÓN LLEGADA DE ASIA ORIENTAL ÚNICAMENTE'] },
+  { pregunta:'¿Qué fue la hacienda en el Chile colonial?', correcta:'UNA GRAN PROPIEDAD RURAL DEDICADA A LA AGRICULTURA Y GANADERÍA, CENTRO DE LA VIDA ECONÓMICA Y SOCIAL', opts:['UN TIPO DE EMBARCACIÓN','UNA MONEDA COLONIAL','UN INSTRUMENTO MUSICAL'] },
+  { pregunta:'¿Qué era el inquilinaje, característico del campo chileno colonial?', correcta:'UN SISTEMA DONDE FAMILIAS VIVÍAN Y TRABAJABAN EN TIERRAS DE LA HACIENDA A CAMBIO DE UN LUGAR DONDE VIVIR Y CULTIVAR', opts:['UN JUEGO TRADICIONAL DE LA ÉPOCA','UN TIPO DE COMERCIO MARÍTIMO','UNA CEREMONIA RELIGIOSA'] },
+  { pregunta:'¿Qué caracterizó la relación entre españoles y mapuches durante gran parte de la Colonia en Chile?', correcta:'PERÍODOS DE GUERRA Y TAMBIÉN DE INTERCAMBIO Y PARLAMENTOS DE PAZ EN TORNO A UNA FRONTERA EN EL BIOBÍO', opts:['UNA PAZ TOTAL SIN NINGÚN CONFLICTO EN TRES SIGLOS','LA AUSENCIA COMPLETA DE CONTACTO ENTRE AMBOS','UNA ALIANZA MILITAR PERMANENTE CONTRA OTROS REINOS'] },
+  { pregunta:'¿Por qué el comercio colonial americano era importante para España en los siglos XVII y XVIII?', correcta:'PORQUE LOS METALES Y PRODUCTOS AMERICANOS SOSTENÍAN GRAN PARTE DE SU ECONOMÍA', opts:['PORQUE ESPAÑA NO OBTENÍA NADA DE AMÉRICA','PORQUE AMÉRICA SOLO EXPORTABA HIELO','PORQUE EL COMERCIO ESTABA PROHIBIDO'] },
+  { pregunta:'¿Qué institución organizaba la vida religiosa, la educación y buena parte de la cultura en la América colonial?', correcta:'LA IGLESIA CATÓLICA', opts:['LOS BANCOS COMERCIALES','LAS UNIVERSIDADES TECNOLÓGICAS','LOS PERIÓDICOS DEPORTIVOS'] },
+  { pregunta:'¿Cómo era la sociedad colonial en cuanto a derechos y jerarquías?', correcta:'ERA UNA SOCIEDAD JERARQUIZADA, DONDE EL ORIGEN Y EL NACIMIENTO DETERMINABAN EL LUGAR DE CADA PERSONA', opts:['TODOS TENÍAN EXACTAMENTE LOS MISMOS DERECHOS','NO EXISTÍAN GRUPOS SOCIALES','LOS CARGOS SE SORTEABAN ENTRE TODA LA POBLACIÓN'] },
+];
+export function genColonia8Round(){
+  const item = pick(COLONIA_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const ILUSTRACION_8_BANK = [
+  { pregunta:'¿Qué proponía la Ilustración, el movimiento intelectual del siglo XVIII?', correcta:'USAR LA RAZÓN PARA COMPRENDER EL MUNDO Y ORGANIZAR LA SOCIEDAD', opts:['PROHIBIR LA LECTURA Y EL ESTUDIO','VOLVER A LAS FORMAS DE VIDA MEDIEVALES','RECHAZAR TODA FORMA DE CONOCIMIENTO'] },
+  { pregunta:'¿Qué principio político difundió la Ilustración para evitar la concentración del poder?', correcta:'LA SEPARACIÓN Y EQUILIBRIO DE LOS PODERES DEL ESTADO', opts:['ENTREGAR TODO EL PODER A UNA SOLA PERSONA PARA SIEMPRE','ELIMINAR CUALQUIER FORMA DE GOBIERNO','SORTEAR EL PODER CADA SEMANA'] },
+  { pregunta:'¿Qué revolución de 1789 proclamó los derechos del hombre y del ciudadano?', correcta:'LA REVOLUCIÓN FRANCESA', opts:['LA REVOLUCIÓN INDUSTRIAL BRITÁNICA','LA REVOLUCIÓN RUSA','LA GUERRA DEL PACÍFICO'] },
+  { pregunta:'¿Qué proceso norteamericano de 1776 inspiró a otros movimientos independentistas?', correcta:'LA INDEPENDENCIA DE LAS TRECE COLONIAS (ESTADOS UNIDOS)', opts:['LA CONSTRUCCIÓN DEL CANAL DE PANAMÁ','LA FUNDACIÓN DE NUEVA YORK','LA LLEGADA DEL FERROCARRIL'] },
+  { pregunta:'¿Por qué la independencia hispanoamericana se considera un proceso continental?', correcta:'PORQUE OCURRIÓ DE FORMA CASI SIMULTÁNEA Y CONECTADA EN LOS DISTINTOS TERRITORIOS AMERICANOS', opts:['PORQUE OCURRIÓ SOLO EN UN PAÍS','PORQUE FUE ORGANIZADA DESDE ASIA','PORQUE NO TUVO NINGUNA CAUSA COMÚN'] },
+  { pregunta:'¿Qué ideas ilustradas influyeron en los líderes de las independencias americanas?', correcta:'LA SOBERANÍA POPULAR, LOS DERECHOS DEL CIUDADANO Y EL GOBIERNO REPUBLICANO', opts:['LA IDEA DE QUE EL PODER DEBÍA SER HEREDITARIO PARA SIEMPRE','EL RECHAZO A CUALQUIER FORMA DE GOBIERNO','LA PROHIBICIÓN DE LAS CONSTITUCIONES'] },
+  { pregunta:'¿Qué crisis facilitó el inicio de las independencias hispanoamericanas hacia 1808-1810?', correcta:'LA CRISIS DE LA MONARQUÍA ESPAÑOLA TRAS LA INVASIÓN NAPOLEÓNICA', opts:['UNA SEQUÍA EN EL DESIERTO DE ATACAMA','EL DESCUBRIMIENTO DE AMÉRICA','LA LLEGADA DEL TELÉGRAFO'] },
+  { pregunta:'¿Qué transformación política trajo la independencia a los nuevos países americanos, incluido Chile?', correcta:'EL PASO DE SER COLONIAS DE UN REY A REPÚBLICAS CON CONSTITUCIONES Y CIUDADANOS', opts:['NINGÚN CAMBIO EN SU FORMA DE GOBIERNO','LA UNIÓN DE TODA AMÉRICA EN UN SOLO IMPERIO','EL ABANDONO DE TODA FORMA DE LEY'] },
+  { pregunta:'¿Qué relación existe entre los "derechos del hombre y del ciudadano" de 1789 y los derechos humanos actuales?', correcta:'SON UN ANTECEDENTE HISTÓRICO DIRECTO: LA IDEA DE DERECHOS UNIVERSALES SE FUE AMPLIANDO HASTA HOY', opts:['NO TIENEN NINGUNA RELACIÓN ENTRE SÍ','LOS DERECHOS ACTUALES SON MÁS ANTIGUOS','AMBOS CONCEPTOS SIGNIFICAN EXACTAMENTE LO MISMO SIN NINGÚN CAMBIO'] },
+];
+export function genIlustracionRevoluciones8Round(){
+  const item = pick(ILUSTRACION_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const GEOGRAFIA_REGIONAL_8_BANK = [
+  { pregunta:'¿Qué criterios se combinan para definir una región?', correcta:'FACTORES FÍSICOS Y HUMANOS, COMO CLIMA, VEGETACIÓN, IDIOMA, HISTORIA O ECONOMÍA', opts:['SOLO EL COLOR DEL MAPA','EL ORDEN ALFABÉTICO DE SUS CIUDADES','NINGÚN CRITERIO: LAS REGIONES SON ALEATORIAS'] },
+  { pregunta:'¿Qué tipo de región es "la zona vitivinícola del valle central de Chile"?', correcta:'UNA REGIÓN ECONÓMICA (DEFINIDA POR SU ACTIVIDAD PRODUCTIVA)', opts:['UNA REGIÓN POLÍTICO-ADMINISTRATIVA','UNA REGIÓN DEFINIDA POR SU IDIOMA','UN TIPO DE CLIMA'] },
+  { pregunta:'¿Qué tipo de región son las 16 regiones en que se divide administrativamente Chile?', correcta:'REGIONES POLÍTICO-ADMINISTRATIVAS', opts:['REGIONES CLIMÁTICAS','REGIONES CULTURALES INDÍGENAS','CUENCAS HIDROGRÁFICAS'] },
+  { pregunta:'¿Qué problema afecta a las zonas aisladas de Chile, como localidades cordilleranas o insulares?', correcta:'EL ACCESO MÁS DIFÍCIL A SERVICIOS COMO SALUD, EDUCACIÓN Y CONECTIVIDAD', opts:['UN EXCESO DE SERVICIOS PÚBLICOS','LA AUSENCIA TOTAL DE HABITANTES EN TODO CHILE','NINGÚN PROBLEMA: TODO EL TERRITORIO ES IGUAL'] },
+  { pregunta:'¿Qué mide el Índice de Desarrollo Humano (IDH) que se usa para comparar regiones y países?', correcta:'SALUD, EDUCACIÓN E INGRESOS DE LA POBLACIÓN', opts:['SOLO LA CANTIDAD DE AUTOS','EL TAMAÑO DEL TERRITORIO','LA CANTIDAD DE ESTADIOS DEPORTIVOS'] },
+  { pregunta:'¿Por qué muchas personas migran desde regiones hacia la capital u otras ciudades grandes?', correcta:'BUSCANDO TRABAJO, ESTUDIOS Y SERVICIOS QUE SE CONCENTRAN EN LAS GRANDES CIUDADES', opts:['PORQUE ESTÁ PROHIBIDO VIVIR EN REGIONES','POR SORTEO NACIONAL OBLIGATORIO','SIN NINGUNA RAZÓN'] },
+  { pregunta:'¿Qué efecto puede tener la concentración de población y servicios en una sola gran ciudad?', correcta:'DESIGUALDADES ENTRE LA CAPITAL Y LAS DEMÁS REGIONES DEL PAÍS', opts:['LA IGUALDAD AUTOMÁTICA DE TODO EL TERRITORIO','LA DESAPARICIÓN DE LA CIUDAD GRANDE','NINGÚN EFECTO EN EL RESTO DEL PAÍS'] },
+  { pregunta:'¿Qué ejemplo corresponde a una región cultural en América?', correcta:'LA ZONA ANDINA, DONDE PUEBLOS COMPARTEN TRADICIONES E HISTORIA LIGADAS A LA CORDILLERA', opts:['UNA CANCHA DE FÚTBOL','EL PASILLO DE UN SUPERMERCADO','UN EDIFICIO DE OFICINAS'] },
+  { pregunta:'¿Cómo se inserta una región en el mercado internacional?', correcta:'EXPORTANDO SUS PRODUCTOS CARACTERÍSTICOS, COMO MINERALES, FRUTA O PRODUCTOS DEL MAR', opts:['CERRANDO TODO CONTACTO CON EL EXTERIOR','REGALANDO SU PRODUCCIÓN','PROHIBIENDO LOS PUERTOS'] },
+];
+export function genGeografiaRegional8Round(){
+  const item = pick(GEOGRAFIA_REGIONAL_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+

@@ -264,3 +264,40 @@ export function genSolucionesTecnologicas7Round(){
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
   };
 }
+
+/* ---------------- Contenido Tecnología 8° Básico ----------------
+   Basado en Decreto 614/2013. TE08 OA05-06 -> Análisis de Soluciones
+   Tecnológicas: examinar soluciones existentes considerando usuarios,
+   aspectos técnicos y funcionales (OA05), y evaluar sus consecuencias
+   desde perspectivas éticas, ambientales y sociales (OA06) — profundiza
+   el módulo de 7° (que cubrió el impacto positivo/negativo general) con
+   los ángulos nuevos del OA de 8°: el USUARIO como centro del análisis y
+   la dimensión ÉTICA. Quedan fuera OA01-04 (identificar necesidades y
+   diseñar/elaborar/evaluar/comunicar un producto tecnológico propio —
+   producción práctica). */
+export const TECNOLOGIA_MODULES_G8 = [
+  {id:'analisissoluciones8', label:'Análisis de Soluciones Tecnológicas', open:true, key:'analisissoluciones8'},
+];
+export const TECNOLOGIA_POS_G8 = [{x:48,y:50}];
+
+const ANALISIS_SOLUCIONES_8_BANK = [
+  { pregunta:'Al analizar una aplicación de transporte, ¿qué significa considerar a sus "usuarios"?', correcta:'ESTUDIAR QUIÉNES LA USAN, QUÉ NECESITAN Y SI LA SOLUCIÓN RESPONDE BIEN A ESAS NECESIDADES', opts:['CONTAR SOLO CUÁNTO DINERO GENERA','MIRAR ÚNICAMENTE SU LOGOTIPO','IGNORAR A LAS PERSONAS QUE LA USAN'] },
+  { pregunta:'Una silla de ruedas motorizada resuelve una necesidad de movilidad. ¿Qué aspecto TÉCNICO conviene analizar?', correcta:'SU AUTONOMÍA DE BATERÍA, PESO, MATERIALES Y FACILIDAD DE MANTENCIÓN', opts:['EL COLOR FAVORITO DEL VENDEDOR','LA MÚSICA QUE SUENA EN LA TIENDA','NINGÚN ASPECTO TÉCNICO'] },
+  { pregunta:'Una aplicación gratuita muestra publicidad usando los datos personales de sus usuarios. ¿Qué perspectiva de análisis levanta preguntas aquí?', correcta:'LA PERSPECTIVA ÉTICA: SI LOS USUARIOS SABEN Y ACEPTAN CÓMO SE USAN SUS DATOS', opts:['SOLO LA PERSPECTIVA DEL DISEÑO GRÁFICO','NINGUNA: LOS DATOS PERSONALES NO IMPORTAN','LA PERSPECTIVA DEL CLIMA'] },
+  { pregunta:'Un envase biodegradable cuesta un poco más que uno plástico tradicional. ¿Qué implica evaluarlo desde la perspectiva ambiental?', correcta:'CONSIDERAR SU IMPACTO COMPLETO: MATERIALES, DEGRADACIÓN Y RESIDUOS QUE GENERA', opts:['MIRAR SOLO EL PRECIO DE VENTA','ELEGIR SIEMPRE EL MÁS BARATO SIN ANÁLISIS','IGNORAR QUÉ PASA CON EL ENVASE DESPUÉS DE USARLO'] },
+  { pregunta:'Un municipio evalúa instalar bicicletas públicas compartidas. ¿Qué aspecto FUNCIONAL debería analizar?', correcta:'SI EL SISTEMA REALMENTE FUNCIONA PARA TRASLADARSE: ESTACIONES, DISPONIBILIDAD Y ESTADO DE LAS BICICLETAS', opts:['EL NOMBRE DEL ALCALDE','LA MARCA DE LOS CANDADOS ÚNICAMENTE','SI LAS BICICLETAS SON BONITAS EN FOTOS'] },
+  { pregunta:'Al comparar dos soluciones para potabilizar agua en zonas rurales, ¿qué análisis es más completo?', correcta:'COMPARAR COSTO, MANTENCIÓN, FACILIDAD DE USO PARA LA COMUNIDAD Y EFECTO AMBIENTAL DE CADA UNA', opts:['ELEGIR LA QUE TENGA EL NOMBRE MÁS MODERNO','MIRAR SOLO CUÁL SE VE MÁS TECNOLÓGICA','DESCARTAR AMBAS SIN ANALIZARLAS'] },
+  { pregunta:'Una red social lanza una función que fomenta pasar más horas conectado. ¿Qué pregunta ética cabe hacerse?', correcta:'SI LA FUNCIÓN RESPETA EL BIENESTAR DE LOS USUARIOS O SOLO BUSCA RETENERLOS MÁS TIEMPO', opts:['SI LOS ÍCONOS SON REDONDOS O CUADRADOS','NINGUNA: LAS FUNCIONES NUEVAS SIEMPRE SON BUENAS','SI EL NOMBRE DE LA FUNCIÓN ES PEGAJOSO'] },
+  { pregunta:'Los audífonos con reducción de ruido ayudan a concentrarse, pero usarlos al cruzar la calle reduce la percepción del entorno. ¿Qué muestra este análisis?', correcta:'QUE UNA MISMA SOLUCIÓN PUEDE SER POSITIVA O RIESGOSA SEGÚN EL CONTEXTO DE USO', opts:['QUE LOS AUDÍFONOS SON SIEMPRE PELIGROSOS','QUE LOS AUDÍFONOS NO TIENEN NINGÚN RIESGO','QUE EL CONTEXTO DE USO NO IMPORTA'] },
+  { pregunta:'Una empresa presenta su nueva máquina como "totalmente ecológica" sin entregar ningún dato. ¿Qué corresponde hacer al analizarla?', correcta:'PEDIR EVIDENCIA VERIFICABLE ANTES DE ACEPTAR LA AFIRMACIÓN', opts:['CREER LA AFIRMACIÓN PORQUE SUENA BIEN','DESCARTAR TODA LA TECNOLOGÍA DE LA EMPRESA','COMPRARLA DE INMEDIATO'] },
+  { pregunta:'¿Por qué conviene incluir a los propios usuarios al evaluar una solución tecnológica ya implementada?', correcta:'PORQUE SU EXPERIENCIA REAL REVELA PROBLEMAS Y MEJORAS QUE EL DISEÑO ORIGINAL NO PREVIÓ', opts:['PORQUE ASÍ SE EVITA TENER QUE MEJORAR NADA','NO CONVIENE: LOS USUARIOS NUNCA APORTAN','PORQUE LOS USUARIOS DEBEN PAGAR MÁS'] },
+];
+export function genAnalisisSoluciones8Round(){
+  const item = pick(ANALISIS_SOLUCIONES_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}

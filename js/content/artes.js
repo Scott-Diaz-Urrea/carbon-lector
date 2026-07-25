@@ -470,3 +470,40 @@ export function genEspaciosDifusion7Round(){
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
   };
 }
+
+/* ---------------- Contenido Artes Visuales 8° Básico ----------------
+   Basado en Decreto 614/2013. AR08 OA06 -> Montaje y Difusión del Arte
+   ("comparar y valorar espacios de difusión de las artes visuales,
+   considerando: medios de expresión presentes, espacio, montaje, público
+   y aporte a la comunidad") — profundiza el módulo de 7° básico (que
+   cubrió QUÉ es cada espacio) con el ángulo nuevo del OA de 8°: CÓMO se
+   monta una exposición y qué aporta a su comunidad. Quedan fuera
+   OA01-03 (crear trabajos visuales propios, incluyendo instalaciones y
+   técnicas de impresión — producción práctica) y OA04-05 (analizar y
+   evaluar obras propias y de pares — apreciación subjetiva). */
+export const ARTES_MODULES_G8 = [
+  {id:'montajedifusion8', label:'Montaje y Difusión del Arte', open:true, key:'montajedifusion8'},
+];
+export const ARTES_POS_G8 = [{x:50,y:50}];
+
+const MONTAJE_8_BANK = [
+  { pregunta:'¿Qué es el "montaje" de una exposición de artes visuales?', correcta:'LA FORMA EN QUE SE ORGANIZAN Y UBICAN LAS OBRAS EN EL ESPACIO PARA QUE EL PÚBLICO LAS RECORRA', opts:['EL PRECIO DE LAS ENTRADAS','EL TRANSPORTE DE LOS VISITANTES','LA LIMPIEZA DEL EDIFICIO'] },
+  { pregunta:'¿Por qué importa la iluminación al montar una exposición?', correcta:'PORQUE DESTACA CADA OBRA Y PERMITE APRECIAR SUS COLORES Y DETALLES SIN DAÑARLA', opts:['PORQUE LAS OBRAS NECESITAN CALOR PARA CONSERVARSE','SOLO PARA GASTAR MÁS ELECTRICIDAD','NO TIENE NINGUNA IMPORTANCIA'] },
+  { pregunta:'¿Qué función cumple la ficha o cartela junto a una obra en una exposición?', correcta:'INFORMAR TÍTULO, AUTOR, TÉCNICA Y AÑO, AYUDANDO AL PÚBLICO A COMPRENDER LA OBRA', opts:['TAPAR PARTE DE LA OBRA','INDICAR EL PRECIO DE LA CAFETERÍA','DECORAR LA PARED SIN INFORMACIÓN'] },
+  { pregunta:'¿Qué se considera al decidir la altura y distancia entre obras en una sala?', correcta:'LA COMODIDAD VISUAL DEL PÚBLICO Y QUE CADA OBRA TENGA SU PROPIO ESPACIO', opts:['SOLO EL TAMAÑO DE LA PUERTA DE ENTRADA','EL COLOR DEL TECHO','NADA: SE CUELGAN AL AZAR'] },
+  { pregunta:'¿En qué se diferencia el montaje de una instalación artística del de un cuadro tradicional?', correcta:'LA INSTALACIÓN OCUPA EL ESPACIO COMPLETO Y EL PÚBLICO PUEDE RECORRERLA O RODEARLA', opts:['NO EXISTE NINGUNA DIFERENCIA','LAS INSTALACIONES SOLO SE CUELGAN EN MUROS','LOS CUADROS SIEMPRE SE PONEN EN EL SUELO'] },
+  { pregunta:'¿Qué aporta a su comunidad un espacio de difusión del arte, como un centro cultural de barrio?', correcta:'ACERCA EL ARTE A LOS VECINOS Y OFRECE UN LUGAR DE ENCUENTRO Y EXPRESIÓN', opts:['SOLO OCUPA ESPACIO SIN NINGÚN APORTE','REEMPLAZA A LAS ESCUELAS','IMPIDE OTRAS ACTIVIDADES DEL BARRIO'] },
+  { pregunta:'¿Por qué una exposición virtual (en línea) amplía el público de una muestra de arte?', correcta:'PORQUE PERSONAS DE CUALQUIER LUGAR PUEDEN VISITARLA SIN VIAJAR', opts:['PORQUE ELIMINA LAS OBRAS ORIGINALES','PORQUE SOLO LA VEN LOS ARTISTAS','PORQUE FUNCIONA ÚNICAMENTE DE NOCHE'] },
+  { pregunta:'¿Qué conviene considerar sobre el público al planificar una exposición?', correcta:'QUIÉNES LA VISITARÁN, PARA ADAPTAR RECORRIDO, TEXTOS Y ACTIVIDADES A ESE PÚBLICO', opts:['NADA: TODOS LOS PÚBLICOS SON IDÉNTICOS','SOLO SU ESTATURA','QUE NO ENTRE NADIE'] },
+  { pregunta:'¿Qué medio de expresión contemporáneo puede requerir pantallas y sonido en su montaje?', correcta:'EL VIDEOARTE', opts:['LA ACUARELA TRADICIONAL','EL DIBUJO A LÁPIZ','LA GREDA SIN COCER'] },
+  { pregunta:'¿Qué diferencia hay entre exponer en un museo y en el espacio público, pensando en el montaje?', correcta:'EN EL ESPACIO PÚBLICO LAS OBRAS DEBEN RESISTIR CLIMA Y USO COTIDIANO, Y EL PÚBLICO LLEGA SIN PLANEARLO', opts:['NO HAY NINGUNA DIFERENCIA DE MONTAJE','EN LA CALLE LAS OBRAS NO NECESITAN INSTALARSE','LOS MUSEOS NO REQUIEREN NINGÚN CUIDADO'] },
+];
+export function genMontajeDifusion8Round(){
+  const item = pick(MONTAJE_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}

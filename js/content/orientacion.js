@@ -812,3 +812,145 @@ export function genAutonomiaAprendizaje7Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
   };
 }
+
+/* ---------------- Contenido Orientación 8° Básico ----------------
+   Basado en Decreto 614/2013. Prevención VIII -> OA03, aplicando la MISMA
+   política que el usuario confirmó explícitamente para 7° básico
+   ("Solo factores de riesgo/protección"): el OA de 8° nombra situaciones
+   de riesgo (consumo de sustancias, conductas violentas) y pide
+   estrategias de protección y redes de apoyo — se cubre exclusivamente en
+   esa clave preventiva/protectora, sin ningún detalle de la dimensión
+   sexual (que pertenece al OA02, excluido — mismo criterio de todos los
+   años: requiere acompañamiento real de un adulto). Bienestar VIII ->
+   OA04 (alimentación, descanso, actividad física, integridad corporal,
+   uso seguro de redes). Relaciones e Inclusión -> OA05 (igualdad,
+   dignidad, inclusión y no discriminación en relaciones presenciales y
+   virtuales, reconocer vulneraciones de derechos). Participación
+   Democrática -> OA07-08 (intereses comunes del grupo, acuerdos mediante
+   diálogo democrático, debate y representantes electos — ángulo
+   genuinamente nuevo, ningún año anterior lo cubrió en Orientación).
+   Gestión del Aprendizaje VIII -> OA09-10 (intereses y capacidades
+   propias como base de metas, gestión autónoma con monitoreo y ajuste).
+   Quedan fuera: OA01 (representaciones de sí mismo — autoconocimiento
+   subjetivo), OA02 (dimensiones de la sexualidad e intimidad — ver
+   arriba), OA06 (resolución de desacuerdos — texto casi idéntico al OA06
+   de 7° básico, ya ejercitado ahí con escenarios nuevos; se prefirió
+   cubrir OA07-08 que sí es un ángulo nuevo). */
+export const ORIENTACION_MODULES_G8 = [
+  {id:'prevencionriesgo8', label:'Prevención VIII', open:true, key:'prevencionriesgo8'},
+  {id:'bienestar8', label:'Bienestar y Autocuidado VIII', open:true, key:'bienestar8'},
+  {id:'relacionesinclusion8', label:'Relaciones e Inclusión', open:true, key:'relacionesinclusion8'},
+  {id:'participaciondemocratica8', label:'Participación Democrática', open:true, key:'participaciondemocratica8'},
+  {id:'gestionaprendizaje8', label:'Gestión del Aprendizaje VIII', open:true, key:'gestionaprendizaje8'},
+];
+export const ORIENTACION_POS_G8 = [{x:20,y:92},{x:66,y:74},{x:22,y:52},{x:66,y:28},{x:22,y:6}];
+
+const PREVENCION_8_BANK = [
+  { label:'Identificar a tiempo una situación de riesgo y alejarse de ella es una estrategia de protección', v:true },
+  { label:'Contar con una red de apoyo (familia, amistades de confianza, profesores) reduce el riesgo frente a situaciones difíciles', v:true },
+  { label:'Enfrentar solo cualquier situación de riesgo, sin contarle nunca a nadie, es la estrategia más protectora', v:false },
+  { label:'Saber decir "no" con firmeza frente a la presión del grupo es una habilidad protectora', v:true },
+  { label:'Si un desconocido en internet te pide guardar secretos sobre sus conversaciones, es una señal de alerta que conviene contar a un adulto', v:true },
+  { label:'Las conductas violentas son una forma aceptable de resolver conflictos entre compañeros', v:false },
+  { label:'Conocer los riesgos reales del consumo de sustancias, con información seria, ayuda a tomar mejores decisiones', v:true },
+  { label:'Acudir a un especialista (orientador, psicólogo) cuando una situación te supera es un signo de debilidad', v:false },
+  { label:'Participar en actividades que te motivan (deporte, arte, música) es un factor protector frente a conductas de riesgo', v:true },
+  { label:'Un ambiente escolar donde se puede hablar de los problemas sin burlas es un factor protector para todos', v:true },
+  { label:'Ocultar que un amigo está en una situación de riesgo grave es la mejor forma de ser leal', v:false },
+];
+export function genPrevencionRiesgo8Round(){
+  const item = pick(PREVENCION_8_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+const BIENESTAR_8_BANK = [
+  { situacion:'Llevas una semana durmiendo tarde por ver series y notas que rindes peor en clases y andas de mal humor.', correcta:'Reconocer el patrón y volver a un horario de sueño regular', malas:['Seguir igual: el sueño no afecta el ánimo','Dormir solo los fines de semana','Reemplazar el sueño por bebidas energéticas'] },
+  { situacion:'Una aplicación te muestra cuánto tiempo de pantalla acumulaste esta semana y la cifra te sorprende.', correcta:'Usar ese dato para fijarte límites razonables de uso diario', malas:['Borrar la aplicación para no ver la cifra','Aumentar el tiempo de pantalla para superar el récord','Ignorar el dato por completo'] },
+  { situacion:'Un contacto que no conoces en persona insiste en que le envíes fotos tuyas y te pide mantenerlo en secreto.', correcta:'Negarte, bloquear el contacto y contárselo a un adulto de confianza', malas:['Enviar las fotos para que deje de insistir','Guardar el secreto como te pide','Seguir conversando para ver qué quiere'] },
+  { situacion:'Tus almuerzos de la semana han sido casi puros snacks y bebidas azucaradas.', correcta:'Reequilibrar tus comidas incorporando alimentos más nutritivos', malas:['Continuar igual: la alimentación no influye en nada','Dejar de almorzar por completo','Comer snacks también al desayuno'] },
+  { situacion:'Entre pruebas y talleres, llevas dos semanas sin hacer nada de actividad física y te sientes con menos energía.', correcta:'Reservar espacios cortos y realistas de actividad física en tu semana', malas:['Esperar a tener un mes completamente libre','Descartar el ejercicio hasta el próximo año','Reemplazar el ejercicio por más horas de pantalla'] },
+  { situacion:'Un compañero comparte una "cuenta de bromas" que publica fotos vergonzosas de otros estudiantes sin su permiso.', correcta:'No seguir ni compartir la cuenta, y reportarla o avisar a un adulto', malas:['Seguir la cuenta porque es divertida','Enviar fotos de otros compañeros a la cuenta','Comentar las publicaciones para ganar popularidad'] },
+  { situacion:'Sientes que el estrés de fin de semestre te tiene sobrepasado y te cuesta concentrarte.', correcta:'Organizar tus pendientes, dosificar el estudio y pedir apoyo si lo necesitas', malas:['Acumular todo para la última noche','Abandonar todas las evaluaciones','Aislarte hasta que termine el semestre'] },
+  { situacion:'Notas que una amiga publica cosas muy personales en redes públicas y varios desconocidos la contactan.', correcta:'Conversar con ella sobre configurar la privacidad y cuidar lo que comparte', malas:['Compartir sus publicaciones para que lleguen a más gente','Burlarte de sus publicaciones','No decirle nada: no es tu problema'] },
+  { situacion:'Después de una caída en bicicleta te duele el brazo, pero no quieres "hacer un escándalo".', correcta:'Avisar a un adulto y revisar la lesión: cuidar tu integridad física es prioritario', malas:['Ocultar el dolor hasta que pase solo','Seguir andando en bicicleta igual','Automedicarte sin consultar a nadie'] },
+  { situacion:'Te ofrecen sumarte a un reto viral de redes sociales que implica un riesgo físico evidente.', correcta:'Rechazarlo: ningún video vale poner en riesgo tu integridad', malas:['Aceptar para no quedar fuera del grupo','Hacerlo pero sin contárselo a nadie','Desafiar a otros compañeros a hacerlo'] },
+];
+export function genBienestar8Round(){
+  const item = pick(BIENESTAR_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
+    explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const RELACIONES_INCLUSION_8_BANK = [
+  { label:'Tratar con la misma dignidad a todas las personas, sin importar su origen, apariencia o creencias, es la base de una buena convivencia', v:true },
+  { label:'Excluir a alguien de un grupo por su nacionalidad es una forma de discriminación', v:true },
+  { label:'Los principios de respeto e igualdad aplican en las redes sociales igual que en persona', v:true },
+  { label:'Burlarse del acento o la forma de hablar de un compañero es solo una broma sin importancia', v:false },
+  { label:'Reconocer cuando un comentario propio hirió a otra persona, y disculparse, fortalece las relaciones', v:true },
+  { label:'Si presencias una situación de discriminación, lo correcto es no involucrarse nunca', v:false },
+  { label:'Difundir rumores sobre alguien por chats grupales puede vulnerar su dignidad aunque no sea "en persona"', v:true },
+  { label:'Un grupo es más rico y creativo cuando integra personas con distintas experiencias y puntos de vista', v:true },
+  { label:'La popularidad de una persona determina cuántos derechos merece', v:false },
+  { label:'Apoyar a un compañero que fue discriminado, y avisar a un adulto si la situación es grave, es una acción correcta', v:true },
+];
+export function genRelacionesInclusion8Round(){
+  const item = pick(RELACIONES_INCLUSION_8_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}
+
+const PARTICIPACION_8_BANK = [
+  { situacion:'El curso quiere organizar una actividad de fin de año, pero hay tres ideas distintas y ninguna mayoría clara.', correcta:'Debatir los pros y contras de cada idea y luego votar democráticamente', malas:['Que decida solo el estudiante más popular','Abandonar la actividad por falta de acuerdo','Imponer la primera idea que se propuso'] },
+  { situacion:'Se acerca la elección de la directiva de curso y te interesa participar.', correcta:'Presentar tu candidatura con propuestas concretas y respetar el resultado de la votación', malas:['Prometer cosas imposibles para ganar votos','Descalificar a los otros candidatos','Exigir el cargo sin elección'] },
+  { situacion:'La directiva electa del curso toma una decisión que a ti no te gusta, siguiendo el procedimiento acordado.', correcta:'Expresar tu desacuerdo por los canales del curso, respetando la decisión tomada democráticamente', malas:['Desconocer a la directiva porque no votaste por ella','Boicotear la actividad decidida','Insultar a la directiva en el chat del curso'] },
+  { situacion:'Un grupo de estudiantes quiere proponer mejoras para el patio del colegio.', correcta:'Recoger las ideas de los demás cursos y presentar la propuesta al centro de estudiantes', malas:['Rayar el patio para llamar la atención','Esperar que otros lo resuelvan sin participar','Presentar solo las ideas propias ignorando al resto'] },
+  { situacion:'En una asamblea de curso, un compañero opina distinto a la mayoría y algunos lo interrumpen.', correcta:'Pedir que se respete su turno de habla: en un debate democrático todas las voces se escuchan', malas:['Sumarte a las interrupciones','Pedir que se prohíban las opiniones distintas','Terminar la asamblea sin escucharlo'] },
+  { situacion:'El curso logró acordar por votación el destino del paseo anual, pero la opción que tú preferías perdió.', correcta:'Aceptar el resultado y participar de todas formas: así funcionan los acuerdos democráticos', malas:['Negarte a ir al paseo como protesta','Exigir repetir la votación hasta que gane tu opción','Convencer al profesor de anular el resultado'] },
+  { situacion:'Detectan que varios compañeros quieren un taller de ajedrez que el colegio no ofrece.', correcta:'Organizarse, juntar firmas y presentar la solicitud formalmente', malas:['Rendirse porque nunca resultará','Hacer el taller a escondidas sin permiso','Quejarse en redes sin proponer nada'] },
+  { situacion:'Eres delegado de tu curso ante el centro de estudiantes y hay opiniones divididas sobre un tema.', correcta:'Representar fielmente lo que decidió tu curso, no solo tu opinión personal', malas:['Votar según tu preferencia ignorando al curso','No asistir a la reunión para evitar el conflicto','Inventar que el curso opinó otra cosa'] },
+  { situacion:'Tu equipo de trabajo tiene un objetivo común, pero cada integrante quiere hacerlo a su manera.', correcta:'Acordar en conjunto un plan que aproveche las fortalezas de cada uno', malas:['Trabajar cada uno por separado sin coordinarse','Dejar que el más insistente decida todo','Renunciar al objetivo común'] },
+];
+export function genParticipacionDemocratica8Round(){
+  const item = pick(PARTICIPACION_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
+    explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const GESTION_APRENDIZAJE_8_BANK = [
+  { label:'Conocer tus propios intereses y capacidades ayuda a fijarte metas de aprendizaje con sentido', v:true },
+  { label:'Dividir una meta grande en pasos pequeños y medibles facilita avanzar y no rendirse', v:true },
+  { label:'Revisar periódicamente tu avance y ajustar el plan si algo no funciona es parte de gestionar tu aprendizaje', v:true },
+  { label:'Fijarse metas imposibles de cumplir es la mejor forma de motivarse', v:false },
+  { label:'Lo que aprendes en el colegio puede conectarse con tus proyectos personales y tu futuro', v:true },
+  { label:'Si una estrategia de estudio no te da resultados, lo correcto es repetirla igual sin cambiar nada', v:false },
+  { label:'Anotar plazos y tareas en un calendario o agenda ayuda a cumplir tus metas sin acumulación de última hora', v:true },
+  { label:'Pedir retroalimentación a tus profesores sobre cómo mejorar es parte de aprender con autonomía', v:true },
+  { label:'El único propósito de estudiar es aprobar la próxima prueba', v:false },
+  { label:'Celebrar los avances parciales de una meta ayuda a mantener la motivación', v:true },
+];
+export function genGestionAprendizaje8Round(){
+  const item = pick(GESTION_APRENDIZAJE_8_BANK);
+  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+  };
+}

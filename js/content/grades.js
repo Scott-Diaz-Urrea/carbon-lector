@@ -6,7 +6,7 @@ export const GRADES = [
   { id:5, label:'5° Básico', open:true },
   { id:6, label:'6° Básico', open:true },
   { id:7, label:'7° Básico', open:true },
-  { id:8, label:'8° Básico', open:false },
+  { id:8, label:'8° Básico', open:true },
 ];
 export const GRADE_POS = [
   {x:22,y:92},{x:68,y:80},{x:24,y:68},{x:70,y:56},{x:24,y:44},{x:70,y:32},{x:24,y:20},{x:70,y:8}

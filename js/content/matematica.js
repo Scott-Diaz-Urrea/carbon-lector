@@ -2348,10 +2348,10 @@ export function genEnterosRacionales8Round(){
       exprHTML = '('+a+') × ('+b+')';
       exprSpeak = a+' por '+b;
     }
-    const distract = uniqueDistractors(correct, function(){ return correct * -1; }, 1)
-      .concat(uniqueDistractors(correct, function(){ return correct + pick([-2,-1,1,2]) * randInt(1,4); }, 4));
+    const distractCandidates = [correct*-1];
+    while(distractCandidates.length<6){ distractCandidates.push(correct + pick([-2,-1,1,2])*randInt(1,4)); }
     const finales = [];
-    for(const d of distract){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
     const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-word">'+exprHTML+' = ?</p>',
@@ -2383,9 +2383,10 @@ export function genPotenciasRaices8Round(){
   if(roll<0.4){
     const base = randInt(2,6), exp = randInt(2,3);
     const correct = Math.pow(base,exp);
-    const distract = uniqueDistractors(correct, function(){ return pick([base*exp, Math.pow(base,exp)+base, Math.pow(base,exp-1), Math.pow(base+1,exp)]); }, 6);
+    const distractCandidates = [base*exp, Math.pow(base,exp)+base, Math.pow(base,exp-1), Math.pow(base+1,exp), correct+base, correct-exp];
     const finales = [];
-    for(const d of distract){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    for(const d of distractCandidates){ if(d!==correct && d>0 && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    while(finales.length<3){ const c = correct+randInt(1,10); if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
     const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-word">'+base+'<sup>'+exp+'</sup> = ?</p>',
@@ -2409,9 +2410,13 @@ export function genPotenciasRaices8Round(){
   }
   const raiz = randInt(2,12);
   const cuadrado = raiz*raiz;
-  const distract = uniqueDistractors(raiz, function(){ return raiz + pick([-2,-1,1,2]); }, 5).filter(function(v){ return v>0; });
   const finales = [];
-  for(const d of distract){ if(d!==raiz && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+  let guardRaiz = 0;
+  while(finales.length<3 && guardRaiz<50){
+    guardRaiz++;
+    const d = raiz + pick([-2,-1,1,2])*randInt(1,2);
+    if(d>0 && d!==raiz && finales.indexOf(d)===-1) finales.push(d);
+  }
   const opts = shuffle([raiz].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: '<p class="prompt-word">√'+cuadrado+' = ?</p>',
@@ -2457,9 +2462,13 @@ export function genAlgebra8Round(){
   if(roll<0.7){
     const x = randInt(2,9), a = randInt(2,6), b = randInt(1,15);
     const resultado = a*x+b;
-    const distract = uniqueDistractors(x, function(){ return x + pick([-2,-1,1,2]); }, 5).filter(function(v){ return v>0; });
     const finales = [];
-    for(const d of distract){ if(d!==x && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    let guardEc = 0;
+    while(finales.length<3 && guardEc<50){
+      guardEc++;
+      const d = x + pick([-2,-1,1,2])*randInt(1,2);
+      if(d>0 && d!==x && finales.indexOf(d)===-1) finales.push(d);
+    }
     const opts = shuffle([x].concat(finales)).map(function(v){ return {label:'x = '+v, value:v}; });
     return {
       promptHTML: '<p class="prompt-word">'+a+'x + '+b+' = '+resultado+'</p><p class="prompt-hint">¿Cuánto vale x?</p>',
@@ -2487,9 +2496,10 @@ export function genFunciones8Round(){
   if(Math.random()<0.55){
     const a = randInt(2,6), x = randInt(1,9);
     const correct = a*x;
-    const distract = uniqueDistractors(correct, function(){ return pick([a+x, correct+a, correct-a, a*(x+1)]); }, 6);
+    const distractCandidates = [a+x, correct+a, correct-a, a*(x+1)];
     const finales = [];
-    for(const d of distract){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    for(const d of distractCandidates){ if(d!==correct && d>0 && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    while(finales.length<3){ const c = correct+randInt(1,8); if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
     const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-word">f(x) = '+a+'x</p><p class="prompt-hint">¿Cuánto vale f('+x+')?</p>',
@@ -2499,9 +2509,10 @@ export function genFunciones8Round(){
   }
   const a = randInt(2,5), b = randInt(1,9), x = randInt(1,8);
   const correct = a*x+b;
-  const distract = uniqueDistractors(correct, function(){ return pick([a*x, a*(x+b), correct+a, correct-b]); }, 6);
+  const distractCandidates = [a*x, a*(x+b), correct+a, correct-b];
   const finales = [];
-  for(const d of distract){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+  for(const d of distractCandidates){ if(d!==correct && d>0 && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+  while(finales.length<3){ const c = correct+randInt(1,8); if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
   const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: '<p class="prompt-word">f(x) = '+a+'x + '+b+'</p><p class="prompt-hint">¿Cuánto vale f('+x+')? (función afín: parte lineal más una constante)</p>',
@@ -2515,9 +2526,13 @@ export function genGeometria8Round(){
   if(Math.random()<0.5){
     const trio = pick(TRIOS_PITAGORICOS);
     const correct = trio[2];
-    const distract = uniqueDistractors(correct, function(){ return correct + pick([-2,-1,1,2]); }, 5).filter(function(v){ return v>0; });
     const finales = [];
-    for(const d of distract){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    let guardHip = 0;
+    while(finales.length<3 && guardHip<50){
+      guardHip++;
+      const d = correct + pick([-2,-1,1,2])*randInt(1,2);
+      if(d>0 && d!==correct && finales.indexOf(d)===-1) finales.push(d);
+    }
     const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v)+' cm', value:v}; });
     return {
       promptHTML: '<p class="prompt-hint">Un triángulo rectángulo tiene catetos de '+trio[0]+' cm y '+trio[1]+' cm. Según el teorema de Pitágoras, ¿cuánto mide su hipotenusa?</p>',
@@ -2528,9 +2543,10 @@ export function genGeometria8Round(){
   if(Math.random()<0.5){
     const largo = randInt(3,8), ancho = randInt(2,6), alto = randInt(2,6);
     const correct = largo*ancho*alto;
-    const distract = uniqueDistractors(correct, function(){ return pick([largo*ancho+alto, (largo+ancho+alto)*2, correct+largo, correct-ancho]); }, 6).filter(function(v){ return v>0; });
+    const distractCandidates = [largo*ancho+alto, (largo+ancho+alto)*2, correct+largo, correct-ancho];
     const finales = [];
-    for(const d of distract){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    for(const d of distractCandidates){ if(d!==correct && d>0 && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    while(finales.length<3){ const c = correct+randInt(1,20); if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
     const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v)+' cm³', value:v}; });
     return {
       promptHTML: '<p class="prompt-hint">Un prisma recto de base rectangular mide '+largo+' cm de largo, '+ancho+' cm de ancho y '+alto+' cm de alto. ¿Cuál es su volumen?</p>',
@@ -2585,9 +2601,10 @@ export function genEstadisticaCombinatoria8Round(){
     ];
     const ctx = pick(contextos);
     const correct = opciones1*opciones2;
-    const distract = uniqueDistractors(correct, function(){ return pick([opciones1+opciones2, correct+opciones1, correct-opciones2, correct+1]); }, 6).filter(function(v){ return v>0; });
+    const distractCandidates = [opciones1+opciones2, correct+opciones1, correct-opciones2, correct+1];
     const finales = [];
-    for(const d of distract){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    for(const d of distractCandidates){ if(d!==correct && d>0 && finales.indexOf(d)===-1) finales.push(d); if(finales.length===3) break; }
+    while(finales.length<3){ const c = correct+randInt(1,6); if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
     const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-hint">Tienes '+opciones1+' '+ctx.a+' y '+opciones2+' '+ctx.b+'. ¿Cuántas '+ctx.pregunta+' puedes formar?</p>',

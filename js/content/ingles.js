@@ -220,3 +220,66 @@ export function genLecturaIntermedia7Round(){
     explain: 'The answer is <b>'+item.correct+'</b>.',
   };
 }
+
+/* ---------------- Contenido Inglés 8° Básico ----------------
+   Basado en OA del Decreto 614/2013 (curriculumnacional.cl/curriculum/
+   7o-basico-2o-medio/ingles/8-basico), misma estructura de 3 ejes que 7°.
+   Funciones del Idioma VIII -> IN08 OA08,16 (las funciones que el OA de 8°
+   agrega respecto a 7°: comparaciones, intenciones futuras con going to /
+   will, indicaciones de dirección, y oraciones condicionales simples).
+   Lectura Avanzada -> IN08 OA09-11 (comprensión de textos no literarios y
+   literarios identificando secuencia y relaciones causa-efecto — el ángulo
+   nuevo del OA10 de 8° respecto al de 7°). Quedan fuera: OA01-07
+   (comprensión y producción oral — dependen de audio real), OA12
+   (estrategias de lectura como proceso propio), OA13-15 (expresión
+   escrita — producción propia). Se evitan apóstrofes en los textos en
+   inglés (restricción de speakText, ver 6° básico). */
+export const INGLES_MODULES_G8 = [
+  {id:'funcionesidioma8', label:'Funciones del Idioma VIII', open:true, key:'funcionesidioma8'},
+  {id:'lecturaavanzada8', label:'Lectura Avanzada', open:true, key:'lecturaavanzada8'},
+];
+export const INGLES_POS_G8 = [{x:30,y:70},{x:70,y:30}];
+
+const FUNCIONES_8_BANK = [
+  { spanish:'Mi mochila es más pesada que la tuya (comparación).', english:'MY BACKPACK IS HEAVIER THAN YOURS', opts:['MY BACKPACK IS THE LIGHTEST','MY BACKPACK IS NEW','YOUR BACKPACK IS HEAVIER THAN MINE'] },
+  { spanish:'Este es el día más frío del año (superlativo).', english:'THIS IS THE COLDEST DAY OF THE YEAR', opts:['THIS DAY IS COLDER THAN TOMORROW','THIS IS A WARM DAY','EVERY DAY IS COLD'] },
+  { spanish:'Voy a viajar al sur este verano (intención futura).', english:'I AM GOING TO TRAVEL SOUTH THIS SUMMER', opts:['I TRAVELED SOUTH LAST SUMMER','I NEVER TRAVEL SOUTH','I AM TRAVELING SOUTH RIGHT NOW'] },
+  { spanish:'Mañana lloverá en la ciudad (predicción futura).', english:'IT WILL RAIN IN THE CITY TOMORROW', opts:['IT RAINED IN THE CITY YESTERDAY','IT IS RAINING NOW','IT NEVER RAINS IN THE CITY'] },
+  { spanish:'Dobla a la derecha en la esquina (indicación de dirección).', english:'TURN RIGHT AT THE CORNER', opts:['TURN LEFT AT THE PARK','GO STRAIGHT FOREVER','STOP AT THE CORNER'] },
+  { spanish:'La biblioteca está entre el banco y la plaza (ubicación).', english:'THE LIBRARY IS BETWEEN THE BANK AND THE SQUARE', opts:['THE LIBRARY IS BEHIND THE MOUNTAIN','THE LIBRARY IS INSIDE THE BANK','THE LIBRARY IS FAR FROM EVERYTHING'] },
+  { spanish:'Si estudias, aprenderás más rápido (condicional).', english:'IF YOU STUDY, YOU WILL LEARN FASTER', opts:['IF YOU SLEEP, YOU WILL LEARN FASTER','YOU NEVER STUDY','STUDYING IS NOT USEFUL'] },
+  { spanish:'Si llueve, nos quedaremos en casa (condicional).', english:'IF IT RAINS, WE WILL STAY HOME', opts:['IF IT RAINS, WE WILL GO TO THE BEACH','IT NEVER RAINS AT HOME','WE ALWAYS STAY HOME'] },
+  { spanish:'El tren es más rápido que el bus (comparación).', english:'THE TRAIN IS FASTER THAN THE BUS', opts:['THE BUS IS FASTER THAN THE TRAIN','THE TRAIN IS THE SLOWEST','BOTH ARE EQUALLY SLOW'] },
+  { spanish:'Ella es la mejor jugadora del equipo (superlativo).', english:'SHE IS THE BEST PLAYER ON THE TEAM', opts:['SHE IS A NEW PLAYER ON THE TEAM','SHE IS THE WORST PLAYER','SHE DOES NOT PLAY'] },
+];
+export function genFuncionesIdioma8Round(){
+  const item = pick(FUNCIONES_8_BANK);
+  const opts = shuffle([item.english].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">How do you say this in English?</p>',
+    options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:1, kind:'word',
+    explain: 'Se dice <b>'+item.english+'</b> en inglés.',
+  };
+}
+
+const LECTURA_AVANZADA_8_BANK = [
+  { text:'Because the bus drivers were on strike, many students arrived late to school on Monday.', question:'Why did many students arrive late?', correct:'BECAUSE THE BUS DRIVERS WERE ON STRIKE', opts:['BECAUSE THE SCHOOL WAS CLOSED','BECAUSE IT WAS SNOWING','BECAUSE THEY WOKE UP EARLY'] },
+  { text:'First, mix the flour and eggs. Then, add the milk slowly. Finally, cook the mixture in a hot pan.', question:'What should you do right after mixing the flour and eggs?', correct:'ADD THE MILK SLOWLY', opts:['COOK THE MIXTURE','EAT THE FLOUR','WASH THE PAN'] },
+  { text:'The town built a new bridge over the river. As a result, people now save thirty minutes on their way to work.', question:'What was the result of building the bridge?', correct:'PEOPLE NOW SAVE THIRTY MINUTES', opts:['THE RIVER BECAME WIDER','PEOPLE STOPPED WORKING','THE TOWN LOST ITS ROADS'] },
+  { text:'Maria forgot her umbrella at home. Consequently, she got completely wet on her walk to the station.', question:'Why did Maria get wet?', correct:'BECAUSE SHE FORGOT HER UMBRELLA', opts:['BECAUSE SHE SWAM IN THE RIVER','BECAUSE THE STATION WAS FLOODED','BECAUSE SHE TOOK A SHOWER'] },
+  { text:'The story follows a young inventor who builds a robot to help her grandmother with the garden. At the end, the whole neighborhood asks for robots too.', question:'Why did the inventor build the robot?', correct:'TO HELP HER GRANDMOTHER WITH THE GARDEN', opts:['TO SELL IT TO THE NEIGHBORS','TO WIN A SCIENCE PRIZE','TO CLEAN HER ROOM'] },
+  { text:'Plastic takes hundreds of years to break down. For this reason, many cities now encourage reusable bags.', question:'Why do many cities encourage reusable bags?', correct:'BECAUSE PLASTIC TAKES HUNDREDS OF YEARS TO BREAK DOWN', opts:['BECAUSE REUSABLE BAGS ARE EXPENSIVE','BECAUSE PLASTIC DISAPPEARS QUICKLY','BECAUSE CITIES DISLIKE SHOPPING'] },
+  { text:'After the final exam, the students organized a small celebration in the park. They played games, shared food, and thanked their teachers.', question:'When did the students organize the celebration?', correct:'AFTER THE FINAL EXAM', opts:['BEFORE THE FIRST CLASS','DURING THE EXAM','A YEAR EARLIER'] },
+  { text:'The new sports center opened in March. Since then, more young people in the neighborhood practice sports every week.', question:'What happened after the sports center opened?', correct:'MORE YOUNG PEOPLE PRACTICE SPORTS EVERY WEEK', opts:['THE NEIGHBORHOOD CLOSED ITS PARKS','FEWER PEOPLE PLAY SPORTS','THE CENTER MOVED TO ANOTHER CITY'] },
+  { text:'In the novel, the main character moves to a small village by the sea. At first she feels lonely, but after joining the local choir she makes many friends.', question:'How did the character make friends?', correct:'BY JOINING THE LOCAL CHOIR', opts:['BY STAYING AT HOME','BY MOVING BACK TO THE CITY','BY BUYING A BOAT'] },
+  { text:'The library extended its hours because many students requested more time to study in the evenings.', question:'What caused the library to extend its hours?', correct:'STUDENTS REQUESTED MORE TIME TO STUDY', opts:['THE LIBRARY HAD TOO MANY BOOKS','THE EVENINGS BECAME LONGER','A NEW LIBRARY OPENED NEXT DOOR'] },
+];
+export function genLecturaAvanzada8Round(){
+  const item = pick(LECTURA_AVANZADA_8_BANK);
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    options: opts, correctValue: item.correct, speakText: item.text, speakLang:'en', cols:2, kind:'word',
+    explain: 'The answer is <b>'+item.correct+'</b>.',
+  };
+}

@@ -80,7 +80,16 @@ export const state = {
            estrategiastacticas7:0,
            prevencionriesgo7:0, bienestarvida7:0, redessociales7:0, resolucionconflictos7:0, autonomiaaprendizaje7:0,
            solucionestecnologicas7:0,
-           vocabularioavanzado7:0, lecturaintermedia7:0 },
+           vocabularioavanzado7:0, lecturaintermedia7:0,
+           comprension8:0, generosdramaticos8:0, argumentacionmedios8:0, gramatica8:0, ortografia8:0,
+           enterosracionales8:0, potenciasraices8:0, variacionesporcentuales8:0, algebra8:0, funciones8:0, geometria8:0, transformaciones8:0, estadisticacombinatoria8:0,
+           humanismorenacimiento8:0, estadomoderno8:0, conquista8:0, colonia8:0, ilustracionrevoluciones8:0, geografiaregional8:0,
+           montajedifusion8:0,
+           armonia8:0,
+           sistemasjuego8:0, entrenamiento8:0,
+           prevencionriesgo8:0, bienestar8:0, relacionesinclusion8:0, participaciondemocratica8:0, gestionaprendizaje8:0,
+           analisissoluciones8:0,
+           funcionesidioma8:0, lecturaavanzada8:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

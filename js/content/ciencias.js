@@ -1844,3 +1844,142 @@ export function genMateriaGases7Round(){
     explain: 'Esto es un <b>'+item.tipo.toLowerCase()+'</b>'+(item.tipo==='CAMBIO QUÍMICO' ? ': se forma una sustancia nueva con propiedades distintas.' : ': la sustancia sigue siendo la misma, solo cambia su forma o estado.'),
   };
 }
+
+/* ---------------- Contenido Ciencias Naturales 8° Básico ----------------
+   Basado en OA del Decreto 614/2013 (curriculumnacional.cl/curriculum/
+   7o-basico-2o-medio/ciencias-naturales/8-basico).
+   La Célula VIII -> CN08 OA01-03 (historia del modelo celular -Hooke,
+   Leeuwenhoek-, célula procarionte/eucarionte y sus estructuras -núcleo,
+   mitocondria, cloroplasto-, difusión y osmosis como intercambio de
+   partículas con el ambiente). Nutrición y Sistemas del Cuerpo -> OA05-07
+   (sistemas digestivo/circulatorio/respiratorio/excretor trabajando en
+   conjunto, nutrientes -carbohidratos, proteínas, grasas, vitaminas,
+   minerales, agua- y su función en la salud). Electricidad II -> OA08-10
+   (cargas y electrización, tecnologías de generación eléctrica, circuitos
+   en serie y en paralelo). Calor y Transferencia -> OA11 (conducción,
+   convección y radiación — distinto de "Calor, Temperatura y Estados" de
+   6° básico, que cubrió calor vs. temperatura y cambios de estado). El
+   Átomo y la Tabla Periódica -> OA12-15 (modelos atómicos de Dalton a
+   Bohr, partículas del átomo, tabla periódica, elementos esenciales para
+   la vida C-H-O-N). Quedan fuera: OA04 (modelos de estructuras vegetales
+   — construcción de modelos propios, producción práctica). */
+export const CIENCIAS_MODULES_G8 = [
+  {id:'celula8', label:'La Célula VIII', open:true, key:'celula8'},
+  {id:'nutricionsistemas8', label:'Nutrición y Sistemas del Cuerpo', open:true, key:'nutricionsistemas8'},
+  {id:'electricidad8', label:'Electricidad II', open:true, key:'electricidad8'},
+  {id:'calor8', label:'Calor y Transferencia', open:true, key:'calor8'},
+  {id:'atomotabla8', label:'El Átomo y la Tabla Periódica', open:true, key:'atomotabla8'},
+];
+export const CIENCIAS_POS_G8 = [{x:20,y:92},{x:64,y:74},{x:24,y:54},{x:66,y:34},{x:22,y:12}];
+
+const CELULA_8_BANK = [
+  { pregunta:'¿Quién observó por primera vez "celdas" en una lámina de corcho usando un microscopio, dando origen al nombre "célula"?', correcta:'ROBERT HOOKE', opts:['ISAAC NEWTON','CHARLES DARWIN','GREGOR MENDEL'] },
+  { pregunta:'¿Quién fue el primero en observar microorganismos vivos ("animálculos") usando microscopios que él mismo mejoró?', correcta:'ANTON VAN LEEUWENHOEK', opts:['ROBERT HOOKE','LOUIS PASTEUR','ALEXANDER FLEMING'] },
+  { pregunta:'¿Qué diferencia principal hay entre una célula procarionte y una eucarionte?', correcta:'LA EUCARIONTE TIENE UN NÚCLEO QUE ENCIERRA SU MATERIAL GENÉTICO, LA PROCARIONTE NO', opts:['LA PROCARIONTE ES SIEMPRE MÁS GRANDE QUE LA EUCARIONTE','SOLO LA PROCARIONTE TIENE MEMBRANA CELULAR','NO EXISTE NINGUNA DIFERENCIA ENTRE AMBAS'] },
+  { pregunta:'¿Qué tipo de célula tienen las bacterias?', correcta:'PROCARIONTE', opts:['EUCARIONTE','NINGUNA: LAS BACTERIAS NO TIENEN CÉLULAS','UNA CÉLULA CON DOS NÚCLEOS'] },
+  { pregunta:'¿Qué estructura celular actúa como la "central energética" de la célula, produciendo la energía que esta necesita?', correcta:'LA MITOCONDRIA', opts:['EL NÚCLEO','EL CLOROPLASTO','LA MEMBRANA CELULAR'] },
+  { pregunta:'¿Qué estructura, presente en las células vegetales pero no en las animales, permite realizar la fotosíntesis?', correcta:'EL CLOROPLASTO', opts:['LA MITOCONDRIA','EL NÚCLEO','EL CITOPLASMA'] },
+  { pregunta:'¿Qué función cumple el núcleo en una célula eucarionte?', correcta:'CONTIENE Y PROTEGE EL MATERIAL GENÉTICO (ADN) DE LA CÉLULA', opts:['PRODUCE TODA LA ENERGÍA DE LA CÉLULA','REALIZA LA FOTOSÍNTESIS','NO CUMPLE NINGUNA FUNCIÓN'] },
+  { pregunta:'¿Qué es la difusión, en el contexto del intercambio de partículas de una célula con su ambiente?', correcta:'EL MOVIMIENTO DE PARTÍCULAS DESDE DONDE HAY MÁS CONCENTRACIÓN HACIA DONDE HAY MENOS, SIN GASTAR ENERGÍA', opts:['EL MOVIMIENTO DE PARTÍCULAS SIEMPRE CONTRA LA CONCENTRACIÓN Y GASTANDO ENERGÍA','LA DESTRUCCIÓN TOTAL DE LA CÉLULA','LA DIVISIÓN DE UNA CÉLULA EN DOS'] },
+  { pregunta:'¿Qué es la ósmosis?', correcta:'EL PASO DE AGUA A TRAVÉS DE LA MEMBRANA CELULAR, DESDE DONDE HAY MENOS SOLUTOS HACIA DONDE HAY MÁS', opts:['EL PASO DE LUZ A TRAVÉS DE LA CÉLULA','LA PRODUCCIÓN DE ENERGÍA EN LA MITOCONDRIA','LA DIVISIÓN DEL NÚCLEO EN DOS PARTES'] },
+  { pregunta:'¿Por qué una célula colocada en agua muy salada (con muchos solutos afuera) puede perder agua y encogerse?', correcta:'PORQUE POR ÓSMOSIS EL AGUA SALE DE LA CÉLULA HACIA EL LUGAR CON MÁS CONCENTRACIÓN DE SAL', opts:['PORQUE LA SAL ENTRA DIRECTAMENTE Y EMPUJA EL AGUA HACIA FUERA POR LA FUERZA','PORQUE LA CÉLULA SIEMPRE PIERDE AGUA SIN NINGUNA RAZÓN','PORQUE LA MEMBRANA CELULAR SE ROMPE INMEDIATAMENTE'] },
+];
+export function genCelula8Round(){
+  const item = pick(CELULA_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const SISTEMAS_CUERPO_8_BANK = [
+  { pregunta:'¿Qué sistema se encarga de transportar el oxígeno y los nutrientes a todas las células del cuerpo?', correcta:'EL SISTEMA CIRCULATORIO', opts:['EL SISTEMA DIGESTIVO','EL SISTEMA EXCRETOR','EL SISTEMA RESPIRATORIO'] },
+  { pregunta:'¿Qué sistema se encarga de captar el oxígeno del aire y eliminar el dióxido de carbono del cuerpo?', correcta:'EL SISTEMA RESPIRATORIO', opts:['EL SISTEMA DIGESTIVO','EL SISTEMA CIRCULATORIO','EL SISTEMA EXCRETOR'] },
+  { pregunta:'¿Qué sistema se encarga de descomponer los alimentos en nutrientes que el cuerpo puede usar?', correcta:'EL SISTEMA DIGESTIVO', opts:['EL SISTEMA EXCRETOR','EL SISTEMA RESPIRATORIO','EL SISTEMA CIRCULATORIO'] },
+  { pregunta:'¿Qué sistema se encarga de filtrar la sangre y eliminar los desechos del cuerpo a través de la orina?', correcta:'EL SISTEMA EXCRETOR', opts:['EL SISTEMA DIGESTIVO','EL SISTEMA RESPIRATORIO','EL SISTEMA CIRCULATORIO'] },
+  { pregunta:'Después de digerir un alimento, ¿qué sistema transporta los nutrientes obtenidos hacia el resto del cuerpo?', correcta:'EL SISTEMA CIRCULATORIO', opts:['EL SISTEMA EXCRETOR SOLAMENTE','NINGÚN SISTEMA: LOS NUTRIENTES SE QUEDAN EN EL ESTÓMAGO','EL SISTEMA RESPIRATORIO SOLAMENTE'] },
+  { pregunta:'¿Qué grupo de nutrientes es la principal fuente de energía rápida para el cuerpo, presente en el pan, el arroz y las papas?', correcta:'LOS CARBOHIDRATOS', opts:['LAS PROTEÍNAS','LAS VITAMINAS','LOS MINERALES'] },
+  { pregunta:'¿Qué nutrientes son fundamentales para la formación y reparación de los músculos y tejidos del cuerpo?', correcta:'LAS PROTEÍNAS', opts:['LOS CARBOHIDRATOS','LAS GRASAS','EL AGUA'] },
+  { pregunta:'¿Qué función cumplen las grasas en una alimentación equilibrada, además de aportar energía?', correcta:'AYUDAN A ABSORBER ciertas VITAMINAS Y PROTEGEN ÓRGANOS DEL CUERPO', opts:['NO CUMPLEN NINGUNA FUNCIÓN EN EL CUERPO','SOLO SIRVEN PARA DAR SABOR A LA COMIDA','ELIMINAN LOS NUTRIENTES DE OTROS ALIMENTOS'] },
+  { pregunta:'¿Por qué el cuerpo necesita vitaminas y minerales en la dieta, aunque se necesiten en pequeñas cantidades?', correcta:'PORQUE REGULAN PROCESOS IMPORTANTES DEL CUERPO, COMO EL SISTEMA INMUNE Y LOS HUESOS', opts:['PORQUE APORTAN LA MAYOR PARTE DE LA ENERGÍA DIARIA','PORQUE REEMPLAZAN COMPLETAMENTE A LAS PROTEÍNAS','NO CUMPLEN NINGUNA FUNCIÓN REAL EN EL CUERPO'] },
+  { pregunta:'¿Por qué el agua es considerada un nutriente esencial, aunque no aporte energía (calorías)?', correcta:'PORQUE ES NECESARIA PARA CASI TODOS LOS PROCESOS DEL CUERPO, COMO LA DIGESTIÓN Y LA CIRCULACIÓN', opts:['PORQUE APORTA MÁS ENERGÍA QUE LOS CARBOHIDRATOS','PORQUE SU ÚNICA FUNCIÓN ES DAR SABOR A LA COMIDA','EL AGUA NO ES REALMENTE NECESARIA PARA EL CUERPO'] },
+  { pregunta:'¿Por qué se dice que los sistemas digestivo, circulatorio, respiratorio y excretor "trabajan en conjunto"?', correcta:'PORQUE EL RESULTADO DE UNO (COMO LOS NUTRIENTES DIGERIDOS U OXÍGENO CAPTADO) ES USADO POR LOS OTROS', opts:['PORQUE FUNCIONAN COMPLETAMENTE POR SEPARADO, SIN NINGUNA RELACIÓN','PORQUE SOLO UNO DE ELLOS ES REALMENTE NECESARIO','PORQUE TODOS HACEN EXACTAMENTE LA MISMA FUNCIÓN'] },
+];
+export function genNutricionSistemas8Round(){
+  const item = pick(SISTEMAS_CUERPO_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const ELECTRICIDAD8_BANK = [
+  { pregunta:'¿Qué ocurre cuando dos objetos se frotan entre sí y quedan "electrizados"?', correcta:'SE TRANSFIEREN CARGAS ELÉCTRICAS ENTRE LOS OBJETOS', opts:['SE TRANSFIERE CALOR ÚNICAMENTE, SIN NINGUNA CARGA','LOS OBJETOS PIERDEN TODA SU MASA','NO OCURRE NINGÚN FENÓMENO FÍSICO REAL'] },
+  { pregunta:'¿Qué tipos de carga eléctrica existen?', correcta:'POSITIVA Y NEGATIVA', opts:['SOLO POSITIVA','SOLO NEGATIVA','CALIENTE Y FRÍA'] },
+  { pregunta:'¿Qué sucede entre dos objetos con carga eléctrica del mismo signo (por ejemplo, ambos negativos)?', correcta:'SE REPELEN (SE ALEJAN ENTRE SÍ)', opts:['SE ATRAEN FUERTEMENTE','NO OCURRE NINGÚN EFECTO ENTRE ELLOS','SE FUSIONAN EN UN SOLO OBJETO'] },
+  { pregunta:'¿Qué tecnología transforma la luz solar directamente en electricidad?', correcta:'LOS PANELES SOLARES (FOTOVOLTAICOS)', opts:['LAS TURBINAS EÓLICAS','LAS PILAS COMUNES','LAS CENTRALES HIDROELÉCTRICAS'] },
+  { pregunta:'¿Qué tecnología aprovecha la fuerza del viento para generar electricidad?', correcta:'LOS GENERADORES EÓLICOS (AEROGENERADORES)', opts:['LOS PANELES SOLARES','LAS PILAS COMUNES','LAS CENTRALES GEOTÉRMICAS'] },
+  { pregunta:'¿Qué tecnología usa el movimiento del agua (por ejemplo, en una represa) para generar electricidad?', correcta:'LAS CENTRALES HIDROELÉCTRICAS', opts:['LOS PANELES SOLARES','LAS PILAS COMUNES','LOS GENERADORES EÓLICOS'] },
+  { pregunta:'¿Cómo se comporta la corriente en un circuito eléctrico en serie, donde los componentes están conectados uno tras otro?', correcta:'LA MISMA CORRIENTE PASA POR TODOS LOS COMPONENTES, EN UN SOLO CAMINO', opts:['CADA COMPONENTE TIENE SU PROPIO CAMINO INDEPENDIENTE','LA CORRIENTE NO PUEDE CIRCULAR EN ABSOLUTO','LOS COMPONENTES NUNCA RECIBEN CORRIENTE'] },
+  { pregunta:'¿Qué ocurre con el resto del circuito en serie si uno de sus componentes (por ejemplo, una ampolleta) se quema?', correcta:'TODO EL CIRCUITO DEJA DE FUNCIONAR, PORQUE SOLO HAY UN CAMINO PARA LA CORRIENTE', opts:['EL RESTO DEL CIRCUITO SIGUE FUNCIONANDO NORMALMENTE','SOLO EL COMPONENTE QUEMADO SE APAGA, EL RESTO SIGUE IGUAL','EL CIRCUITO FUNCIONA MEJOR QUE ANTES'] },
+  { pregunta:'¿Qué ventaja tiene un circuito en paralelo, donde cada componente tiene su propio camino, frente a uno en serie?', correcta:'SI UN COMPONENTE FALLA, LOS DEMÁS PUEDEN SEGUIR FUNCIONANDO', opts:['SIEMPRE CONSUME MENOS ENERGÍA QUE UNO EN SERIE, SIN EXCEPCIÓN','NO PERMITE CONECTAR MÁS DE UN COMPONENTE','ES IMPOSIBLE DE CONSTRUIR EN LA PRÁCTICA'] },
+  { pregunta:'¿Por qué las instalaciones eléctricas de una casa (enchufes, ampolletas) suelen conectarse en paralelo y no en serie?', correcta:'PARA QUE CADA APARATO PUEDA ENCENDERSE O APAGARSE SIN AFECTAR A LOS DEMÁS', opts:['PARA QUE TODOS LOS APARATOS SE ENCIENDAN Y APAGUEN SIEMPRE JUNTOS','PORQUE ASÍ SE GASTA MÁS ELECTRICIDAD A PROPÓSITO','PORQUE EL PARALELO ES MÁS BARATO DE INSTALAR EN TODOS LOS CASOS'] },
+];
+export function genElectricidad8Round(){
+  const item = pick(ELECTRICIDAD8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}
+
+const TRANSFERENCIA_CALOR_8_BANK = [
+  { desc:'El mango de una cuchara de metal se calienta poco a poco mientras revuelve una olla con sopa caliente', correcta:'CONDUCCIÓN', opts:['CONVECCIÓN','RADIACIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
+  { desc:'El agua caliente en el fondo de una olla sube, y el agua más fría de arriba baja, formando una corriente circular', correcta:'CONVECCIÓN', opts:['CONDUCCIÓN','RADIACIÓN','EVAPORACIÓN'] },
+  { desc:'Sientes el calor del sol en tu piel un día despejado, aunque el sol está a millones de kilómetros de distancia', correcta:'RADIACIÓN', opts:['CONDUCCIÓN','CONVECCIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
+  { desc:'Al tocar una baranda de metal en un día frío, sientes que te "roba" el calor de la mano casi de inmediato', correcta:'CONDUCCIÓN', opts:['CONVECCIÓN','RADIACIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
+  { desc:'El aire caliente cerca de una estufa se eleva hacia el techo, mientras el aire frío del suelo se acerca a la estufa', correcta:'CONVECCIÓN', opts:['CONDUCCIÓN','RADIACIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
+  { desc:'Una fogata calienta a las personas sentadas alrededor, incluso sin que el aire entre ellas y el fuego se mueva directamente', correcta:'RADIACIÓN', opts:['CONDUCCIÓN','CONVECCIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
+  { desc:'Un sartén de metal transmite el calor de la cocina directamente hacia la comida que está sobre él', correcta:'CONDUCCIÓN', opts:['CONVECCIÓN','RADIACIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
+  { desc:'El agua de una tetera se calienta de manera pareja porque las corrientes de agua caliente y fría se mezclan constantemente', correcta:'CONVECCIÓN', opts:['CONDUCCIÓN','RADIACIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
+  { desc:'Un termómetro de infrarrojos mide la temperatura de un objeto a distancia, sin necesidad de tocarlo', correcta:'RADIACIÓN', opts:['CONDUCCIÓN','CONVECCIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
+  { desc:'¿Por qué los mangos de las ollas suelen ser de plástico o madera, y no de metal?', correcta:'PORQUE ESOS MATERIALES CONDUCEN MUY POCO EL CALOR, A DIFERENCIA DEL METAL', opts:['PORQUE EL METAL ES DEMASIADO CARO PARA FABRICAR MANGOS','PORQUE EL PLÁSTICO Y LA MADERA CONDUCEN EL CALOR MEJOR QUE EL METAL','PORQUE NO HAY NINGUNA RAZÓN PARTICULAR'] },
+];
+export function genCalor8Round(){
+  const item = pick(TRANSFERENCIA_CALOR_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué tipo de transferencia de calor se describe aquí?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word', panel:true,
+    explain: 'Esto es un ejemplo de <b>'+item.correcta.toLowerCase()+'</b>.',
+  };
+}
+
+const ATOMO_8_BANK = [
+  { pregunta:'¿Qué propuso el modelo atómico de Dalton, a principios del siglo XIX?', correcta:'QUE LA MATERIA ESTÁ FORMADA POR PARTÍCULAS INDIVISIBLES LLAMADAS ÁTOMOS', opts:['QUE EL ÁTOMO TIENE UN NÚCLEO CON ELECTRONES ORBITANDO A SU ALREDEDOR','QUE LA MATERIA NO ESTÁ FORMADA POR NINGUNA PARTÍCULA','QUE LOS ÁTOMOS SON INFINITAMENTE DIVISIBLES'] },
+  { pregunta:'¿Qué aportó el modelo atómico de Thomson respecto al de Dalton?', correcta:'PROPUSO QUE EL ÁTOMO CONTIENE PARTÍCULAS CON CARGA NEGATIVA (ELECTRONES) DENTRO DE UNA ESFERA CON CARGA POSITIVA', opts:['PROPUSO QUE EL ÁTOMO ES COMPLETAMENTE INDIVISIBLE','PROPUSO QUE EL ÁTOMO NO TIENE NINGUNA CARGA ELÉCTRICA','PROPUSO QUE LOS ÁTOMOS SON VISIBLES A SIMPLE VISTA'] },
+  { pregunta:'¿Qué descubrió Rutherford con su experimento de la lámina de oro, que cambió el modelo atómico?', correcta:'QUE EL ÁTOMO TIENE UN NÚCLEO PEQUEÑO Y DENSO, CON CARGA POSITIVA, RODEADO DE ESPACIO VACÍO', opts:['QUE EL ÁTOMO ES UNA ESFERA MACIZA SIN NINGÚN ESPACIO VACÍO','QUE LOS ÁTOMOS NO TIENEN NÚCLEO','QUE LA MATERIA NO ESTÁ FORMADA POR ÁTOMOS'] },
+  { pregunta:'¿Qué propuso el modelo atómico de Bohr sobre los electrones?', correcta:'QUE LOS ELECTRONES GIRAN ALREDEDOR DEL NÚCLEO EN ÓRBITAS O NIVELES DE ENERGÍA DEFINIDOS', opts:['QUE LOS ELECTRONES ESTÁN FIJOS Y NO SE MUEVEN NUNCA','QUE EL ÁTOMO NO TIENE ELECTRONES','QUE LOS ELECTRONES ESTÁN DENTRO DEL NÚCLEO'] },
+  { pregunta:'¿Qué partícula del átomo tiene carga positiva y se ubica en el núcleo?', correcta:'EL PROTÓN', opts:['EL ELECTRÓN','EL NEUTRÓN','NINGUNA: EL NÚCLEO NO TIENE CARGA'] },
+  { pregunta:'¿Qué partícula del átomo no tiene carga eléctrica y también se ubica en el núcleo?', correcta:'EL NEUTRÓN', opts:['EL PROTÓN','EL ELECTRÓN','NINGUNA PARTÍCULA CARECE DE CARGA'] },
+  { pregunta:'¿Qué partícula del átomo tiene carga negativa y se ubica fuera del núcleo?', correcta:'EL ELECTRÓN', opts:['EL PROTÓN','EL NEUTRÓN','NINGUNA: TODAS LAS PARTÍCULAS ESTÁN EN EL NÚCLEO'] },
+  { pregunta:'¿Para qué sirve la tabla periódica de los elementos?', correcta:'PARA ORGANIZAR LOS ELEMENTOS QUÍMICOS Y PREDECIR SUS PROPIEDADES SEGÚN SU POSICIÓN', opts:['PARA MEDIR LA TEMPERATURA DEL AMBIENTE','PARA CALCULAR DISTANCIAS ASTRONÓMICAS','PARA REGISTRAR RECETAS DE COCINA'] },
+  { pregunta:'¿Qué elementos químicos son considerados esenciales para la vida en la Tierra, presentes en moléculas como el agua y los seres vivos?', correcta:'CARBONO, HIDRÓGENO, OXÍGENO Y NITRÓGENO', opts:['ORO, PLATA Y COBRE','HELIO Y NEÓN','SOLO EL HIERRO'] },
+  { pregunta:'¿Por qué el carbono es especialmente importante para formar las moléculas de los seres vivos?', correcta:'PORQUE PUEDE FORMAR MUCHOS ENLACES Y COMBINARSE DE FORMAS MUY DIVERSAS CON OTROS ÁTOMOS', opts:['PORQUE ES EL ELEMENTO MÁS PESADO DE LA TABLA PERIÓDICA','PORQUE NO PUEDE FORMAR NINGÚN ENLACE QUÍMICO','PORQUE SOLO EXISTE EN FORMA DE GAS'] },
+  { pregunta:'¿Qué elemento, presente en el agua y esencial para respirar, es necesario para la mayoría de los seres vivos?', correcta:'EL OXÍGENO', opts:['EL CARBONO','EL NITRÓGENO','EL HIDRÓGENO ÚNICAMENTE'] },
+];
+export function genAtomoTabla8Round(){
+  const item = pick(ATOMO_8_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+  };
+}

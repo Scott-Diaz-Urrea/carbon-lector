@@ -37,6 +37,7 @@ import {
   genCalorTemperatura6Round, genTierraSueloErosion6Round,
   genSexualidadReproduccion7Round, genInmunologicoMicroorganismos7Round, genFuerzasPresion7Round,
   genGeologiaClima7Round, genMateriaGases7Round,
+  genCelula8Round, genNutricionSistemas8Round, genElectricidad8Round, genCalor8Round, genAtomoTabla8Round,
 } from './content/ciencias.js';
 import {
   genCalendarioRound, genMiIdentidadRound, genSimbolosRound, genMapasRound, genComunidadRound,
@@ -197,6 +198,7 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'vocabularioavanzado7','lecturaintermedia7',
   'comprension8','generosdramaticos8','argumentacionmedios8','gramatica8','ortografia8',
   'enterosracionales8','potenciasraices8','variacionesporcentuales8','algebra8','funciones8','geometria8','transformaciones8','estadisticacombinatoria8',
+  'celula8','nutricionsistemas8','electricidad8','calor8','atomotabla8',
   'humanismorenacimiento8','estadomoderno8','conquista8','colonia8','ilustracionrevoluciones8','geografiaregional8',
   'montajedifusion8',
   'armonia8',
@@ -484,6 +486,11 @@ export const MC_GAMES = {
   geometria8: { title:'Geometría VIII: Pitágoras y Volumen', gen: genGeometria8Round, rounds:8 },
   transformaciones8: { title:'Transformaciones Geométricas', gen: genTransformaciones8Round, rounds:8 },
   estadisticacombinatoria8: { title:'Estadística y Combinatoria', gen: genEstadisticaCombinatoria8Round, rounds:8 },
+  celula8: { title:'La Célula VIII', gen: genCelula8Round, rounds:8 },
+  nutricionsistemas8: { title:'Nutrición y Sistemas del Cuerpo', gen: genNutricionSistemas8Round, rounds:8 },
+  electricidad8: { title:'Electricidad II', gen: genElectricidad8Round, rounds:8 },
+  calor8: { title:'Calor y Transferencia', gen: genCalor8Round, rounds:8 },
+  atomotabla8: { title:'El Átomo y la Tabla Periódica', gen: genAtomoTabla8Round, rounds:8 },
   humanismorenacimiento8: { title:'Humanismo y Renacimiento', gen: genHumanismoRenacimiento8Round, rounds:8 },
   estadomoderno8: { title:'Estado Moderno y Mercantilismo', gen: genEstadoModerno8Round, rounds:8 },
   conquista8: { title:'Conquista de América II', gen: genConquista8Round, rounds:8 },

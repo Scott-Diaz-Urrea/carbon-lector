@@ -1393,7 +1393,7 @@ es la misma pantalla de siempre).
   7-basico`, confirmando la reorganización en 3 ejes -Comunicación Oral,
   Comprensión de Lectura, Expresión Escrita- distinta a la de 1°-6° básico).
 
-### 8° Básico — 🟡 parcial (30 módulos, 8 de 9 asignaturas + Inglés; falta Ciencias)
+### 8° Básico — ✅ completo (35 módulos, las 9 asignaturas + Inglés)
 Mismo Decreto 614/2013 que 7° básico (confirmado antes de construir: 8° básico
 usa el mismo decreto y la misma lista de 10 asignaturas que 7°, sin cambios).
 
@@ -1423,18 +1423,24 @@ usa el mismo decreto y la misma lista de 10 asignaturas que 7°, sin cambios).
   y Combinatoria (principio multiplicativo, mediana por posición,
   detección de gráficos engañosos — OA15-17). Ningún OA de Matemática 8°
   queda fuera.
-- **Ciencias Naturales — 🚧 pendiente**: no se construyó en esta ronda
-  (ver nota técnica abajo). `CIENCIAS_BY_GRADE` no tiene entrada para el
-  año 8, así que `renderComingSoonSubject()` muestra automáticamente el
-  placeholder "🚧 Próximamente" — no rompe nada, pero tampoco es jugable
-  todavía. OA ya investigados y documentados como referencia para cuando
-  se retome: CN08 OA01-03 (modelos celulares, célula procarionte/
-  eucarionte, difusión/osmosis), OA05-07 (sistemas del cuerpo trabajando
-  en conjunto, nutrientes, salud), OA08-11 (electricidad: cargas,
-  generación, circuitos serie/paralelo), OA11 (transferencia de calor:
-  conducción/convección/radiación), OA12-15 (modelos atómicos de Dalton a
-  Bohr, tabla periódica, elementos esenciales para la vida). Fuera: OA04
-  (modelos de estructuras vegetales, producción práctica).
+- **Ciencias Naturales** (5): La Célula VIII (historia del modelo celular
+  -Hooke, Leeuwenhoek-, célula procarionte/eucarionte y sus estructuras
+  -núcleo, mitocondria, cloroplasto-, difusión y osmosis — OA01-03),
+  Nutrición y Sistemas del Cuerpo (sistemas digestivo/circulatorio/
+  respiratorio/excretor trabajando en conjunto, nutrientes -carbohidratos,
+  proteínas, grasas, vitaminas, minerales, agua- — OA05-07), Electricidad
+  II (cargas y electrización, tecnologías de generación eléctrica -paneles
+  solares, eólica, hidroeléctrica-, circuitos en serie y en paralelo —
+  OA08-10), Calor y Transferencia (conducción, convección y radiación,
+  distinto de "Calor, Temperatura y Estados" de 6° básico — OA11), El
+  Átomo y la Tabla Periódica (modelos atómicos de Dalton a Bohr,
+  partículas del átomo, tabla periódica, elementos esenciales para la
+  vida C-H-O-N — OA12-15). Fuera: OA04 (modelos de estructuras vegetales,
+  producción práctica). **Nota de proceso:** esta asignatura se completó
+  en una sesión posterior a las otras 8 de este año — dos intentos
+  previos de escribirla se truncaron a medio archivo por interrupciones
+  de la sesión de generación (ver "Nota técnica" más abajo), así que se
+  avanzó primero con el resto del año y se retomó Ciencias después.
 - **Historia, Geografía y Cs. Sociales** (6): Humanismo y Renacimiento
   (el ser humano como centro, imprenta, revolución científica — OA01-02),
   Estado Moderno y Mercantilismo (concentración del poder real,
@@ -1509,18 +1515,27 @@ usa el mismo decreto y la misma lista de 10 asignaturas que 7°, sin cambios).
   propia).
 
 **Nota técnica sobre Ciencias Naturales 8°:** durante la construcción de
-este año se detectó dos veces que un intento de escribir el contenido de
-Ciencias 8° (sistema celular, sistemas del cuerpo, electricidad, calor,
-modelo atómico) quedó truncado a medio archivo por una interrupción de la
-sesión de generación, dejando `js/content/ciencias.js` con una escritura
-parcial que rompía la sintaxis del módulo (detectado con un script de
-verificación de imports que aísla qué archivo falla al cargar). Ambas veces
-se recortó el archivo de vuelta al último punto limpio (cierre de
+este año, dos intentos de escribir el contenido de Ciencias 8° (sistema
+celular, sistemas del cuerpo, electricidad, calor, modelo atómico)
+quedaron truncados a medio archivo por interrupciones de la sesión de
+generación, dejando `js/content/ciencias.js` con una escritura parcial que
+rompía la sintaxis del módulo (detectado ambas veces con un script de
+verificación de imports que aísla qué archivo falla al cargar). Ambas
+veces se recortó el archivo de vuelta al último punto limpio (cierre de
 `genMateriaGases7Round`, el último generador válido de 7° básico) para no
-dejar la app rota. Se decidió no forzar un tercer intento en la misma
-sesión y avanzar con las 8 asignaturas restantes primero, dejando Ciencias
-8° pendiente para una sesión futura — el contenido a cubrir y los OA ya
-están documentados arriba como punto de partida.
+dejar la app rota, y se avanzó primero con las otras 8 asignaturas. En una
+sesión posterior se retomó y completó Ciencias 8° sin problemas: los 5
+módulos (`celula8`, `nutricionsistemas8`, `electricidad8`, `calor8`,
+`atomotabla8`) se escribieron, registraron y verificaron igual que el
+resto del año (300+ módulos de toda la app pasan fuzz estructural y
+simulación de sesión sin duplicados ni repeticiones), y se probaron
+visualmente en el navegador (mapa de Ciencias con sus 5 módulos, una
+ronda jugada en "La Célula VIII"). Lección para sesiones futuras: si una
+escritura de contenido queda interrumpida a medio archivo, verificar
+siempre con un import-check aislado ANTES de seguir avanzando, y si el
+archivo se recorta para dejarlo en un estado limpio, retomar esa
+asignatura en la misma sesión o en la siguiente disponible en vez de
+dejarla indefinidamente pendiente.
 
 **Otros hallazgos técnicos de esta ronda:**
 - **Bug real de uso incorrecto de `uniqueDistractors()`** (`js/utils.js`):
@@ -1642,30 +1657,22 @@ para esta iniciativa).
 7. ~~Completar 7° básico~~ — ✅ hecho (2026-07-22/25), 34 módulos, las 9
    asignaturas más Inglés (ver "### 7° Básico" arriba). Primer año en el
    Decreto 614/2013.
-8. **8° básico — 🟡 parcial, en curso**: 30 módulos construidos y
-   mergeados para 8 de 9 asignaturas más Inglés (Lenguaje, Matemática,
-   Historia, Artes, Música, Ed. Física, Orientación, Tecnología, Inglés —
-   ver "### 8° Básico" arriba para el detalle completo con OA). **Falta
-   Ciencias Naturales** — un intento de construirla se truncó dos veces a
-   medio archivo por una interrupción de sesión y se decidió avanzar con
-   el resto en vez de reintentar de inmediato; los OA (CN08 OA01-03,
-   OA05-11, OA12-15) ya están investigados y documentados como punto de
-   partida. Al retomar: escribir `CIENCIAS_MODULES_G8`/`CIENCIAS_POS_G8` +
-   los generadores en `content/ciencias.js` (insertar después del cierre
-   de `genMateriaGases7Round`, el último generador válido de 7° básico),
-   registrar en `gradeContent.js`/`mcEngine.js`/`state.js`/`rewards.js`
-   (mismo patrón que las otras 8 asignaturas de este año), y verificar con
-   un script de import-check aislado (cargar cada `content/*.js` por
-   separado con `import(...).catch(...)`) ANTES de dar por terminada la
-   escritura — así se detecta de inmediato si el archivo quedó truncado,
-   en vez de descubrirlo recién al probar la app completa. Además, revisar
-   que ningún generador nuevo llame a `uniqueDistractors()` con un
-   callback como argumento — esa función solo acepta límites numéricos
-   `(correct, min, max, spread, count)`; para distractores ad-hoc hay que
-   deduplicar a mano (bug real encontrado y corregido en 6 generadores de
-   Matemática 8° esta misma ronda, ver nota técnica en "### 8° Básico").
-9. Una vez completa toda Educación Básica (incluyendo Ciencias 8°),
-   definir con el usuario el mismo patrón para Educación Media
+8. ~~Completar 8° básico~~ — ✅ hecho, 35 módulos, las 9 asignaturas más
+   Inglés (ver "### 8° Básico" arriba para el detalle completo con OA).
+   Ciencias Naturales se completó en dos pasadas: los primeros 8 intentos
+   de construirla dentro de la misma sesión se truncaron a medio archivo
+   por interrupciones repetidas, así que se avanzó primero con las otras
+   8 asignaturas y se retomó Ciencias después con éxito (ver nota técnica
+   en "### 8° Básico" para el detalle completo del incidente y la
+   lección: verificar con un import-check aislado ANTES de dar por
+   terminada una escritura de contenido, no después). También se
+   encontró y corrigió un bug real de uso incorrecto de
+   `uniqueDistractors()` en 6 generadores de Matemática (se le pasó un
+   callback en vez de límites numéricos `(correct, min, max, spread,
+   count)`, produciendo comparaciones con `NaN`) — para distractores
+   ad-hoc que no calzan con esa firma, hay que deduplicar a mano.
+9. Ahora que toda Educación Básica está completa (1° a 8°), definir con
+   el usuario el mismo patrón para Educación Media
    (probablemente asignaturas distintas: Física/Química/Biología
    separadas, Filosofía, etc. — pedir la lista real antes de asumir) y
    luego EPJA (currículum propio, organizado por niveles que agrupan

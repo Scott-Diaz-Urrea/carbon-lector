@@ -83,6 +83,7 @@ export const state = {
            vocabularioavanzado7:0, lecturaintermedia7:0,
            comprension8:0, generosdramaticos8:0, argumentacionmedios8:0, gramatica8:0, ortografia8:0,
            enterosracionales8:0, potenciasraices8:0, variacionesporcentuales8:0, algebra8:0, funciones8:0, geometria8:0, transformaciones8:0, estadisticacombinatoria8:0,
+           celula8:0, nutricionsistemas8:0, electricidad8:0, calor8:0, atomotabla8:0,
            humanismorenacimiento8:0, estadomoderno8:0, conquista8:0, colonia8:0, ilustracionrevoluciones8:0, geografiaregional8:0,
            montajedifusion8:0,
            armonia8:0,

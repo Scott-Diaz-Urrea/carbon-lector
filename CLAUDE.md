@@ -1692,16 +1692,17 @@ cada PDF fuente completo) y pidió priorizar el formato de caso clínico (pacien
 + datos de laboratorio + pregunta), ya que es el mismo formato de evaluación real
 del curso.
 
-- **Química Diagnóstica** (11 módulos, `js/content/estudioPruebas/quimicaDiagnostica.js`):
+- **Química Diagnóstica** (11 módulos, 129 ítems, `js/content/estudioPruebas/quimicaDiagnostica.js`):
   Casos Clínicos: Función Renal (11 ítems, incluye clearance de creatinina y calcio
   corregido por albúmina como ejercicios numéricos), Casos Clínicos: Función Hepática
-  (6 ítems, colestasis obstructiva), Análisis de Orina y Sedimento, Líquidos
-  Biológicos: Transudado vs Exudado (Criterios de Light, GASA, quiloso/pseudoquiloso,
-  cristales de líquido sinovial), LCR y Diagnóstico de Meningitis, Valores Críticos y
-  de Alerta, Control de Calidad y Estadística Dx (sensibilidad/especificidad, reglas
-  de Westgard), Endocrinología y Marcadores Tumorales, Gases Arteriales y Equilibrio
-  Ácido-Base (caso EPOC), Páncreas: Enzimas y Pancreatitis (caso pancreatitis
-  alcohólica), Bioquímica de Reactivos e Insertos. Todo el contenido fue extraído
+  (7 ítems: colestasis obstructiva + patrón hepatocelular como contraste), Análisis de
+  Orina y Sedimento, Líquidos Biológicos: Transudado vs Exudado (Criterios de Light,
+  GASA, quiloso/pseudoquiloso, cristales de líquido sinovial), LCR y Diagnóstico de
+  Meningitis (bacteriana/viral/tuberculosa), Valores Críticos y de Alerta, Control de
+  Calidad y Estadística Dx (sensibilidad/especificidad, reglas de Westgard),
+  Endocrinología y Marcadores Tumorales, Gases Arteriales y Equilibrio Ácido-Base
+  (caso EPOC + los 4 trastornos primarios), Páncreas: Enzimas y Pancreatitis (caso
+  pancreatitis alcohólica), Bioquímica de Reactivos e Insertos. Todo el contenido fue extraído
   literalmente (nunca inventado) de los apuntes/clases/guías de laboratorio/insertos
   de reactivos reales del curso, por agentes de investigación que leyeron cada PDF
   fuente completo y citaron el archivo exacto de cada hecho — ese proceso de
@@ -1735,6 +1736,129 @@ navegador: navegación completa `etapaMap` → `estudioPruebasMap` →
 a fin en "Casos Clínicos: Función Renal" (respuesta correcta avanza sola,
 respuesta incorrecta muestra el overlay de Carboncito con el `explain`, la
 pantalla de resultados final muestra estrellas/insignia correctamente).
+
+**Auditoría de UX/UI/responsive/banco de preguntas (2026-07-28, pedido explícito
+del usuario tras probar el módulo):** se detectaron y corrigieron 3 problemas
+reales, todos verificados con capturas de pantalla en 5 anchos de viewport
+(320/375/768/1024/1440px):
+- **Bug de enrutamiento de columnas** (el más impactante): mcEngine.js interpreta
+  `cols:2` como "una sola columna a ancho completo" y `cols:1` como "grid de 2
+  columnas" (nomenclatura heredada, contraintuitiva pero ya establecida en el
+  resto de la app — p. ej. `comprension5` en `lenguaje.js` ya usa `cols:2` para
+  sus alternativas largas). Los 11 generadores de Química Diagnóstica usaban
+  `cols:1` con alternativas de texto largo (oraciones clínicas completas),
+  forzándolas a un grid de 2 columnas angosto — el causante principal de
+  "alternativas sobredimensionadas" y tarjetas demasiado altas. Cambiado a
+  `cols:2` en los 11 generadores (una sola línea de `sed`), igualando el patrón
+  ya usado en el resto de la app para este tipo de contenido.
+- **Espacio desaprovechado en tablet/escritorio:** `#app` pasaba de golpe de
+  480px a 640px a 760px (2 escalones), dejando hasta ~47% de la pantalla vacía
+  en escritorio ancho (1440px) y saltos bruscos entre anchos intermedios.
+  Reemplazado por una escala de 5 escalones (480/560/700/860/980px). Además,
+  `.prompt-card` y `.option-btn.panel` ahora limitan su ANCHO DE LECTURA a
+  640px (centrado dentro del contenedor más ancho) para que un párrafo clínico
+  largo no se estire a líneas de 100+ caracteres en escritorio — el contenedor
+  crece para dar más "aire" visual, pero el texto mantiene una medida de
+  lectura cómoda. `.option-btn`/`.option-btn.panel` también se afinaron
+  (`clamp()` más ajustado, menos padding).
+- **Etiquetas de nodo cortadas en el mapa de módulos:** `.node-label` usaba
+  `white-space:nowrap`, diseñado para títulos cortos tipo Mineduc ("Contar",
+  "Vocales"). Los títulos de Química Diagnóstica son más largos y descriptivos
+  ("Líquidos Biológicos: Transudado vs Exudado"), y en nodos cercanos al borde
+  del mapa el texto se salía del viewport. Cambiado a `white-space:normal` con
+  `max-width:128px` (permite salto de línea) — no afecta los títulos cortos ya
+  existentes, que siguen en una sola línea. También se ajustó
+  `QUIMICA_DIAGNOSTICA_POS` (el primer nodo quedaba pegado al título
+  "Química Diagnóstica", que ocupa 2 líneas por ser más largo que la mayoría de
+  los títulos de asignatura).
+- **Auditoría del banco de preguntas** (125 → 129 ítems tras la revisión): se
+  listaron las 125 preguntas originales y se revisaron una por una buscando
+  duplicados literales (ninguno encontrado) y redundancia conceptual entre
+  módulos. Se encontró y corrigió 1 redundancia real: `ENDOCRINO_TUMORAL_BANK`
+  y `PANCREAS_BANK` preguntaban literalmente el mismo hecho en direcciones
+  opuestas (célula beta ↔ insulina) — se reemplazó el ítem de `PANCREAS_BANK`
+  por uno sobre la amilasa salival (parotiditis) como tercera causa de
+  hiperamilasemia no pancreática, un concepto distinto y ya grounded en el
+  propio `recurso` de un ítem vecino del mismo banco. Se identificaron y
+  corrigieron 3 vacíos de cobertura reales, agregando ítems nuevos (grounded en
+  material ya extraído, nunca inventado): "Casos Clínicos: Función Hepática"
+  solo cubría un caso colestásico — se agregó un ítem de contraste con el
+  patrón hepatocelular (6→7 ítems); "LCR y Diagnóstico de Meningitis" no cubría
+  la meningitis tuberculosa pese a estar en la tabla diferencial ya extraída —
+  se agregó (10→11 ítems); "Gases Arteriales" nunca tenía alcalosis metabólica
+  ni alcalosis respiratoria como respuesta CORRECTA (solo aparecían como
+  distractores) — se agregaron ambos trastornos como ítems nuevos, espejo
+  simétrico de los 2 que ya existían (acidosis metabólica/respiratoria)
+  (12→14 ítems). Verificado tras los cambios: los 11 generadores pasan fuzz
+  estructural y simulación de sesión (400 iteraciones/200 sesiones cada uno)
+  sin ningún duplicado ni repetido, y los 312 módulos de toda la app siguen
+  pasando la verificación de regresión.
+
+**Alternativas en MAYÚSCULAS y jerarquía tipográfica (2026-07-26, pedido
+explícito del usuario — Senior Product Designer/UX/Accesibilidad):** tras la
+auditoría anterior, el usuario detectó que las 129 alternativas de los 11
+bancos seguían en MAYÚSCULAS SOSTENIDAS (`correcta`/`opts`), un patrón de
+autoría propio de este módulo (no una convención de la app — el resto de
+asignaturas ya usa "oración normal", confirmado revisando `lenguaje.js`/
+`historia.js`/`ciencias.js` antes de decidir el enfoque). Se confirmó primero
+que NO era un problema de CSS (`grep -c text-transform styles.css` → 0
+resultados): el problema era 100% de contenido. Cambios:
+- **Recasing manual de los 129 ítems** (no un regex automático: un script que
+  solo hiciera `.toLowerCase()` + capitalizar la primera letra habría
+  destruido las siglas/acrónimos médicos incrustados en las respuestas —ASO,
+  GGT, LDH, FA, PTH, TFG, ERC, PSA, CA 125, CA 19.9, AFP, TSH, EDTA, LCR, HCO3,
+  pH, GOD/POD, BCG, entre ~30 más—, que deben mantenerse en mayúscula porque
+  son la forma correcta del término, no una decisión de estilo). Cada
+  `correcta`/`opts` se reescribió a mano preservando esas siglas y unidades
+  exactamente, dejando el resto en formato de oración natural (ej. "ESPERAR AL
+  SIGUIENTE CONTROL DE RUTINA SIN AVISAR A NADIE" → "Esperar al siguiente
+  control de rutina sin avisar a nadie").
+- **Bug encontrado de paso, corregido antes de que se manifestara:** las 16
+  líneas `explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.'`
+  (una o dos por generador, los 11 generadores) hacían `.toLowerCase()` sobre
+  `item.correcta` — inofensivo mientras `correcta` estaba en MAYÚSCULAS
+  (daba una oración en minúsculas normal), pero con `correcta` ya en oración
+  natural, ese `.toLowerCase()` habría vuelto a mangled las siglas dentro del
+  texto del `explain` (PTH→pth, ASO→aso, GGT→ggt...). Corregido con
+  `sed -i "s/item\.correcta\.toLowerCase()/item.correcta/g"` (16 ocurrencias,
+  verificado con grep que no queda ninguna).
+- **Jerarquía tipográfica pregunta vs. alternativas:** se encontró un problema
+  de fondo más allá del CASE: en el ~80% de los ítems (los que no tienen
+  `caso`, un caso clínico previo), el `promptHTML` renderizaba la pregunta
+  ENTERA con la clase `.prompt-hint` — la misma clase que en TODO el resto de
+  la app (`lenguaje.js`, etc.) se usa exclusivamente como subtítulo secundario
+  debajo de un elemento principal más grande (un emoji, una oración en
+  `.prompt-sentence`), nunca como el único contenido de la pregunta. Eso
+  dejaba la pregunta en texto pequeño (13px), peso 600 y color atenuado
+  (`--ink-soft`) — más débil visualmente que las propias alternativas. Se
+  cambiaron las 9 ocurrencias de
+  `promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>'` a
+  `'<p class="prompt-sentence">'+item.pregunta+'</p>'` (los ítems que sí tienen
+  `caso` ya usaban `.prompt-sentence` para el caso y correctamente dejaban la
+  pregunta puntual en `.prompt-hint` como subtítulo — ese patrón no se tocó).
+- **Peso y familia tipográfica de `.option-btn.panel`** (`styles.css`): la
+  regla ya limitaba el ancho de lectura a 640px (auditoría anterior), pero
+  heredaba de `.option-btn` la fuente de titular (Baloo 2) en `font-weight:800`
+  — pensada para 1-3 palabras cortas en los juegos de opción múltiple
+  normales, no para oraciones completas. Con las MAYÚSCULAS ya corregidas, ese
+  peso/fuente seguía haciendo que las alternativas "gritaran" y compitieran
+  con la pregunta. Se cambió `.option-btn.panel` a `font-family:
+  var(--font-body)` (Quicksand, la fuente de cuerpo de la app) con
+  `font-weight:600` y `text-align:left` (un párrafo de varias líneas se
+  escanea más rápido alineado a la izquierda que centrado). La pregunta
+  (`.prompt-sentence`: Baloo 2, peso 700) queda así claramente por sobre las
+  alternativas en peso/familia, cumpliendo el pedido explícito de que la
+  pregunta siga siendo el elemento dominante de la pantalla.
+- **Verificación:** los 11 generadores pasan fuzz estructural (400
+  iteraciones cada uno: sin `undefined`, sin opciones duplicadas,
+  `correctValue` siempre presente, sin mayúsculas sostenidas remanentes de
+  5+ letras en `correcta`/`opts` vía grep dedicado) y los 312 módulos de toda
+  la app pasan la verificación de regresión. Validado visualmente en el
+  navegador en 4 anchos (375/768/1024/1440px), en un ítem con `caso` (Casos
+  Clínicos: Función Renal/Hepática) y uno sin `caso` (Valores Críticos): en
+  los 4 anchos la pregunta se ve en negrita y dominante, las alternativas en
+  oración natural, alineadas a la izquierda, sin competir visualmente, y sin
+  que el texto se corte ni desborde la tarjeta.
 
 ### Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false` para 7°-8° ya no aplica (ambos

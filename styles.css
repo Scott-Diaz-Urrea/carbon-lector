@@ -218,25 +218,33 @@
     border: none;
     cursor: pointer;
     width: 92px;
-    /* Auditoría frontend 2026-07-26: la altura real de un nodo variaba entre
-       155.9px (título de 2 líneas) y 202.75px (título de 3 líneas, ej.
-       "Gases Arteriales y Equilibrio Ácido-Base" en Química Diagnóstica),
-       causando hasta 25px de solapamiento con el nodo vecino en ESE
-       dataset. Se probó primero fijar una altura uniforme (height:158px)
-       para todos los nodos, pero un escaneo geométrico de los 86 datasets
-       de mapa de toda la app (comparando cada par de nodos del mismo lado
-       del zigzag contra el ancho/alto real de su `map-wrap`) mostró que 14
-       de esos 86 tienen un espaciado vertical MÁS AJUSTADO que 158px
-       (hasta 136.8px en Matemática 5°-6° básico) — con una altura fija,
-       nodos de título CORTO que antes cabían perfecto (¡Contar", "Dividir")
-       pasaban a solaparse igual, porque se inflaban al mismo tamaño que el
-       peor caso de 2 líneas. Se optó por NO fijar una altura mínima: el
-       `-webkit-line-clamp:2` de `.node-label` ya limita el MÁXIMO (evita
-       que un título de 3 líneas siga desbordando como antes), pero un
-       título corto de 1 línea conserva su alto natural y compacto — la
-       altura real de un nodo hoy varía solo entre ~123px y ~158px (antes
-       ~123px a ~203px), lo suficiente para no romper los datasets ya
-       ajustados sin reintroducir el solapamiento severo original. */
+    /* Auditoría frontend 2026-07-26/27, historial completo (dejado a
+       propósito para no repetir el mismo error en el futuro):
+       1) Origen del bug: la altura de un nodo variaba entre 155.9px (2
+          líneas) y 202.75px (3 líneas, ej. "Gases Arteriales y Equilibrio
+          Ácido-Base"), solapándose hasta 25px con el vecino.
+       2) Primer intento: `height:158px` fijo en TODOS los nodos + recorte
+          a 2 líneas con elipsis (`-webkit-line-clamp`) en `.node-label`.
+          Arreglaba el caso original, pero (a) el usuario rechazó el
+          truncamiento — quiere el título COMPLETO, sin "..."; y (b) un
+          escaneo de los 86 datasets de mapa de la app mostró que 14 tienen
+          un espaciado más ajustado que 158px, así que la altura fija
+          inflaba nodos de título corto que antes cabían bien, causando
+          solapamientos NUEVOS (hasta 21px en Matemática 5° básico) que no
+          existían antes de ese primer intento.
+       3) Fix definitivo: se midió con un `<div>` de prueba (mismos
+          estilos que `.node-label`, sin clamp) el largo real de los 320
+          títulos únicos de módulo de toda la app — a 170px de ancho
+          máximo (`.node-label` abajo), NINGUNO supera las 2 líneas. Con
+          eso, una altura de nodo fija de 150px (74 círculo + 6 gap + 40
+          label de 2 líneas + 6 gap + 13 estrellas, con margen) alcanza
+          para el peor caso real de la app sin truncar nada. Los 6 de 86
+          datasets cuyo espaciado vertical quedaba por debajo de eso
+          (Lenguaje 3°, Matemática 5°-6°, Ciencias 2°, y 2 núcleos de
+          Parvularia) se ajustaron subiendo su `height` en
+          `js/gradeContent.js` — un cambio de datos mínimo y quirúrgico,
+          no un rediseño del sistema de mapa. */
+    height: 150px;
   }
   .node-circle{
     width: 74px; height: 74px;
@@ -267,30 +275,39 @@
        más largos y descriptivos como los de Química Diagnóstica ("Líquidos
        Biológicos: Transudado vs Exudado") el chip se salía del viewport en
        nodos cercanos al borde izquierdo/derecho del mapa, cortando el
-       texto. Se permite el salto de línea con un ancho máximo cómodo — los
-       títulos cortos existentes no se ven afectados (siguen en una sola
-       línea, ya que caben dentro del ancho máximo). */
+       texto. Se permite el salto de línea. El ancho máximo se subió de
+       128px a 170px (auditoría 2026-07-27): medido con un elemento de
+       prueba idéntico a este contra los 320 títulos únicos de módulo de
+       toda la app, a 128px el peor caso ("Líquidos Biológicos: Transudado
+       vs Exudado") necesitaba 3 líneas — la causa raíz de que ese nodo se
+       desbordara. A 170px, NINGÚN título de la app supera las 2 líneas, así
+       que ya no hace falta truncar nada (el usuario pidió explícitamente
+       no cortar texto). 170px sigue teniendo margen horizontal de sobra
+       frente al nodo vecino del zigzag (que están ≥190px de centro a
+       centro incluso en el ancho de #app más angosto). */
     white-space: normal;
-    max-width: 128px;
+    /* width:max-content (no solo max-width) es necesario por un
+       comportamiento de flexbox: `.node-label` es hijo flex de `.node`
+       (columna, align-items:center), y sin un `width` explícito el
+       navegador calculaba su ancho de "fit-content" contra el ancho del
+       CONTENEDOR (92px) en vez de su propio contenido — dejando la
+       etiqueta atrapada en ~80px de ancho real pese al `max-width:170px`,
+       forzando 3 líneas donde 2 alcanzaban ("Gases Arteriales y Equilibrio
+       Ácido-Base" desbordaba igual que antes de subir a 170px). Con
+       width:max-content, la etiqueta usa su ancho natural de contenido
+       (compacta para títulos cortos) topado en max-width:170px para los
+       largos — confirmado que soluciona esto y no `flex-shrink:0` ni
+       `align-self`, que no tenían efecto. */
+    width: max-content;
+    max-width: 170px;
     line-height: 1.25;
-    /* Recorte a 2 líneas con elipsis (tope MÁXIMO, no un mínimo forzado):
-       sin esto, un título de 3 líneas ("Gases Arteriales y Equilibrio
-       Ácido-Base") hacía crecer SOLO ese nodo, solapándose con el vecino.
-       El título completo se sigue viendo al entrar al módulo, este chip es
-       solo navegación. Deliberadamente SIN min-height: un título corto de
-       1 línea ("Contar") debe conservar su alto natural y compacto — un
-       primer intento de reservar min-height:55px (2 líneas fijas) inflaba
-       también los títulos cortos, y un escaneo geométrico de los 86
-       datasets de mapa de la app mostró que varios (Matemática 5°-6°
-       básico, entre otros) tienen nodos vecinos separados por menos de
-       137px — con TODOS los nodos inflados a un alto uniforme, esos
-       títulos cortos que antes cabían perfecto pasaban a solaparse
-       también. Limitar solo el máximo evita el desborde de 3 líneas sin
-       tocar el alto de los títulos que ya eran compactos. */
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    /* min-height reserva el alto de 2 líneas (ver `.node` arriba: el
+       peor caso real de la app hoy son 2 líneas, nunca 3) para que todos
+       los nodos midan lo mismo sin importar si el título ocupa 1 o 2
+       líneas — sin esto, un título corto quedaría con un chip más bajo
+       que uno largo, mismo problema de "tamaños inconsistentes" que el
+       resto de este fix ya resuelve para el círculo/las estrellas. */
+    min-height: 40px;
   }
   .node-label.locked{ color: var(--locked-ink); }
   .node-stars{ display: flex; gap: 2px; }

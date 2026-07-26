@@ -1692,16 +1692,17 @@ cada PDF fuente completo) y pidió priorizar el formato de caso clínico (pacien
 + datos de laboratorio + pregunta), ya que es el mismo formato de evaluación real
 del curso.
 
-- **Química Diagnóstica** (11 módulos, `js/content/estudioPruebas/quimicaDiagnostica.js`):
+- **Química Diagnóstica** (11 módulos, 129 ítems, `js/content/estudioPruebas/quimicaDiagnostica.js`):
   Casos Clínicos: Función Renal (11 ítems, incluye clearance de creatinina y calcio
   corregido por albúmina como ejercicios numéricos), Casos Clínicos: Función Hepática
-  (6 ítems, colestasis obstructiva), Análisis de Orina y Sedimento, Líquidos
-  Biológicos: Transudado vs Exudado (Criterios de Light, GASA, quiloso/pseudoquiloso,
-  cristales de líquido sinovial), LCR y Diagnóstico de Meningitis, Valores Críticos y
-  de Alerta, Control de Calidad y Estadística Dx (sensibilidad/especificidad, reglas
-  de Westgard), Endocrinología y Marcadores Tumorales, Gases Arteriales y Equilibrio
-  Ácido-Base (caso EPOC), Páncreas: Enzimas y Pancreatitis (caso pancreatitis
-  alcohólica), Bioquímica de Reactivos e Insertos. Todo el contenido fue extraído
+  (7 ítems: colestasis obstructiva + patrón hepatocelular como contraste), Análisis de
+  Orina y Sedimento, Líquidos Biológicos: Transudado vs Exudado (Criterios de Light,
+  GASA, quiloso/pseudoquiloso, cristales de líquido sinovial), LCR y Diagnóstico de
+  Meningitis (bacteriana/viral/tuberculosa), Valores Críticos y de Alerta, Control de
+  Calidad y Estadística Dx (sensibilidad/especificidad, reglas de Westgard),
+  Endocrinología y Marcadores Tumorales, Gases Arteriales y Equilibrio Ácido-Base
+  (caso EPOC + los 4 trastornos primarios), Páncreas: Enzimas y Pancreatitis (caso
+  pancreatitis alcohólica), Bioquímica de Reactivos e Insertos. Todo el contenido fue extraído
   literalmente (nunca inventado) de los apuntes/clases/guías de laboratorio/insertos
   de reactivos reales del curso, por agentes de investigación que leyeron cada PDF
   fuente completo y citaron el archivo exacto de cada hecho — ese proceso de
@@ -1735,6 +1736,63 @@ navegador: navegación completa `etapaMap` → `estudioPruebasMap` →
 a fin en "Casos Clínicos: Función Renal" (respuesta correcta avanza sola,
 respuesta incorrecta muestra el overlay de Carboncito con el `explain`, la
 pantalla de resultados final muestra estrellas/insignia correctamente).
+
+**Auditoría de UX/UI/responsive/banco de preguntas (2026-07-28, pedido explícito
+del usuario tras probar el módulo):** se detectaron y corrigieron 3 problemas
+reales, todos verificados con capturas de pantalla en 5 anchos de viewport
+(320/375/768/1024/1440px):
+- **Bug de enrutamiento de columnas** (el más impactante): mcEngine.js interpreta
+  `cols:2` como "una sola columna a ancho completo" y `cols:1` como "grid de 2
+  columnas" (nomenclatura heredada, contraintuitiva pero ya establecida en el
+  resto de la app — p. ej. `comprension5` en `lenguaje.js` ya usa `cols:2` para
+  sus alternativas largas). Los 11 generadores de Química Diagnóstica usaban
+  `cols:1` con alternativas de texto largo (oraciones clínicas completas),
+  forzándolas a un grid de 2 columnas angosto — el causante principal de
+  "alternativas sobredimensionadas" y tarjetas demasiado altas. Cambiado a
+  `cols:2` en los 11 generadores (una sola línea de `sed`), igualando el patrón
+  ya usado en el resto de la app para este tipo de contenido.
+- **Espacio desaprovechado en tablet/escritorio:** `#app` pasaba de golpe de
+  480px a 640px a 760px (2 escalones), dejando hasta ~47% de la pantalla vacía
+  en escritorio ancho (1440px) y saltos bruscos entre anchos intermedios.
+  Reemplazado por una escala de 5 escalones (480/560/700/860/980px). Además,
+  `.prompt-card` y `.option-btn.panel` ahora limitan su ANCHO DE LECTURA a
+  640px (centrado dentro del contenedor más ancho) para que un párrafo clínico
+  largo no se estire a líneas de 100+ caracteres en escritorio — el contenedor
+  crece para dar más "aire" visual, pero el texto mantiene una medida de
+  lectura cómoda. `.option-btn`/`.option-btn.panel` también se afinaron
+  (`clamp()` más ajustado, menos padding).
+- **Etiquetas de nodo cortadas en el mapa de módulos:** `.node-label` usaba
+  `white-space:nowrap`, diseñado para títulos cortos tipo Mineduc ("Contar",
+  "Vocales"). Los títulos de Química Diagnóstica son más largos y descriptivos
+  ("Líquidos Biológicos: Transudado vs Exudado"), y en nodos cercanos al borde
+  del mapa el texto se salía del viewport. Cambiado a `white-space:normal` con
+  `max-width:128px` (permite salto de línea) — no afecta los títulos cortos ya
+  existentes, que siguen en una sola línea. También se ajustó
+  `QUIMICA_DIAGNOSTICA_POS` (el primer nodo quedaba pegado al título
+  "Química Diagnóstica", que ocupa 2 líneas por ser más largo que la mayoría de
+  los títulos de asignatura).
+- **Auditoría del banco de preguntas** (125 → 129 ítems tras la revisión): se
+  listaron las 125 preguntas originales y se revisaron una por una buscando
+  duplicados literales (ninguno encontrado) y redundancia conceptual entre
+  módulos. Se encontró y corrigió 1 redundancia real: `ENDOCRINO_TUMORAL_BANK`
+  y `PANCREAS_BANK` preguntaban literalmente el mismo hecho en direcciones
+  opuestas (célula beta ↔ insulina) — se reemplazó el ítem de `PANCREAS_BANK`
+  por uno sobre la amilasa salival (parotiditis) como tercera causa de
+  hiperamilasemia no pancreática, un concepto distinto y ya grounded en el
+  propio `recurso` de un ítem vecino del mismo banco. Se identificaron y
+  corrigieron 3 vacíos de cobertura reales, agregando ítems nuevos (grounded en
+  material ya extraído, nunca inventado): "Casos Clínicos: Función Hepática"
+  solo cubría un caso colestásico — se agregó un ítem de contraste con el
+  patrón hepatocelular (6→7 ítems); "LCR y Diagnóstico de Meningitis" no cubría
+  la meningitis tuberculosa pese a estar en la tabla diferencial ya extraída —
+  se agregó (10→11 ítems); "Gases Arteriales" nunca tenía alcalosis metabólica
+  ni alcalosis respiratoria como respuesta CORRECTA (solo aparecían como
+  distractores) — se agregaron ambos trastornos como ítems nuevos, espejo
+  simétrico de los 2 que ya existían (acidosis metabólica/respiratoria)
+  (12→14 ítems). Verificado tras los cambios: los 11 generadores pasan fuzz
+  estructural y simulación de sesión (400 iteraciones/200 sesiones cada uno)
+  sin ningún duplicado ni repetido, y los 312 módulos de toda la app siguen
+  pasando la verificación de regresión.
 
 ### Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false` para 7°-8° ya no aplica (ambos

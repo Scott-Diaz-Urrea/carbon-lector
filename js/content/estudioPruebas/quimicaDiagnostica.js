@@ -38,9 +38,14 @@ export const QUIMICA_DIAGNOSTICA_MODULES = [
   { id:'qdreactivos', label:'Bioquímica de Reactivos e Insertos', open:true, key:'qdreactivos' },
 ];
 export const QUIMICA_DIAGNOSTICA_POS = [
-  {x:20,y:98},{x:64,y:90},{x:22,y:82},{x:66,y:74},
-  {x:20,y:64},{x:64,y:54},{x:22,y:44},{x:66,y:34},
-  {x:20,y:22},{x:64,y:12},{x:22,y:2},
+  /* y:98 dejaba el primer nodo pegado casi al título "Química Diagnóstica"
+     (que ocupa 2 líneas por ser más largo que la mayoría de los títulos de
+     asignatura), superponiéndose visualmente con él — se baja el techo a
+     y:92 para dar aire real al primer nodo (detectado en auditoría
+     responsive 2026-07-28). */
+  {x:20,y:92},{x:64,y:83},{x:22,y:74},{x:66,y:65},
+  {x:20,y:56},{x:64,y:47},{x:22,y:38},{x:66,y:29},
+  {x:20,y:20},{x:64,y:11},{x:22,y:2},
 ];
 
 /* ---------------- Casos Clínicos: Función Renal y ERC ----------------
@@ -131,7 +136,7 @@ export function genCasosRenal7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.caso+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };
@@ -183,13 +188,20 @@ const CASOS_HEPATICO_BANK = [
     opts:['UN PATRÓN HEPATOCELULAR PURO (COMO EN UNA HEPATITIS VIRAL AGUDA TÍPICA)','UN PATRÓN EXCLUSIVAMENTE RENAL','UN PATRÓN DE HEMÓLISIS PURA SIN COMPROMISO HEPÁTICO'],
     recurso:'Memorizar esta regla como una tabla mental ayuda mucho en el examen: si el protagonista del cuadro es la FA + GGT (enzimas de membrana canalicular) junto con bilirrubina DIRECTA elevada, el patrón es COLESTÁSICO —el problema está en el flujo de salida de la bilis, no en la célula hepática misma. Si en cambio el protagonista son las transaminasas (GOT/GPT, enzimas intracelulares del hepatocito), el patrón es HEPATOCELULAR —el problema es que las células del hígado se están rompiendo o inflamando, como en una hepatitis viral. La GGT en particular es muy sensible pero poco específica: se eleva en colestasis, pero también con el consumo de alcohol o ciertos medicamentos, por lo que casi siempre se interpreta junto a la FA y nunca sola. Distinguir estos dos patrones con solo un panel de laboratorio es una de las primeras preguntas que se hace un clínico frente a cualquier alteración hepática, antes incluso de pensar en la causa específica.',
   },
+  {
+    caso:'Paciente distinto (no la profesora de este módulo): transaminasas (GOT/GPT) muy elevadas como hallazgo PRINCIPAL, con FA y GGT solo levemente alteradas y bilirrubina apenas elevada.',
+    pregunta:'A diferencia del caso colestásico de este módulo, ¿qué patrón de daño hepático refleja ESTE perfil alternativo?',
+    correcta:'UN PATRÓN HEPATOCELULAR (COMO EN UNA HEPATITIS VIRAL AGUDA), NO UN PATRÓN COLESTÁSICO',
+    opts:['EL MISMO PATRÓN COLESTÁSICO DE ESTE MÓDULO, SIN NINGUNA DIFERENCIA','UN PATRÓN EXCLUSIVAMENTE RENAL, SIN COMPROMISO HEPÁTICO','UN PATRÓN DE HEMÓLISIS PURA SIN NINGÚN DAÑO HEPÁTICO'],
+    recurso:'Todos los demás ítems de este módulo giran en torno a UN mismo caso colestásico (obstructivo) — vale la pena fijar también cómo se ve el patrón OPUESTO, el hepatocelular, para no memorizar un solo perfil de memoria. Cuando el daño ocurre dentro de la célula hepática misma (como en una hepatitis viral aguda, donde el virus infecta y rompe hepatocitos), lo que se libera masivamente a la sangre son las transaminasas (GOT/GPT), enzimas que viven DENTRO del citoplasma del hepatocito. La fosfatasa alcalina y GGT (ligadas a la membrana de los conductillos biliares) solo se alteran levemente, porque el flujo de bilis en sí no está bloqueado. Es el mismo tipo de razonamiento por PATRÓN de enzimas que se usó para reconocer la colestasis del caso principal, aplicado en la dirección contraria: cuál enzima domina el cuadro es lo que primero orienta hacia daño celular directo versus obstrucción del flujo biliar.',
+  },
 ];
 export function genCasosHepatico7Round(){
   const item = pick(CASOS_HEPATICO_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.caso+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };
@@ -227,7 +239,7 @@ export function genOrina7Round(){
     const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.caso+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
-      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
       recurso: item.recurso,
     };
@@ -236,7 +248,7 @@ export function genOrina7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };
@@ -303,7 +315,7 @@ export function genLiquidos7Round(){
     const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.caso+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
-      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
       recurso: item.recurso,
     };
@@ -312,7 +324,7 @@ export function genLiquidos7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };
@@ -344,6 +356,7 @@ const LCR_BANK = [
   { pregunta:'¿Cómo se diferencia una hemorragia subaracnoidea de una punción lumbar traumática mediante los 3 tubos de LCR recolectados?', correcta:'EN LA PUNCIÓN TRAUMÁTICA, EL NÚMERO DE ERITROCITOS DISMINUYE DEL PRIMER AL TERCER TUBO; EN LA HEMORRAGIA SUBARACNOIDEA SE MANTIENE SIMILAR ENTRE TUBOS', opts:['NO EXISTE NINGUNA FORMA DE DIFERENCIARLAS CON LOS 3 TUBOS','EN AMBOS CASOS LOS ERITROCITOS SIEMPRE AUMENTAN DEL PRIMER AL TERCER TUBO','LA XANTOCROMÍA SOLO APARECE EN LA PUNCIÓN TRAUMÁTICA, NUNCA EN LA HEMORRAGIA'], recurso:'Esta prueba (llamada "prueba de los 3 tubos") se basa en un razonamiento mecánico simple, no en química: si la aguja de punción lumbar rozó accidentalmente un vaso sanguíneo al atravesar los tejidos, esa sangre "de la punción" solo contamina el LCR al principio del procedimiento —a medida que sigue saliendo líquido y ese sangrado puntual se va lavando, los tubos siguientes (2° y 3°) tienen cada vez menos eritrocitos. En cambio, si la sangre ya estaba mezclada uniformemente en TODO el LCR antes de la punción (porque hubo una hemorragia subaracnoidea real dentro del cráneo), no importa en qué momento del procedimiento se recolecte cada tubo: la concentración de eritrocitos será prácticamente la misma en los 3. Esta prueba, junto con la búsqueda de xantocromía, es la forma clásica y económica de distinguir un hallazgo verdaderamente patológico de un simple artefacto técnico del procedimiento, sin necesidad de repetir la punción.' },
   { pregunta:'¿Cuál es la vía habitual de obtención del LCR, y entre qué vértebras se realiza?', correcta:'PUNCIÓN LUMBAR, ENTRE LA 3ª Y 4ª (O 4ª Y 5ª) VÉRTEBRA LUMBAR', opts:['PUNCIÓN CERVICAL ALTA, ENTRE LAS VÉRTEBRAS C1-C2','PUNCIÓN TORÁCICA MEDIA','SIEMPRE POR VÍA VENOSA PERIFÉRICA, SIN PUNCIÓN ESPINAL'], recurso:'La médula espinal (el tejido nervioso delicado que no se quiere lesionar con una aguja) termina anatómicamente alrededor de la primera o segunda vértebra lumbar en la mayoría de los adultos —por debajo de ese punto, el canal espinal solo contiene las raíces nerviosas flotando en LCR (la llamada "cola de caballo"), que se apartan solas al contacto con la aguja en vez de lesionarse. Por eso la punción lumbar se realiza deliberadamente MÁS ABAJO de donde termina la médula (entre la 3ª-4ª o 4ª-5ª vértebra lumbar), un espacio seguro donde se puede extraer LCR sin riesgo real de dañar tejido nervioso funcional. Elegir el nivel correcto de punción no es un detalle técnico menor: es la base de seguridad de todo el procedimiento, y se localiza clínicamente usando como referencia la línea imaginaria que une las crestas ilíacas (los huesos de la cadera), que coincide aproximadamente con el espacio entre la 4ª y 5ª vértebra lumbar.' },
   { pregunta:'¿Qué célula predominante en LCR, en el contexto de meningitis, indica bacterias fagocitadas y orienta a meningitis?', correcta:'EL MACRÓFAGO (SIDERÓFAGO EN CASOS DE SANGRADO PREVIO)', opts:['EL EOSINÓFILO, SIEMPRE ASOCIADO A INFECCIÓN VIRAL','LA CÉLULA PLASMÁTICA, EXCLUSIVA DE MENINGITIS BACTERIANA','EL BASÓFILO, SIN NINGÚN SIGNIFICADO EN LCR'], recurso:'El macrófago es la célula "limpiadora" del sistema inmune: su función es literalmente fagocitar (engullir) cualquier partícula extraña o resto celular que encuentre, incluyendo bacterias, células muertas o glóbulos rojos viejos. Cuando un macrófago en el LCR se observa con bacterias visibles dentro de su citoplasma, es una evidencia directa —no indirecta— de que el sistema inmune está activamente combatiendo una infección en ese momento, reforzando la sospecha de meningitis. Un caso especial de este mismo tipo celular es el "siderófago": un macrófago que fagocitó eritrocitos de un sangrado PREVIO y acumuló en su interior gránulos de hemosiderina (un pigmento derivado de la degradación de la hemoglobina) —su presencia confirma que hubo sangre en el LCR hace más de 48-72 horas, un dato temporal muy útil para fechar aproximadamente cuándo ocurrió una hemorragia cuando el paciente no recuerda bien el inicio de sus síntomas.' },
+  { pregunta:'¿Qué patrón de LCR es característico de la meningitis TUBERCULOSA, y qué técnica microbiológica la confirma?', correcta:'GLUCOSA DISMINUIDA CON PREDOMINIO DE LINFOCITOS Y MONOCITOS, CONFIRMADA POR BACILOSCOPÍA POSITIVA', opts:['GLUCOSA NORMAL CON PREDOMINIO DE NEUTRÓFILOS, CONFIRMADA POR TINCIÓN DE GRAM POSITIVA','GLUCOSA MUY AUMENTADA, SIN NINGÚN CAMBIO EN EL RECUENTO CELULAR','PROTEÍNAS SIEMPRE NORMALES Y AUSENCIA TOTAL DE CÉLULAS'], recurso:'La meningitis tuberculosa comparte con la bacteriana el hallazgo de glucosa disminuida (la micobacteria, igual que otras bacterias, consume glucosa del LCR para su metabolismo), pero se diferencia claramente en qué célula predomina: en la tuberculosa predominan linfocitos y monocitos (una respuesta inmune más lenta y crónica, típica de infecciones de curso prolongado), no neutrófilos como en la meningitis bacteriana aguda típica. Esta combinación —glucosa baja + predominio linfocitario, en vez de glucosa normal + linfocitos (que sería el patrón viral)— es la que hace sospechar tuberculosis específicamente. La confirmación definitiva se busca con baciloscopía (tinción de Ziehl-Neelsen, que tiñe específicamente bacilos ácido-alcohol resistentes como Mycobacterium tuberculosis) o cultivo especializado, ya que el Gram convencional no tiñe bien a las micobacterias. Reconocer este patrón "mixto" (glucosa baja como en bacteriana, células como en viral) es clave para no confundir la tuberculosis con ninguna de las otras dos.' },
 ];
 export function genLcr7Round(){
   const roll = Math.random();
@@ -352,7 +365,7 @@ export function genLcr7Round(){
     const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.caso+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
-      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
       recurso: item.recurso,
     };
@@ -361,7 +374,7 @@ export function genLcr7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };
@@ -390,7 +403,7 @@ export function genValoresCriticos7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };
@@ -420,7 +433,7 @@ export function genControlCalidad7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };
@@ -449,7 +462,7 @@ export function genEndocrinoTumoral7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };
@@ -483,6 +496,8 @@ const GASES_ARTERIALES_BANK = [
   { pregunta:'¿Cuál es el rango normal de lactato sérico?', correcta:'0.5 – 2.2 mmol/L', opts:['5 – 10 mmol/L','10 – 20 mmol/L','0.01 – 0.05 mmol/L'], recurso:'El lactato circula normalmente en la sangre en cantidades bajas pero constantes, porque incluso en condiciones de oxigenación perfectamente normal, algunas células (como los glóbulos rojos, que no tienen mitocondrias) siempre producen algo de energía por vía anaeróbica como parte de su metabolismo habitual, generando algo de lactato de base. Ese nivel basal (0,5–2,2 mmol/L) representa el punto de equilibrio entre la pequeña producción constante de lactato y su eliminación continua (principalmente por el hígado, que lo reconvierte en glucosa). Cuando ese equilibrio se rompe —porque la producción aumenta mucho por hipoxia tisular generalizada (shock, insuficiencia respiratoria severa) o porque la eliminación hepática falla (insuficiencia hepática severa)—, el lactato se acumula por sobre este rango normal, convirtiéndose en uno de los marcadores más usados en medicina de urgencia/crítica para evaluar la gravedad de un paciente inestable y monitorear su respuesta al tratamiento.' },
   { pregunta:'¿Por qué el lactato es un buen indicador de hipoxia tisular?', correcta:'PORQUE EN HIPOXIA EL METABOLISMO CELULAR ANAERÓBICO GENERA MÁS LACTATO', opts:['PORQUE EL LACTATO SOLO SE PRODUCE EN EL HÍGADO SANO','PORQUE EL LACTATO DISMINUYE SIEMPRE QUE HAY FALTA DE OXÍGENO','PORQUE EL LACTATO NO TIENE NINGUNA RELACIÓN CON EL METABOLISMO CELULAR'], recurso:'Toda célula del cuerpo necesita producir energía constantemente, y su vía preferida (metabolismo aeróbico, usando oxígeno) es mucho más eficiente que la alternativa de emergencia (metabolismo anaeróbico, sin oxígeno). El problema es que la vía anaeróbica, aunque menos eficiente, tiene un producto de desecho característico: el ácido láctico (lactato). En condiciones de hipoxia tisular —cuando el oxígeno que llega a los tejidos no alcanza para sostener el metabolismo aeróbico normal, como en un shock circulatorio o una insuficiencia respiratoria grave—, las células recurren cada vez más a esa vía anaeróbica de emergencia para no quedarse completamente sin energía, generando mucho más lactato del habitual. Por eso medir el lactato en sangre es, en esencia, medir indirectamente "cuánto están sufriendo las células por falta de oxígeno" en todo el cuerpo en ese momento —y es también una de las mejores formas de confirmar que un tratamiento está funcionando: si el lactato baja tras iniciar manejo, significa que la oxigenación tisular está mejorando realmente, no solo en el papel.' },
   { pregunta:'Para el análisis de gases arteriales, ¿qué anticoagulante es el de elección para la jeringa de recolección?', correcta:'HEPARINA LIOFILIZADA EQUILIBRADA CON CALCIO-ZINC-LITIO', opts:['EDTA','CITRATO','OXALATO'], recurso:'La elección del anticoagulante para gases arteriales no es un detalle técnico menor: puede alterar directamente los resultados si se elige mal. El EDTA y el citrato funcionan "secuestrando" el calcio de la sangre para evitar la coagulación, pero eso mismo alteraría artificialmente el calcio iónico si se midiera en la misma muestra, y ambos anticoagulantes en polvo o líquido diluirían la muestra, afectando los valores de pH y gases disueltos. La heparina, en cambio, evita la coagulación por un mecanismo distinto (inactivando la trombina) sin secuestrar calcio —pero se usa en su forma LIOFILIZADA (seca, en polvo, no líquida) precisamente para no diluir la muestra con líquido extra, y "equilibrada" con calcio-zinc-litio para compensar de antemano cualquier interferencia residual sobre esos electrolitos. Esta combinación de detalles técnicos —anticoagulante correcto, forma seca, balanceado con iones— existe específicamente porque los gases arteriales son un examen muy sensible a errores preanalíticos, donde hasta pequeños detalles de recolección pueden distorsionar el resultado final.' },
+  { pregunta:'Un paciente tiene HCO3⁻ elevado de forma PRIMARIA (por ejemplo, por vómitos severos que pierden ácido clorhídrico), con pCO2 sin cambio primario. ¿Qué trastorno ácido-base corresponde?', correcta:'ALCALOSIS METABÓLICA', opts:['ACIDOSIS METABÓLICA','ACIDOSIS RESPIRATORIA','ALCALOSIS RESPIRATORIA'], recurso:'Este módulo ya cubrió la acidosis metabólica (HCO3⁻ bajo de forma primaria) y la acidosis respiratoria (pCO2 alto de forma primaria) — la alcalosis metabólica es, siguiendo la misma lógica de nomenclatura, exactamente el trastorno opuesto al primero: cuando el HCO3⁻ SUBE de forma primaria (por ejemplo, al perder ácido clorhídrico del estómago en vómitos severos, o por uso excesivo de diuréticos), sobra "base de reserva" en la sangre y el pH tiende a subir. Como el problema se origina en el componente metabólico (bicarbonato), no en el pulmón, se clasifica como METABÓLICA. El cuerpo compensa este exceso de base con el sistema respiratorio (de acción rápida): hipoventilando levemente para retener algo de CO2 y así "acidificar" un poco la sangre, contrarrestando parcialmente la alcalosis — el mismo principio de compensación cruzada (respiratorio compensa lo metabólico, y viceversa) que ya se vio con la acidosis metabólica y el caso EPOC de este módulo.' },
+  { pregunta:'Un paciente hiperventila intensamente por ansiedad, causando una disminución PRIMARIA del pCO2, con HCO3⁻ sin cambio primario. ¿Qué trastorno ácido-base corresponde?', correcta:'ALCALOSIS RESPIRATORIA', opts:['ACIDOSIS RESPIRATORIA','ACIDOSIS METABÓLICA','ALCALOSIS METABÓLICA'], recurso:'Completando el cuadro de los 4 trastornos ácido-base primarios de este módulo: la alcalosis respiratoria es el opuesto exacto de la acidosis respiratoria (el caso EPOC visto antes). Aquí el pCO2 BAJA de forma primaria, típicamente por hiperventilación —respirar más rápido y profundo de lo necesario, eliminando CO2 en exceso—, como ocurre en crisis de ansiedad/pánico, dolor intenso, fiebre alta, o al inicio de una altitud elevada. Con menos CO2 disuelto (y por lo tanto menos ácido carbónico), el pH tiende a subir. Como el origen del problema está en el pulmón (ventilación excesiva), se clasifica como RESPIRATORIA. La compensación, en este caso, corre por cuenta del riñón (de acción lenta): si la hiperventilación se mantiene por días, el riñón empieza a excretar más bicarbonato para "alcalinizar menos" la sangre y acercar el pH de vuelta a lo normal — de nuevo, el mismo patrón de compensación cruzada que se repite en los 4 trastornos de este tema.' },
 ];
 export function genGasesArteriales7Round(){
   const roll = Math.random();
@@ -491,7 +506,7 @@ export function genGasesArteriales7Round(){
     const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.caso+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
-      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
       recurso: item.recurso,
     };
@@ -500,7 +515,7 @@ export function genGasesArteriales7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };
@@ -528,7 +543,7 @@ const PANCREAS_BANK = [
   { pregunta:'¿Qué enzima pancreática descompone las grasas (triglicéridos) en ácidos grasos y mono/diacilglicéridos?', correcta:'LA LIPASA', opts:['LA AMILASA','LA QUIMOTRIPSINA','LA CARBOXIPEPTIDASA'], recurso:'La lipasa es la enzima especializada en digerir grasas (lípidos), rompiendo los triglicéridos de la dieta —moléculas grandes formadas por un glicerol unido a 3 ácidos grasos— en fragmentos más pequeños (ácidos grasos libres y mono/diacilglicéridos) que sí pueden absorberse a través de la pared intestinal. A diferencia de la amilasa, que también existe en las glándulas salivales, la lipasa relevante para la digestión proviene casi exclusivamente del páncreas, lo que la hace un marcador MÁS ESPECÍFICO de daño pancreático que la amilasa (menos probabilidad de confundirse con otra fuente del cuerpo). Esta especificidad, sumada a su mayor persistencia en sangre (vista en el ítem anterior sobre vida media), es la razón por la que muchos protocolos clínicos actuales prefieren la lipasa por sobre la amilasa como primera prueba de laboratorio para sospechar pancreatitis aguda.' },
   { pregunta:'¿Cuál es el rango de referencia de amilasa en sangre citado en el curso?', correcta:'28 – 100 U/L', opts:['300 – 500 U/L','1 – 5 U/L','1000 – 2000 U/L'], recurso:'Tener internalizado este rango normal (28-100 U/L) es lo que permite reconocer de inmediato la magnitud de una elevación clínicamente significativa: en el caso clínico de este mismo módulo, una amilasa de 1240 U/L representa más de 12 veces el límite superior normal —una elevación tan marcada que por sí sola ya sugiere fuertemente pancreatitis aguda, más allá de cualquier duda diagnóstica menor. Como regla general en interpretación de enzimas pancreáticas (y de la mayoría de las enzimas usadas para diagnóstico de daño de órgano), mientras más multiplicado esté un valor por sobre su límite superior normal, más específica y grave suele ser la sospecha diagnóstica asociada —una elevación leve (por ejemplo, 1,5 veces el límite) puede tener múltiples causas posibles, mientras que una elevación de 10 veces o más acota mucho más las posibilidades diagnósticas reales.' },
   { pregunta:'¿Cuál es el rango de referencia de lipasa en sangre citado en el curso?', correcta:'13 – 60 U/L', opts:['500 – 800 U/L','1 – 5 U/L','2000 – 3000 U/L'], recurso:'Igual que con la amilasa, conocer este rango normal (13-60 U/L) permite dimensionar la magnitud real de una elevación: en el caso clínico de este módulo, una lipasa de 1550 U/L representa más de 25 veces el límite superior normal, una elevación aún más marcada proporcionalmente que la de la amilasa del mismo paciente —consistente con lo que se sabe sobre la lipasa como marcador más sensible y específico de daño pancreático agudo. En la práctica clínica actual, muchas guías consideran que una lipasa por sobre 3 veces su límite superior normal, junto con dolor abdominal característico, es suficiente para establecer el diagnóstico de pancreatitis aguda sin necesariamente requerir imágenes adicionales de entrada —aunque el manejo completo del paciente sí suele incluir estudios de imagen para evaluar la gravedad y buscar complicaciones.' },
-  { pregunta:'¿Qué célula del islote de Langerhans secreta insulina?', correcta:'LA CÉLULA BETA', opts:['LA CÉLULA ALFA','LA CÉLULA ACINAR','LA CÉLULA DELTA'], recurso:'El páncreas cumple dos funciones completamente distintas dentro del mismo órgano, y este ítem apunta a la función ENDOCRINA (hormonal), no a la exocrina (digestiva) que cubren la amilasa y lipasa de este mismo banco. Dentro de los islotes de Langerhans —pequeños grupos de células hormonales dispersos entre el tejido digestivo del páncreas—, las células beta son las encargadas de producir insulina, la única hormona capaz de bajar la glucosa en sangre, facilitando que las células del cuerpo la capten y usen o almacenen. Es importante no confundir esta función endocrina (regular la glucosa, vía hormonas que van a la sangre) con la función exocrina del mismo órgano (digerir alimentos, vía enzimas que van al intestino) —ambas ocurren en el mismo páncreas pero en estructuras microscópicas distintas (islotes versus acinos) y con propósitos fisiológicos completamente diferentes.' },
+  { pregunta:'Además de la insuficiencia renal y la macroamilasemia, ¿qué otra fuente NO pancreática puede elevar la amilasa sérica?', correcta:'LAS GLÁNDULAS SALIVALES (POR EJEMPLO, EN UNA PAROTIDITIS)', opts:['EL HÍGADO, QUE PRODUCE AMILASA EN GRANDES CANTIDADES','EL TEJIDO ADIPOSO, QUE LIBERA AMILASA AL INFLAMARSE','LOS PULMONES, EN CUALQUIER CUADRO RESPIRATORIO'], recurso:'La amilasa no es exclusiva del páncreas: las glándulas salivales producen su propia versión de la misma enzima (para empezar a digerir carbohidratos ya en la boca), y ambas formas —pancreática y salival— se ven reflejadas en una medición de "amilasa total" en sangre. Por eso, una inflamación de las glándulas salivales (parotiditis, como la causada por el virus de la paperas) también eleva la amilasa sérica, sin que exista ningún problema pancreático real —una tercera causa de hiperamilasemia no pancreática, junto a la insuficiencia renal y la macroamilasemia ya vistas en este banco. En laboratorios más especializados, es posible diferenciar la isoenzima P (pancreática) de la isoenzima S (salival) mediante electroforesis, para saber con más precisión de dónde viene el exceso. Esta es una de las razones por las que la lipasa —que sí es casi exclusivamente pancreática— suele preferirse sobre la amilasa cuando se busca mayor especificidad diagnóstica.' },
   { pregunta:'¿Qué causa puede producir hiperamilasemia SIN que exista patología pancreática real?', correcta:'LA INSUFICIENCIA RENAL (AL DISMINUIR LA DEPURACIÓN DE AMILASA) O LA MACROAMILASEMIA', opts:['SOLO LA PANCREATITIS AGUDA PUEDE ELEVAR LA AMILASA','LA AMILASA NUNCA SE ELEVA POR CAUSAS NO PANCREÁTICAS','SOLO EL CONSUMO DE ALCOHOL PUEDE ELEVAR LA AMILASA'], recurso:'Esta es una de las limitaciones más importantes de la amilasa como marcador diagnóstico, y por eso se prefiere combinarla con la lipasa (más específica). Como la amilasa se elimina normalmente por el riñón (a diferencia de la lipasa), cualquier situación que reduzca esa eliminación —como la insuficiencia renal— hace que la amilasa se acumule en sangre sin que exista ningún problema pancreático real, simplemente porque "no se está sacando" al ritmo habitual. La macroamilasemia es otra causa curiosa: ocurre cuando la amilasa se une a una inmunoglobulina (anticuerpo) formando un complejo demasiado grande para que el riñón lo filtre normalmente, acumulándose en sangre por la misma razón (falta de eliminación), sin ningún daño pancreático de por medio. Reconocer estas causas "falsas positivas" de hiperamilasemia evita diagnosticar erróneamente una pancreatitis en un paciente que en realidad tiene otra condición completamente distinta.' },
   { pregunta:'¿Qué unidad funcional corresponde a la función EXOCRINA del páncreas (secreción de enzimas digestivas)?', correcta:'EL ACINO PANCREÁTICO', opts:['EL ISLOTE DE LANGERHANS','LA CÉLULA BETA','LA CÉLULA ALFA'], recurso:'El páncreas se organiza microscópicamente en dos tipos de tejido con funciones completamente separadas, y el acino pancreático es la unidad de la función EXOCRINA (secreción hacia un conducto, no hacia la sangre). Los acinos son pequeños racimos de células que producen las enzimas digestivas (amilasa, lipasa, tripsina y otras) y las vierten hacia el conducto pancreático, que las lleva hasta el intestino delgado, donde recién se activan y cumplen su función de digerir alimentos. Esto contrasta con los islotes de Langerhans (la función endocrina), que vierten sus hormonas directamente a la sangre, no a un conducto. Más del 95% del volumen del páncreas corresponde a tejido acinar (exocrino), y solo una pequeña fracción a los islotes (endocrino) —por eso, cuando se habla de "pancreatitis" (inflamación del páncreas), generalmente se está describiendo principalmente daño del tejido acinar exocrino, con las consecuencias de enzimas digestivas liberadas de forma descontrolada.' },
   { pregunta:'¿Qué unidad funcional corresponde a la función ENDOCRINA del páncreas (secreción de insulina y glucagón)?', correcta:'EL ISLOTE DE LANGERHANS', opts:['EL ACINO PANCREÁTICO','EL CONDUCTO PANCREÁTICO','LA CÁPSULA PANCREÁTICA'], recurso:'Los islotes de Langerhans son pequeños "archipiélagos" de células hormonales dispersos entre el tejido acinar (exocrino) del páncreas —de ahí su nombre, ya que al microscopio se ven literalmente como islas de tejido distinto rodeadas del tejido acinar circundante. Dentro de cada islote conviven varios tipos celulares con funciones complementarias: las células beta (insulina, la más numerosa), las células alfa (glucagón) y otras células menos abundantes que producen hormonas adicionales. A diferencia de los acinos, que vierten sus productos (enzimas) hacia un conducto que los lleva al intestino, los islotes vierten sus productos (hormonas) DIRECTAMENTE a los capilares sanguíneos que los rodean, para actuar a distancia en todo el cuerpo —esa es la definición misma de una glándula endocrina, y es la razón anatómica por la que el páncreas se clasifica como un órgano mixto: exocrino Y endocrino, funcionando en paralelo dentro de la misma estructura.' },
@@ -541,7 +556,7 @@ export function genPancreas7Round(){
     const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.caso+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
-      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
       recurso: item.recurso,
     };
@@ -550,7 +565,7 @@ export function genPancreas7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };
@@ -577,7 +592,7 @@ export function genReactivos7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: item.recurso,
   };

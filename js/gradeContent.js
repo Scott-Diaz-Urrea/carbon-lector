@@ -16,6 +16,7 @@ import { CONVIVENCIA_CIUDADANIA_MODULES, CONVIVENCIA_CIUDADANIA_POS } from './co
 import { CORPORALIDAD_MOVIMIENTO_MODULES, CORPORALIDAD_MOVIMIENTO_POS } from './content/parvularia/corporalidadMovimiento.js';
 import { EXPLORACION_ENTORNO_NATURAL_MODULES, EXPLORACION_ENTORNO_NATURAL_POS } from './content/parvularia/exploracionEntornoNatural.js';
 import { COMPRENSION_ENTORNO_SOCIOCULTURAL_MODULES, COMPRENSION_ENTORNO_SOCIOCULTURAL_POS } from './content/parvularia/comprensionEntornoSociocultural.js';
+import { QUIMICA_DIAGNOSTICA_MODULES, QUIMICA_DIAGNOSTICA_POS } from './content/estudioPruebas/quimicaDiagnostica.js';
 
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
@@ -172,4 +173,20 @@ export const NUCLEO_DEFS = [
   { icon:'🌱', label:'Exploración del Entorno Natural', screen:'exploracionEntornoNaturalMap', byNivel: EXPLORACION_ENTORNO_NATURAL_BY_NIVEL },
   { icon:'🏘️', label:'Comprensión del Entorno Sociocultural', screen:'comprensionEntornoSocioculturalMap', byNivel: COMPRENSION_ENTORNO_SOCIOCULTURAL_BY_NIVEL },
   { icon:'🔢', label:'Pensamiento Matemático', screen:'pensamientoMatematicoMap', byNivel: PENSAMIENTO_MATEMATICO_BY_NIVEL },
+];
+
+/* ---------------- Estudio para Pruebas (excepción al currículum Mineduc) ----------------
+   Etapa nueva pedida explícitamente por el usuario, fuera de la regla de oro
+   del proyecto (OA reales de Mineduc): contenido de preparación para exámenes
+   universitarios reales de un familiar (Tecnología Médica, Universidad
+   Central de Chile), extraído de sus propios apuntes/clases/guías de
+   laboratorio, no de un documento curricular oficial de Mineduc. Se organiza
+   por submódulo (una asignatura universitaria cada uno), no por año/núcleo,
+   ya que aquí no existe una trayectoria escolar que seguir. Microbiología
+   Clínica todavía no tiene contenido (`modules: null`) — se agrega como
+   tarjeta "en preparación" hasta que se construya su archivo de contenido,
+   siguiendo el mismo patrón de "🚧 en preparación" que el resto de la app. */
+export const ESTUDIO_PRUEBAS_SUBMODULOS = [
+  { id:'quimicaDiagnostica', icon:'🧪', label:'Química Diagnóstica', screen:'quimicaDiagnosticaMap', modules: QUIMICA_DIAGNOSTICA_MODULES, pos: QUIMICA_DIAGNOSTICA_POS, height: 900 },
+  { id:'microbiologiaClinica', icon:'🦠', label:'Microbiología Clínica', screen:'microbiologiaClinicaMap', modules: null, pos: null, height: 0 },
 ];

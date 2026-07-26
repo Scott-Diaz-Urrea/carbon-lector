@@ -24,6 +24,16 @@ Antes de agregar un módulo nuevo, identificar el/los OA específicos que cubre 
 mencionarlo en el mensaje de commit o en la conversación. Si no se tienen los OA de
 un curso/asignatura todavía, pedirlos al usuario antes de inventar contenido.
 
+**Excepción explícita y acotada a esta regla: "Estudio para Pruebas"** (ver
+sección propia más abajo). Pedido directo del usuario (2026-07-26): una etapa
+nueva, al mismo nivel que Parvularia/Básica/Media/EPJA, para preparar exámenes
+universitarios reales de un familiar (Tecnología Médica, Universidad Central de
+Chile) — el contenido no cita OA de Mineduc porque no es currículum escolar
+chileno, sino los apuntes/clases/guías de laboratorio/insertos de reactivos
+reales del curso universitario. Es la única etapa de la app donde esto aplica;
+no cambia la regla de oro para el resto de LEO (Parvularia a 8° básico siguen
+exigiendo OA reales de Mineduc como siempre).
+
 ## Stack técnico
 
 HTML + CSS + JavaScript vanilla, **sin frameworks ni build step**. Única dependencia
@@ -106,6 +116,21 @@ js/
       corporalidadMovimiento.js       núcleo Corporalidad y Movimiento.
       exploracionEntornoNatural.js    núcleo Exploración del Entorno Natural.
       comprensionEntornoSociocultural.js núcleo Comprensión del Entorno Sociocultural.
+    estudioPruebas/           etapa "Estudio para Pruebas" (ver excepción a la regla de
+                              oro arriba) — organizada por submódulo (asignatura
+                              universitaria), no por año/núcleo, ya que aquí no existe
+                              una trayectoria escolar Mineduc que seguir. Mismo patrón de
+                              archivo que un núcleo de Parvularia (bancos + genXxxRound +
+                              MODULES/POS), un nivel más profundo que content/.
+      quimicaDiagnostica.js    submódulo Química Diagnóstica (11 módulos): casos clínicos
+                              reales (función renal, función hepática, líquidos
+                              biológicos, LCR) + bancos factuales (valores críticos,
+                              control de calidad, endocrinología/marcadores tumorales,
+                              gases arteriales, páncreas, reactivos). Contenido extraído
+                              literalmente de los apuntes/clases/guías del curso real
+                              (nunca inventado) — ver "Estudio para Pruebas" en "Estado
+                              actual del contenido" para el detalle de fuentes y
+                              metodología de extracción.
   games/
     silabas.js                Sílabas: contenido + render*Screen/init*Game/draw*Round/tap*.
     secuencia.js               ídem Secuencia.
@@ -285,7 +310,10 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   `subjectMap` (lista de asignaturas, lee `state.currentGrade`) →
   `lenguajeMap` / `matematicasMap` / `cienciasMap` / `historiaMap` / `artesMap` /
   `musicaMap` / `edfisicaMap` / `orientacionMap` / `tecnologiaMap` (módulos del año
-  actual) → juego individual.
+  actual) → juego individual. Aparte de esta jerarquía, `etapaMap` también lleva
+  directo a `estudioPruebasMap` (tarjetas de submódulo, sin año/nivel intermedio) →
+  `quimicaDiagnosticaMap` (u otro submódulo futuro) → juego individual — ver
+  "Estudio para Pruebas" más abajo.
 - **Asignaturas data-driven:** `SUBJECT_DEFS` (definido después de todos los
   `*_BY_GRADE`, para evitar Temporal Dead Zone) es la lista que `renderSubjectMap()`
   recorre para dibujar las tarjetas de materias — cada entrada es
@@ -1590,6 +1618,62 @@ dejarla indefinidamente pendiente.
   Historia, y una partida jugada en "Geometría VIII: Pitágoras y Volumen"
   (incluye verificación manual de que 6×4×4=96 cm³ y el trío pitagórico
   5-12-13 aparecían como respuesta correcta).
+
+### Estudio para Pruebas — 🚧 Química Diagnóstica completa (11 módulos), Microbiología Clínica pendiente
+**Excepción explícita a la regla de oro** (ver arriba): etapa pedida directamente
+por el usuario (2026-07-26) para preparar exámenes universitarios reales de un
+familiar (Tecnología Médica, Universidad Central de Chile) — nunca basada en OA
+de Mineduc. Accesible desde `etapaMap` como una etapa más (mismo nivel que
+Parvularia/Básica/Media/EPJA), no anidada bajo "Herramientas de consulta" (pedido
+explícito del usuario vía AskUserQuestion). El usuario autorizó explícitamente
+"fuerza bruta" para la extracción (múltiples agentes de investigación leyendo
+cada PDF fuente completo) y pidió priorizar el formato de caso clínico (paciente
++ datos de laboratorio + pregunta), ya que es el mismo formato de evaluación real
+del curso.
+
+- **Química Diagnóstica** (11 módulos, `js/content/estudioPruebas/quimicaDiagnostica.js`):
+  Casos Clínicos: Función Renal (11 ítems, incluye clearance de creatinina y calcio
+  corregido por albúmina como ejercicios numéricos), Casos Clínicos: Función Hepática
+  (6 ítems, colestasis obstructiva), Análisis de Orina y Sedimento, Líquidos
+  Biológicos: Transudado vs Exudado (Criterios de Light, GASA, quiloso/pseudoquiloso,
+  cristales de líquido sinovial), LCR y Diagnóstico de Meningitis, Valores Críticos y
+  de Alerta, Control de Calidad y Estadística Dx (sensibilidad/especificidad, reglas
+  de Westgard), Endocrinología y Marcadores Tumorales, Gases Arteriales y Equilibrio
+  Ácido-Base (caso EPOC), Páncreas: Enzimas y Pancreatitis (caso pancreatitis
+  alcohólica), Bioquímica de Reactivos e Insertos. Todo el contenido fue extraído
+  literalmente (nunca inventado) de los apuntes/clases/guías de laboratorio/insertos
+  de reactivos reales del curso, por agentes de investigación que leyeron cada PDF
+  fuente completo y citaron el archivo exacto de cada hecho — ese proceso de
+  extracción quedó documentado en la conversación, no en el código. Varios ítems son
+  casos clínicos reales ya resueltos en el material del curso (glomerulonefritis
+  aguda post-estreptocócica, ERC con hiperparatiroidismo secundario, colestasis
+  obstructiva, EPOC descompensado, pancreatitis alcohólica, pseudogota); el resto son
+  preguntas factuales de una sola respuesta correcta derivadas directamente de
+  definiciones/valores de referencia/mecanismos ya extraídos, evitando expresamente
+  las contradicciones internas detectadas en el material fuente (p. ej. rangos de
+  referencia que difieren levemente entre dos documentos del mismo curso).
+- **Microbiología Clínica**: aún sin contenido — la extracción de PDFs fuente quedó
+  parcialmente completada (fundamentos bacterianos, antimicrobianos/resistencia y
+  bacilos gram negativos todavía pendientes de extraer) cuando el usuario pidió
+  explícitamente priorizar Química Diagnóstica primero. Mientras no tenga `modules`,
+  `ESTUDIO_PRUEBAS_SUBMODULOS` (`js/gradeContent.js`) la muestra como tarjeta
+  "🚧 Próximamente" en `estudioPruebasMap` — no rompe nada, solo no es jugable
+  todavía. Para construirla: mismo patrón que `quimicaDiagnostica.js` (archivo
+  nuevo en `js/content/estudioPruebas/`, registrar en `ESTUDIO_PRUEBAS_SUBMODULOS`
+  con su propio `screen`, agregar el `else if` en `render.js`, registrar sus
+  `genXxxRound` en `MC_GAMES`/`MC_KEYS`, agregar sus `MODULE_TITLES` y claves de
+  `state.stars`).
+
+Verificado: los 11 módulos de Química Diagnóstica pasan fuzz estructural (300
+iteraciones cada uno: sin `undefined`, sin opciones duplicadas, `correctValue`
+siempre presente, exactamente 4 opciones, sin apóstrofes en `speakText` — que
+rompen el atributo `onclick` del botón "Escuchar") y simulación de sesión
+completa (300 sesiones cada uno, sin ningún repetido). Probado también en el
+navegador: navegación completa `etapaMap` → `estudioPruebasMap` →
+`quimicaDiagnosticaMap` → módulo individual, con una partida jugada de principio
+a fin en "Casos Clínicos: Función Renal" (respuesta correcta avanza sola,
+respuesta incorrecta muestra el overlay de Carboncito con el `explain`, la
+pantalla de resultados final muestra estrellas/insignia correctamente).
 
 ### Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false` para 7°-8° ya no aplica (ambos

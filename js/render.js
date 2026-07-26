@@ -13,6 +13,7 @@ import {
   LENGUAJE_BY_GRADE, MATE_BY_GRADE, CIENCIAS_BY_GRADE, HISTORIA_BY_GRADE,
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
   TECNOLOGIA_BY_GRADE, INGLES_BY_GRADE, SUBJECT_DEFS, NUCLEO_DEFS,
+  ESTUDIO_PRUEBAS_SUBMODULOS,
 } from './gradeContent.js';
 
 export function render(){
@@ -25,6 +26,9 @@ export function render(){
   else if(scr === 'etapaMap') body = renderEtapaMap();
   else if(scr === 'gradeMap') body = renderGradeMap();
   else if(scr === 'nucleoMap') body = renderNucleoMap();
+  else if(scr === 'estudioPruebasMap') body = renderEstudioPruebasMap();
+  else if(scr === 'quimicaDiagnosticaMap') body = renderQuimicaDiagnosticaMap();
+  else if(scr === 'microbiologiaClinicaMap') body = renderComingSoonSubject('Microbiología Clínica');
   else if(scr === 'pensamientoMatematicoMap') body = renderPensamientoMatematicoMap();
   else if(scr === 'lenguajeVerbalMap') body = renderLenguajeVerbalMap();
   else if(scr === 'lenguajesArtisticosMap') body = renderLenguajesArtisticosMap();
@@ -103,6 +107,10 @@ function renderEtapaMap(){
       '<button class="subject-card locked" onclick="showToast(\'🚧 Etapa en preparación\')">'+
         '<span class="subject-icon">🌙</span>'+
         '<span class="subject-info"><b>Educación para Adultos</b><small>EPJA · jornada diurna y vespertina</small></span>'+
+      '</button>'+
+      '<button class="subject-card" onclick="goTo(\'estudioPruebasMap\')">'+
+        '<span class="subject-icon">🎓</span>'+
+        '<span class="subject-info"><b>Estudio para Pruebas</b><small>Preparación de exámenes universitarios</small></span>'+
       '</button>'+
     '</div>'+
     '<p class="section-title dicc-section-title">Herramientas de consulta</p>'+
@@ -201,6 +209,34 @@ function renderExploracionEntornoNaturalMap(){
 }
 function renderComprensionEntornoSocioculturalMap(){
   return renderNucleoMapFor('comprensionEntornoSocioculturalMap','Comprensión del Entorno Sociocultural','🏘️');
+}
+
+function renderEstudioPruebasMap(){
+  const cards = ESTUDIO_PRUEBAS_SUBMODULOS.map(function(sd){
+    if(!sd.modules){
+      return '<button class="subject-card locked" onclick="showToast(\'🚧 Contenido en preparación\')">'+
+        '<span class="subject-icon">'+sd.icon+'</span>'+
+        '<span class="subject-info"><b>'+sd.label+'</b><small>Próximamente</small></span>'+
+      '</button>';
+    }
+    const keys = sd.modules.filter(function(m){ return m.key; }).map(function(m){ return m.key; });
+    const stars = keys.reduce(function(a,k){ return a + state.stars[k]; }, 0);
+    const sub = sd.modules.map(function(m){ return m.label; }).join(' · ');
+    return '<button class="subject-card" onclick="goTo(\''+sd.screen+'\')">'+
+      '<span class="subject-icon">'+sd.icon+'</span>'+
+      '<span class="subject-info"><b>'+sd.label+'</b><small>'+sub+'</small></span>'+
+      '<span class="subject-stars">⭐ '+stars+'/'+(keys.length*3)+'</span>'+
+    '</button>';
+  }).join('');
+  return '<div class="screen">'+
+    '<p class="section-title">Estudio para Pruebas</p>'+
+    '<p class="section-sub">Preparación para exámenes universitarios reales — elige un ramo.</p>'+
+    '<div class="subject-list">'+cards+'</div>'+
+  '</div>';
+}
+function renderQuimicaDiagnosticaMap(){
+  const sd = ESTUDIO_PRUEBAS_SUBMODULOS.filter(function(x){ return x.id==='quimicaDiagnostica'; })[0];
+  return renderModuleMap('Química Diagnóstica','🧪 Preparación de examen · Tecnología Médica, Universidad Central', sd.modules, sd.pos, sd.height);
 }
 
 function subjectStars(keys){

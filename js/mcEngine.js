@@ -119,6 +119,11 @@ import {
   genRolesComunidadNTRound, genObjetosTecNTRound, genInstitucionesNTRound,
   genSeguridadPrevNTRound,
 } from './content/parvularia/comprensionEntornoSociocultural.js';
+import {
+  genCasosRenal7Round, genCasosHepatico7Round, genOrina7Round, genLiquidos7Round, genLcr7Round,
+  genValoresCriticos7Round, genControlCalidad7Round, genEndocrinoTumoral7Round,
+  genGasesArteriales7Round, genPancreas7Round, genReactivos7Round,
+} from './content/estudioPruebas/quimicaDiagnostica.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult } from './rewards.js';
@@ -205,7 +210,9 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'sistemasjuego8','entrenamiento8',
   'prevencionriesgo8','bienestar8','relacionesinclusion8','participaciondemocratica8','gestionaprendizaje8',
   'analisissoluciones8',
-  'funcionesidioma8','lecturaavanzada8'];
+  'funcionesidioma8','lecturaavanzada8',
+  'qdcasosrenal','qdcasoshepatico','qdorina','qdliquidos','qdlcr',
+  'qdvalorescriticos','qdcontrolcalidad','qdendocrinotumoral','qdgasesarteriales','qdpancreas','qdreactivos'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -509,6 +516,17 @@ export const MC_GAMES = {
   analisissoluciones8: { title:'Análisis de Soluciones Tecnológicas', gen: genAnalisisSoluciones8Round, rounds:8 },
   funcionesidioma8: { title:'Funciones del Idioma VIII', gen: genFuncionesIdioma8Round, rounds:8 },
   lecturaavanzada8: { title:'Lectura Avanzada', gen: genLecturaAvanzada8Round, rounds:8 },
+  qdcasosrenal: { title:'Casos Clínicos: Función Renal', gen: genCasosRenal7Round, rounds:8 },
+  qdcasoshepatico: { title:'Casos Clínicos: Función Hepática', gen: genCasosHepatico7Round, rounds:6 },
+  qdorina: { title:'Análisis de Orina y Sedimento', gen: genOrina7Round, rounds:8 },
+  qdliquidos: { title:'Líquidos Biológicos: Transudado vs Exudado', gen: genLiquidos7Round, rounds:8 },
+  qdlcr: { title:'LCR y Diagnóstico de Meningitis', gen: genLcr7Round, rounds:8 },
+  qdvalorescriticos: { title:'Valores Críticos y de Alerta', gen: genValoresCriticos7Round, rounds:8 },
+  qdcontrolcalidad: { title:'Control de Calidad y Estadística Dx', gen: genControlCalidad7Round, rounds:8 },
+  qdendocrinotumoral: { title:'Endocrinología y Marcadores Tumorales', gen: genEndocrinoTumoral7Round, rounds:8 },
+  qdgasesarteriales: { title:'Gases Arteriales y Equilibrio Ácido-Base', gen: genGasesArteriales7Round, rounds:8 },
+  qdpancreas: { title:'Páncreas: Enzimas y Pancreatitis', gen: genPancreas7Round, rounds:8 },
+  qdreactivos: { title:'Bioquímica de Reactivos e Insertos', gen: genReactivos7Round, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

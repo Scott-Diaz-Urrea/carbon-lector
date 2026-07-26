@@ -90,7 +90,9 @@ export const state = {
            sistemasjuego8:0, entrenamiento8:0,
            prevencionriesgo8:0, bienestar8:0, relacionesinclusion8:0, participaciondemocratica8:0, gestionaprendizaje8:0,
            analisissoluciones8:0,
-           funcionesidioma8:0, lecturaavanzada8:0 },
+           funcionesidioma8:0, lecturaavanzada8:0,
+           qdcasosrenal:0, qdcasoshepatico:0, qdorina:0, qdliquidos:0, qdlcr:0,
+           qdvalorescriticos:0, qdcontrolcalidad:0, qdendocrinotumoral:0, qdgasesarteriales:0, qdpancreas:0, qdreactivos:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

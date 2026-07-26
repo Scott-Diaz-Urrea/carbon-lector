@@ -317,6 +317,17 @@ export const MODULE_TITLES = {
   analisissoluciones8:'Analista Tecnológico',
   funcionesidioma8:'English Explorer IV',
   lecturaavanzada8:'English Reader IV',
+  qdcasosrenal:'Nefrólogo en Formación',
+  qdcasoshepatico:'Hepatólogo en Formación',
+  qdorina:'Maestro del Sedimento',
+  qdliquidos:'Experto en Derrames',
+  qdlcr:'Detective del LCR',
+  qdvalorescriticos:'Guardián de Valores Críticos',
+  qdcontrolcalidad:'Auditor de Calidad',
+  qdendocrinotumoral:'Endocrinólogo en Formación',
+  qdgasesarteriales:'Maestro Ácido-Base',
+  qdpancreas:'Experto en Páncreas',
+  qdreactivos:'Bioquímico de Reactivos',
 };
 
 export function spawnConfetti(container){

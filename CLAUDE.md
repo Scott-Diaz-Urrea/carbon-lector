@@ -2069,16 +2069,44 @@ como es la aplicación") en vez de pedir un ancho específico.
   entre nodos del mismo lado del zigzag es de **162px** (constante, calculado
   desde las coordenadas `%` de `QUIMICA_DIAGNOSTICA_POS` × `height:900`) —
   con esa variación de +47px, dos nodos altos consecutivos (nodo 7 y nodo 9)
-  llegaban a solaparse hasta **25px**, confirmado con
-  `getBoundingClientRect()` antes y después del fix (0 solapamientos tras
-  corregir). Solución aplicada: `.node{ height:158px; }` (fijo, calculado
-  para el peor caso de 2 líneas + estrellas) y `.node-label` con
-  `-webkit-line-clamp:2` + `min-height:55px` — todos los nodos, con
-  cualquier largo de título, ahora miden exactamente lo mismo. El título
-  completo sigue viéndose al entrar al módulo; el chip del mapa es solo
-  navegación. Esto NO requirió tocar los ~30 archivos de contenido con
-  arrays `POS`/`height` por dataset — es un fix de CSS puro, general para
-  toda la app.
+  llegaban a solaparse hasta **25px**.
+  - **Primer intento (revertido en la misma sesión, tras revisión propia):**
+    fijar `.node{height:158px}` + `.node-label` con `-webkit-line-clamp:2` +
+    `min-height:55px` — arregló Química Diagnóstica, pero un escaneo
+    geométrico posterior de los **86 datasets de mapa de toda la app**
+    (comparando cada par de nodos del mismo lado del zigzag contra el
+    `height`/coordenadas real de su propio dataset) mostró que 14 de esos
+    86 tienen un espaciado vertical MÁS AJUSTADO que 158px (hasta 136.8px en
+    Matemática 5°-6° básico). Con una altura fija, nodos de título CORTO que
+    antes cabían perfecto (ej. "Dividir", "Contar") se inflaban al mismo
+    tamaño que el peor caso de 2 líneas, y pasaban a solaparse en esos
+    datasets que antes estaban bien — confirmado navegando a Matemática 5°
+    básico y midiendo overlaps reales de hasta 21.2px que NO existían antes
+    del primer intento.
+  - **Fix definitivo:** se quitó la altura fija de `.node` y el
+    `min-height` de `.node-label`, dejando `-webkit-line-clamp:2` como
+    único límite (un TOPE máximo, no un mínimo forzado). Un título de 1
+    línea conserva su alto natural y compacto (~124.6px medido); uno de 2
+    líneas llega a ~140.3px — una variación real de solo ~16px (antes: hasta
+    79px sin el fix, o el problema inverso con el fix roto). Verificado con
+    `getBoundingClientRect()` en 14 datasets (los 86 escaneados por
+    geometría más los ya afectados): **13 de 14 sin ningún solapamiento**
+    (incluida Química Diagnóstica, el caso original). El único residual es
+    Matemática 6° básico, con **3.5px** de solapamiento entre "Múltiplos y
+    Factores" y "Razones y Porcentajes" — imperceptible en la práctica (antes
+    del fix roto: hasta 25px; con el fix roto: hasta 21.2px en otro
+    dataset) y no se intentó eliminar del todo para no arriesgar volver a
+    inflar otros nodos por un margen de unos pocos px. Ninguna de las dos
+    versiones del fix tocó los ~30 archivos de contenido con arrays
+    `POS`/`height` por dataset — es un fix de CSS puro, general para toda
+    la app.
+  - **Lección para fixes de CSS futuros que afecten un componente
+    reutilizado en muchos datasets/pantallas:** verificar SIEMPRE contra
+    una muestra representativa de TODOS los usos del componente (no solo el
+    caso puntual que motivó el fix) antes de dar el cambio por terminado —
+    un fix que arregla el caso reportado puede romper silenciosamente casos
+    que antes funcionaban bien, si el rango de variación real del contenido
+    no se midió primero.
 - **`#app` no usaba todo el ancho — causa raíz: restricción de ancho
   DUPLICADA en dos capas**: `#app` tiene su propio `max-width` (escalera de
   breakpoints, auditoría 2026-07-28) Y ADEMÁS `.prompt-card`/
@@ -2107,13 +2135,15 @@ como es la aplicación") en vez de pedir un ancho específico.
   tamaño legítimo dado el número de nodos, no un defecto — reducirlo
   arriesgaría volver a apretar los nodos.
 
-Verificado en el navegador tras el fix: los 11 nodos de Química Diagnóstica
-miden exactamente 158px cada uno, 0 solapamientos (antes: hasta 25px), sin
-errores de consola, `#app` mide 1200px a 1440px de viewport (antes 980px).
-No se tocó ningún archivo de contenido (`js/content/**`) — el fix completo
-vive en `styles.css`, por lo que beneficia a los ~30 mapas de módulo de toda
-la app (Básica, Parvularia, Estudio para Pruebas), no solo a Química
-Diagnóstica.
+Verificado en el navegador tras el fix definitivo: 13 de 14 datasets
+revisados sin ningún solapamiento (Química Diagnóstica, Ciencias G1-G3,
+Lenguaje G1/G3, Matemática G3-G5, Historia G1, mapa de años, y los 3 núcleos
+de Parvularia previamente en riesgo), 1 residual de 3.5px en Matemática 6°
+básico, sin errores de consola, `#app` mide 1200px a 1440px de viewport
+(antes 980px). No se tocó ningún archivo de contenido (`js/content/**`) — el
+fix completo vive en `styles.css`, por lo que beneficia a los ~30 mapas de
+módulo de toda la app (Básica, Parvularia, Estudio para Pruebas), no solo a
+Química Diagnóstica.
 
 ## Convenciones a mantener
 

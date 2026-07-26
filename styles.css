@@ -218,21 +218,25 @@
     border: none;
     cursor: pointer;
     width: 92px;
-    /* Auditoría frontend 2026-07-26: medido en el navegador, la altura real
-       de un nodo variaba entre 155.9px (título de 2 líneas) y 202.75px
-       (título de 3 líneas, ej. "Gases Arteriales y Equilibrio Ácido-Base"),
-       mientras que el espaciado vertical entre nodos del mismo lado del
-       zigzag (calculado a partir de las coordenadas % de cada dataset) es
-       de solo ~162px en Química Diagnóstica — con esa variación de +47px,
-       dos nodos altos consecutivos llegaban a solaparse hasta 25px.
-       Fijar una altura uniforme para TODOS los nodos (calculada para el
-       peor caso de 2 líneas + estrellas, ver .node-label) resuelve el
-       solapamiento sin tocar las coordenadas de cada dataset de contenido.
-       justify-content no se declara porque flex-start (el valor por
-       defecto) ya apila el contenido desde arriba, dejando el espacio
-       sobrante abajo — igual para nodos bloqueados (2 hijos, sin estrellas)
-       que para nodos abiertos (3 hijos). */
-    height: 158px;
+    /* Auditoría frontend 2026-07-26: la altura real de un nodo variaba entre
+       155.9px (título de 2 líneas) y 202.75px (título de 3 líneas, ej.
+       "Gases Arteriales y Equilibrio Ácido-Base" en Química Diagnóstica),
+       causando hasta 25px de solapamiento con el nodo vecino en ESE
+       dataset. Se probó primero fijar una altura uniforme (height:158px)
+       para todos los nodos, pero un escaneo geométrico de los 86 datasets
+       de mapa de toda la app (comparando cada par de nodos del mismo lado
+       del zigzag contra el ancho/alto real de su `map-wrap`) mostró que 14
+       de esos 86 tienen un espaciado vertical MÁS AJUSTADO que 158px
+       (hasta 136.8px en Matemática 5°-6° básico) — con una altura fija,
+       nodos de título CORTO que antes cabían perfecto (¡Contar", "Dividir")
+       pasaban a solaparse igual, porque se inflaban al mismo tamaño que el
+       peor caso de 2 líneas. Se optó por NO fijar una altura mínima: el
+       `-webkit-line-clamp:2` de `.node-label` ya limita el MÁXIMO (evita
+       que un título de 3 líneas siga desbordando como antes), pero un
+       título corto de 1 línea conserva su alto natural y compacto — la
+       altura real de un nodo hoy varía solo entre ~123px y ~158px (antes
+       ~123px a ~203px), lo suficiente para no romper los datasets ya
+       ajustados sin reintroducir el solapamiento severo original. */
   }
   .node-circle{
     width: 74px; height: 74px;
@@ -269,18 +273,24 @@
     white-space: normal;
     max-width: 128px;
     line-height: 1.25;
-    /* Recorte a 2 líneas con elipsis: sin esto, un título de 3 líneas
-       ("Gases Arteriales y Equilibrio Ácido-Base") hacía crecer SOLO ese
-       nodo, rompiendo la uniformidad del mapa y solapándose con el nodo
-       vecino (ver .node arriba). El título completo se sigue viendo al
-       entrar al módulo, este chip es solo navegación. min-height reserva
-       el mismo alto de 2 líneas aunque el texto sea corto (ej. "Contar"),
-       para que todas las etiquetas —cortas o largas— midan lo mismo. */
+    /* Recorte a 2 líneas con elipsis (tope MÁXIMO, no un mínimo forzado):
+       sin esto, un título de 3 líneas ("Gases Arteriales y Equilibrio
+       Ácido-Base") hacía crecer SOLO ese nodo, solapándose con el vecino.
+       El título completo se sigue viendo al entrar al módulo, este chip es
+       solo navegación. Deliberadamente SIN min-height: un título corto de
+       1 línea ("Contar") debe conservar su alto natural y compacto — un
+       primer intento de reservar min-height:55px (2 líneas fijas) inflaba
+       también los títulos cortos, y un escaneo geométrico de los 86
+       datasets de mapa de la app mostró que varios (Matemática 5°-6°
+       básico, entre otros) tienen nodos vecinos separados por menos de
+       137px — con TODOS los nodos inflados a un alto uniforme, esos
+       títulos cortos que antes cabían perfecto pasaban a solaparse
+       también. Limitar solo el máximo evita el desborde de 3 líneas sin
+       tocar el alto de los títulos que ya eran compactos. */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: 55px;
   }
   .node-label.locked{ color: var(--locked-ink); }
   .node-stars{ display: flex; gap: 2px; }

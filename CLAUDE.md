@@ -395,24 +395,42 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   scroll interno, animación de entrada/salida, y cierre libre (botón ✕ o tocar el
   fondo) que **no bloquea ni afecta el avance de la ronda** — a diferencia de
   `showExplain()`, que si pausa el juego hasta que el niño confirma haber
-  entendido. `recurso` es a propósito un campo por **generador** (no por ítem del
-  banco): el concepto evaluado por un módulo es el mismo aunque el ítem específico
-  cambie en cada ronda (p. ej. "Contar" siempre enseña sobre la correspondencia
-  uno a uno, sin importar qué objeto o cantidad le toque al niño esa ronda), así
-  que un solo texto por generador cubre todas sus variantes dinámicas sin tener
-  que escribir uno por cada combinación posible.
-  - **Estado del rollout:** implementado en el motor (universal, cualquier
-    `genXxxRound()` de cualquier año/asignatura puede usarlo) y con contenido piloto
-    en los 7 módulos originales de 1° básico que usan este motor — Lenguaje
-    (`genVocalRound`, `genPalabraRound`, `genComprensionRound`) y Matemática
-    (`genCountRound`, `genAddRound`, `genCompareRound`, `genFormaRound`). El resto
-    de los ~300 módulos de opción múltiple de la app todavía no tienen `recurso`
-    (se degradan con gracia: sin el campo, el botón simplemente no aparece, nada se
-    rompe). Extenderlo al resto de la app es un trabajo de contenido grande
-    pendiente — no está automatizado a propósito, ya que cada texto debe seguir
-    grounded estrictamente en el concepto real de esa asignatura/año (regla de oro
-    del proyecto), no generarse genéricamente. Los juegos a medida (Sílabas,
-    Secuencia, Memorama) no usan este motor y por ahora no tienen botón Recurso.
+  entendido. `recurso` se puede escribir con 2 granularidades distintas según lo
+  que necesite el módulo: **por generador** (un solo texto fijo, reusado en todas
+  las rondas de ese `genXxxRound()`) cuando el concepto evaluado es siempre el
+  mismo aunque el ítem específico cambie cada ronda — p. ej. "Contar" (1° básico)
+  siempre enseña sobre la correspondencia uno a uno, sin importar qué objeto o
+  cantidad le toque al niño; o **por ítem del banco** (`item.recurso`, reenviado
+  por el generador como `recurso: item.recurso`) cuando cada ítem del banco cubre
+  un concepto genuinamente distinto — el caso de Química Diagnóstica, donde un
+  mismo módulo puede pasar de un caso de glomerulonefritis a una fórmula de
+  clearance de creatinina en la ronda siguiente, y un solo texto genérico por
+  generador no sería realmente "contextual a la pregunta actual" como pide el
+  pedido original del usuario.
+  - **Estado del rollout (actualizado 2026-07-27, tras revisión del usuario):**
+    motor implementado de forma universal (cualquier `genXxxRound()` de
+    cualquier año/asignatura puede usarlo). Contenido completo en:
+    - **1° básico** (piloto inicial, por generador): Lenguaje (`genVocalRound`,
+      `genPalabraRound`, `genComprensionRound`) y Matemática (`genCountRound`,
+      `genAddRound`, `genCompareRound`, `genFormaRound`) — 7 módulos.
+    - **Estudio para Pruebas → Química Diagnóstica** (por ítem del banco, a
+      pedido explícito del usuario de priorizar este módulo antes que
+      cualquier otro): los 11 módulos completos, ~116 ítems individuales, cada
+      uno con su propio `recurso` de 120-180 palabras (qué es/cómo funciona/
+      por qué importa/aplicaciones), sin actuar nunca como pista de la
+      respuesta. Verificado con fuzz test: 0% de ítems sin `recurso`, sin
+      texto `undefined`, conteo de palabras dentro de rango en los 11
+      generadores (300 iteraciones cada uno).
+    - Pedido explícito del usuario: **no avanzar a otros módulos/grados hasta
+      que revise y apruebe personalmente la calidad pedagógica, el tono, la
+      profundidad y la experiencia de usuario de Química Diagnóstica.** El
+      resto de los ~300 módulos de opción múltiple de la app (2°-8° básico,
+      Parvularia, Microbiología Clínica) todavía no tienen `recurso` — se
+      degradan con gracia (sin el campo, el botón simplemente no aparece).
+      Una vez aprobado Química Diagnóstica, el plan acordado es continuar
+      grado por grado con el mismo enfoque de calidad. Los juegos a medida
+      (Sílabas, Secuencia, Memorama) no usan este motor y por ahora no tienen
+      botón Recurso.
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el

@@ -2069,16 +2069,81 @@ como es la aplicación") en vez de pedir un ancho específico.
   entre nodos del mismo lado del zigzag es de **162px** (constante, calculado
   desde las coordenadas `%` de `QUIMICA_DIAGNOSTICA_POS` × `height:900`) —
   con esa variación de +47px, dos nodos altos consecutivos (nodo 7 y nodo 9)
-  llegaban a solaparse hasta **25px**, confirmado con
-  `getBoundingClientRect()` antes y después del fix (0 solapamientos tras
-  corregir). Solución aplicada: `.node{ height:158px; }` (fijo, calculado
-  para el peor caso de 2 líneas + estrellas) y `.node-label` con
-  `-webkit-line-clamp:2` + `min-height:55px` — todos los nodos, con
-  cualquier largo de título, ahora miden exactamente lo mismo. El título
-  completo sigue viéndose al entrar al módulo; el chip del mapa es solo
-  navegación. Esto NO requirió tocar los ~30 archivos de contenido con
-  arrays `POS`/`height` por dataset — es un fix de CSS puro, general para
-  toda la app.
+  llegaban a solaparse hasta **25px**.
+  - **Primer intento (revertido en la misma sesión, tras revisión propia):**
+    fijar `.node{height:158px}` + `.node-label` con `-webkit-line-clamp:2` +
+    `min-height:55px` — arregló Química Diagnóstica, pero un escaneo
+    geométrico posterior de los **86 datasets de mapa de toda la app**
+    (comparando cada par de nodos del mismo lado del zigzag contra el
+    `height`/coordenadas real de su propio dataset) mostró que 14 de esos
+    86 tienen un espaciado vertical MÁS AJUSTADO que 158px (hasta 136.8px en
+    Matemática 5°-6° básico). Con una altura fija, nodos de título CORTO que
+    antes cabían perfecto (ej. "Dividir", "Contar") se inflaban al mismo
+    tamaño que el peor caso de 2 líneas, y pasaban a solaparse en esos
+    datasets que antes estaban bien — confirmado navegando a Matemática 5°
+    básico y midiendo overlaps reales de hasta 21.2px que NO existían antes
+    del primer intento.
+  - **Segundo intento (también revertido, tras feedback directo del
+    usuario con capturas de pantalla):** se quitó la altura fija de
+    `.node` y el `min-height` de `.node-label`, dejando
+    `-webkit-line-clamp:2` como único límite (un TOPE máximo). Esto
+    eliminaba el solapamiento (13 de 14 datasets limpios), pero el usuario
+    señaló —con capturas reales— que varios títulos quedaban CORTADOS con
+    "…" a mitad de palabra ("Gases Arterial…" en vez de "Gases Arteriales
+    y..."): pidió explícitamente **no truncar texto**, solo evitar la
+    deformación. `line-clamp` por definición trunca, así que no cumplía
+    ese requisito aunque resolviera el solapamiento.
+  - **Fix definitivo (sin truncar nada):** se midió con un elemento de
+    prueba (mismos estilos que `.node-label`, esperando `document.fonts.
+    ready`) el largo real de los **320 títulos únicos de módulo de toda la
+    app** a distintos anchos — a 170px máximo, ninguno supera 2 líneas
+    (antes, a 128px, "Líquidos Biológicos: Transudado vs Exudado"
+    necesitaba 3). Se subió `.node-label` de 128px a 170px de ancho máximo
+    y se quitó `-webkit-line-clamp` por completo (el título siempre se ve
+    entero, nunca se corta). **Bug adicional encontrado al verificar en
+    vivo** (no solo por cálculo): pese al `max-width:170px`, la etiqueta
+    renderizaba a solo ~80px de ancho real — un comportamiento de flexbox
+    donde un hijo flex sin `width` explícito calcula su "fit-content"
+    contra el ancho del CONTENEDOR (`.node`, 92px) en vez de su propio
+    contenido, dejándola atrapada muy por debajo de su `max-width` y
+    forzando líneas de más otra vez. Se probó `flex-shrink:0` y
+    `align-self` en vivo (sin efecto) hasta encontrar que `width:
+    max-content` sí lo resuelve — la etiqueta ahora usa su ancho natural
+    de contenido (compacta si el título es corto) topado en 170px (si es
+    largo), igual que el `max-width` siempre debió comportarse.
+    `.node{height:150px}` fijo (74 círculo + 6 gap + 40 label de 2 líneas
+    + 6 gap + 13 estrellas, con margen) — esta vez el peor caso real de la
+    app son 2 líneas SIEMPRE (nunca 3), así que una altura fija ya no
+    corre el riesgo de inflar nodos de más como en el primer intento. De
+    los 86 datasets de mapa de la app, solo 6 tenían un espaciado vertical
+    insuficiente para 150px (Lenguaje 3°, Matemática 5°-6°, Ciencias 2°, y
+    2 núcleos de Parvularia) — se les subió el campo `height` en
+    `js/gradeContent.js` (480→510, 760→840 ×2, 480→490, 480→490, 420→450),
+    el único cambio que sí tocó archivos de contenido, y solo el número,
+    nunca las coordenadas `%` de cada nodo.
+  - **Verificación final, la más exhaustiva de las tres rondas:** no solo
+    cálculo geométrico — se navegó y renderizó (`render()` real) las 86
+    pantallas de mapa de toda la app (77 combinaciones año×asignatura + 8
+    núcleos de Parvularia + Química Diagnóstica + el mapa de años) y se
+    midió con `getBoundingClientRect()` cada nodo: **0 solapamientos, 0
+    títulos truncados, ancho de etiqueta siempre ≤170px, en las 86**.
+    Probado también visualmente en 320px/375px (los anchos de celular más
+    angostos) confirmando 0 colisiones horizontales entre columnas del
+    zigzag incluso en el caso más extremo.
+  - **Lección para fixes de CSS futuros que afecten un componente
+    reutilizado en muchos datasets/pantallas (reforzada tras 3 rondas de
+    intentos en el mismo bug):** (1) verificar SIEMPRE contra una muestra
+    representativa de TODOS los usos del componente, no solo el caso
+    puntual reportado — un fix puede arreglar el caso visible y romper
+    silenciosamente otros que antes funcionaban bien; (2) si el pedido del
+    usuario dice explícitamente "no cortar texto", cualquier solución
+    basada en truncamiento (`line-clamp`, `text-overflow:ellipsis`) está
+    descartada de entrada, sin importar cuán bien resuelva el resto del
+    problema; (3) medir con elementos de prueba en el navegador ANTES de
+    asumir un ancho/alto — un cálculo geométrico de escritorio (`Δy% ×
+    height`) puede ser correcto y aun así esconder un bug de layout real
+    (el flex item atrapado en el ancho del contenedor) que solo aparece
+    verificando el DOM renderizado de verdad, no solo las coordenadas.
 - **`#app` no usaba todo el ancho — causa raíz: restricción de ancho
   DUPLICADA en dos capas**: `#app` tiene su propio `max-width` (escalera de
   breakpoints, auditoría 2026-07-28) Y ADEMÁS `.prompt-card`/
@@ -2107,13 +2172,18 @@ como es la aplicación") en vez de pedir un ancho específico.
   tamaño legítimo dado el número de nodos, no un defecto — reducirlo
   arriesgaría volver a apretar los nodos.
 
-Verificado en el navegador tras el fix: los 11 nodos de Química Diagnóstica
-miden exactamente 158px cada uno, 0 solapamientos (antes: hasta 25px), sin
-errores de consola, `#app` mide 1200px a 1440px de viewport (antes 980px).
-No se tocó ningún archivo de contenido (`js/content/**`) — el fix completo
-vive en `styles.css`, por lo que beneficia a los ~30 mapas de módulo de toda
-la app (Básica, Parvularia, Estudio para Pruebas), no solo a Química
-Diagnóstica.
+Verificado en el navegador tras el fix definitivo (tercera y última ronda,
+sin truncar texto): se navegó y renderizó con `render()` real cada una de
+las **86 pantallas de mapa de toda la app** (las 77 combinaciones
+año×asignatura de Educación Básica, los 8 núcleos de Parvularia, Química
+Diagnóstica, y el mapa de años) y se midió cada nodo con
+`getBoundingClientRect()` — **0 solapamientos, 0 títulos truncados, ancho de
+etiqueta siempre ≤170px, en las 86 pantallas**, sin errores de consola.
+Probado visualmente en 320px/375px/1440px. Solo 6 de esos 86 datasets
+necesitaron subir su campo `height` en `js/gradeContent.js` (nunca las
+coordenadas `%`); el resto del fix es CSS puro en `styles.css`. `#app` mide
+1200px a 1440px de viewport (antes 980px, auditoría previa de esta misma
+sesión).
 
 ## Convenciones a mantener
 

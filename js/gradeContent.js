@@ -21,7 +21,7 @@ import { QUIMICA_DIAGNOSTICA_MODULES, QUIMICA_DIAGNOSTICA_POS } from './content/
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
   2: { modules: LENGUAJE_MODULES_G2, pos: LENGUAJE_POS_G2, height: 360 },
-  3: { modules: LENGUAJE_MODULES_G3, pos: LENGUAJE_POS_G3, height: 480 },
+  3: { modules: LENGUAJE_MODULES_G3, pos: LENGUAJE_POS_G3, height: 510 },
   4: { modules: LENGUAJE_MODULES_G4, pos: LENGUAJE_POS_G4, height: 360 },
   5: { modules: LENGUAJE_MODULES_G5, pos: LENGUAJE_POS_G5, height: 440 },
   6: { modules: LENGUAJE_MODULES_G6, pos: LENGUAJE_POS_G6, height: 440 },
@@ -33,14 +33,14 @@ export const MATE_BY_GRADE = {
   2: { modules: MATE_MODULES_G2, pos: MATE_POS_G2, height: 360 },
   3: { modules: MATE_MODULES_G3, pos: MATE_POS_G3, height: 700 },
   4: { modules: MATE_MODULES_G4, pos: MATE_POS_G4, height: 700 },
-  5: { modules: MATE_MODULES_G5, pos: MATE_POS_G5, height: 760 },
-  6: { modules: MATE_MODULES_G6, pos: MATE_POS_G6, height: 760 },
+  5: { modules: MATE_MODULES_G5, pos: MATE_POS_G5, height: 840 },
+  6: { modules: MATE_MODULES_G6, pos: MATE_POS_G6, height: 840 },
   7: { modules: MATE_MODULES_G7, pos: MATE_POS_G7, height: 760 },
   8: { modules: MATE_MODULES_G8, pos: MATE_POS_G8, height: 760 },
 };
 export const CIENCIAS_BY_GRADE = {
   1: { modules: CIENCIAS_MODULES, pos: CIENCIAS_POS, height: 420 },
-  2: { modules: CIENCIAS_MODULES_G2, pos: CIENCIAS_POS_G2, height: 480 },
+  2: { modules: CIENCIAS_MODULES_G2, pos: CIENCIAS_POS_G2, height: 490 },
   3: { modules: CIENCIAS_MODULES_G3, pos: CIENCIAS_POS_G3, height: 560 },
   4: { modules: CIENCIAS_MODULES_G4, pos: CIENCIAS_POS_G4, height: 420 },
   5: { modules: CIENCIAS_MODULES_G5, pos: CIENCIAS_POS_G5, height: 420 },
@@ -137,7 +137,7 @@ export const PENSAMIENTO_MATEMATICO_BY_NIVEL = {
   nt: { modules: PENSAMIENTO_MATEMATICO_MODULES, pos: PENSAMIENTO_MATEMATICO_POS, height: 700 },
 };
 export const LENGUAJE_VERBAL_BY_NIVEL = {
-  nt: { modules: LENGUAJE_VERBAL_MODULES, pos: LENGUAJE_VERBAL_POS, height: 480 },
+  nt: { modules: LENGUAJE_VERBAL_MODULES, pos: LENGUAJE_VERBAL_POS, height: 490 },
 };
 export const LENGUAJES_ARTISTICOS_BY_NIVEL = {
   nt: { modules: LENGUAJES_ARTISTICOS_MODULES, pos: LENGUAJES_ARTISTICOS_POS, height: 340 },
@@ -152,7 +152,7 @@ export const CORPORALIDAD_MOVIMIENTO_BY_NIVEL = {
   nt: { modules: CORPORALIDAD_MOVIMIENTO_MODULES, pos: CORPORALIDAD_MOVIMIENTO_POS, height: 340 },
 };
 export const EXPLORACION_ENTORNO_NATURAL_BY_NIVEL = {
-  nt: { modules: EXPLORACION_ENTORNO_NATURAL_MODULES, pos: EXPLORACION_ENTORNO_NATURAL_POS, height: 420 },
+  nt: { modules: EXPLORACION_ENTORNO_NATURAL_MODULES, pos: EXPLORACION_ENTORNO_NATURAL_POS, height: 450 },
 };
 export const COMPRENSION_ENTORNO_SOCIOCULTURAL_BY_NIVEL = {
   nt: { modules: COMPRENSION_ENTORNO_SOCIOCULTURAL_MODULES, pos: COMPRENSION_ENTORNO_SOCIOCULTURAL_POS, height: 360 },

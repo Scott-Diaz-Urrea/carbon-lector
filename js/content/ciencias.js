@@ -1,5 +1,5 @@
 import { pick, shuffle, randInt } from '../utils.js';
-import { toothbrushSVG, piedraSVG, semillaSVG, vasoVacioSVG, plasticinaSVG, estomagoSVG, focaSVG } from '../svg.js';
+import { toothbrushSVG, piedraSVG, semillaSVG, vasoVacioSVG, plasticinaSVG, estomagoSVG, focaSVG, pluviometroSVG, veletaSVG } from '../svg.js';
 
 export const CIENCIAS_MODULES = [
   {id:'seresvivos', label:'Seres Vivos', open:true, key:'seresvivos'},
@@ -252,8 +252,8 @@ const AGUA_PROPIEDADES_BANK = [
    3 ya incluidos (siguen siendo CN02 OA12-13). */
 const INSTRUMENTOS_CLIMA_BANK = [
   { emoji:'🌡️', label:'TERMÓMETRO', mide:'LA TEMPERATURA' },
-  { emoji:'☔', label:'PLUVIÓMETRO', mide:'LA LLUVIA' },
-  { emoji:'🎏', label:'VELETA', mide:'LA DIRECCIÓN DEL VIENTO' },
+  { svg:'pluviometro', label:'PLUVIÓMETRO', mide:'LA LLUVIA' },
+  { svg:'veleta', label:'VELETA', mide:'LA DIRECCIÓN DEL VIENTO' },
   { emoji:'🌬️', label:'ANEMÓMETRO', mide:'LA VELOCIDAD DEL VIENTO' },
   { emoji:'💧', label:'HIGRÓMETRO', mide:'LA HUMEDAD DEL AIRE' },
 ];
@@ -382,8 +382,11 @@ export function genClima2Round(){
     const item = pick(INSTRUMENTOS_CLIMA_BANK);
     const distract = INSTRUMENTOS_CLIMA_BANK.filter(function(i){ return i.label!==item.label; }).map(function(i){ return i.mide; });
     const opts = shuffle([item.mide].concat(distract)).map(function(m){ return {label:m, value:m}; });
+    const visual = item.svg==='pluviometro' ? '<div class="shape-display">'+pluviometroSVG(90)+'</div>'
+      : item.svg==='veleta' ? '<div class="shape-display">'+veletaSVG(90)+'</div>'
+      : '<span class="prompt-emoji">'+item.emoji+'</span>';
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué mide un(a) '+item.label.toLowerCase()+'?</p>',
+      promptHTML: visual+'<p class="prompt-hint">¿Qué mide un(a) '+item.label.toLowerCase()+'?</p>',
       options: opts, correctValue: item.mide, speakText: item.label, cols:2, kind:'word', panel:true,
       explain: 'El/la '+item.label.toLowerCase()+' mide <b>'+item.mide.toLowerCase()+'</b>.',
     };

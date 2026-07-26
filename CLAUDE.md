@@ -1794,6 +1794,72 @@ reales, todos verificados con capturas de pantalla en 5 anchos de viewport
   sin ningún duplicado ni repetido, y los 312 módulos de toda la app siguen
   pasando la verificación de regresión.
 
+**Alternativas en MAYÚSCULAS y jerarquía tipográfica (2026-07-26, pedido
+explícito del usuario — Senior Product Designer/UX/Accesibilidad):** tras la
+auditoría anterior, el usuario detectó que las 129 alternativas de los 11
+bancos seguían en MAYÚSCULAS SOSTENIDAS (`correcta`/`opts`), un patrón de
+autoría propio de este módulo (no una convención de la app — el resto de
+asignaturas ya usa "oración normal", confirmado revisando `lenguaje.js`/
+`historia.js`/`ciencias.js` antes de decidir el enfoque). Se confirmó primero
+que NO era un problema de CSS (`grep -c text-transform styles.css` → 0
+resultados): el problema era 100% de contenido. Cambios:
+- **Recasing manual de los 129 ítems** (no un regex automático: un script que
+  solo hiciera `.toLowerCase()` + capitalizar la primera letra habría
+  destruido las siglas/acrónimos médicos incrustados en las respuestas —ASO,
+  GGT, LDH, FA, PTH, TFG, ERC, PSA, CA 125, CA 19.9, AFP, TSH, EDTA, LCR, HCO3,
+  pH, GOD/POD, BCG, entre ~30 más—, que deben mantenerse en mayúscula porque
+  son la forma correcta del término, no una decisión de estilo). Cada
+  `correcta`/`opts` se reescribió a mano preservando esas siglas y unidades
+  exactamente, dejando el resto en formato de oración natural (ej. "ESPERAR AL
+  SIGUIENTE CONTROL DE RUTINA SIN AVISAR A NADIE" → "Esperar al siguiente
+  control de rutina sin avisar a nadie").
+- **Bug encontrado de paso, corregido antes de que se manifestara:** las 16
+  líneas `explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.'`
+  (una o dos por generador, los 11 generadores) hacían `.toLowerCase()` sobre
+  `item.correcta` — inofensivo mientras `correcta` estaba en MAYÚSCULAS
+  (daba una oración en minúsculas normal), pero con `correcta` ya en oración
+  natural, ese `.toLowerCase()` habría vuelto a mangled las siglas dentro del
+  texto del `explain` (PTH→pth, ASO→aso, GGT→ggt...). Corregido con
+  `sed -i "s/item\.correcta\.toLowerCase()/item.correcta/g"` (16 ocurrencias,
+  verificado con grep que no queda ninguna).
+- **Jerarquía tipográfica pregunta vs. alternativas:** se encontró un problema
+  de fondo más allá del CASE: en el ~80% de los ítems (los que no tienen
+  `caso`, un caso clínico previo), el `promptHTML` renderizaba la pregunta
+  ENTERA con la clase `.prompt-hint` — la misma clase que en TODO el resto de
+  la app (`lenguaje.js`, etc.) se usa exclusivamente como subtítulo secundario
+  debajo de un elemento principal más grande (un emoji, una oración en
+  `.prompt-sentence`), nunca como el único contenido de la pregunta. Eso
+  dejaba la pregunta en texto pequeño (13px), peso 600 y color atenuado
+  (`--ink-soft`) — más débil visualmente que las propias alternativas. Se
+  cambiaron las 9 ocurrencias de
+  `promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>'` a
+  `'<p class="prompt-sentence">'+item.pregunta+'</p>'` (los ítems que sí tienen
+  `caso` ya usaban `.prompt-sentence` para el caso y correctamente dejaban la
+  pregunta puntual en `.prompt-hint` como subtítulo — ese patrón no se tocó).
+- **Peso y familia tipográfica de `.option-btn.panel`** (`styles.css`): la
+  regla ya limitaba el ancho de lectura a 640px (auditoría anterior), pero
+  heredaba de `.option-btn` la fuente de titular (Baloo 2) en `font-weight:800`
+  — pensada para 1-3 palabras cortas en los juegos de opción múltiple
+  normales, no para oraciones completas. Con las MAYÚSCULAS ya corregidas, ese
+  peso/fuente seguía haciendo que las alternativas "gritaran" y compitieran
+  con la pregunta. Se cambió `.option-btn.panel` a `font-family:
+  var(--font-body)` (Quicksand, la fuente de cuerpo de la app) con
+  `font-weight:600` y `text-align:left` (un párrafo de varias líneas se
+  escanea más rápido alineado a la izquierda que centrado). La pregunta
+  (`.prompt-sentence`: Baloo 2, peso 700) queda así claramente por sobre las
+  alternativas en peso/familia, cumpliendo el pedido explícito de que la
+  pregunta siga siendo el elemento dominante de la pantalla.
+- **Verificación:** los 11 generadores pasan fuzz estructural (400
+  iteraciones cada uno: sin `undefined`, sin opciones duplicadas,
+  `correctValue` siempre presente, sin mayúsculas sostenidas remanentes de
+  5+ letras en `correcta`/`opts` vía grep dedicado) y los 312 módulos de toda
+  la app pasan la verificación de regresión. Validado visualmente en el
+  navegador en 4 anchos (375/768/1024/1440px), en un ítem con `caso` (Casos
+  Clínicos: Función Renal/Hepática) y uno sin `caso` (Valores Críticos): en
+  los 4 anchos la pregunta se ve en negrita y dominante, las alternativas en
+  oración natural, alineadas a la izquierda, sin competir visualmente, y sin
+  que el texto se corte ni desborde la tarjeta.
+
 ### Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false` para 7°-8° ya no aplica (ambos
 están abiertos). Antes de construir Educación Media, definir con el

@@ -445,7 +445,22 @@
      ocupando mucho más alto de lo necesario. clamp() + espaciado normal
      acomoda ambos casos sin desperdiciar espacio vertical. */
   .option-btn.panel{
-    font-size: clamp(15px, 4vw, 20px); letter-spacing: 0.2px; padding: 14px 16px; line-height: 1.4;
+    /* Pedido explícito del usuario (auditoría UX 2026-07-26): las alternativas
+       de texto largo (casos clínicos de Estudio para Pruebas) usaban el mismo
+       font-family/font-weight que .option-btn base (Baloo 2, 800) — una
+       tipografía de titular pensada para 1-3 palabras cortas. Aplicada a
+       oraciones completas, esa combinación (más el texto en MAYÚSCULAS ya
+       corregido en el banco de preguntas) hacía que las alternativas
+       "gritaran" y compitieran visualmente con la pregunta. Aquí se cambia a
+       la fuente de cuerpo (Quicksand) con un peso mucho más liviano (600),
+       dejando el peso fuerte (700 en .prompt-sentence, con Baloo 2) exclusivo
+       de la pregunta, que debe seguir siendo el elemento dominante de la
+       pantalla. text-align:left porque un párrafo de varias líneas se escanea
+       más rápido alineado a la izquierda que centrado (el centrado solo tiene
+       sentido para textos cortos de una línea, como en .option-btn base). */
+    font-family: var(--font-body); font-weight: 600;
+    font-size: clamp(15px, 4vw, 19px); letter-spacing: 0.1px; padding: 14px 18px; line-height: 1.5;
+    text-align: left;
     /* Mismo criterio que .prompt-card: en pantallas anchas, limitar la
        medida de lectura del texto de la alternativa en vez de estirarla a
        todo el ancho del contenedor ganado. */

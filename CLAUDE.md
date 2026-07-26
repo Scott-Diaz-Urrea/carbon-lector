@@ -1860,6 +1860,56 @@ resultados): el problema era 100% de contenido. Cambios:
   oración natural, alineadas a la izquierda, sin competir visualmente, y sin
   que el texto se corte ni desborde la tarjeta.
 
+**Auditoría de repetición del banco de preguntas (2026-07-26, pedido explícito
+del usuario — auditor de calidad de contenido/diseño instruccional):** análisis
+completo de los 129 ítems extraídos programáticamente (no de memoria) vía los
+propios `genXxxRound()`, buscando específicamente duplicados literales,
+duplicados semánticos (mismo razonamiento clínico con distinta redacción) y
+reutilización excesiva de un mismo caso clínico. Hallazgo principal:
+**0% de duplicados literales**, pero **4 pares de alta similitud (≥85%)**
+detectados y corregidos:
+- **Función Hepática, ítem "regla general" vs. ítem del caso principal**: ambos
+  pedían identificar el mismo patrón colestásico (FA/GGT↑ + bilirrubina
+  directa) con enunciados casi calcados. Se reescribió el ítem de "regla
+  general" para evaluar un ángulo distinto ya presente en su propio `recurso`
+  pero nunca preguntado: por qué la GGT nunca se interpreta sola (sensible
+  pero poco específica — también sube con alcohol o fármacos, sin colestasis
+  real).
+- **LCR, par "patrón viral" y "patrón bacteriano" del caso de la niña de 5
+  años**: las dos ramas del caso (Gram negativo/hallazgo real, y "si el Gram
+  hubiera mostrado bacterias") pedían nombrar el diagnóstico —exactamente lo
+  mismo que ya preguntan los ítems factuales independientes "¿qué patrón de
+  LCR es característico de la meningitis VIRAL/BACTERIANA?". Se reescribieron
+  ambas ramas del caso para pedir el MECANISMO (por qué la glucosa se mantiene
+  normal en la viral / por qué predominan los neutrófilos en la bacteriana) en
+  vez de repetir el nombre del diagnóstico — mecanismo que ya estaba explicado
+  en el propio `recurso` de cada ítem pero nunca se preguntaba directamente.
+- **Calibrador, Control de Calidad vs. Reactivos**: el ítem de Reactivos
+  ("¿qué representa el valor asignado de un calibrador?") repetía casi
+  palabra por palabra la definición ya cubierta en Control de Calidad. Se
+  reescribió para evaluar la TRAZABILIDAD metrológica (concepto ya presente en
+  su propio `recurso` original pero nunca preguntado explícitamente), no la
+  definición básica del calibrador.
+
+Se identificaron además ~14 ítems con solapamiento MODERADO (65-84%) que se
+dejaron intactos por ser reutilización pedagógica legítima de un mismo caso
+para explorar mecanismo/diagnóstico/conducta desde ángulos distintos (técnica
+de evaluación clínica estándar, no "reciclaje" de contenido) — documentado en
+la auditoría completa entregada al usuario en la conversación. Hallazgo no
+accionado aún pero señalado como el de mayor impacto real: los bancos más
+chicos (Química Diagnóstica → Función Hepática con solo 7 ítems, `rounds:6`,
+margen de apenas 1) generan "sensación de repetición" para un usuario que
+repite el módulo en varias sesiones —no por contenido duplicado, sino por el
+tamaño acotado del banco. Recomendación pendiente para una sesión futura:
+ampliar Función Hepática (7→12+) y los demás bancos de 11 ítems antes que
+seguir puliendo pares semánticos puntuales.
+
+Verificado tras las 3 correcciones: `genCasosHepatico7Round`, `genLcr7Round` y
+`genReactivos7Round` pasan fuzz estructural (400 iteraciones cada uno, sin
+`undefined`, sin opciones duplicadas, `correctValue` siempre presente, sin
+apóstrofes en `speakText`) y los 312 módulos de toda la app pasan la
+verificación de regresión.
+
 ### Educación Media, EPJA — 🔒 sin construir
 `GRADES` los tiene marcados `open:false` para 7°-8° ya no aplica (ambos
 están abiertos). Antes de construir Educación Media, definir con el

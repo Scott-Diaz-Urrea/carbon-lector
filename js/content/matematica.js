@@ -52,6 +52,7 @@ export function genCountRound(){
     speakText: '¿Cuántos hay?',
     cols: 4,
     explain: 'Si cuentas uno por uno, hay <b>'+n+'</b> en total.',
+    recurso: 'Contar es asignar un número a cada objeto, uno por uno, sin saltarte ninguno y sin repetir ninguno — a esto se le llama <b>correspondencia uno a uno</b>. El último número que dices, ese es el total del grupo. Contar es una de las primeras habilidades matemáticas que aprende un niño, porque es la base de todo lo demás: para sumar, restar o comparar cantidades, primero hay que saber contarlas bien. Usamos el conteo todo el tiempo en la vida real: para saber cuántos platos poner en la mesa, cuántos días faltan para un cumpleaños, o cuánto dinero se necesita para comprar algo. Practicar contando distintos objetos (frutas, animales, juguetes) ayuda a que el número deje de ser solo una palabra y se convierta en una cantidad real que puedes imaginar.',
   };
 }
 
@@ -69,6 +70,7 @@ export function genAddRound(){
     speakText: '¿Cuánto es ' + a + ' más ' + b + '?',
     cols: 4,
     explain: a+' + '+b+' = <b>'+sum+'</b>. Cuenta todos los elementos juntos para comprobarlo.',
+    recurso: '<b>Sumar</b> significa juntar dos cantidades para saber cuántas hay en total. Si tienes 3 manzanas y alguien te regala 2 más, sumar te dice cuántas manzanas tienes ahora sin necesidad de volver a contarlas todas desde cero: 3 + 2 = 5. El símbolo "+" viene de una abreviatura muy antigua de la palabra latina "et" (que significa "y"), usada por matemáticos hace más de 500 años para no tener que escribir "y" cada vez. Al principio, la forma más fácil de sumar es dibujar o imaginar todos los elementos juntos y contarlos uno por uno, como en este juego — con la práctica, el cerebro empieza a reconocer sumas conocidas sin tener que contar cada vez. Sumar se usa todos los días: para saber cuánto dinero tienes juntando monedas, o cuántos amigos hay juntando dos grupos.',
   };
 }
 
@@ -91,6 +93,7 @@ export function genCompareRound(){
     cols: 2,
     panel: true,
     explain: 'El grupo con <b>'+Math.max(nA,nB)+'</b> tiene más que el grupo con <b>'+Math.min(nA,nB)+'</b>.',
+    recurso: '<b>Comparar cantidades</b> significa decidir cuál grupo tiene más elementos y cuál tiene menos, sin necesariamente saber el número exacto de cada uno — a veces basta con mirar y emparejar: si por cada elemento del grupo A alcanza uno del grupo B y todavía sobran elementos en A, entonces A tiene más. Esta habilidad se llama <b>razonamiento cuantitativo</b> y es un paso anterior a contar con números: los bebés y los animales pueden distinguir "más" y "menos" incluso antes de saber contar. Comparar es muy útil en la vida diaria: para saber si alcanzan los platos para todos los invitados, si un vaso tiene más jugo que otro, o cuál de dos grupos de amigos es más grande. Practicar comparando ayuda a entender qué significa realmente un número, no solo a memorizarlo.',
   };
 }
 
@@ -106,6 +109,7 @@ export function genFormaRound(){
     cols: 4,
     kind: 'word',
     explain: 'Esta figura es un <b>'+item.label+'</b>.',
+    recurso: 'Las <b>figuras geométricas</b> son formas que se repiten en muchísimos objetos a nuestro alrededor, y cada una se reconoce por características propias: el número de lados, si esos lados son rectos o curvos, y si son todos iguales o distintos. Un círculo no tiene lados rectos ni esquinas; un cuadrado tiene 4 lados iguales y 4 esquinas iguales; un triángulo tiene 3 lados. Aprender a reconocer y nombrar formas es la base de la <b>geometría</b>, una parte de las matemáticas que estudia el espacio y las formas — se usa para construir casas, diseñar señales de tránsito, fabricar ruedas (siempre círculos, para poder rodar) y hasta para cortar una pizza en partes iguales. Reconocer formas también ayuda a describir el mundo con palabras precisas, en vez de decir solo "esa cosa redonda".',
   };
 }
 

@@ -381,6 +381,67 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   seguir, no solo ver el error y avanzar. Cada `explain` debe ser concreto y en
   español de Chile (reutilizar campos `desc`/`uso`/`q` ya existentes en los bancos de
   contenido cuando sea posible, en vez de redactar un texto nuevo).
+- **Botón "Recurso" (micro-lección conceptual, agregado 2026-07-27):** pedido
+  explícito del usuario, con un prompt detallado de UX/EdTech, para transformar cada
+  pregunta en una oportunidad de aprendizaje — no una pista para adivinar la
+  respuesta, sino una explicación del concepto evaluado (qué es / cómo funciona /
+  por qué importa), visible incluso si el niño responde mal. Igual que `explain`,
+  cualquier `genXxxRound()` puede incluir un campo opcional `recurso` (string HTML,
+  ~80-200 palabras) en el objeto que retorna. Cuando `recurso` está presente,
+  `mcEngine.js` dibuja un botón "📚 Recurso" junto a "🔊 Escuchar" dentro de
+  `.prompt-actions`; al tocarlo, `showMCRecurso()` (mcEngine.js) llama a
+  `showRecurso(texto, título)` (rewards.js), que abre un modal (`.recurso-overlay`/
+  `.recurso-card`, mismo lenguaje visual que `.explain-card`/`.result-card`) con
+  scroll interno, animación de entrada/salida, y cierre libre (botón ✕ o tocar el
+  fondo) que **no bloquea ni afecta el avance de la ronda** — a diferencia de
+  `showExplain()`, que si pausa el juego hasta que el niño confirma haber
+  entendido. `recurso` se puede escribir con 2 granularidades distintas según lo
+  que necesite el módulo: **por generador** (un solo texto fijo, reusado en todas
+  las rondas de ese `genXxxRound()`) cuando el concepto evaluado es siempre el
+  mismo aunque el ítem específico cambie cada ronda — p. ej. "Contar" (1° básico)
+  siempre enseña sobre la correspondencia uno a uno, sin importar qué objeto o
+  cantidad le toque al niño; o **por ítem del banco** (`item.recurso`, reenviado
+  por el generador como `recurso: item.recurso`) cuando cada ítem del banco cubre
+  un concepto genuinamente distinto — el caso de Química Diagnóstica, donde un
+  mismo módulo puede pasar de un caso de glomerulonefritis a una fórmula de
+  clearance de creatinina en la ronda siguiente, y un solo texto genérico por
+  generador no sería realmente "contextual a la pregunta actual" como pide el
+  pedido original del usuario.
+  - **Estado del rollout (actualizado 2026-07-27, tras revisión del usuario):**
+    motor implementado de forma universal (cualquier `genXxxRound()` de
+    cualquier año/asignatura puede usarlo). Contenido completo en:
+    - **1° básico** (piloto inicial, por generador): Lenguaje (`genVocalRound`,
+      `genPalabraRound`, `genComprensionRound`) y Matemática (`genCountRound`,
+      `genAddRound`, `genCompareRound`, `genFormaRound`) — 7 módulos.
+    - **Estudio para Pruebas → Química Diagnóstica** (por ítem del banco, a
+      pedido explícito del usuario de priorizar este módulo antes que
+      cualquier otro): los 11 módulos completos, ~116 ítems individuales, cada
+      uno con su propio `recurso` de 120-180 palabras (qué es/cómo funciona/
+      por qué importa/aplicaciones), sin actuar nunca como pista de la
+      respuesta. Verificado con fuzz test: 0% de ítems sin `recurso`, sin
+      texto `undefined`, conteo de palabras dentro de rango en los 11
+      generadores (300 iteraciones cada uno).
+    - Pedido explícito del usuario: **no avanzar a otros módulos/grados hasta
+      que revise y apruebe personalmente la calidad pedagógica, el tono, la
+      profundidad y la experiencia de usuario de Química Diagnóstica.** El
+      resto de los ~300 módulos de opción múltiple de la app (2°-8° básico,
+      Parvularia, Microbiología Clínica) todavía no tienen `recurso` — se
+      degradan con gracia (sin el campo, el botón simplemente no aparece).
+      Una vez aprobado Química Diagnóstica, el plan acordado es continuar
+      grado por grado con el mismo enfoque de calidad. Los juegos a medida
+      (Sílabas, Secuencia, Memorama) no usan este motor y por ahora no tienen
+      botón Recurso.
+- **Optimización de espacio en las alternativas y responsive (2026-07-27):**
+  mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
+  tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el
+  `letter-spacing`/`word-spacing` extra que sobraba para respuestas largas tipo
+  párrafo (como los casos clínicos de Estudio para Pruebas) — reduce bastante el
+  alto vertical desperdiciado sin afectar los módulos con respuestas cortas.
+  `#app` (antes fijo en `max-width:480px` en cualquier pantalla) ahora se ensancha
+  en 2 escalones (`640px`/`960px` de ancho de viewport) y el grid de opciones pasa
+  a 3 columnas en pantallas anchas — el diseño sigue siendo mobile-first a
+  propósito (nada cambia por debajo de 640px), solo aprovecha mejor tablet/
+  escritorio en vez de dejar franjas vacías a los costados.
 - **Sin preguntas repetidas dentro de una misma partida:** `initMCGame()` guarda un
   `Set` (`mc.seenPrompts`) con la "firma" (`roundSignature()` = `promptHTML` + labels
   de las opciones, ordenadas) de cada ronda ya mostrada; `drawMCRound()` reintenta

@@ -135,6 +135,7 @@ export function genVocalRound(){
     speakText: item.word,
     cols: 4,
     explain: 'La palabra es <b>'+item.word+'</b>, empieza con la vocal <b>'+item.answer+'</b>.',
+    recurso: '<b>A, E, I, O, U</b> son las 5 vocales del español. Se llaman así porque para decir su sonido solo abres la boca de una forma distinta cada vez, sin juntar los labios ni tocar los dientes con la lengua — por eso puedes cantarlas o alargarlas ("aaaa", "eeee"). Todas las demás letras (las consonantes) necesitan apoyarse en una vocal para sonar: intenta decir la "m" sola, y luego "ma" — ¿notas la diferencia? Toda sílaba en español tiene al menos una vocal. Por eso, reconocer con qué vocal empieza una palabra es el primer paso para aprender a leer: es el sonido más fácil de escuchar al principio, y te ayuda a separar la palabra en partes más pequeñas.',
   };
 }
 
@@ -149,6 +150,7 @@ export function genPalabraRound(){
     cols: 4,
     kind: 'word',
     explain: 'La palabra correcta es <b>'+item.word+'</b>.',
+    recurso: 'Una palabra es un grupo de sonidos que juntos representan algo: un objeto, un animal, una acción. Cuando miras un dibujo y eliges la palabra que le corresponde, tu cerebro está haciendo algo muy importante: conectando lo que ves con lo que se dice en voz alta. Esa conexión se llama <b>comprensión lectora</b>, y es la base de saber leer de verdad — no basta con reconocer letras, hay que entender qué significan juntas. Las palabras se arman uniendo sílabas, como piezas de un rompecabezas: "GA-TO" son 2 piezas que forman "GATO". Practicar con dibujos ayuda porque el cerebro aprende más rápido cuando une una imagen con una palabra, en vez de memorizar letras sueltas sin sentido.',
   };
 }
 
@@ -162,6 +164,7 @@ export function genComprensionRound(){
     speakText: item.text,
     cols: 4,
     explain: 'Vuelve a leer: "'+item.text+'" Ahí está la respuesta.',
+    recurso: '<b>Comprender</b> un texto es distinto a solo "leerlo". Leer es reconocer las palabras; comprender es entender qué significan y qué está pasando en la historia. Para comprender bien, tu cerebro hace varias cosas a la vez: recuerda las palabras que acabas de leer, imagina la escena como una película, y busca la respuesta a la pregunta dentro de lo que leyó — no fuera de eso. Por eso, si no estás seguro de una respuesta, la mejor estrategia es <b>volver a leer el texto</b> con calma, en vez de adivinar. Esta habilidad se llama comprensión lectora, y es una de las más importantes que aprenderás en el colegio: te sirve para estudiar cualquier materia, no solo Lenguaje, porque casi todo lo que aprendes viene escrito en algún texto.',
   };
 }
 

@@ -126,7 +126,7 @@ import {
 } from './content/estudioPruebas/quimicaDiagnostica.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
-import { showExplain, showResult } from './rewards.js';
+import { showExplain, showResult, showRecurso } from './rewards.js';
 
 export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','comparar','formas','combinaciones','salta','multiplicar',
   'seresvivos','plantas','micuerpo','materiales','dianoche',
@@ -568,6 +568,7 @@ function drawMCRound(){
   const optClass = r.panel ? 'option-btn panel' : (r.kind==='word' ? 'option-btn wordopt' : 'option-btn');
   const gridClass = r.cols === 2 ? 'option-grid panels' : 'option-grid';
 
+  const hasActions = r.speakText || r.recurso;
   el.innerHTML =
     '<p class="section-title">'+mc.cfg.title+'</p>'+
     '<div class="game-progress">'+
@@ -577,11 +578,22 @@ function drawMCRound(){
     '</div>'+
     '<div class="prompt-card">'+
       r.promptHTML+
-      (r.speakText ? '<button class="speak-btn" onclick="speak(\''+r.speakText+'\''+(r.speakLang?',\''+r.speakLang+'\'':'')+')">🔊 Escuchar</button>' : '')+
+      (hasActions ? '<div class="prompt-actions">'+
+        (r.speakText ? '<button class="speak-btn" onclick="speak(\''+r.speakText+'\''+(r.speakLang?',\''+r.speakLang+'\'':'')+')">🔊 Escuchar</button>' : '')+
+        (r.recurso ? '<button class="recurso-btn" onclick="showMCRecurso()">📚 Recurso</button>' : '')+
+      '</div>' : '')+
     '</div>'+
     '<div class="'+gridClass+'" id="mcoptions">'+
       r.options.map(function(o,i){ return '<button class="'+optClass+'" data-i="'+i+'" onclick="answerMC('+i+')">'+o.label+'</button>'; }).join('')+
     '</div>';
+}
+
+/* Botón "Recurso": micro-lección conceptual del tema evaluado en la ronda
+   actual (no una pista de la respuesta). No pausa ni afecta el juego — el
+   niño puede abrirlo y cerrarlo libremente en cualquier momento de la ronda. */
+export function showMCRecurso(){
+  if(!mc || !mc.current || !mc.current.recurso) return;
+  showRecurso(mc.current.recurso, mc.cfg.title);
 }
 
 export function answerMC(i){

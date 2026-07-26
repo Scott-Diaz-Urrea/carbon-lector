@@ -371,6 +371,33 @@ export function showExplain(text, onContinue){
   };
 }
 
+/* Botón "Recurso" (micro-lección conceptual contextual a la pregunta actual,
+   ver mcEngine.js showMCRecurso). A diferencia de showExplain(), esto NO
+   bloquea el avance de la ronda: se puede abrir y cerrar libremente en
+   cualquier momento tocando la X o el fondo oscuro, sin perder el progreso. */
+export function showRecurso(text, title){
+  const app = document.getElementById('app');
+  const div = document.createElement('div');
+  div.className = 'overlay recurso-overlay';
+  div.onclick = function(e){ if(e.target === div) closeRecurso(); };
+  div.innerHTML =
+    '<div class="recurso-card" role="dialog" aria-label="Recurso educativo">'+
+      '<div class="recurso-header">'+
+        '<span class="recurso-icon">📚</span>'+
+        '<p class="recurso-title">'+(title||'Recurso')+'</p>'+
+        '<button class="recurso-close" aria-label="Cerrar recurso" onclick="closeRecurso()">✕</button>'+
+      '</div>'+
+      '<div class="recurso-body">'+text+'</div>'+
+    '</div>';
+  app.appendChild(div);
+}
+export function closeRecurso(){
+  const el = document.querySelector('.recurso-overlay');
+  if(!el) return;
+  el.classList.add('closing');
+  setTimeout(function(){ el.remove(); }, 180);
+}
+
 export function showNameEntry(onDone){
   const app = document.getElementById('app');
   const div = document.createElement('div');

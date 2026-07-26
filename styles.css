@@ -374,42 +374,60 @@
   .pie-legend{ display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:8px; }
   .pie-legend-item{ display:flex; align-items:center; gap:5px; font-size:11px; font-weight:700; color: var(--ink-soft); }
   .pie-legend-swatch{ width:12px; height:12px; border-radius:3px; display:inline-block; }
-  .speak-btn{
+  /* ---------- Acciones del prompt: Escuchar + Recurso ---------- */
+  .prompt-actions{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
     margin-top: 12px;
+  }
+  .speak-btn, .recurso-btn{
+    margin-top: 0;
     border: none;
-    background: #E8FBF6;
-    color: var(--primary-dark);
     font-weight: 700;
     font-size: 13.5px;
     padding: 9px 16px;
     border-radius: 999px;
     cursor: pointer;
     display: inline-flex; align-items:center; gap:6px;
+    transition: transform .1s ease;
   }
+  .speak-btn:active, .recurso-btn:active{ transform: scale(0.95); }
+  .speak-btn{ background: #E8FBF6; color: var(--primary-dark); }
+  .recurso-btn{ background: #F1EEFF; color: var(--violet); }
 
   .option-grid{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    gap: 12px;
   }
   .option-grid.panels{ grid-template-columns: 1fr; }
   .option-btn{
     border: 3px solid #E1EEEA;
     background: var(--paper);
     border-radius: var(--radius-md);
-    padding: 20px 10px;
+    padding: 16px 10px;
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: 30px;
+    font-size: clamp(20px, 6vw, 30px);
     color: var(--ink);
     cursor: pointer;
     box-shadow: var(--shadow-sm);
     transition: transform .1s ease, background .15s ease, border-color .15s ease;
+    overflow-wrap: anywhere;
+    min-width: 0;
   }
   .option-btn:active{ transform: scale(0.95); }
-  .option-btn.panel{ font-size: 24px; letter-spacing: 3px; padding: 20px 12px; line-height: 1.4; word-spacing: 4px; }
-  .option-btn.wordopt{ font-size: 18px; letter-spacing: 0.5px; padding: 16px 8px; line-height: 1.25; }
-  .prompt-sentence{ font-family: var(--font-display); font-weight: 700; font-size: 21px; line-height: 1.45; color: var(--ink); margin: 4px 0 10px; }
+  /* .panel se usa tanto para respuestas cortas (2-4 palabras) como para
+     oraciones largas (p.ej. casos clínicos de Estudio para Pruebas) — el
+     tamaño/espaciado fijo anterior (24px, letter-spacing 3px, word-spacing
+     4px) estaba pensado solo para lo primero y dejaba las oraciones largas
+     ocupando mucho más alto de lo necesario. clamp() + espaciado normal
+     acomoda ambos casos sin desperdiciar espacio vertical. */
+  .option-btn.panel{ font-size: clamp(15px, 4vw, 21px); letter-spacing: 0.2px; padding: 14px 14px; line-height: 1.4; }
+  .option-btn.wordopt{ font-size: clamp(15px, 4.2vw, 18px); letter-spacing: 0.5px; padding: 14px 8px; line-height: 1.25; }
+  .prompt-sentence{ font-family: var(--font-display); font-weight: 700; font-size: clamp(17px, 4.5vw, 21px); line-height: 1.45; color: var(--ink); margin: 4px 0 10px; overflow-wrap: anywhere; }
   .shape-display{ display: flex; justify-content: center; margin: 8px 0 12px; }
   .option-btn.correct{ background: #DFF6E8; border-color: #7FD9A3; color: #1E7A44; }
   .option-btn.wrong{ background: #FFE3E1; border-color: #FFA9A3; color: #B23A33; animation: shake .35s ease; }
@@ -557,6 +575,53 @@
     margin: 10px 0 20px; background:#F3FBF9; border-radius: var(--radius-sm); padding:14px 16px;
   }
   .explain-text b{ color: var(--primary-dark); }
+
+  /* ---------- Recurso (micro-lección conceptual contextual) ---------- */
+  .recurso-card{
+    background: var(--paper);
+    border-radius: var(--radius-lg);
+    max-width: 420px;
+    width: 100%;
+    max-height: 82vh;
+    box-shadow: var(--shadow);
+    animation: pop .3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .recurso-overlay.closing{ animation: fadeOut .18s ease forwards; }
+  .recurso-overlay.closing .recurso-card{ animation: popOut .18s ease forwards; }
+  @keyframes fadeOut{ from{opacity:1;} to{opacity:0;} }
+  @keyframes popOut{ from{ transform: scale(1); opacity:1;} to{ transform: scale(0.92); opacity:0;} }
+  .recurso-header{
+    display: flex; align-items: center; gap: 10px;
+    padding: 18px 18px 12px;
+    border-bottom: 2px solid #F0F4F8;
+    flex-shrink: 0;
+  }
+  .recurso-icon{ font-size: 22px; }
+  .recurso-title{
+    flex: 1; margin: 0;
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(15px, 4vw, 18px); color: var(--ink);
+  }
+  .recurso-close{
+    border: none; background: #F1EEFF; color: var(--violet);
+    width: 32px; height: 32px; border-radius: 50%;
+    font-size: 15px; font-weight: 800; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .recurso-close:active{ transform: scale(0.9); }
+  .recurso-body{
+    padding: 14px 18px 20px;
+    font-size: 14.5px; line-height: 1.65; color: var(--ink);
+    font-weight: 600;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+    -webkit-overflow-scrolling: touch;
+  }
+  .recurso-body b{ color: var(--violet); }
 
   .name-input{
     width: 100%;
@@ -749,6 +814,28 @@
   .dicc-def{ margin: 8px 0 0; color: var(--ink); font-size: .95rem; line-height: 1.45; }
   .dicc-ej{ margin: 6px 0 0; color: var(--ink-soft); font-size: .9rem; font-style: italic; }
   .dicc-empty{ text-align:center; color: var(--ink-soft); padding: 30px 0; }
+
+  /* ---------- Responsive: tablet / escritorio ----------
+     El diseño es mobile-first a propósito (#app queda centrado con
+     max-width:480px incluso en pantallas anchas), pero eso dejaba mucho
+     espacio vacío a los costados en tablet/escritorio y no aprovechaba el
+     ancho disponible. Se ensancha el contenedor en 2 escalones y se permite
+     que el grid de opciones use 3 columnas cuando hay espacio real, sin
+     tocar el layout mobile (que sigue siendo el caso por defecto y el más
+     probado). */
+  @media (min-width: 640px){
+    #app{ max-width: 640px; }
+  }
+  @media (min-width: 960px){
+    #app{ max-width: 760px; }
+    .option-grid:not(.panels){ grid-template-columns: repeat(3, 1fr); }
+  }
+  /* Apaisado en celular (poca altura, ancho de sobra): evita que el modal de
+     Recurso o el de resultados queden más altos que la pantalla. */
+  @media (max-height: 480px) and (orientation: landscape){
+    .recurso-card{ max-height: 92vh; }
+    .overlay{ padding: 10px; }
+  }
 
   @media (prefers-reduced-motion: reduce){
     *{ animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }

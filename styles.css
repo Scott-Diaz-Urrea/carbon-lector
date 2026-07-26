@@ -45,7 +45,10 @@
     margin: 0 auto;
     min-height: 100vh;
     position: relative;
-    padding-bottom: 24px;
+    /* Sin padding-bottom propio: .screen ya aporta 40px de padding inferior
+       (ver más abajo) — tenerlo en las dos capas sumaba 64px de espacio
+       vacío redundante al final de cada pantalla (auditoría frontend
+       2026-07-26). */
   }
 
   /* ---------- Top bar ---------- */
@@ -215,6 +218,21 @@
     border: none;
     cursor: pointer;
     width: 92px;
+    /* Auditoría frontend 2026-07-26: medido en el navegador, la altura real
+       de un nodo variaba entre 155.9px (título de 2 líneas) y 202.75px
+       (título de 3 líneas, ej. "Gases Arteriales y Equilibrio Ácido-Base"),
+       mientras que el espaciado vertical entre nodos del mismo lado del
+       zigzag (calculado a partir de las coordenadas % de cada dataset) es
+       de solo ~162px en Química Diagnóstica — con esa variación de +47px,
+       dos nodos altos consecutivos llegaban a solaparse hasta 25px.
+       Fijar una altura uniforme para TODOS los nodos (calculada para el
+       peor caso de 2 líneas + estrellas, ver .node-label) resuelve el
+       solapamiento sin tocar las coordenadas de cada dataset de contenido.
+       justify-content no se declara porque flex-start (el valor por
+       defecto) ya apila el contenido desde arriba, dejando el espacio
+       sobrante abajo — igual para nodos bloqueados (2 hijos, sin estrellas)
+       que para nodos abiertos (3 hijos). */
+    height: 158px;
   }
   .node-circle{
     width: 74px; height: 74px;
@@ -251,6 +269,18 @@
     white-space: normal;
     max-width: 128px;
     line-height: 1.25;
+    /* Recorte a 2 líneas con elipsis: sin esto, un título de 3 líneas
+       ("Gases Arteriales y Equilibrio Ácido-Base") hacía crecer SOLO ese
+       nodo, rompiendo la uniformidad del mapa y solapándose con el nodo
+       vecino (ver .node arriba). El título completo se sigue viendo al
+       entrar al módulo, este chip es solo navegación. min-height reserva
+       el mismo alto de 2 líneas aunque el texto sea corto (ej. "Contar"),
+       para que todas las etiquetas —cortas o largas— midan lo mismo. */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 55px;
   }
   .node-label.locked{ color: var(--locked-ink); }
   .node-stars{ display: flex; gap: 2px; }
@@ -869,7 +899,21 @@
      opciones (para módulos de palabra/emoji corta, no los de texto largo
      tipo `panel`) sube a 3 columnas recién en el escalón de escritorio,
      donde ya sobra espacio real para eso. El layout mobile (< 600px) es el
-     caso por defecto y el más probado — nada cambia ahí. */
+     caso por defecto y el más probado — nada cambia ahí.
+
+     Auditoría frontend 2026-07-26 (pedido explícito del usuario, "no es
+     fullscreen"): el techo de 980px seguía dejando ~470px de margen vacío
+     por lado en monitores de 1920px. Se decidió NO ir a ancho completo:
+     .prompt-card y .option-btn.panel (los componentes de texto largo, ver
+     más abajo) ya se auto-limitan a 640px de forma independiente para no
+     volver incómoda la lectura de un párrafo largo, así que estirar #app
+     de más no perjudica esas pantallas — solo beneficia al mapa, la home y
+     las listas de materias, que sí aprovechan el ancho extra. Se sube el
+     techo existente (980px) y se agrega un escalón nuevo para monitores
+     muy anchos, en vez de eliminar el límite por completo: la app sigue
+     siendo un juego mobile-first con mascota/mapa de nodos circulares, y
+     un ancho verdaderamente "infinito" en un monitor ultra-wide dejaría el
+     mapa y los botones redondos viéndose dispersos y fuera de proporción. */
   @media (min-width: 600px){
     #app{ max-width: 560px; }
   }
@@ -880,8 +924,11 @@
     #app{ max-width: 860px; }
   }
   @media (min-width: 1280px){
-    #app{ max-width: 980px; }
+    #app{ max-width: 1200px; }
     .option-grid:not(.panels){ grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 1600px){
+    #app{ max-width: 1320px; }
   }
   /* Apaisado en celular (poca altura, ancho de sobra): evita que el modal de
      Recurso o el de resultados queden más altos que la pantalla. */

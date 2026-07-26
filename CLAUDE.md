@@ -2049,6 +2049,72 @@ para esta iniciativa).
    - Sistema de verificación de edad y conocimientos previos para desbloquear niveles
      más avanzados (algún tipo de prueba de acceso). Pendiente de definir criterios.
 
+## Auditoría frontend global: ancho, mapa de nodos y scroll (2026-07-26)
+
+Pedido explícito del usuario (rol Senior Frontend Engineer): "la app no usa
+todo el ancho", "los nodos del mapa se deforman", "hay scroll vertical
+excesivo". El prompt original asumía React/Next.js/Tailwind — se aclaró que
+el proyecto es HTML/CSS/JS vanilla (ver "Stack técnico" arriba) y se hizo la
+auditoría equivalente sobre los archivos reales. El usuario luego delegó
+explícitamente la decisión de diseño ("prefiero que decidas tú, considera
+como es la aplicación") en vez de pedir un ancho específico.
+
+- **Nodos del mapa con altura variable, causa raíz medida en el navegador**:
+  `.node` (`styles.css`) no tenía altura fija — crecía según cuántas líneas
+  ocupara `.node-label` (que desde la auditoría de 2026-07-28 permite salto
+  de línea sin límite, `white-space:normal`). Medido con
+  `getBoundingClientRect()` en Química Diagnóstica (11 nodos): la altura real
+  iba de **155.9px** (título de 2 líneas) a **202.75px** (título de 3 líneas,
+  "Gases Arteriales y Equilibrio Ácido-Base"), mientras el espaciado vertical
+  entre nodos del mismo lado del zigzag es de **162px** (constante, calculado
+  desde las coordenadas `%` de `QUIMICA_DIAGNOSTICA_POS` × `height:900`) —
+  con esa variación de +47px, dos nodos altos consecutivos (nodo 7 y nodo 9)
+  llegaban a solaparse hasta **25px**, confirmado con
+  `getBoundingClientRect()` antes y después del fix (0 solapamientos tras
+  corregir). Solución aplicada: `.node{ height:158px; }` (fijo, calculado
+  para el peor caso de 2 líneas + estrellas) y `.node-label` con
+  `-webkit-line-clamp:2` + `min-height:55px` — todos los nodos, con
+  cualquier largo de título, ahora miden exactamente lo mismo. El título
+  completo sigue viéndose al entrar al módulo; el chip del mapa es solo
+  navegación. Esto NO requirió tocar los ~30 archivos de contenido con
+  arrays `POS`/`height` por dataset — es un fix de CSS puro, general para
+  toda la app.
+- **`#app` no usaba todo el ancho — causa raíz: restricción de ancho
+  DUPLICADA en dos capas**: `#app` tiene su propio `max-width` (escalera de
+  breakpoints, auditoría 2026-07-28) Y ADEMÁS `.prompt-card`/
+  `.option-btn.panel` (los componentes de texto largo) ya se auto-limitan a
+  `max-width:640px` de forma independiente para no volver incómoda la
+  lectura. Es decir, el techo de `#app` (980px) ya no protegía nada que no
+  estuviera protegido también a nivel de componente — solo achicaba
+  innecesariamente el mapa, la home y las listas de materias, que sí se
+  benefician del ancho extra. Medido en el navegador a 1440px de viewport:
+  `#app` ocupaba 980px con **222.5px de margen vacío por lado**. Decisión
+  tomada por Claude (el usuario delegó explícitamente el criterio): NO ir a
+  ancho completo/infinito — la app es un juego mobile-first con mascota y
+  mapa de nodos circulares, y un ancho "infinito" en un monitor ultra-wide
+  dejaría el mapa y los botones redondos viéndose dispersos y fuera de
+  proporción. Se subió el techo existente (980px→1200px a partir de
+  1280px de viewport) y se agregó un escalón nuevo para monitores muy anchos
+  (1320px a partir de 1600px) — reduce el margen vacío en 1440px de 230px a
+  120px por lado, sin convertir la app en un layout de ancho arbitrario.
+- **Scroll vertical / espacio vacío al final de cada pantalla — padding
+  duplicado**: `#app{ padding-bottom:24px; }` Y `.screen{ padding:4px 20px
+  40px; }` (el `40px` final) sumaban **64px de espacio vacío redundante**
+  al final de cada pantalla, en dos capas que nunca se habían revisado
+  juntas. Se eliminó el `padding-bottom` de `#app` — `.screen` ya cubre esa
+  necesidad. La altura total de un mapa de módulo (`heightPx` hardcodeado
+  por dataset, ej. `height:900` en Química Diagnóstica) no se tocó: es un
+  tamaño legítimo dado el número de nodos, no un defecto — reducirlo
+  arriesgaría volver a apretar los nodos.
+
+Verificado en el navegador tras el fix: los 11 nodos de Química Diagnóstica
+miden exactamente 158px cada uno, 0 solapamientos (antes: hasta 25px), sin
+errores de consola, `#app` mide 1200px a 1440px de viewport (antes 980px).
+No se tocó ningún archivo de contenido (`js/content/**`) — el fix completo
+vive en `styles.css`, por lo que beneficia a los ~30 mapas de módulo de toda
+la app (Básica, Parvularia, Estudio para Pruebas), no solo a Química
+Diagnóstica.
+
 ## Convenciones a mantener
 
 - Español de Chile en todo el copy visible al usuario.

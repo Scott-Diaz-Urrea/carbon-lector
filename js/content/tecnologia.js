@@ -304,11 +304,13 @@ const ANALISIS_SOLUCIONES_8_BANK = [
   { pregunta:'¿Por qué conviene incluir a los propios usuarios al evaluar una solución tecnológica ya implementada?', correcta:'PORQUE SU EXPERIENCIA REAL REVELA PROBLEMAS Y MEJORAS QUE EL DISEÑO ORIGINAL NO PREVIÓ', opts:['PORQUE ASÍ SE EVITA TENER QUE MEJORAR NADA','NO CONVIENE: LOS USUARIOS NUNCA APORTAN','PORQUE LOS USUARIOS DEBEN PAGAR MÁS'] },
 ];
 export function genAnalisisSoluciones8Round(){
+  const recurso = 'Analizar una <b>solución tecnológica</b> —una aplicación, un dispositivo, un sistema— implica mirarla desde varias perspectivas a la vez. La perspectiva del <b>usuario</b> pregunta quién la usa y si realmente responde a sus necesidades; la perspectiva <b>funcional/técnica</b> evalúa si funciona bien en la práctica (autonomía, materiales, mantención); la perspectiva <b>ambiental</b> considera su impacto completo, desde los materiales hasta los residuos que genera; y la perspectiva <b>ética</b> se pregunta si la solución respeta el bienestar de las personas —por ejemplo, si usa sus datos personales con su conocimiento y consentimiento, o si busca retenerlas más tiempo del que les conviene—. Un buen análisis nunca acepta afirmaciones sin evidencia ("totalmente ecológica" sin datos) y siempre considera que una misma tecnología puede ser positiva o riesgosa según el contexto en que se use.';
   const item = pick(ANALISIS_SOLUCIONES_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }

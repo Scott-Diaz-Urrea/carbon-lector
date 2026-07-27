@@ -2450,6 +2450,7 @@ export const MATE_POS_G8 = [
 ];
 
 export function genEnterosRacionales8Round(){
+  const recurso = 'Los <b>números enteros</b> incluyen a los positivos, los negativos y el cero. Al multiplicar o dividir dos enteros, hay una regla de signos: si ambos tienen el <b>mismo signo</b> (positivo×positivo o negativo×negativo), el resultado es positivo; si tienen <b>signos distintos</b>, el resultado es negativo. Esta regla se aplica igual en la multiplicación y en la división. Los <b>números racionales</b> (fracciones) también se pueden multiplicar entre sí: para eso se multiplican los numeradores entre sí y los denominadores entre sí, sin necesidad de buscar un denominador común (eso solo es necesario para sumar o restar fracciones). Estas operaciones son la base para resolver ecuaciones y problemas más complejos en los años siguientes.';
   if(Math.random()<0.55){
     const a = randInt(2,9) * (Math.random()<0.5 ? -1 : 1);
     const b = randInt(2,9) * (Math.random()<0.5 ? -1 : 1);
@@ -2474,6 +2475,7 @@ export function genEnterosRacionales8Round(){
       promptHTML: '<p class="prompt-word">'+exprHTML+' = ?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuánto es '+exprSpeak+'?', cols:4,
       explain: exprHTML+' = <b>'+correct+'</b>. Regla de signos: signos iguales dan positivo, signos distintos dan negativo.',
+      recurso: recurso,
     };
   }
   const num1 = randInt(1,5), den1 = pick([2,3,4,5]);
@@ -2492,10 +2494,12 @@ export function genEnterosRacionales8Round(){
     promptHTML: '<p class="prompt-word">'+num1+'/'+den1+' × '+num2+'/'+den2+' = ?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuánto es '+num1+' '+den1+'avos por '+num2+' '+den2+'avos?', cols:4,
     explain: 'Para multiplicar fracciones, se multiplican los numeradores entre sí y los denominadores entre sí: '+num1+'×'+num2+'='+numR+' y '+den1+'×'+den2+'='+denR+', resultado <b>'+correct+'</b> (sin simplificar).',
+    recurso: recurso,
   };
 }
 
 export function genPotenciasRaices8Round(){
+  const recurso = 'Una <b>potencia</b> es una forma corta de escribir una multiplicación repetida: 5³ significa 5×5×5. El número de abajo es la <b>base</b> y el de arriba es el <b>exponente</b>, que indica cuántas veces se multiplica la base por sí misma. Cuando se multiplican dos potencias de <b>igual base</b>, los exponentes simplemente se suman (5²×5³ = 5⁵), porque en el fondo se están juntando dos grupos de multiplicaciones de la misma base. La <b>raíz cuadrada</b> es la operación inversa de elevar al cuadrado: preguntarse "¿cuál es la raíz cuadrada de 49?" es lo mismo que preguntarse "¿qué número multiplicado por sí mismo da 49?" (la respuesta es 7). Estas herramientas se usan constantemente en geometría, por ejemplo para calcular longitudes con el teorema de Pitágoras.';
   const roll = Math.random();
   if(roll<0.4){
     const base = randInt(2,6), exp = randInt(2,3);
@@ -2509,6 +2513,7 @@ export function genPotenciasRaices8Round(){
       promptHTML: '<p class="prompt-word">'+base+'<sup>'+exp+'</sup> = ?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuánto es '+base+' elevado a '+exp+'?', cols:4,
       explain: base+'<sup>'+exp+'</sup> significa multiplicar '+base+' por sí mismo '+exp+' veces = <b>'+correct+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.7){
@@ -2523,6 +2528,7 @@ export function genPotenciasRaices8Round(){
       promptHTML: '<p class="prompt-word">'+base+'<sup>'+e1+'</sup> × '+base+'<sup>'+e2+'</sup> = ?</p><p class="prompt-hint">Elige la potencia equivalente.</p>',
       options: opts, correctValue: correctExp, speakText: base+' elevado a '+e1+' por '+base+' elevado a '+e2, cols:4,
       explain: 'Al multiplicar potencias de la misma base, los exponentes se suman: '+e1+'+'+e2+' = <b>'+correctExp+'</b>, es decir '+base+'^'+correctExp+'.',
+      recurso: recurso,
     };
   }
   const raiz = randInt(2,12);
@@ -2539,10 +2545,12 @@ export function genPotenciasRaices8Round(){
     promptHTML: '<p class="prompt-word">√'+cuadrado+' = ?</p>',
     options: opts, correctValue: raiz, speakText: '¿Cuánto es la raíz cuadrada de '+cuadrado+'?', cols:4,
     explain: 'La raíz cuadrada de '+cuadrado+' es <b>'+raiz+'</b>, porque '+raiz+' × '+raiz+' = '+cuadrado+'.',
+    recurso: recurso,
   };
 }
 
 export function genVariacionesPorcentuales8Round(){
+  const recurso = 'Un <b>porcentaje</b> es una forma de expresar una parte de 100 (el 20% es lo mismo que 20/100). Para calcular un aumento o descuento porcentual, primero se calcula cuánto representa ese porcentaje del precio original, y luego ese "cambio" se suma (si es un aumento) o se resta (si es un descuento) al precio original. Este tipo de cálculo se usa todos los días: en ofertas de tiendas, en el IVA de una boleta, o en el interés de un préstamo. Entender la diferencia entre "aumentar un 20%" y "llegar al 20% del valor" es clave para no confundirse con los números en situaciones reales.';
   const precios = [1000,2000,4000,5000,8000,10000,20000];
   const precio = pick(precios);
   const p = pick([10,20,25,50]);
@@ -2559,10 +2567,12 @@ export function genVariacionesPorcentuales8Round(){
     promptHTML: '<p class="prompt-hint">Un producto cuesta $'+precio.toLocaleString('es-CL')+' y su precio '+accion+' un '+p+'%. ¿Cuál es el precio final?</p>',
     options: opts, correctValue: correct, speakText: 'Un producto cuesta '+precio+' pesos y su precio '+(esAumento?'sube':'baja')+' un '+p+' por ciento. ¿Cuál es el precio final?', cols:2,
     explain: 'El '+p+'% de $'+precio.toLocaleString('es-CL')+' es $'+cambio.toLocaleString('es-CL')+'. '+(esAumento?'Sumando':'Restando')+' queda <b>$'+correct.toLocaleString('es-CL')+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genAlgebra8Round(){
+  const recurso = 'El <b>álgebra</b> usa letras (como x) para representar números que no conocemos todavía. Un <b>término semejante</b> es aquel que tiene exactamente la misma letra (o combinación de letras): 3x y 5x son semejantes y se pueden sumar directamente (3x+5x=8x), igual que sumarías 3 manzanas más 5 manzanas. Una <b>ecuación</b> es una igualdad con una incógnita, y resolverla significa encontrar el valor de esa incógnita que hace verdadera la igualdad — para eso se van "despejando" los números que acompañan a la x, aplicando la misma operación a ambos lados de la igualdad. Una <b>inecuación</b> es parecida, pero en vez de un signo igual usa uno de mayor/menor, y su solución no es un solo número sino un conjunto de valores posibles.';
   const roll = Math.random();
   if(roll<0.4){
     const a = randInt(2,7), b = randInt(2,7), c = randInt(1,9);
@@ -2574,6 +2584,7 @@ export function genAlgebra8Round(){
       promptHTML: '<p class="prompt-word">'+a+'x + '+b+'x + '+c+' = ?</p><p class="prompt-hint">Reduce los términos semejantes.</p>',
       options: shuffle(opts), correctValue: correct, speakText: 'Reduce '+a+' equis más '+b+' equis más '+c, cols:2, kind:'word',
       explain: 'Los términos con x se suman entre sí: '+a+'x + '+b+'x = '+coef+'x. El resultado es <b>'+coef+'x + '+c+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.7){
@@ -2591,6 +2602,7 @@ export function genAlgebra8Round(){
       promptHTML: '<p class="prompt-word">'+a+'x + '+b+' = '+resultado+'</p><p class="prompt-hint">¿Cuánto vale x?</p>',
       options: opts, correctValue: x, speakText: a+' equis más '+b+' igual '+resultado+'. ¿Cuánto vale equis?', cols:4,
       explain: 'Restando '+b+' a ambos lados queda '+a+'x = '+(resultado-b)+'; dividiendo por '+a+', <b>x = '+x+'</b>.',
+      recurso: recurso,
     };
   }
   const x = randInt(3,9), a = randInt(2,5);
@@ -2606,10 +2618,12 @@ export function genAlgebra8Round(){
     promptHTML: '<p class="prompt-word">'+a+'x < '+limite+'</p><p class="prompt-hint">¿Qué valores de x cumplen esta inecuación?</p>',
     options: opts, correctValue: 'menor', speakText: a+' equis menor que '+limite+'. ¿Qué valores de equis cumplen la inecuación?', cols:2, kind:'word',
     explain: 'Dividiendo ambos lados por '+a+' (positivo, así que la desigualdad se mantiene): <b>'+correctLabel+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genFunciones8Round(){
+  const recurso = 'Una <b>función</b> es como una máquina: entra un número (x) y sale otro número, siguiendo siempre la misma regla, escrita como f(x). Por ejemplo, si f(x) = 2x, esa "máquina" siempre duplica el número que entra: f(3) = 6, f(10) = 20. Una <b>función lineal</b> (f(x) = ax) solo multiplica x por un número fijo; una <b>función afín</b> (f(x) = ax + b) hace lo mismo pero además suma una constante fija al final. Para calcular f de un valor específico, simplemente se reemplaza la x por ese valor y se resuelve la operación paso a paso. Las funciones sirven para modelar situaciones reales, como el costo total según la cantidad de productos comprados (donde b sería un costo fijo, como el envío).';
   if(Math.random()<0.55){
     const a = randInt(2,6), x = randInt(1,9);
     const correct = a*x;
@@ -2622,6 +2636,7 @@ export function genFunciones8Round(){
       promptHTML: '<p class="prompt-word">f(x) = '+a+'x</p><p class="prompt-hint">¿Cuánto vale f('+x+')?</p>',
       options: opts, correctValue: correct, speakText: 'Si efe de equis es '+a+' equis, ¿cuánto vale efe de '+x+'?', cols:4,
       explain: 'Se reemplaza x por '+x+': f('+x+') = '+a+' × '+x+' = <b>'+correct+'</b>.',
+      recurso: recurso,
     };
   }
   const a = randInt(2,5), b = randInt(1,9), x = randInt(1,8);
@@ -2635,11 +2650,13 @@ export function genFunciones8Round(){
     promptHTML: '<p class="prompt-word">f(x) = '+a+'x + '+b+'</p><p class="prompt-hint">¿Cuánto vale f('+x+')? (función afín: parte lineal más una constante)</p>',
     options: opts, correctValue: correct, speakText: 'Si efe de equis es '+a+' equis más '+b+', ¿cuánto vale efe de '+x+'?', cols:4,
     explain: 'Se reemplaza x por '+x+': f('+x+') = '+a+'×'+x+' + '+b+' = '+(a*x)+' + '+b+' = <b>'+correct+'</b>.',
+    recurso: recurso,
   };
 }
 
 const TRIOS_PITAGORICOS = [ [3,4,5], [6,8,10], [5,12,13], [9,12,15], [8,15,17] ];
 export function genGeometria8Round(){
+  const recurso = 'El <b>teorema de Pitágoras</b> dice que en cualquier triángulo rectángulo, el cuadrado de la hipotenusa (el lado más largo, opuesto al ángulo recto) es igual a la suma de los cuadrados de los otros dos lados (los catetos): cateto₁² + cateto₂² = hipotenusa². Con eso se puede calcular un lado desconocido si se conocen los otros dos. El <b>volumen</b> de un cuerpo geométrico mide cuánto espacio ocupa en tres dimensiones: en un prisma recto (como una caja), se calcula multiplicando el área de su base por la altura; en un cilindro, es lo mismo pero con una base circular (área = π × radio²). Estas fórmulas se usan en construcción, diseño y para calcular cuánto líquido cabe en un envase.';
   if(Math.random()<0.5){
     const trio = pick(TRIOS_PITAGORICOS);
     const correct = trio[2];
@@ -2655,6 +2672,7 @@ export function genGeometria8Round(){
       promptHTML: '<p class="prompt-hint">Un triángulo rectángulo tiene catetos de '+trio[0]+' cm y '+trio[1]+' cm. Según el teorema de Pitágoras, ¿cuánto mide su hipotenusa?</p>',
       options: opts, correctValue: correct, speakText: 'Un triángulo rectángulo tiene catetos de '+trio[0]+' y '+trio[1]+' centímetros. ¿Cuánto mide su hipotenusa?', cols:4,
       explain: 'Por Pitágoras: '+trio[0]+'² + '+trio[1]+'² = '+(trio[0]*trio[0])+' + '+(trio[1]*trio[1])+' = '+(correct*correct)+', y √'+(correct*correct)+' = <b>'+correct+' cm</b>.',
+      recurso: recurso,
     };
   }
   if(Math.random()<0.5){
@@ -2669,6 +2687,7 @@ export function genGeometria8Round(){
       promptHTML: '<p class="prompt-hint">Un prisma recto de base rectangular mide '+largo+' cm de largo, '+ancho+' cm de ancho y '+alto+' cm de alto. ¿Cuál es su volumen?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuál es el volumen de un prisma de '+largo+' por '+ancho+' por '+alto+' centímetros?', cols:4,
       explain: 'Volumen del prisma = área de la base × altura = '+largo+'×'+ancho+'×'+alto+' = <b>'+correct+' cm³</b>.',
+      recurso: recurso,
     };
   }
   const opts = shuffle([
@@ -2681,6 +2700,7 @@ export function genGeometria8Round(){
     promptHTML: '<p class="prompt-hint">¿Cómo se calcula el volumen de un cilindro?</p>',
     options: opts, correctValue: 'ok', speakText: '¿Cómo se calcula el volumen de un cilindro?', cols:2, panel:true,
     explain: 'El volumen de un cilindro es el área de su base circular (π por radio al cuadrado) multiplicada por la altura.',
+    recurso: recurso,
   };
 }
 
@@ -2697,16 +2717,19 @@ const TRANSFORMACION_8_BANK = [
   { desc:'Al componer dos reflexiones seguidas sobre ejes paralelos, la figura termina simplemente desplazada, sin invertirse', correcta:'TRASLACIÓN', opts:['ROTACIÓN','REFLEXIÓN','REDUCCIÓN'] },
 ];
 export function genTransformaciones8Round(){
+  const recurso = 'Las <b>transformaciones geométricas</b> son movimientos que se le aplican a una figura sin cambiar su tamaño ni su forma. Hay tres tipos principales: la <b>traslación</b> desplaza la figura en línea recta hacia una dirección, sin girarla ni voltearla (como deslizar una pieza sobre una mesa); la <b>rotación</b> gira la figura en torno a un punto fijo, un cierto número de grados (como las aspas de un molino); y la <b>reflexión</b> voltea la figura como si se reflejara en un espejo, invirtiendo su orientación respecto a una línea (el eje de reflexión). Estas transformaciones se usan para crear patrones y mosaicos, y para describir con precisión cómo se mueve un punto en el plano cartesiano.';
   const item = pick(TRANSFORMACION_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué transformación geométrica describe esto?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word', panel:true,
     explain: 'Esto describe una <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genEstadisticaCombinatoria8Round(){
+  const recurso = 'El <b>principio multiplicativo</b> permite contar cuántas combinaciones distintas se pueden formar sin tener que listarlas todas una por una: si hay "a" opciones para una decisión y "b" opciones para otra decisión independiente, el total de combinaciones posibles es a × b. La <b>mediana</b> es una medida de tendencia central: es el valor que queda justo al centro de un conjunto de datos ORDENADOS de menor a mayor (a diferencia del promedio, que se calcula sumando todo y dividiendo). Un <b>gráfico puede ser engañoso</b> sin mentir con números falsos: cambiar la escala de un eje, no partir de cero, o usar el ancho de una barra en vez de su altura, puede hacer que una diferencia pequeña se vea enorme o viceversa — por eso es importante mirar siempre los valores reales antes de sacar una conclusión visual.';
   const roll = Math.random();
   if(roll<0.4){
     const opciones1 = randInt(2,5), opciones2 = randInt(2,5);
@@ -2727,6 +2750,7 @@ export function genEstadisticaCombinatoria8Round(){
       promptHTML: '<p class="prompt-hint">Tienes '+opciones1+' '+ctx.a+' y '+opciones2+' '+ctx.b+'. ¿Cuántas '+ctx.pregunta+' puedes formar?</p>',
       options: opts, correctValue: correct, speakText: 'Con '+opciones1+' '+ctx.a+' y '+opciones2+' '+ctx.b+', ¿cuántas combinaciones puedes formar?', cols:4,
       explain: 'Principio multiplicativo: '+opciones1+' × '+opciones2+' = <b>'+correct+'</b> combinaciones posibles.',
+      recurso: recurso,
     };
   }
   if(roll<0.7){
@@ -2742,6 +2766,7 @@ export function genEstadisticaCombinatoria8Round(){
       promptHTML: '<p class="prompt-hint">Estos 7 datos están ordenados de menor a mayor: '+datos.join(', ')+'. ¿Cuál es la mediana (el valor que queda justo al centro)?</p>',
       options: opts, correctValue: mediana, speakText: '¿Cuál es la mediana de estos datos?', cols:4,
       explain: 'Con 7 datos ordenados, la mediana es el 4° valor (quedan 3 a cada lado): <b>'+mediana+'</b>.',
+      recurso: recurso,
     };
   }
   const enganosos = [
@@ -2756,5 +2781,6 @@ export function genEstadisticaCombinatoria8Round(){
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }

@@ -1380,6 +1380,7 @@ const NOLITERARIO_8_BANK = [
   { texto:'Una noticia informa que una biblioteca municipal extendió su horario hasta las 21 horas de lunes a viernes, tras una encuesta donde los vecinos pidieron más tiempo para estudiar después del trabajo.', pregunta:'¿Por qué la biblioteca extendió su horario?', correcta:'PORQUE LOS VECINOS PIDIERON MÁS TIEMPO PARA ESTUDIAR DESPUÉS DEL TRABAJO', opts:['PORQUE CERRÓ LA BIBLIOTECA VECINA','PORQUE LO EXIGIÓ UNA LEY NUEVA','EL TEXTO NO EXPLICA EL MOTIVO'] },
 ];
 export function genComprension8Round(){
+  const recurso = 'Comprender un texto en profundidad implica fijarse en varios elementos a la vez. El <b>narrador</b> es la voz que cuenta la historia (puede ser un personaje que participa, o alguien externo que observa todo); reconocerlo ayuda a entender desde qué perspectiva se cuentan los hechos. La <b>estructura temporal</b> de un relato no siempre sigue el orden en que ocurrieron los hechos: puede haber saltos al pasado (flashback) o adelantos al futuro, y seguir esa organización es clave para no perderse en la trama. Los <b>textos no literarios</b> (noticias, instructivos, cartas, afiches) tienen un propósito práctico —informar, instruir, persuadir— y para comprenderlos bien hay que identificar ese propósito y evaluar si la información entregada es clara y suficiente.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(NARRADOR_BANK);
@@ -1388,6 +1389,7 @@ export function genComprension8Round(){
       promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1397,6 +1399,7 @@ export function genComprension8Round(){
       promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   const item = pick(NOLITERARIO_8_BANK);
@@ -1405,6 +1408,7 @@ export function genComprension8Round(){
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1421,12 +1425,14 @@ const GENERO_DRAMATICO_BANK = [
   { pregunta:'¿Qué personaje típico de la comedia clásica exagera un defecto (como la avaricia o la vanidad) para provocar risa?', correcta:'EL PERSONAJE TIPO O CARICATURESCO', opts:['EL NARRADOR OMNISCIENTE','EL PÚBLICO','EL ESCENÓGRAFO'] },
 ];
 export function genGenerosDramaticos8Round(){
+  const recurso = 'El <b>género dramático</b> agrupa los textos escritos para ser representados en escena, con diálogos entre personajes y <b>acotaciones</b> (indicaciones de movimientos, gestos o escenografía que no se dicen en voz alta). La <b>comedia</b> es un tipo de obra dramática que busca provocar risa, mostrando defectos humanos de forma exagerada. El <b>género épico</b>, por su parte, narra en verso o prosa las hazañas de un héroe, mezclando hechos extraordinarios con los valores del pueblo que creó la historia (como "La Odisea" o "La Ilíada") — conocer el contexto histórico de esa época ayuda a entender por qué esos valores eran importantes para quienes la escribieron.';
   const item = pick(GENERO_DRAMATICO_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1445,6 +1451,7 @@ const MEDIOS_BANK = [
   { pregunta:'¿Qué elemento de una columna de opinión permite evaluar si su argumentación es sólida?', correcta:'LA CALIDAD Y VERIFICABILIDAD DE LAS RAZONES Y EVIDENCIAS QUE ENTREGA', opts:['EL TAMAÑO DE LA LETRA DEL TÍTULO','LA CANTIDAD DE ADJETIVOS ELOGIOSOS','LA FAMA DEL AUTOR SIN IMPORTAR SUS ARGUMENTOS'] },
 ];
 export function genArgumentacionMedios8Round(){
+  const recurso = 'En un texto argumentativo, la <b>postura</b> es la opinión o punto de vista que el autor defiende, y las <b>evidencias</b> son los datos, estudios o ejemplos que usa para respaldarla — mientras más verificables sean esas evidencias, más sólido es el argumento. Es fundamental distinguir un <b>hecho</b> (algo que se puede comprobar con datos o registros) de una <b>opinión</b> (un juicio personal, que puede ser válido pero no es universalmente verificable). Frente a los <b>medios de comunicación y la publicidad</b>, conviene pensar de forma crítica: preguntarse de dónde salen las cifras que se citan, notar cuando se usa un <b>estereotipo</b> (una imagen simplificada y generalizada de un grupo de personas), y recordar que el propósito de un aviso publicitario es persuadir para vender, no informar de forma neutral.';
   if(Math.random()<0.5){
     const item = pick(POSTURA_ARGUMENTO_BANK);
     const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
@@ -1452,6 +1459,7 @@ export function genArgumentacionMedios8Round(){
       promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   const item = pick(MEDIOS_BANK);
@@ -1460,6 +1468,7 @@ export function genArgumentacionMedios8Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1481,6 +1490,7 @@ const REFERENTE_BANK = [
   { oracion:'Llegaron los nuevos libros a la biblioteca. EL MÁS SOLICITADO fue una novela de aventuras.', pregunta:'¿A qué grupo pertenece "el más solicitado"?', correcta:'A LOS NUEVOS LIBROS', opts:['A LAS BIBLIOTECAS DE LA COMUNA','A LOS ESTUDIANTES','A LAS NOVELAS ANTIGUAS'] },
 ];
 export function genGramatica8Round(){
+  const recurso = 'El <b>modo verbal</b> indica la actitud del hablante frente a lo que dice: el <b>indicativo</b> expresa hechos reales o que se dan por ciertos ("viajaremos", "llegó"); el <b>subjuntivo</b> expresa deseos, dudas o posibilidades ("ojalá llueva", "quizás vengan"); y el <b>imperativo</b> expresa órdenes o instrucciones directas ("cierra la puerta"). Por otro lado, la <b>correferencia</b> es cuando una palabra (como un pronombre: "ella", "los", "estas") reemplaza a algo mencionado antes en el texto para no repetirlo — identificar correctamente a qué se refiere cada pronombre es esencial para entender bien de quién o de qué se está hablando en una oración.';
   if(Math.random()<0.6){
     const item = pick(MODO_VERBAL_BANK);
     const opts = shuffle(['INDICATIVO','SUBJUNTIVO','IMPERATIVO']).map(function(m){ return {label:m, value:m}; });
@@ -1488,6 +1498,7 @@ export function genGramatica8Round(){
       promptHTML: '<p class="prompt-sentence">"'+item.oracion+'"</p><p class="prompt-hint">¿En qué modo verbal está esta oración?</p>',
       options: opts, correctValue: item.modo, speakText: item.oracion, cols:3, kind:'word', panel:true,
       explain: item.explicacion,
+      recurso: recurso,
     };
   }
   const item = pick(REFERENTE_BANK);
@@ -1496,6 +1507,7 @@ export function genGramatica8Round(){
     promptHTML: '<p class="prompt-sentence">"'+item.oracion+'"</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1512,11 +1524,13 @@ const PUNTUACION_8_BANK = [
   { incorrecta:'El viaje en resumen fue un éxito.', correcta:'El viaje, en resumen, fue un éxito.', regla:'Las expresiones intercaladas como "en resumen" o "por ejemplo" van entre comas.' },
 ];
 export function genOrtografia8Round(){
+  const recurso = 'La <b>coma</b> tiene varios usos: separa elementos en una enumeración, marca el vocativo (el nombre de a quién se le habla), y encierra aclaraciones o expresiones intercaladas dentro de una oración. Los <b>dos puntos</b> se usan para anunciar una enumeración, introducir una cita textual, o después del saludo en una carta o comunicado. El <b>punto y coma</b> separa partes de una enumeración que ya contienen comas internas, o va antes de conectores como "sin embargo" o "por lo tanto". Usar bien estos signos evita ambigüedades y hace que un texto se lea con la pausa y el ritmo correctos — una coma mal puesta (o ausente) puede cambiar por completo el sentido de una oración.';
   const item = pick(PUNTUACION_8_BANK);
   const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál oración está bien puntuada?</p>',
     options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien puntuada?', cols:1, panel:true,
     explain: item.regla,
+    recurso: recurso,
   };
 }

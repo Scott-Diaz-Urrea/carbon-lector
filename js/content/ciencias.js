@@ -1988,12 +1988,14 @@ const CELULA_8_BANK = [
   { pregunta:'¿Por qué una célula colocada en agua muy salada (con muchos solutos afuera) puede perder agua y encogerse?', correcta:'PORQUE POR ÓSMOSIS EL AGUA SALE DE LA CÉLULA HACIA EL LUGAR CON MÁS CONCENTRACIÓN DE SAL', opts:['PORQUE LA SAL ENTRA DIRECTAMENTE Y EMPUJA EL AGUA HACIA FUERA POR LA FUERZA','PORQUE LA CÉLULA SIEMPRE PIERDE AGUA SIN NINGUNA RAZÓN','PORQUE LA MEMBRANA CELULAR SE ROMPE INMEDIATAMENTE'] },
 ];
 export function genCelula8Round(){
+  const recurso = 'La <b>célula</b> es la unidad básica de todo ser vivo — descubierta por Robert Hooke al observar corcho al microscopio, y descrita viva por primera vez por Anton van Leeuwenhoek. Existen dos tipos principales: las células <b>procariontes</b> (como las bacterias), que no tienen núcleo definido, y las <b>eucariontes</b> (como las de plantas, animales y hongos), que sí tienen un núcleo que guarda su material genético, además de otras estructuras internas como la mitocondria (que produce energía) o el cloroplasto (que realiza fotosíntesis, solo en células vegetales). La <b>difusión</b> y la <b>osmosis</b> son formas en que sustancias como el agua o los nutrientes entran y salen de la célula a través de su membrana, moviéndose siempre desde donde hay más concentración hacia donde hay menos.';
   const item = pick(CELULA_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -2011,12 +2013,14 @@ const SISTEMAS_CUERPO_8_BANK = [
   { pregunta:'¿Por qué se dice que los sistemas digestivo, circulatorio, respiratorio y excretor "trabajan en conjunto"?', correcta:'PORQUE EL RESULTADO DE UNO (COMO LOS NUTRIENTES DIGERIDOS U OXÍGENO CAPTADO) ES USADO POR LOS OTROS', opts:['PORQUE FUNCIONAN COMPLETAMENTE POR SEPARADO, SIN NINGUNA RELACIÓN','PORQUE SOLO UNO DE ELLOS ES REALMENTE NECESARIO','PORQUE TODOS HACEN EXACTAMENTE LA MISMA FUNCIÓN'] },
 ];
 export function genNutricionSistemas8Round(){
+  const recurso = 'El cuerpo humano funciona como un equipo de sistemas que trabajan en conjunto: el <b>sistema digestivo</b> descompone los alimentos en nutrientes, el <b>sistema circulatorio</b> transporta esos nutrientes y el oxígeno a todas las células, el <b>sistema respiratorio</b> capta el oxígeno del aire, y el <b>sistema excretor</b> filtra la sangre y elimina los desechos. Los <b>nutrientes</b> cumplen funciones distintas: los carbohidratos dan energía rápida, las proteínas forman y reparan tejidos, las grasas aportan energía de reserva y ayudan a absorber ciertas vitaminas, y las vitaminas/minerales regulan procesos importantes aunque se necesiten en pequeñas cantidades. El agua, aunque no aporta energía, es esencial para casi todos los procesos del cuerpo.';
   const item = pick(SISTEMAS_CUERPO_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -2033,12 +2037,14 @@ const ELECTRICIDAD8_BANK = [
   { pregunta:'¿Por qué las instalaciones eléctricas de una casa (enchufes, ampolletas) suelen conectarse en paralelo y no en serie?', correcta:'PARA QUE CADA APARATO PUEDA ENCENDERSE O APAGARSE SIN AFECTAR A LOS DEMÁS', opts:['PARA QUE TODOS LOS APARATOS SE ENCIENDAN Y APAGUEN SIEMPRE JUNTOS','PORQUE ASÍ SE GASTA MÁS ELECTRICIDAD A PROPÓSITO','PORQUE EL PARALELO ES MÁS BARATO DE INSTALAR EN TODOS LOS CASOS'] },
 ];
 export function genElectricidad8Round(){
+  const recurso = 'La <b>electricidad</b> se produce por el movimiento de cargas eléctricas, que pueden ser positivas o negativas — cargas del mismo signo se repelen y de signo distinto se atraen. Existen distintas <b>tecnologías de generación eléctrica</b> que aprovechan fuentes renovables: los paneles solares (fotovoltaicos) transforman la luz del sol en electricidad, los aerogeneradores usan la fuerza del viento, y las centrales hidroeléctricas usan el movimiento del agua. Un <b>circuito eléctrico</b> puede conectarse en serie (un solo camino para la corriente: si un componente falla, todo el circuito se apaga) o en paralelo (cada componente tiene su propio camino: si uno falla, los demás siguen funcionando) — por eso las instalaciones de una casa se conectan en paralelo.';
   const item = pick(ELECTRICIDAD8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -2055,12 +2061,14 @@ const TRANSFERENCIA_CALOR_8_BANK = [
   { desc:'¿Por qué los mangos de las ollas suelen ser de plástico o madera, y no de metal?', correcta:'PORQUE ESOS MATERIALES CONDUCEN MUY POCO EL CALOR, A DIFERENCIA DEL METAL', opts:['PORQUE EL METAL ES DEMASIADO CARO PARA FABRICAR MANGOS','PORQUE EL PLÁSTICO Y LA MADERA CONDUCEN EL CALOR MEJOR QUE EL METAL','PORQUE NO HAY NINGUNA RAZÓN PARTICULAR'] },
 ];
 export function genCalor8Round(){
+  const recurso = 'El <b>calor</b> siempre se transfiere de un cuerpo más caliente a uno más frío, y hay tres formas principales de que esto ocurra. La <b>conducción</b> es la transferencia de calor a través de un material sólido, por contacto directo, como el mango de una cuchara de metal que se calienta poco a poco. La <b>convección</b> ocurre en líquidos o gases, cuando el material caliente (menos denso) sube y el frío (más denso) baja, formando corrientes — como el agua que hierve en una olla. La <b>radiación</b> es la transferencia de calor a través del espacio vacío, sin necesidad de un medio material, como el calor del sol que llega a la Tierra o el de una fogata. Por eso los mangos de las ollas se hacen de materiales que conducen poco el calor, como el plástico o la madera.';
   const item = pick(TRANSFERENCIA_CALOR_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué tipo de transferencia de calor se describe aquí?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word', panel:true,
     explain: 'Esto es un ejemplo de <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
@@ -2078,11 +2086,13 @@ const ATOMO_8_BANK = [
   { pregunta:'¿Qué elemento, presente en el agua y esencial para respirar, es necesario para la mayoría de los seres vivos?', correcta:'EL OXÍGENO', opts:['EL CARBONO','EL NITRÓGENO','EL HIDRÓGENO ÚNICAMENTE'] },
 ];
 export function genAtomoTabla8Round(){
+  const recurso = 'El modelo del <b>átomo</b> ha cambiado a lo largo de la historia, a medida que se hicieron nuevos descubrimientos: Dalton propuso que la materia está formada por partículas indivisibles; Thomson descubrió que el átomo contiene electrones (carga negativa) dentro de una esfera con carga positiva; Rutherford, con su experimento de la lámina de oro, descubrió que el átomo tiene un núcleo pequeño y denso rodeado de espacio vacío; y Bohr propuso que los electrones giran alrededor del núcleo en órbitas definidas. El átomo tiene tres partículas principales: el <b>protón</b> (carga positiva, en el núcleo), el <b>neutrón</b> (sin carga, en el núcleo) y el <b>electrón</b> (carga negativa, fuera del núcleo). La <b>tabla periódica</b> organiza todos los elementos químicos conocidos según sus propiedades, y elementos como el carbono, hidrógeno, oxígeno y nitrógeno son esenciales para formar las moléculas de los seres vivos.';
   const item = pick(ATOMO_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }

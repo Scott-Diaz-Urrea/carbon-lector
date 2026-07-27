@@ -569,12 +569,14 @@ const SISTEMAS_JUEGO_8_BANK = [
   { desc:'En fútbol, la delantera se mueve constantemente entre los defensores para que nunca sepan quién debe marcarla', correcta:'DESMARCARSE PARA GENERAR DUDAS EN LA DEFENSA RIVAL', opts:['QUEDARSE INMÓVIL TODO EL PARTIDO','SALIR DE LA CANCHA CADA JUGADA','AVISARLE AL RIVAL SUS MOVIMIENTOS'] },
 ];
 export function genSistemasJuego8Round(){
+  const recurso = 'En los deportes colectivos, un <b>sistema de juego</b> es un plan acordado por el equipo para organizar el ataque y la defensa, en vez de jugar sin ninguna coordinación. Algunas ideas tácticas clave: ubicar el balón lejos del rival para dificultar su respuesta, moverse hacia espacios vacíos de la cancha para recibir sin oponentes cerca, y asignar roles claros dentro del equipo (quién recibe, quién ataca, quién defiende). También es importante adaptar la táctica según el rival —por ejemplo, reforzar una zona donde el equipo contrario ataca más seguido— y usar herramientas como el tiempo fuera para reordenar el plan durante el partido. Pensar tácticamente, además de tener buena técnica individual, es lo que distingue a un equipo bien organizado.';
   const item = pick(SISTEMAS_JUEGO_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué táctica o sistema de juego se aplica aquí?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
     explain: 'Esto es un ejemplo de: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -591,11 +593,13 @@ const ENTRENAMIENTO_8_BANK = [
   { pregunta:'¿Qué señal indica que la intensidad de un ejercicio aeróbico es moderada y adecuada?', correcta:'PODER HABLAR CON ALGO DE ESFUERZO MIENTRAS SE REALIZA', opts:['NO PODER RESPIRAR EN ABSOLUTO','NO SENTIR NINGÚN ESFUERZO EN NINGÚN MOMENTO','SENTIR DOLOR FUERTE'] },
 ];
 export function genEntrenamiento8Round(){
+  const recurso = 'Los <b>principios de entrenamiento</b> son los componentes que se ajustan al planificar cualquier rutina física: la <b>Frecuencia</b> (cuántas veces por semana se entrena), la <b>Intensidad</b> (qué tan exigente es el esfuerzo, por ejemplo si aún se puede conversar mientras se hace ejercicio), el <b>Tiempo</b> de duración y de recuperación (cuánto dura la sesión y el descanso entre ejercicios), la <b>Progresión</b> (aumentar la carga de forma gradual, nunca de golpe), y el <b>Tipo</b> de ejercicio (resistencia, fuerza o flexibilidad, cada uno desarrollando una capacidad física distinta). Respetar los tiempos de recuperación es tan importante como entrenar, porque el cuerpo necesita descanso para adaptarse y evitar lesiones.';
   const item = pick(ENTRENAMIENTO_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }

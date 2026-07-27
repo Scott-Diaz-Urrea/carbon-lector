@@ -426,11 +426,13 @@ const ARMONIA_8_BANK = [
   { pregunta:'¿Por qué se dice que la armonía es una dimensión "vertical" de la música?', correcta:'PORQUE MIRA LAS NOTAS QUE SUENAN SIMULTÁNEAMENTE, COMO UNA COLUMNA DE SONIDOS', opts:['PORQUE SOLO SE TOCA DE PIE','PORQUE LAS PARTITURAS SE LEEN DE ABAJO HACIA ARRIBA','PORQUE REQUIERE INSTRUMENTOS ALTOS'] },
 ];
 export function genArmonia8Round(){
+  const recurso = 'Un <b>acorde</b> es un grupo de tres o más notas que suenan al mismo tiempo, y forma la base de la <b>armonía</b> — la dimensión "vertical" de la música, que mira las notas simultáneas como una columna de sonidos (a diferencia de la melodía, que es la sucesión de notas en el tiempo). El <b>acompañamiento armónico</b> sostiene la melodía con esos acordes, dándole cuerpo y carácter, y suele estar a cargo de instrumentos como la guitarra o el piano (que pueden tocar varias notas a la vez), junto al bajo, que refuerza la nota fundamental de cada acorde. Existe una convención expresiva ampliamente usada en la música (no una verdad absoluta) donde la tonalidad <b>mayor</b> suele asociarse a un carácter más luminoso o alegre, y la tonalidad <b>menor</b> a uno más melancólico o íntimo.';
   const item = pick(ARMONIA_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }

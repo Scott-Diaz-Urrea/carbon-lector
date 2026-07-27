@@ -561,10 +561,12 @@ export function genComprension4Round(){
     promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, cols: kind?2:2, kind: kind, panel:true,
     explain: item.reason,
+    recurso: 'Comprender un texto va mucho más allá de reconocer las palabras: incluye <b>inferir</b> (deducir algo que el texto no dice directamente, usando pistas del contexto — como saber que una bicicleta se oxidó porque quedó bajo la lluvia toda la noche), reconocer <b>lenguaje figurado</b> (frases que no se leen literalmente, como "le explotaba el corazón de la emoción", que expresa una emoción intensa, no un hecho real), identificar el <b>género literario</b> de un texto (fábula, mito, novela — cada uno con características propias), y extraer información explícita de <b>textos no literarios</b> (instrucciones, avisos, recomendaciones). Practicar estas estrategias te ayuda a entender no solo QUÉ dice un texto, sino también lo que sugiere entre líneas.',
   };
 }
 
 export function genVocabulario4Round(){
+  const recurso = 'Cuando no conoces una palabra, el <b>contexto</b> (las oraciones a su alrededor) casi siempre te da pistas suficientes para deducir su significado, sin necesidad de buscarla en un diccionario. Otra herramienta útil son los <b>prefijos</b>: partículas que se agregan al INICIO de una palabra base y cambian su significado de forma predecible — "des-" revierte una acción (hacer → deshacer), "re-" indica que se repite (hacer → rehacer), "in-" niega una cualidad (capaz → incapaz). Una vez que reconoces qué hace un prefijo, puedes deducir el significado de palabras nuevas que nunca habías visto, con tal de que conozcas su palabra base.';
   if(Math.random()<0.5){
     const item = pick(VOCABULARIO4_CONTEXTO_BANK);
     const opts = shuffle([item.significado].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
@@ -572,6 +574,7 @@ export function genVocabulario4Round(){
       promptHTML: '<p class="prompt-sentence">'+item.texto+'<b>'+item.palabra+'</b>'+item.resto+'</p><p class="prompt-hint">¿Qué significa la palabra <b>'+item.palabra.toLowerCase()+'</b>?</p>',
       options: opts, correctValue: item.significado, speakText: item.texto+item.palabra+item.resto, cols:2, panel:true,
       explain: '<b>'+item.palabra+'</b> significa "'+item.significado.toLowerCase()+'".',
+      recurso: recurso,
     };
   }
   const item = pick(PREFIJOS_BANK);
@@ -581,10 +584,12 @@ export function genVocabulario4Round(){
     promptHTML: '<p class="prompt-word">'+item.ejemplo+'</p><p class="prompt-hint">La palabra base es "'+item.base.toLowerCase()+'". ¿Qué indica el prefijo "'+item.prefijo.toLowerCase()+'" en esta palabra?</p>',
     options: opts, correctValue: item.significadoPrefijo, speakText: item.ejemplo, cols:2, panel:true,
     explain: 'El prefijo "'+item.prefijo.toLowerCase()+'" '+item.significadoPrefijo.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
 export function genGramatica4Round(){
+  const recurso = 'Un <b>adverbio</b> es una palabra que modifica a un verbo, dando más información sobre CÓMO (modo: lentamente), CUÁNDO (tiempo: mañana), DÓNDE (lugar: aquí) o CUÁNTO (cantidad: mucho) ocurre la acción — a diferencia de un adjetivo, que describe a un sustantivo, el adverbio siempre acompaña a un verbo. Por otro lado, la <b>concordancia sujeto-verbo</b> es la regla que exige que el verbo cambie su forma según quién realiza la acción: "yo camino", "tú caminas", "nosotros caminamos" — el mismo verbo "caminar" toma una terminación distinta según el sujeto, y una oración donde no concuerdan ("Los niños juega") suena incorrecta al oído porque rompe esta regla.';
   if(Math.random()<0.5){
     const item = pick(ADVERBIOS_BANK);
     const distract = shuffle(['ADVERBIO DE MODO','ADVERBIO DE TIEMPO','ADVERBIO DE LUGAR','ADVERBIO DE CANTIDAD'].filter(function(t){ return t!==item.tipo; }));
@@ -593,6 +598,7 @@ export function genGramatica4Round(){
       promptHTML: '<p class="prompt-sentence">'+item.texto.replace(item.palabra,'<b>'+item.palabra+'</b>')+'</p><p class="prompt-hint">¿Qué tipo de adverbio es la palabra en negrita?</p>',
       options: opts, correctValue: item.tipo, speakText: item.texto, cols:2, panel:true,
       explain: '"'+item.palabra+'" es un <b>'+item.tipo.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(VERBOS_CONCORDANCIA_BANK);
@@ -601,6 +607,7 @@ export function genGramatica4Round(){
     promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué verbo completa correctamente la oración?</p>',
     options: opts, correctValue: item.correcto, speakText: item.texto.replace('___', item.correcto), cols:4, kind:'word',
     explain: '<b>'+item.correcto+'</b> concuerda correctamente con el sujeto de la oración.',
+    recurso: recurso,
   };
 }
 
@@ -611,6 +618,7 @@ export function genOrtografia4Round(){
     promptHTML: '<p class="prompt-hint">¿Cuál oración está bien escrita?</p>',
     options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
     explain: item.regla,
+    recurso: 'El español tiene varias reglas ortográficas que no se "escuchan" al hablar, así que hay que memorizarlas: las formas del verbo <b>ir</b> en pasado ("iba", "iban") siempre se escriben con B, nunca con V. La palabra <b>"hay"</b> (del verbo haber, indica que algo existe) se confunde fácilmente con <b>"ahí"</b> (que indica un lugar) y con <b>"ay"</b> (una exclamación) — aunque suenan parecido, cada una se usa en una situación distinta. La <b>tilde</b> (acento escrito) marca la sílaba donde cae la fuerza de la voz en palabras que, sin ella, se leerían mal o se confundirían con otra palabra (como "árbol", que sin tilde no seguiría la regla de las palabras graves).',
   };
 }
 

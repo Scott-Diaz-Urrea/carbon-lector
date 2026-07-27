@@ -397,6 +397,7 @@ export function genManejoEmocional4Round(){
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción sin lastimarte a ti ni a otros.',
+    recurso: 'El <b>manejo emocional</b> no significa esconder o negar lo que sientes, sino reconocer la emoción (celos, decepción, ansiedad, orgullo, frustración) y elegir una respuesta que no te dañe a ti ni a otros. Un primer paso útil es simplemente nombrar la emoción ("estoy sintiendo celos" o "esto me da vergüenza") — ponerle nombre a lo que sientes ayuda a que no te controle por completo. Después, hay estrategias concretas según la emoción: respirar y calmarte ante la frustración, conversar con un adulto de confianza ante la ansiedad, o reconocer tu esfuerzo aunque no hayas ganado. Con práctica, manejar tus emociones se vuelve más fácil, igual que cualquier otra habilidad.',
   };
 }
 
@@ -407,6 +408,7 @@ export function genAutocuidado4Round(){
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: 'El <b>autocuidado</b> es todo lo que haces para mantener tu cuerpo y tu bienestar en buen estado: dormir lo suficiente, mantener buenos hábitos de higiene, elegir una alimentación variada con frutas y verduras, y hacer pausas para estirarte si llevas mucho tiempo sentado. También incluye reconocer tus propios límites — saber cuándo necesitas descansar y respetar esa necesidad, en vez de ignorarla. Pedir ayuda a un adulto de confianza cuando algo te preocupa también es una forma válida de autocuidado: cuidarte no significa resolver todo solo, sino saber cuándo necesitas apoyo de otra persona.',
   };
 }
 
@@ -417,6 +419,7 @@ export function genBuenTrato4Round(){
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema con respeto.',
+    recurso: 'Resolver un conflicto de buena manera casi siempre empieza con lo mismo: escuchar todas las partes involucradas antes de sacar conclusiones, y buscar una solución en conjunto en vez de imponer una idea sin conversar. Frente a una injusticia (como que alguien se burle de un compañero, o que un nuevo estudiante se sienta excluido), la mejor respuesta suele ser acercarse con empatía, apoyar a quien está siendo afectado, y —si la situación lo requiere— buscar la ayuda de un adulto, en vez de sumarte al comportamiento injusto o ignorarlo. Practicar el buen trato en situaciones pequeñas del día a día te prepara para resolver conflictos más grandes de forma pacífica en el futuro.',
   };
 }
 
@@ -427,6 +430,7 @@ export function genHabitosEstudio4Round(){
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: 'Los buenos <b>hábitos de estudio</b> se construyen con constancia, no con esfuerzo de último minuto: estudiar un poco cada día rinde mucho más que intentar aprenderlo todo la noche anterior a una prueba, porque el cerebro necesita tiempo para consolidar lo aprendido. Anotar tareas y fechas de entrega en una agenda, tener un horario fijo para estudiar, y preguntar cuando algo no se entiende son hábitos simples que marcan una gran diferencia con el tiempo. Revisar tus propios errores después de una prueba —en vez de solo mirar la nota— también es clave: te muestra exactamente qué necesitas reforzar antes de la próxima evaluación.',
   };
 }
 

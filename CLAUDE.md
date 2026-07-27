@@ -530,6 +530,28 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
       básico. Verificado: los 36 generadores pasan fuzz de 200 iteraciones
       cada uno, sin errores de consola. Próximo paso: 4°-8° básico y
       Parvularia.
+    - **4° básico — ✅ completo (2026-07-27):** mismo pedido, mismo criterio.
+      Se agregó recurso a los 30 módulos de opción múltiple: Lenguaje
+      (Comprensión IV, Vocabulario en Contexto II, Gramática IV, Ortografía
+      II — 4), Matemática (Números hasta 10 000, Sumar/Restar y Dinero II,
+      Multiplicar y Dividir, Fracciones II, Decimales, Patrones y Ecuaciones
+      II, Geometría IV, Medición IV, Datos y Probabilidades — 9), Ciencias
+      Naturales (Ecosistemas, Cuerpo Humano IV, La Materia, Las Fuerzas, La
+      Tierra — 5), Historia (Civilizaciones Americanas, Geografía de
+      América, Formación Ciudadana IV — 3), Artes Visuales (Lenguaje Visual
+      II — 1), Música (Dinámica y Tempo — 1), Educación Física (Condición
+      Física y Pulso, Seguridad y Juego Limpio IV — 2), Orientación (Manejo
+      Emocional II, Autocuidado IV, Buen Trato y Resolución de Conflictos
+      II, Hábitos de Trabajo Escolar II — 4), Tecnología (Tecnología Digital
+      IV — 1) — 30 módulos en total, coincide exactamente con el total ya
+      documentado en "Estado actual del contenido". Mismo patrón de
+      "declarar `recurso` una vez arriba y reutilizarlo en cada `return`"
+      para generadores con ramas. Verificado: los 30 generadores pasan fuzz
+      de 300 iteraciones cada uno (sin `undefined`, sin opciones duplicadas,
+      `correctValue` siempre presente, sin apóstrofes en `speakText`, sin
+      `recurso` faltante) y una prueba visual en el navegador (módulo
+      "Números hasta 10 000": botón Recurso visible y modal con el texto
+      real). Próximo paso: 5°-8° básico y Parvularia.
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el

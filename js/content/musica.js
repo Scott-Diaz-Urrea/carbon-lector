@@ -231,6 +231,7 @@ export function genDinamicaTempo4Round(){
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué término musical describe esto?</p>',
     options: opts, correctValue: item.termino, speakText: item.desc, cols:2, kind:'word',
     explain: 'Ese término musical es <b>'+item.termino.toLowerCase()+'</b>.',
+    recurso: 'La <b>dinámica</b> en música se refiere a qué tan fuerte o suave suena algo: "piano" significa suave, "forte" significa fuerte, y "crescendo"/"decrescendo" describen un volumen que va aumentando o disminuyendo gradualmente durante la canción. El <b>tempo</b>, en cambio, se refiere a la velocidad: "allegro" es rápido, "largo" es muy lento, "moderato" es una velocidad intermedia y "andante" es un paso tranquilo, como caminar. Estos términos vienen del italiano porque los primeros compositores que los estandarizaron, hace varios siglos, eran principalmente italianos — hoy músicos de todo el mundo usan las mismas palabras para indicar cómo debe sonar una pieza, sin importar en qué idioma se compuso.',
   };
 }
 

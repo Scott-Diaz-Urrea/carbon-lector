@@ -2682,3 +2682,79 @@ sesión).
   columna, cualquier otro valor = grilla) — usar siempre `cols:2` para
   alternativas de oración completa, nunca `cols:1` pensando que significa
   "una columna".
+- **Alternativas en MAYÚSCULAS SOSTENIDAS en toda la app, no solo Estudio
+  para Pruebas (2026-07-27, pedido explícito del usuario):** tras el fix
+  de `cols:1`, el usuario pidió auditar por qué las alternativas seguían
+  viéndose "poco armoniosas" — la respuesta fue que la conversión de
+  MAYÚSCULAS a oración normal (2026-07-26) solo se había aplicado a
+  Química Diagnóstica; el resto de la app (1°-8° básico, las 9
+  asignaturas) seguía con el patrón de autoría original en MAYÚSCULAS.
+  Un conteo real (no estimado) mostró **~1.870 alternativas en MAYÚSCULAS
+  de 3+ palabras** repartidas en 10 archivos (historia.js 635, ciencias.js
+  455, lenguaje.js 246, ingles.js 152, edfisica.js 115, artes.js 94,
+  musica.js 71, tecnologia.js 38, orientacion.js 36, matematica.js 27) —
+  Parvularia y Microbiología Clínica ya estaban en 0, no necesitaron nada.
+  El usuario eligió abordarlo **por asignatura, de mayor a menor
+  impacto**, cada archivo en su propio commit/PR, empezando por
+  `historia.js` (el más grande).
+  - **Metodología (no manual ítem por ítem, dado el volumen):** se escribió
+    un script de PowerShell (`fix_caps_historia.ps1`, en el scratchpad, no
+    versionado) que (1) escanea todas las cadenas entre comillas simples
+    del archivo, (2) identifica las que están 100% en mayúsculas
+    sostenidas, (3) las convierte a minúscula con la primera letra en
+    mayúscula, y (4) restaura mediante un diccionario curado (~150
+    entradas: países, ciudades, ríos, personas, nombres de eventos/
+    tratados/batallas históricas) los nombres propios que deben mantener
+    su mayúscula donde sea que aparezcan en la oración, no solo al
+    principio. Los gentilicios/nombres de civilizaciones usados como
+    sustantivo común (mapuche, inca, azteca, maya) se dejaron en minúscula
+    a propósito, siguiendo la convención real del español (a diferencia
+    del inglés, que sí capitaliza gentilicios). El script se probó primero
+    sobre una copia de respaldo antes de aplicarlo al archivo real.
+  - **3 bugs reales encontrados y corregidos tras revisar el diff**, todos
+    por interacción entre reemplazos del diccionario, no por el diseño en
+    sí: (1) un BOM UTF-8 (`EF BB BF`) quedó al inicio del archivo por el
+    method `Set-Content -Encoding UTF8` de PowerShell — eliminado a nivel
+    de bytes; (2) dos apóstrofos sin escapar en `'Bernardo O'Higgins'`
+    (el reemplazo del diccionario insertó un apóstrofo recto sin escapar
+    dentro de un string ya delimitado por comillas simples, rompiendo la
+    sintaxis JS) — corregido a `'Bernardo O\'Higgins'`; (3) un caso de
+    sobrescritura entre entradas del diccionario de distinto largo
+    (`'camino inca'` se reemplazó primero por `'Camino Inca'`, pero una
+    entrada más corta `'inca'→'inca'` (minúscula, para el gentilicio)
+    procesada después volvió a bajar la "I" de "Inca" dentro de ese string
+    ya reemplazado) — encontrado con `grep` dirigido y corregido a mano;
+    más 5 nombres propios puntuales que el diccionario no cubría
+    (`Sudamérica`, `Patagonia`, `América Central`, `Montes Alpes`,
+    `Montañas Rocosas`) — corregidos con `Edit` directo tras revisar el
+    diff completo línea por línea.
+  - **Los 34 `.toLowerCase()` que forzaban minúscula sobre `item.correcta`/
+    `item.zona`/`item.funcion`** (necesarios cuando esos campos estaban en
+    MAYÚSCULAS, para que el `explain` leyera natural) se corrigieron
+    quitando `.toLowerCase()` — mismo bug ya documentado para Química
+    Diagnóstica. Los usos de `.toLowerCase()` sobre `item.label` se
+    dejaron intactos a propósito: ese campo se usa para insertar un
+    sustantivo común a mitad de oración (p. ej. "esa descripción
+    corresponde a una playa"), donde SÍ corresponde mantenerlo en
+    minúscula aunque el botón lo muestre con mayúscula inicial — no es el
+    mismo patrón que `correcta` (que se cita entre `<b>` como la
+    respuesta, y por eso conserva su mayúscula propia).
+  - Verificado: los 37 generadores de `historia.js` pasan fuzz de 200
+    iteraciones cada uno (sin `undefined`, sin opciones duplicadas,
+    `correctValue` siempre presente, sin apóstrofes en `speakText`, **sin
+    ninguna cadena de 4+ letras en mayúscula sostenida remanente** — grep
+    dedicado sobre el archivo completo confirmó 0 residuos, solo 2 falsos
+    positivos que son emoji). Probado visualmente en el navegador en
+    mobile (375px): "Estado Moderno y Mercantilismo" (8°, estilo panel),
+    "Civilizaciones Americanas" (4°, estilo grilla de palabras) y
+    "Calendario" (1°, grilla de meses) — las tres se ven en oración/nombre
+    propio normal en vez de mayúsculas sostenidas, y una ronda jugada
+    completa (respuesta incorrecta en Calendario) confirmó que el texto
+    del `explain` ("Después de Diciembre viene Enero.") lee con
+    puntuación y mayúsculas correctas. Sin errores de consola.
+  - Próximo paso (mismo pedido, orden ya acordado): `ciencias.js` (455
+    alternativas), luego `lenguaje.js`, `ingles.js`, `edfisica.js`,
+    `artes.js`, `musica.js`, `tecnologia.js`, `orientacion.js`,
+    `matematica.js` — cada uno en su propio commit/PR, con la misma
+    metodología (script + revisión manual del diff + fuzz + prueba
+    visual) ya validada aquí.

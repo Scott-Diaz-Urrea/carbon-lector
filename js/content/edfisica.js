@@ -171,32 +171,38 @@ export function genLiderazgo2Round(){
 }
 
 export function genMovimientoRound(){
+  const recurso = 'Los movimientos del cuerpo se agrupan en 3 categorías: <b>locomoción</b> son los que te trasladan de un lugar a otro (caminar, correr, saltar); <b>manipulación</b> son los que usas para controlar un objeto (lanzar, atrapar, patear una pelota); y <b>estabilidad</b> son los que mantienen tu equilibrio sin moverte del lugar (pararse en un pie, girar). Reconocer estas 3 categorías te ayuda a entender que tu cuerpo puede hacer muchos tipos de movimiento distintos, y que cada deporte o juego combina varios de ellos — por ejemplo, jugar fútbol usa locomoción (correr) y manipulación (patear) al mismo tiempo.';
   const item = pick(MOVIMIENTOS_ITEMS);
   const opts = shuffle(['LOCOMOCIÓN','MANIPULACIÓN','ESTABILIDAD']).map(function(t){ return {label:t, value:t}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Qué tipo de movimiento es?</p>',
     options: opts, correctValue: item.tipo, speakText: item.label, cols:4, kind:'word',
     explain: item.label+' es un movimiento de <b>'+item.tipo.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genVidaActivaRound(){
+  const recurso = 'Llevar una <b>vida activa y saludable</b> significa combinar varios hábitos todos los días: moverte y hacer actividad física con regularidad (no solo una vez a la semana), comer alimentos variados y nutritivos, dormir las horas que tu cuerpo necesita para descansar, y mantener una buena higiene (lavarte las manos, los dientes, bañarte). Ningún hábito por sí solo es suficiente — es la combinación de todos ellos, mantenida en el tiempo, la que realmente cuida tu salud y te da energía para jugar, aprender y crecer bien.';
   const item = pick(VIDA_ACTIVA_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 
 export function genSeguridadRound(){
+  const recurso = 'El <b>juego limpio</b> significa seguir las reglas del juego incluso cuando nadie te está mirando, respetar a tus compañeros y aceptar los resultados sin hacer trampa. La <b>seguridad</b> al jugar o hacer deporte significa cuidar tu cuerpo y el de los demás: usar el equipo de protección adecuado (como un casco), jugar en espacios seguros, y avisar a un adulto si algo se ve peligroso. Estas dos ideas van juntas porque un juego solo es realmente divertido para todos cuando se juega con honestidad y sin que nadie salga lastimado.';
   const item = pick(SEGURIDAD_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 

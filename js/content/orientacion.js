@@ -167,6 +167,7 @@ export function genConvivencia2Round(){
 }
 
 export function genEmocionesRound(){
+  const recurso = 'Reconocer emociones (alegría, tristeza, miedo, enojo, sorpresa) en una cara o en una descripción es el primer paso para poder manejarlas bien. Cada emoción es una señal que tu cuerpo te manda: el miedo te avisa de un peligro, la tristeza aparece cuando pierdes algo importante, la alegría cuando algo te sale bien. Ninguna emoción es "mala" en sí misma — todas cumplen un propósito —, pero aprender a identificarlas con su nombre correcto te ayuda a explicar cómo te sientes a otras personas, en vez de solo actuar sin entender por qué.';
   const item = pick(EMOCIONES_ITEMS);
   const distract = shuffle(EMOCIONES_ITEMS.filter(function(e){ return e.label!==item.label; })).slice(0,3).map(function(e){ return e.label; });
   const opts = shuffle([item.label].concat(distract)).map(function(e){ return {label:e, value:e}; });
@@ -175,32 +176,38 @@ export function genEmocionesRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué emoción muestra esta cara?</p>',
       options: opts, correctValue: item.label, speakText: item.label, cols:4, kind:'word',
       explain: 'Esta cara muestra <b>'+item.label.toLowerCase()+'</b>: '+item.desc.toLowerCase(),
+      recurso: recurso,
     };
   }
   return {
     promptHTML: '<span class="prompt-emoji">💭</span><p class="prompt-hint">'+item.desc+' ¿Qué emoción es?</p>',
     options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
     explain: 'Esa descripción corresponde a la <b>'+item.label.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genAutocuidadoRound(){
+  const recurso = 'El <b>autocuidado</b> son los hábitos que tú mismo puedes practicar todos los días para mantenerte sano, sin depender de que un adulto te lo recuerde siempre: lavarte las manos antes de comer, cepillarte los dientes, dormir temprano, y comer alimentos variados. Aprender estos hábitos desde pequeño es importante porque, con el tiempo, se convierten en algo automático que haces por costumbre — y esos hábitos que formas ahora son los que probablemente sigas practicando de adulto.';
   const item = pick(AUTOCUIDADO_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 
 export function genConvivenciaRound(){
+  const recurso = 'La <b>buena convivencia</b> es el conjunto de conductas que hacen que un grupo (tu curso, tu familia, tus amigos) pueda estar junto sin problemas: compartir, esperar tu turno, pedir las cosas por favor, escuchar cuando otro habla, y resolver los conflictos hablando en vez de peleando. No es algo que "simplemente pasa" — se construye con pequeñas acciones diarias de cada persona del grupo. Reconocer qué conductas ayudan a la buena convivencia (y cuáles la dañan) te prepara para ser un buen compañero en cualquier grupo del que formes parte.';
   const item = pick(CONVIVENCIA_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 

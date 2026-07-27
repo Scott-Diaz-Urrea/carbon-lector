@@ -93,22 +93,26 @@ export function genTimbrePulso2Round(){
 }
 
 export function genSonidosRound(){
+  const recurso = 'Todo sonido tiene "cualidades" que lo describen, igual que un objeto tiene color y tamaño: puede ser <b>fuerte o suave</b> (cuánta energía tiene), <b>agudo o grave</b> (qué tan alto o bajo suena, como la diferencia entre un silbato y un tambor grande), y <b>largo o corto</b> (cuánto dura). Aprender a describir un sonido con estas palabras es el primer paso para entender música: antes de tocar un instrumento o cantar una canción, hay que aprender a "escuchar con atención" y notar estas diferencias, algo que usarás constantemente en toda tu educación musical.';
   const item = pick(SONIDO_ITEMS);
   const opts = shuffle(item.par.map(function(c){ return {label:c, value:c}; }));
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Cómo es este sonido?</p>',
     options: opts, correctValue: item.cualidad, speakText: item.label, cols:2, panel:true,
     explain: item.label+', por eso es un sonido <b>'+item.cualidad.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genInstrumentosRound(){
+  const recurso = 'Un instrumento musical <b>convencional</b> es uno fabricado especialmente para hacer música (como una guitarra, un tambor o un piano), diseñado con materiales y formas pensadas para producir sonidos afinados y controlables. Un instrumento <b>no convencional</b>, en cambio, es cualquier objeto cotidiano que no fue creado para hacer música pero que puedes usar para producir sonido y ritmo — como golpear una olla, agitar unas llaves, o sacudir una botella con arroz adentro. Esta idea es importante porque te muestra que la música puede crearse con lo que tengas a mano, no solo con instrumentos "de verdad" comprados en una tienda.';
   const item = pick(INSTRUMENTOS_ITEMS);
   const opts = shuffle([{label:'CONVENCIONAL', value:'CONVENCIONAL'},{label:'NO CONVENCIONAL', value:'NO CONVENCIONAL'}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Es un instrumento musical convencional o no convencional?</p>',
     options: opts, correctValue: item.tipo, speakText: item.label, cols:2, panel:true,
     explain: item.label+' es un instrumento <b>'+item.tipo.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 

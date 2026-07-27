@@ -402,6 +402,7 @@ export function genClima2Round(){
 }
 
 export function genSeresVivosRound(){
+  const recurso = 'Un <b>ser vivo</b> es algo que nace, crece, se alimenta, respira y puede tener crías — como tú, un perro o una planta. Una piedra o un juguete no hacen nada de eso por sí solos: no necesitan comer ni respirar, por eso no están vivos. Los animales, además, tienen distintas cubiertas en su cuerpo que los ayudan a sobrevivir en su ambiente: el pelo y la lana los mantienen abrigados, las plumas les sirven para volar y aislarse del frío o la lluvia, y las escamas los protegen como una armadura. Fijarte en estas dos cosas — si algo cumple las funciones de un ser vivo, y cómo es su cuerpo por fuera — te ayuda a entender mejor a los animales y plantas que te rodean.';
   if(Math.random()<0.5){
     const item = pick(VIVOS_ITEMS);
     const opts = shuffle([{label:'SER VIVO', value:true},{label:'NO ES SER VIVO', value:false}]);
@@ -409,6 +410,7 @@ export function genSeresVivosRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Es un ser vivo o no?</p>',
       options: opts, correctValue: item.vivo, speakText: item.label, cols:2, panel:true,
       explain: item.vivo ? item.label+' crece, se alimenta y necesita aire y agua, por eso <b>es un ser vivo</b>.' : item.label+' no crece ni se alimenta por sí solo, por eso <b>no es un ser vivo</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(ANIMAL_COVER_ITEMS);
@@ -418,10 +420,12 @@ export function genSeresVivosRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué cubre el cuerpo de este animal?</p>',
     options: opts, correctValue: item.cubierta, speakText: item.label, cols:4, kind:'word',
     explain: 'El '+item.label.toLowerCase()+' tiene el cuerpo cubierto de <b>'+item.cubierta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genPlantasRound(){
+  const recurso = 'Las plantas tienen partes que cumplen trabajos distintos, igual que tu cuerpo: la <b>raíz</b> la sostiene en la tierra y absorbe agua, el <b>tallo</b> lleva esa agua hacia arriba, las <b>hojas</b> fabrican el alimento de la planta usando la luz del sol, y muchas plantas además producen <b>flores</b> y <b>frutos</b> con semillas dentro, para poder crear nuevas plantitas. Comparar tamaños de frutos también te ayuda a observar la naturaleza con atención: fíjate no solo en cuál "parece" más grande a simple vista, sino en compararlos uno al lado del otro para estar seguro. Esta forma de observar con cuidado — mirar las partes de algo y comparar tamaños — es una habilidad científica que usarás una y otra vez en Ciencias Naturales.';
   if(Math.random()<0.5){
     const item = pick(PLANT_PARTS);
     const distract = shuffle(PLANT_PARTS.filter(function(p){ return p.part!==item.part; })).map(function(p){ return p.part; });
@@ -430,6 +434,7 @@ export function genPlantasRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.part, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa es la descripción de la <b>'+item.part.toLowerCase()+'</b> de la planta.',
+      recurso: recurso,
     };
   }
   let a = pick(FRUIT_SIZE), b = pick(FRUIT_SIZE);
@@ -440,10 +445,12 @@ export function genPlantasRound(){
     promptHTML: '<p class="prompt-hint">¿Cuál de estos frutos es más grande?</p>',
     options: opts, correctValue: bigger.label, speakText: '¿Cuál es más grande?', cols:2, panel:true,
     explain: 'El '+bigger.label.toLowerCase()+' es más grande que el '+smaller.label.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
 export function genCuerpoRound(){
+  const recurso = 'Tus 5 sentidos (vista, oído, olfato, gusto y tacto) son la forma en que tu cuerpo recibe información del mundo: cada órgano está especializado en un solo trabajo — los ojos ven, los oídos escuchan, la nariz huele, la lengua saborea y la piel siente el tacto, el calor o el frío. Además de tener sentidos que funcionan bien, necesitas cuidar tu cuerpo con hábitos saludables: comer alimentos variados, dormir suficiente, lavarte las manos y hacer actividad física ayudan a que tu cuerpo (incluidos tus sentidos) funcione mejor cada día. Reconocer qué hábitos son buenos para ti es el primer paso para cuidarte solo, sin que un adulto tenga que recordártelo siempre.';
   if(Math.random()<0.5){
     const item = pick(SENTIDOS);
     const distract = shuffle(SENTIDOS.filter(function(s){ return s.sense!==item.sense; })).slice(0,3).map(function(s){ return s.sense; });
@@ -452,6 +459,7 @@ export function genCuerpoRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Para qué sirven tus '+item.organ.toLowerCase()+'?</p>',
       options: opts, correctValue: item.sense, speakText: '¿Para qué sirven tus '+item.organ+'?', cols:4, kind:'word',
       explain: 'Tus '+item.organ.toLowerCase()+' sirven para <b>'+item.sense.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(HABITOS_SALUDABLES);
@@ -460,10 +468,12 @@ export function genCuerpoRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.bueno, speakText: item.label, cols:2, panel:true,
     explain: item.bueno ? item.label+' es un <b>hábito saludable</b> que cuida tu cuerpo.' : item.label+' <b>no es un hábito saludable</b>.',
+    recurso: recurso,
   };
 }
 
 export function genMaterialesRound(){
+  const recurso = 'Todos los objetos que usas están hechos de algún <b>material</b> (madera, metal, plástico, vidrio, tela), y cada material se elige según lo que necesita hacer el objeto: el vidrio es transparente para poder ver a través de una ventana, el metal es resistente para hacer ollas, la tela es suave y flexible para hacer ropa. Además, los materiales pueden <b>cambiar</b> cuando algo actúa sobre ellos: el calor puede derretir o cocinar algo, el agua puede mojar o disolver, y la fuerza puede romper o doblar un objeto. Reconocer de qué está hecho algo y qué causó un cambio en un material es una forma de entender mejor cómo funcionan las cosas que usas todos los días.';
   if(Math.random()<0.5){
     const item = pick(MATERIALES_ITEMS);
     const materialPool = MATERIALES_ITEMS.map(function(m){ return m.material; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
@@ -473,6 +483,7 @@ export function genMaterialesRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿De qué material es '+item.object+'?</p>',
       options: opts, correctValue: item.material, speakText: item.object, cols:4, kind:'word',
       explain: item.object.charAt(0).toUpperCase()+item.object.slice(1)+' está hecho de <b>'+item.material.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(CAMBIOS_MATERIALES);
@@ -482,6 +493,7 @@ export function genMaterialesRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.text+'. ¿Qué produjo este cambio?</p>',
     options: opts, correctValue: item.cause, speakText: item.text, cols:4, kind:'word',
     explain: item.text+' por el <b>'+item.cause.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
@@ -737,6 +749,7 @@ export function genSistemaSolar3Round(){
 }
 
 export function genDiaNocheRound(){
+  const recurso = 'El día y la noche existen porque la Tierra gira sobre sí misma como un trompo (a esto se le llama <b>rotación</b>): cuando tu ciudad mira hacia el Sol, es de día; cuando la Tierra gira y tu ciudad queda mirando hacia el lado oscuro, es de noche. Una vuelta completa de este giro toma 24 horas, un día completo. Las <b>estaciones del año</b> (verano, otoño, invierno, primavera) cambian por un motivo distinto: la Tierra además viaja alrededor del Sol durante todo el año, y según en qué punto de ese recorrido esté, algunas zonas reciben más luz solar directa (más calor, verano) y otras reciben menos (más frío, invierno). Fijarte en pistas como la ropa que usa la gente o las actividades que hacen te ayuda a reconocer en qué momento del día o del año ocurre una escena.';
   if(Math.random()<0.5){
     const item = pick(DIA_NOCHE_ITEMS);
     const opts = shuffle([{label:'DÍA', value:'DÍA'},{label:'NOCHE', value:'NOCHE'}]);
@@ -744,6 +757,7 @@ export function genDiaNocheRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Es de día o de noche?</p>',
       options: opts, correctValue: item.momento, speakText: item.label, cols:2, panel:true,
       explain: item.label+', eso pasa de <b>'+item.momento.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(ESTACIONES);
@@ -754,6 +768,7 @@ export function genDiaNocheRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Qué estación del año es?</p>',
     options: opts, correctValue: item.season, speakText: item.label, cols:4, kind:'word',
     explain: item.label+', eso ocurre en <b>'+item.season.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 

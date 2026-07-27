@@ -17,8 +17,8 @@ export const HISTORIA_POS = [{x:22,y:88},{x:68,y:70},{x:24,y:52},{x:70,y:34},{x:
    HI01 OA11,13-15 -> Convivencia y Comunidad.
    OA07 (personajes históricos) y OA12 (niños del mundo) quedaron fuera para no
    arriesgar datos históricos inexactos o generalizaciones culturales sin fuente. */
-const DIAS_SEMANA = ['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO','DOMINGO'];
-const MESES_ANIO = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'];
+const DIAS_SEMANA = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+const MESES_ANIO = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
 const RUTINA_DIARIA = [
   { emoji:'☀️', label:'Despertar', order:1 },
@@ -30,13 +30,13 @@ const RUTINA_DIARIA = [
   { emoji:'🛌', label:'Dormir', order:7 },
 ];
 const FAMILIA_BANK = [
-  { emoji:'👵', q:'¿Cómo le dices a la mamá de tu mamá o de tu papá?', correct:'ABUELA' },
-  { emoji:'👴', q:'¿Cómo le dices al papá de tu mamá o de tu papá?', correct:'ABUELO' },
-  { emoji:'👦', q:'¿Cómo le dices al hijo de tus papás, además de ti?', correct:'HERMANO' },
-  { emoji:'👨‍👩‍👧', q:'¿Cómo se llama el grupo de personas con las que vives y te quieren?', correct:'FAMILIA' },
-  { emoji:'🧑', q:'¿Cómo le dices al hermano de tu mamá o de tu papá?', correct:'TÍO' },
+  { emoji:'👵', q:'¿Cómo le dices a la mamá de tu mamá o de tu papá?', correct:'Abuela' },
+  { emoji:'👴', q:'¿Cómo le dices al papá de tu mamá o de tu papá?', correct:'Abuelo' },
+  { emoji:'👦', q:'¿Cómo le dices al hijo de tus papás, además de ti?', correct:'Hermano' },
+  { emoji:'👨‍👩‍👧', q:'¿Cómo se llama el grupo de personas con las que vives y te quieren?', correct:'Familia' },
+  { emoji:'🧑', q:'¿Cómo le dices al hermano de tu mamá o de tu papá?', correct:'Tío' },
 ];
-const FAMILIA_OPTS_POOL = ['ABUELA','ABUELO','HERMANO','FAMILIA','TÍO','TÍA','PRIMO','MAMÁ'];
+const FAMILIA_OPTS_POOL = ['Abuela','Abuelo','Hermano','Familia','Tío','Tía','Primo','Mamá'];
 
 const CHILE_TIPICO = [
   { svg:true, label:'La bandera de Chile', tipico:true },
@@ -52,33 +52,33 @@ const CHILE_TIPICO = [
 ];
 
 const PAISAJES_CHILE = [
-  { emoji:'🏖️', label:'PLAYA', desc:'Lugar con arena y mar donde vamos a nadar y tomar sol.' },
-  { emoji:'⛰️', label:'MONTAÑA', desc:'Lugar alto y rocoso, a veces con nieve en la punta.' },
-  { emoji:'🌾', label:'CAMPO', desc:'Lugar con cultivos, animales y mucho espacio verde.' },
-  { emoji:'🏙️', label:'CIUDAD', desc:'Lugar con muchos edificios, autos y personas.' },
-  { emoji:'🏜️', label:'DESIERTO', desc:'Lugar muy seco, con poca lluvia y mucha arena.' },
-  { emoji:'🌲', label:'BOSQUE', desc:'Lugar con muchos árboles y animales silvestres.' },
+  { emoji:'🏖️', label:'Playa', desc:'Lugar con arena y mar donde vamos a nadar y tomar sol.' },
+  { emoji:'⛰️', label:'Montaña', desc:'Lugar alto y rocoso, a veces con nieve en la punta.' },
+  { emoji:'🌾', label:'Campo', desc:'Lugar con cultivos, animales y mucho espacio verde.' },
+  { emoji:'🏙️', label:'Ciudad', desc:'Lugar con muchos edificios, autos y personas.' },
+  { emoji:'🏜️', label:'Desierto', desc:'Lugar muy seco, con poca lluvia y mucha arena.' },
+  { emoji:'🌲', label:'Bosque', desc:'Lugar con muchos árboles y animales silvestres.' },
 ];
 const CHILE_GEO_FACTS = [
-  { emoji:'🌊', q:'¿Cuál es el océano que está al lado de Chile?', correct:'OCÉANO PACÍFICO', opts:['OCÉANO ATLÁNTICO','MAR MEDITERRÁNEO','OCÉANO ÍNDICO'] },
-  { emoji:'⛰️', q:'¿Cuál es la cordillera (cadena de montañas) más importante de Chile?', correct:'CORDILLERA DE LOS ANDES', opts:['HIMALAYA','MONTES ALPES','MONTAÑAS ROCOSAS'] },
+  { emoji:'🌊', q:'¿Cuál es el océano que está al lado de Chile?', correct:'Océano Pacífico', opts:['Océano Atlántico','Mar Mediterráneo','Océano Índico'] },
+  { emoji:'⛰️', q:'¿Cuál es la cordillera (cadena de montañas) más importante de Chile?', correct:'Cordillera de los Andes', opts:['Himalaya','Montes Alpes','Montañas Rocosas'] },
 ];
 
 const OFICIOS_BANK = [
-  { emoji:'👨‍🍳', label:'COCINERO(A)', desc:'Prepara comida en restaurantes o en casa.' },
-  { emoji:'👩‍⚕️', label:'DOCTOR(A)', desc:'Cuida la salud de las personas y las ayuda cuando están enfermas.' },
-  { emoji:'👮', label:'CARABINERO(A)', desc:'Cuida la seguridad de las personas en la calle.' },
-  { emoji:'👨‍🌾', label:'AGRICULTOR(A)', desc:'Cultiva la tierra para producir frutas y verduras.' },
-  { emoji:'👩‍🏫', label:'PROFESOR(A)', desc:'Enseña a los niños y niñas en la escuela.' },
-  { emoji:'🧑‍🚒', label:'BOMBERO(A)', desc:'Apaga incendios y ayuda en emergencias.' },
-  { emoji:'👷', label:'CONSTRUCTOR(A)', desc:'Construye casas y edificios.' },
+  { emoji:'👨‍🍳', label:'Cocinero(a)', desc:'Prepara comida en restaurantes o en casa.' },
+  { emoji:'👩‍⚕️', label:'Doctor(a)', desc:'Cuida la salud de las personas y las ayuda cuando están enfermas.' },
+  { emoji:'👮', label:'Carabinero(a)', desc:'Cuida la seguridad de las personas en la calle.' },
+  { emoji:'👨‍🌾', label:'Agricultor(a)', desc:'Cultiva la tierra para producir frutas y verduras.' },
+  { emoji:'👩‍🏫', label:'Profesor(a)', desc:'Enseña a los niños y niñas en la escuela.' },
+  { emoji:'🧑‍🚒', label:'Bombero(a)', desc:'Apaga incendios y ayuda en emergencias.' },
+  { emoji:'👷', label:'Constructor(a)', desc:'Construye casas y edificios.' },
 ];
 const INSTITUCIONES_BANK = [
-  { emoji:'🏫', label:'LA ESCUELA', desc:'Lugar donde los niños y niñas aprenden.' },
-  { emoji:'🏥', label:'EL HOSPITAL', desc:'Lugar donde atienden a personas enfermas.' },
-  { emoji:'🚓', label:'CARABINEROS', desc:'Institución que cuida la seguridad de todos.' },
-  { emoji:'🏛️', label:'LA MUNICIPALIDAD', desc:'Institución que organiza y cuida la comuna.' },
-  { emoji:'🚒', label:'LOS BOMBEROS', desc:'Institución que apaga incendios y ayuda en emergencias.' },
+  { emoji:'🏫', label:'La escuela', desc:'Lugar donde los niños y niñas aprenden.' },
+  { emoji:'🏥', label:'El hospital', desc:'Lugar donde atienden a personas enfermas.' },
+  { emoji:'🚓', label:'Carabineros', desc:'Institución que cuida la seguridad de todos.' },
+  { emoji:'🏛️', label:'La municipalidad', desc:'Institución que organiza y cuida la comuna.' },
+  { emoji:'🚒', label:'Los bomberos', desc:'Institución que apaga incendios y ayuda en emergencias.' },
 ];
 /* "Botar la basura en el suelo" (bueno:false) usaba 🗑️ — un basurero, que
    en realidad representa la buena acción de botar la basura EN SU LUGAR,
@@ -119,13 +119,13 @@ export const HISTORIA_POS_G2 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}]
    (zona↔pueblo) el banco pasa de 6 a 10 combinaciones únicas, por encima
    de rounds:8 (antes garantizaba una repetición en cada partida). */
 const PUEBLOS_BANK = [
-  { emoji:'🏔️', pueblo:'AIMARA', zona:'NORTE' },
-  { emoji:'🌲', pueblo:'MAPUCHE', zona:'SUR' },
-  { emoji:'🗿', pueblo:'RAPA NUI', zona:'ISLA DE PASCUA' },
-  { emoji:'🏺', pueblo:'DIAGUITA', zona:'NORTE' },
-  { emoji:'🌳', pueblo:'PICUNCHE', zona:'CENTRO' },
+  { emoji:'🏔️', pueblo:'Aimara', zona:'Norte' },
+  { emoji:'🌲', pueblo:'Mapuche', zona:'Sur' },
+  { emoji:'🗿', pueblo:'Rapa Nui', zona:'Isla de Pascua' },
+  { emoji:'🏺', pueblo:'Diaguita', zona:'Norte' },
+  { emoji:'🌳', pueblo:'Picunche', zona:'Centro' },
 ];
-const ZONAS_POOL = ['NORTE','SUR','CENTRO','ISLA DE PASCUA'];
+const ZONAS_POOL = ['Norte','Sur','Centro','Isla de Pascua'];
 
 /* "La Gran Muralla China" usaba 🕌 (una mezquita, sin relación alguna con
    una muralla) — se cambió a 🧱 (ladrillos), que evoca al menos la idea de
@@ -148,16 +148,16 @@ const PATRIMONIO_NATURAL_BANK = [
    Llaima) en el sur, los puertos (Valparaíso, San Antonio) en el centro, y
    los archipiélagos (Chiloé) en el sur. */
 const PAISAJES_ZONA_BANK = [
-  { emoji:'🏜️', label:'DESIERTO', zona:'NORTE' },
-  { emoji:'⛰️', label:'ALTIPLANO', zona:'NORTE' },
-  { emoji:'🧂', label:'SALARES', zona:'NORTE' },
-  { emoji:'🍇', label:'VALLES Y VIÑEDOS', zona:'CENTRO' },
-  { emoji:'🏙️', label:'GRANDES CIUDADES', zona:'CENTRO' },
-  { emoji:'⚓', label:'PUERTOS', zona:'CENTRO' },
-  { emoji:'🌲', label:'BOSQUES Y LAGOS', zona:'SUR' },
-  { emoji:'🧊', label:'GLACIARES Y FIORDOS', zona:'SUR' },
-  { emoji:'🌋', label:'VOLCANES', zona:'SUR' },
-  { emoji:'🏝️', label:'ARCHIPIÉLAGOS E ISLAS', zona:'SUR' },
+  { emoji:'🏜️', label:'Desierto', zona:'Norte' },
+  { emoji:'⛰️', label:'Altiplano', zona:'Norte' },
+  { emoji:'🧂', label:'Salares', zona:'Norte' },
+  { emoji:'🍇', label:'Valles y viñedos', zona:'Centro' },
+  { emoji:'🏙️', label:'Grandes ciudades', zona:'Centro' },
+  { emoji:'⚓', label:'Puertos', zona:'Centro' },
+  { emoji:'🌲', label:'Bosques y lagos', zona:'Sur' },
+  { emoji:'🧊', label:'Glaciares y fiordos', zona:'Sur' },
+  { emoji:'🌋', label:'Volcanes', zona:'Sur' },
+  { emoji:'🏝️', label:'Archipiélagos e islas', zona:'Sur' },
 ];
 
 /* Ampliado de 5 a 8 ítems (antes garantizaba una repetición en cada
@@ -183,16 +183,16 @@ export function genPueblos2Round(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿En qué zona de Chile vivía tradicionalmente el pueblo '+item.pueblo+'?</p>',
       options: opts, correctValue: item.zona, speakText: '¿En qué zona vivía el pueblo '+item.pueblo+'?', cols:2, panel:true,
-      explain: 'El pueblo <b>'+item.pueblo+'</b> vivía tradicionalmente en la zona <b>'+item.zona.toLowerCase()+'</b>.',
+      explain: 'El pueblo <b>'+item.pueblo+'</b> vivía tradicionalmente en la zona <b>'+item.zona+'</b>.',
       recurso: recurso,
     };
   }
   const distract = PUEBLOS_BANK.filter(function(p){ return p.pueblo!==item.pueblo; }).map(function(p){ return p.pueblo; });
   const opts = shuffle([item.pueblo].concat(distract)).map(function(p){ return {label:p, value:p}; });
   return {
-    promptHTML: '<p class="prompt-hint">¿Qué pueblo originario vivía tradicionalmente en la zona '+item.zona.toLowerCase()+'?</p>',
+    promptHTML: '<p class="prompt-hint">¿Qué pueblo originario vivía tradicionalmente en la zona '+item.zona+'?</p>',
     options: opts, correctValue: item.pueblo, speakText: '¿Qué pueblo vivía en la zona '+item.zona+'?', cols:4, kind:'word',
-    explain: 'El pueblo <b>'+item.pueblo+'</b> vivía tradicionalmente en la zona '+item.zona.toLowerCase()+'.',
+    explain: 'El pueblo <b>'+item.pueblo+'</b> vivía tradicionalmente en la zona '+item.zona+'.',
     recurso: recurso,
   };
 }
@@ -200,7 +200,7 @@ export function genPueblos2Round(){
 export function genPatrimonio2Round(){
   const recurso = 'El <b>patrimonio natural</b> son los lugares, paisajes y elementos de la naturaleza que un país considera valiosos y dignos de proteger, porque representan algo único de su geografía o su historia — como un volcán, un desierto o un glaciar reconocible. A diferencia del patrimonio cultural (edificios, tradiciones, comidas creadas por personas), el patrimonio natural existe sin que el ser humano lo haya construido, pero igual necesita ser cuidado y protegido para que las próximas generaciones también puedan disfrutarlo. Reconocer qué lugares son patrimonio natural de Chile te ayuda a valorar y cuidar mejor el entorno natural de tu propio país.';
   const item = pick(PATRIMONIO_NATURAL_BANK);
-  const opts = shuffle([{label:'PATRIMONIO NATURAL DE CHILE', value:true},{label:'NO ES DE CHILE', value:false}]);
+  const opts = shuffle([{label:'Patrimonio natural de Chile', value:true},{label:'No es de Chile', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.tipico, speakText: item.label, cols:2, panel:true,
@@ -217,7 +217,7 @@ export function genPaisajes2Round(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿En qué zona de Chile encuentras principalmente '+item.label.toLowerCase()+'?</p>',
     options: opts, correctValue: item.zona, speakText: '¿En qué zona encuentras '+item.label+'?', cols:4, kind:'word',
-    explain: item.label.charAt(0)+item.label.slice(1).toLowerCase()+' se encuentra principalmente en la zona <b>'+item.zona.toLowerCase()+'</b> de Chile.',
+    explain: item.label+' se encuentra principalmente en la zona <b>'+item.zona+'</b> de Chile.',
     recurso: recurso,
   };
 }
@@ -298,7 +298,7 @@ export function genMiIdentidadRound(){
 export function genSimbolosRound(){
   const recurso = 'Los <b>símbolos patrios</b> (la bandera, el escudo, el himno) representan a todo un país y a la gente que vive en él — por eso se les trata con respeto especial, como cantarlo de pie o izarla en fechas importantes. Además de esos símbolos oficiales, cada país tiene elementos "típicos" que lo representan culturalmente: comidas, bailes, animales o paisajes que la gente reconoce como parte de su identidad, aunque no sean un símbolo oficial. Reconocer qué es realmente típico de Chile (y qué pertenece a otro país o cultura) te ayuda a entender mejor tu propia identidad como parte de una comunidad más grande, el país donde vives.';
   const item = pick(CHILE_TIPICO);
-  const opts = shuffle([{label:'TÍPICO DE CHILE', value:true},{label:'NO ES DE CHILE', value:false}]);
+  const opts = shuffle([{label:'Típico de Chile', value:true},{label:'No es de Chile', value:false}]);
   const visual = item.svg ? '<div class="shape-display">'+chileFlagSVG(90)+'</div>' : '<span class="prompt-emoji">'+item.emoji+'</span>';
   return {
     promptHTML: visual+'<p class="prompt-hint">'+item.label+'</p>',
@@ -357,7 +357,7 @@ export function genComunidadRound(){
     };
   }
   const item = pick(NORMAS_CONVIVENCIA);
-  const opts = shuffle([{label:'BUENA CONVIVENCIA', value:true},{label:'NO ESTÁ BIEN', value:false}]);
+  const opts = shuffle([{label:'Buena convivencia', value:true},{label:'No está bien', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.bueno, speakText: item.label, cols:2, panel:true,
@@ -390,34 +390,34 @@ export const HISTORIA_MODULES_G3 = [
 export const HISTORIA_POS_G3 = [{x:24,y:82},{x:68,y:50},{x:24,y:18}];
 
 const CIVILIZACIONES_BANK = [
-  { pregunta:'¿Cómo se llamaban las ciudades-estado de la antigua Grecia?', correcta:'POLIS', opts:['IMPERIOS','REINOS','TRIBUS'] },
-  { pregunta:'¿En qué ciudad griega nació la democracia?', correcta:'ATENAS', opts:['ESPARTA','ROMA','TROYA'] },
-  { pregunta:'¿Qué forma de gobierno inventaron los griegos, en la que el pueblo participa en las decisiones?', correcta:'LA DEMOCRACIA', opts:['LA MONARQUÍA ABSOLUTA','LA DICTADURA','EL FEUDALISMO'] },
-  { pregunta:'¿Qué competencia deportiva crearon los griegos, que todavía existe hoy?', correcta:'LOS JUEGOS OLÍMPICOS', opts:['EL TOUR DE FRANCIA','LA COPA AMÉRICA','EL SUPER BOWL'] },
-  { pregunta:'¿Cómo se llama el templo griego dedicado a la diosa Atenea, en Atenas?', correcta:'EL PARTENÓN', opts:['EL COLISEO','LA GRAN MURALLA','LAS PIRÁMIDES'] },
-  { pregunta:'¿Dónde luchaban los gladiadores en la antigua Roma?', correcta:'EN EL COLISEO', opts:['EN EL PARTENÓN','EN UNA PIRÁMIDE','EN UN ACUEDUCTO'] },
-  { pregunta:'¿Qué construían los romanos para transportar agua desde lejos hasta las ciudades?', correcta:'ACUEDUCTOS', opts:['PIRÁMIDES','TEMPLOS GRIEGOS','MURALLAS CHINAS'] },
-  { pregunta:'¿Qué idioma hablaban los antiguos romanos, origen del español?', correcta:'LATÍN', opts:['GRIEGO','EGIPCIO','ÁRABE'] },
-  { pregunta:'¿Qué ropa típica usaban los antiguos romanos?', correcta:'LA TOGA', opts:['EL KILT ESCOCÉS','EL SARI INDIO','EL PONCHO CHILENO'] },
+  { pregunta:'¿Cómo se llamaban las ciudades-estado de la antigua Grecia?', correcta:'Polis', opts:['Imperios','Reinos','Tribus'] },
+  { pregunta:'¿En qué ciudad griega nació la democracia?', correcta:'Atenas', opts:['Esparta','Roma','Troya'] },
+  { pregunta:'¿Qué forma de gobierno inventaron los griegos, en la que el pueblo participa en las decisiones?', correcta:'La democracia', opts:['La monarquía absoluta','La dictadura','El feudalismo'] },
+  { pregunta:'¿Qué competencia deportiva crearon los griegos, que todavía existe hoy?', correcta:'Los Juegos Olímpicos', opts:['El Tour de Francia','La Copa América','El Super Bowl'] },
+  { pregunta:'¿Cómo se llama el templo griego dedicado a la diosa Atenea, en Atenas?', correcta:'El Partenón', opts:['El coliseo','La Gran Muralla','Las pirámides'] },
+  { pregunta:'¿Dónde luchaban los gladiadores en la antigua Roma?', correcta:'En el coliseo', opts:['En el Partenón','En una pirámide','En un acueducto'] },
+  { pregunta:'¿Qué construían los romanos para transportar agua desde lejos hasta las ciudades?', correcta:'Acueductos', opts:['Pirámides','Templos griegos','Murallas chinas'] },
+  { pregunta:'¿Qué idioma hablaban los antiguos romanos, origen del español?', correcta:'Latín', opts:['Griego','Egipcio','Árabe'] },
+  { pregunta:'¿Qué ropa típica usaban los antiguos romanos?', correcta:'La toga', opts:['El kilt escocés','El sari indio','El poncho chileno'] },
   { pregunta:'A diferencia de hoy, ¿cómo se alumbraban de noche en la antigua Grecia y Roma?', correcta:'Con velas y antorchas de fuego', opts:['Con ampolletas eléctricas','Con linternas a pilas','Con luces LED'] },
   { pregunta:'A diferencia de hoy, ¿cómo se transportaban las personas en la antigua Roma?', correcta:'A pie, a caballo o en carros tirados por caballos', opts:['En auto','En avión','En metro'] },
 ];
 
 const CUADRANTES_BANK = [
-  { pregunta:'En un mapa, ¿hacia dónde apunta generalmente el Norte?', correcta:'HACIA ARRIBA', opts:['HACIA ABAJO','HACIA LA IZQUIERDA','HACIA LA DERECHA'] },
-  { pregunta:'¿Cuáles son los 4 puntos cardinales?', correcta:'NORTE, SUR, ESTE, OESTE', opts:['ARRIBA, ABAJO, IZQUIERDA, DERECHA','ROJO, AZUL, VERDE, AMARILLO','PRIMERO, SEGUNDO, TERCERO, CUARTO'] },
+  { pregunta:'En un mapa, ¿hacia dónde apunta generalmente el Norte?', correcta:'Hacia arriba', opts:['Hacia abajo','Hacia la izquierda','Hacia la derecha'] },
+  { pregunta:'¿Cuáles son los 4 puntos cardinales?', correcta:'Norte, sur, este, oeste', opts:['Arriba, abajo, izquierda, derecha','Rojo, azul, verde, amarillo','Primero, segundo, tercero, cuarto'] },
 ];
 const HEMISFERIOS_BANK = [
-  { pregunta:'¿Cuántos hemisferios tiene la Tierra?', correcta:'DOS (NORTE Y SUR)', opts:['UNO','TRES','CUATRO'] },
-  { pregunta:'¿Qué línea imaginaria divide la Tierra en hemisferio norte y sur?', correcta:'EL ECUADOR', opts:['EL POLO NORTE','UN TRÓPICO','UN MERIDIANO'] },
-  { pregunta:'¿Cuántos continentes tiene el planeta Tierra?', correcta:'SEIS', opts:['CUATRO','OCHO','DIEZ'] },
-  { pregunta:'¿Cuál es el océano que baña las costas de Chile?', correcta:'EL OCÉANO PACÍFICO', opts:['EL OCÉANO ATLÁNTICO','EL OCÉANO ÍNDICO','EL MAR MEDITERRÁNEO'] },
-  { pregunta:'¿Dónde están ubicados los polos de la Tierra?', correcta:'EN LOS EXTREMOS NORTE Y SUR DEL PLANETA', opts:['EN EL ECUADOR','EN EL CENTRO DEL PLANETA','EN EL CONTINENTE AFRICANO'] },
+  { pregunta:'¿Cuántos hemisferios tiene la Tierra?', correcta:'Dos (norte y sur)', opts:['Uno','Tres','Cuatro'] },
+  { pregunta:'¿Qué línea imaginaria divide la Tierra en hemisferio norte y sur?', correcta:'El ecuador', opts:['El Polo Norte','Un trópico','Un meridiano'] },
+  { pregunta:'¿Cuántos continentes tiene el planeta Tierra?', correcta:'Seis', opts:['Cuatro','Ocho','Diez'] },
+  { pregunta:'¿Cuál es el océano que baña las costas de Chile?', correcta:'El océano Pacífico', opts:['El océano Atlántico','El océano Índico','El mar Mediterráneo'] },
+  { pregunta:'¿Dónde están ubicados los polos de la Tierra?', correcta:'En los extremos norte y sur del planeta', opts:['En el ecuador','En el centro del planeta','En el continente africano'] },
 ];
 const ZONAS_CLIMATICAS_BANK = [
-  { pregunta:'¿Cómo es el clima cerca del Ecuador?', correcta:'CÁLIDO Y HÚMEDO (TROPICAL)', opts:['MUY FRÍO Y HELADO','SIEMPRE NEVADO','SECO Y DESÉRTICO TODO EL AÑO'] },
-  { pregunta:'¿Cómo es el clima cerca de los polos?', correcta:'MUY FRÍO (POLAR)', opts:['MUY CALUROSO','TROPICAL','TEMPLADO'] },
-  { pregunta:'¿Qué zona climática tiene las 4 estaciones marcadas (verano, otoño, invierno, primavera)?', correcta:'ZONA TEMPLADA', opts:['ZONA POLAR','ZONA TROPICAL','ZONA DESÉRTICA'] },
+  { pregunta:'¿Cómo es el clima cerca del Ecuador?', correcta:'Cálido y húmedo (tropical)', opts:['Muy frío y helado','Siempre nevado','Seco y desértico todo el año'] },
+  { pregunta:'¿Cómo es el clima cerca de los polos?', correcta:'Muy frío (polar)', opts:['Muy caluroso','Tropical','Templado'] },
+  { pregunta:'¿Qué zona climática tiene las 4 estaciones marcadas (verano, otoño, invierno, primavera)?', correcta:'Zona templada', opts:['Zona polar','Zona tropical','Zona desértica'] },
 ];
 
 const CIUDADANIA3_BANK = [
@@ -430,9 +430,9 @@ const CIUDADANIA3_BANK = [
   { correcta:'Ayudar a organizar y participar en las actividades de tu hogar', incorrectas:['No colaborar nunca en la casa','Dejar que otros hagan todo el trabajo','Quejarte sin ofrecer ayudar'] },
 ];
 const INSTITUCIONES3_BANK = [
-  { pregunta:'¿A qué institución vas a pedir prestado un libro para leer en casa?', correcta:'LA BIBLIOTECA PÚBLICA', opts:['EL HOSPITAL','LA MUNICIPALIDAD','EL CUARTEL DE BOMBEROS'] },
-  { pregunta:'¿Qué institución se encarga de organizar y cuidar tu comuna?', correcta:'LA MUNICIPALIDAD', opts:['LA BIBLIOTECA','EL HOSPITAL','LOS BOMBEROS'] },
-  { pregunta:'¿A qué institución acudes si te enfermas gravemente?', correcta:'EL HOSPITAL', opts:['LA MUNICIPALIDAD','LA BIBLIOTECA','EL CORREO'] },
+  { pregunta:'¿A qué institución vas a pedir prestado un libro para leer en casa?', correcta:'La biblioteca pública', opts:['El hospital','La municipalidad','El cuartel de bomberos'] },
+  { pregunta:'¿Qué institución se encarga de organizar y cuidar tu comuna?', correcta:'La municipalidad', opts:['La biblioteca','El hospital','Los bomberos'] },
+  { pregunta:'¿A qué institución acudes si te enfermas gravemente?', correcta:'El hospital', opts:['La municipalidad','La biblioteca','El correo'] },
 ];
 
 export function genCivilizaciones3Round(){
@@ -441,7 +441,7 @@ export function genCivilizaciones3Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: 'Grecia y Roma son dos de las civilizaciones más influyentes de la historia universal, y muchas cosas que usamos hoy vienen de ellas: la <b>democracia</b> (gobierno donde el pueblo elige a sus representantes) nació en la antigua Atenas griega; los <b>Juegos Olímpicos</b> también son de origen griego; y el imperio romano dejó el <b>latín</b> (idioma del que viene el español) y construcciones impresionantes como acueductos y el Coliseo. Conocer estos hechos te ayuda a entender que muchas ideas y costumbres actuales tienen raíces muy antiguas, de civilizaciones que existieron hace miles de años.',
   };
 }
@@ -455,7 +455,7 @@ export function genGeografia3Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: recurso,
   };
 }
@@ -477,7 +477,7 @@ export function genCiudadania3Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: recurso,
   };
 }
@@ -506,35 +506,35 @@ export const HISTORIA_MODULES_G4 = [
 export const HISTORIA_POS_G4 = [{x:24,y:82},{x:68,y:50},{x:24,y:18}];
 
 const CIVILIZACIONES_AMERICANAS_BANK = [
-  { pregunta:'¿En qué región vivía la civilización Maya?', correcta:'AMÉRICA CENTRAL (PENÍNSULA DE YUCATÁN)', opts:['LOS ANDES DE SUDAMÉRICA','EL VALLE DE MÉXICO','LA PATAGONIA'] },
-  { pregunta:'¿Cuál era la capital del imperio Azteca?', correcta:'TENOCHTITLÁN', opts:['CUSCO','MACHU PICCHU','CHICHÉN ITZÁ'] },
-  { pregunta:'¿En qué región vivía la civilización Inca?', correcta:'LA CORDILLERA DE LOS ANDES', opts:['LA PENÍNSULA DE YUCATÁN','EL VALLE DE MÉXICO','EL CARIBE'] },
-  { pregunta:'¿Cuál era la capital del imperio Inca?', correcta:'CUSCO', opts:['TENOCHTITLÁN','CHICHÉN ITZÁ','TIKAL'] },
-  { pregunta:'¿Qué construyeron los aztecas para cultivar alimentos sobre el lago donde estaba su ciudad?', correcta:'LAS CHINAMPAS (ISLAS ARTIFICIALES)', opts:['EL CAMINO INCA','LAS PIRÁMIDES ESCALONADAS','LOS QUIPUS'] },
-  { pregunta:'¿Cómo se llamaban los mensajeros incas que corrían por el imperio llevando noticias?', correcta:'LOS CHASQUIS', opts:['LOS AZTECAS','LOS MAYAS','LOS FARAONES'] },
-  { pregunta:'¿Qué usaban los incas para registrar información, ya que no tenían un alfabeto escrito?', correcta:'EL QUIPU (CUERDAS CON NUDOS)', opts:['JEROGLÍFICOS','UN ALFABETO','TABLILLAS DE ARCILLA'] },
+  { pregunta:'¿En qué región vivía la civilización Maya?', correcta:'América Central (península de Yucatán)', opts:['Los Andes de Sudamérica','El valle de México','La Patagonia'] },
+  { pregunta:'¿Cuál era la capital del imperio Azteca?', correcta:'Tenochtitlán', opts:['Cusco','Machu Picchu','Chichén Itzá'] },
+  { pregunta:'¿En qué región vivía la civilización Inca?', correcta:'La cordillera de los Andes', opts:['La península de Yucatán','El valle de México','El Caribe'] },
+  { pregunta:'¿Cuál era la capital del imperio Inca?', correcta:'Cusco', opts:['Tenochtitlán','Chichén Itzá','Tikal'] },
+  { pregunta:'¿Qué construyeron los aztecas para cultivar alimentos sobre el lago donde estaba su ciudad?', correcta:'Las chinampas (islas artificiales)', opts:['El Camino Inca','Las pirámides escalonadas','Los quipus'] },
+  { pregunta:'¿Cómo se llamaban los mensajeros incas que corrían por el imperio llevando noticias?', correcta:'Los chasquis', opts:['Los aztecas','Los mayas','Los faraones'] },
+  { pregunta:'¿Qué usaban los incas para registrar información, ya que no tenían un alfabeto escrito?', correcta:'El quipu (cuerdas con nudos)', opts:['Jeroglíficos','Un alfabeto','Tablillas de arcilla'] },
   { pregunta:'¿En qué destacaban los mayas, además de la arquitectura?', correcta:'La astronomía y un calendario muy preciso', opts:['No conocían los números','Nunca observaban el cielo','No sabían medir el tiempo'] },
-  { pregunta:'¿Qué construcción famosa hicieron los incas en lo alto de la cordillera?', correcta:'MACHU PICCHU', opts:['TENOCHTITLÁN','CHICHÉN ITZÁ','LAS CHINAMPAS'] },
-  { pregunta:'¿Qué idioma hablaban los aztecas?', correcta:'NÁHUATL', opts:['QUECHUA','MAYA','ESPAÑOL'] },
-  { pregunta:'¿Qué idioma hablaban los incas, que todavía se habla hoy en países como Perú y Bolivia?', correcta:'QUECHUA', opts:['NÁHUATL','MAYA','LATÍN'] },
+  { pregunta:'¿Qué construcción famosa hicieron los incas en lo alto de la cordillera?', correcta:'Machu Picchu', opts:['Tenochtitlán','Chichén Itzá','Las chinampas'] },
+  { pregunta:'¿Qué idioma hablaban los aztecas?', correcta:'Náhuatl', opts:['Quechua','Maya','Español'] },
+  { pregunta:'¿Qué idioma hablaban los incas, que todavía se habla hoy en países como Perú y Bolivia?', correcta:'Quechua', opts:['Náhuatl','Maya','Latín'] },
 ];
 
 const GEOGRAFIA_AMERICA_BANK = [
   { pregunta:'¿Qué son los paralelos en un mapa?', correcta:'Líneas imaginarias horizontales que rodean la Tierra', opts:['Líneas verticales que van de polo a polo','Los nombres de los países','Los colores de un mapa'] },
   { pregunta:'¿Qué son los meridianos en un mapa?', correcta:'Líneas imaginarias verticales que van de polo a polo', opts:['Líneas horizontales que rodean la Tierra','Los ríos más largos','Las montañas más altas'] },
-  { pregunta:'¿Cuál de estos es un recurso natural renovable?', correcta:'LA ENERGÍA SOLAR', opts:['EL PETRÓLEO','EL CARBÓN','EL GAS NATURAL'] },
-  { pregunta:'¿Cuál de estos es un recurso natural NO renovable?', correcta:'EL PETRÓLEO', opts:['EL VIENTO','LA MADERA DE UN BOSQUE MANEJADO','EL AGUA DE LLUVIA'] },
-  { pregunta:'¿Cuál es el río más largo de América del Sur?', correcta:'EL RÍO AMAZONAS', opts:['EL RÍO MAPOCHO','EL RÍO BIOBÍO','EL RÍO COLORADO'] },
-  { pregunta:'¿Qué idioma se habla en la mayor parte de Brasil, a diferencia del resto de Sudamérica?', correcta:'PORTUGUÉS', opts:['ESPAÑOL','INGLÉS','FRANCÉS'] },
-  { pregunta:'¿Cómo es el clima de la selva amazónica?', correcta:'CÁLIDO Y MUY LLUVIOSO', opts:['MUY FRÍO Y SECO','DESÉRTICO','NEVADO TODO EL AÑO'] },
-  { pregunta:'¿Cómo es el clima de Alaska, en América del Norte?', correcta:'MUY FRÍO', opts:['MUY CALUROSO','TROPICAL','DESÉRTICO'] },
+  { pregunta:'¿Cuál de estos es un recurso natural renovable?', correcta:'La energía solar', opts:['El petróleo','El carbón','El gas natural'] },
+  { pregunta:'¿Cuál de estos es un recurso natural NO renovable?', correcta:'El petróleo', opts:['El viento','La madera de un bosque manejado','El agua de lluvia'] },
+  { pregunta:'¿Cuál es el río más largo de América del Sur?', correcta:'El río Amazonas', opts:['El río Mapocho','El río Biobío','El río Colorado'] },
+  { pregunta:'¿Qué idioma se habla en la mayor parte de Brasil, a diferencia del resto de Sudamérica?', correcta:'Portugués', opts:['Español','Inglés','Francés'] },
+  { pregunta:'¿Cómo es el clima de la selva amazónica?', correcta:'Cálido y muy lluvioso', opts:['Muy frío y seco','Desértico','Nevado todo el año'] },
+  { pregunta:'¿Cómo es el clima de Alaska, en América del Norte?', correcta:'Muy frío', opts:['Muy caluroso','Tropical','Desértico'] },
   { pregunta:'¿Qué tienen en común Chile, Perú y Bolivia?', correcta:'Comparten la Cordillera de los Andes', opts:['Comparten el mismo idioma que Brasil','Están todos en América del Norte','No tienen montañas'] },
 ];
 
 const CIUDADANIA4_ACTORES_BANK = [
-  { pregunta:'¿Quién es la máxima autoridad de un país como Chile?', correcta:'EL PRESIDENTE O LA PRESIDENTA', opts:['EL ALCALDE','UN SENADOR','UN DIPUTADO'] },
-  { pregunta:'¿Quién es la autoridad máxima de una comuna?', correcta:'EL ALCALDE O LA ALCALDESA', opts:['EL PRESIDENTE','UN MINISTRO','UN SENADOR'] },
-  { pregunta:'¿Quiénes ayudan al Presidente a dirigir distintas áreas del país, como salud o educación?', correcta:'LOS MINISTROS', opts:['LOS ALCALDES','LOS JUECES','LOS PROFESORES'] },
+  { pregunta:'¿Quién es la máxima autoridad de un país como Chile?', correcta:'El presidente o la presidenta', opts:['El alcalde','Un senador','Un diputado'] },
+  { pregunta:'¿Quién es la autoridad máxima de una comuna?', correcta:'El alcalde o la alcaldesa', opts:['El presidente','Un ministro','Un senador'] },
+  { pregunta:'¿Quiénes ayudan al Presidente a dirigir distintas áreas del país, como salud o educación?', correcta:'Los ministros', opts:['Los alcaldes','Los jueces','Los profesores'] },
   { pregunta:'¿Qué hacen los senadores y diputados en el Congreso?', correcta:'Crean, discuten y aprueban las leyes del país', opts:['Dirigen las escuelas','Manejan los hospitales','Organizan el tránsito'] },
 ];
 const CIUDADANIA4_VALORES_BANK = [
@@ -552,7 +552,7 @@ export function genCivilizacionesAmericanas4Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: 'Antes de la llegada de los españoles, tres grandes civilizaciones habían desarrollado culturas muy avanzadas en América: los <b>mayas</b> (península de Yucatán, en América Central), destacados por su calendario preciso y sus conocimientos de astronomía; los <b>aztecas</b> (Valle de México), que construyeron su capital Tenochtitlán sobre un lago, cultivando alimentos en "chinampas" (islas artificiales); y los <b>incas</b> (a lo largo de la Cordillera de los Andes), con su capital en Cusco y la ciudadela de Machu Picchu en lo alto de la montaña, que usaban el quipu (cuerdas con nudos) para registrar información porque no tenían un alfabeto escrito. Cada una de estas civilizaciones desarrolló su propio idioma, arquitectura y forma de organización política sin haber tenido contacto entre sí ni con Europa o Asia.',
   };
 }
@@ -563,7 +563,7 @@ export function genGeografiaAmerica4Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: 'Un mapa usa <b>coordenadas geográficas</b> para ubicar cualquier punto en la Tierra: los <b>paralelos</b> son líneas imaginarias horizontales que rodean el planeta (como el Ecuador), y los <b>meridianos</b> son líneas verticales que van de polo a polo. América tiene una enorme variedad de climas y paisajes, desde la selva amazónica (cálida y muy lluviosa) hasta Alaska (muy fría) y la Cordillera de los Andes (que Chile comparte con Perú y Bolivia). Los <b>recursos naturales</b> se clasifican en renovables (como la energía solar o el viento, que no se agotan) y no renovables (como el petróleo o el carbón, que tardan millones de años en formarse y sí se agotan con el uso).',
   };
 }
@@ -576,7 +576,7 @@ export function genCiudadania4Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
       recurso: recurso,
     };
   }
@@ -617,36 +617,36 @@ export const HISTORIA_MODULES_G5 = [
 export const HISTORIA_POS_G5 = [{x:24,y:88},{x:68,y:64},{x:24,y:38},{x:68,y:12}];
 
 const CONQUISTA_AMERICA_BANK = [
-  { pregunta:'¿Quién llegó a América en 1492, buscando una nueva ruta hacia Asia?', correcta:'CRISTÓBAL COLÓN', opts:['HERNANDO DE MAGALLANES','PEDRO DE VALDIVIA','FRANCISCO PIZARRO'] },
-  { pregunta:'¿Quién descubrió el estrecho que lleva su nombre, en el extremo sur de Chile, en 1520?', correcta:'HERNANDO DE MAGALLANES', opts:['CRISTÓBAL COLÓN','DIEGO DE ALMAGRO','PEDRO DE VALDIVIA'] },
-  { pregunta:'¿Quién fue el primer español en explorar el territorio de Chile, antes que Pedro de Valdivia?', correcta:'DIEGO DE ALMAGRO', opts:['HERNANDO DE MAGALLANES','FRANCISCO PIZARRO','CRISTÓBAL COLÓN'] },
-  { pregunta:'¿Quién fundó la ciudad de Santiago en 1541?', correcta:'PEDRO DE VALDIVIA', opts:['DIEGO DE ALMAGRO','FRANCISCO PIZARRO','HERNANDO DE MAGALLANES'] },
-  { pregunta:'¿Qué imperio conquistó Francisco Pizarro en Sudamérica?', correcta:'EL IMPERIO INCA', opts:['EL IMPERIO AZTECA','LOS MAYAS','LOS MAPUCHES'] },
-  { pregunta:'¿Qué buscaban principalmente los reinos europeos al financiar los viajes de descubrimiento?', correcta:'NUEVAS RUTAS COMERCIALES Y RIQUEZAS', opts:['CONOCER OTRAS COMIDAS SOLAMENTE','HACER TURISMO','APRENDER IDIOMAS NUEVOS'] },
-  { pregunta:'¿Qué le ocurrió a muchos pueblos indígenas americanos como consecuencia de la conquista?', correcta:'ENFERMARON CON ENFERMEDADES NUEVAS Y PERDIERON GRAN PARTE DE SUS TIERRAS', opts:['MEJORARON SU SITUACIÓN DE INMEDIATO','NO TUVIERON NINGÚN CAMBIO EN SU VIDA','GANARON MÁS TERRITORIO QUE ANTES'] },
-  { pregunta:'¿Qué consecuencia tuvo la conquista de América para Europa?', correcta:'EUROPA RECIBIÓ NUEVOS PRODUCTOS Y RIQUEZAS DE AMÉRICA', opts:['EUROPA PERDIÓ TODO CONTACTO CON AMÉRICA','EUROPA DEJÓ DE EXISTIR COMO CONTINENTE','EUROPA NO SE VIO AFECTADA EN NADA'] },
+  { pregunta:'¿Quién llegó a América en 1492, buscando una nueva ruta hacia Asia?', correcta:'Cristóbal Colón', opts:['Hernando de Magallanes','Pedro de Valdivia','Francisco Pizarro'] },
+  { pregunta:'¿Quién descubrió el estrecho que lleva su nombre, en el extremo sur de Chile, en 1520?', correcta:'Hernando de Magallanes', opts:['Cristóbal Colón','Diego de Almagro','Pedro de Valdivia'] },
+  { pregunta:'¿Quién fue el primer español en explorar el territorio de Chile, antes que Pedro de Valdivia?', correcta:'Diego de Almagro', opts:['Hernando de Magallanes','Francisco Pizarro','Cristóbal Colón'] },
+  { pregunta:'¿Quién fundó la ciudad de Santiago en 1541?', correcta:'Pedro de Valdivia', opts:['Diego de Almagro','Francisco Pizarro','Hernando de Magallanes'] },
+  { pregunta:'¿Qué imperio conquistó Francisco Pizarro en Sudamérica?', correcta:'El imperio inca', opts:['El imperio azteca','Los mayas','Los mapuches'] },
+  { pregunta:'¿Qué buscaban principalmente los reinos europeos al financiar los viajes de descubrimiento?', correcta:'Nuevas rutas comerciales y riquezas', opts:['Conocer otras comidas solamente','Hacer turismo','Aprender idiomas nuevos'] },
+  { pregunta:'¿Qué le ocurrió a muchos pueblos indígenas americanos como consecuencia de la conquista?', correcta:'Enfermaron con enfermedades nuevas y perdieron gran parte de sus tierras', opts:['Mejoraron su situación de inmediato','No tuvieron ningún cambio en su vida','Ganaron más territorio que antes'] },
+  { pregunta:'¿Qué consecuencia tuvo la conquista de América para Europa?', correcta:'Europa recibió nuevos productos y riquezas de América', opts:['Europa perdió todo contacto con América','Europa dejó de existir como continente','Europa no se vio afectada en nada'] },
 ];
 const COLONIA_CHILE_BANK = [
-  { pregunta:'¿De qué país europeo dependía Chile durante el período colonial?', correcta:'ESPAÑA', opts:['PORTUGAL','FRANCIA','INGLATERRA'] },
-  { pregunta:'¿Cómo se llamó el extenso conflicto entre españoles y mapuches durante gran parte de la Colonia?', correcta:'LA GUERRA DE ARAUCO', opts:['LA GUERRA DEL PACÍFICO','LA GUERRA CIVIL','LA GUERRA DE LOS CIEN AÑOS'] },
-  { pregunta:'¿Qué río marcó, durante gran parte de la Colonia, la frontera entre el territorio bajo control español y el territorio mapuche?', correcta:'EL RÍO BIOBÍO', opts:['EL RÍO MAPOCHO','EL RÍO LOA','EL RÍO MAULE'] },
-  { pregunta:'¿Qué eran los "parlamentos" que se realizaban entre españoles y mapuches?', correcta:'REUNIONES PARA NEGOCIAR ACUERDOS DE PAZ', opts:['FIESTAS SIN NINGÚN PROPÓSITO','ESCUELAS PARA NIÑOS','MERCADOS DE ANIMALES'] },
-  { pregunta:'¿Cuál de estos oficios era común en la vida colonial chilena?', correcta:'EL HERRERO, QUE TRABAJABA EL METAL A MANO', opts:['EL PROGRAMADOR DE COMPUTADORES','EL PILOTO DE AVIÓN','EL INGENIERO EN TELECOMUNICACIONES'] },
-  { pregunta:'¿Cuál de estas es un ejemplo de patrimonio colonial que todavía se puede ver en Chile hoy?', correcta:'UNA IGLESIA O CASA ANTIGUA DE ADOBE DE ESA ÉPOCA', opts:['UN EDIFICIO DE VIDRIO MODERNO','UN AEROPUERTO','UN CENTRO COMERCIAL NUEVO'] },
-  { pregunta:'¿Quiénes solían ocupar los cargos más importantes de gobierno en la sociedad colonial chilena?', correcta:'LOS ESPAÑOLES Y SUS DESCENDIENTES DIRECTOS', opts:['SE ELEGÍAN POR VOTACIÓN POPULAR ABIERTA A TODOS','SIEMPRE ERAN ELEGIDOS AL AZAR','NO EXISTÍAN CARGOS DE GOBIERNO'] },
-  { pregunta:'¿Qué actividad económica basada en la extracción de minerales fue importante durante la Colonia en Chile?', correcta:'LA MINERÍA (SOBRE TODO DE ORO Y PLATA)', opts:['LA FABRICACIÓN DE COMPUTADORES','LA INDUSTRIA AEROESPACIAL','LA PRODUCCIÓN DE ENERGÍA SOLAR'] },
-  { pregunta:'¿Cuál era una costumbre común en las celebraciones de la vida colonial chilena?', correcta:'LAS FIESTAS RELIGIOSAS Y PATRONALES CON MÚSICA Y BAILE', opts:['LOS CONCIERTOS DE MÚSICA ELECTRÓNICA','LOS VIAJES EN AVIÓN','LOS VIDEOJUEGOS EN LÍNEA'] },
-  { pregunta:'¿Qué tipo de construcción se usaba comúnmente en la arquitectura colonial chilena?', correcta:'CASAS Y EDIFICIOS DE ADOBE, CON TECHOS DE TEJA', opts:['RASCACIELOS DE VIDRIO Y ACERO','CASAS HECHAS COMPLETAMENTE DE PLÁSTICO','EDIFICIOS CON PANELES SOLARES'] },
+  { pregunta:'¿De qué país europeo dependía Chile durante el período colonial?', correcta:'España', opts:['Portugal','Francia','Inglaterra'] },
+  { pregunta:'¿Cómo se llamó el extenso conflicto entre españoles y mapuches durante gran parte de la Colonia?', correcta:'La Guerra de Arauco', opts:['La Guerra del Pacífico','La Guerra Civil','La Guerra de los Cien Años'] },
+  { pregunta:'¿Qué río marcó, durante gran parte de la Colonia, la frontera entre el territorio bajo control español y el territorio mapuche?', correcta:'El río Biobío', opts:['El río Mapocho','El río Loa','El río Maule'] },
+  { pregunta:'¿Qué eran los "parlamentos" que se realizaban entre españoles y mapuches?', correcta:'Reuniones para negociar acuerdos de paz', opts:['Fiestas sin ningún propósito','Escuelas para niños','Mercados de animales'] },
+  { pregunta:'¿Cuál de estos oficios era común en la vida colonial chilena?', correcta:'El herrero, que trabajaba el metal a mano', opts:['El programador de computadores','El piloto de avión','El ingeniero en telecomunicaciones'] },
+  { pregunta:'¿Cuál de estas es un ejemplo de patrimonio colonial que todavía se puede ver en Chile hoy?', correcta:'Una iglesia o casa antigua de adobe de esa época', opts:['Un edificio de vidrio moderno','Un aeropuerto','Un centro comercial nuevo'] },
+  { pregunta:'¿Quiénes solían ocupar los cargos más importantes de gobierno en la sociedad colonial chilena?', correcta:'Los españoles y sus descendientes directos', opts:['Se elegían por votación popular abierta a todos','Siempre eran elegidos al azar','No existían cargos de gobierno'] },
+  { pregunta:'¿Qué actividad económica basada en la extracción de minerales fue importante durante la Colonia en Chile?', correcta:'La minería (sobre todo de oro y plata)', opts:['La fabricación de computadores','La industria aeroespacial','La producción de energía solar'] },
+  { pregunta:'¿Cuál era una costumbre común en las celebraciones de la vida colonial chilena?', correcta:'Las fiestas religiosas y patronales con música y baile', opts:['Los conciertos de música electrónica','Los viajes en avión','Los videojuegos en línea'] },
+  { pregunta:'¿Qué tipo de construcción se usaba comúnmente en la arquitectura colonial chilena?', correcta:'Casas y edificios de adobe, con techos de teja', opts:['Rascacielos de vidrio y acero','Casas hechas completamente de plástico','Edificios con paneles solares'] },
 ];
 const GEOGRAFIA_CHILE5_BANK = [
-  { pregunta:'¿Cómo es el clima y paisaje del Norte Grande de Chile?', correcta:'DESÉRTICO, MUY SECO Y CON POCAS LLUVIAS', opts:['MUY LLUVIOSO Y CUBIERTO DE BOSQUES','CON GLACIARES Y FIORDOS','TROPICAL Y HÚMEDO'] },
-  { pregunta:'¿Cómo es el clima de la Zona Central de Chile?', correcta:'TEMPLADO, CON UN VERANO SECO Y UN INVIERNO LLUVIOSO', opts:['DESÉRTICO TODO EL AÑO','CUBIERTO DE HIELO TODO EL AÑO','TROPICAL Y MUY CALUROSO TODO EL AÑO'] },
-  { pregunta:'¿Cómo es el paisaje de la Zona Sur de Chile?', correcta:'LLUVIOSO, CON BOSQUES, LAGOS Y VOLCANES', opts:['DESÉRTICO Y SIN VEGETACIÓN','CUBIERTO SOLO DE ARENA','SIN NINGÚN RÍO NI LAGO'] },
-  { pregunta:'¿Qué caracteriza a la Zona Austral de Chile?', correcta:'CLIMA FRÍO, CON GLACIARES Y FIORDOS', opts:['CLIMA DESÉRTICO Y CALUROSO','PLAYAS TROPICALES','SELVA AMAZÓNICA'] },
-  { pregunta:'¿Cuál es un recurso natural importante que se extrae principalmente en el norte de Chile?', correcta:'EL COBRE', opts:['LOS GLACIARES','LA MADERA NATIVA','LOS PECES DE AGUA DULCE'] },
-  { pregunta:'¿Cuál es un recurso natural importante en la Zona Sur de Chile, gracias a sus bosques?', correcta:'LA MADERA', opts:['EL COBRE','EL SALITRE','EL LITIO'] },
-  { pregunta:'¿Cuál de estos es un riesgo natural frecuente en Chile, por estar ubicado sobre el Cinturón de Fuego del Pacífico?', correcta:'LOS TERREMOTOS Y ERUPCIONES VOLCÁNICAS', opts:['LOS HURACANES TROPICALES','LAS TORMENTAS DE ARENA DEL DESIERTO DEL SAHARA','LOS TORNADOS FRECUENTES'] },
-  { pregunta:'Después de un terremoto grande en la costa, ¿qué otro riesgo natural puede ocurrir?', correcta:'UN TSUNAMI (MAREMOTO)', opts:['UNA SEQUÍA INMEDIATA','UNA NEVADA EN EL DESIERTO','NINGÚN RIESGO ADICIONAL'] },
+  { pregunta:'¿Cómo es el clima y paisaje del Norte Grande de Chile?', correcta:'Desértico, muy seco y con pocas lluvias', opts:['Muy lluvioso y cubierto de bosques','Con glaciares y fiordos','Tropical y húmedo'] },
+  { pregunta:'¿Cómo es el clima de la Zona Central de Chile?', correcta:'Templado, con un verano seco y un invierno lluvioso', opts:['Desértico todo el año','Cubierto de hielo todo el año','Tropical y muy caluroso todo el año'] },
+  { pregunta:'¿Cómo es el paisaje de la Zona Sur de Chile?', correcta:'Lluvioso, con bosques, lagos y volcanes', opts:['Desértico y sin vegetación','Cubierto solo de arena','Sin ningún río ni lago'] },
+  { pregunta:'¿Qué caracteriza a la Zona Austral de Chile?', correcta:'Clima frío, con glaciares y fiordos', opts:['Clima desértico y caluroso','Playas tropicales','Selva amazónica'] },
+  { pregunta:'¿Cuál es un recurso natural importante que se extrae principalmente en el norte de Chile?', correcta:'El cobre', opts:['Los glaciares','La madera nativa','Los peces de agua dulce'] },
+  { pregunta:'¿Cuál es un recurso natural importante en la Zona Sur de Chile, gracias a sus bosques?', correcta:'La madera', opts:['El cobre','El salitre','El litio'] },
+  { pregunta:'¿Cuál de estos es un riesgo natural frecuente en Chile, por estar ubicado sobre el Cinturón de Fuego del Pacífico?', correcta:'Los terremotos y erupciones volcánicas', opts:['Los huracanes tropicales','Las tormentas de arena del desierto del Sahara','Los tornados frecuentes'] },
+  { pregunta:'Después de un terremoto grande en la costa, ¿qué otro riesgo natural puede ocurrir?', correcta:'Un tsunami (maremoto)', opts:['Una sequía inmediata','Una nevada en el desierto','Ningún riesgo adicional'] },
 ];
 const CIUDADANIA5_BANK = [
   { correcta:'Todas las personas son sujetos de derecho y merecen ser respetadas por igual', incorrectas:['Solo algunas personas merecen respeto','Los derechos dependen de cuánto dinero tengas','Algunas personas no tienen derechos'] },
@@ -667,7 +667,7 @@ export function genConquista5Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
@@ -678,7 +678,7 @@ export function genColonia5Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
@@ -689,7 +689,7 @@ export function genGeografiaChile5Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
@@ -758,70 +758,70 @@ export const HISTORIA_MODULES_G6 = [
 export const HISTORIA_POS_G6 = [{x:22,y:92},{x:68,y:76},{x:22,y:58},{x:68,y:42},{x:22,y:24},{x:68,y:6}];
 
 const INDEPENDENCIA_BANK = [
-  { pregunta:'¿En qué fecha se formó la Primera Junta Nacional de Gobierno, dando inicio al proceso de independencia de Chile?', correcta:'EL 18 DE SEPTIEMBRE DE 1810', opts:['EL 12 DE FEBRERO DE 1818','EL 5 DE ABRIL DE 1817','EL 1 DE ENERO DE 1900'] },
-  { pregunta:'¿Quién es considerado el principal líder militar de la independencia de Chile?', correcta:'BERNARDO O\'HIGGINS', opts:['PEDRO DE VALDIVIA','DIEGO DE ALMAGRO','FRANCISCO PIZARRO'] },
-  { pregunta:'¿Qué hazaña militar realizó el Ejército Libertador de los Andes en 1817 para liberar a Chile?', correcta:'CRUZARON LA CORDILLERA DE LOS ANDES CON UN EJÉRCITO', opts:['NAVEGARON ALREDEDOR DEL MUNDO','CONSTRUYERON UN FERROCARRIL','FIRMARON UN TRATADO COMERCIAL'] },
-  { pregunta:'¿Qué batalla de 1818 consolidó definitivamente la independencia de Chile?', correcta:'LA BATALLA DE MAIPÚ', opts:['LA BATALLA DE RANCAGUA','LA GUERRA DEL PACÍFICO','LA BATALLA DE CHACABUCO'] },
-  { pregunta:'¿Cómo se llama el período (1814-1817) en que España recuperó el control de Chile, antes de la independencia definitiva?', correcta:'LA RECONQUISTA', opts:['LA COLONIA','LA REPÚBLICA','LA CONFEDERACIÓN'] },
-  { pregunta:'¿Qué buscaban lograr los criollos americanos con los procesos de independencia de inicios del siglo XIX?', correcta:'GOBERNARSE A SÍ MISMOS, SIN DEPENDER DE UNA POTENCIA EUROPEA', opts:['SEGUIR DEPENDIENDO DE ESPAÑA PARA SIEMPRE','UNIRSE A OTRO IMPERIO EUROPEO','ELIMINAR TODAS LAS CIUDADES EXISTENTES'] },
-  { pregunta:'¿Qué batalla de 1817 marcó el triunfo del ejército libertador tras cruzar los Andes, abriendo camino a Santiago?', correcta:'LA BATALLA DE CHACABUCO', opts:['LA BATALLA DE RANCAGUA','LA GUERRA DEL PACÍFICO','LA BATALLA DE MAIPÚ'] },
-  { pregunta:'¿Qué batalla de 1814 significó una derrota patriota que dio paso a la Reconquista española?', correcta:'LA BATALLA DE RANCAGUA', opts:['LA BATALLA DE CHACABUCO','LA BATALLA DE MAIPÚ','LA GUERRA DEL PACÍFICO'] },
-  { pregunta:'¿Qué título ocupó Bernardo O’Higgins tras la independencia, como máxima autoridad de Chile entre 1817 y 1823?', correcta:'DIRECTOR SUPREMO', opts:['REY DE CHILE','VIRREY','EMPERADOR'] },
-  { pregunta:'¿De qué país dejó de depender Chile como resultado del proceso de independencia?', correcta:'DE ESPAÑA', opts:['DE FRANCIA','DE PORTUGAL','DE INGLATERRA'] },
+  { pregunta:'¿En qué fecha se formó la Primera Junta Nacional de Gobierno, dando inicio al proceso de independencia de Chile?', correcta:'El 18 de septiembre de 1810', opts:['El 12 de febrero de 1818','El 5 de abril de 1817','El 1 de enero de 1900'] },
+  { pregunta:'¿Quién es considerado el principal líder militar de la independencia de Chile?', correcta:'Bernardo o\'higgins', opts:['Pedro de Valdivia','Diego de Almagro','Francisco Pizarro'] },
+  { pregunta:'¿Qué hazaña militar realizó el Ejército Libertador de los Andes en 1817 para liberar a Chile?', correcta:'Cruzaron la cordillera de los Andes con un ejército', opts:['Navegaron alrededor del mundo','Construyeron un ferrocarril','Firmaron un tratado comercial'] },
+  { pregunta:'¿Qué batalla de 1818 consolidó definitivamente la independencia de Chile?', correcta:'La batalla de Maipú', opts:['La batalla de Rancagua','La Guerra del Pacífico','La batalla de Chacabuco'] },
+  { pregunta:'¿Cómo se llama el período (1814-1817) en que España recuperó el control de Chile, antes de la independencia definitiva?', correcta:'La reconquista', opts:['La colonia','La república','La confederación'] },
+  { pregunta:'¿Qué buscaban lograr los criollos americanos con los procesos de independencia de inicios del siglo XIX?', correcta:'Gobernarse a sí mismos, sin depender de una potencia europea', opts:['Seguir dependiendo de España para siempre','Unirse a otro imperio europeo','Eliminar todas las ciudades existentes'] },
+  { pregunta:'¿Qué batalla de 1817 marcó el triunfo del ejército libertador tras cruzar los Andes, abriendo camino a Santiago?', correcta:'La batalla de Chacabuco', opts:['La batalla de Rancagua','La Guerra del Pacífico','La batalla de Maipú'] },
+  { pregunta:'¿Qué batalla de 1814 significó una derrota patriota que dio paso a la Reconquista española?', correcta:'La batalla de Rancagua', opts:['La batalla de Chacabuco','La batalla de Maipú','La Guerra del Pacífico'] },
+  { pregunta:'¿Qué título ocupó Bernardo O’Higgins tras la independencia, como máxima autoridad de Chile entre 1817 y 1823?', correcta:'Director Supremo', opts:['Rey de Chile','Virrey','Emperador'] },
+  { pregunta:'¿De qué país dejó de depender Chile como resultado del proceso de independencia?', correcta:'De España', opts:['De Francia','De portugal','De inglaterra'] },
 ];
 const REPUBLICA_SIGLO19_BANK = [
-  { pregunta:'¿Qué documento estableció las normas fundamentales para organizar el gobierno de Chile en 1833?', correcta:'LA CONSTITUCIÓN DE 1833', opts:['EL TRATADO DE ANCÓN','LA LEY DE SUFRAGIO FEMENINO','LA PRIMERA JUNTA DE GOBIERNO'] },
-  { pregunta:'¿Qué avance tecnológico del siglo XIX transformó el transporte de personas y mercancías en Chile?', correcta:'EL FERROCARRIL', opts:['EL AVIÓN','INTERNET','EL TELÉFONO CELULAR'] },
-  { pregunta:'Durante el siglo XIX, ¿qué área tuvo avances importantes en Chile, con la fundación de escuelas y liceos?', correcta:'LA EDUCACIÓN', opts:['LOS VIAJES ESPACIALES','LA TELEVISIÓN','LA ENERGÍA NUCLEAR'] },
+  { pregunta:'¿Qué documento estableció las normas fundamentales para organizar el gobierno de Chile en 1833?', correcta:'La Constitución de 1833', opts:['El Tratado de Ancón','La Ley de Sufragio Femenino','La Primera Junta de Gobierno'] },
+  { pregunta:'¿Qué avance tecnológico del siglo XIX transformó el transporte de personas y mercancías en Chile?', correcta:'El ferrocarril', opts:['El avión','Internet','El teléfono celular'] },
+  { pregunta:'Durante el siglo XIX, ¿qué área tuvo avances importantes en Chile, con la fundación de escuelas y liceos?', correcta:'La educación', opts:['Los viajes espaciales','La televisión','La energía nuclear'] },
   { afirmacion:'En el siglo XIX, solo un pequeño grupo de hombres podía votar en Chile; hoy votar es un derecho de la gran mayoría de los ciudadanos adultos', v:true },
   { afirmacion:'Desde el siglo XIX hasta hoy, el derecho a votar en Chile nunca ha cambiado para nadie', v:false },
-  { pregunta:'¿Qué tipo de gobierno estableció la Constitución de 1833, con un Presidente con amplias atribuciones?', correcta:'UN GOBIERNO PRESIDENCIALISTA', opts:['UNA MONARQUÍA HEREDITARIA','UN GOBIERNO SIN NINGÚN PRESIDENTE','UNA REPÚBLICA SIN LEYES'] },
-  { pregunta:'¿Qué permitió el ferrocarril en Chile durante el siglo XIX?', correcta:'TRANSPORTAR PERSONAS Y PRODUCTOS DE FORMA MÁS RÁPIDA ENTRE CIUDADES', opts:['VIAJAR AL EXTRANJERO EN AVIÓN','ENVIAR MENSAJES POR INTERNET','VER TELEVISIÓN EN CASA'] },
+  { pregunta:'¿Qué tipo de gobierno estableció la Constitución de 1833, con un Presidente con amplias atribuciones?', correcta:'Un gobierno presidencialista', opts:['Una monarquía hereditaria','Un gobierno sin ningún presidente','Una república sin leyes'] },
+  { pregunta:'¿Qué permitió el ferrocarril en Chile durante el siglo XIX?', correcta:'Transportar personas y productos de forma más rápida entre ciudades', opts:['Viajar al extranjero en avión','Enviar mensajes por internet','Ver televisión en casa'] },
   { afirmacion:'Durante el siglo XIX se fundaron nuevas escuelas y liceos, ampliando el acceso a la educación en Chile', v:true },
 ];
 const SALITRE_EXPANSION_BANK = [
-  { pregunta:'¿Qué conflicto bélico (1879-1883) enfrentó a Chile contra Perú y Bolivia?', correcta:'LA GUERRA DEL PACÍFICO', opts:['LA GUERRA DE ARAUCO','LA GUERRA CIVIL DE 1891','LA REVOLUCIÓN DE 1810'] },
-  { pregunta:'Como resultado de la Guerra del Pacífico, ¿qué ocurrió con el territorio de Chile?', correcta:'CHILE INCORPORÓ TERRITORIOS DEL ACTUAL NORTE DEL PAÍS, COMO ANTOFAGASTA Y TARAPACÁ', opts:['CHILE PERDIÓ TODO SU TERRITORIO NORTE','CHILE NO GANÓ NI PERDIÓ NINGÚN TERRITORIO','CHILE SE DIVIDIÓ EN DOS PAÍSES'] },
-  { pregunta:'¿Qué mineral impulsó una gran expansión económica en el norte de Chile a fines del siglo XIX?', correcta:'EL SALITRE', opts:['EL ORO','EL CARBÓN','EL PETRÓLEO'] },
-  { pregunta:'¿Para qué se usaba principalmente el salitre que Chile exportaba al mundo?', correcta:'COMO FERTILIZANTE PARA LA AGRICULTURA', opts:['COMO COMBUSTIBLE PARA AUTOS','COMO MATERIAL DE CONSTRUCCIÓN','COMO ALIMENTO'] },
-  { pregunta:'¿Qué se conoce como la "cuestión social" de fines del siglo XIX y comienzos del XX en Chile?', correcta:'LAS DIFÍCILES CONDICIONES DE VIDA Y TRABAJO DE LOS OBREROS DE LA ÉPOCA', opts:['UN NUEVO SISTEMA EDUCATIVO GRATUITO PARA TODOS','UNA ÉPOCA DE MUCHO BIENESTAR PARA TODOS LOS OBREROS','UNA LEY QUE MEJORÓ INMEDIATAMENTE TODOS LOS SALARIOS'] },
-  { pregunta:'¿En qué zona de Chile se concentró principalmente la explotación del salitre?', correcta:'EN EL NORTE DEL PAÍS', opts:['EN LA ZONA AUSTRAL','EN LA ISLA DE PASCUA','EN LA CORDILLERA DE LOS ANDES DEL SUR'] },
-  { pregunta:'¿Por qué llegaron muchos trabajadores desde otras zonas de Chile hacia las salitreras del norte?', correcta:'BUSCANDO TRABAJO EN LA INDUSTRIA DEL SALITRE', opts:['BUSCANDO UN CLIMA MÁS LLUVIOSO','HUYENDO DE UNA GUERRA CON ARGENTINA','PARA ESTUDIAR EN NUEVAS UNIVERSIDADES'] },
-  { pregunta:'¿Cómo se llamaban los campamentos de trabajadores donde se extraía y procesaba el salitre?', correcta:'OFICINAS SALITRERAS', opts:['UNIVERSIDADES','FORTALEZAS MILITARES','PUERTOS PESQUEROS'] },
-  { pregunta:'¿Qué ocurrió con la industria del salitre chileno después de que se inventó el salitre sintético a comienzos del siglo XX?', correcta:'ENTRÓ EN DECLIVE, YA QUE EL SALITRE SINTÉTICO ERA MÁS BARATO DE PRODUCIR', opts:['CRECIÓ AÚN MÁS QUE ANTES','NO TUVO NINGÚN EFECTO','SE VOLVIÓ EL ÚNICO PRODUCTO DE EXPORTACIÓN DE CHILE PARA SIEMPRE'] },
-  { pregunta:'¿Qué buscaban mejorar los primeros movimientos obreros durante la época de la "cuestión social"?', correcta:'LAS CONDICIONES LABORALES Y DE VIDA DE LOS TRABAJADORES', opts:['EL PRECIO DE LAS JOYAS','LOS IMPUESTOS A LOS TURISTAS','EL PRECIO DE LOS AUTOS'] },
+  { pregunta:'¿Qué conflicto bélico (1879-1883) enfrentó a Chile contra Perú y Bolivia?', correcta:'La Guerra del Pacífico', opts:['La Guerra de Arauco','La Guerra Civil de 1891','La revolución de 1810'] },
+  { pregunta:'Como resultado de la Guerra del Pacífico, ¿qué ocurrió con el territorio de Chile?', correcta:'Chile incorporó territorios del actual norte del país, como Antofagasta y Tarapacá', opts:['Chile perdió todo su territorio norte','Chile no ganó ni perdió ningún territorio','Chile se dividió en dos países'] },
+  { pregunta:'¿Qué mineral impulsó una gran expansión económica en el norte de Chile a fines del siglo XIX?', correcta:'El salitre', opts:['El oro','El carbón','El petróleo'] },
+  { pregunta:'¿Para qué se usaba principalmente el salitre que Chile exportaba al mundo?', correcta:'Como fertilizante para la agricultura', opts:['Como combustible para autos','Como material de construcción','Como alimento'] },
+  { pregunta:'¿Qué se conoce como la "cuestión social" de fines del siglo XIX y comienzos del XX en Chile?', correcta:'Las difíciles condiciones de vida y trabajo de los obreros de la época', opts:['Un nuevo sistema educativo gratuito para todos','Una época de mucho bienestar para todos los obreros','Una ley que mejoró inmediatamente todos los salarios'] },
+  { pregunta:'¿En qué zona de Chile se concentró principalmente la explotación del salitre?', correcta:'En el norte del país', opts:['En la Zona Austral','En la isla de Pascua','En la cordillera de los Andes del sur'] },
+  { pregunta:'¿Por qué llegaron muchos trabajadores desde otras zonas de Chile hacia las salitreras del norte?', correcta:'Buscando trabajo en la industria del salitre', opts:['Buscando un clima más lluvioso','Huyendo de una guerra con Argentina','Para estudiar en nuevas universidades'] },
+  { pregunta:'¿Cómo se llamaban los campamentos de trabajadores donde se extraía y procesaba el salitre?', correcta:'Oficinas salitreras', opts:['Universidades','Fortalezas militares','Puertos pesqueros'] },
+  { pregunta:'¿Qué ocurrió con la industria del salitre chileno después de que se inventó el salitre sintético a comienzos del siglo XX?', correcta:'Entró en declive, ya que el salitre sintético era más barato de producir', opts:['Creció aún más que antes','No tuvo ningún efecto','Se volvió el único producto de exportación de Chile para siempre'] },
+  { pregunta:'¿Qué buscaban mejorar los primeros movimientos obreros durante la época de la "cuestión social"?', correcta:'Las condiciones laborales y de vida de los trabajadores', opts:['El precio de las joyas','Los impuestos a los turistas','El precio de los autos'] },
 ];
 const SIGLOXX_DEMOCRATIZACION_BANK = [
   { pregunta:'¿En qué año se aprobó la ley que dio a las mujeres chilenas el derecho a votar en elecciones presidenciales y parlamentarias?', correcta:'1949', opts:['1810','1883','2000'] },
-  { pregunta:'Antes de la ley de 1949, ¿quiénes principalmente tenían derecho a votar en las elecciones presidenciales de Chile?', correcta:'SOLO LOS HOMBRES', opts:['SOLO LAS MUJERES','TODOS LOS NIÑOS MAYORES DE 10 AÑOS','NADIE PODÍA VOTAR'] },
-  { pregunta:'¿Qué cambio importante en la participación ciudadana ocurrió durante el siglo XX en Chile?', correcta:'EL DERECHO A VOTAR SE FUE EXTENDIENDO A MÁS PERSONAS, INCLUYENDO A LAS MUJERES', opts:['SE ELIMINÓ POR COMPLETO EL DERECHO A VOTAR','SOLO SE PERMITIÓ VOTAR A LOS EXTRANJEROS','EL VOTO DEJÓ DE EXISTIR'] },
+  { pregunta:'Antes de la ley de 1949, ¿quiénes principalmente tenían derecho a votar en las elecciones presidenciales de Chile?', correcta:'Solo los hombres', opts:['Solo las mujeres','Todos los niños mayores de 10 años','Nadie podía votar'] },
+  { pregunta:'¿Qué cambio importante en la participación ciudadana ocurrió durante el siglo XX en Chile?', correcta:'El derecho a votar se fue extendiendo a más personas, incluyendo a las mujeres', opts:['Se eliminó por completo el derecho a votar','Solo se permitió votar a los extranjeros','El voto dejó de existir'] },
   { pregunta:'¿En qué año pudieron votar las mujeres chilenas por primera vez en elecciones municipales?', correcta:'1935', opts:['1810','1949','2000'] },
-  { pregunta:'¿En qué elección presidencial votaron las mujeres chilenas por primera vez, tras la ley de 1949?', correcta:'LA ELECCIÓN PRESIDENCIAL DE 1952', opts:['LA ELECCIÓN DE 1810','LA ELECCIÓN DE 1883','NUNCA HAN PODIDO VOTAR EN UNA ELECCIÓN PRESIDENCIAL'] },
-  { pregunta:'¿Qué significa que el derecho a voto se haya ido "democratizando" a lo largo del siglo XX en Chile?', correcta:'QUE CADA VEZ MÁS PERSONAS PUDIERON PARTICIPAR EN LAS ELECCIONES', opts:['QUE CADA VEZ MENOS PERSONAS PUDIERON VOTAR','QUE SOLO LOS MÁS RICOS PODÍAN VOTAR','QUE EL VOTO SE VOLVIÓ OBLIGATORIO SOLO PARA UN GRUPO'] },
-  { pregunta:'¿Bajo qué presidente se aprobó la ley que dio a las mujeres chilenas el voto en elecciones presidenciales?', correcta:'GABRIEL GONZÁLEZ VIDELA', opts:['BERNARDO O HIGGINS','ARTURO PRAT','DIEGO PORTALES'] },
-  { pregunta:'¿Quién fue elegido Presidente de Chile en 1952, en la primera elección con voto femenino?', correcta:'CARLOS IBÁÑEZ DEL CAMPO', opts:['BERNARDO O HIGGINS','JOSÉ DE SAN MARTÍN','PEDRO DE VALDIVIA'] },
-  { pregunta:'¿Qué institución del Estado se encarga de organizar y fiscalizar las elecciones en Chile?', correcta:'EL SERVICIO ELECTORAL', opts:['EL EJÉRCITO','UNA EMPRESA PRIVADA CUALQUIERA','UN PERIÓDICO'] },
-  { pregunta:'¿En qué fecha ocurrió el golpe de Estado que terminó con el gobierno del presidente Salvador Allende?', correcta:'EL 11 DE SEPTIEMBRE DE 1973', opts:['EL 18 DE SEPTIEMBRE DE 1810','EL 11 DE MARZO DE 1990','EL 5 DE OCTUBRE DE 1988'] },
+  { pregunta:'¿En qué elección presidencial votaron las mujeres chilenas por primera vez, tras la ley de 1949?', correcta:'La elección presidencial de 1952', opts:['La elección de 1810','La elección de 1883','Nunca han podido votar en una elección presidencial'] },
+  { pregunta:'¿Qué significa que el derecho a voto se haya ido "democratizando" a lo largo del siglo XX en Chile?', correcta:'Que cada vez más personas pudieron participar en las elecciones', opts:['Que cada vez menos personas pudieron votar','Que solo los más ricos podían votar','Que el voto se volvió obligatorio solo para un grupo'] },
+  { pregunta:'¿Bajo qué presidente se aprobó la ley que dio a las mujeres chilenas el voto en elecciones presidenciales?', correcta:'Gabriel González Videla', opts:['Bernardo O\'Higgins','Arturo Prat','Diego Portales'] },
+  { pregunta:'¿Quién fue elegido Presidente de Chile en 1952, en la primera elección con voto femenino?', correcta:'Carlos Ibáñez del Campo', opts:['Bernardo O\'Higgins','José de San Martín','Pedro de Valdivia'] },
+  { pregunta:'¿Qué institución del Estado se encarga de organizar y fiscalizar las elecciones en Chile?', correcta:'El Servicio Electoral', opts:['El ejército','Una empresa privada cualquiera','Un periódico'] },
+  { pregunta:'¿En qué fecha ocurrió el golpe de Estado que terminó con el gobierno del presidente Salvador Allende?', correcta:'El 11 de septiembre de 1973', opts:['El 18 de septiembre de 1810','El 11 de marzo de 1990','El 5 de octubre de 1988'] },
   { pregunta:'¿En qué año se realizó el plebiscito en que la mayoría de los chilenos votó para no continuar bajo el mismo gobierno?', correcta:'1988', opts:['1973','1990','1810'] },
-  { pregunta:'¿En qué fecha asumió Patricio Aylwin la presidencia, marcando el retorno a un gobierno elegido democráticamente?', correcta:'EL 11 DE MARZO DE 1990', opts:['EL 11 DE SEPTIEMBRE DE 1973','EL 5 DE OCTUBRE DE 1988','EL 18 DE SEPTIEMBRE DE 1810'] },
-  { pregunta:'¿Cuántos años duró el período de gobierno militar en Chile, entre 1973 y 1990?', correcta:'17 AÑOS', opts:['5 AÑOS','50 AÑOS','2 AÑOS'] },
-  { pregunta:'¿Quién fue el primer Presidente elegido democráticamente después del período de gobierno militar?', correcta:'PATRICIO AYLWIN', opts:['SALVADOR ALLENDE','GABRIEL GONZÁLEZ VIDELA','CARLOS IBÁÑEZ DEL CAMPO'] },
+  { pregunta:'¿En qué fecha asumió Patricio Aylwin la presidencia, marcando el retorno a un gobierno elegido democráticamente?', correcta:'El 11 de marzo de 1990', opts:['El 11 de septiembre de 1973','El 5 de octubre de 1988','El 18 de septiembre de 1810'] },
+  { pregunta:'¿Cuántos años duró el período de gobierno militar en Chile, entre 1973 y 1990?', correcta:'17 años', opts:['5 años','50 años','2 años'] },
+  { pregunta:'¿Quién fue el primer Presidente elegido democráticamente después del período de gobierno militar?', correcta:'Patricio Aylwin', opts:['Salvador Allende','Gabriel González Videla','Carlos Ibáñez del Campo'] },
 ];
 const GEOGRAFIA_CHILE6_BANK = [
-  { pregunta:'Chile es un país tricontinental. ¿Qué significa esto?', correcta:'TIENE TERRITORIO EN TRES CONTINENTES: AMÉRICA, OCEANÍA Y LA ANTÁRTICA', opts:['TIENE TRES CAPITALES DIFERENTES','ESTÁ FORMADO POR TRES PAÍSES UNIDOS','TIENE TRES IDIOMAS OFICIALES'] },
-  { pregunta:'¿Qué isla chilena en el océano Pacífico forma parte de Oceanía?', correcta:'ISLA DE PASCUA (RAPA NUI)', opts:['LA ISLA GRANDE DE CHILOÉ','LA ISLA JUAN FERNÁNDEZ','TIERRA DEL FUEGO'] },
-  { pregunta:'¿Qué tipo de ambiente natural predomina en el norte de Chile?', correcta:'DESÉRTICO', opts:['SELVA TROPICAL','GLACIARES Y HIELO','PANTANOS Y MANGLARES'] },
-  { pregunta:'¿Qué desafío enfrentan las personas que viven en una zona desértica como el norte de Chile?', correcta:'LA ESCASEZ DE AGUA', opts:['EL EXCESO DE LLUVIA','EL FRÍO EXTREMO TODO EL AÑO','LA FALTA DE SOL'] },
-  { pregunta:'¿Cuál es el mayor terremoto registrado instrumentalmente en la historia, ocurrido en el sur de Chile en 1960?', correcta:'EL TERREMOTO DE VALDIVIA', opts:['EL TERREMOTO DE HAITÍ','EL TERREMOTO DE JAPÓN DE 2011','NO SE HA REGISTRADO NUNCA UN TERREMOTO EN CHILE'] },
-  { pregunta:'¿Qué oportunidad ofrece el ambiente marítimo de gran parte de la costa chilena?', correcta:'LA PESCA Y EL TURISMO', opts:['LA MINERÍA DEL CARBÓN SOLAMENTE','LA AGRICULTURA DE ARROZ SOLAMENTE','NINGUNA OPORTUNIDAD ECONÓMICA'] },
-  { pregunta:'¿Qué tipo de ambiente natural predomina en la Zona Central de Chile?', correcta:'CLIMA MEDITERRÁNEO, CON VERANO SECO E INVIERNO LLUVIOSO', opts:['DESIERTO ABSOLUTO TODO EL AÑO','SELVA TROPICAL LLUVIOSA','HIELO Y NIEVE TODO EL AÑO'] },
-  { pregunta:'¿Qué desafío enfrentan las personas que viven en zonas con alto riesgo de terremotos, como gran parte de Chile?', correcta:'CONSTRUIR EDIFICIOS PREPARADOS PARA RESISTIR MOVIMIENTOS SÍSMICOS', opts:['NO EXISTE NINGÚN DESAFÍO','EVITAR CONSTRUIR CUALQUIER TIPO DE EDIFICIO','MUDARSE A OTRO CONTINENTE'] },
-  { pregunta:'¿Qué recurso natural importante se obtiene de los bosques templados del sur de Chile?', correcta:'LA MADERA', opts:['EL COBRE','EL SALITRE','EL PETRÓLEO'] },
+  { pregunta:'Chile es un país tricontinental. ¿Qué significa esto?', correcta:'Tiene territorio en tres continentes: América, Oceanía y la Antártica', opts:['Tiene tres capitales diferentes','Está formado por tres países unidos','Tiene tres idiomas oficiales'] },
+  { pregunta:'¿Qué isla chilena en el océano Pacífico forma parte de Oceanía?', correcta:'Isla de Pascua (Rapa Nui)', opts:['La isla grande de Chiloé','La isla Juan Fernández','Tierra del Fuego'] },
+  { pregunta:'¿Qué tipo de ambiente natural predomina en el norte de Chile?', correcta:'Desértico', opts:['Selva tropical','Glaciares y hielo','Pantanos y manglares'] },
+  { pregunta:'¿Qué desafío enfrentan las personas que viven en una zona desértica como el norte de Chile?', correcta:'La escasez de agua', opts:['El exceso de lluvia','El frío extremo todo el año','La falta de sol'] },
+  { pregunta:'¿Cuál es el mayor terremoto registrado instrumentalmente en la historia, ocurrido en el sur de Chile en 1960?', correcta:'El terremoto de Valdivia', opts:['El terremoto de Haití','El terremoto de Japón de 2011','No se ha registrado nunca un terremoto en Chile'] },
+  { pregunta:'¿Qué oportunidad ofrece el ambiente marítimo de gran parte de la costa chilena?', correcta:'La pesca y el turismo', opts:['La minería del carbón solamente','La agricultura de arroz solamente','Ninguna oportunidad económica'] },
+  { pregunta:'¿Qué tipo de ambiente natural predomina en la Zona Central de Chile?', correcta:'Clima Mediterráneo, con verano seco e invierno lluvioso', opts:['Desierto absoluto todo el año','Selva tropical lluviosa','Hielo y nieve todo el año'] },
+  { pregunta:'¿Qué desafío enfrentan las personas que viven en zonas con alto riesgo de terremotos, como gran parte de Chile?', correcta:'Construir edificios preparados para resistir movimientos sísmicos', opts:['No existe ningún desafío','Evitar construir cualquier tipo de edificio','Mudarse a otro continente'] },
+  { pregunta:'¿Qué recurso natural importante se obtiene de los bosques templados del sur de Chile?', correcta:'La madera', opts:['El cobre','El salitre','El petróleo'] },
 ];
 const PODERES_ESTADO_BANK = [
-  { poder:'PODER EJECUTIVO', funcion:'GOBERNAR Y ADMINISTRAR EL PAÍS (EL PRESIDENTE Y SUS MINISTROS)' },
-  { poder:'PODER LEGISLATIVO', funcion:'CREAR, DISCUTIR Y APROBAR LAS LEYES (EL CONGRESO NACIONAL)' },
-  { poder:'PODER JUDICIAL', funcion:'APLICAR LA LEY Y RESOLVER CONFLICTOS LEGALES (LOS TRIBUNALES)' },
+  { poder:'Poder Ejecutivo', funcion:'Gobernar y administrar el país (el presidente y sus ministros)' },
+  { poder:'Poder Legislativo', funcion:'Crear, discutir y aprobar las leyes (el Congreso Nacional)' },
+  { poder:'Poder Judicial', funcion:'Aplicar la ley y resolver conflictos legales (los tribunales)' },
 ];
 const CIUDADANIA6_BANK = [
   { correcta:'La Constitución Política establece cómo se organiza el gobierno del país y protege los derechos de las personas', incorrectas:['La Constitución no tiene relación con los derechos de las personas','Cualquier persona puede cambiar la Constitución sola, sin ningún procedimiento','La Constitución solo aplica a algunas personas del país'] },
@@ -839,7 +839,7 @@ export function genIndependencia6Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
@@ -847,7 +847,7 @@ export function genRepublica6Round(){
   const recurso = 'La <b>Constitución de 1833</b> organizó el nuevo Estado chileno con un gobierno presidencialista (un Presidente con amplias atribuciones), y ese marco institucional se mantuvo por décadas. Durante el siglo XIX, Chile vivió avances importantes: se fundaron escuelas y liceos que ampliaron el acceso a la educación, y el <b>ferrocarril</b> transformó el transporte de personas y mercancías entre ciudades. El derecho a votar, en cambio, era mucho más restringido que hoy: solo un pequeño grupo de hombres podía votar, algo que fue cambiando recién con el paso del tiempo.';
   const item = pick(REPUBLICA_SIGLO19_BANK);
   if(item.afirmacion){
-    const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+    const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
     return {
       promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',
       options: opts, correctValue: item.v, speakText: item.afirmacion, cols:2, panel:true,
@@ -858,7 +858,7 @@ export function genRepublica6Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
@@ -869,7 +869,7 @@ export function genSalitre6Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
@@ -880,7 +880,7 @@ export function genSigloxx6Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
@@ -891,7 +891,7 @@ export function genGeografiaChile6Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
@@ -904,7 +904,7 @@ export function genCiudadania6Round(){
     return {
       promptHTML: '<p class="prompt-word">'+item.poder+'</p><p class="prompt-hint">¿Cuál es la función de este poder del Estado?</p>',
       options: opts, correctValue: item.funcion, speakText: item.poder, cols:2, panel:true,
-      explain: item.poder+': '+item.funcion.toLowerCase()+'.', recurso: recurso,
+      explain: item.poder+': '+item.funcion+'.', recurso: recurso,
     };
   }
   const item = pick(CIUDADANIA6_BANK);
@@ -956,52 +956,52 @@ export const HISTORIA_MODULES_G7 = [
 export const HISTORIA_POS_G7 = [{x:22,y:92},{x:68,y:76},{x:22,y:58},{x:68,y:42},{x:22,y:24},{x:68,y:6}];
 
 const PREHISTORIA_BANK = [
-  { pregunta:'¿Cómo se llama el proceso evolutivo mediante el cual la especie humana desarrolló las características que la distinguen de otros primates?', correcta:'HOMINIZACIÓN', opts:['SEDENTARIZACIÓN','DOMESTICACIÓN','COLONIZACIÓN'] },
-  { pregunta:'¿Qué avance permitió a los primeros seres humanos dejar de depender solo de la caza y la recolección para alimentarse?', correcta:'LA AGRICULTURA Y LA DOMESTICACIÓN DE ANIMALES', opts:['LA INVENCIÓN DE LA RUEDA SOLAMENTE','EL DESCUBRIMIENTO DEL FUEGO SOLAMENTE','LA INVENCIÓN DE LA ESCRITURA SOLAMENTE'] },
-  { pregunta:'¿Qué es la sedentarización?', correcta:'EL PROCESO POR EL CUAL LOS GRUPOS HUMANOS DEJARON DE SER NÓMADAS Y SE ESTABLECIERON EN UN LUGAR FIJO', opts:['EL PROCESO DE DOMESTICAR ANIMALES SALVAJES','LA INVENCIÓN DE NUEVAS HERRAMIENTAS DE PIEDRA','EL DESARROLLO DEL LENGUAJE ESCRITO'] },
-  { pregunta:'¿Qué desarrollo permitió a las primeras civilizaciones llevar registros de sus bienes y transacciones comerciales?', correcta:'LA ESCRITURA Y LOS SISTEMAS DE CONTABILIDAD', opts:['LA RUEDA','EL FUEGO','LA AGRICULTURA POR SÍ SOLA'] },
-  { pregunta:'¿Qué cambio en la forma de vida trajo consigo la sedentarización de los primeros grupos humanos?', correcta:'LA POSIBILIDAD DE FORMAR ALDEAS Y ACUMULAR RECURSOS PERMANENTES', opts:['EL FIN DE CUALQUIER TIPO DE ORGANIZACIÓN SOCIAL','LA DESAPARICIÓN DE LA AGRICULTURA','UN AUMENTO DEL NOMADISMO'] },
-  { pregunta:'¿Por qué la domesticación de animales fue un avance importante para las primeras sociedades humanas?', correcta:'PORQUE ASEGURÓ UNA FUENTE MÁS ESTABLE DE ALIMENTO Y TRABAJO', opts:['PORQUE ELIMINÓ POR COMPLETO LA NECESIDAD DE COMER','PORQUE IMPIDIÓ EL DESARROLLO DE LA AGRICULTURA','PORQUE HIZO DESAPARECER A TODOS LOS ANIMALES SALVAJES'] },
+  { pregunta:'¿Cómo se llama el proceso evolutivo mediante el cual la especie humana desarrolló las características que la distinguen de otros primates?', correcta:'Hominización', opts:['Sedentarización','Domesticación','Colonización'] },
+  { pregunta:'¿Qué avance permitió a los primeros seres humanos dejar de depender solo de la caza y la recolección para alimentarse?', correcta:'La agricultura y la domesticación de animales', opts:['La invención de la rueda solamente','El descubrimiento del fuego solamente','La invención de la escritura solamente'] },
+  { pregunta:'¿Qué es la sedentarización?', correcta:'El proceso por el cual los grupos humanos dejaron de ser nómadas y se establecieron en un lugar fijo', opts:['El proceso de domesticar animales salvajes','La invención de nuevas herramientas de piedra','El desarrollo del lenguaje escrito'] },
+  { pregunta:'¿Qué desarrollo permitió a las primeras civilizaciones llevar registros de sus bienes y transacciones comerciales?', correcta:'La escritura y los sistemas de contabilidad', opts:['La rueda','El fuego','La agricultura por sí sola'] },
+  { pregunta:'¿Qué cambio en la forma de vida trajo consigo la sedentarización de los primeros grupos humanos?', correcta:'La posibilidad de formar aldeas y acumular recursos permanentes', opts:['El fin de cualquier tipo de organización social','La desaparición de la agricultura','Un aumento del nomadismo'] },
+  { pregunta:'¿Por qué la domesticación de animales fue un avance importante para las primeras sociedades humanas?', correcta:'Porque aseguró una fuente más estable de alimento y trabajo', opts:['Porque eliminó por completo la necesidad de comer','Porque impidió el desarrollo de la agricultura','Porque hizo desaparecer a todos los animales salvajes'] },
 ];
 const PRIMERAS_CIVILIZACIONES_BANK = [
-  { pregunta:'¿Cuál de estas fue una de las primeras civilizaciones de la historia, ubicada en Mesopotamia?', correcta:'LA CIVILIZACIÓN SUMERIA', opts:['LA CIVILIZACIÓN OLMECA','LA CIVILIZACIÓN INCA','LA CIVILIZACIÓN VIKINGA'] },
-  { pregunta:'¿En qué río se desarrolló la civilización egipcia antigua?', correcta:'EL RÍO NILO', opts:['EL RÍO ÁMAZONAS','EL RÍO BIOBÍO','EL RÍO TÍBER'] },
-  { pregunta:'¿Qué caracterizaba a las primeras civilizaciones en cuanto a su organización social?', correcta:'UNA ESTRATIFICACIÓN SOCIAL, CON DISTINTOS GRUPOS O CLASES', opts:['UNA IGUALDAD TOTAL ENTRE TODAS LAS PERSONAS','LA AUSENCIA COMPLETA DE GOBIERNO','LA AUSENCIA COMPLETA DE CIUDADES'] },
-  { pregunta:'¿Qué región comprendía Mesopotamia, cuna de la civilización sumeria?', correcta:'LA ZONA ENTRE LOS RÍOS TIGRIS Y ÉUFRATES', opts:['LA ZONA ENTRE LOS ANDES Y EL PACÍFICO','LA PENÍNSULA ITÁLICA','LA ISLA DE GRAN BRETAÑA'] },
-  { pregunta:'¿Por qué las crecidas periódicas del río Nilo fueron importantes para la civilización egipcia?', correcta:'PORQUE FERTILIZABAN LA TIERRA Y PERMITÍAN LA AGRICULTURA EN UNA ZONA DESÉRTICA', opts:['PORQUE IMPEDÍAN POR COMPLETO LA AGRICULTURA','PORQUE OBLIGABAN A ABANDONAR LA REGIÓN CADA AÑO','PORQUE NO TENÍAN NINGÚN EFECTO EN LOS CULTIVOS'] },
+  { pregunta:'¿Cuál de estas fue una de las primeras civilizaciones de la historia, ubicada en Mesopotamia?', correcta:'La civilización Sumeria', opts:['La civilización olmeca','La civilización inca','La civilización vikinga'] },
+  { pregunta:'¿En qué río se desarrolló la civilización egipcia antigua?', correcta:'El río Nilo', opts:['El río ámazonas','El río Biobío','El río Tíber'] },
+  { pregunta:'¿Qué caracterizaba a las primeras civilizaciones en cuanto a su organización social?', correcta:'Una estratificación social, con distintos grupos o clases', opts:['Una igualdad total entre todas las personas','La ausencia completa de gobierno','La ausencia completa de ciudades'] },
+  { pregunta:'¿Qué región comprendía Mesopotamia, cuna de la civilización sumeria?', correcta:'La zona entre los ríos Tigris y Éufrates', opts:['La zona entre los Andes y el Pacífico','La península itálica','La isla de Gran Bretaña'] },
+  { pregunta:'¿Por qué las crecidas periódicas del río Nilo fueron importantes para la civilización egipcia?', correcta:'Porque fertilizaban la tierra y permitían la agricultura en una zona desértica', opts:['Porque impedían por completo la agricultura','Porque obligaban a abandonar la región cada año','Porque no tenían ningún efecto en los cultivos'] },
 ];
 const GRECIA_ROMA_7_BANK = [
-  { pregunta:'¿Qué mar fue central para el desarrollo de la civilización griega y romana, permitiendo el comercio y el intercambio cultural?', correcta:'EL MAR MEDITERRÁNEO', opts:['EL OCÉANO PACÍFICO','EL MAR CARIBE','EL OCÉANO ÍNDICO'] },
-  { pregunta:'¿Cómo se llamaba la unidad política básica de la antigua Grecia, una ciudad independiente con su propio gobierno?', correcta:'LA POLIS (CIUDAD-ESTADO)', opts:['EL IMPERIO','LA PROVINCIA','EL VIRREINATO'] },
-  { pregunta:'¿En qué ciudad-estado griega se desarrolló la forma de democracia más conocida de la Antigüedad?', correcta:'ATENAS', opts:['ESPARTA','ROMA','CARTAGO'] },
-  { pregunta:'¿Qué sistema legal desarrolló el Imperio Romano, que influye hasta hoy en muchos países?', correcta:'EL DERECHO ROMANO', opts:['LA DEMOCRACIA ATENIENSE','EL SISTEMA FEUDAL','EL CÓDIGO DE HAMMURABI'] },
-  { pregunta:'¿Qué mecanismo usaba la democracia ateniense para evitar que una sola persona acumulara demasiado poder por mucho tiempo?', correcta:'LA TEMPORALIDAD DE LOS CARGOS (SE ROTABAN PERIÓDICAMENTE)', opts:['LA HERENCIA DEL CARGO DE PADRE A HIJO PARA SIEMPRE','LA ELECCIÓN DE UN GOBERNANTE ÚNICO DE POR VIDA','LA AUSENCIA TOTAL DE CUALQUIER CARGO PÚBLICO'] },
-  { pregunta:'¿Qué rol cumplía el Senado en la República romana?', correcta:'ASESORAR Y AYUDAR A LIMITAR EL PODER DE LOS MAGISTRADOS', opts:['NO TENÍA NINGÚN ROL EN EL GOBIERNO','SOLO SE ENCARGABA DE ORGANIZAR FIESTAS','SU ÚNICA FUNCIÓN ERA COBRAR IMPUESTOS'] },
-  { pregunta:'¿Qué aspectos de las sociedades actuales reciben influencia del legado cultural de Grecia y Roma?', correcta:'LA ESCRITURA ALFABÉTICA, LA FILOSOFÍA, EL DERECHO Y LAS CIENCIAS, ENTRE OTROS', opts:['NINGÚN ASPECTO DE HOY TIENE RELACIÓN CON ESA ÉPOCA','SOLO LA FORMA DE VESTIR ACTUAL','SOLO LOS NOMBRES DE LOS MESES DEL AÑO'] },
-  { pregunta:'¿Quiénes podían participar directamente en las decisiones de la democracia ateniense?', correcta:'LOS CIUDADANOS VARONES ADULTOS, EXCLUYENDO A MUJERES Y ESCLAVOS', opts:['TODOS LOS HABITANTES DE LA CIUDAD POR IGUAL, SIN NINGUNA EXCEPCIÓN','SOLO UN REY Y SU FAMILIA','SOLO LOS EXTRANJEROS QUE VISITABAN LA CIUDAD'] },
-  { pregunta:'¿Qué evento deportivo de la Antigua Grecia sigue existiendo hoy, adaptado a los tiempos modernos?', correcta:'LOS JUEGOS OLÍMPICOS', opts:['EL CAMPEONATO MUNDIAL DE FÚTBOL','LOS JUEGOS DEL COLISEO','LAS CARRERAS DE CARROS ROMANAS'] },
+  { pregunta:'¿Qué mar fue central para el desarrollo de la civilización griega y romana, permitiendo el comercio y el intercambio cultural?', correcta:'El mar Mediterráneo', opts:['El océano Pacífico','El mar Caribe','El océano Índico'] },
+  { pregunta:'¿Cómo se llamaba la unidad política básica de la antigua Grecia, una ciudad independiente con su propio gobierno?', correcta:'La polis (ciudad-estado)', opts:['El imperio','La provincia','El virreinato'] },
+  { pregunta:'¿En qué ciudad-estado griega se desarrolló la forma de democracia más conocida de la Antigüedad?', correcta:'Atenas', opts:['Esparta','Roma','Cartago'] },
+  { pregunta:'¿Qué sistema legal desarrolló el Imperio Romano, que influye hasta hoy en muchos países?', correcta:'El derecho romano', opts:['La democracia ateniense','El sistema feudal','El Código de Hammurabi'] },
+  { pregunta:'¿Qué mecanismo usaba la democracia ateniense para evitar que una sola persona acumulara demasiado poder por mucho tiempo?', correcta:'La temporalidad de los cargos (se rotaban periódicamente)', opts:['La herencia del cargo de padre a hijo para siempre','La elección de un gobernante único de por vida','La ausencia total de cualquier cargo público'] },
+  { pregunta:'¿Qué rol cumplía el Senado en la República romana?', correcta:'Asesorar y ayudar a limitar el poder de los magistrados', opts:['No tenía ningún rol en el gobierno','Solo se encargaba de organizar fiestas','Su única función era cobrar impuestos'] },
+  { pregunta:'¿Qué aspectos de las sociedades actuales reciben influencia del legado cultural de Grecia y Roma?', correcta:'La escritura alfabética, la filosofía, el derecho y las ciencias, entre otros', opts:['Ningún aspecto de hoy tiene relación con esa época','Solo la forma de vestir actual','Solo los nombres de los meses del año'] },
+  { pregunta:'¿Quiénes podían participar directamente en las decisiones de la democracia ateniense?', correcta:'Los ciudadanos varones adultos, excluyendo a mujeres y esclavos', opts:['Todos los habitantes de la ciudad por igual, sin ninguna excepción','Solo un rey y su familia','Solo los extranjeros que visitaban la ciudad'] },
+  { pregunta:'¿Qué evento deportivo de la Antigua Grecia sigue existiendo hoy, adaptado a los tiempos modernos?', correcta:'Los Juegos Olímpicos', opts:['El campeonato mundial de fútbol','Los juegos del coliseo','Las carreras de carros romanas'] },
 ];
 const EDAD_MEDIA_BANK = [
-  { pregunta:'¿Qué tradiciones confluyeron en la formación de la civilización europea medieval?', correcta:'LA GRECORROMANA, LA JUDEOCRISTIANA Y LA GERMANA', opts:['SOLO LA TRADICIÓN EGIPCIA','SOLO LA TRADICIÓN CHINA','SOLO LA TRADICIÓN INCA'] },
-  { pregunta:'¿Qué institución fue clave en articular estas tradiciones y legitimar el poder político durante la Edad Media europea?', correcta:'LA IGLESIA CATÓLICA', opts:['EL SENADO ROMANO','LA ASAMBLEA ATENIENSE','EL IMPERIO INCA'] },
-  { pregunta:'¿Cómo se llama el sistema social medieval, dividido en grupos con derechos y deberes distintos (nobleza, clero, campesinado)?', correcta:'EL ORDEN ESTAMENTAL', opts:['LA DEMOCRACIA DIRECTA','EL SISTEMA REPUBLICANO','LA MERITOCRACIA MODERNA'] },
-  { pregunta:'¿Qué caracterizaba principalmente la vida económica y social durante gran parte de la Edad Media?', correcta:'LA VIDA RURAL, CON UN DECLIVE DE LA VIDA URBANA', opts:['GRANDES CIUDADES INDUSTRIALIZADAS','EL COMERCIO ELECTRÓNICO','LOS VIAJES ESPACIALES'] },
-  { pregunta:'¿Qué cambios importantes ocurrieron en Europa a partir del siglo XII?', correcta:'RENACIMIENTO DE LA VIDA URBANA, MÁS COMERCIO Y EL SURGIMIENTO DE LAS UNIVERSIDADES', opts:['LA DESAPARICIÓN COMPLETA DE LAS CIUDADES','EL FIN DEL COMERCIO EN TODA EUROPA','LA INVENCIÓN DE INTERNET'] },
-  { pregunta:'¿A qué grupo social pertenecían quienes trabajaban la tierra dentro del sistema estamental medieval?', correcta:'AL CAMPESINADO', opts:['A LA NOBLEZA','AL CLERO','A LA REALEZA'] },
-  { pregunta:'¿Qué función cumplían los monasterios durante gran parte de la Edad Media europea?', correcta:'CONSERVAR Y COPIAR MANUSCRITOS, ADEMÁS DE OFICIAR COMO CENTROS RELIGIOSOS Y DE ESTUDIO', opts:['ORGANIZAR COMPETENCIAS DEPORTIVAS','FUNCIONAR COMO CENTROS DE COMERCIO MARÍTIMO ÚNICAMENTE','SERVIR SOLO COMO FORTALEZAS MILITARES'] },
-  { pregunta:'¿Qué caracterizaba a las relaciones de vasallaje típicas del sistema feudal medieval?', correcta:'UN SEÑOR OTORGABA TIERRAS A UN VASALLO A CAMBIO DE FIDELIDAD Y SERVICIOS', opts:['TODOS LOS HABITANTES TENÍAN EXACTAMENTE LOS MISMOS DERECHOS Y TIERRAS','NO EXISTÍA NINGÚN TIPO DE JERARQUÍA SOCIAL','LAS TIERRAS SE REPARTÍAN POR SORTEO CADA AÑO'] },
-  { pregunta:'¿Qué institución fundada en el siglo XII marcó un cambio importante en la educación europea?', correcta:'LAS PRIMERAS UNIVERSIDADES', opts:['LOS PRIMEROS COLEGIOS EN LÍNEA','LAS PRIMERAS ESCUELAS DE CONDUCCIÓN','LOS PRIMEROS HOSPITALES PÚBLICOS MODERNOS'] },
+  { pregunta:'¿Qué tradiciones confluyeron en la formación de la civilización europea medieval?', correcta:'La grecorromana, la judeocristiana y la germana', opts:['Solo la tradición egipcia','Solo la tradición china','Solo la tradición inca'] },
+  { pregunta:'¿Qué institución fue clave en articular estas tradiciones y legitimar el poder político durante la Edad Media europea?', correcta:'La Iglesia Católica', opts:['El Senado romano','La Asamblea ateniense','El imperio inca'] },
+  { pregunta:'¿Cómo se llama el sistema social medieval, dividido en grupos con derechos y deberes distintos (nobleza, clero, campesinado)?', correcta:'El orden estamental', opts:['La democracia directa','El sistema republicano','La meritocracia moderna'] },
+  { pregunta:'¿Qué caracterizaba principalmente la vida económica y social durante gran parte de la Edad Media?', correcta:'La vida rural, con un declive de la vida urbana', opts:['Grandes ciudades industrializadas','El comercio electrónico','Los viajes espaciales'] },
+  { pregunta:'¿Qué cambios importantes ocurrieron en Europa a partir del siglo XII?', correcta:'Renacimiento de la vida urbana, más comercio y el surgimiento de las universidades', opts:['La desaparición completa de las ciudades','El fin del comercio en toda Europa','La invención de internet'] },
+  { pregunta:'¿A qué grupo social pertenecían quienes trabajaban la tierra dentro del sistema estamental medieval?', correcta:'Al campesinado', opts:['A la nobleza','Al clero','A la realeza'] },
+  { pregunta:'¿Qué función cumplían los monasterios durante gran parte de la Edad Media europea?', correcta:'Conservar y copiar manuscritos, además de oficiar como centros religiosos y de estudio', opts:['Organizar competencias deportivas','Funcionar como centros de comercio marítimo únicamente','Servir solo como fortalezas militares'] },
+  { pregunta:'¿Qué caracterizaba a las relaciones de vasallaje típicas del sistema feudal medieval?', correcta:'Un señor otorgaba tierras a un vasallo a cambio de fidelidad y servicios', opts:['Todos los habitantes tenían exactamente los mismos derechos y tierras','No existía ningún tipo de jerarquía social','Las tierras se repartían por sorteo cada año'] },
+  { pregunta:'¿Qué institución fundada en el siglo XII marcó un cambio importante en la educación europea?', correcta:'Las primeras universidades', opts:['Los primeros colegios en línea','Las primeras escuelas de conducción','Los primeros hospitales públicos modernos'] },
 ];
 const CIVILIZACIONES_AMERICANAS_2_BANK = [
-  { pregunta:'¿Qué tecnologías usaron los mayas y aztecas para transformar el territorio que habitaban?', correcta:'CANALES, ACUEDUCTOS Y SISTEMAS DE CULTIVO', opts:['SATÉLITES Y COMPUTADORES','MOTORES A VAPOR','ENERGÍA NUCLEAR'] },
-  { pregunta:'¿Qué sistema de caminos y comunicación ayudó a mantener unido al Imperio Inca?', correcta:'LA RED DE CAMINOS Y EL SISTEMA DE CHASQUIS (MENSAJEROS)', opts:['EL TELÉFONO','EL FERROCARRIL','EL CORREO POSTAL MODERNO'] },
-  { pregunta:'¿Cómo se llamaba el sistema de trabajo colectivo y rotativo en el Imperio Inca?', correcta:'LA MITA', opts:['LA ENCOMIENDA','LA HACIENDA','EL FEUDALISMO'] },
-  { pregunta:'¿Qué idioma se convirtió en la lengua oficial y de administración del Imperio Inca?', correcta:'EL QUECHUA', opts:['EL NÁHUATL','EL LATÍN','EL MAYA'] },
-  { pregunta:'¿Cómo se llamaba la capital del Imperio Inca, centro político y religioso del Tahuantinsuyo?', correcta:'CUSCO', opts:['TENOCHTITLÁN','MACHU PICCHU','TIAHUANACO'] },
-  { pregunta:'¿Qué construcción monumental inca, ubicada en lo alto de los Andes, es hoy uno de los sitios arqueológicos más visitados del mundo?', correcta:'MACHU PICCHU', opts:['LA GRAN PIRÁMIDE DE GUIZA','EL COLISEO ROMANO','LA MURALLA CHINA'] },
-  { pregunta:'¿Qué era Tenochtitlán, la capital del Imperio Azteca?', correcta:'UNA CIUDAD CONSTRUIDA SOBRE UN LAGO, CON CANALES Y CHINAMPAS (ISLAS ARTIFICIALES DE CULTIVO)', opts:['UNA CIUDAD CONSTRUIDA EN LO ALTO DE UNA MONTAÑA NEVADA','UN PUERTO EN LA COSTA DEL OCÉANO PACÍFICO','UNA CIUDAD SUBTERRÁNEA'] },
-  { pregunta:'¿Qué sistema de escritura y registro numérico usaban los incas para llevar cuentas administrativas, sin tener escritura alfabética?', correcta:'EL QUIPU (UN SISTEMA DE CUERDAS Y NUDOS)', opts:['TABLILLAS DE ARCILLA CON ESCRITURA CUNEIFORME','PAPIRO CON JEROGLÍFICOS','PERGAMINOS CON ALFABETO LATINO'] },
-  { pregunta:'¿Qué característica compartían las civilizaciones maya, azteca e inca en cuanto a sus construcciones monumentales?', correcta:'CONSTRUYERON GRANDES PIRÁMIDES O TEMPLOS CON UN ALTO NIVEL DE PLANIFICACIÓN URBANA', opts:['NINGUNA DE LAS TRES CONSTRUYÓ EDIFICACIONES DE PIEDRA','TODAS VIVÍAN ÚNICAMENTE EN CARPAS NÓMADAS','NO TENÍAN NINGÚN TIPO DE CIUDADES'] },
+  { pregunta:'¿Qué tecnologías usaron los mayas y aztecas para transformar el territorio que habitaban?', correcta:'Canales, acueductos y sistemas de cultivo', opts:['Satélites y computadores','Motores a vapor','Energía nuclear'] },
+  { pregunta:'¿Qué sistema de caminos y comunicación ayudó a mantener unido al Imperio Inca?', correcta:'La red de caminos y el sistema de chasquis (mensajeros)', opts:['El teléfono','El ferrocarril','El correo postal moderno'] },
+  { pregunta:'¿Cómo se llamaba el sistema de trabajo colectivo y rotativo en el Imperio Inca?', correcta:'La mita', opts:['La encomienda','La hacienda','El feudalismo'] },
+  { pregunta:'¿Qué idioma se convirtió en la lengua oficial y de administración del Imperio Inca?', correcta:'El quechua', opts:['El náhuatl','El latín','El maya'] },
+  { pregunta:'¿Cómo se llamaba la capital del Imperio Inca, centro político y religioso del Tahuantinsuyo?', correcta:'Cusco', opts:['Tenochtitlán','Machu Picchu','Tiahuanaco'] },
+  { pregunta:'¿Qué construcción monumental inca, ubicada en lo alto de los Andes, es hoy uno de los sitios arqueológicos más visitados del mundo?', correcta:'Machu Picchu', opts:['La Gran Pirámide de Guiza','El Coliseo romano','La Muralla China'] },
+  { pregunta:'¿Qué era Tenochtitlán, la capital del Imperio Azteca?', correcta:'Una ciudad construida sobre un lago, con canales y chinampas (islas artificiales de cultivo)', opts:['Una ciudad construida en lo alto de una montaña nevada','Un puerto en la costa del océano Pacífico','Una ciudad subterránea'] },
+  { pregunta:'¿Qué sistema de escritura y registro numérico usaban los incas para llevar cuentas administrativas, sin tener escritura alfabética?', correcta:'El quipu (un sistema de cuerdas y nudos)', opts:['Tablillas de arcilla con escritura cuneiforme','Papiro con jeroglíficos','Pergaminos con alfabeto latino'] },
+  { pregunta:'¿Qué característica compartían las civilizaciones maya, azteca e inca en cuanto a sus construcciones monumentales?', correcta:'Construyeron grandes pirámides o templos con un alto nivel de planificación urbana', opts:['Ninguna de las tres construyó edificaciones de piedra','Todas vivían únicamente en carpas nómadas','No tenían ningún tipo de ciudades'] },
 ];
 const CIUDADANIA7_BANK = [
   { correcta:'Reconocer que distintas culturas del pasado (árabes, judeocristianas, germanas, entre otras) aportaron ciencia, religión y lenguaje a las sociedades europeas', incorrectas:['Ignorar por completo los aportes de culturas distintas a la propia','Creer que solo una cultura ha aportado algo valioso a la historia','Rechazar cualquier influencia cultural externa'] },
@@ -1015,16 +1015,16 @@ const CIUDADANIA7_BANK = [
   { correcta:'Participar activamente en discusiones grupales sobre temas históricos, respetando los turnos de habla', incorrectas:['Interrumpir constantemente a los demás sin dejarlos hablar','Negarse a participar en cualquier discusión grupal','Imponer tu opinión sin escuchar la de otros'] },
 ];
 const GEOGRAFIA_MEDIOAMBIENTE_7_BANK = [
-  { pregunta:'¿Qué factor puede influir en dónde decide asentarse un grupo humano?', correcta:'LA DISPONIBILIDAD DE RECURSOS Y AGUA CERCA DEL LUGAR', opts:['EL COLOR DEL CIELO EN ESA ZONA','LA CANTIDAD DE ESTRELLAS VISIBLES DE NOCHE','EL NOMBRE QUE TENGA EL LUGAR'] },
-  { pregunta:'¿Qué es el calentamiento global?', correcta:'EL AUMENTO PROGRESIVO DE LA TEMPERATURA PROMEDIO DEL PLANETA', opts:['LA DISMINUCIÓN CONSTANTE DE LA TEMPERATURA DEL PLANETA','UN FENÓMENO QUE SOLO OCURRE EN EL ESPACIO','UN TIPO DE ERUPCIÓN VOLCÁNICA'] },
-  { pregunta:'¿Cuál es una medida para mitigar los efectos negativos de la acción humana sobre el medioambiente?', correcta:'REDUCIR EL USO DE COMBUSTIBLES CONTAMINANTES Y CUIDAR LOS RECURSOS NATURALES', opts:['AUMENTAR SIN LÍMITE EL USO DE COMBUSTIBLES CONTAMINANTES','IGNORAR POR COMPLETO EL CUIDADO DE LOS RECURSOS NATURALES','TALAR TODOS LOS BOSQUES SIN NINGÚN CONTROL'] },
-  { pregunta:'¿Cómo puede la acción humana afectar negativamente el medio ambiente de una localidad?', correcta:'CONTAMINANDO EL AGUA, EL AIRE O EL SUELO CON DESECHOS', opts:['PLANTANDO MÁS ÁRBOLES NATIVOS','RECICLANDO LOS MATERIALES DE FORMA RESPONSABLE','PROTEGIENDO LAS ÁREAS NATURALES'] },
-  { pregunta:'¿Por qué muchos asentamientos humanos, antiguos y actuales, se ubican cerca de ríos o costas?', correcta:'PORQUE FACILITAN EL ACCESO AL AGUA, EL TRANSPORTE Y EL COMERCIO', opts:['PORQUE ES EL LUGAR MÁS FRÍO DEL TERRITORIO','PORQUE ASÍ SE EVITA POR COMPLETO CUALQUIER RIESGO NATURAL','PORQUE NO HAY NINGUNA RAZÓN PRÁCTICA PARA ELLO'] },
-  { pregunta:'¿Qué relación existe entre el relieve de un territorio y el tipo de actividades económicas que se desarrollan en él?', correcta:'EL RELIEVE INFLUYE EN QUÉ ACTIVIDADES SON MÁS FÁCILES DE REALIZAR, COMO LA AGRICULTURA EN VALLES O LA MINERÍA EN ZONAS MONTAÑOSAS', opts:['EL RELIEVE NO TIENE NINGUNA RELACIÓN CON LA ECONOMÍA DE UN LUGAR','TODAS LAS ACTIVIDADES ECONÓMICAS SON IGUAL DE FÁCILES EN CUALQUIER RELIEVE','SOLO LAS ZONAS PLANAS PUEDEN TENER ALGÚN TIPO DE ACTIVIDAD ECONÓMICA'] },
-  { pregunta:'¿Qué acción concreta puede tomar una comunidad para reducir su impacto ambiental en el uso del agua?', correcta:'REPARAR FUGAS Y EVITAR EL DESPERDICIO INNECESARIO DE AGUA POTABLE', opts:['DEJAR TODAS LAS LLAVES DE AGUA ABIERTAS PERMANENTEMENTE','AUMENTAR EL DESPERDICIO DE AGUA SIN NINGÚN CONTROL','IGNORAR CUALQUIER FUGA DE AGUA QUE SE DETECTE'] },
-  { pregunta:'¿Por qué la deforestación de un bosque puede afectar negativamente el clima de una zona?', correcta:'PORQUE LOS ÁRBOLES AYUDAN A REGULAR LA TEMPERATURA Y A RETENER AGUA EN EL SUELO', opts:['PORQUE LOS ÁRBOLES NO TIENEN NINGÚN EFECTO EN EL CLIMA','PORQUE MÁS ÁRBOLES SIEMPRE AUMENTAN LA TEMPERATURA','PORQUE LA DEFORESTACIÓN SIEMPRE MEJORA EL CLIMA LOCAL'] },
-  { pregunta:'¿Qué relación existe entre el aumento de gases de efecto invernadero y el calentamiento global?', correcta:'ESOS GASES ATRAPAN MÁS CALOR EN LA ATMÓSFERA, CONTRIBUYENDO A QUE AUMENTE LA TEMPERATURA DEL PLANETA', opts:['ESOS GASES NO TIENEN NINGUNA RELACIÓN CON LA TEMPERATURA DEL PLANETA','ESOS GASES SIEMPRE ENFRÍAN LA ATMÓSFERA','EL CALENTAMIENTO GLOBAL NO TIENE NINGUNA CAUSA CONOCIDA'] },
-  { pregunta:'¿Qué medida de transporte ayuda a reducir el impacto ambiental de una comunidad?', correcta:'USAR MÁS EL TRANSPORTE PÚBLICO, LA BICICLETA O CAMINAR EN VEZ DEL AUTO PARTICULAR', opts:['USAR EL AUTO PARTICULAR PARA CUALQUIER TRAYECTO, POR CORTO QUE SEA','AUMENTAR SIN LÍMITE LA CANTIDAD DE AUTOS EN CIRCULACIÓN','EVITAR POR COMPLETO CUALQUIER FORMA DE TRANSPORTE'] },
+  { pregunta:'¿Qué factor puede influir en dónde decide asentarse un grupo humano?', correcta:'La disponibilidad de recursos y agua cerca del lugar', opts:['El color del cielo en esa zona','La cantidad de estrellas visibles de noche','El nombre que tenga el lugar'] },
+  { pregunta:'¿Qué es el calentamiento global?', correcta:'El aumento progresivo de la temperatura promedio del planeta', opts:['La disminución constante de la temperatura del planeta','Un fenómeno que solo ocurre en el espacio','Un tipo de erupción volcánica'] },
+  { pregunta:'¿Cuál es una medida para mitigar los efectos negativos de la acción humana sobre el medioambiente?', correcta:'Reducir el uso de combustibles contaminantes y cuidar los recursos naturales', opts:['Aumentar sin límite el uso de combustibles contaminantes','Ignorar por completo el cuidado de los recursos naturales','Talar todos los bosques sin ningún control'] },
+  { pregunta:'¿Cómo puede la acción humana afectar negativamente el medio ambiente de una localidad?', correcta:'Contaminando el agua, el aire o el suelo con desechos', opts:['Plantando más árboles nativos','Reciclando los materiales de forma responsable','Protegiendo las áreas naturales'] },
+  { pregunta:'¿Por qué muchos asentamientos humanos, antiguos y actuales, se ubican cerca de ríos o costas?', correcta:'Porque facilitan el acceso al agua, el transporte y el comercio', opts:['Porque es el lugar más frío del territorio','Porque así se evita por completo cualquier riesgo natural','Porque no hay ninguna razón práctica para ello'] },
+  { pregunta:'¿Qué relación existe entre el relieve de un territorio y el tipo de actividades económicas que se desarrollan en él?', correcta:'El relieve influye en qué actividades son más fáciles de realizar, como la agricultura en valles o la minería en zonas montañosas', opts:['El relieve no tiene ninguna relación con la economía de un lugar','Todas las actividades económicas son igual de fáciles en cualquier relieve','Solo las zonas planas pueden tener algún tipo de actividad económica'] },
+  { pregunta:'¿Qué acción concreta puede tomar una comunidad para reducir su impacto ambiental en el uso del agua?', correcta:'Reparar fugas y evitar el desperdicio innecesario de agua potable', opts:['Dejar todas las llaves de agua abiertas permanentemente','Aumentar el desperdicio de agua sin ningún control','Ignorar cualquier fuga de agua que se detecte'] },
+  { pregunta:'¿Por qué la deforestación de un bosque puede afectar negativamente el clima de una zona?', correcta:'Porque los árboles ayudan a regular la temperatura y a retener agua en el suelo', opts:['Porque los árboles no tienen ningún efecto en el clima','Porque más árboles siempre aumentan la temperatura','Porque la deforestación siempre mejora el clima local'] },
+  { pregunta:'¿Qué relación existe entre el aumento de gases de efecto invernadero y el calentamiento global?', correcta:'Esos gases atrapan más calor en la atmósfera, contribuyendo a que aumente la temperatura del planeta', opts:['Esos gases no tienen ninguna relación con la temperatura del planeta','Esos gases siempre enfrían la atmósfera','El calentamiento global no tiene ninguna causa conocida'] },
+  { pregunta:'¿Qué medida de transporte ayuda a reducir el impacto ambiental de una comunidad?', correcta:'Usar más el transporte público, la bicicleta o caminar en vez del auto particular', opts:['Usar el auto particular para cualquier trayecto, por corto que sea','Aumentar sin límite la cantidad de autos en circulación','Evitar por completo cualquier forma de transporte'] },
 ];
 
 export function genPrehistoriaCivilizaciones7Round(){
@@ -1034,7 +1034,7 @@ export function genPrehistoriaCivilizaciones7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: recurso,
   };
 }
@@ -1046,7 +1046,7 @@ export function genGreciaRoma7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: recurso,
   };
 }
@@ -1058,7 +1058,7 @@ export function genEdadMedia7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: recurso,
   };
 }
@@ -1070,7 +1070,7 @@ export function genCivilizacionesAmericanas7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: recurso,
   };
 }
@@ -1094,7 +1094,7 @@ export function genGeografiaMedioambiente7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
@@ -1134,16 +1134,16 @@ export const HISTORIA_MODULES_G8 = [
 export const HISTORIA_POS_G8 = [{x:22,y:92},{x:68,y:76},{x:22,y:58},{x:68,y:42},{x:22,y:24},{x:68,y:6}];
 
 const HUMANISMO_8_BANK = [
-  { pregunta:'¿Qué idea puso al centro el Humanismo, el movimiento cultural que floreció en Europa desde el siglo XIV?', correcta:'EL SER HUMANO Y SU CAPACIDAD DE PENSAR, CREAR Y TRANSFORMAR EL MUNDO', opts:['QUE NADA PODÍA CAMBIARSE NI ESTUDIARSE','QUE SOLO IMPORTABA ACUMULAR TIERRAS','QUE EL ARTE DEBÍA PROHIBIRSE'] },
-  { pregunta:'¿Qué invento del siglo XV permitió reproducir libros en grandes cantidades y difundir las ideas mucho más rápido?', correcta:'LA IMPRENTA DE TIPOS MÓVILES', opts:['EL TELÉGRAFO','LA MÁQUINA A VAPOR','EL TELESCOPIO ESPACIAL'] },
-  { pregunta:'¿Qué caracterizó a la revolución científica de los siglos XVI y XVII?', correcta:'EXPLICAR LA NATURALEZA MEDIANTE OBSERVACIÓN, EXPERIMENTOS Y RAZONAMIENTO', opts:['RECHAZAR CUALQUIER TIPO DE OBSERVACIÓN','PROHIBIR EL USO DE INSTRUMENTOS','COPIAR SIN CUESTIONAR LOS TEXTOS ANTIGUOS'] },
-  { pregunta:'¿Qué artista del Renacimiento pintó la Mona Lisa y además estudió anatomía, ingeniería y vuelo?', correcta:'LEONARDO DA VINCI', opts:['CRISTÓBAL COLÓN','JOHANNES GUTENBERG','HERNÁN CORTÉS'] },
-  { pregunta:'¿Qué diferencia marcó a la época moderna respecto de la Edad Media en la vida cultural europea?', correcta:'MAYOR CONFIANZA EN LA RAZÓN HUMANA Y EN EL ESTUDIO DEL MUNDO', opts:['EL ABANDONO TOTAL DE LAS CIUDADES','LA DESAPARICIÓN DE LAS UNIVERSIDADES','EL FIN DE TODO EL COMERCIO'] },
-  { pregunta:'¿Dónde nació el Renacimiento, antes de extenderse por Europa?', correcta:'EN LAS CIUDADES DE LA PENÍNSULA ITÁLICA, COMO FLORENCIA', opts:['EN EL DESIERTO DE ATACAMA','EN LAS ISLAS DEL PACÍFICO SUR','EN EL POLO NORTE'] },
-  { pregunta:'¿Qué efecto tuvo la imprenta sobre el conocimiento en Europa?', correcta:'LOS LIBROS SE VOLVIERON MÁS BARATOS Y ACCESIBLES, Y LAS IDEAS CIRCULARON MÁS RÁPIDO', opts:['LOS LIBROS DESAPARECIERON POR COMPLETO','SOLO LOS REYES PUDIERON LEER DESDE ENTONCES','EL CONOCIMIENTO DEJÓ DE DIFUNDIRSE'] },
-  { pregunta:'¿Qué área del conocimiento avanzó con astrónomos como Copérnico y Galileo durante la revolución científica?', correcta:'LA COMPRENSIÓN DEL SISTEMA SOLAR Y EL MOVIMIENTO DE LOS PLANETAS', opts:['LA FABRICACIÓN DE AUTOMÓVILES','LA PROGRAMACIÓN DE COMPUTADORES','LA AVIACIÓN COMERCIAL'] },
-  { pregunta:'¿Cómo se relacionaba el arte renacentista con el conocimiento científico de su época?', correcta:'LOS ARTISTAS ESTUDIABAN ANATOMÍA, PROPORCIÓN Y PERSPECTIVA PARA REPRESENTAR MEJOR LA REALIDAD', opts:['EL ARTE Y LA CIENCIA ESTABAN COMPLETAMENTE PROHIBIDOS DE MEZCLARSE','LOS ARTISTAS NUNCA ESTUDIABAN NADA','LA PERSPECTIVA FUE INVENTADA EN EL SIGLO XX'] },
-  { pregunta:'¿Qué rol cumplieron ciudades como Florencia y Venecia en el Renacimiento?', correcta:'FUERON CENTROS DE COMERCIO Y MECENAZGO QUE FINANCIARON ARTE Y CULTURA', opts:['FUERON ABANDONADAS DURANTE TODO EL PERÍODO','PROHIBIERON LA ENTRADA DE ARTISTAS','NO TUVIERON NINGUNA RELACIÓN CON LA CULTURA'] },
+  { pregunta:'¿Qué idea puso al centro el Humanismo, el movimiento cultural que floreció en Europa desde el siglo XIV?', correcta:'El ser humano y su capacidad de pensar, crear y transformar el mundo', opts:['Que nada podía cambiarse ni estudiarse','Que solo importaba acumular tierras','Que el arte debía prohibirse'] },
+  { pregunta:'¿Qué invento del siglo XV permitió reproducir libros en grandes cantidades y difundir las ideas mucho más rápido?', correcta:'La imprenta de tipos móviles', opts:['El telégrafo','La máquina a vapor','El telescopio espacial'] },
+  { pregunta:'¿Qué caracterizó a la revolución científica de los siglos XVI y XVII?', correcta:'Explicar la naturaleza mediante observación, experimentos y razonamiento', opts:['Rechazar cualquier tipo de observación','Prohibir el uso de instrumentos','Copiar sin cuestionar los textos antiguos'] },
+  { pregunta:'¿Qué artista del Renacimiento pintó la Mona Lisa y además estudió anatomía, ingeniería y vuelo?', correcta:'Leonardo da Vinci', opts:['Cristóbal Colón','Johannes gutenberg','Hernán cortés'] },
+  { pregunta:'¿Qué diferencia marcó a la época moderna respecto de la Edad Media en la vida cultural europea?', correcta:'Mayor confianza en la razón humana y en el estudio del mundo', opts:['El abandono total de las ciudades','La desaparición de las universidades','El fin de todo el comercio'] },
+  { pregunta:'¿Dónde nació el Renacimiento, antes de extenderse por Europa?', correcta:'En las ciudades de la península itálica, como Florencia', opts:['En el desierto de Atacama','En las islas del Pacífico sur','En el Polo Norte'] },
+  { pregunta:'¿Qué efecto tuvo la imprenta sobre el conocimiento en Europa?', correcta:'Los libros se volvieron más baratos y accesibles, y las ideas circularon más rápido', opts:['Los libros desaparecieron por completo','Solo los reyes pudieron leer desde entonces','El conocimiento dejó de difundirse'] },
+  { pregunta:'¿Qué área del conocimiento avanzó con astrónomos como Copérnico y Galileo durante la revolución científica?', correcta:'La comprensión del sistema solar y el movimiento de los planetas', opts:['La fabricación de automóviles','La programación de computadores','La aviación comercial'] },
+  { pregunta:'¿Cómo se relacionaba el arte renacentista con el conocimiento científico de su época?', correcta:'Los artistas estudiaban anatomía, proporción y perspectiva para representar mejor la realidad', opts:['El arte y la ciencia estaban completamente prohibidos de mezclarse','Los artistas nunca estudiaban nada','La perspectiva fue inventada en el siglo xx'] },
+  { pregunta:'¿Qué rol cumplieron ciudades como Florencia y Venecia en el Renacimiento?', correcta:'Fueron centros de comercio y mecenazgo que financiaron arte y cultura', opts:['Fueron abandonadas durante todo el período','Prohibieron la entrada de artistas','No tuvieron ninguna relación con la cultura'] },
 ];
 export function genHumanismoRenacimiento8Round(){
   const recurso = 'El <b>Renacimiento</b> fue un movimiento cultural que surgió en Europa a partir del siglo XV, marcando el fin de la Edad Media. Su idea central, el <b>Humanismo</b>, ponía al ser humano (y no solo a Dios) en el centro de la reflexión, valorando la razón, el arte y el conocimiento del mundo. La invención de la <b>imprenta</b> por Gutenberg permitió reproducir libros de forma masiva por primera vez, haciendo que las ideas se difundieran mucho más rápido que antes, cuando cada libro debía copiarse a mano. Este período también trajo avances en la <b>revolución científica</b>: observar y experimentar el mundo, en vez de solo aceptar lo que decían las autoridades antiguas, se volvió una forma válida de generar conocimiento.';
@@ -1152,21 +1152,21 @@ export function genHumanismoRenacimiento8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const ESTADO_MODERNO_8_BANK = [
-  { pregunta:'¿Qué caracterizó al Estado moderno europeo, a diferencia del poder repartido de la época medieval?', correcta:'LA CONCENTRACIÓN DEL PODER EN LA FIGURA DEL REY Y UNA ADMINISTRACIÓN CENTRALIZADA', opts:['LA AUSENCIA TOTAL DE GOBIERNO','EL PODER REPARTIDO ENTRE MILES DE SEÑORES SIN NINGÚN ORDEN','LA ELECCIÓN DEL REY POR VOTACIÓN POPULAR UNIVERSAL'] },
-  { pregunta:'¿Qué herramientas usó el Estado moderno para administrar su territorio?', correcta:'FUNCIONARIOS, IMPUESTOS REGULARES Y EJÉRCITOS PERMANENTES', opts:['NINGUNA: NO EXISTÍA ADMINISTRACIÓN','SOLO ACUERDOS VERBALES SIN REGISTRO','EL SORTEO ANUAL DE TODOS LOS CARGOS'] },
-  { pregunta:'¿Qué buscaba el mercantilismo, la política económica típica de los siglos XVI a XVIII?', correcta:'ACUMULAR METALES PRECIOSOS Y EXPORTAR MÁS DE LO QUE SE IMPORTABA', opts:['ELIMINAR TODO EL COMERCIO EXTERIOR','REGALAR LOS METALES PRECIOSOS A OTROS REINOS','PROHIBIR LA FABRICACIÓN DE PRODUCTOS PROPIOS'] },
-  { pregunta:'¿Qué efecto tuvo en Europa la llegada masiva de oro y plata desde América en el siglo XVI?', correcta:'UN ALZA GENERALIZADA DE LOS PRECIOS, CONOCIDA COMO REVOLUCIÓN DE LOS PRECIOS', opts:['LA DESAPARICIÓN DEL DINERO','QUE TODO SE VOLVIERA GRATIS','NINGÚN EFECTO EN LA ECONOMÍA'] },
-  { pregunta:'¿Cómo cambiaron las rutas comerciales europeas tras los viajes de exploración de los siglos XV y XVI?', correcta:'SE EXPANDIERON DEL MEDITERRÁNEO HACIA EL ATLÁNTICO Y OTROS OCÉANOS', opts:['SE REDUJERON SOLO AL MAR MEDITERRÁNEO','DESAPARECIERON POR COMPLETO','SE LIMITARON A LOS RÍOS INTERIORES'] },
-  { pregunta:'¿Por qué los reyes de los Estados modernos financiaron viajes de exploración?', correcta:'PARA ENCONTRAR NUEVAS RUTAS COMERCIALES Y AUMENTAR SUS RIQUEZAS', opts:['PARA REGALAR SUS BARCOS','PORQUE NO TENÍAN NINGÚN INTERÉS ECONÓMICO','PARA PERDER TERRITORIOS A PROPÓSITO'] },
-  { pregunta:'¿Qué es la burocracia, que creció junto con el Estado moderno?', correcta:'EL CONJUNTO DE FUNCIONARIOS Y OFICINAS QUE ADMINISTRAN EL ESTADO', opts:['UN TIPO DE BAILE CORTESANO','UNA MONEDA DE LA ÉPOCA','UN ESTILO DE PINTURA'] },
-  { pregunta:'¿Qué relación hubo entre el mercantilismo y las colonias americanas?', correcta:'LAS COLONIAS PROVEÍAN MATERIAS PRIMAS Y METALES, Y COMPRABAN PRODUCTOS DE LA METRÓPOLI', opts:['LAS COLONIAS NO TENÍAN NINGUNA RELACIÓN ECONÓMICA CON EUROPA','LAS COLONIAS EXPORTABAN COMPUTADORES','EUROPA REGALABA TODO A LAS COLONIAS'] },
-  { pregunta:'¿Qué significaba el "monopolio comercial" que España impuso a sus colonias americanas?', correcta:'LAS COLONIAS SOLO PODÍAN COMERCIAR CON ESPAÑA, NO CON OTROS REINOS', opts:['LAS COLONIAS PODÍAN COMERCIAR LIBREMENTE CON CUALQUIER PAÍS','ESPAÑA PROHIBÍA TODO TIPO DE COMERCIO','EL COMERCIO ERA ADMINISTRADO POR LOS PUEBLOS ORIGINARIOS'] },
+  { pregunta:'¿Qué caracterizó al Estado moderno europeo, a diferencia del poder repartido de la época medieval?', correcta:'La concentración del poder en la figura del rey y una administración centralizada', opts:['La ausencia total de gobierno','El poder repartido entre miles de señores sin ningún orden','La elección del rey por votación popular universal'] },
+  { pregunta:'¿Qué herramientas usó el Estado moderno para administrar su territorio?', correcta:'Funcionarios, impuestos regulares y ejércitos permanentes', opts:['Ninguna: no existía administración','Solo acuerdos verbales sin registro','El sorteo anual de todos los cargos'] },
+  { pregunta:'¿Qué buscaba el mercantilismo, la política económica típica de los siglos XVI a XVIII?', correcta:'Acumular metales preciosos y exportar más de lo que se importaba', opts:['Eliminar todo el comercio exterior','Regalar los metales preciosos a otros reinos','Prohibir la fabricación de productos propios'] },
+  { pregunta:'¿Qué efecto tuvo en Europa la llegada masiva de oro y plata desde América en el siglo XVI?', correcta:'Un alza generalizada de los precios, conocida como revolución de los precios', opts:['La desaparición del dinero','Que todo se volviera gratis','Ningún efecto en la economía'] },
+  { pregunta:'¿Cómo cambiaron las rutas comerciales europeas tras los viajes de exploración de los siglos XV y XVI?', correcta:'Se expandieron del Mediterráneo hacia el Atlántico y otros océanos', opts:['Se redujeron solo al mar Mediterráneo','Desaparecieron por completo','Se limitaron a los ríos interiores'] },
+  { pregunta:'¿Por qué los reyes de los Estados modernos financiaron viajes de exploración?', correcta:'Para encontrar nuevas rutas comerciales y aumentar sus riquezas', opts:['Para regalar sus barcos','Porque no tenían ningún interés económico','Para perder territorios a propósito'] },
+  { pregunta:'¿Qué es la burocracia, que creció junto con el Estado moderno?', correcta:'El conjunto de funcionarios y oficinas que administran el estado', opts:['Un tipo de baile cortesano','Una moneda de la época','Un estilo de pintura'] },
+  { pregunta:'¿Qué relación hubo entre el mercantilismo y las colonias americanas?', correcta:'Las colonias proveían materias primas y metales, y compraban productos de la metrópoli', opts:['Las colonias no tenían ninguna relación económica con Europa','Las colonias exportaban computadores','Europa regalaba todo a las colonias'] },
+  { pregunta:'¿Qué significaba el "monopolio comercial" que España impuso a sus colonias americanas?', correcta:'Las colonias solo podían comerciar con España, no con otros reinos', opts:['Las colonias podían comerciar libremente con cualquier país','España prohibía todo tipo de comercio','El comercio era administrado por los pueblos originarios'] },
 ];
 export function genEstadoModerno8Round(){
   const recurso = 'El <b>Estado moderno</b> surgió en Europa cuando el poder, que antes estaba repartido entre muchos señores feudales, se concentró en la figura del rey, apoyado por una <b>administración centralizada</b> (funcionarios, impuestos regulares y ejércitos permanentes). El <b>mercantilismo</b> fue la política económica dominante entre los siglos XVI y XVIII: los reinos buscaban acumular la mayor cantidad de oro y plata posible, exportando más de lo que importaban. Las colonias americanas jugaban un rol clave en este sistema: proveían materias primas y metales preciosos a la metrópoli, mientras se les imponía un <b>monopolio comercial</b> que las obligaba a comerciar solo con su propio reino, nunca con otros países.';
@@ -1175,21 +1175,21 @@ export function genEstadoModerno8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const CONQUISTA_8_BANK = [
-  { pregunta:'¿Por qué el encuentro entre europeos y pueblos americanos fue un choque entre dos mundos culturales?', correcta:'PORQUE TENÍAN IDIOMAS, CREENCIAS, TECNOLOGÍAS Y FORMAS DE VIDA PROFUNDAMENTE DISTINTAS', opts:['PORQUE YA SE CONOCÍAN DESDE SIEMPRE','PORQUE COMPARTÍAN EL MISMO IDIOMA','PORQUE SUS CULTURAS ERAN IDÉNTICAS'] },
-  { pregunta:'¿Qué factor contribuyó a la rapidez de la conquista de los grandes imperios americanos?', correcta:'LAS ALIANZAS DE LOS ESPAÑOLES CON PUEBLOS RIVALES DE ESOS IMPERIOS', opts:['LA AUSENCIA TOTAL DE RESISTENCIA INDÍGENA','QUE LOS IMPERIOS NO TUVIERAN EJÉRCITOS','QUE LOS ESPAÑOLES FUERAN MILLONES'] },
-  { pregunta:'¿Qué causó la mayor pérdida de población indígena tras la llegada de los europeos a América?', correcta:'LAS ENFERMEDADES TRAÍDAS DESDE EUROPA, PARA LAS QUE NO TENÍAN DEFENSAS', opts:['LAS ERUPCIONES VOLCÁNICAS DE LA ÉPOCA','LAS MIGRACIONES VOLUNTARIAS A EUROPA','EL CLIMA DEL CONTINENTE'] },
-  { pregunta:'¿Qué diferencia tecnológica militar existía entre conquistadores y pueblos americanos?', correcta:'LOS EUROPEOS CONTABAN CON ARMAS DE METAL, CABALLOS Y PÓLVORA, DESCONOCIDOS EN AMÉRICA', opts:['NO EXISTÍA NINGUNA DIFERENCIA TECNOLÓGICA','LOS PUEBLOS AMERICANOS TENÍAN TECNOLOGÍA MILITAR EUROPEA','LOS EUROPEOS NO LLEVABAN NINGÚN TIPO DE ARMAS'] },
-  { pregunta:'¿Cómo impactó la conquista de América en la visión del mundo que tenían los europeos?', correcta:'AMPLIÓ EL MUNDO CONOCIDO Y LOS OBLIGÓ A REPRESENTAR CONTINENTES, PLANTAS Y PUEBLOS NUEVOS', opts:['NO CAMBIÓ NADA EN SU VISIÓN DEL MUNDO','REDUJO EL TAMAÑO DEL MUNDO CONOCIDO','HIZO QUE ABANDONARAN LA CARTOGRAFÍA'] },
-  { pregunta:'¿Qué debate surgió en España en el siglo XVI a raíz de la conquista, con Bartolomé de las Casas como una de sus voces?', correcta:'UN DEBATE SOBRE LA LEGITIMIDAD DE LA CONQUISTA Y EL TRATO DADO A LOS PUEBLOS INDÍGENAS', opts:['UN DEBATE SOBRE EL COLOR DE LAS BANDERAS','UNA DISCUSIÓN SOBRE RECETAS DE COCINA','NINGÚN DEBATE: NADIE OPINÓ SOBRE LA CONQUISTA'] },
-  { pregunta:'¿Qué intercambio se produjo entre América y Europa tras el contacto de 1492?', correcta:'PLANTAS, ANIMALES Y ALIMENTOS VIAJARON EN AMBAS DIRECCIONES, COMO LA PAPA HACIA EUROPA Y EL TRIGO HACIA AMÉRICA', opts:['NO SE INTERCAMBIÓ ABSOLUTAMENTE NADA','SOLO VIAJARON PIEDRAS','LOS ALIMENTOS FUERON PROHIBIDOS EN AMBOS CONTINENTES'] },
-  { pregunta:'¿Qué interés movía principalmente a los conquistadores españoles en América?', correcta:'OBTENER RIQUEZAS, TIERRAS Y TÍTULOS, ADEMÁS DE EXPANDIR SU RELIGIÓN', opts:['ESTUDIAR LA FLORA AMERICANA SIN OTRO OBJETIVO','HACER TURISMO','APRENDER LOS IDIOMAS LOCALES POR CURIOSIDAD'] },
-  { pregunta:'¿Cómo se vio afectada la organización política de los grandes imperios americanos con la conquista?', correcta:'SUS ESTRUCTURAS DE GOBIERNO FUERON REEMPLAZADAS POR INSTITUCIONES COLONIALES ESPAÑOLAS', opts:['SIGUIERON GOBERNANDO EXACTAMENTE IGUAL QUE ANTES','SE TRASLADARON A GOBERNAR EN EUROPA','NO TENÍAN NINGUNA ORGANIZACIÓN POLÍTICA'] },
+  { pregunta:'¿Por qué el encuentro entre europeos y pueblos americanos fue un choque entre dos mundos culturales?', correcta:'Porque tenían idiomas, creencias, tecnologías y formas de vida profundamente distintas', opts:['Porque ya se conocían desde siempre','Porque compartían el mismo idioma','Porque sus culturas eran idénticas'] },
+  { pregunta:'¿Qué factor contribuyó a la rapidez de la conquista de los grandes imperios americanos?', correcta:'Las alianzas de los españoles con pueblos rivales de esos imperios', opts:['La ausencia total de resistencia indígena','Que los imperios no tuvieran ejércitos','Que los españoles fueran millones'] },
+  { pregunta:'¿Qué causó la mayor pérdida de población indígena tras la llegada de los europeos a América?', correcta:'Las enfermedades traídas desde Europa, para las que no tenían defensas', opts:['Las erupciones volcánicas de la época','Las migraciones voluntarias a Europa','El clima del continente'] },
+  { pregunta:'¿Qué diferencia tecnológica militar existía entre conquistadores y pueblos americanos?', correcta:'Los europeos contaban con armas de metal, caballos y pólvora, desconocidos en América', opts:['No existía ninguna diferencia tecnológica','Los pueblos americanos tenían tecnología militar europea','Los europeos no llevaban ningún tipo de armas'] },
+  { pregunta:'¿Cómo impactó la conquista de América en la visión del mundo que tenían los europeos?', correcta:'Amplió el mundo conocido y los obligó a representar continentes, plantas y pueblos nuevos', opts:['No cambió nada en su visión del mundo','Redujo el tamaño del mundo conocido','Hizo que abandonaran la cartografía'] },
+  { pregunta:'¿Qué debate surgió en España en el siglo XVI a raíz de la conquista, con Bartolomé de las Casas como una de sus voces?', correcta:'Un debate sobre la legitimidad de la conquista y el trato dado a los pueblos indígenas', opts:['Un debate sobre el color de las banderas','Una discusión sobre recetas de cocina','Ningún debate: nadie opinó sobre la conquista'] },
+  { pregunta:'¿Qué intercambio se produjo entre América y Europa tras el contacto de 1492?', correcta:'Plantas, animales y alimentos viajaron en ambas direcciones, como la papa hacia Europa y el trigo hacia América', opts:['No se intercambió absolutamente nada','Solo viajaron piedras','Los alimentos fueron prohibidos en ambos continentes'] },
+  { pregunta:'¿Qué interés movía principalmente a los conquistadores españoles en América?', correcta:'Obtener riquezas, tierras y títulos, además de expandir su religión', opts:['Estudiar la flora americana sin otro objetivo','Hacer turismo','Aprender los idiomas locales por curiosidad'] },
+  { pregunta:'¿Cómo se vio afectada la organización política de los grandes imperios americanos con la conquista?', correcta:'Sus estructuras de gobierno fueron reemplazadas por instituciones coloniales españolas', opts:['Siguieron gobernando exactamente igual que antes','Se trasladaron a gobernar en Europa','No tenían ninguna organización política'] },
 ];
 export function genConquista8Round(){
   const recurso = 'El encuentro entre europeos y pueblos americanos en 1492 fue un verdadero <b>choque cultural</b>, entre mundos con idiomas, creencias, tecnologías y formas de vida profundamente distintas. La rapidez de la conquista de los grandes imperios americanos se explica por varios factores combinados: las alianzas de los españoles con pueblos rivales de esos imperios, la diferencia tecnológica militar (armas de metal, caballos y pólvora, desconocidos en América), y sobre todo las <b>enfermedades</b> traídas desde Europa, para las que los pueblos americanos no tenían defensas — la causa principal de la enorme pérdida de población indígena. Este proceso también generó un <b>intercambio</b> de plantas, animales y alimentos entre ambos continentes (como la papa hacia Europa y el trigo hacia América), y un debate en España sobre la legitimidad de la conquista y el trato a los pueblos indígenas.';
@@ -1198,21 +1198,21 @@ export function genConquista8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const COLONIA_8_BANK = [
-  { pregunta:'¿Qué rol cumplían las ciudades fundadas por los españoles en América?', correcta:'CONCENTRABAN LA ADMINISTRACIÓN, LAS INSTITUCIONES Y EL PODER COLONIAL', opts:['ERAN SOLO LUGARES DE DESCANSO SIN NINGUNA FUNCIÓN','NO EXISTIERON CIUDADES EN LA COLONIA','FUNCIONABAN SIN NINGUNA AUTORIDAD'] },
-  { pregunta:'¿Qué estilo artístico y cultural marcó la vida colonial americana en los siglos XVII y XVIII, visible en iglesias, pinturas y música?', correcta:'EL BARROCO', opts:['EL CUBISMO','EL ARTE DIGITAL','EL IMPRESIONISMO'] },
-  { pregunta:'¿Cómo se formó la sociedad colonial americana?', correcta:'DEL MESTIZAJE ENTRE ESPAÑOLES, PUEBLOS INDÍGENAS Y PERSONAS AFRICANAS TRAÍDAS AL CONTINENTE', opts:['SOLO DE POBLACIÓN EUROPEA SIN NINGUNA MEZCLA','DE UN ÚNICO GRUPO SIN DIVERSIDAD','DE POBLACIÓN LLEGADA DE ASIA ORIENTAL ÚNICAMENTE'] },
-  { pregunta:'¿Qué fue la hacienda en el Chile colonial?', correcta:'UNA GRAN PROPIEDAD RURAL DEDICADA A LA AGRICULTURA Y GANADERÍA, CENTRO DE LA VIDA ECONÓMICA Y SOCIAL', opts:['UN TIPO DE EMBARCACIÓN','UNA MONEDA COLONIAL','UN INSTRUMENTO MUSICAL'] },
-  { pregunta:'¿Qué era el inquilinaje, característico del campo chileno colonial?', correcta:'UN SISTEMA DONDE FAMILIAS VIVÍAN Y TRABAJABAN EN TIERRAS DE LA HACIENDA A CAMBIO DE UN LUGAR DONDE VIVIR Y CULTIVAR', opts:['UN JUEGO TRADICIONAL DE LA ÉPOCA','UN TIPO DE COMERCIO MARÍTIMO','UNA CEREMONIA RELIGIOSA'] },
-  { pregunta:'¿Qué caracterizó la relación entre españoles y mapuches durante gran parte de la Colonia en Chile?', correcta:'PERÍODOS DE GUERRA Y TAMBIÉN DE INTERCAMBIO Y PARLAMENTOS DE PAZ EN TORNO A UNA FRONTERA EN EL BIOBÍO', opts:['UNA PAZ TOTAL SIN NINGÚN CONFLICTO EN TRES SIGLOS','LA AUSENCIA COMPLETA DE CONTACTO ENTRE AMBOS','UNA ALIANZA MILITAR PERMANENTE CONTRA OTROS REINOS'] },
-  { pregunta:'¿Por qué el comercio colonial americano era importante para España en los siglos XVII y XVIII?', correcta:'PORQUE LOS METALES Y PRODUCTOS AMERICANOS SOSTENÍAN GRAN PARTE DE SU ECONOMÍA', opts:['PORQUE ESPAÑA NO OBTENÍA NADA DE AMÉRICA','PORQUE AMÉRICA SOLO EXPORTABA HIELO','PORQUE EL COMERCIO ESTABA PROHIBIDO'] },
-  { pregunta:'¿Qué institución organizaba la vida religiosa, la educación y buena parte de la cultura en la América colonial?', correcta:'LA IGLESIA CATÓLICA', opts:['LOS BANCOS COMERCIALES','LAS UNIVERSIDADES TECNOLÓGICAS','LOS PERIÓDICOS DEPORTIVOS'] },
-  { pregunta:'¿Cómo era la sociedad colonial en cuanto a derechos y jerarquías?', correcta:'ERA UNA SOCIEDAD JERARQUIZADA, DONDE EL ORIGEN Y EL NACIMIENTO DETERMINABAN EL LUGAR DE CADA PERSONA', opts:['TODOS TENÍAN EXACTAMENTE LOS MISMOS DERECHOS','NO EXISTÍAN GRUPOS SOCIALES','LOS CARGOS SE SORTEABAN ENTRE TODA LA POBLACIÓN'] },
+  { pregunta:'¿Qué rol cumplían las ciudades fundadas por los españoles en América?', correcta:'Concentraban la administración, las instituciones y el poder colonial', opts:['Eran solo lugares de descanso sin ninguna función','No existieron ciudades en la colonia','Funcionaban sin ninguna autoridad'] },
+  { pregunta:'¿Qué estilo artístico y cultural marcó la vida colonial americana en los siglos XVII y XVIII, visible en iglesias, pinturas y música?', correcta:'El barroco', opts:['El cubismo','El arte digital','El impresionismo'] },
+  { pregunta:'¿Cómo se formó la sociedad colonial americana?', correcta:'Del mestizaje entre españoles, pueblos indígenas y personas africanas traídas al continente', opts:['Solo de población europea sin ninguna mezcla','De un único grupo sin diversidad','De población llegada de Asia oriental únicamente'] },
+  { pregunta:'¿Qué fue la hacienda en el Chile colonial?', correcta:'Una gran propiedad rural dedicada a la agricultura y ganadería, centro de la vida económica y social', opts:['Un tipo de embarcación','Una moneda colonial','Un instrumento musical'] },
+  { pregunta:'¿Qué era el inquilinaje, característico del campo chileno colonial?', correcta:'Un sistema donde familias vivían y trabajaban en tierras de la hacienda a cambio de un lugar donde vivir y cultivar', opts:['Un juego tradicional de la época','Un tipo de comercio marítimo','Una ceremonia religiosa'] },
+  { pregunta:'¿Qué caracterizó la relación entre españoles y mapuches durante gran parte de la Colonia en Chile?', correcta:'Períodos de guerra y también de intercambio y parlamentos de paz en torno a una frontera en el Biobío', opts:['Una paz total sin ningún conflicto en tres siglos','La ausencia completa de contacto entre ambos','Una alianza militar permanente contra otros reinos'] },
+  { pregunta:'¿Por qué el comercio colonial americano era importante para España en los siglos XVII y XVIII?', correcta:'Porque los metales y productos americanos sostenían gran parte de su economía', opts:['Porque España no obtenía nada de América','Porque América solo exportaba hielo','Porque el comercio estaba prohibido'] },
+  { pregunta:'¿Qué institución organizaba la vida religiosa, la educación y buena parte de la cultura en la América colonial?', correcta:'La Iglesia Católica', opts:['Los bancos comerciales','Las universidades tecnológicas','Los periódicos deportivos'] },
+  { pregunta:'¿Cómo era la sociedad colonial en cuanto a derechos y jerarquías?', correcta:'Era una sociedad jerarquizada, donde el origen y el nacimiento determinaban el lugar de cada persona', opts:['Todos tenían exactamente los mismos derechos','No existían grupos sociales','Los cargos se sorteaban entre toda la población'] },
 ];
 export function genColonia8Round(){
   const recurso = 'Durante la <b>Colonia</b>, las ciudades fundadas por los españoles concentraban la administración, las instituciones y el poder colonial. La sociedad se formó por <b>mestizaje</b> entre españoles, pueblos indígenas y personas africanas traídas al continente, organizada de forma jerárquica según el origen y nacimiento de cada persona. En el campo chileno, la <b>hacienda</b> era la gran propiedad rural que organizaba la economía, y el <b>inquilinaje</b> era el sistema donde familias trabajaban la tierra a cambio de un lugar donde vivir. La relación entre españoles y mapuches en torno a la frontera del Biobío combinó períodos de guerra con intercambio y parlamentos de paz. El <b>Barroco</b> fue el estilo artístico dominante de la época, visible en iglesias, pinturas y música.';
@@ -1221,21 +1221,21 @@ export function genColonia8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const ILUSTRACION_8_BANK = [
-  { pregunta:'¿Qué proponía la Ilustración, el movimiento intelectual del siglo XVIII?', correcta:'USAR LA RAZÓN PARA COMPRENDER EL MUNDO Y ORGANIZAR LA SOCIEDAD', opts:['PROHIBIR LA LECTURA Y EL ESTUDIO','VOLVER A LAS FORMAS DE VIDA MEDIEVALES','RECHAZAR TODA FORMA DE CONOCIMIENTO'] },
-  { pregunta:'¿Qué principio político difundió la Ilustración para evitar la concentración del poder?', correcta:'LA SEPARACIÓN Y EQUILIBRIO DE LOS PODERES DEL ESTADO', opts:['ENTREGAR TODO EL PODER A UNA SOLA PERSONA PARA SIEMPRE','ELIMINAR CUALQUIER FORMA DE GOBIERNO','SORTEAR EL PODER CADA SEMANA'] },
-  { pregunta:'¿Qué revolución de 1789 proclamó los derechos del hombre y del ciudadano?', correcta:'LA REVOLUCIÓN FRANCESA', opts:['LA REVOLUCIÓN INDUSTRIAL BRITÁNICA','LA REVOLUCIÓN RUSA','LA GUERRA DEL PACÍFICO'] },
-  { pregunta:'¿Qué proceso norteamericano de 1776 inspiró a otros movimientos independentistas?', correcta:'LA INDEPENDENCIA DE LAS TRECE COLONIAS (ESTADOS UNIDOS)', opts:['LA CONSTRUCCIÓN DEL CANAL DE PANAMÁ','LA FUNDACIÓN DE NUEVA YORK','LA LLEGADA DEL FERROCARRIL'] },
-  { pregunta:'¿Por qué la independencia hispanoamericana se considera un proceso continental?', correcta:'PORQUE OCURRIÓ DE FORMA CASI SIMULTÁNEA Y CONECTADA EN LOS DISTINTOS TERRITORIOS AMERICANOS', opts:['PORQUE OCURRIÓ SOLO EN UN PAÍS','PORQUE FUE ORGANIZADA DESDE ASIA','PORQUE NO TUVO NINGUNA CAUSA COMÚN'] },
-  { pregunta:'¿Qué ideas ilustradas influyeron en los líderes de las independencias americanas?', correcta:'LA SOBERANÍA POPULAR, LOS DERECHOS DEL CIUDADANO Y EL GOBIERNO REPUBLICANO', opts:['LA IDEA DE QUE EL PODER DEBÍA SER HEREDITARIO PARA SIEMPRE','EL RECHAZO A CUALQUIER FORMA DE GOBIERNO','LA PROHIBICIÓN DE LAS CONSTITUCIONES'] },
-  { pregunta:'¿Qué crisis facilitó el inicio de las independencias hispanoamericanas hacia 1808-1810?', correcta:'LA CRISIS DE LA MONARQUÍA ESPAÑOLA TRAS LA INVASIÓN NAPOLEÓNICA', opts:['UNA SEQUÍA EN EL DESIERTO DE ATACAMA','EL DESCUBRIMIENTO DE AMÉRICA','LA LLEGADA DEL TELÉGRAFO'] },
-  { pregunta:'¿Qué transformación política trajo la independencia a los nuevos países americanos, incluido Chile?', correcta:'EL PASO DE SER COLONIAS DE UN REY A REPÚBLICAS CON CONSTITUCIONES Y CIUDADANOS', opts:['NINGÚN CAMBIO EN SU FORMA DE GOBIERNO','LA UNIÓN DE TODA AMÉRICA EN UN SOLO IMPERIO','EL ABANDONO DE TODA FORMA DE LEY'] },
-  { pregunta:'¿Qué relación existe entre los "derechos del hombre y del ciudadano" de 1789 y los derechos humanos actuales?', correcta:'SON UN ANTECEDENTE HISTÓRICO DIRECTO: LA IDEA DE DERECHOS UNIVERSALES SE FUE AMPLIANDO HASTA HOY', opts:['NO TIENEN NINGUNA RELACIÓN ENTRE SÍ','LOS DERECHOS ACTUALES SON MÁS ANTIGUOS','AMBOS CONCEPTOS SIGNIFICAN EXACTAMENTE LO MISMO SIN NINGÚN CAMBIO'] },
+  { pregunta:'¿Qué proponía la Ilustración, el movimiento intelectual del siglo XVIII?', correcta:'Usar la razón para comprender el mundo y organizar la sociedad', opts:['Prohibir la lectura y el estudio','Volver a las formas de vida medievales','Rechazar toda forma de conocimiento'] },
+  { pregunta:'¿Qué principio político difundió la Ilustración para evitar la concentración del poder?', correcta:'La separación y equilibrio de los poderes del estado', opts:['Entregar todo el poder a una sola persona para siempre','Eliminar cualquier forma de gobierno','Sortear el poder cada semana'] },
+  { pregunta:'¿Qué revolución de 1789 proclamó los derechos del hombre y del ciudadano?', correcta:'La Revolución Francesa', opts:['La Revolución Industrial británica','La Revolución Rusa','La Guerra del Pacífico'] },
+  { pregunta:'¿Qué proceso norteamericano de 1776 inspiró a otros movimientos independentistas?', correcta:'La independencia de las Trece Colonias (Estados Unidos)', opts:['La construcción del canal de Panamá','La fundación de Nueva York','La llegada del ferrocarril'] },
+  { pregunta:'¿Por qué la independencia hispanoamericana se considera un proceso continental?', correcta:'Porque ocurrió de forma casi simultánea y conectada en los distintos territorios americanos', opts:['Porque ocurrió solo en un país','Porque fue organizada desde Asia','Porque no tuvo ninguna causa común'] },
+  { pregunta:'¿Qué ideas ilustradas influyeron en los líderes de las independencias americanas?', correcta:'La soberanía popular, los derechos del ciudadano y el gobierno republicano', opts:['La idea de que el poder debía ser hereditario para siempre','El rechazo a cualquier forma de gobierno','La prohibición de las constituciones'] },
+  { pregunta:'¿Qué crisis facilitó el inicio de las independencias hispanoamericanas hacia 1808-1810?', correcta:'La crisis de la monarquía española tras la invasión napoleónica', opts:['Una sequía en el desierto de Atacama','El descubrimiento de América','La llegada del telégrafo'] },
+  { pregunta:'¿Qué transformación política trajo la independencia a los nuevos países americanos, incluido Chile?', correcta:'El paso de ser colonias de un rey a repúblicas con constituciones y ciudadanos', opts:['Ningún cambio en su forma de gobierno','La unión de toda América en un solo imperio','El abandono de toda forma de ley'] },
+  { pregunta:'¿Qué relación existe entre los "derechos del hombre y del ciudadano" de 1789 y los derechos humanos actuales?', correcta:'Son un antecedente histórico directo: la idea de derechos universales se fue ampliando hasta hoy', opts:['No tienen ninguna relación entre sí','Los derechos actuales son más antiguos','Ambos conceptos significan exactamente lo mismo sin ningún cambio'] },
 ];
 export function genIlustracionRevoluciones8Round(){
   const recurso = 'La <b>Ilustración</b> fue un movimiento intelectual del siglo XVIII que proponía usar la razón para comprender el mundo y organizar la sociedad, difundiendo ideas como la separación de poderes del Estado para evitar que una sola persona concentrara todo el poder. Estas ideas influyeron directamente en las grandes <b>revoluciones</b> de la época: la independencia de las Trece Colonias (1776) y la Revolución Francesa (1789), que proclamó los derechos del hombre y del ciudadano — un antecedente directo de los derechos humanos actuales. La <b>independencia hispanoamericana</b> se considera un proceso continental porque ocurrió de forma casi simultánea y conectada en distintos territorios, impulsada por estas mismas ideas ilustradas y facilitada por la crisis de la monarquía española tras la invasión napoleónica de 1808.';
@@ -1244,21 +1244,21 @@ export function genIlustracionRevoluciones8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const GEOGRAFIA_REGIONAL_8_BANK = [
-  { pregunta:'¿Qué criterios se combinan para definir una región?', correcta:'FACTORES FÍSICOS Y HUMANOS, COMO CLIMA, VEGETACIÓN, IDIOMA, HISTORIA O ECONOMÍA', opts:['SOLO EL COLOR DEL MAPA','EL ORDEN ALFABÉTICO DE SUS CIUDADES','NINGÚN CRITERIO: LAS REGIONES SON ALEATORIAS'] },
-  { pregunta:'¿Qué tipo de región es "la zona vitivinícola del valle central de Chile"?', correcta:'UNA REGIÓN ECONÓMICA (DEFINIDA POR SU ACTIVIDAD PRODUCTIVA)', opts:['UNA REGIÓN POLÍTICO-ADMINISTRATIVA','UNA REGIÓN DEFINIDA POR SU IDIOMA','UN TIPO DE CLIMA'] },
-  { pregunta:'¿Qué tipo de región son las 16 regiones en que se divide administrativamente Chile?', correcta:'REGIONES POLÍTICO-ADMINISTRATIVAS', opts:['REGIONES CLIMÁTICAS','REGIONES CULTURALES INDÍGENAS','CUENCAS HIDROGRÁFICAS'] },
-  { pregunta:'¿Qué problema afecta a las zonas aisladas de Chile, como localidades cordilleranas o insulares?', correcta:'EL ACCESO MÁS DIFÍCIL A SERVICIOS COMO SALUD, EDUCACIÓN Y CONECTIVIDAD', opts:['UN EXCESO DE SERVICIOS PÚBLICOS','LA AUSENCIA TOTAL DE HABITANTES EN TODO CHILE','NINGÚN PROBLEMA: TODO EL TERRITORIO ES IGUAL'] },
-  { pregunta:'¿Qué mide el Índice de Desarrollo Humano (IDH) que se usa para comparar regiones y países?', correcta:'SALUD, EDUCACIÓN E INGRESOS DE LA POBLACIÓN', opts:['SOLO LA CANTIDAD DE AUTOS','EL TAMAÑO DEL TERRITORIO','LA CANTIDAD DE ESTADIOS DEPORTIVOS'] },
-  { pregunta:'¿Por qué muchas personas migran desde regiones hacia la capital u otras ciudades grandes?', correcta:'BUSCANDO TRABAJO, ESTUDIOS Y SERVICIOS QUE SE CONCENTRAN EN LAS GRANDES CIUDADES', opts:['PORQUE ESTÁ PROHIBIDO VIVIR EN REGIONES','POR SORTEO NACIONAL OBLIGATORIO','SIN NINGUNA RAZÓN'] },
-  { pregunta:'¿Qué efecto puede tener la concentración de población y servicios en una sola gran ciudad?', correcta:'DESIGUALDADES ENTRE LA CAPITAL Y LAS DEMÁS REGIONES DEL PAÍS', opts:['LA IGUALDAD AUTOMÁTICA DE TODO EL TERRITORIO','LA DESAPARICIÓN DE LA CIUDAD GRANDE','NINGÚN EFECTO EN EL RESTO DEL PAÍS'] },
-  { pregunta:'¿Qué ejemplo corresponde a una región cultural en América?', correcta:'LA ZONA ANDINA, DONDE PUEBLOS COMPARTEN TRADICIONES E HISTORIA LIGADAS A LA CORDILLERA', opts:['UNA CANCHA DE FÚTBOL','EL PASILLO DE UN SUPERMERCADO','UN EDIFICIO DE OFICINAS'] },
-  { pregunta:'¿Cómo se inserta una región en el mercado internacional?', correcta:'EXPORTANDO SUS PRODUCTOS CARACTERÍSTICOS, COMO MINERALES, FRUTA O PRODUCTOS DEL MAR', opts:['CERRANDO TODO CONTACTO CON EL EXTERIOR','REGALANDO SU PRODUCCIÓN','PROHIBIENDO LOS PUERTOS'] },
+  { pregunta:'¿Qué criterios se combinan para definir una región?', correcta:'Factores físicos y humanos, como clima, vegetación, idioma, historia o economía', opts:['Solo el color del mapa','El orden alfabético de sus ciudades','Ningún criterio: las regiones son aleatorias'] },
+  { pregunta:'¿Qué tipo de región es "la zona vitivinícola del valle central de Chile"?', correcta:'Una región económica (definida por su actividad productiva)', opts:['Una región político-administrativa','Una región definida por su idioma','Un tipo de clima'] },
+  { pregunta:'¿Qué tipo de región son las 16 regiones en que se divide administrativamente Chile?', correcta:'Regiones político-administrativas', opts:['Regiones climáticas','Regiones culturales indígenas','Cuencas hidrográficas'] },
+  { pregunta:'¿Qué problema afecta a las zonas aisladas de Chile, como localidades cordilleranas o insulares?', correcta:'El acceso más difícil a servicios como salud, educación y conectividad', opts:['Un exceso de servicios públicos','La ausencia total de habitantes en todo Chile','Ningún problema: todo el territorio es igual'] },
+  { pregunta:'¿Qué mide el Índice de Desarrollo Humano (IDH) que se usa para comparar regiones y países?', correcta:'Salud, educación e ingresos de la población', opts:['Solo la cantidad de autos','El tamaño del territorio','La cantidad de estadios deportivos'] },
+  { pregunta:'¿Por qué muchas personas migran desde regiones hacia la capital u otras ciudades grandes?', correcta:'Buscando trabajo, estudios y servicios que se concentran en las grandes ciudades', opts:['Porque está prohibido vivir en regiones','Por sorteo nacional obligatorio','Sin ninguna razón'] },
+  { pregunta:'¿Qué efecto puede tener la concentración de población y servicios en una sola gran ciudad?', correcta:'Desigualdades entre la capital y las demás regiones del país', opts:['La igualdad automática de todo el territorio','La desaparición de la ciudad grande','Ningún efecto en el resto del país'] },
+  { pregunta:'¿Qué ejemplo corresponde a una región cultural en América?', correcta:'La zona andina, donde pueblos comparten tradiciones e historia ligadas a la cordillera', opts:['Una cancha de fútbol','El pasillo de un supermercado','Un edificio de oficinas'] },
+  { pregunta:'¿Cómo se inserta una región en el mercado internacional?', correcta:'Exportando sus productos característicos, como minerales, fruta o productos del mar', opts:['Cerrando todo contacto con el exterior','Regalando su producción','Prohibiendo los puertos'] },
 ];
 export function genGeografiaRegional8Round(){
   const recurso = 'Una <b>región</b> se define combinando factores físicos y humanos: clima, vegetación, idioma, historia o economía. Existen distintos tipos: las regiones político-administrativas (como las 16 regiones de Chile), las regiones económicas (definidas por su actividad productiva, como una zona vitivinícola) y las regiones culturales (definidas por tradiciones compartidas, como la zona andina). Las <b>zonas aisladas</b> de un país, como localidades cordilleranas o insulares, suelen tener un acceso más difícil a servicios como salud, educación y conectividad. El <b>Índice de Desarrollo Humano (IDH)</b> es una herramienta que permite comparar regiones y países según su salud, educación e ingresos, y sirve para identificar desigualdades entre distintas zonas de un mismo territorio.';
@@ -1267,7 +1267,7 @@ export function genGeografiaRegional8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }

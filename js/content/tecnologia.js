@@ -192,12 +192,13 @@ const TEC_DIGITAL_5_BANK = [
   { pregunta:'¿Para qué sirve revisar la ortografía automática antes de entregar un documento?', correcta:'Para detectar y corregir errores de escritura antes de compartirlo', opts:['Para que el documento se vea con más colores','Para hacerlo más largo','No sirve para nada'] },
 ];
 export function genTecDigital5Round(){
+  const recurso = 'Un <b>procesador de textos</b> tiene opciones de formato para que un documento se lea con claridad: negrita y tamaño de letra para destacar títulos, alineación para ordenar el texto en la página, viñetas o numeración para organizar listas, y tablas para mostrar información en columnas ordenadas. Al comunicarse en internet con compañeros de un trabajo grupal, lo responsable es compartir solo información relacionada con el trabajo, tratar a todos con respeto, y evitar compartir datos personales innecesarios (como direcciones o teléfonos) en un grupo en línea.';
   const item = pick(TEC_DIGITAL_5_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es "'+item.correcta+'".',
+    explain: 'La respuesta correcta es "'+item.correcta+'".', recurso: recurso,
   };
 }
 

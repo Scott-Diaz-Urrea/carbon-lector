@@ -661,42 +661,46 @@ const CIUDADANIA5_BANK = [
 ];
 
 export function genConquista5Round(){
+  const recurso = 'La <b>llegada de los europeos a América</b> (1492, con el viaje de Cristóbal Colón, y más tarde la expedición de Hernando de Magallanes que encontró el paso hacia el océano Pacífico) cambió profundamente el continente y también Europa: se intercambiaron alimentos, animales y enfermedades entre ambos mundos, y muchos pueblos indígenas sufrieron graves consecuencias, incluida la pérdida de territorio, población y formas de vida propias. Este proceso se llama <b>conquista</b>, y en Chile comenzó con la fundación de Santiago por Pedro de Valdivia en 1541.';
   const item = pick(CONQUISTA_AMERICA_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
   };
 }
 
 export function genColonia5Round(){
+  const recurso = 'La <b>Colonia</b> fue el largo período (1541-1810) en que Chile dependió del reino de España, gobernado desde la lejana capital colonial en el Perú. En esta época se formó una sociedad con oficios y costumbres propias, se construyó patrimonio arquitectónico que aún existe, y hubo una relación de conflicto y también de acuerdos de paz (parlamentos) entre los españoles y el pueblo mapuche en la llamada "frontera" del sur del país — un tema histórico complejo que se presenta aquí de forma neutral y factual, sin tomar partido.';
   const item = pick(COLONIA_CHILE_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
   };
 }
 
 export function genGeografiaChile5Round(){
+  const recurso = 'Chile se organiza en <b>zonas geográficas</b> con paisajes muy distintos de norte a sur (norte grande desértico, zona central de clima templado, zona sur lluviosa, y zonas australes frías) debido a su forma larga y angosta. Cada zona ofrece <b>recursos naturales</b> distintos (minerales en el norte, tierras fértiles en el centro, bosques y agua en el sur) que las personas han aprovechado de formas diferentes. Chile también está expuesto a <b>riesgos naturales</b> como terremotos, tsunamis, erupciones volcánicas e inundaciones, por lo que conocerlos ayuda a estar mejor preparados.';
   const item = pick(GEOGRAFIA_CHILE5_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
   };
 }
 
 export function genCiudadania5Round(){
+  const recurso = 'La <b>formación ciudadana</b> trata sobre cómo vivir bien en comunidad: conocer los derechos y deberes que tenemos, valorar el esfuerzo y el mérito propio, actuar con honestidad, y participar activamente en decisiones que afectan al grupo, como elegir representantes de curso o proponer proyectos escolares. Estas prácticas preparan para participar más adelante en la vida democrática del país, donde las decisiones se toman escuchando a distintas personas y respetando reglas comunes.';
   const item = pick(CIUDADANIA5_BANK);
   const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
-    explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+    explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.', recurso: recurso,
   };
 }
 

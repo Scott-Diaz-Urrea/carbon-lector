@@ -1122,6 +1122,7 @@ export const MATE_POS_G5 = [
 ];
 
 export function genNumeros5Round(){
+  const recurso = 'Los números hasta 900 millones se leen por <b>tramos de a tres cifras</b>: unidades, luego miles, luego millones — así 235.480.917 se lee "doscientos treinta y cinco millones, cuatrocientos ochenta mil, novecientos diecisiete". Cada posición vale 10 veces la de su derecha: una <b>centena de millón</b> vale 100.000.000, una <b>decena de millón</b> vale 10.000.000 y una <b>unidad de millón</b> vale 1.000.000. Para comparar dos números grandes, primero se cuenta cuántas cifras tiene cada uno (el que tiene más cifras es mayor); si tienen la misma cantidad, se comparan dígito por dígito de izquierda a derecha hasta encontrar una diferencia. Entender el valor posicional es la base para sumar, restar, multiplicar y dividir números grandes sin equivocarse.';
   const roll = Math.random();
   if(roll<0.34){
     const n = randInt(100000, 900000000);
@@ -1129,7 +1130,7 @@ export function genNumeros5Round(){
     return {
       promptHTML: '<p class="prompt-hint">¿Cuál de estos números es igual a '+n+'?</p>',
       options: opts, correctValue: n, speakText: '¿Cuál número es igual a '+n+'?', cols:2, panel:true,
-      explain: 'El número correcto es <b>'+n+'</b>.',
+      explain: 'El número correcto es <b>'+n+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1139,7 +1140,7 @@ export function genNumeros5Round(){
     return {
       promptHTML: '<p class="prompt-hint">Toca el número <b>mayor</b></p>',
       options: opts, correctValue: a>b ? 'A' : 'B', speakText: '¿Cuál número es mayor?', cols:2, panel:true,
-      explain: 'El '+Math.max(a,b)+' es mayor que el '+Math.min(a,b)+'.',
+      explain: 'El '+Math.max(a,b)+' es mayor que el '+Math.min(a,b)+'.', recurso: recurso,
     };
   }
   const centena = randInt(1,9)*100000000 + randInt(0,9)*10000000;
@@ -1152,11 +1153,12 @@ export function genNumeros5Round(){
   return {
     promptHTML: '<p class="prompt-count" style="font-size:32px;">'+n+'</p><p class="prompt-hint">¿Qué dígito ocupa la posición de las '+cifraPos.toLowerCase()+'?</p>',
     options: opts, correctValue: correct, speakText: '¿Qué dígito ocupa la posición de las '+cifraPos.toLowerCase()+'?', cols:4,
-    explain: 'El dígito en esa posición es <b>'+correct+'</b>.',
+    explain: 'El dígito en esa posición es <b>'+correct+'</b>.', recurso: recurso,
   };
 }
 
 export function genMultiplicar5Round(){
+  const recurso = 'Para multiplicar dos números de dos cifras se puede usar el <b>cálculo mental</b>: descomponer un número en partes fáciles (por ejemplo 23 = 20 + 3) y multiplicar cada parte por separado, sumando después los resultados — esto se llama <b>propiedad distributiva</b>. También ayuda apoyarse en multiplicaciones "amigas" que ya se saben, como los múltiplos de 10 (7 × 10 = 70), para deducir otras cercanas (7 × 9 = 70 - 7 = 63). Practicar estas estrategias hace que multiplicar números más grandes sea más rápido y con menos errores que solo memorizar tablas.';
   if(Math.random()<0.5){
     const a = randInt(11,40), b = randInt(11,40);
     const total = a*b;
@@ -1164,7 +1166,7 @@ export function genMultiplicar5Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:30px;">'+a+' × '+b+'</p><p class="prompt-hint">¿Cuánto es?</p>',
       options: opts, correctValue: total, speakText: '¿Cuánto es '+a+' por '+b+'?', cols:4,
-      explain: a+' × '+b+' = <b>'+total+'</b>.',
+      explain: a+' × '+b+' = <b>'+total+'</b>.', recurso: recurso,
     };
   }
   const a = pick([2,4,5,10,20,25,50]);
@@ -1175,11 +1177,12 @@ export function genMultiplicar5Round(){
   return {
     promptHTML: '<p class="prompt-hint">Usando cálculo mental: si '+a+' × 10 = '+facil+', ¿cuánto es '+a+' × '+b+'?</p>',
     options: opts, correctValue: total, speakText: '¿Cuánto es '+a+' por '+b+'?', cols:4,
-    explain: 'Puedes usar la propiedad distributiva: '+a+' × '+b+' = <b>'+total+'</b>.',
+    explain: 'Puedes usar la propiedad distributiva: '+a+' × '+b+' = <b>'+total+'</b>.', recurso: recurso,
   };
 }
 
 export function genDividir5Round(){
+  const recurso = 'En una división, el <b>dividendo</b> es el número que se reparte, el <b>divisor</b> es en cuántas partes se reparte, el <b>cociente</b> es el resultado de cada parte, y el <b>resto</b> es lo que sobra sin poder repartirse en partes iguales. El resto SIEMPRE debe ser menor que el divisor — si al dividir te queda un resto igual o mayor que el divisor, significa que el cociente todavía puede subir un poco más. Para comprobar que una división está bien hecha, se usa la fórmula: divisor × cociente + resto = dividendo.';
   const divisor = randInt(2,9);
   const cociente = randInt(11,99);
   const resto = randInt(0,divisor-1);
@@ -1189,14 +1192,14 @@ export function genDividir5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+dividendo+' ÷ '+divisor+' = ?  (sin considerar el resto)</p>',
       options: opts, correctValue: cociente, speakText: '¿Cuánto es '+dividendo+' dividido '+divisor+'?', cols:4,
-      explain: dividendo+' ÷ '+divisor+' = <b>'+cociente+'</b>, con resto '+resto+'.',
+      explain: dividendo+' ÷ '+divisor+' = <b>'+cociente+'</b>, con resto '+resto+'.', recurso: recurso,
     };
   }
   const opts = uniqueDistractors(resto, 0, divisor-1, 1, Math.min(4,divisor)).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: '<p class="prompt-hint">Al dividir '+dividendo+' ÷ '+divisor+', el cociente es '+cociente+'. ¿Cuál es el resto?</p>',
     options: opts, correctValue: resto, speakText: '¿Cuál es el resto de '+dividendo+' dividido '+divisor+'?', cols:4,
-    explain: divisor+' × '+cociente+' = '+(divisor*cociente)+', y '+dividendo+' - '+(divisor*cociente)+' = <b>'+resto+'</b> de resto.',
+    explain: divisor+' × '+cociente+' = '+(divisor*cociente)+', y '+dividendo+' - '+(divisor*cociente)+' = <b>'+resto+'</b> de resto.', recurso: recurso,
   };
 }
 
@@ -1208,6 +1211,7 @@ const OBJETOS_PRECIO5 = [
   { emoji:'🎨', label:'El set de pintura', precio:5000 },
 ];
 export function genOperaciones5Round(){
+  const recurso = 'Cuando una operación combina sumas, restas, multiplicaciones y divisiones, el <b>orden de las operaciones</b> dice qué se calcula primero: (1) lo que está dentro de un paréntesis, (2) las multiplicaciones y divisiones (de izquierda a derecha), y (3) al final las sumas y restas. Seguir este orden evita que dos personas obtengan resultados distintos para la misma operación. Este mismo orden se usa al resolver problemas de dinero: primero se calcula el costo total (precio × cantidad) y luego se suma o resta según lo que pida el problema.';
   const roll = Math.random();
   if(roll<0.34){
     const a = randInt(10,90), b = randInt(2,9), c = randInt(1,20);
@@ -1218,7 +1222,7 @@ export function genOperaciones5Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:26px;">'+promptTxt+'</p><p class="prompt-hint">¿Cuánto es? (recuerda: primero paréntesis, luego multiplicación/división, y por último suma/resta)</p>',
       options: opts, correctValue: correct, speakText: '¿Cuánto es '+promptTxt+'?', cols:4,
-      explain: promptTxt+' = <b>'+correct+'</b>, respetando el orden de las operaciones.',
+      explain: promptTxt+' = <b>'+correct+'</b>, respetando el orden de las operaciones.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1229,7 +1233,7 @@ export function genOperaciones5Round(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+' cuesta $'+item.precio+'. Si compras '+cantidad+', ¿cuánto pagas en total?</p>',
       options: opts, correctValue: total, speakText: '¿Cuánto pagas por '+cantidad+' de '+item.label+'?', cols:4,
-      explain: '$'+item.precio+' × '+cantidad+' = <b>$'+total+'</b> en total.',
+      explain: '$'+item.precio+' × '+cantidad+' = <b>$'+total+'</b> en total.', recurso: recurso,
     };
   }
   const item = pick(OBJETOS_PRECIO5);
@@ -1239,11 +1243,12 @@ export function genOperaciones5Round(){
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+' cuesta $'+item.precio+'. Si pagas con $'+tienes+', ¿cuánto vuelto recibes?</p>',
     options: opts, correctValue: falta, speakText: '¿Cuánto vuelto recibes?', cols:4,
-    explain: '$'+tienes+' - $'+item.precio+' = <b>$'+falta+'</b> de vuelto.',
+    explain: '$'+tienes+' - $'+item.precio+' = <b>$'+falta+'</b> de vuelto.', recurso: recurso,
   };
 }
 
 export function genFracciones5Round(){
+  const recurso = 'Una fracción es <b>propia</b> cuando el numerador (número de arriba) es menor que el denominador (número de abajo) — representa "menos de un entero completo", como 2/5. Es <b>impropia</b> cuando el numerador es igual o mayor que el denominador — representa "un entero completo o más", como 7/4. Para sumar o restar fracciones que ya tienen el <b>mismo denominador</b>, se suman o restan solo los numeradores y el denominador se mantiene igual — porque están repartidas en partes del mismo tamaño, solo cambia cuántas partes se tienen.';
   const roll = Math.random();
   if(roll<0.25){
     const den = pick([3,4,5,6,7,8]);
@@ -1253,7 +1258,7 @@ export function genFracciones5Round(){
     return {
       promptHTML: '<div class="shape-display">'+fraccionSVG(num,den,110)+'</div><p class="prompt-hint">La fracción es '+num+'/'+den+'. ¿Es una fracción propia (numerador menor que el denominador) o impropia?</p>',
       options: opts, correctValue: correct, speakText: '¿Es '+num+'/'+den+' una fracción propia o impropia?', cols:2, kind:'word',
-      explain: 'Como '+num+' es menor que '+den+', '+num+'/'+den+' es una <b>fracción propia</b>.',
+      explain: 'Como '+num+' es menor que '+den+', '+num+'/'+den+' es una <b>fracción propia</b>.', recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -1264,7 +1269,7 @@ export function genFracciones5Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:32px;">'+num+'/'+den+'</p><p class="prompt-hint">¿Es una fracción propia (numerador menor que el denominador) o impropia (numerador igual o mayor)?</p>',
       options: opts, correctValue: correct, speakText: '¿Es '+num+'/'+den+' una fracción propia o impropia?', cols:2, kind:'word',
-      explain: 'Como '+num+' es igual o mayor que '+den+', '+num+'/'+den+' es una <b>fracción impropia</b>.',
+      explain: 'Como '+num+' es igual o mayor que '+den+', '+num+'/'+den+' es una <b>fracción impropia</b>.', recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -1275,7 +1280,7 @@ export function genFracciones5Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:28px;">'+a+'/'+den+' + '+b+'/'+den+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
       options: opts, correctValue: sum+'/'+den, speakText: '¿Cuánto es '+a+'/'+den+' más '+b+'/'+den+'?', cols:4,
-      explain: a+'/'+den+' + '+b+'/'+den+' = <b>'+sum+'/'+den+'</b> (se suman los numeradores, el denominador no cambia).',
+      explain: a+'/'+den+' + '+b+'/'+den+' = <b>'+sum+'/'+den+'</b> (se suman los numeradores, el denominador no cambia).', recurso: recurso,
     };
   }
   const den = pick([4,5,6,7,8,9,10,11,12]);
@@ -1285,7 +1290,7 @@ export function genFracciones5Round(){
   return {
     promptHTML: '<p class="prompt-count" style="font-size:28px;">'+a+'/'+den+' - '+b+'/'+den+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
     options: opts, correctValue: resta+'/'+den, speakText: '¿Cuánto es '+a+'/'+den+' menos '+b+'/'+den+'?', cols:4,
-    explain: a+'/'+den+' - '+b+'/'+den+' = <b>'+resta+'/'+den+'</b> (se restan los numeradores, el denominador no cambia).',
+    explain: a+'/'+den+' - '+b+'/'+den+' = <b>'+resta+'/'+den+'</b> (se restan los numeradores, el denominador no cambia).', recurso: recurso,
   };
 }
 
@@ -1295,6 +1300,7 @@ const FRACCION_A_DECIMAL_BANK = [
   { num:4, den:5, decimal:'0,8' }, { num:1, den:10, decimal:'0,1' }, { num:7, den:10, decimal:'0,7' },
 ];
 export function genDecimales5Round(){
+  const recurso = 'Los <b>decimales</b> son otra forma de escribir fracciones cuyo denominador es 10, 100 o 1000: los <b>décimos</b> (10) se escriben con 1 cifra tras la coma (0,7 = 7/10), los <b>centésimos</b> (100) con 2 cifras (0,25 = 25/100), y los <b>milésimos</b> (1000) con 3 cifras. Para comparar dos decimales se comparan primero las cifras enteras y luego, si son iguales, las cifras después de la coma una por una de izquierda a derecha. Para sumar decimales, se alinean las comas en columna y se suma como si fueran números enteros, cuidando de poner la coma en el resultado en la misma posición.';
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(FRACCION_A_DECIMAL_BANK);
@@ -1303,7 +1309,7 @@ export function genDecimales5Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:32px;">'+item.num+'/'+item.den+'</p><p class="prompt-hint">¿A qué decimal equivale esta fracción?</p>',
       options: opts, correctValue: item.decimal, speakText: '¿A qué decimal equivale '+item.num+'/'+item.den+'?', cols:4,
-      explain: item.num+'/'+item.den+' equivale a <b>'+item.decimal+'</b>.',
+      explain: item.num+'/'+item.den+' equivale a <b>'+item.decimal+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -1316,7 +1322,7 @@ export function genDecimales5Round(){
     return {
       promptHTML: '<p class="prompt-hint">Toca el decimal <b>mayor</b></p>',
       options: opts, correctValue: aVal>bVal ? 'A' : 'B', speakText: '¿Cuál decimal es mayor, '+a+' o '+b+'?', cols:2, panel:true,
-      explain: 'El '+Math.max(aVal,bVal).toFixed(3).replace('.',',')+' es mayor.',
+      explain: 'El '+Math.max(aVal,bVal).toFixed(3).replace('.',',')+' es mayor.', recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -1327,7 +1333,7 @@ export function genDecimales5Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:26px;">'+a.toFixed(2).replace('.',',')+' + '+b.toFixed(2).replace('.',',')+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
       options: opts, correctValue: correctLabel, speakText: '¿Cuánto es esa suma?', cols:4,
-      explain: a.toFixed(2).replace('.',',')+' + '+b.toFixed(2).replace('.',',')+' = <b>'+correctLabel+'</b>.',
+      explain: a.toFixed(2).replace('.',',')+' + '+b.toFixed(2).replace('.',',')+' = <b>'+correctLabel+'</b>.', recurso: recurso,
     };
   }
   const precio1 = (randInt(100,900)/10).toFixed(1);
@@ -1337,11 +1343,12 @@ export function genDecimales5Round(){
   return {
     promptHTML: '<p class="prompt-hint">Compraste dos productos: uno de $'+precio1.replace('.',',')+' mil y otro de $'+precio2.replace('.',',')+' mil. ¿Cuánto gastaste en total (en miles de pesos)?</p>',
     options: opts, correctValue: '$'+total.replace('.',','), speakText: '¿Cuánto gastaste en total?', cols:4,
-    explain: '$'+precio1.replace('.',',')+' + $'+precio2.replace('.',',')+' = <b>$'+total.replace('.',',')+'</b> mil.',
+    explain: '$'+precio1.replace('.',',')+' + $'+precio2.replace('.',',')+' = <b>$'+total.replace('.',',')+'</b> mil.', recurso: recurso,
   };
 }
 
 export function genPatrones5Round(){
+  const recurso = 'Un <b>patrón numérico</b> es una secuencia de números que sigue siempre la misma regla — puede ser sumar/restar la misma cantidad cada vez, o multiplicar por el mismo número. Para descubrir la regla, se compara un término con el siguiente y se busca qué operación los conecta, y esa misma operación se repite para encontrar el término que sigue. Una <b>ecuación</b> con una incógnita (como "x + 8 = 15") se resuelve haciendo la operación inversa: si algo se sumó, se resta; si algo se restó, se suma — así se despeja el valor de x que hace verdadera la igualdad.';
   const roll = Math.random();
   if(roll<0.34){
     const tipo = pick(['SUMA','RESTA','MULTIPLICACIÓN']);
@@ -1354,7 +1361,7 @@ export function genPatrones5Round(){
     return {
       promptHTML: '<p class="prompt-count">'+seq.join(', ')+', <span class="blank">?</span></p><p class="prompt-hint">¿Qué número sigue en el patrón?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué número sigue?', cols:4,
-      explain: 'La regla es "'+tipo.toLowerCase()+' '+step+'" cada vez, así que después de '+seq[3]+' sigue <b>'+correct+'</b>.',
+      explain: 'La regla es "'+tipo.toLowerCase()+' '+step+'" cada vez, así que después de '+seq[3]+' sigue <b>'+correct+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1364,7 +1371,7 @@ export function genPatrones5Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:26px;">x + '+suma+' = '+total+'</p><p class="prompt-hint">¿Cuál es el valor de x?</p>',
       options: opts, correctValue: x, speakText: '¿Cuál es el valor de equis?', cols:4,
-      explain: total+' - '+suma+' = <b>'+x+'</b>, así que x = '+x+'.',
+      explain: total+' - '+suma+' = <b>'+x+'</b>, así que x = '+x+'.', recurso: recurso,
     };
   }
   const x = randInt(1,30), resta = randInt(1,20);
@@ -1373,7 +1380,7 @@ export function genPatrones5Round(){
   return {
     promptHTML: '<p class="prompt-count" style="font-size:26px;">x - '+resta+' = '+total+'</p><p class="prompt-hint">¿Cuál es el valor de x?</p>',
     options: opts, correctValue: x, speakText: '¿Cuál es el valor de equis?', cols:4,
-    explain: total+' + '+resta+' = <b>'+x+'</b>, así que x = '+x+'.',
+    explain: total+' + '+resta+' = <b>'+x+'</b>, así que x = '+x+'.', recurso: recurso,
   };
 }
 
@@ -1394,6 +1401,7 @@ const TRANSFORMACIONES_BANK = [
   { desc:'Dar vuelta una figura como una rueda que gira sobre su eje', tipo:'ROTACIÓN' },
 ];
 export function genGeometria5Round(){
+  const recurso = 'El <b>plano cartesiano</b> ubica puntos con dos números (x, y): el primero indica cuánto moverse hacia la derecha, el segundo cuánto moverse hacia arriba, siempre partiendo del punto (0,0). Dos lados son <b>paralelos</b> cuando nunca se juntan por más que se extiendan, como los rieles de un tren. Las <b>transformaciones geométricas</b> cambian la posición de una figura sin cambiar su forma ni su tamaño: la <b>traslación</b> la desliza en línea recta, la <b>reflexión</b> la voltea como en un espejo, y la <b>rotación</b> la gira alrededor de un punto fijo.';
   const roll = Math.random();
   if(roll<0.34){
     const col = randInt(1,8), row = randInt(1,8);
@@ -1402,7 +1410,7 @@ export function genGeometria5Round(){
     return {
       promptHTML: '<p class="prompt-hint">Un punto está en la coordenada ('+col+', '+row+'). Si te mueves '+dx+' hacia la derecha y '+dy+' hacia arriba, ¿en qué coordenada quedas?</p>',
       options: opts, correctValue: (col+dx)+','+(row+dy), speakText: '¿En qué coordenada quedas?', cols:2, panel:true,
-      explain: 'Sumas '+dx+' a la primera coordenada y '+dy+' a la segunda: ('+(col+dx)+', '+(row+dy)+').',
+      explain: 'Sumas '+dx+' a la primera coordenada y '+dy+' a la segunda: ('+(col+dx)+', '+(row+dy)+').', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1412,7 +1420,7 @@ export function genGeometria5Round(){
     return {
       promptHTML: '<div class="shape-display">'+shapeSVG(item.id,100)+'</div><p class="prompt-hint">¿Esta figura tiene al menos un par de lados paralelos?</p>',
       options: opts, correctValue: item.paralelo, speakText: '¿Esta figura tiene lados paralelos?', cols:2, panel:true,
-      explain: item.paralelo ? art+' '+item.label.toLowerCase()+' sí tiene al menos un par de lados paralelos.' : art+' '+item.label.toLowerCase()+' no tiene lados paralelos.',
+      explain: item.paralelo ? art+' '+item.label.toLowerCase()+' sí tiene al menos un par de lados paralelos.' : art+' '+item.label.toLowerCase()+' no tiene lados paralelos.', recurso: recurso,
     };
   }
   const item = pick(TRANSFORMACIONES_BANK);
@@ -1422,7 +1430,7 @@ export function genGeometria5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'</p><p class="prompt-hint">¿Qué transformación geométrica es esta?</p>',
     options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, kind:'word', panel:true,
-    explain: 'Esto es una <b>'+item.tipo.toLowerCase()+'</b>.',
+    explain: 'Esto es una <b>'+item.tipo.toLowerCase()+'</b>.', recurso: recurso,
   };
 }
 
@@ -1439,6 +1447,7 @@ const CONVERSION_LONGITUD_BANK = [
   { valor:4, de:'M', a:'CM', resultado:400 }, { valor:7, de:'CM', a:'MM', resultado:70 },
 ];
 export function genMedicion5Round(){
+  const recurso = 'Las unidades de longitud (km, m, cm, mm) se convierten multiplicando o dividiendo por 10, 100 o 1000 según la distancia entre ellas: 1 km = 1000 m, 1 m = 100 cm, 1 cm = 10 mm. El <b>perímetro</b> de un rectángulo es la suma de sus 4 lados: 2×(largo+ancho). El <b>área</b> mide cuánta superficie cubre una figura: en un triángulo es (base × altura) ÷ 2, en un paralelogramo es base × altura, y en un trapecio es (base mayor + base menor) × altura ÷ 2 — en los tres casos la altura es la distancia perpendicular (en ángulo recto) entre la base y el vértice o lado opuesto.';
   const roll = Math.random();
   if(roll<0.25){
     let a = pick(OBJETOS_LONGITUD5), b = pick(OBJETOS_LONGITUD5);
@@ -1448,7 +1457,7 @@ export function genMedicion5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' mide '+a.cm+' cm.</p><p class="prompt-hint">'+b.emoji+' '+b.label+' mide '+b.cm+' cm.</p><p class="prompt-hint">¿Cuál es más largo?</p>',
       options: opts, correctValue: longer.label, speakText: '¿Cuál es más largo?', cols:2, panel:true,
-      explain: longer.label+' mide '+longer.cm+' cm, más que el otro objeto.',
+      explain: longer.label+' mide '+longer.cm+' cm, más que el otro objeto.', recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -1457,7 +1466,7 @@ export function genMedicion5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.valor+' '+item.de+' equivalen a ¿cuántos '+item.a+'?</p>',
       options: opts, correctValue: item.resultado, speakText: '¿A cuántos '+item.a+' equivalen '+item.valor+' '+item.de+'?', cols:4,
-      explain: item.valor+' '+item.de+' = <b>'+item.resultado+' '+item.a+'</b>.',
+      explain: item.valor+' '+item.de+' = <b>'+item.resultado+' '+item.a+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -1477,7 +1486,7 @@ export function genMedicion5Round(){
          singular para que quede claro que se elige una sola opción. */
       promptHTML: '<p class="prompt-hint">Quieres diseñar un rectángulo con perímetro '+perimetro+'. ¿Cuál de estas combinaciones de dimensiones (largo × ancho) da ese perímetro?</p>',
       options: opts, correctValue: 'ok', speakText: '¿Qué dimensiones dan ese perímetro?', cols:2, panel:true,
-      explain: 'Con largo '+largo+' y ancho '+ancho+', el perímetro es 2×('+largo+'+'+ancho+') = <b>'+perimetro+'</b>.',
+      explain: 'Con largo '+largo+' y ancho '+ancho+', el perímetro es 2×('+largo+'+'+ancho+') = <b>'+perimetro+'</b>.', recurso: recurso,
     };
   }
   const tipo = pick(['TRIÁNGULO','PARALELOGRAMO','TRAPECIO']);
@@ -1498,7 +1507,7 @@ export function genMedicion5Round(){
   return {
     promptHTML: '<p class="prompt-hint">Un '+tipo.toLowerCase()+' tiene base '+base+' y altura '+altura+'. ¿Cuál es su área?</p>',
     options: opts, correctValue: area, speakText: '¿Cuál es el área de este '+tipo.toLowerCase()+'?', cols:2,
-    explain: 'El área se calcula con '+formula+' = <b>'+area+' unidades cuadradas</b>.',
+    explain: 'El área se calcula con '+formula+' = <b>'+area+' unidades cuadradas</b>.', recurso: recurso,
   };
 }
 
@@ -1518,6 +1527,7 @@ const COMPARAR_PROBABILIDAD_BANK = [
   { descripcionA:'Bolsa A: 5 bolitas negras y 5 blancas', descripcionB:'Bolsa B: 9 bolitas negras y 1 blanca', preguntaColor:'NEGRA', masProbable:'B' },
 ];
 export function genDatos5Round(){
+  const recurso = 'El <b>promedio</b> (o media) de un conjunto de datos se calcula sumando todos los valores y dividiendo por la cantidad de datos que hay — resume "qué tan grande, en general" es un conjunto de números con un solo valor. La <b>probabilidad cualitativa</b> describe qué tan posible es un evento sin necesidad de calcular un número exacto: puede ser seguro, posible, poco posible o imposible; para comparar dos probabilidades basta con mirar qué proporción de casos favorables tiene cada opción, sin calcular la fracción exacta. Un <b>diagrama de tallo y hojas</b> es una forma de ordenar números de dos cifras: el "tallo" muestra la decena y las "hojas" muestran las unidades que le corresponden.';
   const roll = Math.random();
   if(roll<0.2){
     const item = pick(DATOS_ENCUESTA);
@@ -1527,7 +1537,7 @@ export function genDatos5Round(){
     return {
       promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuál es el promedio de respuestas por categoría?</p>',
       options: opts, correctValue: promedio.toFixed(1), speakText: '¿Cuál es el promedio?', cols:4,
-      explain: 'El promedio es la suma dividida por la cantidad de categorías: '+total+' ÷ '+item.categorias.length+' = <b>'+promedio.toFixed(1)+'</b>.',
+      explain: 'El promedio es la suma dividida por la cantidad de categorías: '+total+' ÷ '+item.categorias.length+' = <b>'+promedio.toFixed(1)+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.4){
@@ -1538,7 +1548,7 @@ export function genDatos5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.escenario+'</p><p class="prompt-hint">¿Qué tan posible es que esto ocurra?</p>',
       options: opts, correctValue: item.nivel, speakText: item.escenario, cols:2, kind:'word', panel:true,
-      explain: 'Esto es <b>'+item.nivel.toLowerCase()+'</b>.',
+      explain: 'Esto es <b>'+item.nivel.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.6){
@@ -1547,7 +1557,7 @@ export function genDatos5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.descripcionA+'</p><p class="prompt-sentence">'+item.descripcionB+'</p><p class="prompt-hint">¿De cuál bolsa es más probable sacar una bolita '+item.preguntaColor.toLowerCase()+'?</p>',
       options: opts, correctValue: item.masProbable, speakText: '¿De cuál bolsa es más probable sacar una bolita '+item.preguntaColor.toLowerCase()+'?', cols:2, panel:true,
-      explain: 'La bolsa '+item.masProbable+' tiene una proporción mayor de bolitas '+item.preguntaColor.toLowerCase()+'s, sin necesidad de calcular la probabilidad exacta.',
+      explain: 'La bolsa '+item.masProbable+' tiene una proporción mayor de bolitas '+item.preguntaColor.toLowerCase()+'s, sin necesidad de calcular la probabilidad exacta.', recurso: recurso,
     };
   }
   if(roll<0.8){
@@ -1558,7 +1568,7 @@ export function genDatos5Round(){
     return {
       promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuál categoría tuvo el valor más alto en este gráfico?</p>',
       options: opts, correctValue: maxCat.label, speakText: '¿Cuál categoría tuvo el valor más alto?', cols:4, kind:'word',
-      explain: '<b>'+maxCat.label+'</b> tuvo el valor más alto en el gráfico.',
+      explain: '<b>'+maxCat.label+'</b> tuvo el valor más alto en el gráfico.', recurso: recurso,
     };
   }
   const tallo = randInt(1,7);
@@ -1571,7 +1581,7 @@ export function genDatos5Round(){
   return {
     promptHTML: tabla+'<p class="prompt-hint">Este diagrama de tallo y hojas representa los números '+valores.join(', ')+'. ¿Cuál es el valor '+(preguntaMax?'MÁS ALTO':'MÁS BAJO')+'?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuál es el valor '+(preguntaMax?'más alto':'más bajo')+'?', cols:4,
-    explain: 'El valor '+(preguntaMax?'más alto':'más bajo')+' es <b>'+correct+'</b>.',
+    explain: 'El valor '+(preguntaMax?'más alto':'más bajo')+' es <b>'+correct+'</b>.', recurso: recurso,
   };
 }
 

@@ -473,12 +473,25 @@
   .speak-btn{ background: #E8FBF6; color: var(--primary-dark); }
   .recurso-btn{ background: #F1EEFF; color: var(--violet); }
 
+  /* Auditoría UX 2026-07-27 (pedido explícito del usuario, captura de
+     Vocales): con `display:grid` + `grid-template-columns:repeat(N,1fr)`,
+     una fila incompleta (ej. 5 opciones en una grilla de 3 columnas: fila 1
+     con 3, fila 2 con solo 2) deja los ítems de la última fila pegados a la
+     izquierda en vez de centrados, luciendo desbalanceada — visible en
+     cualquier módulo con banco de tamaño no múltiplo de 2 o 3 (Vocales,
+     con sus 5 vocales, es el caso real más común). Se cambia de CSS Grid a
+     Flexbox con `flex-wrap` + `justify-content:center`: cada `.option-btn`
+     define su propio ancho vía `flex-basis`/`max-width` en vez de que el
+     contenedor imponga columnas fijas, así que una fila incompleta se
+     centra sola sin ningún cálculo extra. */
   .option-grid{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 12px;
   }
-  .option-grid.panels{ grid-template-columns: 1fr; }
+  .option-grid .option-btn{ flex: 0 1 calc(50% - 6px); max-width: calc(50% - 6px); }
+  .option-grid.panels .option-btn{ flex: 1 1 100%; max-width: 100%; }
   .option-btn{
     border: 3px solid #E1EEEA;
     background: var(--paper);
@@ -968,7 +981,7 @@
   }
   @media (min-width: 1280px){
     #app{ max-width: 1200px; }
-    .option-grid:not(.panels){ grid-template-columns: repeat(3, 1fr); }
+    .option-grid:not(.panels) .option-btn{ flex-basis: calc(33.333% - 8px); max-width: calc(33.333% - 8px); }
   }
   @media (min-width: 1600px){
     #app{ max-width: 1320px; }

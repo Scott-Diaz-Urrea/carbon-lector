@@ -1028,62 +1028,74 @@ const GEOGRAFIA_MEDIOAMBIENTE_7_BANK = [
 ];
 
 export function genPrehistoriaCivilizaciones7Round(){
+  const recurso = 'La <b>prehistoria</b> abarca el largo proceso de hominización (la evolución de los primeros homínidos) y la revolución agrícola, que permitió a los grupos humanos dejar de ser nómadas y asentarse en un lugar fijo. Las <b>primeras civilizaciones</b>, como Sumeria (Mesopotamia) y Egipto, surgieron junto a grandes ríos que permitían la agricultura y el desarrollo de ciudades, escritura y organización política — sentando las bases de la vida urbana tal como la conocemos hoy.';
   const item = pick(Math.random()<0.5 ? PREHISTORIA_BANK : PRIMERAS_CIVILIZACIONES_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genGreciaRoma7Round(){
+  const recurso = 'La antigua <b>Grecia</b> desarrolló la democracia ateniense, un sistema donde los ciudadanos participaban directamente en las decisiones de la ciudad-estado (polis). El antiguo <b>Imperio Romano</b> creó un sistema de derecho (leyes escritas) que influye hasta hoy en muchos países. Ambas civilizaciones dejaron un legado cultural enorme en filosofía, arquitectura, literatura y política que las sociedades occidentales siguen usando como referencia.';
   const item = pick(GRECIA_ROMA_7_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genEdadMedia7Round(){
+  const recurso = 'La <b>Edad Media</b> europea se formó a partir de la fusión de tres tradiciones: la grecorromana (derecho, filosofía), la judeocristiana (religión) y la germana (nuevos pueblos que se asentaron en el territorio del antiguo Imperio Romano). La sociedad medieval se organizaba en un <b>orden estamental</b> (nobleza, clero y campesinado), con roles y derechos distintos según el estamento al que se perteneciera. A partir del siglo XII surgieron cambios importantes, como el crecimiento de las ciudades y el comercio, que fueron preparando el camino hacia la Edad Moderna.';
   const item = pick(EDAD_MEDIA_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genCivilizacionesAmericanas7Round(){
+  const recurso = 'Las civilizaciones precolombinas de América desarrollaron tecnologías y sistemas propios sin contacto con Europa: los mayas y aztecas construyeron grandes ciudades con pirámides y una notable organización urbana; los incas usaban el <b>quipu</b> (un sistema de cuerdas y nudos) para llevar registros administrativos sin escritura alfabética, y organizaban el trabajo colectivo mediante la <b>mita</b>. El <b>quechua</b> fue la lengua oficial del Imperio Inca, y varias de estas lenguas y tradiciones siguen vivas hoy en comunidades de toda América.';
   const item = pick(CIVILIZACIONES_AMERICANAS_2_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genCiudadania7Round(){
+  const recurso = 'La <b>formación ciudadana</b> incluye reconocer y valorar la diversidad cultural: distintas culturas (árabe, judeocristiana, germana, indígena, entre muchas otras) han aportado ciencia, lenguaje, tradiciones y formas de organización a lo largo de la historia. Una buena convivencia entre culturas distintas se construye escuchando con respeto, dialogando ante los desacuerdos y fundamentando las opiniones con hechos, en vez de prejuicios.';
   const item = pick(CIUDADANIA7_BANK);
   const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
     explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+    recurso: recurso,
   };
 }
 
 export function genGeografiaMedioambiente7Round(){
+  const recurso = 'Los grupos humanos, antiguos y actuales, suelen asentarse cerca de recursos como el agua y en terrenos que facilitan la agricultura, el transporte o el comercio — por eso muchas ciudades están junto a ríos o costas. El <b>calentamiento global</b> es el aumento progresivo de la temperatura promedio del planeta, causado en gran parte por el aumento de gases de efecto invernadero que atrapan más calor en la atmósfera. Para mitigar sus efectos, se puede reducir el uso de combustibles contaminantes, cuidar el agua y los bosques, y usar más transporte sustentable.';
   const item = pick(GEOGRAFIA_MEDIOAMBIENTE_7_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 

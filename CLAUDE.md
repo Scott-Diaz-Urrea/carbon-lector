@@ -627,6 +627,48 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
       "Vocabulario Intermedio" en Inglés: botón Recurso visible y modal con
       el texto real en ambos, sin errores de consola). Próximo paso: 7°-8°
       básico y Parvularia.
+    - **7° básico — ✅ completo (2026-07-27):** mismo pedido ("si, procede"
+      para continuar tras 6° básico), mismo criterio. Se agregó recurso a
+      los 35 módulos de opción múltiple: Lenguaje (Comprensión VII, Rima y
+      Métrica, Pensamiento Crítico: Hechos y Opiniones, Vocabulario y
+      Gramática VII, Ortografía V — 5), Matemática (Números Enteros,
+      Fracciones y Decimales II, Porcentaje y Potencias, Álgebra I,
+      Proporciones y Ecuaciones II, Geometría VII, Estadística y Muestreo,
+      Probabilidades II — 8), Ciencias Naturales (Sexualidad y
+      Reproducción, Sistema Inmunológico y Microorganismos, Fuerzas y
+      Presión, Geología y Clima, La Materia y los Gases — 5), Historia
+      (Prehistoria y Primeras Civilizaciones, Grecia y Roma: Sociedad y
+      Política, Edad Media, Civilizaciones Americanas II, Formación
+      Ciudadana VII, Geografía y Medioambiente — 6), Artes Visuales
+      (Espacios de Difusión del Arte — 1), Música (Procedimientos
+      Compositivos — 1), Educación Física (Estrategias y Tácticas
+      Deportivas — 1), Orientación (Prevención de Conductas de Riesgo,
+      Bienestar y Vida Saludable, Relaciones Saludables en Redes Sociales,
+      Resolución de Conflictos VII, Autonomía en el Aprendizaje — 5),
+      Tecnología (Soluciones Tecnológicas y su Impacto — 1), Inglés
+      (Vocabulario Avanzado, Lectura Intermedia — 2) — 35 módulos en total,
+      coincide con el conteo real de generadores `gen*7Round` en los 10
+      archivos de asignatura (distinto de los generadores con el mismo
+      sufijo "7Round" en `estudioPruebas/quimicaDiagnostica.js` y
+      `microbiologiaClinica.js`, que ya tenían `recurso` desde su
+      construcción original y no forman parte de este rollout por año).
+      "Sexualidad y Reproducción" (Ciencias, contenido ya revisado y
+      confirmado con el usuario al construir 7° básico) usa un `recurso`
+      estrictamente clínico/factual sobre gametos, ciclo menstrual, métodos
+      anticonceptivos e ITS, cerrando con la recomendación de consultar a
+      un adulto de confianza o profesional de salud ante cualquier duda —
+      mismo tono ya establecido para ese contenido, sin tocar el banco de
+      preguntas protegido. "Prevención de Conductas de Riesgo"
+      (Orientación) mantiene su `recurso` dentro de la política ya
+      confirmada con el usuario para este módulo: solo factores de riesgo/
+      protección, sin ningún detalle de la dimensión sexual. Verificado:
+      los 35 generadores pasan fuzz de 300 iteraciones cada uno (sin
+      `undefined`, sin opciones duplicadas, `correctValue` siempre
+      presente, sin apóstrofes en `speakText`, sin `recurso` faltante) y
+      prueba visual en el navegador (módulo "Geometría VII" en Matemática y
+      "Vocabulario Avanzado" en Inglés: botón Recurso visible y modal con
+      el texto real en ambos, sin errores de consola). Próximo paso: 8°
+      básico y Parvularia.
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el

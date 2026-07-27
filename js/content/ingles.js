@@ -193,12 +193,14 @@ const CANTIDADES_DESCRIPCIONES_BANK = [
   { spanish:'Ella es la persona más alta del grupo.', english:'SHE IS THE TALLEST PERSON IN THE GROUP', opts:['SHE IS THE SHORTEST PERSON IN THE GROUP','EVERYONE IS THE SAME HEIGHT','SHE IS NOT PART OF THE GROUP'] },
 ];
 export function genVocabularioAvanzado7Round(){
+  const recurso = 'En inglés, palabras como <b>must/have to</b> expresan obligación, <b>should</b> expresa sugerencia, y <b>need to</b> expresa necesidad — cada una indica un grado distinto de importancia sobre una acción. También se pueden describir <b>cantidades</b> (many, little, a lot of) y hacer <b>comparaciones</b> (heavier than, the tallest) para comparar dos o más cosas. Practicar estas estructuras ayuda a expresar ideas más precisas en inglés, más allá de vocabulario simple.';
   const item = pick(Math.random()<0.5 ? OBLIGACION_SUGERENCIA_BANK : CANTIDADES_DESCRIPCIONES_BANK);
   const opts = shuffle([item.english].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">How do you say this in English?</p>',
     options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:1, kind:'word',
     explain: 'Se dice <b>'+item.english+'</b> en inglés.',
+    recurso: recurso,
   };
 }
 
@@ -216,12 +218,14 @@ const LECTURA_INTERMEDIA_BANK = [
   { text:'In this story, a clever crow drops stones into a jar of water to make the water level rise so it can drink.', question:'Why does the crow drop stones into the jar?', correct:'TO MAKE THE WATER LEVEL RISE', opts:['TO BUILD A NEST','TO PLAY A GAME','TO HIDE THE STONES'] },
 ];
 export function genLecturaIntermedia7Round(){
+  const recurso = 'Al leer un texto breve en inglés, ayuda buscar la información específica que responde la pregunta (quién, qué, dónde, por qué) en vez de tratar de traducir cada palabra. Fijarse en palabras clave del texto y de la pregunta permite ubicar la respuesta correcta más rápido, incluso si no se conocen todas las palabras del texto.';
   const item = pick(LECTURA_INTERMEDIA_BANK);
   const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, speakLang:'en', cols:2, kind:'word',
     explain: 'The answer is <b>'+item.correct+'</b>.',
+    recurso: recurso,
   };
 }
 

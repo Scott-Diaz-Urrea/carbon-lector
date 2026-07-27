@@ -749,12 +749,14 @@ const PREVENCION_RIESGO_7_BANK = [
   { label:'Contar con espacios seguros para expresar tus emociones, como hablar con un adulto o escribir un diario, es un factor de protección', v:true },
 ];
 export function genPrevencionRiesgo7Round(){
+  const recurso = 'Los <b>factores de protección</b> son elementos que ayudan a evitar conductas de riesgo: tener un adulto de confianza con quien hablar, participar en actividades deportivas o artísticas, saber a quién acudir ante una situación difícil, y sentirte con la libertad de decir "no" ante una propuesta riesgosa sin perder a tus amigos. Reconocerlos ayuda a cuidarte a ti mismo y a apoyar a otros que puedan estar pasando por una situación de riesgo.';
   const item = pick(PREVENCION_RIESGO_7_BANK);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 
@@ -769,12 +771,14 @@ const BIENESTAR_VIDA_7_BANK = [
   { situacion:'Un compañero de curso te invita a saltarte el desayuno todos los días para "ahorrar tiempo" en las mañanas.', correcta:'Explicarle que el desayuno es importante para tu energía y bienestar durante el día', malas:['Dejar de desayunar todos los días sin cuestionarlo','Presionar a otros compañeros para que tampoco desayunen','Reemplazar el desayuno por dulces todos los días'] },
 ];
 export function genBienestarVida7Round(){
+  const recurso = 'El <b>bienestar</b> se cuida con hábitos cotidianos: organizar el tiempo de forma equilibrada entre estudio, sueño y descanso; mantener una alimentación equilibrada; dormir lo suficiente; incorporar actividad física a la rutina; y reconocer señales de cansancio o estrés para conversarlas con un adulto de confianza en vez de ignorarlas. Cuidar estos aspectos ayuda a rendir mejor y a sentirse mejor en el día a día.';
   const item = pick(BIENESTAR_VIDA_7_BANK);
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
     explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -792,12 +796,14 @@ const REDES_SOCIALES_7_BANK = [
   { label:'Responder con insultos a un comentario ofensivo en redes sociales es la mejor forma de resolverlo', v:false },
 ];
 export function genRedesSociales7Round(){
+  const recurso = 'Usar las <b>redes sociales</b> de forma responsable incluye pensar antes de publicar (imaginando cómo podría afectar a otras personas), cuidar la privacidad (no compartir contraseñas, dirección o el colegio en público), revisar la configuración de privacidad, y saber que todo lo publicado puede quedar guardado aunque se borre después. El <b>ciberacoso</b> (burlarse repetidamente de alguien por internet) es dañino, y contarle a un adulto de confianza si ves que alguien lo está viviendo es una buena decisión.';
   const item = pick(REDES_SOCIALES_7_BANK);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 
@@ -814,12 +820,14 @@ const RESOLUCION_CONFLICTOS_7_BANK = [
   { situacion:'En un trabajo en parejas, tú y tu compañero tienen ideas muy distintas sobre cómo enfocar el tema y ninguno quiere ceder.', correcta:'Buscar una idea intermedia que combine lo mejor de ambas propuestas', malas:['Imponer tu idea sin considerar la de tu compañero','Negarte a seguir trabajando con esa persona','Entregar dos trabajos distintos sin ponerse de acuerdo'] },
 ];
 export function genResolucionConflictos7Round(){
+  const recurso = 'Resolver un <b>conflicto</b> de forma sana implica expresar cómo te sientes con calma, escuchar el punto de vista de la otra persona antes de sacar conclusiones, y buscar una solución que considere a ambas partes, en vez de imponer tu idea, ignorarlo o reaccionar con agresividad. Tomarse un momento para calmarse antes de conversar suele ayudar a que el diálogo sea más productivo.';
   const item = pick(RESOLUCION_CONFLICTOS_7_BANK);
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
     explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -837,12 +845,14 @@ const AUTONOMIA_APRENDIZAJE_7_BANK = [
   { label:'Usar herramientas como calendarios o listas de tareas para organizar tu propio estudio es parte de la autonomía', v:true },
 ];
 export function genAutonomiaAprendizaje7Round(){
+  const recurso = 'La <b>autonomía en el aprendizaje</b> significa hacerte responsable de tu propio proceso: organizar tu horario de estudio, fijarte tus propias metas además de las del profesor, reconocer en qué temas te cuesta más para pedir ayuda o practicar más, y evaluar si una técnica de estudio te está funcionando para cambiarla si no da resultado — en vez de depender siempre de que otra persona te diga exactamente qué hacer.';
   const item = pick(AUTONOMIA_APRENDIZAJE_7_BANK);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 

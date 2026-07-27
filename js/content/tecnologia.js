@@ -270,7 +270,7 @@ export function genSolucionesTecnologicas7Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: recurso,
   };
@@ -309,7 +309,7 @@ export function genAnalisisSoluciones8Round(){
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
-    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
     recurso: recurso,
   };

@@ -2638,3 +2638,47 @@ sesión).
   borrar la rama remota → `git checkout main && git pull && git branch -d <branch>`).
   Esto no cambia la necesidad de hacer buen testing/fuzzing antes de abrir el PR —
   el merge automático hace que esa verificación previa importe todavía más.
+- **Bug real de `cols:1` (alternativas "deformes" en grilla angosta,
+  2026-07-27, reportado por el usuario con una captura de "Funciones del
+  Idioma VIII"):** `mcEngine.js` (`drawMCRound()`) solo trata `cols === 2`
+  como "una sola columna a ancho completo" (`gridClass = r.cols === 2 ?
+  'option-grid panels' : 'option-grid'`, ya documentado como nomenclatura
+  contraintuitiva en la auditoría del 2026-07-27 más arriba) — **cualquier
+  otro valor, incluido `cols:1`, cae en la grilla multi-columna normal**
+  (2 o 3 columnas según el ancho de viewport). Quien escribió `cols:1`
+  en varios generadores asumió (razonablemente, por el nombre) que
+  significaba "una columna", pero el código lo trata igual que `cols:4`
+  (la grilla de opciones cortas). Combinado con alternativas de oración
+  completa (`panel:true` o `kind:'word'`), esto forzaba textos largos
+  dentro de celdas angostas de grilla — el "deforme" real que mostró la
+  captura del usuario (3 columnas con textos cortados/envueltos en vez
+  del panel de una sola columna esperado). Encontrados y corregidos los
+  **9 casos reales en toda la app** (verificado con `grep -rn "cols:1,"
+  js/` antes y después del fix, confirmando que era la lista completa):
+  `genSolucionesTecnologicas7Round` y `genAnalisisSoluciones8Round`
+  (tecnologia.js), `genVocabularioAvanzado7Round` y
+  `genFuncionesIdioma8Round` (ingles.js — coincide con los mismos 2
+  generadores de Inglés donde se había agregado `recurso` esta sesión;
+  el bug ya existía desde su construcción original, no fue introducido al
+  agregar `recurso`), `genOrtografia8Round` (lenguaje.js),
+  `genBienestarVida7Round`/`genResolucionConflictos7Round`/
+  `genBienestar8Round`/`genParticipacionDemocratica8Round`
+  (orientacion.js) — todos cambiados de `cols:1` a `cols:2` (manteniendo
+  `panel:true` donde ya estaba; los 2 de `ingles.js` cambiaron además
+  `kind:'word'` por `panel:true`, ya que sus alternativas son oraciones
+  completas en inglés, el mismo criterio de "oración larga → panel" que
+  usa el resto de la app). Se verificó que **ningún otro valor de `cols`**
+  existe en toda la app aparte de `2` y `4` (`grep -o "cols:\d" js/` sobre
+  los ~300 módulos), así que estos 9 eran el 100% de los casos rotos —
+  no queda ningún otro `cols` con un número ambiguo. Verificado: los 9
+  generadores pasan fuzz de 200 iteraciones cada uno (cols siempre 2,
+  panel siempre presente, sin `undefined`, sin opciones duplicadas) y
+  prueba visual en el navegador en escritorio (1280px) y mobile (375px)
+  para "Funciones del Idioma VIII" (Inglés 8°) y "Análisis de Soluciones
+  Tecnológicas" (Tecnología 8°) — ambas ahora se ven como un panel de una
+  sola columna con acento de color, igual que Estudio para Pruebas, sin
+  errores de consola. Lección para generadores futuros: `cols` es
+  efectivamente un booleano disfrazado de número (`2` = panel de una
+  columna, cualquier otro valor = grilla) — usar siempre `cols:2` para
+  alternativas de oración completa, nunca `cols:1` pensando que significa
+  "una columna".

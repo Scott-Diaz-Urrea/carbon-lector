@@ -776,7 +776,7 @@ export function genBienestarVida7Round(){
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
-    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
     explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
     recurso: recurso,
   };
@@ -825,7 +825,7 @@ export function genResolucionConflictos7Round(){
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
-    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
     explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
     recurso: recurso,
   };
@@ -931,7 +931,7 @@ export function genBienestar8Round(){
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
-    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
     explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
     recurso: recurso,
   };
@@ -978,7 +978,7 @@ export function genParticipacionDemocratica8Round(){
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
-    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
     explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
     recurso: recurso,
   };

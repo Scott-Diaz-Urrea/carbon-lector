@@ -98,6 +98,7 @@ const COLORES_PRIM_SEC = [
 ];
 
 export function genLineasColores2Round(){
+  const recurso = 'Las líneas pueden dibujarse en distintas direcciones y formas (vertical, horizontal, diagonal, en espiral, quebrada), y cada tipo se usa para transmitir algo distinto en un dibujo: una línea horizontal se ve tranquila, una diagonal se ve dinámica. Los colores, por su parte, se dividen en <b>primarios</b> (rojo, amarillo, azul — no se pueden formar mezclando otros colores) y <b>secundarios</b> (naranjo, verde, morado — se forman mezclando dos primarios). Entender estas dos ideas básicas del lenguaje visual —tipos de línea y tipos de color— te da las herramientas para describir y crear tus propias obras con más intención, en vez de dibujar al azar.';
   if(Math.random()<0.5){
     const tipo = pick(LINEAS_G2_BANK);
     const distract = shuffle(LINEAS_G2_BANK.filter(function(t){ return t!==tipo; })).slice(0,3);
@@ -106,6 +107,7 @@ export function genLineasColores2Round(){
       promptHTML: '<div class="shape-display">'+lineTypeSVG(tipo,100)+'</div><p class="prompt-hint">¿Qué tipo de línea es?</p>',
       options: opts, correctValue: tipo, speakText: '¿Qué tipo de línea es?', cols:4, kind:'word',
       explain: 'Esa es una línea <b>'+tipo.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(COLORES_PRIM_SEC);
@@ -114,6 +116,7 @@ export function genLineasColores2Round(){
     promptHTML: '<div class="shape-display">'+colorSwatchSVG(item.label,90)+'</div><p class="prompt-hint">El color '+item.label+'. ¿Es un color primario o secundario?</p>',
     options: opts, correctValue: item.tipo, speakText: 'El color '+item.label, cols:2, panel:true,
     explain: 'El '+item.label.toLowerCase()+' es un color <b>'+item.tipo.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 

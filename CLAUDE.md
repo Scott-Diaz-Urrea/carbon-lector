@@ -484,6 +484,30 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
       Vivos": botón Recurso visible y modal con el texto real). Próximo
       paso del mismo pedido: continuar con 2°-8° básico y Parvularia,
       grado por grado, cada uno en su propio commit/PR.
+    - **2° básico — ✅ completo (2026-07-27):** mismo pedido, mismo criterio
+      (recurso por generador). Se agregó a los 27 módulos de opción múltiple
+      de 2° básico: Lenguaje (Combinaciones, Gramática, Comprensión II — 3;
+      Secuencia es juego a medida sin motor MC, no aplica), Matemática
+      (Salta y Cuenta, Multiplicar, Geometría, Medición — 4), Ciencias
+      Naturales (Vertebrados e Invertebrados, Ciclos de Vida, Hábitats y
+      Cuidado Animal, Mi Cuerpo por Dentro, El Agua, Clima e Instrumentos —
+      6), Historia (Pueblos Originarios, Patrimonio de Chile, Paisajes de
+      Chile, Formación Ciudadana — 4), Artes Visuales (Líneas y Colores —
+      1), Música (Timbre y Pulso — 1), Educación Física (Mi Cuerpo
+      Responde, Vida Activa y Saludable II, Juego en Equipo y Liderazgo —
+      3), Orientación (Mis Emociones II, Autocuidado II, Hábitos de Trabajo
+      Escolar, Buena Convivencia II — 4), Tecnología (Tecnología Digital —
+      1). Dos generadores de Matemática (Geometría, Medición) son
+      "dispatchers" que llaman a una de 3 funciones internas distintas
+      según un sorteo (posición/figuras 2D/cuerpos 3D; calendario/hora/
+      longitud) — en esos casos el `recurso` se declara una sola vez en la
+      función exportada y se asigna al resultado de la sub-función interna
+      (`r.recurso = recurso; return r;`) en vez de duplicar el texto en
+      cada sub-función, un patrón nuevo más limpio que se puede reusar en
+      generadores "dispatcher" similares de otros grados. Verificado: los
+      27 generadores pasan fuzz de 200 iteraciones cada uno, sin errores de
+      consola al cargar la app completa. Próximo paso: 3°-8° básico y
+      Parvularia, siguiendo el mismo patrón.
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el

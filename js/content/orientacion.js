@@ -126,6 +126,7 @@ const CONFLICTO_2_BANK = [
 ];
 
 export function genEmociones2Round(){
+  const recurso = 'Las emociones no aparecen de la nada: cada situación que vives puede despertar una emoción distinta y esperable, aunque no siempre sea la misma para todas las personas. Reconocer qué emoción es "lo más común" sentir ante una situación (por ejemplo, miedo ante un peligro, o alegría ante una sorpresa agradable) te ayuda a anticipar y entender mejor tus propias reacciones y las de los demás. Esto es un paso más avanzado que solo identificar una emoción en una cara: aquí practicas conectar una situación completa con la emoción que probablemente genera, lo que te prepara para manejar mejor tus reacciones en la vida real.';
   const item = pick(EMOCIONES_ESCENAS_2);
   const distract = shuffle(EMOCIONES_LABELS_2.filter(function(e){ return e!==item.emocion; })).slice(0,3);
   const opts = shuffle([item.emocion].concat(distract)).map(function(e){ return {label:e, value:e}; });
@@ -133,36 +134,43 @@ export function genEmociones2Round(){
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué emoción sentiría probablemente?</p>',
     options: opts, correctValue: item.emocion, speakText: item.texto, cols:4, kind:'word',
     explain: 'Ante esa situación, lo más común es sentir <b>'+item.emocion.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genAutocuidado2Round(){
+  const recurso = 'El autocuidado en 2° básico profundiza los mismos hábitos de 1° básico (higiene, alimentación, descanso) pero esperando más autonomía de tu parte: reconocer tú mismo cuándo necesitas lavarte las manos, cuándo abrigarte, o cuándo descansar, sin que un adulto te lo tenga que decir cada vez. Practicar estos hábitos de forma independiente es un paso importante hacia ser más responsable de tu propio bienestar a medida que creces.';
   const item = pick(AUTOCUIDADO_2_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 
 export function genHabitosEscolares2Round(){
+  const recurso = 'Los <b>hábitos de trabajo escolar</b> son las conductas que te ayudan a aprender mejor en clases y a organizarte con tus tareas: prestar atención cuando el profesor explica, ordenar tus materiales antes de empezar una actividad, terminar lo que empiezas, y pedir ayuda cuando no entiendes algo en vez de quedarte con la duda. Estos hábitos no dependen de qué tan "inteligente" seas — cualquier estudiante puede aprender a organizarse mejor practicando estas conductas una y otra vez, hasta que se vuelvan automáticas.';
   const item = pick(HABITOS_ESCOLARES_BANK);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 
 export function genConvivencia2Round(){
+  const recurso = 'Resolver un conflicto entre compañeros de buena manera significa hablar sobre el problema con calma, escuchar el punto de vista del otro, y buscar una solución que sea justa para ambos — no significa pelear, gritar, ni tampoco quedarse callado para evitar el problema (eso no lo resuelve, solo lo esconde). Practicar la resolución pacífica de conflictos desde pequeño te da una herramienta que vas a necesitar toda la vida, porque los desacuerdos entre personas son normales y van a seguir apareciendo — lo importante es aprender a manejarlos bien.';
   const item = pick(CONFLICTO_2_BANK);
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema sin lastimar a nadie.',
+    recurso: recurso,
   };
 }
 

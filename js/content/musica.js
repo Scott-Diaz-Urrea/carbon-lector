@@ -73,6 +73,7 @@ const PULSO_BANK = [
 ];
 
 export function genTimbrePulso2Round(){
+  const recurso = 'El <b>timbre</b> es lo que hace que reconozcas qué instrumento está sonando aunque toque exactamente la misma nota que otro instrumento — es como la "huella digital" del sonido de cada instrumento (un violín y una guitarra pueden tocar la misma nota, pero suenan claramente distintos). El <b>pulso</b>, en cambio, es el "latido" constante y regular que se repite en una canción, como el tic-tac de un reloj, y sirve de base para que todos los músicos toquen a la misma velocidad. Aprender a distinguir el timbre de distintos instrumentos y a sentir el pulso de una canción son dos habilidades básicas para entender música de cualquier tipo.';
   if(Math.random()<0.5){
     const item = pick(TIMBRE_BANK);
     const distract = shuffle(TIMBRE_BANK.filter(function(t){ return t.instrumento!==item.instrumento; })).slice(0,3).map(function(t){ return t.instrumento; });
@@ -81,6 +82,7 @@ export function genTimbrePulso2Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+' ¿Qué instrumento tiene este timbre?</p>',
       options: opts, correctValue: item.instrumento, speakText: item.desc, cols:4, kind:'word',
       explain: 'Ese timbre corresponde al <b>'+item.instrumento.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(PULSO_BANK);
@@ -89,6 +91,7 @@ export function genTimbrePulso2Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".',
+    recurso: recurso,
   };
 }
 

@@ -264,6 +264,7 @@ const PREGUNTA_RESPUESTA_BANK = [
   { desc:'Un instrumento toca una frase corta y luego otro instrumento le contesta con una frase parecida, como si conversaran', correcta:'ESTRUCTURA DE PREGUNTA-RESPUESTA' },
 ];
 export function genTexturaMusical5Round(){
+  const recurso = 'La <b>textura musical</b> describe cómo se combinan las voces o instrumentos que suenan al mismo tiempo: en la <b>monofonía</b> suena una sola melodía sin acompañamiento (como cantar solo), en la <b>homofonía</b> una melodía principal suena acompañada por otras voces que la apoyan, y en la <b>polifonía</b> suenan dos o más melodías independientes al mismo tiempo (como un canon). Otra forma de organizar la música es la estructura de <b>pregunta-respuesta</b>: una frase musical "pregunta" y otra frase la "responde", como una conversación entre instrumentos o voces.';
   if(Math.random()<0.6){
     const item = pick(TEXTURA_MUSICAL_BANK);
     const todos = ['MONOFONÍA','HOMOFONÍA','POLIFONÍA'];
@@ -272,7 +273,7 @@ export function genTexturaMusical5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué textura musical describe esta situación?</p>',
       options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, kind:'word',
-      explain: 'Esta situación es un ejemplo de <b>'+item.tipo.toLowerCase()+'</b>.',
+      explain: 'Esta situación es un ejemplo de <b>'+item.tipo.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   const item = pick(PREGUNTA_RESPUESTA_BANK);
@@ -280,7 +281,7 @@ export function genTexturaMusical5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Cómo se llama esta estructura musical?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
-    explain: 'Esta estructura se llama <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'Esta estructura se llama <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
   };
 }
 

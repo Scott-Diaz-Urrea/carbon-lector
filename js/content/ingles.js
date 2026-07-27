@@ -41,13 +41,14 @@ const VOCABULARIO_INGLES_BANK = [
   { emoji:'🍎', english:'APPLE' }, { emoji:'🍌', english:'BANANA' }, { emoji:'🍞', english:'BREAD' }, { emoji:'🥛', english:'MILK' },
 ];
 export function genVocabularioIngles5Round(){
+  const recurso = 'Aprender vocabulario nuevo en inglés es más fácil cuando se asocia directamente una <b>imagen o concepto</b> con la palabra en inglés, sin pasar por la traducción al español cada vez — así como un bebé aprende su primer idioma reconociendo objetos, no memorizando definiciones. Practicar categorías completas (animales, colores, la familia, útiles escolares, comida) ayuda a construir un vocabulario base sólido, que después sirve para formar oraciones simples y leer textos más largos en inglés.';
   const item = pick(VOCABULARIO_INGLES_BANK);
   const distract = shuffle(VOCABULARIO_INGLES_BANK.filter(function(v){ return v.english!==item.english; })).slice(0,3).map(function(v){ return v.english; });
   const opts = shuffle([item.english].concat(distract)).map(function(e){ return {label:e, value:e}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">How do you say this in English? (¿Cómo se dice esto en inglés?)</p>',
     options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, kind:'word',
-    explain: 'Se dice <b>'+item.english+'</b> en inglés.',
+    explain: 'Se dice <b>'+item.english+'</b> en inglés.', recurso: recurso,
   };
 }
 
@@ -64,12 +65,13 @@ const LECTURA_SIMPLE_BANK = [
   { text:'The sun is bright today, and the sky is blue.', question:'What color is the sky today?', correct:'BLUE', opts:['GRAY','BLACK','GREEN'] },
 ];
 export function genLecturaSimple5Round(){
+  const recurso = 'Leer en inglés a este nivel no requiere entender cada palabra: se trata de identificar la <b>información explícita</b> que el texto dice directamente (un color, una cantidad, un lugar, el orden de las acciones), apoyándose en las palabras que sí se conocen y en el contexto general de la oración. Buscar palabras clave relacionadas con la pregunta dentro del texto —igual que se haría al leer en español— es la misma estrategia de comprensión lectora, solo que aplicada a otro idioma.';
   const item = pick(LECTURA_SIMPLE_BANK);
   const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, speakLang:'en', cols:2, kind:'word',
-    explain: 'The answer is <b>'+item.correct+'</b>.',
+    explain: 'The answer is <b>'+item.correct+'</b>.', recurso: recurso,
   };
 }
 

@@ -332,6 +332,7 @@ const LUZ_SOMBRA_BANK = [
   { pregunta:'Si la luz viene de un solo lado de un objeto, ¿qué ocurre en el lado opuesto?', correcta:'SE FORMA UNA ZONA DE SOMBRA', opts:['SE FORMA UN BRILLO MÁS INTENSO','EL OBJETO CAMBIA DE COLOR POR COMPLETO','NO OCURRE NINGÚN CAMBIO VISUAL'] },
 ];
 export function genLenguajeVisual5Round(){
+  const recurso = 'En el <b>círculo cromático</b>, cada color tiene un <b>color complementario</b> justo enfrente (como el rojo y el verde, o el azul y el naranjo) — al ponerlos juntos se resaltan mutuamente con mucho contraste. Una forma es <b>cerrada</b> cuando su línea vuelve al punto donde comenzó, encerrando un espacio (como un círculo o un cuadrado); es <b>abierta</b> cuando la línea no se junta consigo misma. La <b>luz y la sombra</b> le dan volumen a un dibujo: la sombra propia está en el objeto mismo (el lado que no recibe luz), y la sombra proyectada es la que el objeto arroja sobre la superficie donde está apoyado.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(COLOR_COMPLEMENTARIO_BANK);
@@ -341,7 +342,7 @@ export function genLenguajeVisual5Round(){
     return {
       promptHTML: '<div class="shape-display">'+colorSwatchSVG(item.color,90)+'</div><p class="prompt-hint">El color '+item.color+'. ¿Cuál es su color complementario (el que está justo enfrente en el círculo cromático)?</p>',
       options: opts, correctValue: item.complementario, speakText: '¿Cuál es el color complementario del '+item.color.toLowerCase()+'?', cols:4, kind:'word',
-      explain: 'El complementario del '+item.color.toLowerCase()+' es el <b>'+item.complementario.toLowerCase()+'</b>.',
+      explain: 'El complementario del '+item.color.toLowerCase()+' es el <b>'+item.complementario.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -351,14 +352,14 @@ export function genLenguajeVisual5Round(){
       return {
         promptHTML: '<div class="shape-display">'+shapeSVG(item.id,100)+'</div><p class="prompt-hint">¿Esta figura es una forma abierta o cerrada?</p>',
         options: opts, correctValue: true, speakText: '¿Es una forma abierta o cerrada?', cols:2, panel:true,
-        explain: 'Un '+item.label.toLowerCase()+' es una <b>forma cerrada</b>: su línea vuelve al punto donde comenzó, encerrando un espacio.',
+        explain: 'Un '+item.label.toLowerCase()+' es una <b>forma cerrada</b>: su línea vuelve al punto donde comenzó, encerrando un espacio.', recurso: recurso,
       };
     }
     const desc = pick(FORMAS_ABIERTAS_DESC);
     return {
       promptHTML: '<p class="prompt-sentence">'+desc+'</p><p class="prompt-hint">¿Es una forma abierta o cerrada?</p>',
       options: opts, correctValue: false, speakText: '¿Es una forma abierta o cerrada?', cols:2, panel:true,
-      explain: 'Esto es una <b>forma abierta</b>: su línea no vuelve al punto de partida, así que no encierra ningún espacio.',
+      explain: 'Esto es una <b>forma abierta</b>: su línea no vuelve al punto de partida, así que no encierra ningún espacio.', recurso: recurso,
     };
   }
   const item = pick(LUZ_SOMBRA_BANK);
@@ -366,7 +367,7 @@ export function genLenguajeVisual5Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
   };
 }
 

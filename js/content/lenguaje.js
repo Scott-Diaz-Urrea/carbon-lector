@@ -692,6 +692,7 @@ const IDEA_PRINCIPAL_BANK = [
 ];
 
 export function genComprension5Round(){
+  const recurso = 'Comprender un texto va más allá de leer las palabras: incluye <b>inferir</b> (deducir información que el texto no dice directamente, usando pistas del relato), evaluar de forma crítica un texto no literario (revisar quién lo escribió, con qué propósito, y si entrega suficiente información para confiar en él), y encontrar la <b>idea principal</b> de un párrafo — la oración que resume de qué se trata todo lo demás. Estas estrategias sirven tanto para cuentos como para noticias, afiches o instrucciones, y son la base para leer con sentido crítico en vez de solo decodificar letras.';
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(COMPRENSION5_NARRATIVA_BANK);
@@ -699,7 +700,7 @@ export function genComprension5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
       options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
-      explain: item.reason,
+      explain: item.reason, recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -708,7 +709,7 @@ export function genComprension5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
       options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
-      explain: item.reason,
+      explain: item.reason, recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -717,7 +718,7 @@ export function genComprension5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.escenario+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.escenario, cols:2, panel:true,
-      explain: 'La respuesta correcta es: <b>'+item.correcta.toLowerCase()+'</b>.',
+      explain: 'La respuesta correcta es: <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   const item = pick(IDEA_PRINCIPAL_BANK);
@@ -725,7 +726,7 @@ export function genComprension5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.parrafo+'</p><p class="prompt-hint">¿Cuál oración resume mejor la idea principal del párrafo?</p>',
     options: opts, correctValue: item.correcta, speakText: item.parrafo, cols:2, panel:true,
-    explain: 'La idea principal es: <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La idea principal es: <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
   };
 }
 
@@ -742,6 +743,7 @@ const RECURSOS_POETICOS_BANK = [
   { verso:'El sabor agridulce de la fruta madura llenó su boca.', recurso:'APELA AL GUSTO', explicacion:'Describe un sabor (agridulce) para que el lector casi pueda saborearlo.' },
 ];
 export function genRecursosPoeticos5Round(){
+  const recurso = 'Los poemas usan <b>recursos del lenguaje poético</b> para crear imágenes más vivas que una descripción normal. La <b>personificación</b> le da a algo que no es humano (el viento, la luna, el río) una acción o emoción propia de las personas. La <b>comparación</b> une dos ideas usando "como" para resaltar una semejanza ("brillaban como estrellas"). Y "apelar a los sentidos" significa describir algo de forma tan vívida (un olor, un sonido, un sabor) que el lector casi puede sentirlo mientras lee, aunque no esté presente en la escena.';
   const item = pick(RECURSOS_POETICOS_BANK);
   const todos = ['PERSONIFICACIÓN','COMPARACIÓN','APELA AL OLFATO','APELA AL OÍDO','APELA AL GUSTO'];
   const distract = shuffle(todos.filter(function(r){ return r!==item.recurso; })).slice(0,3);
@@ -749,7 +751,7 @@ export function genRecursosPoeticos5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">"'+item.verso+'"</p><p class="prompt-hint">¿Qué recurso del lenguaje poético se usa en este verso?</p>',
     options: opts, correctValue: item.recurso, speakText: item.verso, cols:2, kind:'word', panel:true,
-    explain: item.explicacion,
+    explain: item.explicacion, recurso: recurso,
   };
 }
 
@@ -769,6 +771,7 @@ const MATICES_SINONIMOS_BANK = [
   { oracion:'El silencio en la biblioteca era ___.', mejor:'ABSOLUTO', peor:'BASTANTE NOTORIO', explicacion:'"Absoluto" transmite que no había ningún ruido en lo absoluto, más preciso que "bastante notorio" para describir el silencio de una biblioteca.' },
 ];
 export function genVocabulario5Round(){
+  const recurso = 'Muchas palabras se forman a partir de una <b>raíz</b> (una parte fija con un significado propio) que viene del griego o del latín — por ejemplo "bio" significa vida y aparece en biólogo, biografía, biología. Reconocer raíces ayuda a deducir el significado de palabras nuevas sin necesidad de buscarlas en el diccionario. Además, entre dos sinónimos casi siempre hay un <b>matiz</b> de intensidad: "exhausto" transmite mucho más cansancio que "un poco cansado" — elegir la palabra con la intensidad correcta hace que un texto comunique mejor lo que realmente se quiere decir.';
   if(Math.random()<0.5){
     const item = pick(RAICES_AFIJOS_BANK);
     const distract = shuffle(RAICES_AFIJOS_BANK.filter(function(r){ return r.raiz!==item.raiz; })).slice(0,3).map(function(r){ return r.significadoRaiz; });
@@ -776,7 +779,7 @@ export function genVocabulario5Round(){
     return {
       promptHTML: '<p class="prompt-word">'+item.palabra+'</p><p class="prompt-hint">Esta palabra contiene la raíz "'+item.raiz.toLowerCase()+'". ¿Qué significa esa raíz?</p>',
       options: opts, correctValue: item.significadoRaiz, speakText: item.palabra, cols:2, panel:true,
-      explain: 'La raíz "'+item.raiz.toLowerCase()+'" significa <b>'+item.significadoRaiz.toLowerCase()+'</b>, por eso "'+item.palabra.toLowerCase()+'" significa: '+item.significadoPalabra.toLowerCase()+'.',
+      explain: 'La raíz "'+item.raiz.toLowerCase()+'" significa <b>'+item.significadoRaiz.toLowerCase()+'</b>, por eso "'+item.palabra.toLowerCase()+'" significa: '+item.significadoPalabra.toLowerCase()+'.', recurso: recurso,
     };
   }
   const item = pick(MATICES_SINONIMOS_BANK);
@@ -784,7 +787,7 @@ export function genVocabulario5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.oracion+'</p><p class="prompt-hint">¿Cuál palabra transmite la idea con más fuerza e intensidad?</p>',
     options: opts, correctValue: 'mejor', speakText: item.oracion, cols:2, kind:'word',
-    explain: item.explicacion,
+    explain: item.explicacion, recurso: recurso,
   };
 }
 
@@ -799,12 +802,13 @@ const CONJUGACION_BANK = [
   { texto:'Anoche, ustedes ___ (LEER) un cuento antes de dormir.', correcto:'LEYERON', malas:['LEEN','LEERÁN','LEÍAN'] },
 ];
 export function genGramatica5Round(){
+  const recurso = 'La <b>conjugación de un verbo</b> cambia según cuándo ocurre la acción (presente, pasado o futuro) y quién la realiza (yo, tú, él/ella, nosotros, ellos). Las pistas como "ayer", "todos los días" o "mañana" indican en qué tiempo hay que conjugar el verbo: "ayer" pide pasado, "todos los días" pide presente, y "mañana" pide futuro. Elegir la conjugación correcta es clave para que una oración tenga sentido y sea gramaticalmente correcta.';
   const item = pick(CONJUGACION_BANK);
   const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué forma del verbo completa correctamente la oración?</p>',
     options: opts, correctValue: item.correcto, speakText: item.texto.replace(/\s*\([^)]*\)/,'').replace('___', item.correcto), cols:4, kind:'word',
-    explain: '<b>'+item.correcto+'</b> es la conjugación correcta del verbo para ese momento y esa persona.',
+    explain: '<b>'+item.correcto+'</b> es la conjugación correcta del verbo para ese momento y esa persona.', recurso: recurso,
   };
 }
 
@@ -821,12 +825,13 @@ const ORTOGRAFIA5_BANK = [
   { incorrecta:'La bruja lansó un hechizo misterioso', correcta:'La bruja lanzó un hechizo misterioso', regla:'Se escribe con Z: "lanzó".' },
 ];
 export function genOrtografia5Round(){
+  const recurso = 'La ortografía correcta hace que un texto se lea sin confusión. Algunas reglas frecuentes: la <b>C, S y Z</b> pueden sonar parecido pero cada palabra tiene una forma correcta que hay que memorizar (césped, cerró, avestruz); las palabras <b>esdrújulas</b> (acento en la antepenúltima sílaba, como "música") siempre llevan tilde; y en un diálogo escrito, la <b>raya</b> (—) se usa tanto para indicar que habla un personaje como para separar la acotación del narrador ("—Ya llegamos —dijo el guía").';
   const item = pick(ORTOGRAFIA5_BANK);
   const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál oración está bien escrita?</p>',
     options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
-    explain: item.regla,
+    explain: item.regla, recurso: recurso,
   };
 }
 

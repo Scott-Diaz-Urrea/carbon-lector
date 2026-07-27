@@ -552,6 +552,44 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
       `recurso` faltante) y una prueba visual en el navegador (módulo
       "Números hasta 10 000": botón Recurso visible y modal con el texto
       real). Próximo paso: 5°-8° básico y Parvularia.
+    - **5° básico — ✅ completo (2026-07-27):** mismo pedido, mismo criterio.
+      Se agregó recurso a los 35 módulos de opción múltiple: Lenguaje
+      (Comprensión V, Recursos Poéticos, Vocabulario y Sinónimos V, Gramática
+      V, Ortografía III — 5), Matemática (Números Grandes, Multiplicar,
+      Dividir, Operaciones y Dinero, Fracciones III, Decimales II, Patrones y
+      Ecuaciones III, Geometría V, Medición y Área, Datos y Probabilidades
+      III — 10), Ciencias Naturales (Célula y Sistemas del Cuerpo,
+      Alimentación y Salud, Electricidad, Agua en la Tierra — 4), Historia
+      (Descubrimiento y Conquista de América, La Colonia en Chile, Geografía
+      de Chile, Formación Ciudadana V — 4), Artes Visuales (Lenguaje Visual
+      III — 1), Música (Texturas y Estructura Musical — 1), Educación Física
+      (Vida Activa y Postura V, Liderazgo y Seguridad V — 2), Orientación
+      (Manejo Emocional V, Autocuidado Digital V, Prevención y Vida
+      Saludable, Buen Trato y Resolución de Conflictos V, Hábitos de Trabajo
+      Escolar V — 5), Tecnología (Tecnología Digital V — 1), **Inglés**
+      (Vocabulario Básico, Lectura Simple — 2, primera vez que el rollout
+      cubre una asignatura con contenido bilingüe) — 35 módulos en total,
+      coincide exactamente con el total ya documentado en "Estado actual del
+      contenido". Mismo patrón de "declarar `recurso` una vez arriba y
+      reutilizarlo en cada `return`" para generadores con ramas; en Ciencias
+      Naturales, `genCelulaSistemas5Round` reutiliza el helper compartido
+      `sistemaRound(bank, sistemaLabel, recurso)` (ahora con un tercer
+      parámetro opcional) para sus 3 ramas de sistemas del cuerpo en vez de
+      duplicar el texto. En Inglés, `recurso` se escribió en español (mismo
+      criterio que el resto de la app) aunque el contenido evaluado esté en
+      inglés, ya que es una explicación pedagógica dirigida al niño, no el
+      contenido del ítem en sí. Bug real encontrado y corregido durante el
+      fuzz-testing: `genOperaciones5Round` (matematica.js) tenía la constante
+      `recurso` declarada pero nunca se agregó el campo `recurso: recurso,`
+      a ninguno de sus 3 `return` — quedó en evidencia porque
+      `missingRecurso` dio 300/300 en el fuzz, en vez de 0 como los demás 34
+      generadores. Verificado tras la corrección: los 35 generadores pasan
+      fuzz de 300 iteraciones cada uno (sin `undefined`, sin opciones
+      duplicadas, `correctValue` siempre presente, sin apóstrofes en
+      `speakText`, sin `recurso` faltante) y prueba visual en el navegador
+      (módulo "Números Grandes" en Matemática y "Vocabulario Básico" en
+      Inglés: botón Recurso visible y modal con el texto real en ambos, sin
+      errores de consola). Próximo paso: 6°-8° básico y Parvularia.
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el

@@ -1145,17 +1145,18 @@ const CIRCULATORIO_BANK = [
   { parte:'LAS ARTERIAS', funcion:'LLEVAR SANGRE DESDE EL CORAZÓN HACIA EL RESTO DEL CUERPO' },
   { parte:'LAS VENAS', funcion:'LLEVAR SANGRE DE VUELTA HACIA EL CORAZÓN' },
 ];
-function sistemaRound(bank, sistemaLabel){
+function sistemaRound(bank, sistemaLabel, recurso){
   const item = pick(bank);
   const distract = shuffle(bank.filter(function(b){ return b.funcion!==item.funcion; })).map(function(b){ return b.funcion; });
   const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
   return {
     promptHTML: '<p class="prompt-word">'+item.parte+'</p><p class="prompt-hint">Esta parte pertenece al sistema '+sistemaLabel+'. ¿Cuál es su función principal?</p>',
     options: opts, correctValue: item.funcion, speakText: item.parte, cols:2, panel:true,
-    explain: item.parte+': '+item.funcion.toLowerCase()+'.',
+    explain: item.parte+': '+item.funcion.toLowerCase()+'.', recurso: recurso,
   };
 }
 export function genCelulaSistemas5Round(){
+  const recurso = 'Todos los seres vivos están formados por <b>células</b>, la unidad básica de la vida — algunos organismos tienen una sola célula (unicelulares) y otros, como los humanos, tienen billones trabajando juntas (multicelulares). El cuerpo humano funciona gracias a sistemas que colaboran entre sí: el <b>sistema digestivo</b> transforma los alimentos en nutrientes que el cuerpo puede usar, el <b>sistema respiratorio</b> toma el oxígeno del aire y elimina el dióxido de carbono, y el <b>sistema circulatorio</b> transporta la sangre (con oxígeno y nutrientes) a todo el cuerpo a través del corazón y los vasos sanguíneos.';
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(CELULA_BANK);
@@ -1163,12 +1164,12 @@ export function genCelulaSistemas5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
-      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
-  if(roll<0.5) return sistemaRound(DIGESTIVO_BANK,'digestivo');
-  if(roll<0.75) return sistemaRound(RESPIRATORIO_BANK,'respiratorio');
-  return sistemaRound(CIRCULATORIO_BANK,'circulatorio');
+  if(roll<0.5) return sistemaRound(DIGESTIVO_BANK,'digestivo',recurso);
+  if(roll<0.75) return sistemaRound(RESPIRATORIO_BANK,'respiratorio',recurso);
+  return sistemaRound(CIRCULATORIO_BANK,'circulatorio',recurso);
 }
 
 const CONSUMO_ALIMENTOS_BANK = [
@@ -1192,6 +1193,7 @@ const MICROORGANISMOS_BANK = [
   { nombre:'EL VIRUS QUE CAUSA EL RESFRÍO COMÚN', tipo:'DAÑINO' },
 ];
 export function genAlimentacionSalud5Round(){
+  const recurso = 'Una alimentación saludable combina distintos grupos de alimentos porque cada uno aporta algo distinto: las <b>proteínas</b> (carne, huevo, legumbres) ayudan a crecer y reparar el cuerpo, los <b>carbohidratos</b> (pan, arroz, papa) entregan energía para el día a día, y las <b>frutas y verduras</b> aportan vitaminas y minerales. El cigarrillo daña principalmente los pulmones y contiene nicotina, una sustancia que genera adicción. No todos los microorganismos son dañinos: algunos, como las bacterias que transforman la leche en yogur, son beneficiosos y hasta se usan para preparar alimentos.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(CONSUMO_ALIMENTOS_BANK);
@@ -1199,7 +1201,7 @@ export function genAlimentacionSalud5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1208,7 +1210,7 @@ export function genAlimentacionSalud5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
     };
   }
   const item = pick(MICROORGANISMOS_BANK);
@@ -1216,7 +1218,7 @@ export function genAlimentacionSalud5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.nombre+'</p><p class="prompt-hint">¿Este microorganismo es beneficioso o dañino para la salud?</p>',
     options: opts, correctValue: item.tipo, speakText: item.nombre, cols:2, panel:true,
-    explain: 'Es <b>'+item.tipo.toLowerCase()+'</b> para la salud.',
+    explain: 'Es <b>'+item.tipo.toLowerCase()+'</b> para la salud.', recurso: recurso,
   };
 }
 
@@ -1247,6 +1249,7 @@ const AHORRO_ENERGIA_BANK = [
   { accion:'APROVECHAR LA LUZ NATURAL DURANTE EL DÍA EN VEZ DE ENCENDER LUCES', ahorra:true },
 ];
 export function genElectricidad5Round(){
+  const recurso = 'La energía eléctrica se puede <b>transformar</b> en otros tipos de energía: luz y calor en una ampolleta, sonido en un parlante, movimiento en un ventilador. Un <b>circuito eléctrico simple</b> necesita una pila (entrega la energía), cables (conducen la corriente) y un interruptor (abre o cierra el paso de la corriente) para que la electricidad pueda circular. Los materiales <b>conductores</b> (como los metales o el agua con sal) dejan pasar la corriente eléctrica, mientras que los <b>aislantes</b> (como la madera, el plástico o el vidrio) no la dejan pasar — por eso los cables tienen un forro de plástico. Ahorrar energía (apagar luces, desconectar aparatos) cuida tanto el medioambiente como el gasto en la casa.';
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(TRANSFORMACION_ELECTRICA_BANK);
@@ -1254,7 +1257,7 @@ export function genElectricidad5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.objeto+'</p><p class="prompt-hint">¿En qué transforma principalmente la energía eléctrica?</p>',
       options: opts, correctValue: item.correcta, speakText: item.objeto, cols:2, kind:'word', panel:true,
-      explain: 'Transforma la electricidad en <b>'+item.correcta.toLowerCase()+'</b>.',
+      explain: 'Transforma la electricidad en <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -1264,7 +1267,7 @@ export function genElectricidad5Round(){
     return {
       promptHTML: '<p class="prompt-word">'+item.componente+'</p><p class="prompt-hint">En un circuito eléctrico simple, ¿cuál es la función de esta parte?</p>',
       options: opts, correctValue: item.funcion, speakText: item.componente, cols:2, panel:true,
-      explain: item.componente+': '+item.funcion.toLowerCase()+'.',
+      explain: item.componente+': '+item.funcion.toLowerCase()+'.', recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -1273,7 +1276,7 @@ export function genElectricidad5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.material+'</p><p class="prompt-hint">¿Este material es conductor o aislante de la electricidad?</p>',
       options: opts, correctValue: item.conductor, speakText: item.material, cols:2, panel:true,
-      explain: item.conductor ? item.material+' es <b>conductor</b>: deja pasar la corriente eléctrica.' : item.material+' es <b>aislante</b>: no deja pasar la corriente eléctrica.',
+      explain: item.conductor ? item.material+' es <b>conductor</b>: deja pasar la corriente eléctrica.' : item.material+' es <b>aislante</b>: no deja pasar la corriente eléctrica.', recurso: recurso,
     };
   }
   const item = pick(AHORRO_ENERGIA_BANK);
@@ -1281,7 +1284,7 @@ export function genElectricidad5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.accion+'</p><p class="prompt-hint">¿Esta acción ayuda a ahorrar energía eléctrica?</p>',
     options: opts, correctValue: item.ahorra, speakText: item.accion, cols:2, panel:true,
-    explain: item.ahorra ? 'Sí: '+item.accion.toLowerCase()+' ayuda a ahorrar energía.' : 'No: '+item.accion.toLowerCase()+' desperdicia energía.',
+    explain: item.ahorra ? 'Sí: '+item.accion.toLowerCase()+' ayuda a ahorrar energía.' : 'No: '+item.accion.toLowerCase()+' desperdicia energía.', recurso: recurso,
   };
 }
 
@@ -1304,6 +1307,7 @@ const PROTECCION_AGUA_BANK = [
   { accion:'CUIDAR QUE LAS FÁBRICAS NO CONTAMINEN LOS CUERPOS DE AGUA', protege:true },
 ];
 export function genAguaTierra5Round(){
+  const recurso = 'Casi toda el agua del planeta está en los océanos, en forma de <b>agua salada</b> — el agua dulce, la que podemos beber, es solo una pequeña parte del total, repartida en ríos, lagos, glaciares y aguas subterráneas. Un <b>océano</b> es una masa de agua salada enorme y profunda con mareas, mientras que un <b>lago</b> suele ser más pequeño, con agua dulce y rodeado de tierra. Como el agua dulce es escasa, cuidarla (no desperdiciarla, no contaminarla con basura o químicos) es fundamental para que siga estando disponible para todos los seres vivos.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(DISTRIBUCION_AGUA_BANK);
@@ -1311,7 +1315,7 @@ export function genAguaTierra5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1320,7 +1324,7 @@ export function genAguaTierra5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.caracteristica+'</p><p class="prompt-hint">¿Es una característica de un océano o de un lago?</p>',
       options: opts, correctValue: item.tipo, speakText: item.caracteristica, cols:2, kind:'word',
-      explain: 'Esta es una característica típica de un(a) <b>'+item.tipo.toLowerCase()+'</b>.',
+      explain: 'Esta es una característica típica de un(a) <b>'+item.tipo.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   const item = pick(PROTECCION_AGUA_BANK);
@@ -1328,7 +1332,7 @@ export function genAguaTierra5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.accion+'</p><p class="prompt-hint">¿Esta acción protege los cuerpos de agua o los daña?</p>',
     options: opts, correctValue: item.protege, speakText: item.accion, cols:2, panel:true,
-    explain: item.protege ? 'Sí: esta acción ayuda a proteger los cuerpos de agua.' : 'No: esta acción daña o contamina los cuerpos de agua.',
+    explain: item.protege ? 'Sí: esta acción ayuda a proteger los cuerpos de agua.' : 'No: esta acción daña o contamina los cuerpos de agua.', recurso: recurso,
   };
 }
 

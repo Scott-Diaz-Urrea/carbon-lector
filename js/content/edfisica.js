@@ -381,6 +381,7 @@ const PLANIFICACION_POSTURA_BANK = [
   { label:'Medir tu esfuerzo físico con el pulso o con una escala te ayuda a saber qué tan intenso fue el ejercicio', v:true },
 ];
 export function genVidaPostura5Round(){
+  const recurso = 'La <b>intensidad</b> de una actividad física indica cuánto esfuerzo le exige al cuerpo: baja (como caminar tranquilo), moderada (como andar en bicicleta) o alta (como correr rápido) — combinar actividades de distinta intensidad durante la semana ayuda a mantener una vida activa y saludable. Cuidar la <b>postura</b> corporal al sentarse, cargar mochilas o dormir, junto con buenos hábitos de higiene y descanso, previene dolores y problemas físicos a futuro. Planificar cuándo y cómo hacer actividad física regularmente (no solo cuando se recuerda) es clave para mantener estos hábitos en el tiempo.';
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(INTENSIDAD_ACTIVIDAD_BANK);
@@ -390,7 +391,7 @@ export function genVidaPostura5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué intensidad de esfuerzo físico tiene esta actividad?</p>',
       options: opts, correctValue: item.intensidad, speakText: item.actividad, cols:2, panel:true,
-      explain: 'Esta actividad tiene una intensidad <b>'+item.intensidad.toLowerCase()+'</b>.',
+      explain: 'Esta actividad tiene una intensidad <b>'+item.intensidad.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   const item = pick(PLANIFICACION_POSTURA_BANK);
@@ -398,7 +399,7 @@ export function genVidaPostura5Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
-    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
   };
 }
 
@@ -413,12 +414,13 @@ const LIDERAZGO_SEGURIDAD5_ITEMS = [
   { label:'Da lo mismo seguir o no las normas de seguridad si el juego se pone competitivo', v:false },
 ];
 export function genLiderazgo5Round(){
+  const recurso = 'Un buen <b>líder de equipo</b> organiza y motiva a sus compañeros con respeto, escuchando las ideas de todos antes de decidir — no impone su opinión ni ignora a los demás. La <b>seguridad</b> en la actividad física implica revisar que el espacio de juego esté libre de peligros, usar los implementos deportivos de forma responsable, y nunca presionar a un compañero a jugar lesionado. Jugar limpio significa aceptar las decisiones de un árbitro o profesor y seguir las normas de seguridad incluso cuando el juego se pone competitivo.';
   const item = pick(LIDERAZGO_SEGURIDAD5_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
-    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
   };
 }
 

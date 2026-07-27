@@ -508,6 +508,28 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
       27 generadores pasan fuzz de 200 iteraciones cada uno, sin errores de
       consola al cargar la app completa. Próximo paso: 3°-8° básico y
       Parvularia, siguiendo el mismo patrón.
+    - **3° básico — ✅ completo (2026-07-27):** mismo pedido, mismo criterio.
+      Se agregó recurso a los 36 módulos de opción múltiple: Lenguaje (Géneros
+      Literarios, Comprensión III, Vocabulario en Contexto, Orden Alfabético,
+      Gramática III, Ortografía — 6), Matemática (Números hasta 1000, Sumar/
+      Restar y Dinero, Multiplicar, Dividir, Fracciones, Patrones y Ecuaciones,
+      Geometría III, Medición III, Datos y Gráficos — 9), Ciencias Naturales
+      (Plantas: Partes y Especies de Chile, Ciclo de Vida de la Planta,
+      Cuidado de Plantas y Ambiente, Alimentación e Higiene, La Luz, El
+      Sonido, Sistema Solar — 7), Historia (Grecia y Roma, Geografía del
+      Mundo, Formación Ciudadana III — 3), Artes Visuales (Color Expresivo,
+      Materiales de Modelado y Reciclaje — 2), Música (Lenguaje Musical,
+      Música en la Sociedad — 2), Educación Física (Vida Activa y Saludable
+      III, Juego Limpio y Seguridad III — 2), Orientación (Manejo Emocional,
+      Autocuidado III, Buen Trato y Resolución de Conflictos, Hábitos de
+      Trabajo Escolar — 4), Tecnología (Tecnología Digital III — 1) — 36
+      módulos en total, coincide exactamente con el total ya documentado en
+      "Estado actual del contenido". Varios generadores de Matemática y
+      Ciencias con 2-3 ramas usan el mismo patrón de "declarar `recurso` una
+      vez arriba y reutilizarlo en cada `return`" ya establecido en 1°-2°
+      básico. Verificado: los 36 generadores pasan fuzz de 200 iteraciones
+      cada uno, sin errores de consola. Próximo paso: 4°-8° básico y
+      Parvularia.
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el

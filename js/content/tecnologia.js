@@ -122,6 +122,7 @@ export function genTecDigital3Round(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".',
+    recurso: 'Usar tecnología digital de forma responsable significa más que solo saber apretar botones: incluye organizar bien tu tiempo frente a pantallas (combinarlo con otras actividades como jugar afuera y descansar), presentar tus trabajos con cuidado (ortografía revisada, información bien organizada), y cuidar tu seguridad en internet (nunca dar datos personales sin consultar primero con un adulto). Estas habilidades digitales son cada vez más importantes porque usarás computadores e internet en casi todo lo que hagas de aquí en adelante, en el colegio y en la vida diaria.',
   };
 }
 

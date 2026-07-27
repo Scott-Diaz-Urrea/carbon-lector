@@ -631,6 +631,7 @@ const FASES_LUNA_BANK = [
 ];
 
 export function genPlantas3Round(){
+  const recurso = 'Cada parte de una planta cumple un trabajo específico para que la planta completa sobreviva: la <b>raíz</b> ancla la planta a la tierra y absorbe agua y nutrientes, el <b>tallo</b> transporta esa agua hacia arriba y sostiene a la planta, y las <b>hojas</b> usan la luz del sol para fabricar el alimento de la planta (un proceso llamado fotosíntesis). Además, Chile tiene especies de plantas propias y reconocibles, como el copihue (la flor nacional) o la araucaria, adaptadas a los distintos climas del país. Aprender las partes de una planta y reconocer especies chilenas te conecta con la naturaleza que te rodea, no solo con plantas genéricas de un libro.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(PARTES_PLANTA_BANK);
@@ -640,6 +641,7 @@ export function genPlantas3Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Cuál es la función de '+(item.parte==='HOJAS'?'las':'la')+' '+item.parte.toLowerCase()+'?</p>',
       options: opts, correctValue: item.funcion, speakText: '¿Cuál es la función de la '+item.parte.toLowerCase()+'?', cols:2, panel:true,
       explain: (item.parte==='HOJAS'?'Las':'La')+' '+item.parte.toLowerCase()+': '+item.funcion.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -650,6 +652,7 @@ export function genPlantas3Round(){
       promptHTML: '<p class="prompt-sentence">'+item.funcion+'</p><p class="prompt-hint">¿De qué parte de la planta se trata?</p>',
       options: opts, correctValue: item.parte, speakText: item.funcion, cols:4, kind:'word',
       explain: 'Esa es la función de '+(item.parte==='HOJAS'?'las':'la')+' <b>'+item.parte.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(PLANTAS_CHILE_BANK);
@@ -659,6 +662,7 @@ export function genPlantas3Round(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.planta+'. ¿Qué es?</p>',
     options: opts, correctValue: item.tipo, speakText: item.planta, cols:2, kind:'word', panel:true,
     explain: 'El/la <b>'+item.planta.toLowerCase()+'</b> es '+item.tipo.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -673,6 +677,7 @@ export function genCicloPlanta3Round(){
     promptHTML: '<p class="prompt-hint">'+(askBefore ? '¿Qué etapa viene ANTES en el ciclo de vida de la planta?' : '¿Qué etapa viene DESPUÉS en el ciclo de vida de la planta?')+'</p>',
     options: opts, correctValue: correct, speakText: askBefore ? '¿Qué etapa viene antes?' : '¿Qué etapa viene después?', cols:2, panel:true,
     explain: earlier.label+' ('+earlier.desc.toLowerCase()+') viene antes que '+later.label.toLowerCase()+' en el ciclo de vida de la planta.',
+    recurso: 'El ciclo de vida de una planta comienza con una <b>semilla</b>, que germina cuando tiene suficiente agua, calor y tierra; luego crece como una planta joven (brote), después se convierte en una planta adulta que puede florecer, y finalmente produce nuevas semillas que reinician el ciclo. A diferencia de un objeto que no cambia con el tiempo, un ser vivo pasa por etapas ordenadas que no se pueden saltar ni invertir — una semilla no puede "volver atrás" a ser una flor. Entender este orden te ayuda a comprender cómo crecen las plantas que quizás cultivas en tu casa o en el colegio.',
   };
 }
 
@@ -683,10 +688,12 @@ export function genCuidadoAmbiente3Round(){
     promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones ayuda a cuidar las plantas y el ambiente?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones ayuda a cuidar las plantas y el ambiente?', cols:2, panel:true,
     explain: '"'+item.correcta+'" ayuda a cuidar nuestro planeta.',
+    recurso: 'Cuidar el ambiente significa tomar acciones concretas que protegen a las plantas, los animales y los recursos naturales de los que todos dependemos: regar con responsabilidad (sin desperdiciar agua), no cortar plantas innecesariamente, reciclar y no botar basura en espacios naturales, y respetar las áreas verdes. Estas acciones pueden parecer pequeñas hechas por una sola persona, pero cuando muchas personas las practican juntas, hacen una diferencia real para mantener un ambiente sano donde las plantas y los animales puedan seguir viviendo bien.',
   };
 }
 
 export function genAlimentacion3Round(){
+  const recurso = 'Los alimentos se agrupan en categorías según los nutrientes que aportan a tu cuerpo (frutas y verduras, lácteos, proteínas, cereales), y comer variado —no siempre lo mismo— asegura que recibas todos los nutrientes que necesitas para crecer sano. Además de elegir bien qué comer, la <b>higiene con los alimentos</b> es igual de importante para prevenir enfermedades: lavar las frutas y verduras antes de comerlas, lavarte las manos antes de cocinar o comer, y mantener los alimentos bien guardados evita que bacterias dañinas lleguen a tu cuerpo. Una buena alimentación combina ambas cosas: elegir alimentos variados Y manipularlos con higiene.';
   if(Math.random()<0.5){
     const item = pick(ALIMENTOS3_BANK);
     const distract = shuffle(ALIMENTOS3_BANK.filter(function(a){ return a.categoria!==item.categoria; })).slice(0,3).map(function(a){ return a.categoria; });
@@ -695,6 +702,7 @@ export function genAlimentacion3Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿A qué categoría pertenece '+item.alimento+'?</p>',
       options: opts, correctValue: item.categoria, speakText: '¿A qué categoría pertenece '+item.alimento+'?', cols:2, kind:'word', panel:true,
       explain: (item.alimento.charAt(0).toUpperCase()+item.alimento.slice(1))+' es un(a) <b>'+item.categoria.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(HIGIENE_ALIMENTOS_BANK);
@@ -703,10 +711,12 @@ export function genAlimentacion3Round(){
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de higiene con los alimentos?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de higiene con los alimentos?', cols:2, panel:true,
     explain: '"'+item.correcta+'" previene enfermedades.',
+    recurso: recurso,
   };
 }
 
 export function genLuz3Round(){
+  const recurso = 'La luz puede venir de <b>fuentes naturales</b> (el Sol, el fuego) o <b>fuentes artificiales</b> (una ampolleta, una linterna) creadas por el ser humano. La luz tiene propiedades que puedes comprobar tú mismo: viaja en línea recta (por eso una sombra tiene la misma forma que el objeto que la produce), y puede atravesar algunos materiales transparentes (como el vidrio) pero no otros opacos (como la madera), lo que forma sombras. Entender cómo se comporta la luz te ayuda a explicar fenómenos cotidianos, como por qué se forma una sombra o por qué no puedes ver a través de una pared.';
   if(Math.random()<0.5){
     const item = pick(LUZ_FUENTES_BANK);
     const opts = shuffle([{label:'FUENTE NATURAL', value:'NATURAL'},{label:'FUENTE ARTIFICIAL', value:'ARTIFICIAL'}]);
@@ -714,6 +724,7 @@ export function genLuz3Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.fuente+'. ¿Es una fuente de luz natural o artificial?</p>',
       options: opts, correctValue: item.tipo, speakText: item.fuente, cols:2, panel:true,
       explain: item.fuente.charAt(0).toUpperCase()+item.fuente.slice(1)+' es una fuente de luz <b>'+item.tipo.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(LUZ_PROPIEDADES_BANK);
@@ -722,6 +733,7 @@ export function genLuz3Round(){
     promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
     options: opts, correctValue: item.valor, speakText: item.texto, cols:2, panel:true,
     explain: item.valor ? 'Es verdadero: '+item.texto.toLowerCase()+'.' : 'Es falso: la luz sí puede atravesar materiales transparentes como el vidrio, y viaja en línea recta, no en zigzag.',
+    recurso: recurso,
   };
 }
 
@@ -732,10 +744,12 @@ export function genSonido3Round(){
     promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
     options: opts, correctValue: item.valor, speakText: item.texto, cols:2, panel:true,
     explain: item.valor ? 'Es verdadero: '+item.texto.toLowerCase()+'.' : 'Es falso: el sonido sí puede viajar por el agua, y se escucha más débil mientras más lejos está la fuente.',
+    recurso: 'El sonido se produce por <b>vibraciones</b> que viajan a través de un medio (el aire, el agua, o incluso un objeto sólido) hasta llegar a tu oído. A diferencia de la luz, el sonido necesita un medio material para viajar —no puede viajar en el vacío del espacio, donde no hay aire—, pero sí puede viajar por el agua (por eso los sonidos se escuchan distinto bajo el agua). Mientras más lejos estés de donde se produjo el sonido, más débil lo escuchas, porque la vibración se va perdiendo energía a medida que se aleja de su origen.',
   };
 }
 
 export function genSistemaSolar3Round(){
+  const recurso = 'El Sistema Solar está formado por el Sol (una estrella que da luz y calor propios) y todo lo que gira a su alrededor por su gravedad: planetas como la Tierra, satélites como la Luna, y otros cuerpos como cometas y asteroides. La Tierra tiene dos movimientos distintos y simultáneos: la <b>rotación</b> (gira sobre sí misma, produce el día y la noche, dura 24 horas) y la <b>traslación</b> (gira alrededor del Sol, dura un año). La Luna, por su parte, muestra distintas <b>fases</b> (luna nueva, creciente, llena, menguante) según cuánto de su superficie iluminada por el Sol podemos ver desde la Tierra, un ciclo que se repite aproximadamente cada mes.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(SISTEMA_SOLAR_BANK);
@@ -745,6 +759,7 @@ export function genSistemaSolar3Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.nombre, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa descripción corresponde a <b>'+item.nombre.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -754,6 +769,7 @@ export function genSistemaSolar3Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
       explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(FASES_LUNA_BANK);
@@ -763,6 +779,7 @@ export function genSistemaSolar3Round(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'. ¿Qué fase de la Luna es?</p>',
     options: opts, correctValue: item.fase, speakText: item.desc, cols:2, kind:'word', panel:true,
     explain: 'Esa es la fase de <b>'+item.fase.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 

@@ -289,6 +289,7 @@ export function genManejoEmocional3Round(){
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción sin lastimarte a ti ni a otros.',
+    recurso: 'El manejo emocional no significa "no sentir" emociones difíciles como el enojo o la frustración —eso es imposible y no es la meta—, sino aprender estrategias para expresarlas sin lastimarte a ti mismo ni a los demás: respirar hondo antes de reaccionar, hablar de lo que sientes en vez de explotar, o alejarte un momento de la situación para calmarte. Practicar estas estrategias desde pequeño te da herramientas que vas a necesitar toda la vida, porque las emociones intensas van a seguir apareciendo — lo que cambia con la práctica es cómo las manejas.',
   };
 }
 
@@ -299,6 +300,7 @@ export function genAutocuidado3Round(){
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: 'El autocuidado en 3° básico sigue profundizando tu independencia para cuidar tu propio cuerpo: mantener buena higiene, alimentarte bien, descansar lo suficiente, y reconocer cuándo necesitas ayuda de un adulto (por ejemplo, si te sientes enfermo o en peligro). Ser cada vez más responsable de tu propio bienestar, sin depender de que un adulto te lo recuerde constantemente, es una habilidad que sigue creciendo contigo año a año.',
   };
 }
 
@@ -309,6 +311,7 @@ export function genBuenTrato3Round(){
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema con respeto.',
+    recurso: 'El "buen trato" significa tratar a los demás con respeto y empatía, incluso cuando hay un desacuerdo o alguien está teniendo dificultades: apoyar a un compañero que está siendo molestado, escuchar distintos puntos de vista antes de decidir algo en grupo, y preguntar en vez de excluir cuando alguien no quiere participar. Resolver los conflictos con buen trato —hablando y escuchando— en vez de ignorarlos o pelear, es una habilidad social que te sirve para llevarte mejor con cualquier grupo de personas en tu vida.',
   };
 }
 
@@ -319,6 +322,7 @@ export function genHabitosEstudio3Round(){
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: 'Buenos hábitos de estudio no son un talento con el que naces, son conductas que puedes practicar y mejorar: organizar un horario para no dejar las tareas para el último momento, tener un lugar tranquilo y ordenado para estudiar, revisar tu mochila la noche anterior, y repasar lo aprendido en clases al llegar a casa. Pedir ayuda cuando no entiendes algo también es parte de tener buenos hábitos —no es una debilidad, es una estrategia inteligente— porque te permite resolver dudas antes de que se acumulen.',
   };
 }
 

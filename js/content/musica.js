@@ -161,6 +161,7 @@ const MUSICA_SOCIEDAD_BANK = [
 ];
 
 export function genLenguajeMusical3Round(){
+  const recurso = 'La <b>forma musical</b> describe cómo se organizan las distintas secciones de una canción (llamadas A, B, C...): cuando una sección se repite igual (A-A-A), cuando vuelve a la sección inicial después de otra distinta (A-B-A), o cuando aparecen varias secciones diferentes seguidas (A-B-C) — es como el "esqueleto" de una canción, la estructura que la organiza de principio a fin. El <b>pulso</b> (el latido regular que se repite, como el tic-tac de un reloj) y el <b>acento</b> (cuando un golpe suena más fuerte que los demás dentro de ese pulso) son otros dos elementos básicos del lenguaje musical que te ayudan a sentir el ritmo de cualquier canción.';
   if(Math.random()<0.5){
     const item = pick(FORMA_MUSICAL_BANK);
     const distract = shuffle(FORMA_MUSICAL_BANK.filter(function(f){ return f.forma!==item.forma; })).slice(0,3).map(function(f){ return f.forma; });
@@ -169,6 +170,7 @@ export function genLenguajeMusical3Round(){
       promptHTML: '<p class="prompt-count" style="font-size:32px;">'+item.patron.join(' - ')+'</p><p class="prompt-hint">¿Qué forma musical tiene esta secuencia de secciones?</p>',
       options: opts, correctValue: item.forma, speakText: '¿Qué forma musical es '+item.patron.join('-')+'?', cols:2, panel:true,
       explain: 'La secuencia '+item.patron.join('-')+' corresponde a la forma <b>'+item.forma.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(PULSO_ACENTO_BANK);
@@ -177,6 +179,7 @@ export function genLenguajeMusical3Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
@@ -187,6 +190,7 @@ export function genMusicaSociedad3Round(){
     promptHTML: '<p class="prompt-hint">'+item.situacion+'. ¿Qué tipo de música es más probable escuchar ahí?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion+'. ¿Qué música es más probable escuchar ahí?', cols:2, kind:'word',
     explain: 'En esa situación, lo más común es escuchar <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: 'La música siempre está conectada con una situación o un momento social específico: hay canciones para celebrar (cumpleaños), para calmar a un bebé (canciones de cuna), para ceremonias oficiales (himnos), para vender productos (jingles publicitarios), y música folclórica típica de fiestas patrias (como la cueca en Chile). Reconocer qué tipo de música corresponde a cada situación te ayuda a entender que la música no es solo entretenimiento — cumple funciones sociales específicas y refleja la cultura de cada país o comunidad.',
   };
 }
 

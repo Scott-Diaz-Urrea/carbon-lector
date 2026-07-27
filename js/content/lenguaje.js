@@ -374,6 +374,7 @@ const ORTOGRAFIA_BANK = [
    sin resolver en el explain (bug encontrado en la auditoría 2026-07-22). */
 const GENERO_ARTICULO = { POEMA:'un', CUENTO:'un', FÁBULA:'una', LEYENDA:'una', MITO:'un', NOVELA:'una', HISTORIETA:'una' };
 export function genGenerosLiterarios3Round(){
+  const recurso = 'Los géneros literarios son categorías que agrupan los textos según sus características comunes: un <b>cuento</b> es una historia corta con pocos personajes, una <b>fábula</b> usa animales que hablan para enseñar una moraleja, una <b>leyenda</b> mezcla hechos reales con elementos fantásticos para explicar el origen de algo, un <b>mito</b> explica fenómenos naturales o el origen del mundo con dioses o seres sobrenaturales, y un <b>poema</b> usa el ritmo y la rima para expresar emociones. Reconocer estas diferencias te ayuda a saber qué esperar de un texto antes de leerlo completo, y a entender mejor la intención de quien lo escribió.';
   const item = pick(GENEROS_BANK);
   const distract = shuffle(GENEROS_POOL.filter(function(g){ return g!==item.label; })).slice(0,3);
   const opts = shuffle([item.label].concat(distract)).map(function(g){ return {label:g, value:g}; });
@@ -381,6 +382,7 @@ export function genGenerosLiterarios3Round(){
     promptHTML: '<p class="prompt-sentence">'+item.desc+'</p><p class="prompt-hint">¿Qué género literario es?</p>',
     options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
     explain: 'Esa descripción corresponde a '+GENERO_ARTICULO[item.label]+' <b>'+item.label.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
@@ -391,20 +393,24 @@ export function genComprension3Round(){
     promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
     explain: item.reason,
+    recurso: 'Comprender un texto a fondo va más allá de reconocer las palabras: incluye <b>inferir</b> lo que no se dice directamente (deducir con pistas), entender <b>lenguaje figurado</b> (frases que no significan literalmente lo que dicen, como "se me heló la sangre"), y distinguir información de textos no literarios (que informan hechos reales, a diferencia de un cuento). Practicar estas distintas formas de comprensión te prepara para leer cualquier tipo de texto —cuentos, noticias, instrucciones— entendiendo realmente su mensaje, no solo las palabras sueltas.',
   };
 }
 
 export function genVocabulario3Round(){
+  const recurso = 'Cuando encuentras una palabra que no conoces en un texto, no siempre necesitas un diccionario: muchas veces el <b>contexto</b> (las palabras y oraciones que rodean a esa palabra) te da pistas suficientes para deducir su significado. Por ejemplo, si una oración dice "el perro estaba famélico, así que devoró su comida en segundos", puedes deducir que "famélico" significa "con mucha hambre", aunque nunca hayas visto esa palabra antes. Esta habilidad de usar el contexto para descubrir significados es mucho más útil en la vida real que memorizar listas de palabras, porque te sirve con cualquier palabra nueva que encuentres.';
   const item = pick(VOCABULARIO3_BANK);
   const opts = shuffle([item.significado].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'<b>'+item.palabra+'</b>'+item.resto+'</p><p class="prompt-hint">¿Qué significa la palabra <b>'+item.palabra.toLowerCase()+'</b>?</p>',
     options: opts, correctValue: item.significado, speakText: item.texto+item.palabra+item.resto, cols:2, panel:true,
     explain: '<b>'+item.palabra+'</b> significa "'+item.significado.toLowerCase()+'".',
+    recurso: recurso,
   };
 }
 
 export function genAlfabetico3Round(){
+  const recurso = 'El <b>orden alfabético</b> es la forma estándar de organizar palabras según la posición de sus letras en el abecedario (A, B, C... hasta la Z) — así se ordenan los diccionarios, las guías telefónicas y muchas listas. Para ordenar palabras, primero comparas su primera letra; si es igual, comparas la segunda letra, y así sucesivamente. Saber ordenar alfabéticamente es una habilidad práctica que usarás toda la vida: te permite encontrar rápido una palabra en el diccionario, un libro en una biblioteca, o un nombre en una lista larga, sin tener que revisar uno por uno desde el principio.';
   const words = shuffle(ALFABETICO_POOL).slice(0,4);
   const sorted = words.slice().sort();
   const askFirst = Math.random()<0.5;
@@ -414,10 +420,12 @@ export function genAlfabetico3Round(){
     promptHTML: '<p class="prompt-count" style="font-size:22px;">'+words.join(' — ')+'</p><p class="prompt-hint">¿Cuál de estas palabras aparece '+(askFirst?'PRIMERO':'AL FINAL')+' en el orden alfabético?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuál palabra va '+(askFirst?'primero':'al final')+' en orden alfabético?', cols:4, kind:'word',
     explain: 'En orden alfabético: '+sorted.join(' → ')+'. La respuesta '+(askFirst?'que va primero':'que va al final')+' es <b>'+correct+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genGramatica3Round(){
+  const recurso = 'En una oración, el <b>sustantivo</b> nombra a alguien o algo, el <b>adjetivo</b> describe cómo es, y el <b>artículo</b> (el, la, un, una, los, las) va antes del sustantivo para indicar si es específico o general, y en qué género y número está. Los <b>pronombres</b> (yo, tú, él, ella, nosotros) son palabras que reemplazan a un sustantivo ya mencionado antes, para no repetir el mismo nombre una y otra vez en un texto — por ejemplo, en vez de decir "María fue al parque, María jugó, María volvió a casa", puedes decir "María fue al parque, ella jugó, luego volvió a casa". Reconocer estas categorías gramaticales te ayuda a entender mejor cómo se arma una oración en español.';
   if(Math.random()<0.5){
     const item = pick(ORACIONES_GRAMATICA_G3);
     const roll = Math.random();
@@ -430,6 +438,7 @@ export function genGramatica3Round(){
       promptHTML: '<p class="prompt-sentence">"'+item.texto+'"</p><p class="prompt-hint">¿Cuál palabra es el '+kindLabel+'?</p>',
       options: opts, correctValue: correct, speakText: item.texto, cols:4, kind:'word',
       explain: '<b>'+correct+'</b> es el '+kind+' de la oración.',
+      recurso: recurso,
     };
   }
   const item = pick(PRONOMBRES_BANK);
@@ -439,6 +448,7 @@ export function genGramatica3Round(){
     promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué pronombre completa la oración?</p>',
     options: opts, correctValue: item.correcto, speakText: item.texto.replace('___', item.correcto), cols:4, kind:'word',
     explain: 'El pronombre correcto es <b>'+item.correcto+'</b>, porque reemplaza a quien se menciona en la primera oración.',
+    recurso: recurso,
   };
 }
 
@@ -449,6 +459,7 @@ export function genOrtografia3Round(){
     promptHTML: '<p class="prompt-hint">¿Cuál oración está bien escrita?</p>',
     options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
     explain: 'La forma correcta es: "'+item.correcta+'"',
+    recurso: 'La ortografía tiene reglas específicas que muchas veces no se "escuchan" al hablar, por eso hay que aprenderlas de memoria y practicarlas al escribir: por ejemplo, los días de la semana en español NO llevan mayúscula (se escribe "lunes", no "Lunes", a diferencia del inglés), y el uso de mayúsculas se reserva para nombres propios, el inicio de una oración, o después de un punto. Escribir con buena ortografía no es solo una formalidad — ayuda a que tu texto se entienda con claridad y se vea como algo cuidado y bien pensado, algo que se valora en la escuela y en la vida adulta.',
   };
 }
 

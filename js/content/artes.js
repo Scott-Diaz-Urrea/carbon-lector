@@ -118,6 +118,7 @@ export function genLineasColores2Round(){
 }
 
 export function genColoresRound(){
+  const recurso = 'Los colores se agrupan en dos familias según la sensación que transmiten: los <b>cálidos</b> (rojo, naranjo, amarillo) recuerdan al sol y al fuego, y los <b>fríos</b> (azul, verde, celeste) recuerdan al agua y al cielo. Además, hay solo 3 colores <b>primarios</b> (rojo, amarillo, azul) que no se pueden formar mezclando otros colores, pero que sí sirven para crear todos los demás: mezclando dos primarios en distintas cantidades obtienes los colores <b>secundarios</b> (naranjo, verde, morado). Entender esto te ayuda a predecir qué color obtendrás antes de mezclar de verdad, y a elegir colores a propósito según lo que quieras transmitir en un dibujo.';
   if(Math.random()<0.5){
     const item = pick(COLORES_ITEMS);
     const opts = shuffle([{label:'CÁLIDO', value:'CÁLIDO'},{label:'FRÍO', value:'FRÍO'}]);
@@ -126,6 +127,7 @@ export function genColoresRound(){
       promptHTML: visual+'<p class="prompt-hint">El color '+item.label+'. ¿Es un color cálido o frío?</p>',
       options: opts, correctValue: item.tipo, speakText: 'El color '+item.label, cols:2, panel:true,
       explain: 'El '+item.label.toLowerCase()+' es un color <b>'+item.tipo.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(MEZCLAS_COLOR);
@@ -140,10 +142,12 @@ export function genColoresRound(){
     promptHTML: visual+'<p class="prompt-hint">¿Qué color se forma al mezclarlos?</p>',
     options: opts, correctValue: item.result, speakText: '¿Qué color se forma al mezclar '+item.a+' con '+item.b+'?', cols:4, kind:'word',
     explain: 'Mezclar '+item.a.toLowerCase()+' con '+item.b.toLowerCase()+' forma el color <b>'+item.result.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genLineasTexturasRound(){
+  const recurso = 'Las <b>líneas</b> (rectas, curvas, onduladas, en zigzag) son el elemento más básico de cualquier dibujo — todo lo que dibujas empieza con algún tipo de línea, y cada tipo transmite una sensación distinta (una línea recta se ve firme, una ondulada se ve suave y en movimiento). Las <b>texturas</b>, en cambio, describen cómo se ve o se sentiría al tocar la superficie de algo (áspero, suave, rugoso, liso), aunque solo lo estés mirando en un dibujo o una foto. Aprender a distinguir tipos de líneas y texturas te da un vocabulario para describir obras de arte y objetos reales con más precisión, en vez de solo decir "se ve bonito" o "se ve raro".';
   if(Math.random()<0.5){
     const item = pick(LINEAS_ITEMS);
     const lineaPool = LINEAS_ITEMS.map(function(l){ return l.label; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
@@ -153,6 +157,7 @@ export function genLineasTexturasRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+' ¿Qué tipo de línea es?</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa es una línea <b>'+item.label.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(TEXTURAS_ITEMS);
@@ -163,10 +168,12 @@ export function genLineasTexturasRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+' ¿Qué textura es?</p>',
     options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
     explain: 'Esa es una textura <b>'+item.label.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genMaterialesArteRound(){
+  const recurso = 'Cada material y herramienta de arte sirve para un tipo de trabajo distinto: los lápices y crayones sirven para dibujar líneas y detalles finos, las témperas y pinceles sirven para pintar superficies grandes con color, y materiales moldeables como la plasticina sirven para crear formas en volumen (que se pueden tocar por todos lados), no solo en una hoja plana. Elegir la herramienta correcta para lo que quieres crear es una decisión importante en el arte, igual que un carpintero elige el martillo para clavar y la sierra para cortar — cada herramienta tiene un trabajo para el que fue pensada.';
   const item = pick(HERRAMIENTAS_ARTE);
   const distract = shuffle(HERRAMIENTAS_ARTE.filter(function(h){ return h.label!==item.label; })).slice(0,3).map(function(h){ return h.label; });
   const opts = shuffle([item.label].concat(distract)).map(function(h){ return {label:h, value:h}; });
@@ -174,6 +181,7 @@ export function genMaterialesArteRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.uso+'</p>',
     options: opts, correctValue: item.label, speakText: item.uso, cols:4, kind:'word',
     explain: item.uso+' Esa herramienta es <b>'+item.label.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 

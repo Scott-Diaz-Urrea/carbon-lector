@@ -455,6 +455,35 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
       arriba. Se aplicó el estándar completo aquí porque "Estudio para
       Pruebas" es la etapa donde el usuario ya había fijado ese nivel de
       calidad como el esperado desde el primer submódulo.
+    - **1° básico — ✅ completo (2026-07-27):** pedido explícito del usuario
+      de continuar el rollout grado por grado ("agrega los recursos para los
+      cursos que continúan"). Se agregó `recurso` (por generador, un texto
+      fijo reutilizado en todas las rondas de ese `genXxxRound()`, mismo
+      criterio que el piloto de Lenguaje/Matemática) a los 22 módulos de
+      opción múltiple de 1° básico que aún no lo tenían: Ciencias Naturales
+      (Seres Vivos, Plantas, Mi Cuerpo, Materiales, Día y Noche — 5),
+      Historia/Geografía/Cs. Sociales (Calendario, Mi Identidad, Símbolos de
+      Chile, Mapas de Chile, Convivencia y Comunidad — 5), Artes Visuales
+      (Colores, Líneas y Texturas, Materiales de Arte — 3), Música (Sonidos,
+      Instrumentos — 2), Educación Física y Salud (Cuerpo en Movimiento,
+      Vida Activa y Saludable, Juego Limpio y Seguridad — 3), Orientación
+      (Mis Emociones, Autocuidado y Hábitos, Buena Convivencia — 3),
+      Tecnología (Herramientas y Materiales — 1). Varios de estos
+      generadores tienen 2-3 ramas (`Math.random()<0.5` o `roll<0.34/0.67`)
+      cubriendo sub-conceptos distintos dentro del mismo módulo (p. ej.
+      "Seres Vivos" pregunta a veces por vivo/no-vivo y a veces por cubierta
+      animal) — en esos casos el `recurso` se declara una sola vez como
+      variable local al inicio de la función y se reutiliza en el `return`
+      de cada rama, cubriendo el concepto paraguas del módulo en vez de
+      forzar un texto por rama. Con esto, 1° básico queda con recurso en
+      las 9 asignaturas aplicables (29 de 31 módulos — Sílabas y Letras son
+      juegos a medida sin motor MC, no aplica). Verificado: los 22
+      generadores nuevos pasan fuzz de 200 iteraciones cada uno (recurso
+      siempre presente, sin `undefined`, `correctValue` siempre en
+      opciones) y se probó visualmente en el navegador (módulo "Seres
+      Vivos": botón Recurso visible y modal con el texto real). Próximo
+      paso del mismo pedido: continuar con 2°-8° básico y Parvularia,
+      grado por grado, cada uno en su propio commit/PR.
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el

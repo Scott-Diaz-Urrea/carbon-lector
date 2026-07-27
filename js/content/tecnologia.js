@@ -66,6 +66,7 @@ export function genTecDigital2Round(){
 }
 
 export function genHerramientasTecRound(){
+  const recurso = 'La <b>tecnología</b> es cualquier herramienta o material que las personas crean para resolver un problema o hacer una tarea más fácil — no es solo "cosas con pantalla", también son tecnología unas tijeras, un martillo o una regla. Cada <b>herramienta</b> está diseñada para un trabajo específico (cortar, medir, pegar), y cada <b>material</b> se elige según lo que necesitas construir (fuerte, flexible, liviano). Reconocer qué herramienta o material corresponde a cada uso es el primer paso para poder crear tus propios objetos tecnológicos más adelante, eligiendo lo correcto para cada tarea en vez de usar cualquier cosa al azar.';
   if(Math.random()<0.5){
     const item = pick(HERRAMIENTAS_TEC);
     const distract = shuffle(HERRAMIENTAS_TEC.filter(function(h){ return h.label!==item.label; })).slice(0,3).map(function(h){ return h.label; });
@@ -74,6 +75,7 @@ export function genHerramientasTecRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.uso+'</p>',
       options: opts, correctValue: item.label, speakText: item.uso, cols:4, kind:'word',
       explain: item.uso+' Esa herramienta es <b>'+item.label.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(MATERIALES_TEC);
@@ -83,6 +85,7 @@ export function genHerramientasTecRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.uso+'</p>',
     options: opts, correctValue: item.label, speakText: item.uso, cols:4, kind:'word',
     explain: item.uso+' Ese material es <b>'+item.label.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 

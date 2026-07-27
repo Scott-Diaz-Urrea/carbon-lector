@@ -235,6 +235,7 @@ function calStripHTML(list, todayIdx){
 }
 
 export function genCalendarioRound(){
+  const recurso = 'El calendario organiza el tiempo en unidades que siempre se repiten en el mismo orden: la semana tiene 7 días (lunes a domingo) y el año tiene 12 meses (enero a diciembre), y ambos ciclos vuelven a empezar apenas terminan — después de domingo viene lunes otra vez, y después de diciembre viene enero otra vez. Saber qué día o mes viene después te ayuda a ubicarte en el tiempo: a planificar cuándo es tu cumpleaños, cuándo tienes una prueba, o cuánto falta para las vacaciones. Esta habilidad de "orientarse en el tiempo" es la base para entender cosas más complejas más adelante, como leer una fecha o entender cuánto tiempo pasó entre dos eventos.';
   if(Math.random()<0.5){
     const idx = randInt(0, DIAS_SEMANA.length-1);
     const dia = DIAS_SEMANA[idx];
@@ -245,6 +246,7 @@ export function genCalendarioRound(){
       promptHTML: calStripHTML(DIAS_SEMANA, idx)+'<p class="prompt-hint">Si hoy es <b>'+dia+'</b>, ¿qué día viene después?</p>',
       options: opts, correctValue: next, speakText: '¿Qué día viene después de '+dia+'?', cols:4, kind:'word',
       explain: 'Después de <b>'+dia+'</b> viene <b>'+next+'</b>.',
+      recurso: recurso,
     };
   }
   const idx = randInt(0, MESES_ANIO.length-1);
@@ -256,10 +258,12 @@ export function genCalendarioRound(){
     promptHTML: calStripHTML(MESES_ANIO, idx)+'<p class="prompt-hint">Si estamos en <b>'+mes+'</b>, ¿qué mes viene después?</p>',
     options: opts, correctValue: next, speakText: '¿Qué mes viene después de '+mes+'?', cols:4, kind:'word',
     explain: 'Después de <b>'+mes+'</b> viene <b>'+next+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genMiIdentidadRound(){
+  const recurso = 'Tu identidad incluye la <b>rutina diaria</b> que sigues (despertar, ir al colegio, jugar, dormir) y la <b>familia</b> que te rodea, con sus distintos integrantes y roles. Reconocer el orden de tu rutina — qué pasa primero y qué pasa después — te ayuda a entender el paso del tiempo dentro de un mismo día, igual que aprender los días de la semana te ayuda a entender el tiempo en general. Y reconocer a los integrantes de una familia y cómo se llaman (mamá, papá, hermanos, abuelos) te ayuda a entender que cada persona en tu vida tiene un rol distinto, y que las familias pueden estar formadas de maneras distintas mientras se cuiden entre sí.';
   if(Math.random()<0.5){
     let a = pick(RUTINA_DIARIA), b = pick(RUTINA_DIARIA);
     while(b.label === a.label) b = pick(RUTINA_DIARIA);
@@ -268,6 +272,7 @@ export function genMiIdentidadRound(){
       promptHTML: '<p class="prompt-hint">¿Qué pasa primero en tu día?</p>',
       options: opts, correctValue: a.order<b.order ? a.label : b.label, speakText: '¿Qué pasa primero?', cols:2, panel:true,
       explain: (a.order<b.order ? a.label : b.label)+' pasa antes que '+(a.order<b.order ? b.label : a.label)+' en un día normal.',
+      recurso: recurso,
     };
   }
   const item = pick(FAMILIA_BANK);
@@ -277,10 +282,12 @@ export function genMiIdentidadRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.q+'</p>',
     options: opts, correctValue: item.correct, speakText: item.q, cols:4, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correct+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genSimbolosRound(){
+  const recurso = 'Los <b>símbolos patrios</b> (la bandera, el escudo, el himno) representan a todo un país y a la gente que vive en él — por eso se les trata con respeto especial, como cantarlo de pie o izarla en fechas importantes. Además de esos símbolos oficiales, cada país tiene elementos "típicos" que lo representan culturalmente: comidas, bailes, animales o paisajes que la gente reconoce como parte de su identidad, aunque no sean un símbolo oficial. Reconocer qué es realmente típico de Chile (y qué pertenece a otro país o cultura) te ayuda a entender mejor tu propia identidad como parte de una comunidad más grande, el país donde vives.';
   const item = pick(CHILE_TIPICO);
   const opts = shuffle([{label:'TÍPICO DE CHILE', value:true},{label:'NO ES DE CHILE', value:false}]);
   const visual = item.svg ? '<div class="shape-display">'+chileFlagSVG(90)+'</div>' : '<span class="prompt-emoji">'+item.emoji+'</span>';
@@ -288,10 +295,12 @@ export function genSimbolosRound(){
     promptHTML: visual+'<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.tipico, speakText: item.label, cols:2, panel:true,
     explain: item.tipico ? item.label+' <b>es típico o representativo de Chile</b>.' : item.label+' <b>no es de Chile</b>, es de otro país o cultura.',
+    recurso: recurso,
   };
 }
 
 export function genMapasRound(){
+  const recurso = 'Un <b>paisaje</b> es cómo se ve un lugar según su geografía: montañas, valles, playas, desiertos o bosques se distinguen por su forma, su clima y lo que crece o vive ahí. Chile tiene paisajes muy distintos de norte a sur (desde el desierto en el norte hasta glaciares en el sur) porque es un país muy largo y angosto. Un <b>mapa</b> es un dibujo que representa estos lugares desde arriba, y te ayuda a entender dónde está cada cosa y cómo se relacionan entre sí, aunque nunca hayas estado ahí en persona. Aprender a reconocer paisajes y datos básicos de la geografía de tu país es el primer paso para poder leer mapas más complejos en el futuro.';
   if(Math.random()<0.5){
     const item = pick(PAISAJES_CHILE);
     const distract = shuffle(PAISAJES_CHILE.filter(function(p){ return p.label!==item.label; })).slice(0,3).map(function(p){ return p.label; });
@@ -300,6 +309,7 @@ export function genMapasRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa descripción corresponde a una <b>'+item.label.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(CHILE_GEO_FACTS);
@@ -308,10 +318,12 @@ export function genMapasRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.q+'</p>',
     options: opts, correctValue: item.correct, speakText: item.q, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correct+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genComunidadRound(){
+  const recurso = 'Una <b>comunidad</b> funciona porque distintas personas cumplen distintos roles que se necesitan entre sí: los oficios (como bombero, doctor o profesor) son trabajos que ayudan a todos, y las instituciones (como la posta, la escuela o los bomberos) son lugares organizados donde esos oficios se ponen al servicio de la comunidad completa, no solo de una persona. Además de esos roles, una buena comunidad necesita <b>normas de convivencia</b> — reglas simples como saludar, compartir, esperar el turno o pedir las cosas por favor — que ayudan a que todos puedan vivir juntos sin problemas. Reconocer qué oficio hace cada trabajo, para qué sirve cada institución, y qué conducta ayuda a la buena convivencia te prepara para ser un buen integrante de tu comunidad.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(OFICIOS_BANK);
@@ -321,6 +333,7 @@ export function genComunidadRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa es la labor de un(a) <b>'+item.label.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -331,6 +344,7 @@ export function genComunidadRound(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa es la función de <b>'+item.label.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(NORMAS_CONVIVENCIA);
@@ -339,6 +353,7 @@ export function genComunidadRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.bueno, speakText: item.label, cols:2, panel:true,
     explain: item.bueno ? item.label+' <b>ayuda a la buena convivencia</b>.' : item.label+' <b>no ayuda a la buena convivencia</b>.',
+    recurso: recurso,
   };
 }
 

@@ -2321,3 +2321,11 @@ sesión).
   de import/export, y ejecutar los generadores (`MC_GAMES[key].gen()`) varias veces por
   juego para pescar bugs de opciones duplicadas o texto `undefined` antes de que aparezcan
   jugando. El proyecto no tiene tests automatizados más allá de eso.
+- **Merge automático de PRs (pedido explícito del usuario, 2026-07-27):** a diferencia
+  del resto de repos donde se espera confirmación explícita antes de mergear, en
+  **este** repositorio el usuario pidió que cada PR se mergee inmediatamente después
+  de crearlo, sin esperar una confirmación aparte — sigue aplicando el resto del flujo
+  ya establecido (branch nueva → commit → push → PR vía API de GitHub → **mergear** →
+  borrar la rama remota → `git checkout main && git pull && git branch -d <branch>`).
+  Esto no cambia la necesidad de hacer buen testing/fuzzing antes de abrir el PR —
+  el merge automático hace que esa verificación previa importe todavía más.

@@ -17,6 +17,7 @@ import { CORPORALIDAD_MOVIMIENTO_MODULES, CORPORALIDAD_MOVIMIENTO_POS } from './
 import { EXPLORACION_ENTORNO_NATURAL_MODULES, EXPLORACION_ENTORNO_NATURAL_POS } from './content/parvularia/exploracionEntornoNatural.js';
 import { COMPRENSION_ENTORNO_SOCIOCULTURAL_MODULES, COMPRENSION_ENTORNO_SOCIOCULTURAL_POS } from './content/parvularia/comprensionEntornoSociocultural.js';
 import { QUIMICA_DIAGNOSTICA_MODULES, QUIMICA_DIAGNOSTICA_POS } from './content/estudioPruebas/quimicaDiagnostica.js';
+import { MICROBIOLOGIA_CLINICA_MODULES, MICROBIOLOGIA_CLINICA_POS } from './content/estudioPruebas/microbiologiaClinica.js';
 
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
@@ -182,11 +183,13 @@ export const NUCLEO_DEFS = [
    Central de Chile), extraído de sus propios apuntes/clases/guías de
    laboratorio, no de un documento curricular oficial de Mineduc. Se organiza
    por submódulo (una asignatura universitaria cada uno), no por año/núcleo,
-   ya que aquí no existe una trayectoria escolar que seguir. Microbiología
-   Clínica todavía no tiene contenido (`modules: null`) — se agrega como
-   tarjeta "en preparación" hasta que se construya su archivo de contenido,
-   siguiendo el mismo patrón de "🚧 en preparación" que el resto de la app. */
+   ya que aquí no existe una trayectoria escolar que seguir. Ambos submódulos
+   (Química Diagnóstica y Microbiología Clínica) ya tienen contenido completo
+   — ver content/estudioPruebas/*.js para el detalle de fuentes y cobertura
+   de cada uno (Microbiología Clínica cubre los Temas 1-20 del programa real;
+   Temas 21-28 quedan fuera por falta de material fuente, documentado en el
+   comentario inicial de microbiologiaClinica.js). */
 export const ESTUDIO_PRUEBAS_SUBMODULOS = [
   { id:'quimicaDiagnostica', icon:'🧪', label:'Química Diagnóstica', screen:'quimicaDiagnosticaMap', modules: QUIMICA_DIAGNOSTICA_MODULES, pos: QUIMICA_DIAGNOSTICA_POS, height: 900 },
-  { id:'microbiologiaClinica', icon:'🦠', label:'Microbiología Clínica', screen:'microbiologiaClinicaMap', modules: null, pos: null, height: 0 },
+  { id:'microbiologiaClinica', icon:'🦠', label:'Microbiología Clínica', screen:'microbiologiaClinicaMap', modules: MICROBIOLOGIA_CLINICA_MODULES, pos: MICROBIOLOGIA_CLINICA_POS, height: 960 },
 ];

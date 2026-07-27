@@ -28,7 +28,7 @@ export function render(){
   else if(scr === 'nucleoMap') body = renderNucleoMap();
   else if(scr === 'estudioPruebasMap') body = renderEstudioPruebasMap();
   else if(scr === 'quimicaDiagnosticaMap') body = renderQuimicaDiagnosticaMap();
-  else if(scr === 'microbiologiaClinicaMap') body = renderComingSoonSubject('Microbiología Clínica');
+  else if(scr === 'microbiologiaClinicaMap') body = renderMicrobiologiaClinicaMap();
   else if(scr === 'pensamientoMatematicoMap') body = renderPensamientoMatematicoMap();
   else if(scr === 'lenguajeVerbalMap') body = renderLenguajeVerbalMap();
   else if(scr === 'lenguajesArtisticosMap') body = renderLenguajesArtisticosMap();
@@ -237,6 +237,10 @@ function renderEstudioPruebasMap(){
 function renderQuimicaDiagnosticaMap(){
   const sd = ESTUDIO_PRUEBAS_SUBMODULOS.filter(function(x){ return x.id==='quimicaDiagnostica'; })[0];
   return renderModuleMap('Química Diagnóstica','🧪 Preparación de examen · Tecnología Médica, Universidad Central', sd.modules, sd.pos, sd.height);
+}
+function renderMicrobiologiaClinicaMap(){
+  const sd = ESTUDIO_PRUEBAS_SUBMODULOS.filter(function(x){ return x.id==='microbiologiaClinica'; })[0];
+  return renderModuleMap('Microbiología Clínica','🦠 Preparación de examen · Tecnología Médica, Universidad Central', sd.modules, sd.pos, sd.height);
 }
 
 function subjectStars(keys){

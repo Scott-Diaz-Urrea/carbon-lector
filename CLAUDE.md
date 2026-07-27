@@ -131,6 +131,22 @@ js/
                               (nunca inventado) — ver "Estudio para Pruebas" en "Estado
                               actual del contenido" para el detalle de fuentes y
                               metodología de extracción.
+      microbiologiaClinica.js  submódulo Microbiología Clínica (12 módulos, ~112 ítems):
+                              fundamentos bacterianos, antimicrobianos, susceptibilidad,
+                              mecanismos de resistencia, carbapenemasas (incluye 2 casos
+                              con antibiograma real de Pseudomonas y 3 ejemplos de
+                              antibiograma interpretado de carbapenemasas), taxonomía y
+                              medios de cultivo, y 6 módulos de bacteriología por familia
+                              (Staphylococcus; Streptococcus/Enterococcus; bacilos Gram+;
+                              Enterobacterales; bacilos Gram- no fermentadores;
+                              Vibrionaceae/Campylobacter/Helicobacter). Extraído por 8
+                              agentes de investigación en paralelo que leyeron cada PDF
+                              fuente completo (Temas 1-20 del programa real, código 53427);
+                              Temas 21-28 (Mycobacterium, Neisseria, Espiroquetas/
+                              Mycoplasma/Chlamydia/Rickettsia, Micología, Virología) quedan
+                              fuera por no tener PDF fuente disponible — ver el comentario
+                              inicial del archivo y "Estudio para Pruebas" en "Estado
+                              actual del contenido" para el detalle completo.
   games/
     silabas.js                Sílabas: contenido + render*Screen/init*Game/draw*Round/tap*.
     secuencia.js               ídem Secuencia.
@@ -431,6 +447,14 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
       grado por grado con el mismo enfoque de calidad. Los juegos a medida
       (Sílabas, Secuencia, Memorama) no usan este motor y por ahora no tienen
       botón Recurso.
+    - **Estudio para Pruebas → Microbiología Clínica** (construida 2026-07-26,
+      por ítem del banco): los 12 módulos completos, ~112 ítems, cada uno con
+      su propio `recurso` desde el inicio (mismo estándar de calidad que
+      Química Diagnóstica) — a diferencia del resto de la app (2°-8° básico,
+      Parvularia), que sigue pendiente del enfoque grado por grado mencionado
+      arriba. Se aplicó el estándar completo aquí porque "Estudio para
+      Pruebas" es la etapa donde el usuario ya había fijado ese nivel de
+      calidad como el esperado desde el primer submódulo.
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el
@@ -1680,7 +1704,7 @@ dejarla indefinidamente pendiente.
   (incluye verificación manual de que 6×4×4=96 cm³ y el trío pitagórico
   5-12-13 aparecían como respuesta correcta).
 
-### Estudio para Pruebas — 🚧 Química Diagnóstica completa (11 módulos), Microbiología Clínica pendiente
+### Estudio para Pruebas — ✅ ambos submódulos completos (Química Diagnóstica 11 módulos, Microbiología Clínica 12 módulos)
 **Excepción explícita a la regla de oro** (ver arriba): etapa pedida directamente
 por el usuario (2026-07-26) para preparar exámenes universitarios reales de un
 familiar (Tecnología Médica, Universidad Central de Chile) — nunca basada en OA
@@ -1714,28 +1738,96 @@ del curso.
   definiciones/valores de referencia/mecanismos ya extraídos, evitando expresamente
   las contradicciones internas detectadas en el material fuente (p. ej. rangos de
   referencia que difieren levemente entre dos documentos del mismo curso).
-- **Microbiología Clínica**: aún sin contenido — la extracción de PDFs fuente quedó
-  parcialmente completada (fundamentos bacterianos, antimicrobianos/resistencia y
-  bacilos gram negativos todavía pendientes de extraer) cuando el usuario pidió
-  explícitamente priorizar Química Diagnóstica primero. Mientras no tenga `modules`,
-  `ESTUDIO_PRUEBAS_SUBMODULOS` (`js/gradeContent.js`) la muestra como tarjeta
-  "🚧 Próximamente" en `estudioPruebasMap` — no rompe nada, solo no es jugable
-  todavía. Para construirla: mismo patrón que `quimicaDiagnostica.js` (archivo
-  nuevo en `js/content/estudioPruebas/`, registrar en `ESTUDIO_PRUEBAS_SUBMODULOS`
-  con su propio `screen`, agregar el `else if` en `render.js`, registrar sus
-  `genXxxRound` en `MC_GAMES`/`MC_KEYS`, agregar sus `MODULE_TITLES` y claves de
-  `state.stars`).
+- **Microbiología Clínica** (12 módulos, ~112 ítems, `js/content/estudioPruebas/microbiologiaClinica.js`,
+  construida 2026-07-26 tras completar Química Diagnóstica): Fundamentos Bacterianos
+  (morfología/pared celular, fisiología, genética/transferencia horizontal), Antimicrobianos:
+  Mecanismo y Clasificación, Estudios de Susceptibilidad (CLSI, antibiograma, CIM, cepas
+  ATCC), Mecanismos de Resistencia (BLEE/AmpC, fenotipos Van, mecA/mecC), Carbapenemasas y
+  Detección (incluye 2 casos reales con antibiograma completo de Pseudomonas del propio
+  material del curso, y 3 ejemplos de antibiograma interpretado de KPC/NDM/OXA-48-like),
+  Taxonomía y Medios de Cultivo (fundamento de medios selectivos/diferenciales y 25 pruebas
+  bioquímicas con sus controles ATCC), y 6 módulos organizados por familia bacteriana:
+  Staphylococcus, Streptococcus y Enterococcus, Bacilos Gram Positivos (Listeria,
+  Corynebacterium, Erysipelothrix, Bacillus, Nocardia), Enterobacterales (Escherichia,
+  Shigella, Salmonella, Yersinia, KES, PPM, Citrobacter), Bacilos Gram Negativos No
+  Fermentadores (Pseudomonas, Stenotrophomonas, Acinetobacter, Burkholderia, Legionella —
+  incluye 1 caso real más de antibiograma de Pseudomonas), y Vibrionaceae/Campylobacter/
+  Helicobacter.
+  - **Metodología de extracción**: 8 agentes de investigación en paralelo (isolation
+    worktree, background), cada uno asignado a un grupo temático de PDFs de la carpeta
+    fuente del curso (código 53427, Temas 1-20 del programa real), con instrucción
+    explícita de leer cada PDF completo, nunca inventar contenido, transcribir íntegros
+    los casos clínicos si existían, y señalar contradicciones internas del material
+    fuente. El entorno de estos agentes no tenía `pdftoppm`/renderizador de imágenes de
+    PDF instalado; cada uno encontró su propia vía alternativa (extracción de texto con
+    `pdftotext` en modo `-layout`/`-raw`, o renderizado de páginas a PNG vía la API
+    nativa de Windows `Windows.Data.Pdf` para verificar visualmente tablas/diagramas
+    incrustados como imagen) — documentado como lección técnica en cada extracción, sin
+    que afectara la fidelidad del contenido final. 3 de los 8 agentes fallaron en su
+    primer intento por haber alcanzado el límite de sesión de la cuenta (no un error de
+    contenido) y se relanzaron exitosamente tras el reset.
+  - **Cobertura real vs. programa del curso**: el programa tiene 28 Temas; Temas 1-20
+    (fundamentos, antimicrobianos I-II, susceptibilidad, genética bacteriana, mecanismos
+    de resistencia -generalidades/Gram+/Gram-/carbapenemasas-, taxonomía, medios de
+    cultivo I-II, Staphylococcaceae, bacilos Gram+, Streptococcaceae/Enterococcaceae,
+    Enterobacterales I-II, bacilos Gram- no fermentadores I-II, Vibrionaceae/
+    Aeromonadaceae/Campylobacteraceae/Helicobacteraceae) tenían PDF fuente disponible y
+    están cubiertos aquí. **Temas 21-28** (Pasteurellaceae/Brucellaceae, Mycobacterium,
+    Neisseriaceae, Spirochetales/Mycoplasma/Chlamydia/Rickettsia, Micología, Virología
+    I-III) **no tienen PDF fuente disponible** y quedan fuera hasta que se consiga ese
+    material — mismo criterio que usa Química Diagnóstica para documentar sus propias
+    exclusiones, nunca se inventó contenido para rellenar ese vacío.
+  - **Diferencia de género de contenido respecto a Química Diagnóstica**: casi ningún
+    documento fuente de Microbiología Clínica tenía casos clínicos narrativos de
+    paciente (anamnesis + laboratorio + pregunta) — los 2 documentos que se esperaba
+    fueran extensos con casos ("Staphylococcus.pdf", "Streptococcus y Enterococcus.pdf")
+    resultaron ser solo algoritmos diagnósticos + tablas CLSI de referencia. El contenido
+    "caso" real más rico encontrado en todo el curso son los 2 casos de antibiograma de
+    Pseudomonas (Tema 18) y los 3 ejemplos de antibiograma interpretado de Carbapenemasas
+    (Tema 17), todos incorporados como ítems `caso` en el módulo correspondiente. El resto
+    del contenido es factual (taxonomía, mecanismos, diagnóstico diferencial, controles
+    de calidad), fiel a como está realmente el material real del curso — no se forzó un
+    formato de caso clínico donde la fuente no lo tenía.
+  - **Varios PDFs de este curso tenían el nombre de archivo desalineado con su contenido
+    real** (detectado repetidamente por los agentes, ej. "TEMA 9... GRAM (-)" cuyo
+    contenido es 100% Gram (+); Tema 18/19 con Pseudomonas/Stenotrophomonas y
+    Moraxellaceae/Acinetobacter/Burkholderia/Legionella invertidos respecto a lo
+    esperado) — cada extracción cita el contenido real verificado, no el nombre del
+    archivo.
+  - **Bug real encontrado y corregido durante el testing en navegador**: el dataset de
+    12 nodos con `height:900` (mismo valor usado por Química Diagnóstica, con 11 nodos)
+    producía un solapamiento vertical real de 6px entre nodos del mismo lado del zigzag
+    — medido con `getBoundingClientRect()` en el navegador, no solo calculado
+    geométricamente (mismo estándar de verificación que la auditoría de mapa de nodos de
+    2026-07-26). Corregido subiendo `height` a 960 en la entrada de
+    `ESTUDIO_PRUEBAS_SUBMODULOS` (`js/gradeContent.js`) — nunca se tocaron las
+    coordenadas `%` de `MICROBIOLOGIA_CLINICA_POS`, mismo criterio que toda la auditoría
+    previa de mapas de nodos. Verificado tras el fix: 0 solapamientos en escritorio y en
+    375px de viewport, y Química Diagnóstica (que comparte el mismo componente `.node`)
+    sigue sin solapamientos tras el cambio.
+  - Para agregar contenido de los Temas 21-28 en el futuro (si se consigue el material
+    fuente): mismo patrón que este archivo — nuevos `genXxxRound()` + banco + entrada en
+    `MICROBIOLOGIA_CLINICA_MODULES`/`_POS`, registrar en `MC_GAMES`/`MC_KEYS`
+    (`js/mcEngine.js`), `MODULE_TITLES` (`js/rewards.js`) y `state.stars`
+    (`js/state.js`) — no requiere ningún archivo nuevo de wiring, solo extender los
+    ya existentes.
 
-Verificado: los 11 módulos de Química Diagnóstica pasan fuzz estructural (300
-iteraciones cada uno: sin `undefined`, sin opciones duplicadas, `correctValue`
-siempre presente, exactamente 4 opciones, sin apóstrofes en `speakText` — que
-rompen el atributo `onclick` del botón "Escuchar") y simulación de sesión
-completa (300 sesiones cada uno, sin ningún repetido). Probado también en el
-navegador: navegación completa `etapaMap` → `estudioPruebasMap` →
-`quimicaDiagnosticaMap` → módulo individual, con una partida jugada de principio
-a fin en "Casos Clínicos: Función Renal" (respuesta correcta avanza sola,
-respuesta incorrecta muestra el overlay de Carboncito con el `explain`, la
-pantalla de resultados final muestra estrellas/insignia correctamente).
+Verificado: los 11 módulos de Química Diagnóstica y los 12 módulos nuevos de
+Microbiología Clínica pasan fuzz estructural (300 iteraciones cada uno: sin
+`undefined`, sin opciones duplicadas, `correctValue` siempre presente, exactamente
+4 opciones, sin apóstrofes en `speakText` — que rompen el atributo `onclick` del
+botón "Escuchar") y simulación de sesión completa (300 sesiones cada uno, sin
+ningún repetido). Verificación de regresión completa del wiring: `MC_KEYS.length`
+== `Object.keys(MC_GAMES).length` == 324, sin claves huérfanas en ninguna
+dirección. Probado también en el navegador: navegación completa `etapaMap` →
+`estudioPruebasMap` → `quimicaDiagnosticaMap`/`microbiologiaClinicaMap` → módulo
+individual, con partidas jugadas de principio a fin en "Casos Clínicos: Función
+Renal" (Química Diagnóstica) y "Carbapenemasas y Detección" (Microbiología
+Clínica) — respuesta correcta avanza sola, respuesta incorrecta muestra el
+overlay de Carboncito con el `explain` (y el botón "Recurso" abre el modal con
+el texto real), la pantalla de resultados final muestra estrellas/insignia
+correctamente. Probado en 375px (mobile) y desktop: sin errores de consola, sin
+solapamiento de nodos, ancho de etiqueta de nodo siempre ≤170px.
 
 **Auditoría de UX/UI/responsive/banco de preguntas (2026-07-28, pedido explícito
 del usuario tras probar el módulo):** se detectaron y corrigieron 3 problemas

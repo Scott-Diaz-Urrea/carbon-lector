@@ -313,6 +313,7 @@ const SEGURIDAD_4_ITEMS = [
 ];
 
 export function genCondicionFisica4Round(){
+  const recurso = 'La <b>condición física</b> tiene 4 componentes principales: la resistencia cardiovascular (la capacidad de mantener un esfuerzo por un tiempo largo, como correr sin parar), la fuerza (la capacidad de levantar o mover objetos pesados), la flexibilidad (qué tan bien se estiran tus músculos y articulaciones) y la velocidad (qué tan rápido puedes moverte en un tramo corto). El <b>pulso</b> es la cantidad de veces que late tu corazón por minuto, y se puede sentir fácilmente con los dedos en la muñeca o el cuello; medirlo antes y después de hacer ejercicio te muestra cómo responde tu cuerpo al esfuerzo — el pulso aumenta durante el ejercicio intenso porque el corazón trabaja más rápido para llevar oxígeno a los músculos.';
   if(Math.random()<0.7){
     const item = pick(COMPONENTES_FISICOS_BANK);
     const distract = shuffle(['RESISTENCIA CARDIOVASCULAR','FUERZA','FLEXIBILIDAD','VELOCIDAD'].filter(function(c){ return c!==item.componente; }));
@@ -321,6 +322,7 @@ export function genCondicionFisica4Round(){
       promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué componente de la condición física se está trabajando?</p>',
       options: opts, correctValue: item.componente, speakText: item.actividad, cols:2, kind:'word',
       explain: 'Esa actividad trabaja principalmente la <b>'+item.componente.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(PULSO_BANK);
@@ -329,6 +331,7 @@ export function genCondicionFisica4Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".',
+    recurso: recurso,
   };
 }
 
@@ -339,6 +342,7 @@ export function genSeguridad4Round(){
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: 'Jugar limpio significa respetar las reglas de un juego incluso cuando nadie te está mirando, y cumplir con el rol que te asignan dentro de un equipo, porque cada jugador depende de que los demás hagan su parte. La <b>seguridad</b> al hacer actividad física incluye conocer bien el espacio donde te mueves, usar la ropa y el calzado adecuado para reducir el riesgo de lesiones, y avisar de inmediato si te sientes mal o lesionado durante la actividad — ignorar una molestia física puede convertir una lesión pequeña en una más grave. Estos hábitos de responsabilidad y honestidad son parte tan importante del deporte como la habilidad física misma.',
   };
 }
 

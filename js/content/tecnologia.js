@@ -158,6 +158,7 @@ export function genTecDigital4Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".',
+    recurso: 'Una <b>hoja de cálculo</b> organiza información en filas y columnas, y es especialmente útil para números y datos (como los resultados de una encuesta) porque puede hacer cálculos automáticos, a diferencia de un simple documento de texto. Un <b>software de presentaciones</b> sirve para mostrar ideas en diapositivas con texto e imágenes, ideal para exponer un trabajo frente a otros. Al usar internet, la <b>seguridad digital</b> es clave: antes de usar información de un sitio web hay que evaluar si la fuente es confiable, nunca entregar datos personales sin motivo claro, y revisar que el remitente de un correo sea alguien conocido antes de hacer clic en cualquier enlace.',
   };
 }
 

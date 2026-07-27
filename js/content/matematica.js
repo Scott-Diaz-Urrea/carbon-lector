@@ -696,6 +696,7 @@ const OBJETOS_LONGITUD4 = [
 ];
 
 export function genNumeros4Round(){
+  const recurso = 'Los números hasta 10 000 se organizan en <b>unidades de mil</b> (grupos de 1000), <b>centenas</b> (grupos de 100), <b>decenas</b> (grupos de 10) y <b>unidades</b> — por ejemplo, 4728 tiene 4 unidades de mil, 7 centenas, 2 decenas y 8 unidades. Esta descomposición (llamada valor posicional) sirve para comparar números grandes de forma rápida: basta con mirar, de izquierda a derecha, el primer dígito donde los dos números sean distintos. También es la base para leer un número en voz alta: "cuatro mil setecientos veintiocho" nombra primero los miles y luego el resto, tal como se hace al escribirlo.';
   const roll = Math.random();
   if(roll<0.34){
     /* Los 4 dígitos deben ser distintos entre sí: si dos coinciden (p.ej.
@@ -716,6 +717,7 @@ export function genNumeros4Round(){
       promptHTML: '<p class="prompt-count" style="font-size:40px;">'+n+'</p><p class="prompt-hint">¿Cuál es la descomposición correcta de este número?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuál es la descomposición de '+n+'?', cols:2, panel:true,
       explain: n+' se descompone como <b>'+correct.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -726,6 +728,7 @@ export function genNumeros4Round(){
       promptHTML: '<p class="prompt-hint">Toca el número <b>mayor</b></p>',
       options: opts, correctValue: a>b ? 'A' : 'B', speakText: '¿Cuál número es mayor, '+a+' o '+b+'?', cols:2, panel:true,
       explain: 'El '+Math.max(a,b)+' es mayor que el '+Math.min(a,b)+'.',
+      recurso: recurso,
     };
   }
   const n = randInt(1000,9999);
@@ -734,6 +737,7 @@ export function genNumeros4Round(){
     promptHTML: '<p class="prompt-hint">¿Cuál de estos números se lee "'+numeroALetras(n)+'"?</p>',
     options: opts, correctValue: n, speakText: '¿Cuál número es '+numeroALetras(n)+'?', cols:2, panel:true,
     explain: 'El número es <b>'+n+'</b>.',
+    recurso: recurso,
   };
 }
 
@@ -745,6 +749,7 @@ function numeroALetras(n){
 }
 
 export function genOperaciones4Round(){
+  const recurso = 'Sumar y restar con números más grandes usa la misma idea que con números chicos, solo que ahora hay que ordenar bien las centenas, decenas y unidades antes de operar. Dos propiedades muy útiles: cualquier número <b>+ 0</b> queda igual (el 0 es el "elemento neutro" de la suma) y cualquier número <b>× 1</b> también queda igual (el 1 es el "elemento neutro" de la multiplicación) — no cambian nada porque no agregan ni quitan cantidad. El dinero es un ejemplo perfecto de resta en la vida real: cuando pagas con un billete más grande que el precio, el vuelto que te devuelven es justamente la diferencia entre lo que pagaste y lo que costó.';
   const roll = Math.random();
   if(roll<0.34){
     const a = randInt(100,900), b = randInt(10,99);
@@ -754,6 +759,7 @@ export function genOperaciones4Round(){
       promptHTML: '<p class="prompt-count" style="font-size:30px;">'+a+' + '+b+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
       options: opts, correctValue: sum, speakText: '¿Cuánto es '+a+' más '+b+'?', cols:4,
       explain: a+' + '+b+' = <b>'+sum+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -766,6 +772,7 @@ export function genOperaciones4Round(){
       promptHTML: '<p class="prompt-hint">'+pregunta+'</p>',
       options: opts, correctValue: correct, speakText: pregunta, cols:4,
       explain: usaCero ? 'Cualquier número más 0 da el mismo número: <b>'+n+'</b>.' : 'Cualquier número multiplicado por 1 da el mismo número: <b>'+n+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(OBJETOS_PRECIO4);
@@ -776,10 +783,12 @@ export function genOperaciones4Round(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+' cuesta $'+item.precio+'. Si pagas con $'+tienes+', ¿cuánto vuelto recibes?</p>',
     options: opts, correctValue: falta, speakText: '¿Cuánto vuelto recibes?', cols:4,
     explain: '$'+tienes+' - $'+item.precio+' = <b>$'+falta+'</b> de vuelto.',
+    recurso: recurso,
   };
 }
 
 export function genMultiplicarDividir4Round(){
+  const recurso = 'Multiplicar un número de 3 dígitos por uno de 1 dígito es, en el fondo, sumar ese número varias veces — la multiplicación solo lo hace más rápido cuando los grupos son grandes. La <b>división</b> es la operación contraria: si multiplicar junta grupos iguales, dividir los reparte. Cuando divides un total en grupos de un tamaño fijo, la pregunta es "¿cuántos grupos completos se forman?" — y esa respuesta es exactamente lo que multiplicación y división comparten: si 6 × 4 = 24, entonces 24 ÷ 6 = 4 y 24 ÷ 4 = 6. Por eso se dice que multiplicar y dividir son operaciones inversas: una deshace lo que hace la otra.';
   if(Math.random()<0.5){
     const a = randInt(100,300), b = randInt(2,9);
     const total = a*b;
@@ -788,6 +797,7 @@ export function genMultiplicarDividir4Round(){
       promptHTML: '<p class="prompt-count" style="font-size:30px;">'+a+' × '+b+'</p><p class="prompt-hint">¿Cuánto es?</p>',
       options: opts, correctValue: total, speakText: '¿Cuánto es '+a+' por '+b+'?', cols:4,
       explain: a+' × '+b+' = <b>'+total+'</b>.',
+      recurso: recurso,
     };
   }
   const b = randInt(2,9), q = randInt(10,20);
@@ -797,10 +807,12 @@ export function genMultiplicarDividir4Round(){
     promptHTML: '<p class="prompt-hint">Tienes '+total+' objetos y los repartes en grupos de '+b+'. ¿Cuántos grupos se forman?</p>',
     options: opts, correctValue: q, speakText: '¿Cuántos grupos de '+b+' se forman con '+total+'?', cols:4,
     explain: total+' ÷ '+b+' = <b>'+q+'</b> grupos.',
+    recurso: recurso,
   };
 }
 
 export function genFracciones4Round(){
+  const recurso = 'Una <b>fracción</b> representa una parte de un todo dividido en trozos iguales: el número de abajo (denominador) dice en cuántos trozos se dividió el todo, y el número de arriba (numerador) dice cuántos de esos trozos estás tomando. Para sumar dos fracciones que tienen el <b>mismo denominador</b>, solo se suman los numeradores y el denominador se queda igual — porque los trozos ya son del mismo tamaño, no hace falta convertir nada. Un <b>número mixto</b> (como 2 y 3/4) combina un número entero con una fracción, y sirve para representar cantidades que pasan de "un todo completo" pero no llegan a completar el siguiente: por ejemplo, 2 pizzas enteras más 3/4 de otra pizza.';
   const roll = Math.random();
   if(roll<0.4){
     const den = pick([2,3,4,5,6]);
@@ -814,6 +826,7 @@ export function genFracciones4Round(){
       promptHTML: '<div class="shape-display">'+dibujo+'</div><p class="prompt-hint">¿Qué fracción está coloreada?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué fracción está coloreada?', cols:4, kind:'word',
       explain: 'Están coloreadas <b>'+num+' de '+den+'</b> partes, o sea <b>'+correct+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.7){
@@ -825,6 +838,7 @@ export function genFracciones4Round(){
       promptHTML: '<p class="prompt-count" style="font-size:28px;">'+a+'/'+den+' + '+b+'/'+den+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
       options: opts, correctValue: sum+'/'+den, speakText: '¿Cuánto es '+a+'/'+den+' más '+b+'/'+den+'?', cols:4,
       explain: a+'/'+den+' + '+b+'/'+den+' = <b>'+sum+'/'+den+'</b> (se suman los numeradores, el denominador no cambia).',
+      recurso: recurso,
     };
   }
   const entero = randInt(1,4);
@@ -846,10 +860,12 @@ export function genFracciones4Round(){
     promptHTML: '<p class="prompt-hint">¿Cómo se escribe el número mixto formado por '+entero+' enteros y '+num+'/'+den+'?</p>',
     options: opts, correctValue: correct, speakText: '¿Cómo se escribe '+entero+' enteros y '+num+'/'+den+'?', cols:2, panel:true,
     explain: 'Se escribe <b>'+correct+'</b>: primero el número entero, luego la fracción.',
+    recurso: recurso,
   };
 }
 
 export function genDecimales4Round(){
+  const recurso = 'Un número <b>decimal</b> es una forma distinta de escribir una fracción: los <b>décimos</b> (0,1; 0,2...) representan un todo dividido en 10 partes iguales, igual que una fracción con denominador 10 — por eso 0,3 y 3/10 significan exactamente lo mismo. La coma decimal separa la parte entera (a la izquierda) de la parte que es menor que un entero (a la derecha). Para sumar decimales, se alinean las comas una debajo de la otra y se suma como con números normales, columna por columna, igual que se hace con centenas, decenas y unidades. Los decimales se usan todos los días, por ejemplo en el dinero: $1,50 significa un peso con 50 centésimos.';
   if(Math.random()<0.5){
     const decimas = randInt(1,9);
     const correct = '0,'+decimas;
@@ -858,6 +874,7 @@ export function genDecimales4Round(){
       promptHTML: '<div class="shape-display">'+fraccionBarraSVG(decimas,10,110)+'</div><p class="prompt-hint">¿Qué número decimal representa esta barra (en décimos)?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué decimal representa esta barra?', cols:4,
       explain: decimas+' de 10 partes coloreadas es <b>'+correct+'</b> (‘'+decimas+' décimos’).',
+      recurso: recurso,
     };
   }
   const a = randInt(1,50)/10, b = randInt(1,40)/10;
@@ -868,10 +885,12 @@ export function genDecimales4Round(){
     promptHTML: '<p class="prompt-count" style="font-size:28px;">'+a.toFixed(1).replace('.',',')+' + '+b.toFixed(1).replace('.',',')+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
     options: opts, correctValue: correctLabel, speakText: '¿Cuánto es '+a+' más '+b+'?', cols:4,
     explain: a.toFixed(1).replace('.',',')+' + '+b.toFixed(1).replace('.',',')+' = <b>'+correctLabel+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genPatrones4Round(){
+  const recurso = 'Un <b>patrón numérico</b> es una secuencia de números que sigue siempre la misma regla — por ejemplo, sumar la misma cantidad cada vez. Para descubrir qué número sigue, primero hay que encontrar la regla: mira la diferencia entre dos números seguidos que ya conoces, y esa diferencia se repite en toda la secuencia. Una <b>ecuación</b> con un espacio en blanco (como ? + 5 = 12) es una pregunta que pide encontrar el número que falta para que la igualdad sea verdadera — se puede resolver pensando "¿qué número más 5 da 12?" o haciendo la operación contraria (12 − 5). Reconocer patrones y resolver ecuaciones simples es la puerta de entrada al álgebra, que estudiarás en años más avanzados.';
   if(Math.random()<0.5){
     const step = randInt(3,15);
     const start = randInt(1,50);
@@ -882,6 +901,7 @@ export function genPatrones4Round(){
       promptHTML: '<p class="prompt-count">'+seq.join(', ')+', <span class="blank">?</span></p><p class="prompt-hint">¿Qué número sigue en el patrón?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué número sigue?', cols:4,
       explain: 'El patrón suma <b>'+step+'</b> cada vez, así que después de '+seq[3]+' sigue <b>'+correct+'</b>.',
+      recurso: recurso,
     };
   }
   const a = randInt(5,80), b = randInt(1,40);
@@ -894,10 +914,12 @@ export function genPatrones4Round(){
     promptHTML: '<p class="prompt-count" style="font-size:28px;"><span class="blank">?</span> + '+known+' = '+total+'</p><p class="prompt-hint">¿Qué número falta?</p>',
     options: opts, correctValue: correct, speakText: '¿Qué número falta en la ecuación?', cols:4,
     explain: correct+' + '+known+' = '+total+', así que el número que falta es <b>'+correct+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genGeometria4Round(){
+  const recurso = 'Un cuerpo geométrico 3D se puede describir de varias formas: por sus <b>coordenadas</b> en una cuadrícula (columna y fila, que dicen exactamente dónde está un punto), por sus <b>vistas</b> (qué forma se ve si lo miras de frente, de lado o desde arriba — un cubo siempre se ve cuadrado sin importar el ángulo, pero un cono se ve triángulo de frente y círculo desde arriba), o por su <b>simetría</b> (si al doblar una figura por la mitad, ambos lados coinciden exactamente). Los <b>ángulos</b> miden qué tan abierta o cerrada está una esquina, y se clasifican en agudo (más cerrado que una escuadra), recto (exactamente como una escuadra) y obtuso (más abierto que una escuadra).';
   const roll = Math.random();
   if(roll<0.25){
     const col = randInt(1,10), row = randInt(1,10);
@@ -906,6 +928,7 @@ export function genGeometria4Round(){
       promptHTML: '<p class="prompt-hint">Un punto está ubicado en la coordenada (columna, fila) = ('+col+', '+row+'). Si avanzas 1 columna hacia la derecha, ¿cuál es la nueva coordenada?</p>',
       options: opts, correctValue: (col+1)+','+row, speakText: '¿Cuál es la nueva coordenada?', cols:2, panel:true,
       explain: 'Avanzar 1 columna a la derecha cambia solo el primer número: ('+(col+1)+', '+row+').',
+      recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -921,6 +944,7 @@ export function genGeometria4Round(){
       promptHTML: '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div><p class="prompt-hint">Si miras este cuerpo geométrico '+vistaLabel.toLowerCase()+', ¿qué forma ves?</p>',
       options: opts, correctValue: correct, speakText: 'Si miras este cuerpo '+vistaLabel.toLowerCase()+', ¿qué forma ves?', cols:2, kind:'word', panel:true,
       explain: art+' '+item.label.toLowerCase()+' '+participio+' '+vistaLabel.toLowerCase()+' se ve como <b>'+correct.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -932,6 +956,7 @@ export function genGeometria4Round(){
       promptHTML: '<div class="shape-display">'+dibujo+'</div><p class="prompt-hint">Si doblaras esta figura por la mitad, ¿los dos lados coinciden exactamente?</p>',
       options: opts, correctValue: item.simetrico, speakText: '¿Esta figura tiene una línea de simetría?', cols:2, panel:true,
       explain: item.simetrico ? art+' '+item.label.toLowerCase()+' sí tiene línea de simetría: al doblarlo por la mitad, ambos lados coinciden.' : art+' '+item.label.toLowerCase()+' no tiene línea de simetría en este caso.',
+      recurso: recurso,
     };
   }
   const tipoA = pick(ANGULOS_POOL);
@@ -944,6 +969,7 @@ export function genGeometria4Round(){
     promptHTML: '<div class="compare-row"><div class="compare-col"><span>Ángulo A</span>'+anguloSVG(tipoA,90)+'</div><div class="compare-col"><span>Ángulo B</span>'+anguloSVG(tipoB,90)+'</div></div><p class="prompt-hint">¿Cuál ángulo es mayor?</p>',
     options: opts, correctValue: mayor, speakText: '¿Cuál ángulo es mayor?', cols:2, panel:true,
     explain: 'El ángulo '+mayor+' ('+ (mayor==='A'?tipoA:tipoB).toLowerCase() +') es mayor.',
+    recurso: recurso,
   };
 }
 
@@ -963,6 +989,7 @@ const CONVERSION_TIEMPO_BANK = [
 ];
 
 export function genMedicion4Round(){
+  const recurso = 'Medir en 4° básico junta varias ideas: el reloj de <b>24 horas</b> (usado en muchos relojes digitales y horarios de buses/aviones) se puede convertir al formato A.M./P.M. de 12 horas que usamos para hablar — las horas de 13 a 23 restan 12 para pasar a P.M. (14:00 = 2:00 P.M.). También se puede convertir entre unidades de tiempo (60 minutos = 1 hora, 24 horas = 1 día) y de longitud (100 centímetros = 1 metro). El <b>área</b> de un rectángulo es el espacio que cubre su superficie, y se calcula multiplicando largo × ancho; el <b>volumen</b> de una caja es el espacio que ocupa por dentro, y se calcula multiplicando largo × ancho × alto — una dimensión más que el área, porque el volumen mide un espacio en 3 direcciones en vez de 2.';
   const roll = Math.random();
   if(roll<0.2){
     const item = pick(HORA_AMPM_BANK);
@@ -972,6 +999,7 @@ export function genMedicion4Round(){
       promptHTML: '<p class="prompt-hint">'+item.descripcion+' — el reloj de 24 horas marca '+item.hora+'. ¿Cómo se escribe esa hora con A.M./P.M.?</p>',
       options: opts, correctValue: item.correcto, speakText: item.descripcion, cols:2, kind:'word',
       explain: 'Las '+item.hora+' en formato 24 horas se escriben <b>'+item.correcto+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.4){
@@ -981,6 +1009,7 @@ export function genMedicion4Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:4,
       explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.6){
@@ -992,6 +1021,7 @@ export function genMedicion4Round(){
       promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' mide '+a.cm+' cm.</p><p class="prompt-hint">'+b.emoji+' '+b.label+' mide '+b.cm+' cm.</p><p class="prompt-hint">¿Cuál es más largo?</p>',
       options: opts, correctValue: longer.label, speakText: '¿Cuál es más largo?', cols:2, panel:true,
       explain: longer.label+' mide '+longer.cm+' cm, más que el otro objeto.',
+      recurso: recurso,
     };
   }
   if(roll<0.8){
@@ -1002,6 +1032,7 @@ export function genMedicion4Round(){
       promptHTML: '<p class="prompt-hint">Un rectángulo mide '+largo+' unidades de largo y '+ancho+' unidades de ancho. ¿Cuál es su área?</p>',
       options: opts, correctValue: area, speakText: '¿Cuál es el área del rectángulo?', cols:2,
       explain: 'El área es largo × ancho: '+largo+' × '+ancho+' = <b>'+area+' unidades cuadradas</b>.',
+      recurso: recurso,
     };
   }
   const l = randInt(2,5), a = randInt(2,4), h = randInt(2,4);
@@ -1011,6 +1042,7 @@ export function genMedicion4Round(){
     promptHTML: '<p class="prompt-hint">Una caja se llena con cubos pequeños: '+l+' de largo, '+a+' de ancho y '+h+' de alto. ¿Cuántos cubos caben en total?</p>',
     options: opts, correctValue: vol, speakText: '¿Cuántos cubos caben en la caja?', cols:2,
     explain: 'El volumen es largo × ancho × alto: '+l+' × '+a+' × '+h+' = <b>'+vol+' cubos</b>.',
+    recurso: recurso,
   };
 }
 
@@ -1022,6 +1054,7 @@ const EXPERIMENTOS_ALEATORIOS_BANK = [
 ];
 
 export function genDatos4Round(){
+  const recurso = 'Una <b>encuesta</b> junta las respuestas de varias personas sobre una misma pregunta, y un <b>gráfico de barras</b> muestra esas respuestas de forma visual: mientras más alta la barra, más personas eligieron esa opción — así se puede ver de un vistazo cuál opción ganó (la barra más alta) y cuál perdió (la más baja), y sumando todas las barras se obtiene el total de personas encuestadas. La <b>probabilidad</b> estudia qué tan posible es que ocurra algo al azar: lanzar una moneda tiene solo 2 resultados posibles (cara o sello), y si una bolsa tiene más bolitas de un color que de otro, es más probable sacar ese color — aunque nunca es una certeza, solo una posibilidad más alta.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(DATOS_ENCUESTA);
@@ -1031,6 +1064,7 @@ export function genDatos4Round(){
       promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuántas personas respondieron la encuesta en total?</p>',
       options: opts, correctValue: total, speakText: '¿Cuántas personas respondieron en total?', cols:4,
       explain: 'Sumando todas las categorías: '+item.categorias.map(function(c){ return c.valor; }).join(' + ')+' = <b>'+total+'</b> personas en total.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1040,6 +1074,7 @@ export function genDatos4Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
       explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(DATOS_ENCUESTA);
@@ -1053,6 +1088,7 @@ export function genDatos4Round(){
     promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuál opción tuvo '+(askMax?'MÁS':'MENOS')+' votos?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuál opción tuvo '+(askMax?'más':'menos')+' votos?', cols:4, kind:'word',
     explain: '<b>'+correct+'</b> tuvo la '+(askMax?'mayor':'menor')+' cantidad de votos.',
+    recurso: recurso,
   };
 }
 

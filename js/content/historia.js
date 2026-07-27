@@ -553,6 +553,7 @@ export function genCivilizacionesAmericanas4Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: 'Antes de la llegada de los españoles, tres grandes civilizaciones habían desarrollado culturas muy avanzadas en América: los <b>mayas</b> (península de Yucatán, en América Central), destacados por su calendario preciso y sus conocimientos de astronomía; los <b>aztecas</b> (Valle de México), que construyeron su capital Tenochtitlán sobre un lago, cultivando alimentos en "chinampas" (islas artificiales); y los <b>incas</b> (a lo largo de la Cordillera de los Andes), con su capital en Cusco y la ciudadela de Machu Picchu en lo alto de la montaña, que usaban el quipu (cuerdas con nudos) para registrar información porque no tenían un alfabeto escrito. Cada una de estas civilizaciones desarrolló su propio idioma, arquitectura y forma de organización política sin haber tenido contacto entre sí ni con Europa o Asia.',
   };
 }
 
@@ -563,10 +564,12 @@ export function genGeografiaAmerica4Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: 'Un mapa usa <b>coordenadas geográficas</b> para ubicar cualquier punto en la Tierra: los <b>paralelos</b> son líneas imaginarias horizontales que rodean el planeta (como el Ecuador), y los <b>meridianos</b> son líneas verticales que van de polo a polo. América tiene una enorme variedad de climas y paisajes, desde la selva amazónica (cálida y muy lluviosa) hasta Alaska (muy fría) y la Cordillera de los Andes (que Chile comparte con Perú y Bolivia). Los <b>recursos naturales</b> se clasifican en renovables (como la energía solar o el viento, que no se agotan) y no renovables (como el petróleo o el carbón, que tardan millones de años en formarse y sí se agotan con el uso).',
   };
 }
 
 export function genCiudadania4Round(){
+  const recurso = 'En Chile, distintas <b>autoridades</b> cumplen roles específicos: el Presidente o la Presidenta dirige el país completo, el alcalde o la alcaldesa dirige una comuna, los ministros ayudan al Presidente en áreas como salud o educación, y los senadores y diputados en el Congreso crean, discuten y aprueban las leyes. Más allá de conocer estas autoridades, la <b>formación ciudadana</b> también se practica en el día a día: decir siempre la verdad, tratar con respeto a todas las personas sin importar su condición, votar y participar en las decisiones de tu curso, y dialogar para resolver conflictos en vez de pelear — todas estas son formas de ejercer una buena ciudadanía, incluso antes de tener edad para votar en una elección real.';
   if(Math.random()<0.4){
     const item = pick(CIUDADANIA4_ACTORES_BANK);
     const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
@@ -574,6 +577,7 @@ export function genCiudadania4Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
       explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(CIUDADANIA4_VALORES_BANK);
@@ -582,6 +586,7 @@ export function genCiudadania4Round(){
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
     explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+    recurso: recurso,
   };
 }
 

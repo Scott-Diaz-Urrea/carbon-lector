@@ -290,6 +290,7 @@ export function genLenguajeVisual4Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: 'La <b>línea de contorno</b> es la línea que marca el borde de una figura, separándola del fondo y definiendo claramente su forma — es lo primero que suele dibujarse al bosquejar un objeto. Un mismo color puede variar de dos formas distintas: el <b>tono</b> (qué tan claro u oscuro es, según se le agregue blanco o negro) y el <b>matiz</b> (la variación específica dentro de ese color, como un rojo más anaranjado o más violeta). Una obra también se puede clasificar según qué tan reconocible es lo que representa: una forma <b>figurativa</b> muestra algo identificable del mundo real (un gato, una casa), mientras que una forma <b>no figurativa</b> (o abstracta) es un patrón de líneas y colores que no representa nada concreto.',
   };
 }
 

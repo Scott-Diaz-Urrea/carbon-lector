@@ -925,6 +925,7 @@ const RIESGOS_NATURALES_BANK = [
 ];
 
 export function genEcosistemas4Round(){
+  const recurso = 'Un <b>ecosistema</b> es una comunidad de elementos vivos (plantas, animales, hongos) y no vivos (agua, luz solar, rocas) que interactúan entre sí en un mismo lugar. Los seres vivos que forman parte de él tienen <b>adaptaciones</b>: características especiales que les permiten sobrevivir en su ambiente (el cuello largo de la jirafa, la joroba del camello). Dentro de un ecosistema, la energía pasa de unos seres vivos a otros formando una <b>cadena alimentaria</b>: los productores (plantas) fabrican su propio alimento con luz solar, los consumidores (animales) se alimentan de otros seres vivos, y los descomponedores (hongos) devuelven los nutrientes a la tierra cuando algo muere. Cuidar los ecosistemas de Chile —bosques nativos, ríos, especies en peligro como el huemul— es esencial porque, si se rompe un eslabón de esta cadena, todo el ecosistema se ve afectado.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(ECOSISTEMA_ELEMENTOS_BANK);
@@ -933,6 +934,7 @@ export function genEcosistemas4Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.elemento.charAt(0).toUpperCase()+item.elemento.slice(1)+'. ¿Es un elemento vivo o no vivo de un ecosistema?</p>',
       options: opts, correctValue: item.tipo, speakText: item.elemento, cols:2, panel:true,
       explain: (item.elemento.charAt(0).toUpperCase()+item.elemento.slice(1))+' es un <b>'+item.tipo.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.6){
@@ -943,6 +945,7 @@ export function genEcosistemas4Round(){
       promptHTML: '<p class="prompt-sentence">'+item.adaptacion+'.</p><p class="prompt-hint">¿Qué animal o planta tiene esta adaptación?</p>',
       options: opts, correctValue: item.animal.toUpperCase(), speakText: item.adaptacion, cols:2, kind:'word', panel:true,
       explain: item.emoji+' '+(item.animal.charAt(0).toUpperCase()+item.animal.slice(1))+' se adaptó así: '+item.adaptacion.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.8){
@@ -953,6 +956,7 @@ export function genEcosistemas4Round(){
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué función cumple en la cadena alimentaria?</p>',
       options: opts, correctValue: item.rol, speakText: item.desc, cols:2, kind:'word', panel:true,
       explain: 'Esa función corresponde a un <b>'+item.rol.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(CUIDADO_ECOSISTEMA_BANK);
@@ -961,10 +965,12 @@ export function genEcosistemas4Round(){
     promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones ayuda a cuidar los ecosistemas de Chile?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones ayuda a cuidar los ecosistemas de Chile?', cols:2, panel:true,
     explain: '"'+item.correcta+'" ayuda a proteger el ecosistema.',
+    recurso: recurso,
   };
 }
 
 export function genCuerpoHumano4Round(){
+  const recurso = 'El cuerpo humano se mueve gracias al trabajo conjunto de tres sistemas: el <b>esqueleto</b> (huesos que le dan forma y protegen órganos importantes, como el cráneo que protege el cerebro), los <b>músculos</b> (que se contraen y relajan para generar movimiento) y los <b>tendones</b> (que conectan los músculos a los huesos para que ese movimiento se transmita). El punto donde se unen dos huesos y permiten el movimiento se llama <b>articulación</b> (como la rodilla o el codo). Todo este movimiento, además, es controlado por el <b>sistema nervioso</b>: el cerebro decide qué hacer, la médula espinal transporta esa orden, y los nervios la llevan hasta el músculo exacto que debe moverse.';
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(HUESOS_BANK);
@@ -974,6 +980,7 @@ export function genCuerpoHumano4Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.hueso+'. ¿Cuál es su función principal?</p>',
       options: opts, correctValue: item.funcion, speakText: item.hueso, cols:2, panel:true,
       explain: item.hueso+': '+item.funcion.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.7){
@@ -983,6 +990,7 @@ export function genCuerpoHumano4Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
       explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(SISTEMA_NERVIOSO_BANK);
@@ -992,10 +1000,12 @@ export function genCuerpoHumano4Round(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.estructura+'. ¿Cuál es su función?</p>',
     options: opts, correctValue: item.funcion, speakText: item.estructura, cols:2, panel:true,
     explain: item.estructura+': '+item.funcion.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
 export function genMateria4Round(){
+  const recurso = 'Toda la <b>materia</b> (todo lo que existe a tu alrededor, incluido el aire que no puedes ver) tiene dos propiedades fundamentales: tiene <b>masa</b> (una cantidad de "materia" que se puede pesar) y <b>ocupa espacio</b> (un volumen). La materia existe en tres <b>estados</b>: sólido (forma fija, como el hielo), líquido (toma la forma de su recipiente, como el agua) y gaseoso (se expande y llena todo el espacio disponible, como el vapor o el aire). Para medir estas propiedades usamos <b>instrumentos</b> específicos: una balanza mide la masa, un termómetro mide la temperatura, y una probeta (vaso graduado) mide el volumen de un líquido.';
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(ESTADOS_MATERIA4_BANK);
@@ -1005,6 +1015,7 @@ export function genMateria4Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+(item.ejemplo.charAt(0).toUpperCase()+item.ejemplo.slice(1))+'. ¿En qué estado de la materia está?</p>',
       options: opts, correctValue: item.estado, speakText: item.ejemplo, cols:2, kind:'word', panel:true,
       explain: (item.ejemplo.charAt(0).toUpperCase()+item.ejemplo.slice(1))+' está en estado <b>'+item.estado.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.7){
@@ -1015,6 +1026,7 @@ export function genMateria4Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.instrumento+'. ¿Qué mide este instrumento?</p>',
       options: opts, correctValue: item.mide, speakText: item.instrumento, cols:2, kind:'word', panel:true,
       explain: item.instrumento+' mide <b>'+item.mide.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(MATERIA_PROPIEDADES_BANK);
@@ -1023,10 +1035,12 @@ export function genMateria4Round(){
     promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
     options: opts, correctValue: item.valor, speakText: item.texto, cols:2, panel:true,
     explain: item.valor ? 'Es verdadero: '+item.texto.toLowerCase()+'.' : 'Es falso: toda la materia (incluido el aire) ocupa espacio y tiene masa, y existe en más de un estado.',
+    recurso: recurso,
   };
 }
 
 export function genFuerzas4Round(){
+  const recurso = 'Una <b>fuerza</b> es una acción capaz de producir dos efectos sobre un objeto: <b>cambiar su movimiento</b> (hacer que empiece a moverse, se detenga, o cambie de dirección — como patear una pelota) o <b>cambiar su forma</b> (deformarlo — como apretar la plasticina). Existen distintos tipos de fuerza según cómo actúan: la <b>fuerza de contacto</b> requiere tocar el objeto directamente (empujar, tirar), la <b>fuerza magnética</b> atrae objetos de metal sin tocarlos, la <b>fuerza de gravedad</b> atrae todo hacia el centro de la Tierra (por eso las cosas caen), y la <b>fuerza de roce</b> frena el movimiento cuando dos superficies se rozan entre sí.';
   if(Math.random()<0.5){
     /* Solo existen 2 categorías reales de efecto (cambia movimiento / cambia
        forma) — antes se armaban 4 opciones filtrando el banco, pero con
@@ -1040,6 +1054,7 @@ export function genFuerzas4Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto+'. ¿Qué efecto de la fuerza es?</p>',
       options: opts, correctValue: item.efecto, speakText: item.texto, cols:2, kind:'word', panel:true,
       explain: item.texto+': la fuerza <b>'+item.efecto.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(TIPOS_FUERZA_BANK);
@@ -1049,10 +1064,12 @@ export function genFuerzas4Round(){
     promptHTML: '<p class="prompt-sentence">'+item.texto+'.</p><p class="prompt-hint">¿Qué tipo de fuerza es?</p>',
     options: opts, correctValue: item.tipo, speakText: item.texto, cols:2, kind:'word', panel:true,
     explain: 'Esa es la <b>'+item.tipo.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genTierra4Round(){
+  const recurso = 'La Tierra está formada por tres <b>capas</b> concéntricas: la <b>corteza</b> (la más externa y delgada, donde vivimos), el <b>manto</b> (una capa intermedia enorme, muy caliente y en parte fundida) y el <b>núcleo</b> (la capa más interna y caliente, en el centro del planeta). La corteza no es una sola pieza continua: está dividida en <b>placas tectónicas</b>, bloques enormes que se mueven muy lentamente — cuando dos placas chocan o se rozan, esa energía puede liberarse como un terremoto o, con el paso de millones de años, formar montañas. Por eso es importante saber cómo prevenir riesgos naturales: conocer las zonas seguras de tu casa o escuela, tener un kit de emergencia, y alejarte de la costa si sientes un temblor fuerte cerca del mar.';
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(CAPAS_TIERRA_BANK);
@@ -1062,6 +1079,7 @@ export function genTierra4Round(){
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué capa de la Tierra es?</p>',
       options: opts, correctValue: item.capa, speakText: item.desc, cols:2, kind:'word', panel:true,
       explain: item.capa+': '+item.desc.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.7){
@@ -1071,6 +1089,7 @@ export function genTierra4Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es "'+item.correcta+'".',
+      recurso: recurso,
     };
   }
   const item = pick(RIESGOS_NATURALES_BANK);
@@ -1079,6 +1098,7 @@ export function genTierra4Round(){
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena medida de prevención ante riesgos naturales?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena medida de prevención ante riesgos naturales?', cols:2, panel:true,
     explain: '"'+item.correcta+'" te ayuda a estar más seguro ante un riesgo natural.',
+    recurso: recurso,
   };
 }
 

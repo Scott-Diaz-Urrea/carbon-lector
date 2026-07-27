@@ -141,32 +141,38 @@ const LIDERAZGO_ITEMS = [
 ];
 
 export function genCuerpoResponde2Round(){
+  const recurso = 'Cuando haces ejercicio, tu cuerpo reacciona de formas que puedes notar directamente: el corazón late más rápido (para bombear más sangre a los músculos que están trabajando), respiras más rápido y más profundo (para llevar más oxígeno a tu cuerpo), y puedes empezar a sudar (para enfriarte). Estas respuestas no son señales de que algo anda mal — son la forma en que tu cuerpo se adapta para darte la energía que necesitas mientras te mueves. Reconocer estas respuestas normales del cuerpo te ayuda a entender por qué es importante calentar antes de hacer deporte, y a distinguir un cansancio normal de una señal de alerta real.';
   const item = pick(CUERPO_RESPONDE_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 
 export function genVidaActiva2Round(){
+  const recurso = 'Mantener una vida activa y saludable en 2° básico significa seguir combinando hábitos de movimiento regular, buena alimentación, descanso suficiente e higiene diaria — los mismos pilares de 1° básico, pero ahora con más autonomía para practicarlos tú solo, sin que un adulto tenga que recordártelo siempre. Entre más temprano se forman estos hábitos, más fácil es mantenerlos de forma natural cuando seas grande, porque se vuelven parte de tu rutina normal en vez de sentirse como una obligación.';
   const item = pick(VIDA_ACTIVA_2_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 
 export function genLiderazgo2Round(){
+  const recurso = 'Jugar en equipo requiere algo más que solo saber jugar bien: requiere <b>liderazgo</b> positivo, que significa animar a tus compañeros, escuchar las ideas de los demás, y ayudar a resolver desacuerdos sin gritar ni pelear. Un buen líder de equipo no es necesariamente el que juega mejor, sino el que ayuda a que todo el grupo trabaje unido y se sienta incluido. Practicar estas habilidades desde pequeño —en un juego de patio— te prepara para trabajar bien en equipo en muchas otras situaciones de tu vida, no solo en el deporte.';
   const item = pick(LIDERAZGO_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 

@@ -267,6 +267,7 @@ const TIEMPO_ATMOSFERICO_BANK = [
 ];
 
 export function genVertebrados2Round(){
+  const recurso = 'Los animales se dividen en dos grandes grupos según si tienen o no columna vertebral (una fila de huesitos que recorre la espalda y protege la médula espinal): los <b>vertebrados</b> sí la tienen, y se dividen en 5 tipos —mamíferos, aves, reptiles, anfibios y peces—, cada uno con características propias (los mamíferos tienen pelo y maman de su madre, las aves tienen plumas y ponen huevos, los peces respiran por branquias). Los <b>invertebrados</b> (como insectos, arañas o caracoles) no tienen columna vertebral, y son en realidad el grupo con más especies distintas en todo el planeta, aunque tienden a ser más pequeños. Reconocer esta clasificación te ayuda a organizar el enorme mundo animal en categorías más fáciles de entender.';
   if(Math.random()<0.5){
     const isVert = Math.random()<0.5;
     const item = isVert ? pick(VERTEBRADOS_BANK) : pick(INVERTEBRADOS_BANK);
@@ -275,6 +276,7 @@ export function genVertebrados2Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿El/la '+item.label.toLowerCase()+' tiene columna vertebral?</p>',
       options: opts, correctValue: isVert, speakText: item.label, cols:2, panel:true,
       explain: isVert ? 'El/la '+item.label.toLowerCase()+' es un <b>vertebrado</b>, tiene columna vertebral.' : 'El/la '+item.label.toLowerCase()+' es un <b>invertebrado</b>, no tiene columna vertebral.',
+      recurso: recurso,
     };
   }
   const item = pick(VERTEBRADOS_BANK);
@@ -284,10 +286,12 @@ export function genVertebrados2Round(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué tipo de vertebrado es?</p>',
     options: opts, correctValue: item.tipo, speakText: item.label, cols:4, kind:'word',
     explain: 'El/la '+item.label.toLowerCase()+' es un(a) <b>'+item.tipo.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genCiclosVida2Round(){
+  const recurso = 'Un <b>ciclo de vida</b> es la secuencia de etapas por las que pasa un ser vivo desde que nace hasta que puede tener sus propias crías, y luego el ciclo vuelve a empezar con la próxima generación. Cada especie tiene un ciclo distinto: algunos animales nacen ya pareciéndose a sus padres (como los perros), mientras que otros pasan por transformaciones enormes en su cuerpo (como la oruga que se convierte en mariposa, o el renacuajo que se convierte en rana). Entender el orden correcto de estas etapas —qué viene antes y qué viene después— te ayuda a comprender cómo crecen y cambian los seres vivos con el tiempo, no de forma instantánea.';
   const ciclo = pick(CICLOS_G2);
   let a = pick(ciclo), b = pick(ciclo);
   while(b.label === a.label) b = pick(ciclo);
@@ -300,10 +304,12 @@ export function genCiclosVida2Round(){
     promptHTML: '<p class="prompt-count" style="font-size:26px;">'+cicloDisplay+'</p><p class="prompt-hint">'+(askBefore ? '¿Qué viene ANTES en este ciclo de vida?' : '¿Qué viene DESPUÉS en este ciclo de vida?')+'</p>',
     options: opts, correctValue: correct, speakText: askBefore ? '¿Qué viene antes?' : '¿Qué viene después?', cols:2, panel:true,
     explain: earlier.label+' viene antes que '+later.label+' en este ciclo de vida.',
+    recurso: recurso,
   };
 }
 
 export function genHabitats2Round(){
+  const recurso = 'Un <b>hábitat</b> es el lugar donde un animal encuentra todo lo que necesita para vivir: alimento, agua, refugio y un clima adecuado para su cuerpo — por eso un pez vive en el agua y un oso polar vive en el hielo, y no al revés. Cuando un hábitat se daña (por contaminación, tala de árboles o caza excesiva), los animales que dependen de él pueden enfermarse, quedarse sin alimento o incluso desaparecer de esa zona. Por eso cuidar el hábitat de los animales —no ensuciarlo, no destruirlo, respetar a los animales silvestres— es una forma directa de cuidar a los animales mismos, aunque no los toques directamente.';
   if(Math.random()<0.5){
     const item = pick(HABITAT_ANIMALES);
     const habitatPool = HABITAT_ANIMALES.map(function(h){ return h.habitat; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
@@ -313,6 +319,7 @@ export function genHabitats2Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Dónde vive el/la '+item.label.toLowerCase()+'?</p>',
       options: opts, correctValue: item.habitat, speakText: item.label, cols:4, kind:'word',
       explain: 'El/la '+item.label.toLowerCase()+' vive en el/la <b>'+item.habitat.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(CUIDADO_ANIMAL_BANK);
@@ -321,10 +328,12 @@ export function genHabitats2Round(){
     promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones ayuda a cuidar a los animales?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones ayuda a cuidar a los animales?', cols:2, panel:true,
     explain: '"'+item.correcta+'" ayuda a proteger a los animales y su hábitat.',
+    recurso: recurso,
   };
 }
 
 export function genCuerpoDentro2Round(){
+  const recurso = 'Por fuera todos los cuerpos se ven distintos, pero por dentro todos tenemos los mismos órganos principales trabajando en equipo, cada uno con un trabajo específico: el corazón bombea la sangre por todo el cuerpo, los pulmones toman el aire que respiras, el estómago digiere la comida que comes, y el cerebro controla y coordina todo lo demás. Ninguno de estos órganos funciona solo — se necesitan entre sí para mantenerte vivo y con energía. Hacer ejercicio con regularidad ayuda a que estos órganos (especialmente el corazón y los pulmones) se mantengan fuertes y funcionen mejor, no solo a que tus músculos se vean más grandes.';
   if(Math.random()<0.5){
     const item = pick(ORGANOS_BANK);
     const distract = shuffle(ORGANOS_BANK.filter(function(o){ return o.organo!==item.organo; })).slice(0,3).map(function(o){ return o.funcion; });
@@ -333,6 +342,7 @@ export function genCuerpoDentro2Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué hace tu '+item.organo.toLowerCase()+'?</p>',
       options: opts, correctValue: item.funcion, speakText: '¿Qué hace tu '+item.organo+'?', cols:2, panel:true,
       explain: 'Tu '+item.organo.toLowerCase()+' '+item.funcion.toLowerCase().replace(/^./, function(c){ return c; })+'.',
+      recurso: recurso,
     };
   }
   const item = pick(EJERCICIO_BANK);
@@ -341,10 +351,12 @@ export function genCuerpoDentro2Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".',
+    recurso: recurso,
   };
 }
 
 export function genAgua2Round(){
+  const recurso = 'El agua es la única sustancia común que puedes observar fácilmente en sus 3 estados: <b>sólido</b> (hielo, cuando hace mucho frío), <b>líquido</b> (la que bebes y usas todos los días) y <b>gaseoso</b> (vapor de agua, invisible en el aire). El agua cambia de un estado a otro según la temperatura: se congela con el frío y se evapora con el calor. Este cambio constante entre estados es lo que impulsa el <b>ciclo del agua</b>: el agua se evapora de mares y ríos, sube y forma nubes, cae como lluvia, y vuelve a juntarse en ríos y mares — un ciclo que se repite sin parar y que hace posible que siempre haya agua disponible en la Tierra.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(AGUA_ESTADOS_BANK);
@@ -354,6 +366,7 @@ export function genAgua2Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿En qué estado está el agua?</p>',
       options: opts, correctValue: item.estado, speakText: item.label, cols:2, kind:'word', panel:true,
       explain: item.label+' es agua en estado <b>'+item.estado.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -366,6 +379,7 @@ export function genAgua2Round(){
       promptHTML: '<p class="prompt-hint">'+(askBefore ? '¿Qué paso viene ANTES en el ciclo del agua?' : '¿Qué paso viene DESPUÉS en el ciclo del agua?')+'</p>',
       options: opts, correctValue: askBefore ? earlier.label : later.label, speakText: askBefore ? '¿Qué viene antes?' : '¿Qué viene después?', cols:2, panel:true,
       explain: earlier.label+' viene antes que '+later.label+' en el ciclo del agua.',
+      recurso: recurso,
     };
   }
   const item = pick(AGUA_PROPIEDADES_BANK);
@@ -374,10 +388,12 @@ export function genAgua2Round(){
     promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
     options: opts, correctValue: item.valor, speakText: item.texto, cols:2, panel:true,
     explain: item.valor ? 'Es verdadero: '+item.texto.toLowerCase()+'.' : 'Es falso: en realidad, '+(item.texto.toLowerCase().indexOf('nunca')!==-1 ? 'el agua sí puede cambiar de forma según el recipiente' : 'el agua es transparente, no tiene color propio')+'.',
+    recurso: recurso,
   };
 }
 
 export function genClima2Round(){
+  const recurso = 'Para estudiar el clima de forma científica, no basta con "mirar hacia afuera" — se usan instrumentos especiales que miden datos exactos: el termómetro mide la temperatura, el pluviómetro mide cuánta lluvia cae, y la veleta mide la dirección del viento. Con estos datos, los meteorólogos pueden describir el <b>tiempo atmosférico</b> de un día (soleado, nublado, lluvioso, con viento) de forma precisa y comparable, no solo con una impresión personal. Aprender a usar instrumentos de medición, en vez de solo observar a simple vista, es una habilidad científica importante que se aplica en muchas áreas más allá del clima.';
   if(Math.random()<0.5){
     const item = pick(INSTRUMENTOS_CLIMA_BANK);
     const distract = INSTRUMENTOS_CLIMA_BANK.filter(function(i){ return i.label!==item.label; }).map(function(i){ return i.mide; });
@@ -389,6 +405,7 @@ export function genClima2Round(){
       promptHTML: visual+'<p class="prompt-hint">¿Qué mide un(a) '+item.label.toLowerCase()+'?</p>',
       options: opts, correctValue: item.mide, speakText: item.label, cols:2, kind:'word', panel:true,
       explain: 'El/la '+item.label.toLowerCase()+' mide <b>'+item.mide.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(TIEMPO_ATMOSFERICO_BANK);
@@ -398,6 +415,7 @@ export function genClima2Round(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto+'. ¿Qué tiempo atmosférico es?</p>',
     options: opts, correctValue: item.tipo, speakText: item.texto, cols:4, kind:'word',
     explain: item.texto+', eso es <b>'+item.tipo.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 

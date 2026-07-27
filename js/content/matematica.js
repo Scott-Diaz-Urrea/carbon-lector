@@ -129,6 +129,7 @@ export function genSaltaRound(){
     speakText: '¿Qué número falta?',
     cols: 4,
     explain: 'La secuencia avanza de <b>'+step+'</b> en <b>'+step+'</b>, así que el número que falta es <b>'+correct+'</b>.',
+    recurso: '"Contar salteado" significa avanzar de un número a otro sumando siempre la misma cantidad (el "paso"), en vez de sumar de uno en uno: contar de 2 en 2 (2, 4, 6, 8...), de 5 en 5 (5, 10, 15, 20...) o de 10 en 10 (10, 20, 30, 40...). Para encontrar el número que falta en una secuencia, primero descubre cuál es el paso (mira la diferencia entre dos números seguidos que sí conoces), y luego súmalo o réstalo según corresponda. Esta habilidad es la base para aprender las tablas de multiplicar más adelante: multiplicar por 2 es, en el fondo, contar de 2 en 2 varias veces.',
   };
 }
 
@@ -205,10 +206,11 @@ function genSolido3DG2Round(){
 }
 
 export function genGeometria2Round(){
+  const recurso = 'La geometría de 2° básico junta tres ideas: la <b>posición relativa</b> (izquierda/derecha, un objeto respecto a otro), las <b>figuras 2D</b> (círculo, cuadrado, triángulo, rectángulo — planas, con solo largo y ancho), y los <b>cuerpos 3D</b> (cubo, paralelepípedo, esfera, cono — con volumen, que puedes tomar en tus manos y tienen largo, ancho y alto). La diferencia clave entre 2D y 3D es esa: una figura 2D es plana como un dibujo en una hoja, mientras que un cuerpo 3D ocupa espacio real, como una caja o una pelota. Reconocer estas formas en objetos de tu entorno (una ventana es un rectángulo, un dado es un cubo) te ayuda a ver la geometría en el mundo real, no solo en el papel.';
   const roll = Math.random();
-  if(roll<0.34) return genPosicionG2Round();
-  if(roll<0.67) return genFigura2DG2Round();
-  return genSolido3DG2Round();
+  const r = roll<0.34 ? genPosicionG2Round() : roll<0.67 ? genFigura2DG2Round() : genSolido3DG2Round();
+  r.recurso = recurso;
+  return r;
 }
 
 function genCalendarioG2Round(){
@@ -247,10 +249,11 @@ function genLongitudG2Round(){
 }
 
 export function genMedicion2Round(){
+  const recurso = 'Medir significa comparar algo contra una unidad conocida para expresar "cuánto" hay de eso: el <b>calendario</b> mide el tiempo en días, semanas y meses; el <b>reloj</b> mide el tiempo dentro de un día en horas; y una <b>regla o huincha</b> mide la longitud en centímetros o metros. Aunque parezcan temas distintos, todos comparten la misma idea de fondo: elegir una unidad fija (un día, una hora, un centímetro) y contar cuántas veces cabe esa unidad en lo que estás midiendo. Practicar con calendarios, relojes y objetos cotidianos te prepara para usar la medición en situaciones reales, como saber cuánto falta para tu cumpleaños o qué tan largo es tu lápiz.';
   const roll = Math.random();
-  if(roll<0.34) return genCalendarioG2Round();
-  if(roll<0.67) return genHoraG2Round();
-  return genLongitudG2Round();
+  const r = roll<0.34 ? genCalendarioG2Round() : roll<0.67 ? genHoraG2Round() : genLongitudG2Round();
+  r.recurso = recurso;
+  return r;
 }
 
 export function genMultiplicarRound(){
@@ -268,6 +271,7 @@ export function genMultiplicarRound(){
     speakText: '¿Cuánto es '+groups+' veces '+table+'?',
     cols: 4,
     explain: groups+' grupos de '+table+' es lo mismo que sumar '+table+' '+groups+' veces: <b>'+total+'</b> en total.',
+    recurso: 'Multiplicar es una forma más rápida de hacer una suma repetida: en vez de sumar "2+2+2+2" (4 veces), puedes escribir "4 × 2" y significa exactamente lo mismo. Cuando ves varios grupos con la misma cantidad de elementos cada uno, estás viendo una multiplicación en acción: el número de grupos multiplicado por lo que hay en cada grupo te da el total. Aprender las tablas de multiplicar (del 2, el 5 y el 10 primero, por ser las más fáciles de contar salteado) te ahorra tener que sumar uno por uno cada vez, y es una herramienta que usarás en casi toda la matemática que aprenderás después.',
   };
 }
 

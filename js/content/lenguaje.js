@@ -181,6 +181,7 @@ export function genCombinacionRound(){
     speakText: item.before+item.combo+item.after,
     cols: 4,
     explain: 'La palabra es <b>'+item.before+item.combo+item.after+'</b>.',
+    recurso: 'Las combinaciones silábicas (como "bra", "cla", "tri", "pla") son grupos de 2 o 3 letras que aparecen juntas dentro de muchas palabras del español, formando una sola sílaba con un sonido más complejo que las sílabas simples que ya conoces (como "ma" o "pe"). Reconocer estas combinaciones te ayuda a leer palabras más largas y difíciles con más confianza, porque en vez de leer letra por letra, aprendes a reconocer el "bloque" completo de una vez. Es un paso importante entre aprender sílabas simples y poder leer textos completos con fluidez.',
   };
 }
 
@@ -217,6 +218,7 @@ const ORACIONES_GRAMATICA = [
 ];
 
 export function genGramatica2Round(){
+  const recurso = 'El <b>sustantivo</b> es la palabra que nombra a una persona, animal, cosa o lugar (perro, casa, niña), y el <b>adjetivo</b> es la palabra que describe cómo es ese sustantivo (grande, feliz, roja). En español, el adjetivo debe "concordar" con el sustantivo que describe: si el sustantivo es femenino y plural (como "las niñas"), el adjetivo también debe ser femenino y plural ("bonitas", no "bonito"). Fijarte en esta concordancia te ayuda a hablar y escribir correctamente, y a reconocer con más facilidad cuál palabra de una oración nombra algo y cuál lo describe.';
   if(Math.random()<0.5){
     const suj = pick(SUJETOS_CONCORDANCIA);
     const adj = pick(ADJ_FORMS);
@@ -228,6 +230,7 @@ export function genGramatica2Round(){
       promptHTML: '<p class="prompt-sentence">'+suj.texto+' es muy <span class="blank">___</span>.</p><p class="prompt-hint">¿Qué palabra completa la oración?</p>',
       options: opts, correctValue: correct, speakText: suj.texto+' es muy...', cols:4, kind:'word',
       explain: '"'+suj.texto+'" concuerda con <b>'+correct+'</b> en género y número.',
+      recurso: recurso,
     };
   }
   const item = pick(ORACIONES_GRAMATICA);
@@ -239,6 +242,7 @@ export function genGramatica2Round(){
     promptHTML: '<p class="prompt-sentence">"'+item.texto+'"</p><p class="prompt-hint">¿Cuál palabra es el '+(askSustantivo ? 'sustantivo (nombra a alguien o algo)' : 'adjetivo (dice cómo es)')+'?</p>',
     options: opts, correctValue: correct, speakText: item.texto, cols:4, kind:'word',
     explain: '<b>'+correct+'</b> es el '+(askSustantivo ? 'sustantivo' : 'adjetivo')+' de la oración.',
+    recurso: recurso,
   };
 }
 
@@ -261,6 +265,7 @@ export function genComprension2Round(){
     promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, cols: kind ? 2 : 4, kind: kind, panel: kind==='word',
     explain: item.reason,
+    recurso: 'Este tipo de pregunta te pide algo más difícil que solo recordar lo que leíste: te pide <b>inferir</b>, es decir, deducir algo que el texto no dice directamente, usando pistas. Por ejemplo, si el texto dice que "el cielo se puso gris y empezó a caer agua", no dice la palabra "lluvia", pero tú puedes deducirlo por esas pistas. Para inferir bien, fíjate en detalles como acciones, sensaciones o el orden en que pasan las cosas, y pregúntate "¿qué explicación tiene más sentido con estas pistas?". Esta habilidad es distinta a memorizar: es usar lo que sabes del mundo para entender lo que un texto sugiere sin decirlo explícitamente.',
   };
 }
 

@@ -56,12 +56,14 @@ const TEC_DIGITAL_BANK = [
 ];
 
 export function genTecDigital2Round(){
+  const recurso = 'La <b>tecnología digital</b> incluye herramientas como programas de dibujo, procesadores de texto, y el uso de internet — y usarla bien requiere aprender no solo a manejarla, sino a hacerlo de forma segura. Por ejemplo, un programa de dibujo digital te permite crear y corregir sin gastar papel, un procesador de texto te ayuda a escribir y editar más fácil que a mano, e internet te conecta con información e imágenes de todo el mundo. Pero junto con estas herramientas, aprender uso seguro de internet desde pequeño —no dar datos personales, avisar a un adulto si ves algo raro— es tan importante como aprender a usar el programa mismo.';
   const item = pick(TEC_DIGITAL_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".',
+    recurso: recurso,
   };
 }
 

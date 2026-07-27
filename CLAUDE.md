@@ -2387,6 +2387,32 @@ sesión).
   Staphylococcus (panel, Estudio para Pruebas) — en los tres el `.option-btn` base
   queda intacto y el panel se ve con más "pertenencia" a la identidad visual de la
   app sin volver a competir con la pregunta.
+- **`.option-grid` de CSS Grid a Flexbox: última fila huérfana sin centrar
+  (2026-07-27, encontrado en una captura real de Vocales):** `.option-grid` usaba
+  `display:grid` con columnas fijas (`repeat(2,1fr)` por defecto, `repeat(3,1fr)` a
+  ≥1280px vía `.option-grid:not(.panels)`). Cuando el banco de un módulo entrega un
+  número de opciones que no es múltiplo exacto del número de columnas (ej. Vocales
+  con 5 alternativas O/U/A/E/I a 3 columnas: 3 en la fila 1, 2 en la fila 2), CSS Grid
+  deja la última fila incompleta pegada a la izquierda en vez de centrada — un hueco
+  visible a la derecha, visto literalmente en la captura que el usuario compartió.
+  Se confirmó primero (vía `grep` en `js/`) que ningún código depende de la posición
+  de columna específica de un botón — `mcEngine.js` solo usa un switch binario
+  (`r.cols === 2 ? 'option-grid panels' : 'option-grid'`) para elegir entre grilla
+  multi-columna y panel de una columna, nunca un número de columna exacto — así que
+  convertir el mecanismo interno era seguro. Se cambió `.option-grid` de
+  `display:grid` a `display:flex; flex-wrap:wrap; justify-content:center` con
+  `flex-basis`/`max-width` por botón (`calc(50% - 6px)` por defecto, `calc(33.333% -
+  8px)` a ≥1280px vía `.option-grid:not(.panels) .option-btn`, `100%` para
+  `.option-grid.panels .option-btn`) — matemáticamente equivalente al ancho de
+  columna que ya daba `grid-template-columns`, pero con `justify-content:center`
+  centrando cualquier fila incompleta en vez de dejarla a la izquierda. Verificado en
+  el navegador: Vocales a 1400px (fila huérfana de 2 opciones ahora centrada bajo la
+  fila de 3, con los 5 botones midiendo exactamente 378.65625px de ancho cada uno) y
+  a 375px/mobile (grilla base de 2 columnas, la 5ª opción centrada sola en su propia
+  fila); un módulo `.panels` (Buena Convivencia II) sin cambios visuales — sigue en
+  una sola columna a ancho completo con su acento de color intacto; y un módulo de 4
+  opciones exactas (Contar, 1° básico) sin cambios de layout. Sin errores de consola
+  en ninguno de los 4 casos probados.
 - **Merge automático de PRs (pedido explícito del usuario, 2026-07-27):** a diferencia
   del resto de repos donde se espera confirmación explícita antes de mergear, en
   **este** repositorio el usuario pidió que cada PR se mergee inmediatamente después

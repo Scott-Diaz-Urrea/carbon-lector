@@ -456,6 +456,7 @@ const HABITOS_VI_BANK = [
   { label:'Es imposible saber si un ejercicio fue intenso o no, no existe ninguna forma de medirlo', v:false },
 ];
 export function genVidaPostura6Round(){
+  const recurso = 'La actividad física se puede clasificar por su <b>intensidad</b>: baja (como estar sentado), moderada (como bailar o nadar a ritmo constante) o alta (como correr a máximo esfuerzo). Medir el <b>pulso</b> (los latidos del corazón por minuto) es una forma real de saber qué tan intensa fue una actividad. Además de moverse, mantener una vida activa y saludable incluye planificar horarios para hacer ejercicio, cuidar la postura al usar dispositivos electrónicos, y practicar buena higiene después de la actividad física.';
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(INTENSIDAD_ACTIVIDAD6_BANK);
@@ -465,7 +466,7 @@ export function genVidaPostura6Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué intensidad de esfuerzo físico tiene esta actividad?</p>',
       options: opts, correctValue: item.intensidad, speakText: item.actividad, cols:2, panel:true,
-      explain: 'Esta actividad tiene una intensidad <b>'+item.intensidad.toLowerCase()+'</b>.',
+      explain: 'Esta actividad tiene una intensidad <b>'+item.intensidad.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   const item = pick(HABITOS_VI_BANK);
@@ -473,7 +474,7 @@ export function genVidaPostura6Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
-    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
   };
 }
 
@@ -488,12 +489,13 @@ const LIDERAZGO_SEGURIDAD6_ITEMS = [
   { label:'Hacer trampa para ganar un juego es una forma válida de liderazgo', v:false },
 ];
 export function genLiderazgo6Round(){
+  const recurso = 'El buen liderazgo en el deporte se nota en las acciones concretas: motivar a un compañero desanimado, repartir roles según las fortalezas de cada integrante, y reconocer cuando un rival juega mejor sin dejar de esforzarse (eso es <b>juego limpio</b>). La seguridad también es parte de jugar bien: revisar el estado de los materiales antes de usarlos y guardarlos correctamente al terminar evita accidentes. Gritar, hacer trampa o jugar de forma imprudente para impresionar, en cambio, no son formas válidas de liderar ni de competir.';
   const item = pick(LIDERAZGO_SEGURIDAD6_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
-    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
   };
 }
 

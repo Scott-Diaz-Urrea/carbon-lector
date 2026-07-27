@@ -1629,6 +1629,7 @@ function isPrime(n){
   return true;
 }
 export function genMultiplosFactores6Round(){
+  const recurso = 'Los <b>múltiplos</b> de un número se obtienen multiplicándolo por 1, 2, 3, 4... (los múltiplos de 4 son 4, 8, 12, 16...), y siempre son infinitos. Los <b>factores</b> (o divisores) de un número son los números que lo dividen exactamente, sin dejar resto — los factores de 12 son 1, 2, 3, 4, 6 y 12. Un número es <b>primo</b> cuando tiene exactamente 2 factores: el 1 y sí mismo (2, 3, 5, 7, 11...); es <b>compuesto</b> cuando tiene más de 2 factores. Reconocer múltiplos, factores y números primos ayuda a simplificar fracciones y a resolver problemas de reparto en partes iguales.';
   const roll = Math.random();
   if(roll<0.34){
     const b = randInt(3,12);
@@ -1638,7 +1639,7 @@ export function genMultiplosFactores6Round(){
     return {
       promptHTML: '<p class="prompt-hint">¿Cuál de estos números es múltiplo de '+b+'?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuál de estos números es múltiplo de '+b+'?', cols:2,
-      explain: correct+' es múltiplo de '+b+' porque '+correct+' ÷ '+b+' = <b>'+(correct/b)+'</b>, sin dejar resto.',
+      explain: correct+' es múltiplo de '+b+' porque '+correct+' ÷ '+b+' = <b>'+(correct/b)+'</b>, sin dejar resto.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1657,7 +1658,7 @@ export function genMultiplosFactores6Round(){
     return {
       promptHTML: '<p class="prompt-hint">¿Cuál de estos números es factor de '+n+' (lo divide exactamente, sin dejar resto)?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuál número es factor de '+n+'?', cols:2,
-      explain: n+' ÷ '+correct+' = <b>'+(n/correct)+'</b>, sin dejar resto, así que '+correct+' es factor de '+n+'.',
+      explain: n+' ÷ '+correct+' = <b>'+(n/correct)+'</b>, sin dejar resto, así que '+correct+' es factor de '+n+'.', recurso: recurso,
     };
   }
   const n = randInt(2,50);
@@ -1666,11 +1667,12 @@ export function genMultiplosFactores6Round(){
   return {
     promptHTML: '<p class="prompt-count" style="font-size:36px;">'+n+'</p><p class="prompt-hint">¿Es un número primo o compuesto?</p>',
     options: opts, correctValue: correct, speakText: '¿Es '+n+' un número primo o compuesto?', cols:2, panel:true,
-    explain: correct==='PRIMO' ? n+' es <b>primo</b>: solo se puede dividir exactamente por 1 y por sí mismo.' : n+' es <b>compuesto</b>: tiene más divisores además de 1 y sí mismo.',
+    explain: correct==='PRIMO' ? n+' es <b>primo</b>: solo se puede dividir exactamente por 1 y por sí mismo.' : n+' es <b>compuesto</b>: tiene más divisores además de 1 y sí mismo.', recurso: recurso,
   };
 }
 
 export function genOperatoria6Round(){
+  const recurso = 'Cuando una operación combina paréntesis, multiplicaciones/divisiones y sumas/restas, hay un orden fijo para resolverla: primero lo que está dentro de los <b>paréntesis</b>, después las <b>multiplicaciones y divisiones</b> (de izquierda a derecha), y al final las <b>sumas y restas</b> (de izquierda a derecha). Seguir siempre este mismo orden es lo que permite que cualquier persona, en cualquier parte, llegue exactamente al mismo resultado al resolver la misma operación.';
   if(Math.random()<0.5){
     const a = randInt(100,900), b = randInt(10,90), c = randInt(2,9), d = randInt(1,50);
     const correct = (a+b)*c - d;
@@ -1679,7 +1681,7 @@ export function genOperatoria6Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:24px;">'+promptTxt+'</p><p class="prompt-hint">¿Cuánto es? (recuerda: primero paréntesis, luego multiplicación, y por último resta)</p>',
       options: opts, correctValue: correct, speakText: '¿Cuánto es '+promptTxt+'?', cols:2,
-      explain: promptTxt+' = <b>'+correct+'</b>, respetando el orden de las operaciones.',
+      explain: promptTxt+' = <b>'+correct+'</b>, respetando el orden de las operaciones.', recurso: recurso,
     };
   }
   const suma = Math.random()<0.5;
@@ -1689,7 +1691,7 @@ export function genOperatoria6Round(){
   return {
     promptHTML: '<p class="prompt-count" style="font-size:22px;">'+a+' '+(suma?'+':'-')+' '+b+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuánto es '+a+' '+(suma?'más':'menos')+' '+b+'?', cols:2,
-    explain: a+' '+(suma?'+':'-')+' '+b+' = <b>'+correct+'</b>.',
+    explain: a+' '+(suma?'+':'-')+' '+b+' = <b>'+correct+'</b>.', recurso: recurso,
   };
 }
 
@@ -1702,6 +1704,7 @@ const RAZON_ESCENARIOS = [
 const PORCENTAJE_BASES = [100,200,300,400,500,800,1000,2000];
 const PORCENTAJE_TASAS = [10,20,25,50,75];
 export function genRazonesPorcentajes6Round(){
+  const recurso = 'Una <b>razón</b> compara dos cantidades relacionadas, como "3 : 2" (3 niñas por cada 2 niños). Un <b>porcentaje</b> es una forma especial de razón que siempre compara contra 100 — "25%" significa "25 de cada 100". Para calcular el p% de un número n, se multiplica n × p y se divide por 100 (el 25% de 200 es 200×25÷100 = 50). Razones y porcentajes se usan todos los días: en descuentos, en encuestas, y para comparar cantidades de distinto tamaño de forma justa.';
   if(Math.random()<0.5){
     const esc = pick(RAZON_ESCENARIOS);
     let a = randInt(2,9), b = randInt(2,9);
@@ -1712,7 +1715,7 @@ export function genRazonesPorcentajes6Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+esc.texto.replace('{a}',a).replace('{b}',b)+'</p><p class="prompt-hint">¿Cuál es la razón entre '+esc.itemA+' y '+esc.itemB+'?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuál es la razón entre '+esc.itemA+' y '+esc.itemB+'?', cols:4,
-      explain: 'La razón es <b>'+correct+'</b>: '+a+' '+esc.itemA+' por cada '+b+' '+esc.itemB+'.',
+      explain: 'La razón es <b>'+correct+'</b>: '+a+' '+esc.itemA+' por cada '+b+' '+esc.itemB+'.', recurso: recurso,
     };
   }
   const n = pick(PORCENTAJE_BASES);
@@ -1722,11 +1725,12 @@ export function genRazonesPorcentajes6Round(){
   return {
     promptHTML: '<p class="prompt-hint">¿Cuánto es el '+p+'% de '+n+'?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuánto es el '+p+' por ciento de '+n+'?', cols:4,
-    explain: 'El '+p+'% de '+n+' es <b>'+correct+'</b>.',
+    explain: 'El '+p+'% de '+n+' es <b>'+correct+'</b>.', recurso: recurso,
   };
 }
 
 export function genFraccionesMixtas6Round(){
+  const recurso = 'Un <b>número mixto</b> combina un número entero con una fracción propia (como 2 y 1/3), mientras que una <b>fracción impropia</b> tiene el numerador mayor o igual que el denominador (como 7/3) — ambos representan exactamente la misma cantidad, solo escrita de forma distinta. Para convertir una fracción impropia a mixto, se divide el numerador por el denominador: el cociente es el entero y el resto queda como numerador de la fracción. Para sumar o restar fracciones que ya tienen el mismo denominador, solo se suman o restan los numeradores y el denominador se mantiene igual.';
   const roll = Math.random();
   if(roll<0.34){
     const den = pick([3,4,5,6,7]);
@@ -1742,7 +1746,7 @@ export function genFraccionesMixtas6Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:30px;">'+num+'/'+den+'</p><p class="prompt-hint">¿Cómo se escribe esta fracción impropia como número mixto?</p>',
       options: opts, correctValue: correct, speakText: '¿Cómo se escribe '+num+'/'+den+' como número mixto?', cols:2, panel:true,
-      explain: num+'/'+den+' = <b>'+correct+'</b> (entero + fracción propia).',
+      explain: num+'/'+den+' = <b>'+correct+'</b> (entero + fracción propia).', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1753,7 +1757,7 @@ export function genFraccionesMixtas6Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:30px;">'+w+' Y '+r+'/'+den+'</p><p class="prompt-hint">¿A qué fracción impropia equivale este número mixto?</p>',
       options: opts, correctValue: correct+'/'+den, speakText: '¿A qué fracción impropia equivale '+w+' y '+r+'/'+den+'?', cols:2,
-      explain: w+' y '+r+'/'+den+' equivale a <b>'+correct+'/'+den+'</b>.',
+      explain: w+' y '+r+'/'+den+' equivale a <b>'+correct+'/'+den+'</b>.', recurso: recurso,
     };
   }
   const den = pick([10,12,14,15,16,18,20]);
@@ -1764,11 +1768,12 @@ export function genFraccionesMixtas6Round(){
   return {
     promptHTML: '<p class="prompt-count" style="font-size:26px;">'+a+'/'+den+' '+(restar?'-':'+')+' '+b+'/'+den+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
     options: opts, correctValue: resultado+'/'+den, speakText: '¿Cuánto es esa operación?', cols:4,
-    explain: a+'/'+den+' '+(restar?'-':'+')+' '+b+'/'+den+' = <b>'+resultado+'/'+den+'</b>.',
+    explain: a+'/'+den+' '+(restar?'-':'+')+' '+b+'/'+den+' = <b>'+resultado+'/'+den+'</b>.', recurso: recurso,
   };
 }
 
 export function genDecimales6Round(){
+  const recurso = 'Para <b>multiplicar un decimal por un número entero</b>, se multiplica como si no tuviera coma y luego se ubica la coma en el resultado con la misma cantidad de decimales que tenía el número original. Para <b>dividir</b>, se busca qué número decimal multiplicado por el divisor da el dividendo. Y al multiplicar un decimal por 10, 100 o 1000, la coma simplemente se corre hacia la derecha (un lugar por cada cero) — sin necesidad de multiplicar cifra por cifra.';
   const roll = Math.random();
   if(roll<0.34){
     const dec = randInt(11,89)/10;
@@ -1778,7 +1783,7 @@ export function genDecimales6Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:28px;">'+dec.toFixed(1)+' × '+nat+'</p><p class="prompt-hint">¿Cuánto es?</p>',
       options: opts, correctValue: correct.toFixed(1), speakText: '¿Cuánto es '+dec.toFixed(1)+' por '+nat+'?', cols:4,
-      explain: dec.toFixed(1)+' × '+nat+' = <b>'+correct.toFixed(1)+'</b>.',
+      explain: dec.toFixed(1)+' × '+nat+' = <b>'+correct.toFixed(1)+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1789,7 +1794,7 @@ export function genDecimales6Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:28px;">'+dividendo.toFixed(1)+' ÷ '+divisor+'</p><p class="prompt-hint">¿Cuánto es?</p>',
       options: opts, correctValue: q.toFixed(1), speakText: '¿Cuánto es '+dividendo.toFixed(1)+' dividido '+divisor+'?', cols:4,
-      explain: dividendo.toFixed(1)+' ÷ '+divisor+' = <b>'+q.toFixed(1)+'</b>.',
+      explain: dividendo.toFixed(1)+' ÷ '+divisor+' = <b>'+q.toFixed(1)+'</b>.', recurso: recurso,
     };
   }
   const dec = randInt(1,99)/100;
@@ -1799,7 +1804,7 @@ export function genDecimales6Round(){
   return {
     promptHTML: '<p class="prompt-count" style="font-size:28px;">'+dec.toFixed(2)+' × '+mult+'</p><p class="prompt-hint">¿Cuánto es? (Pista: al multiplicar por '+mult+', la coma se corre hacia la derecha)</p>',
     options: opts, correctValue: correct.toFixed(2), speakText: '¿Cuánto es '+dec.toFixed(2)+' por '+mult+'?', cols:4,
-    explain: dec.toFixed(2)+' × '+mult+' = <b>'+correct.toFixed(2)+'</b>.',
+    explain: dec.toFixed(2)+' × '+mult+' = <b>'+correct.toFixed(2)+'</b>.', recurso: recurso,
   };
 }
 
@@ -1811,6 +1816,7 @@ const FRASE_EXPRESION_BANK = [
   { frase:'El doble de un número menos 4', expresion:'2n - 4' },
 ];
 export function genPatronesEcuaciones6Round(){
+  const recurso = 'Una <b>tabla de valores</b> muestra pares de números (x, y) que siguen siempre la misma regla — encontrarla es descubrir qué operación convierte cada x en su y correspondiente. Una <b>expresión algebraica</b> traduce una frase en palabras a símbolos matemáticos usando una letra (como n) para representar "un número cualquiera" — por ejemplo, "el doble de un número más 5" se escribe 2n + 5. Y para resolver una <b>ecuación</b> de un paso, se usan operaciones inversas: si algo se sumó, se resta; si algo se multiplicó, se divide — hasta dejar la letra sola en un lado.';
   const roll = Math.random();
   if(roll<0.34){
     const m = randInt(2,5), b = randInt(0,5);
@@ -1826,7 +1832,7 @@ export function genPatronesEcuaciones6Round(){
     return {
       promptHTML: '<p class="prompt-count">x: '+xs.join(', ')+'</p><p class="prompt-count">y: '+ys.join(', ')+'</p><p class="prompt-hint">¿Qué regla relaciona los valores de x con los de y en esta tabla?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué regla relaciona x con y?', cols:2, panel:true,
-      explain: 'La regla es <b>'+correct+'</b>: cada y se obtiene multiplicando x por '+m+(b>0?' y sumando '+b:'')+'.',
+      explain: 'La regla es <b>'+correct+'</b>: cada y se obtiene multiplicando x por '+m+(b>0?' y sumando '+b:'')+'.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1836,7 +1842,7 @@ export function genPatronesEcuaciones6Round(){
     return {
       promptHTML: '<p class="prompt-sentence">"'+item.frase+'"</p><p class="prompt-hint">¿Qué expresión algebraica representa esta frase? (n = el número)</p>',
       options: opts, correctValue: item.expresion, speakText: item.frase, cols:2,
-      explain: '"'+item.frase+'" se escribe como <b>'+item.expresion+'</b>.',
+      explain: '"'+item.frase+'" se escribe como <b>'+item.expresion+'</b>.', recurso: recurso,
     };
   }
   const x = randInt(1,20);
@@ -1847,7 +1853,7 @@ export function genPatronesEcuaciones6Round(){
   return {
     promptHTML: '<p class="prompt-count" style="font-size:26px;">'+coef+'x + '+suma+' = '+total+'</p><p class="prompt-hint">¿Cuál es el valor de x?</p>',
     options: opts, correctValue: x, speakText: '¿Cuál es el valor de equis?', cols:4,
-    explain: '('+total+' - '+suma+') ÷ '+coef+' = <b>'+x+'</b>, así que x = '+x+'.',
+    explain: '('+total+' - '+suma+') ÷ '+coef+' = <b>'+x+'</b>, así que x = '+x+'.', recurso: recurso,
   };
 }
 
@@ -1886,6 +1892,7 @@ const TRIANGULO_LADOS_BANK_GEN = function(){
   return {a:a,b:b,c:c,tipo:tipo};
 };
 export function genTriangulosTeselados6Round(){
+  const recurso = 'Los triángulos se clasifican según sus lados: <b>equilátero</b> (los 3 lados iguales), <b>isósceles</b> (exactamente 2 lados iguales) y <b>escaleno</b> (los 3 lados distintos). Un <b>teselado</b> (o mosaico) es un patrón que cubre una superficie repitiendo una figura sin dejar espacios ni superponerse, y esa repetición se logra con transformaciones geométricas: <b>traslación</b> (deslizar la figura), <b>reflexión</b> (voltearla como en un espejo) o <b>rotación</b> (girarla alrededor de un punto).';
   if(Math.random()<0.5){
     const t = TRIANGULO_LADOS_BANK_GEN();
     const distract = shuffle(['EQUILÁTERO','ISÓSCELES','ESCALENO'].filter(function(x){ return x!==t.tipo; }));
@@ -1893,7 +1900,7 @@ export function genTriangulosTeselados6Round(){
     return {
       promptHTML: '<p class="prompt-hint">Un triángulo tiene lados de '+t.a+', '+t.b+' y '+t.c+' unidades. ¿Qué tipo de triángulo es, según sus lados?</p>',
       options: opts, correctValue: t.tipo, speakText: '¿Qué tipo de triángulo es según sus lados?', cols:4, kind:'word',
-      explain: t.tipo==='EQUILÁTERO' ? 'Los 3 lados son iguales, así que es <b>equilátero</b>.' : t.tipo==='ISÓSCELES' ? 'Exactamente 2 lados son iguales, así que es <b>isósceles</b>.' : 'Los 3 lados son distintos, así que es <b>escaleno</b>.',
+      explain: t.tipo==='EQUILÁTERO' ? 'Los 3 lados son iguales, así que es <b>equilátero</b>.' : t.tipo==='ISÓSCELES' ? 'Exactamente 2 lados son iguales, así que es <b>isósceles</b>.' : 'Los 3 lados son distintos, así que es <b>escaleno</b>.', recurso: recurso,
     };
   }
   const item = pick(TESELADO_TRANSFORMACIONES_BANK);
@@ -1903,7 +1910,7 @@ export function genTriangulosTeselados6Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué transformación se repite en este teselado (mosaico)?</p>',
     options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, kind:'word', panel:true,
-    explain: 'Este mosaico se forma repitiendo la figura con una <b>'+item.tipo.toLowerCase()+'</b>.',
+    explain: 'Este mosaico se forma repitiendo la figura con una <b>'+item.tipo.toLowerCase()+'</b>.', recurso: recurso,
   };
 }
 
@@ -1915,6 +1922,7 @@ const ANGULO_GRADOS_BANK = [
   {grados:360,tipo:'COMPLETO'},
 ];
 export function genAngulos6Round(){
+  const recurso = 'Los ángulos se clasifican según su medida: <b>agudo</b> (menos de 90°), <b>recto</b> (exactamente 90°), <b>obtuso</b> (entre 90° y 180°), <b>extendido</b> (180°, una línea recta) y <b>completo</b> (360°, una vuelta entera). Dos ángulos son <b>complementarios</b> si suman 90°, y sus versiones opuestas por el vértice (cuando se cruzan dos rectas) o correspondientes (entre paralelas cortadas por una transversal) siempre miden lo mismo. Además, los ángulos interiores de un triángulo siempre suman 180°, y los de un cuadrilátero siempre suman 360° — reglas fijas que permiten calcular un ángulo desconocido sin necesidad de medirlo.';
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(ANGULO_GRADOS_BANK);
@@ -1924,7 +1932,7 @@ export function genAngulos6Round(){
     return {
       promptHTML: '<p class="prompt-count" style="font-size:36px;">'+item.grados+'°</p><p class="prompt-hint">¿Qué tipo de ángulo es?</p>',
       options: opts, correctValue: item.tipo, speakText: 'Un ángulo de '+item.grados+' grados, ¿qué tipo de ángulo es?', cols:2, kind:'word', panel:true,
-      explain: 'Un ángulo de '+item.grados+'° es un ángulo <b>'+item.tipo.toLowerCase()+'</b>.',
+      explain: 'Un ángulo de '+item.grados+'° es un ángulo <b>'+item.tipo.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -1934,7 +1942,7 @@ export function genAngulos6Round(){
     return {
       promptHTML: '<p class="prompt-hint">Un ángulo mide '+a+'°. ¿Cuánto mide el ángulo que lo complementa (para sumar 90°)?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuánto mide el ángulo complementario de '+a+' grados?', cols:4,
-      explain: '90° - '+a+'° = <b>'+correct+'°</b>.',
+      explain: '90° - '+a+'° = <b>'+correct+'°</b>.', recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -1947,7 +1955,7 @@ export function genAngulos6Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+contexto+'</p>',
       options: opts, correctValue: x, speakText: contexto, cols:4,
-      explain: esOpuesto ? 'Los ángulos opuestos por el vértice siempre miden lo mismo: <b>'+x+'°</b>.' : 'Los ángulos correspondientes entre paralelas siempre miden lo mismo: <b>'+x+'°</b>.',
+      explain: esOpuesto ? 'Los ángulos opuestos por el vértice siempre miden lo mismo: <b>'+x+'°</b>.' : 'Los ángulos correspondientes entre paralelas siempre miden lo mismo: <b>'+x+'°</b>.', recurso: recurso,
     };
   }
   const esTriangulo = Math.random()<0.5;
@@ -1958,7 +1966,7 @@ export function genAngulos6Round(){
     return {
       promptHTML: '<p class="prompt-hint">Un triángulo tiene dos ángulos que miden '+a+'° y '+b+'°. ¿Cuánto mide el tercer ángulo?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuánto mide el tercer ángulo del triángulo?', cols:4,
-      explain: 'Los ángulos interiores de un triángulo siempre suman 180°: 180° - '+a+'° - '+b+'° = <b>'+correct+'°</b>.',
+      explain: 'Los ángulos interiores de un triángulo siempre suman 180°: 180° - '+a+'° - '+b+'° = <b>'+correct+'°</b>.', recurso: recurso,
     };
   }
   const a = randInt(50,100), b = randInt(50,100), c = randInt(50,100);
@@ -1967,11 +1975,12 @@ export function genAngulos6Round(){
   return {
     promptHTML: '<p class="prompt-hint">Un cuadrilátero tiene tres ángulos que miden '+a+'°, '+b+'° y '+c+'°. ¿Cuánto mide el cuarto ángulo?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuánto mide el cuarto ángulo del cuadrilátero?', cols:4,
-    explain: 'Los ángulos interiores de un cuadrilátero siempre suman 360°: 360° - '+a+'° - '+b+'° - '+c+'° = <b>'+correct+'°</b>.',
+    explain: 'Los ángulos interiores de un cuadrilátero siempre suman 360°: 360° - '+a+'° - '+b+'° - '+c+'° = <b>'+correct+'°</b>.', recurso: recurso,
   };
 }
 
 export function genAreaVolumen6Round(){
+  const recurso = 'La <b>superficie</b> de un cuerpo 3D es la suma del área de todas sus caras: en un cubo, las 6 caras son cuadrados iguales (6 × lado × lado); en un paralelepípedo, hay 3 pares de caras rectangulares distintas. El <b>volumen</b> mide cuánto espacio ocupa el cuerpo por dentro: en el cubo es lado × lado × lado, y en el paralelepípedo es largo × ancho × alto. Área y volumen se confunden fácilmente porque ambos usan las mismas medidas, pero el área se mide en unidades cuadradas (cm²) y el volumen en unidades cúbicas (cm³).';
   const roll = Math.random();
   if(roll<0.25){
     const l = randInt(2,9);
@@ -1980,7 +1989,7 @@ export function genAreaVolumen6Round(){
     return {
       promptHTML: '<div class="shape-display">'+solid3DSVG('cubo',110)+'</div><p class="prompt-hint">Un cubo tiene lado '+l+' cm. ¿Cuál es el área total de su superficie (sus 6 caras)?</p>',
       options: opts, correctValue: area, speakText: '¿Cuál es el área de la superficie del cubo?', cols:2,
-      explain: 'Área = 6 × lado × lado = 6 × '+l+' × '+l+' = <b>'+area+' cm²</b>.',
+      explain: 'Área = 6 × lado × lado = 6 × '+l+' × '+l+' = <b>'+area+' cm²</b>.', recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -1990,7 +1999,7 @@ export function genAreaVolumen6Round(){
     return {
       promptHTML: '<div class="shape-display">'+solid3DSVG('paralelepipedo',110)+'</div><p class="prompt-hint">Un paralelepípedo mide '+l+' cm de largo, '+w+' cm de ancho y '+h+' cm de alto. ¿Cuál es el área total de su superficie?</p>',
       options: opts, correctValue: area, speakText: '¿Cuál es el área de la superficie del paralelepípedo?', cols:2,
-      explain: 'Área = 2 × (largo×ancho + largo×alto + ancho×alto) = 2 × ('+(l*w)+' + '+(l*h)+' + '+(w*h)+') = <b>'+area+' cm²</b>.',
+      explain: 'Área = 2 × (largo×ancho + largo×alto + ancho×alto) = 2 × ('+(l*w)+' + '+(l*h)+' + '+(w*h)+') = <b>'+area+' cm²</b>.', recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -2000,7 +2009,7 @@ export function genAreaVolumen6Round(){
     return {
       promptHTML: '<div class="shape-display">'+solid3DSVG('cubo',110)+'</div><p class="prompt-hint">Un cubo tiene lado '+l+' cm. ¿Cuál es su volumen?</p>',
       options: opts, correctValue: vol, speakText: '¿Cuál es el volumen del cubo?', cols:2,
-      explain: 'Volumen = lado × lado × lado = '+l+' × '+l+' × '+l+' = <b>'+vol+' cm³</b>.',
+      explain: 'Volumen = lado × lado × lado = '+l+' × '+l+' × '+l+' = <b>'+vol+' cm³</b>.', recurso: recurso,
     };
   }
   const l = randInt(2,8), w = randInt(2,7), h = randInt(2,6);
@@ -2009,7 +2018,7 @@ export function genAreaVolumen6Round(){
   return {
     promptHTML: '<div class="shape-display">'+solid3DSVG('paralelepipedo',110)+'</div><p class="prompt-hint">Un paralelepípedo mide '+l+' cm de largo, '+w+' cm de ancho y '+h+' cm de alto. ¿Cuál es su volumen?</p>',
     options: opts, correctValue: vol, speakText: '¿Cuál es el volumen del paralelepípedo?', cols:2,
-    explain: 'Volumen = largo × ancho × alto = '+l+' × '+w+' × '+h+' = <b>'+vol+' cm³</b>.',
+    explain: 'Volumen = largo × ancho × alto = '+l+' × '+w+' × '+h+' = <b>'+vol+' cm³</b>.', recurso: recurso,
   };
 }
 
@@ -2046,6 +2055,7 @@ const CONJETURAS_BANK = [
   { afirmacion:'Repetir un experimento muchas veces ayuda a conjeturar mejor la tendencia real de los resultados', v:true },
 ];
 export function genDatos6Round(){
+  const recurso = 'El <b>promedio</b> de un grupo de datos se calcula sumando todos los valores y dividiendo por la cantidad de datos — es una forma de resumir un conjunto de números en uno solo. Al repetir un experimento aleatorio muchas veces (lanzar una moneda o un dado), los resultados tienden a acercarse a lo esperado, pero eso NO significa que unos pocos lanzamientos deban dar exactamente esa proporción. Un <b>gráfico de barra doble</b> compara dos grupos lado a lado en cada categoría, y un <b>gráfico circular</b> muestra cómo se reparte un total en porciones — ambos ayudan a comparar datos de un vistazo.';
   const roll = Math.random();
   if(roll<0.34){
     /* Se regenera hasta que los promedios sean distintos: con números al
@@ -2065,7 +2075,7 @@ export function genDatos6Round(){
     return {
       promptHTML: '<p class="prompt-sentence">Grupo A: '+gA.join(', ')+'</p><p class="prompt-sentence">Grupo B: '+gB.join(', ')+'</p><p class="prompt-hint">¿Cuál grupo tiene mayor promedio?</p>',
       options: opts, correctValue: promA>promB?'A':'B', speakText: '¿Cuál grupo tiene mayor promedio?', cols:2, panel:true,
-      explain: 'El grupo con mayor promedio es el <b>'+(promA>promB?'GRUPO A':'GRUPO B')+'</b>.',
+      explain: 'El grupo con mayor promedio es el <b>'+(promA>promB?'GRUPO A':'GRUPO B')+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.6){
@@ -2074,7 +2084,7 @@ export function genDatos6Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',
       options: opts, correctValue: item.v, speakText: item.afirmacion, cols:2, panel:true,
-      explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+      explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
     };
   }
   if(roll<0.8){
@@ -2085,7 +2095,7 @@ export function genDatos6Round(){
     return {
       promptHTML: doubleBarChartHTML(item.categorias, item.serieA, item.serieB)+'<p class="prompt-hint">'+item.pregunta+' ¿Quién tuvo más en "'+cat.label+'"?</p>',
       options: opts, correctValue: correct, speakText: '¿Quién tuvo más en '+cat.label+'?', cols:2,
-      explain: '<b>'+correct+'</b> tuvo más en "'+cat.label+'".',
+      explain: '<b>'+correct+'</b> tuvo más en "'+cat.label+'".', recurso: recurso,
     };
   }
   const item = pick(DATOS_CIRCULAR_BANK);
@@ -2098,7 +2108,7 @@ export function genDatos6Round(){
   return {
     promptHTML: pieChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuál opción fue la '+(askMax?'MÁS':'MENOS')+' elegida?</p>',
     options: opts, correctValue: target.label, speakText: '¿Cuál opción fue la '+(askMax?'más':'menos')+' elegida?', cols:2, kind:'word',
-    explain: '<b>'+target.label+'</b> fue la opción '+(askMax?'más':'menos')+' elegida en esta encuesta.',
+    explain: '<b>'+target.label+'</b> fue la opción '+(askMax?'más':'menos')+' elegida en esta encuesta.', recurso: recurso,
   };
 }
 

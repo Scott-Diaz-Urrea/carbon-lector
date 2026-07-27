@@ -110,6 +110,7 @@ const DIAS_SEMANA_BANK = [
   { spanish:'JUEVES', english:'THURSDAY' }, { spanish:'VIERNES', english:'FRIDAY' }, { spanish:'SÁBADO', english:'SATURDAY' }, { spanish:'DOMINGO', english:'SUNDAY' },
 ];
 export function genVocabularioIngles6Round(){
+  const recurso = 'En inglés, el clima se describe con adjetivos como "sunny" (soleado), "rainy" (lluvioso) o "windy" (con viento), y las acciones cotidianas con verbos como "run" (correr) o "sleep" (dormir). Los días de la semana en inglés ("Monday", "Tuesday"...) se aprenden mejor como traducción directa palabra por palabra, ya que —a diferencia del clima o las acciones— no tienen una imagen que los represente por sí solos. Practicar este vocabulario básico ayuda a construir las primeras oraciones simples en un segundo idioma.';
   if(Math.random()<0.6){
     const item = pick(CLIMA_VERBOS_BANK);
     const distract = shuffle(CLIMA_VERBOS_BANK.filter(function(v){ return v.english!==item.english; })).slice(0,3).map(function(v){ return v.english; });
@@ -117,7 +118,7 @@ export function genVocabularioIngles6Round(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">How do you say this in English? (¿Cómo se dice esto en inglés?)</p>',
       options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, kind:'word',
-      explain: 'Se dice <b>'+item.english+'</b> en inglés.',
+      explain: 'Se dice <b>'+item.english+'</b> en inglés.', recurso: recurso,
     };
   }
   const item = pick(DIAS_SEMANA_BANK);
@@ -126,7 +127,7 @@ export function genVocabularioIngles6Round(){
   return {
     promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">How do you say this day in English?</p>',
     options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, kind:'word',
-    explain: '"'+item.spanish+'" se dice <b>'+item.english+'</b> en inglés.',
+    explain: '"'+item.spanish+'" se dice <b>'+item.english+'</b> en inglés.', recurso: recurso,
   };
 }
 
@@ -143,12 +144,13 @@ const LECTURA_SIMPLE2_BANK = [
   { text:'A short poem: Twinkle, twinkle, little star, how I wonder what you are.', question:'What does the poem talk about?', correct:'A STAR', opts:['THE MOON','THE SUN','A CLOUD'] },
 ];
 export function genLecturaSimple6Round(){
+  const recurso = 'Leer un texto breve en inglés (una nota, una postal, un menú o un poema corto) no requiere entender cada palabra: basta con identificar la información clave que responde la pregunta —quién escribe, qué pide, cuándo ocurre algo—, apoyándose en palabras conocidas y en el contexto general del texto. Esta misma estrategia de "leer para encontrar el dato" funciona igual en español y en inglés.';
   const item = pick(LECTURA_SIMPLE2_BANK);
   const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, speakLang:'en', cols:2, kind:'word',
-    explain: 'The answer is <b>'+item.correct+'</b>.',
+    explain: 'The answer is <b>'+item.correct+'</b>.', recurso: recurso,
   };
 }
 

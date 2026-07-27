@@ -229,12 +229,13 @@ const TEC_DIGITAL_6_BANK = [
   { pregunta:'¿Qué deberías hacer si vas a publicar los resultados de una encuesta que hiciste con tus compañeros?', correcta:'Mostrar los datos de forma clara y honesta, sin inventar resultados', opts:['Inventar resultados para que se vean mejor','Publicar solo los resultados que te convienen','No es necesario mostrar los datos reales'] },
 ];
 export function genTecDigital6Round(){
+  const recurso = 'Antes de compartir un documento o publicar información en línea, hay dos pasos clave: <b>revisar</b> (que las ideas estén ordenadas, que la información sea correcta, que todos los integrantes de un trabajo grupal estén de acuerdo) y <b>publicar de forma responsable</b> (compartir contenido verificado y respetuoso, pensando en quién lo va a ver, y dando crédito si se reutiliza el trabajo de otra persona). Herramientas como el control de cambios o los comentarios en un documento colaborativo existen justamente para que varias personas puedan revisar y mejorar un mismo trabajo antes de compartirlo.';
   const item = pick(TEC_DIGITAL_6_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es "'+item.correcta+'".',
+    explain: 'La respuesta correcta es "'+item.correcta+'".', recurso: recurso,
   };
 }
 

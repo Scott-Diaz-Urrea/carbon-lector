@@ -611,12 +611,13 @@ const EMOCIONES_6_BANK = [
   { situacion:'Sientes tristeza porque te mudaste de colegio y extrañas a tus antiguos amigos.', correcta:'Reconocer la tristeza y buscar formas de mantener el contacto, mientras conoces gente nueva', malas:['Negarte a hacer nuevos amigos por lealtad a los anteriores','Ocultar por completo tu tristeza sin hablarlo con nadie','Culpar a tu familia por la mudanza'] },
 ];
 export function genManejoEmocional6Round(){
+  const recurso = 'Manejar bien una emoción no significa esconderla, sino <b>reconocerla y actuar con respeto</b> a partir de ella. Muchas situaciones difíciles se complican cuando además hay que considerar cómo se siente otra persona al mismo tiempo —por ejemplo, sentir alegría propia mientras un amigo pasa por un mal momento—, y ahí es clave equilibrar la propia emoción con empatía hacia el otro, en vez de ignorar cualquiera de las dos partes.';
   const item = pick(EMOCIONES_6_BANK);
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción con respeto hacia ti y hacia otros.',
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción con respeto hacia ti y hacia otros.', recurso: recurso,
   };
 }
 
@@ -632,12 +633,13 @@ const AUTOCUIDADO_DIGITAL6_ITEMS = [
   { label:'Revisar quién puede ver tus publicaciones antes de compartir algo en redes sociales es una buena práctica', v:true },
 ];
 export function genAutocuidadoDigital6Round(){
+  const recurso = 'Cuidarse en internet significa pensar antes de compartir: quién podría ver una foto o un dato personal, y qué consecuencias podría tener eso. Prácticas concretas como revisar los permisos de una aplicación con un adulto, bloquear o reportar a quien te molesta, y usar contraseñas distintas y seguras para cada cuenta, protegen tu información e intimidad. Y si algo incómodo pasa en línea, hablarlo con la familia siempre ayuda a resolverlo mejor que guardarlo en secreto.';
   const item = pick(AUTOCUIDADO_DIGITAL6_ITEMS);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
-    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
   };
 }
 
@@ -653,12 +655,13 @@ const PREVENCION_6_BANK = [
   { pregunta:'¿Cuál de estas es una señal de que alguien podría necesitar ayuda con un problema de consumo de sustancias?', correcta:'CAMBIOS BRUSCOS DE ÁNIMO Y ALEJAMIENTO DE SUS SERES QUERIDOS', opts:['SACAR SIEMPRE BUENAS NOTAS','DORMIR LAS HORAS RECOMENDADAS','PRACTICAR DEPORTE REGULARMENTE'] },
 ];
 export function genPrevencion6Round(){
+  const recurso = 'El cuerpo de un niño o adolescente todavía está en desarrollo, por lo que es especialmente vulnerable a sustancias como el tabaco, el alcohol o la marihuana, que dañan órganos concretos y pueden afectar la memoria y la concentración. Un <b>factor protector</b> es algo que ayuda a tomar decisiones saludables —como el deporte, buenas amistades o una comunicación abierta con la familia—, y saber rechazar con seguridad una oferta de estas sustancias es una habilidad real de autocuidado, no solo una regla que hay que seguir.';
   const item = pick(PREVENCION_6_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
   };
 }
 
@@ -673,12 +676,13 @@ const CONFLICTO_6_BANK = [
   { texto:'Un estudiante comparte contenido ofensivo sobre otro compañero en un grupo de mensajería del curso.', correcta:'No reenviarlo, pedir que se elimine, y avisar a un adulto responsable', malas:['Reenviarlo a otros grupos','Agregar más comentarios ofensivos','Guardarlo para compartirlo después'] },
 ];
 export function genBuenTrato6Round(){
+  const recurso = 'Resolver un conflicto de forma sana casi siempre implica los mismos pasos: no sumarse a una burla o rumor, hablar directamente con la persona involucrada en vez de excluirla en silencio, y pedir ayuda a un adulto cuando la situación lo requiere (como cuando se comparte información privada o contenido ofensivo sobre alguien). Estas mismas habilidades aplican tanto a conflictos presenciales como a los que ocurren en redes sociales o chats grupales.';
   const item = pick(CONFLICTO_6_BANK);
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que se puede hacer en esta situación?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el conflicto con respeto.',
+    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el conflicto con respeto.', recurso: recurso,
   };
 }
 
@@ -695,12 +699,13 @@ const HABITOS_ESTUDIO_6_BANK = [
   { label:'Tomar pequeños descansos durante una sesión larga de estudio ayuda a mantener la concentración', v:true },
 ];
 export function genHabitosEstudio6Round(){
+  const recurso = 'Estudiar de forma efectiva no depende solo de "esforzarse más", sino de buenos hábitos concretos: organizarse con anticipación revisando el calendario de pruebas, estudiar en un lugar tranquilo, repasar varios días antes en vez de dejarlo todo para la noche anterior, tomar pequeños descansos, y pedir ayuda cuando algo no se entiende. Fijarse metas realistas para cada sesión de estudio también ayuda a mantener la motivación en el tiempo.';
   const item = pick(HABITOS_ESTUDIO_6_BANK);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
-    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
   };
 }
 

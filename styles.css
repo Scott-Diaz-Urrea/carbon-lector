@@ -509,21 +509,37 @@
        oraciones completas, esa combinación (más el texto en MAYÚSCULAS ya
        corregido en el banco de preguntas) hacía que las alternativas
        "gritaran" y compitieran visualmente con la pregunta. Aquí se cambia a
-       la fuente de cuerpo (Quicksand) con un peso mucho más liviano (600),
-       dejando el peso fuerte (700 en .prompt-sentence, con Baloo 2) exclusivo
-       de la pregunta, que debe seguir siendo el elemento dominante de la
-       pantalla. text-align:left porque un párrafo de varias líneas se escanea
-       más rápido alineado a la izquierda que centrado (el centrado solo tiene
+       la fuente de cuerpo (Quicksand) con un peso liviano, dejando el peso
+       fuerte (700 en .prompt-sentence, con Baloo 2) exclusivo de la pregunta,
+       que debe seguir siendo el elemento dominante de la pantalla.
+       text-align:left porque un párrafo de varias líneas se escanea más
+       rápido alineado a la izquierda que centrado (el centrado solo tiene
        sentido para textos cortos de una línea, como en .option-btn base). */
-    font-family: var(--font-body); font-weight: 600;
+    font-family: var(--font-body); font-weight: 700;
     font-size: clamp(15px, 4vw, 19px); letter-spacing: 0.1px; padding: 14px 18px; line-height: 1.5;
     text-align: left;
+    /* Acento de color a la izquierda (2026-07-27, pedido explícito del
+       usuario): al comparar un módulo de "grilla de letras" (Baloo 2, 800,
+       centrado) contra uno de "panel de oraciones" (Quicksand liviano,
+       izquierda), el usuario notó que ambos estilos —aunque intencionales
+       según el largo del texto— se sentían como dos apps distintas, no
+       una sola con dos layouts. En vez de acercar el peso/tamaño tipográfico
+       (arriesgaría reintroducir el "grito visual" que la auditoría de
+       2026-07-26 corrigió a propósito para los casos clínicos de Química
+       Diagnóstica/Microbiología Clínica), se agrega un borde de acento a la
+       izquierda en el color primario de la marca — la misma paleta que ya
+       usa el resto de la app (barras de progreso, insignias, mascota) — para
+       que el panel se sienta parte del mismo sistema visual sin competir en
+       tamaño con la pregunta. */
+    border-left: 6px solid var(--primary);
     /* Mismo criterio que .prompt-card: en pantallas anchas, limitar la
        medida de lectura del texto de la alternativa en vez de estirarla a
        todo el ancho del contenedor ganado. */
     max-width: 640px; margin-left: auto; margin-right: auto; width: 100%;
     box-sizing: border-box;
   }
+  .option-btn.panel.correct{ border-left-color: #7FD9A3; }
+  .option-btn.panel.wrong{ border-left-color: #FFA9A3; }
   .option-btn.wordopt{ font-size: clamp(15px, 4.2vw, 18px); letter-spacing: 0.5px; padding: 14px 8px; line-height: 1.25; }
   .prompt-sentence{ font-family: var(--font-display); font-weight: 700; font-size: clamp(17px, 4.5vw, 21px); line-height: 1.45; color: var(--ink); margin: 4px 0 10px; overflow-wrap: anywhere; }
   .shape-display{ display: flex; justify-content: center; margin: 8px 0 12px; }

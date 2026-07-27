@@ -2345,6 +2345,26 @@ sesión).
   de import/export, y ejecutar los generadores (`MC_GAMES[key].gen()`) varias veces por
   juego para pescar bugs de opciones duplicadas o texto `undefined` antes de que aparezcan
   jugando. El proyecto no tiene tests automatizados más allá de eso.
+- **Acento de color en `.option-btn.panel` (2026-07-27, pedido explícito del usuario):**
+  al comparar visualmente un módulo de "grilla de letras/palabras cortas" (`.option-btn`
+  base: Baloo 2, peso 800, centrado, ej. Vocales) contra uno de "panel de oraciones
+  largas" (`.option-btn.panel`: Quicksand, peso liviano, izquierda, ej. Buena
+  Convivencia II o Química Diagnóstica/Microbiología Clínica), el usuario notó que
+  ambos estilos —aunque intencionales según el largo del texto, ver el comentario
+  extenso ya existente sobre `.option-btn.panel` en `styles.css`— se sentían como dos
+  apps distintas en vez de una sola con dos layouts. Se descartó acercar peso/tamaño
+  tipográfico entre ambos (arriesgaría reintroducir el "grito visual" que la auditoría
+  de 2026-07-26 corrigió a propósito para los casos clínicos de Estudio para Pruebas);
+  en su lugar se agregó un borde de acento de 6px a la izquierda en `.option-btn.panel`
+  usando `var(--primary)` (el mismo teal que ya usa el resto de la app: progreso,
+  botón Escuchar, mascota), con variantes `.correct`/`.wrong` que cambian ese acento a
+  verde/rojo igual que el resto del sistema de feedback. Sube además el peso de 600 a
+  700 (Quicksand sigue siendo mucho más liviano que los 800 de Baloo 2 de la grilla,
+  no reintroduce el problema original). Verificado visualmente en 3 contextos: Vocales
+  (grilla, sin cambios), Buena Convivencia II (panel, currículo infantil) y
+  Staphylococcus (panel, Estudio para Pruebas) — en los tres el `.option-btn` base
+  queda intacto y el panel se ve con más "pertenencia" a la identidad visual de la
+  app sin volver a competir con la pregunta.
 - **Merge automático de PRs (pedido explícito del usuario, 2026-07-27):** a diferencia
   del resto de repos donde se espera confirmación explícita antes de mergear, en
   **este** repositorio el usuario pidió que cada PR se mergee inmediatamente después

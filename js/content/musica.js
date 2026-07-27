@@ -322,6 +322,7 @@ const VARIACION_BANK = [
   { desc:'Un compositor toma un tema musical simple y lo repite varias veces, cada vez con un ritmo o una dinámica distinta', pregunta:'¿Cómo se llama a esta técnica de repetir un tema con cambios?', correcta:'VARIACIÓN', opts:['SILENCIO','PAUSA','ACORDE'] },
 ];
 export function genMelodiaVariaciones6Round(){
+  const recurso = 'Una melodía se construye repitiendo o cambiando frases musicales: la <b>reiteración</b> repite exactamente la misma frase, mientras que el <b>contraste</b> presenta una frase muy distinta (por ejemplo, pasar de algo suave a algo fuerte). El <b>diseño melódico</b> describe la forma que dibuja una melodía al moverse: ascendente (sube), descendente (baja) u ondulante (sube y baja, como olas). Y la <b>variación</b> es repetir una idea musical pero con algunos cambios —más rápido, con otro instrumento— en vez de tocarla exactamente igual cada vez.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(REITERACION_CONTRASTE_BANK);
@@ -329,7 +330,7 @@ export function genMelodiaVariaciones6Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Esto es una reiteración o un contraste?</p>',
       options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, panel:true,
-      explain: 'Esto es una <b>'+item.tipo.toLowerCase()+'</b>.',
+      explain: 'Esto es una <b>'+item.tipo.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -340,7 +341,7 @@ export function genMelodiaVariaciones6Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué diseño melódico describe esto?</p>',
       options: opts, correctValue: item.diseno, speakText: item.desc, cols:2, kind:'word',
-      explain: 'Este es un diseño melódico <b>'+item.diseno.toLowerCase()+'</b>.',
+      explain: 'Este es un diseño melódico <b>'+item.diseno.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   const item = pick(VARIACION_BANK);
@@ -348,7 +349,7 @@ export function genMelodiaVariaciones6Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word',
-    explain: 'Esto se llama <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'Esto se llama <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
   };
 }
 

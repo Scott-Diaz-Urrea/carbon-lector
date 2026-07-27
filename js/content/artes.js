@@ -409,6 +409,7 @@ const VOLUMEN_LLENO_VACIO_BANK = [
   { desc:'Una escultura de madera calada (con agujeros a propósito) deja ver el espacio detrás de ella a través de sus huecos', pregunta:'¿Qué parte de la escultura representa el "vacío"?', correcta:'LOS HUECOS QUE DEJAN VER A TRAVÉS DE LA ESCULTURA', opts:['LA MADERA SÓLIDA QUE FORMA LA FIGURA','EL COLOR DE LA MADERA','LA BASE QUE SOSTIENE LA ESCULTURA'] },
 ];
 export function genLenguajeVisual6Round(){
+  const recurso = 'Una <b>gama de color</b> es un conjunto de colores emparentados que da una sensación general a una obra: cálida (rojos, naranjos, amarillos), fría (azules, verdes, morados) o monocromática (tonos distintos de un mismo color). El <b>contraste</b> resalta elementos al ponerlos en oposición: claro-oscuro (para que algo destaque con fuerza) o de complementarios (colores opuestos en el círculo cromático, que se intensifican mutuamente). Y en escultura, el <b>volumen</b> se describe con "lleno" (la parte sólida) y "vacío" (los huecos o espacios abiertos) — ambos forman parte de la composición visual de la obra, no solo el material sólido.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(GAMA_COLOR_BANK);
@@ -418,7 +419,7 @@ export function genLenguajeVisual6Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué gama de color se usa en esta obra?</p>',
       options: opts, correctValue: item.gama, speakText: item.desc, cols:2, kind:'word', panel:true,
-      explain: 'Esta obra usa una <b>'+item.gama.toLowerCase()+'</b>.',
+      explain: 'Esta obra usa una <b>'+item.gama.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -428,7 +429,7 @@ export function genLenguajeVisual6Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué tipo de contraste se usa aquí?</p>',
       options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, panel:true,
-      explain: 'Aquí se usa un <b>'+item.tipo.toLowerCase()+'</b>.',
+      explain: 'Aquí se usa un <b>'+item.tipo.toLowerCase()+'</b>.', recurso: recurso,
     };
   }
   const item = pick(VOLUMEN_LLENO_VACIO_BANK);
@@ -436,7 +437,7 @@ export function genLenguajeVisual6Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
   };
 }
 

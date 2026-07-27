@@ -590,6 +590,43 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
       (módulo "Números Grandes" en Matemática y "Vocabulario Básico" en
       Inglés: botón Recurso visible y modal con el texto real en ambos, sin
       errores de consola). Próximo paso: 6°-8° básico y Parvularia.
+    - **6° básico — ✅ completo (2026-07-27):** mismo pedido ("procede con el
+      sexto"), mismo criterio. Se agregó recurso a los 39 módulos de opción
+      múltiple: Lenguaje (Comprensión VI, Recursos Poéticos II, Vocabulario
+      VI, Gramática VI, Ortografía IV — 5), Matemática (Múltiplos y
+      Factores, Operatoria Combinada, Razones y Porcentajes, Fracciones y
+      Números Mixtos, Decimales III, Patrones/Tablas y Ecuaciones,
+      Triángulos y Teselados, Ángulos VI, Área y Volumen, Datos y
+      Probabilidades IV — 10), Ciencias Naturales (Fotosíntesis y Cadenas
+      Alimentarias, Sistema Reproductor y Pubertad, Hábitos Saludables y
+      Prevención, Energía y sus Transformaciones, Calor/Temperatura y
+      Estados de la Materia, La Tierra: Capas/Suelo y Erosión — 6),
+      Historia (Independencia de Chile, La República en el Siglo XIX,
+      Salitre y Expansión Territorial, Chile en el Siglo XX, Geografía de
+      Chile VI, Formación Ciudadana VI — 6), Artes Visuales (Lenguaje
+      Visual IV — 1), Música (Melodía: Diseños y Variaciones — 1), Educación
+      Física (Vida Activa y Postura VI, Liderazgo y Seguridad VI — 2),
+      Orientación (Manejo Emocional VI, Autocuidado Digital VI, Prevención
+      VI, Buen Trato y Resolución de Conflictos VI, Hábitos de Trabajo
+      Escolar VI — 5), Tecnología (Tecnología Digital VI — 1), Inglés
+      (Vocabulario Intermedio, Lectura Simple II — 2) — 39 módulos en total,
+      coincide exactamente con el total ya documentado en "Estado actual del
+      contenido". Mismo patrón de "declarar `recurso` una vez arriba y
+      reutilizarlo en cada `return`" para generadores con ramas. Este año
+      incluye contenido sensible ya revisado y dejado intacto en sesiones
+      anteriores (`reproductorpubertad6` en ciencias.js, la prevención de
+      tabaco/alcohol/marihuana en `prevencion6` de orientacion.js, y los 5
+      hechos cronológicos del período 1973-1990 en `sigloxx6` de
+      historia.js) — el `recurso` de esos módulos se escribió con el mismo
+      tono clínico/factual/preventivo ya establecido para ese contenido, sin
+      tocar ninguno de los bancos de preguntas protegidos. Verificado: los
+      39 generadores pasan fuzz de 300 iteraciones cada uno (sin
+      `undefined`, sin opciones duplicadas, `correctValue` siempre presente,
+      sin apóstrofes en `speakText`, sin `recurso` faltante) y prueba visual
+      en el navegador (módulo "Múltiplos y Factores" en Matemática y
+      "Vocabulario Intermedio" en Inglés: botón Recurso visible y modal con
+      el texto real en ambos, sin errores de consola). Próximo paso: 7°-8°
+      básico y Parvularia.
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el

@@ -242,7 +242,7 @@ function genLongitudG2Round(){
   const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
   const longer = a.valor>b.valor ? a : b;
   return {
-    promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' mide '+a.medida+'.<br>'+b.emoji+' '+b.label+' mide '+b.medida+'.<br>¿Cuál es más largo?</p>',
+    promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' mide '+a.medida+'.</p><p class="prompt-hint">'+b.emoji+' '+b.label+' mide '+b.medida+'.</p><p class="prompt-hint">¿Cuál es más largo?</p>',
     options: opts, correctValue: longer.label, speakText: '¿Cuál es más largo?', cols:2, panel:true,
     explain: longer.label+' mide '+longer.medida+', más que el otro objeto.',
   };
@@ -989,7 +989,7 @@ export function genMedicion4Round(){
     const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
     const longer = a.cm>b.cm ? a : b;
     return {
-      promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' mide '+a.cm+' cm.<br>'+b.emoji+' '+b.label+' mide '+b.cm+' cm.<br>¿Cuál es más largo?</p>',
+      promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' mide '+a.cm+' cm.</p><p class="prompt-hint">'+b.emoji+' '+b.label+' mide '+b.cm+' cm.</p><p class="prompt-hint">¿Cuál es más largo?</p>',
       options: opts, correctValue: longer.label, speakText: '¿Cuál es más largo?', cols:2, panel:true,
       explain: longer.label+' mide '+longer.cm+' cm, más que el otro objeto.',
     };
@@ -1410,7 +1410,7 @@ export function genMedicion5Round(){
     const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
     const longer = a.cm>b.cm ? a : b;
     return {
-      promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' mide '+a.cm+' cm.<br>'+b.emoji+' '+b.label+' mide '+b.cm+' cm.<br>¿Cuál es más largo?</p>',
+      promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' mide '+a.cm+' cm.</p><p class="prompt-hint">'+b.emoji+' '+b.label+' mide '+b.cm+' cm.</p><p class="prompt-hint">¿Cuál es más largo?</p>',
       options: opts, correctValue: longer.label, speakText: '¿Cuál es más largo?', cols:2, panel:true,
       explain: longer.label+' mide '+longer.cm+' cm, más que el otro objeto.',
     };
@@ -1509,7 +1509,7 @@ export function genDatos5Round(){
     const item = pick(COMPARAR_PROBABILIDAD_BANK);
     const opts = shuffle([{label:'BOLSA A', value:'A'},{label:'BOLSA B', value:'B'}]);
     return {
-      promptHTML: '<p class="prompt-sentence">'+item.descripcionA+'<br>'+item.descripcionB+'</p><p class="prompt-hint">¿De cuál bolsa es más probable sacar una bolita '+item.preguntaColor.toLowerCase()+'?</p>',
+      promptHTML: '<p class="prompt-sentence">'+item.descripcionA+'</p><p class="prompt-sentence">'+item.descripcionB+'</p><p class="prompt-hint">¿De cuál bolsa es más probable sacar una bolita '+item.preguntaColor.toLowerCase()+'?</p>',
       options: opts, correctValue: item.masProbable, speakText: '¿De cuál bolsa es más probable sacar una bolita '+item.preguntaColor.toLowerCase()+'?', cols:2, panel:true,
       explain: 'La bolsa '+item.masProbable+' tiene una proporción mayor de bolitas '+item.preguntaColor.toLowerCase()+'s, sin necesidad de calcular la probabilidad exacta.',
     };
@@ -1778,7 +1778,7 @@ export function genPatronesEcuaciones6Round(){
     ].filter(function(d){ return d!==correct; })).slice(0,3);
     const opts = shuffle([correct].concat(distract)).map(function(r){ return {label:r, value:r}; });
     return {
-      promptHTML: '<p class="prompt-count">x: '+xs.join(', ')+'<br>y: '+ys.join(', ')+'</p><p class="prompt-hint">¿Qué regla relaciona los valores de x con los de y en esta tabla?</p>',
+      promptHTML: '<p class="prompt-count">x: '+xs.join(', ')+'</p><p class="prompt-count">y: '+ys.join(', ')+'</p><p class="prompt-hint">¿Qué regla relaciona los valores de x con los de y en esta tabla?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué regla relaciona x con y?', cols:2, panel:true,
       explain: 'La regla es <b>'+correct+'</b>: cada y se obtiene multiplicando x por '+m+(b>0?' y sumando '+b:'')+'.',
     };
@@ -2017,7 +2017,7 @@ export function genDatos6Round(){
     }while(promA===promB);
     const opts = shuffle([{label:'GRUPO A', value:'A'},{label:'GRUPO B', value:'B'}]);
     return {
-      promptHTML: '<p class="prompt-sentence">Grupo A: '+gA.join(', ')+'<br>Grupo B: '+gB.join(', ')+'</p><p class="prompt-hint">¿Cuál grupo tiene mayor promedio?</p>',
+      promptHTML: '<p class="prompt-sentence">Grupo A: '+gA.join(', ')+'</p><p class="prompt-sentence">Grupo B: '+gB.join(', ')+'</p><p class="prompt-hint">¿Cuál grupo tiene mayor promedio?</p>',
       options: opts, correctValue: promA>promB?'A':'B', speakText: '¿Cuál grupo tiene mayor promedio?', cols:2, panel:true,
       explain: 'El grupo con mayor promedio es el <b>'+(promA>promB?'GRUPO A':'GRUPO B')+'</b>.',
     };

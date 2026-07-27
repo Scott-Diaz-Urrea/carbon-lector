@@ -21,7 +21,6 @@
     --shadow-sm: 0 4px 12px rgba(29, 53, 87, 0.10);
     --font-display: 'Baloo 2', system-ui, sans-serif;
     --font-body: 'Quicksand', system-ui, sans-serif;
-    --font-script: 'Playwrite CL', cursive;
   }
 
   *{ box-sizing: border-box; }

@@ -233,7 +233,7 @@ export function genMedirRound(){
   const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
   const longer = a.unidades>b.unidades ? a : b;
   return {
-    promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' mide '+a.unidades+' cubos.<br>'+b.emoji+' '+b.label+' mide '+b.unidades+' cubos.<br>¿Cuál es más largo?</p>',
+    promptHTML: '<p class="prompt-hint">'+a.emoji+' '+a.label+' mide '+a.unidades+' cubos.</p><p class="prompt-hint">'+b.emoji+' '+b.label+' mide '+b.unidades+' cubos.</p><p class="prompt-hint">¿Cuál es más largo?</p>',
     options: opts, correctValue: longer.label, speakText: '¿Cuál es más largo?', cols:2, panel:true,
     explain: longer.label+' mide '+longer.unidades+' cubos, más que el otro objeto.',
   };

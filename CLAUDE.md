@@ -2413,6 +2413,49 @@ sesión).
   una sola columna a ancho completo con su acento de color intacto; y un módulo de 4
   opciones exactas (Contar, 1° básico) sin cambios de layout. Sin errores de consola
   en ninguno de los 4 casos probados.
+- **Auditoría "Química Diagnóstica como referencia visual" + eliminación de
+  `<br>` de maquetación (2026-07-27, pedido explícito del usuario):** el
+  usuario pidió confirmar que el stack sigue siendo 100% vanilla (confirmado:
+  sin framework, sin build step, sin cambios necesarios ahí) y homologar el
+  resto de la app contra el sistema visual ya usado en Química Diagnóstica
+  (tipografías, tamaños, sombras, radios, colores, variantes de botón/
+  tarjeta — sin crear ninguno nuevo), además de eliminar cualquier `<br>`
+  usado para maquetación visual en vez de HTML semántico/CSS. Se auditaron
+  las 998 líneas de `styles.css` completas: todos los componentes ya usan
+  las variables compartidas (`--radius-lg/md/sm`, `--shadow`/`--shadow-sm`,
+  `--font-display`/`--font-body`, la paleta de `:root`) — las sesiones
+  anteriores (acento de color en `.option-btn.panel`, flexbox de
+  `.option-grid`, tamaño de `.node-label`) ya habían resuelto la
+  homologación real, así que no se encontró ningún color/sombra/radio/
+  tipografía nueva que revertir. Sí se encontraron 2 hallazgos reales:
+  - **`--font-script: 'Playwrite CL', cursive;`** en `:root` era una variable
+    CSS muerta — nunca se lee en ningún archivo (`traza.js` define
+    `TYPO_STYLES` con la familia `'"Playwrite ES", cursive'` escrita directo,
+    sin usar esta variable) y sobrevivía desde antes de que el proyecto
+    cambiara de "Playwrite CL" a "Playwrite ES" (ver la sección de
+    tipografías de trazado más arriba) — index.html ya ni siquiera carga
+    "Playwrite CL" desde Google Fonts. Eliminada por ser dead code que podía
+    confundir a una sesión futura sobre qué fuente de script usa la app.
+  - **7 usos reales de `<br>` de maquetación** (nunca de significado): 6 en
+    `js/content/matematica.js` (comparaciones de longitud en Medición 2°/4°/
+    5° básico, la comparación de bolsas en Datos y Probabilidades 5°, la
+    tabla x/y de Patrones y Ecuaciones 6°, y el Grupo A/Grupo B de Datos y
+    Probabilidades 6°) y 1 en `js/content/parvularia/pensamientoMatematico.js`
+    (comparación de longitud en "Medir", núcleo Pensamiento Matemático NT) —
+    todos juntaban 2-3 oraciones/datos independientes dentro de un solo
+    `<p>` con `<br>` entre ellos. Se separó cada uno en su propio `<p>` con
+    la misma clase ya usada (`.prompt-hint`/`.prompt-sentence`/
+    `.prompt-count`, sin crear ninguna clase nueva) — el mismo patrón de
+    múltiples `<p>` consecutivos que ya usa el resto del archivo para casos
+    como descripción+pregunta (ej. `genDatos5Round`, línea con
+    `'<p class="prompt-sentence">'+item.escenario+'</p><p class="prompt-hint">...'`),
+    así que no hizo falta CSS nuevo ni wrapper adicional. Verificado: los 6
+    generadores de `matematica.js` y el de `pensamientoMatematico.js` pasan
+    fuzz de 300 iteraciones cada uno (sin `undefined`, sin `<br` remanente),
+    probado visualmente en el navegador inyectando una ronda de comparación
+    de longitud real en `.prompt-card` (3 líneas separadas, espaciado
+    correcto sin superponerse ni dejar huecos raros), y sin errores de
+    consola en Home ni en el módulo probado.
 - **Merge automático de PRs (pedido explícito del usuario, 2026-07-27):** a diferencia
   del resto de repos donde se espera confirmación explícita antes de mergear, en
   **este** repositorio el usuario pidió que cada PR se mergee inmediatamente después

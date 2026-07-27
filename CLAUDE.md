@@ -669,6 +669,41 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
       "Vocabulario Avanzado" en Inglés: botón Recurso visible y modal con
       el texto real en ambos, sin errores de consola). Próximo paso: 8°
       básico y Parvularia.
+    - **8° básico — ✅ completo (2026-07-27):** pedido explícito del usuario
+      ("procede") para continuar tras 7° básico, mismo criterio. Se agregó
+      recurso a los 36 módulos de opción múltiple: Lenguaje (Comprensión
+      VIII, Géneros Dramáticos y Épicos, Textos Argumentativos y Medios,
+      Gramática VIII, Ortografía VI — 5), Matemática (Enteros y
+      Racionales, Potencias y Raíces, Variaciones Porcentuales, Álgebra y
+      Ecuaciones VIII, Funciones, Geometría VIII: Pitágoras y Volumen,
+      Transformaciones Geométricas, Estadística y Combinatoria — 8),
+      Ciencias Naturales (La Célula VIII, Nutrición y Sistemas del Cuerpo,
+      Electricidad II, Calor y Transferencia, El Átomo y la Tabla
+      Periódica — 5), Historia (Humanismo y Renacimiento, Estado Moderno y
+      Mercantilismo, Conquista de América II, La Colonia II, Ilustración y
+      Revoluciones, Geografía Regional — 6), Artes Visuales (Montaje y
+      Difusión del Arte — 1), Música (Armonía y Acompañamiento — 1),
+      Educación Física (Sistemas de Juego y Táctica, Principios de
+      Entrenamiento — 2), Orientación (Prevención VIII, Bienestar y
+      Autocuidado VIII, Relaciones e Inclusión, Participación Democrática,
+      Gestión del Aprendizaje VIII — 5), Tecnología (Análisis de
+      Soluciones Tecnológicas — 1), Inglés (Funciones del Idioma VIII,
+      Lectura Avanzada — 2) — 36 módulos en total, coincide con el conteo
+      real de generadores `gen*8Round` en los 10 archivos de asignatura
+      (sin coincidencia de sufijo con `estudioPruebas/*.js` esta vez, ya
+      que esos archivos usan la numeración "7Round"). "Prevención VIII"
+      (Orientación) mantiene su `recurso` dentro de la misma política ya
+      confirmada para 7° básico: solo factores de riesgo/protección, sin
+      ningún detalle de la dimensión sexual, sin tocar el banco de
+      preguntas protegido. Verificado: los 36 generadores pasan fuzz de
+      300 iteraciones cada uno (sin `undefined`, sin opciones duplicadas,
+      `correctValue` siempre presente, sin apóstrofes en `speakText`, sin
+      `recurso` faltante) y prueba visual en el navegador (módulo
+      "Geometría VIII: Pitágoras y Volumen" en Matemática y "Funciones del
+      Idioma VIII" en Inglés: botón Recurso visible y modal con el texto
+      real en ambos, sin errores de consola). Con esto, toda Educación
+      Básica (1° a 8°) tiene el botón Recurso. Próximo paso: Educación
+      Parvularia (los 8 núcleos de NT).
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el

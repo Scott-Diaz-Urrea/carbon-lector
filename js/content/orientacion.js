@@ -902,12 +902,14 @@ const PREVENCION_8_BANK = [
   { label:'Ocultar que un amigo está en una situación de riesgo grave es la mejor forma de ser leal', v:false },
 ];
 export function genPrevencionRiesgo8Round(){
+  const recurso = 'Los <b>factores de protección</b> son recursos que reducen la probabilidad de que alguien viva una situación de riesgo: contar con una red de apoyo (familia, amistades de confianza, un adulto a quien recurrir), saber decir "no" con firmeza frente a la presión de un grupo, participar en actividades que motivan (deporte, arte, música), y estar en un ambiente donde se puede hablar de los problemas sin miedo a burlas. Los <b>factores de riesgo</b>, en cambio, aumentan esa probabilidad: enfrentar solo una situación difícil sin contarle a nadie, o guardar en secreto algo que genera incomodidad. Reconocer estas señales a tiempo, y saber que pedir ayuda a un adulto o especialista es un signo de madurez (no de debilidad), es la base de la prevención.';
   const item = pick(PREVENCION_8_BANK);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 
@@ -924,12 +926,14 @@ const BIENESTAR_8_BANK = [
   { situacion:'Te ofrecen sumarte a un reto viral de redes sociales que implica un riesgo físico evidente.', correcta:'Rechazarlo: ningún video vale poner en riesgo tu integridad', malas:['Aceptar para no quedar fuera del grupo','Hacerlo pero sin contárselo a nadie','Desafiar a otros compañeros a hacerlo'] },
 ];
 export function genBienestar8Round(){
+  const recurso = 'El <b>bienestar</b> integral depende de cuidar varias áreas a la vez: la alimentación equilibrada, el descanso suficiente, la actividad física regular, y la integridad corporal (avisar a un adulto ante una lesión o dolor, en vez de restarle importancia). El <b>uso seguro de redes sociales</b> es parte de este cuidado: no compartir información personal con desconocidos, configurar la privacidad de las publicaciones, y reconocer señales de alerta (como que alguien pida guardar secretos o insista en obtener fotos). Frente a cualquier situación que genere duda o incomodidad —ya sea en línea o en persona— lo más protector es contárselo a un adulto de confianza en vez de enfrentarla en soledad.';
   const item = pick(BIENESTAR_8_BANK);
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
     explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -946,12 +950,14 @@ const RELACIONES_INCLUSION_8_BANK = [
   { label:'Apoyar a un compañero que fue discriminado, y avisar a un adulto si la situación es grave, es una acción correcta', v:true },
 ];
 export function genRelacionesInclusion8Round(){
+  const recurso = 'Tratar con la misma <b>dignidad</b> a todas las personas, sin importar su origen, apariencia o creencias, es la base de la <b>inclusión</b> y de relaciones saludables. La <b>discriminación</b> puede tomar formas sutiles —burlarse de un acento, excluir a alguien de un grupo, difundir rumores en un chat— y sigue vulnerando a la persona aunque ocurra "solo" en línea, no solo cara a cara. Estos principios de respeto e igualdad aplican por igual en las redes sociales y en persona. Un grupo que integra personas con distintas experiencias y puntos de vista es más rico y creativo, y apoyar a un compañero que sufre discriminación (en vez de mirar para el lado) es parte de construir una convivencia sana.';
   const item = pick(RELACIONES_INCLUSION_8_BANK);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }
 
@@ -967,12 +973,14 @@ const PARTICIPACION_8_BANK = [
   { situacion:'Tu equipo de trabajo tiene un objetivo común, pero cada integrante quiere hacerlo a su manera.', correcta:'Acordar en conjunto un plan que aproveche las fortalezas de cada uno', malas:['Trabajar cada uno por separado sin coordinarse','Dejar que el más insistente decida todo','Renunciar al objetivo común'] },
 ];
 export function genParticipacionDemocratica8Round(){
+  const recurso = 'La <b>participación democrática</b> dentro de un curso o grupo se basa en escuchar los intereses de todos, debatir con argumentos y decidir por votación cuando hay opiniones divididas. Cuando el resultado de una votación no coincide con lo que uno prefería, lo democrático es aceptarlo y seguir participando —expresar el desacuerdo por los canales adecuados es válido, pero desconocer o boicotear una decisión tomada correctamente no lo es—. Ser <b>representante</b> de un grupo (como delegado o parte de una directiva) implica transmitir fielmente lo que el grupo decidió, no solo la opinión personal. Estas habilidades de diálogo, acuerdo y respeto por los procesos son la base de cualquier organización democrática, dentro y fuera del colegio.';
   const item = pick(PARTICIPACION_8_BANK);
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:1, panel:true,
     explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -989,11 +997,13 @@ const GESTION_APRENDIZAJE_8_BANK = [
   { label:'Celebrar los avances parciales de una meta ayuda a mantener la motivación', v:true },
 ];
 export function genGestionAprendizaje8Round(){
+  const recurso = 'Gestionar el propio aprendizaje de forma autónoma implica varios hábitos: conocer los propios intereses y capacidades para fijarse metas con sentido, dividir una meta grande en pasos pequeños y medibles (más fácil de cumplir que una meta enorme de una sola vez), y revisar periódicamente el avance para ajustar el plan si algo no está funcionando. Anotar plazos y tareas en una agenda evita la acumulación de última hora, y pedir retroalimentación a los profesores sobre cómo mejorar es parte de aprender con autonomía. Celebrar los avances parciales —no solo la meta final— ayuda a mantener la motivación en el camino.';
   const item = pick(GESTION_APRENDIZAJE_8_BANK);
   const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
   };
 }

@@ -261,12 +261,14 @@ const FUNCIONES_8_BANK = [
   { spanish:'Ella es la mejor jugadora del equipo (superlativo).', english:'SHE IS THE BEST PLAYER ON THE TEAM', opts:['SHE IS A NEW PLAYER ON THE TEAM','SHE IS THE WORST PLAYER','SHE DOES NOT PLAY'] },
 ];
 export function genFuncionesIdioma8Round(){
+  const recurso = 'En inglés, ciertas estructuras gramaticales cumplen "funciones" comunicativas específicas. Para hablar de <b>planes o predicciones futuras</b>, se usa "will" (it will rain) o "going to" (I am going to study). Para dar <b>indicaciones de dirección</b>, se usan verbos como "turn" (doblar) o "go straight" (seguir derecho), junto a preposiciones de lugar como "between" (entre) o "behind" (detrás). Los <b>condicionales simples</b> (con "if") describen una consecuencia que depende de una condición: "If you study, you will learn faster" (si estudias, aprenderás más rápido). Las <b>comparaciones</b> usan "-er than" (faster than = más rápido que) para comparar dos cosas, y el <b>superlativo</b> usa "the -est" (the best = el/la mejor) para señalar el máximo dentro de un grupo.';
   const item = pick(FUNCIONES_8_BANK);
   const opts = shuffle([item.english].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">How do you say this in English?</p>',
     options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:1, kind:'word',
     explain: 'Se dice <b>'+item.english+'</b> en inglés.',
+    recurso: recurso,
   };
 }
 
@@ -283,11 +285,13 @@ const LECTURA_AVANZADA_8_BANK = [
   { text:'The library extended its hours because many students requested more time to study in the evenings.', question:'What caused the library to extend its hours?', correct:'STUDENTS REQUESTED MORE TIME TO STUDY', opts:['THE LIBRARY HAD TOO MANY BOOKS','THE EVENINGS BECAME LONGER','A NEW LIBRARY OPENED NEXT DOOR'] },
 ];
 export function genLecturaAvanzada8Round(){
+  const recurso = 'Para comprender bien un texto en inglés, es útil identificar dos tipos de relaciones dentro del relato: la <b>secuencia</b> (el orden en que ocurren los hechos: first, then, finally — primero, luego, finalmente) y la <b>causa-efecto</b> (por qué ocurrió algo y qué consecuencia tuvo). Palabras clave como "because" (porque), "as a result" (como resultado), "consequently" (por consiguiente) y "for this reason" (por esta razón) señalan que lo que sigue es la causa o el efecto de algo mencionado antes. Reconocer estas palabras conectoras ayuda a entender la lógica interna de un texto, incluso cuando aparecen palabras nuevas — no hace falta entender cada palabra para comprender la relación general entre las ideas.';
   const item = pick(LECTURA_AVANZADA_8_BANK);
   const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, speakLang:'en', cols:2, kind:'word',
     explain: 'The answer is <b>'+item.correct+'</b>.',
+    recurso: recurso,
   };
 }

@@ -1146,12 +1146,14 @@ const HUMANISMO_8_BANK = [
   { pregunta:'¿Qué rol cumplieron ciudades como Florencia y Venecia en el Renacimiento?', correcta:'FUERON CENTROS DE COMERCIO Y MECENAZGO QUE FINANCIARON ARTE Y CULTURA', opts:['FUERON ABANDONADAS DURANTE TODO EL PERÍODO','PROHIBIERON LA ENTRADA DE ARTISTAS','NO TUVIERON NINGUNA RELACIÓN CON LA CULTURA'] },
 ];
 export function genHumanismoRenacimiento8Round(){
+  const recurso = 'El <b>Renacimiento</b> fue un movimiento cultural que surgió en Europa a partir del siglo XV, marcando el fin de la Edad Media. Su idea central, el <b>Humanismo</b>, ponía al ser humano (y no solo a Dios) en el centro de la reflexión, valorando la razón, el arte y el conocimiento del mundo. La invención de la <b>imprenta</b> por Gutenberg permitió reproducir libros de forma masiva por primera vez, haciendo que las ideas se difundieran mucho más rápido que antes, cuando cada libro debía copiarse a mano. Este período también trajo avances en la <b>revolución científica</b>: observar y experimentar el mundo, en vez de solo aceptar lo que decían las autoridades antiguas, se volvió una forma válida de generar conocimiento.';
   const item = pick(HUMANISMO_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1167,12 +1169,14 @@ const ESTADO_MODERNO_8_BANK = [
   { pregunta:'¿Qué significaba el "monopolio comercial" que España impuso a sus colonias americanas?', correcta:'LAS COLONIAS SOLO PODÍAN COMERCIAR CON ESPAÑA, NO CON OTROS REINOS', opts:['LAS COLONIAS PODÍAN COMERCIAR LIBREMENTE CON CUALQUIER PAÍS','ESPAÑA PROHIBÍA TODO TIPO DE COMERCIO','EL COMERCIO ERA ADMINISTRADO POR LOS PUEBLOS ORIGINARIOS'] },
 ];
 export function genEstadoModerno8Round(){
+  const recurso = 'El <b>Estado moderno</b> surgió en Europa cuando el poder, que antes estaba repartido entre muchos señores feudales, se concentró en la figura del rey, apoyado por una <b>administración centralizada</b> (funcionarios, impuestos regulares y ejércitos permanentes). El <b>mercantilismo</b> fue la política económica dominante entre los siglos XVI y XVIII: los reinos buscaban acumular la mayor cantidad de oro y plata posible, exportando más de lo que importaban. Las colonias americanas jugaban un rol clave en este sistema: proveían materias primas y metales preciosos a la metrópoli, mientras se les imponía un <b>monopolio comercial</b> que las obligaba a comerciar solo con su propio reino, nunca con otros países.';
   const item = pick(ESTADO_MODERNO_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1188,12 +1192,14 @@ const CONQUISTA_8_BANK = [
   { pregunta:'¿Cómo se vio afectada la organización política de los grandes imperios americanos con la conquista?', correcta:'SUS ESTRUCTURAS DE GOBIERNO FUERON REEMPLAZADAS POR INSTITUCIONES COLONIALES ESPAÑOLAS', opts:['SIGUIERON GOBERNANDO EXACTAMENTE IGUAL QUE ANTES','SE TRASLADARON A GOBERNAR EN EUROPA','NO TENÍAN NINGUNA ORGANIZACIÓN POLÍTICA'] },
 ];
 export function genConquista8Round(){
+  const recurso = 'El encuentro entre europeos y pueblos americanos en 1492 fue un verdadero <b>choque cultural</b>, entre mundos con idiomas, creencias, tecnologías y formas de vida profundamente distintas. La rapidez de la conquista de los grandes imperios americanos se explica por varios factores combinados: las alianzas de los españoles con pueblos rivales de esos imperios, la diferencia tecnológica militar (armas de metal, caballos y pólvora, desconocidos en América), y sobre todo las <b>enfermedades</b> traídas desde Europa, para las que los pueblos americanos no tenían defensas — la causa principal de la enorme pérdida de población indígena. Este proceso también generó un <b>intercambio</b> de plantas, animales y alimentos entre ambos continentes (como la papa hacia Europa y el trigo hacia América), y un debate en España sobre la legitimidad de la conquista y el trato a los pueblos indígenas.';
   const item = pick(CONQUISTA_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1209,12 +1215,14 @@ const COLONIA_8_BANK = [
   { pregunta:'¿Cómo era la sociedad colonial en cuanto a derechos y jerarquías?', correcta:'ERA UNA SOCIEDAD JERARQUIZADA, DONDE EL ORIGEN Y EL NACIMIENTO DETERMINABAN EL LUGAR DE CADA PERSONA', opts:['TODOS TENÍAN EXACTAMENTE LOS MISMOS DERECHOS','NO EXISTÍAN GRUPOS SOCIALES','LOS CARGOS SE SORTEABAN ENTRE TODA LA POBLACIÓN'] },
 ];
 export function genColonia8Round(){
+  const recurso = 'Durante la <b>Colonia</b>, las ciudades fundadas por los españoles concentraban la administración, las instituciones y el poder colonial. La sociedad se formó por <b>mestizaje</b> entre españoles, pueblos indígenas y personas africanas traídas al continente, organizada de forma jerárquica según el origen y nacimiento de cada persona. En el campo chileno, la <b>hacienda</b> era la gran propiedad rural que organizaba la economía, y el <b>inquilinaje</b> era el sistema donde familias trabajaban la tierra a cambio de un lugar donde vivir. La relación entre españoles y mapuches en torno a la frontera del Biobío combinó períodos de guerra con intercambio y parlamentos de paz. El <b>Barroco</b> fue el estilo artístico dominante de la época, visible en iglesias, pinturas y música.';
   const item = pick(COLONIA_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1230,12 +1238,14 @@ const ILUSTRACION_8_BANK = [
   { pregunta:'¿Qué relación existe entre los "derechos del hombre y del ciudadano" de 1789 y los derechos humanos actuales?', correcta:'SON UN ANTECEDENTE HISTÓRICO DIRECTO: LA IDEA DE DERECHOS UNIVERSALES SE FUE AMPLIANDO HASTA HOY', opts:['NO TIENEN NINGUNA RELACIÓN ENTRE SÍ','LOS DERECHOS ACTUALES SON MÁS ANTIGUOS','AMBOS CONCEPTOS SIGNIFICAN EXACTAMENTE LO MISMO SIN NINGÚN CAMBIO'] },
 ];
 export function genIlustracionRevoluciones8Round(){
+  const recurso = 'La <b>Ilustración</b> fue un movimiento intelectual del siglo XVIII que proponía usar la razón para comprender el mundo y organizar la sociedad, difundiendo ideas como la separación de poderes del Estado para evitar que una sola persona concentrara todo el poder. Estas ideas influyeron directamente en las grandes <b>revoluciones</b> de la época: la independencia de las Trece Colonias (1776) y la Revolución Francesa (1789), que proclamó los derechos del hombre y del ciudadano — un antecedente directo de los derechos humanos actuales. La <b>independencia hispanoamericana</b> se considera un proceso continental porque ocurrió de forma casi simultánea y conectada en distintos territorios, impulsada por estas mismas ideas ilustradas y facilitada por la crisis de la monarquía española tras la invasión napoleónica de 1808.';
   const item = pick(ILUSTRACION_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1251,12 +1261,14 @@ const GEOGRAFIA_REGIONAL_8_BANK = [
   { pregunta:'¿Cómo se inserta una región en el mercado internacional?', correcta:'EXPORTANDO SUS PRODUCTOS CARACTERÍSTICOS, COMO MINERALES, FRUTA O PRODUCTOS DEL MAR', opts:['CERRANDO TODO CONTACTO CON EL EXTERIOR','REGALANDO SU PRODUCCIÓN','PROHIBIENDO LOS PUERTOS'] },
 ];
 export function genGeografiaRegional8Round(){
+  const recurso = 'Una <b>región</b> se define combinando factores físicos y humanos: clima, vegetación, idioma, historia o economía. Existen distintos tipos: las regiones político-administrativas (como las 16 regiones de Chile), las regiones económicas (definidas por su actividad productiva, como una zona vitivinícola) y las regiones culturales (definidas por tradiciones compartidas, como la zona andina). Las <b>zonas aisladas</b> de un país, como localidades cordilleranas o insulares, suelen tener un acceso más difícil a servicios como salud, educación y conectividad. El <b>Índice de Desarrollo Humano (IDH)</b> es una herramienta que permite comparar regiones y países según su salud, educación e ingresos, y sirve para identificar desigualdades entre distintas zonas de un mismo territorio.';
   const item = pick(GEOGRAFIA_REGIONAL_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 

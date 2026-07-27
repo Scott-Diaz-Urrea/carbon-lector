@@ -518,11 +518,13 @@ const MONTAJE_8_BANK = [
   { pregunta:'¿Qué diferencia hay entre exponer en un museo y en el espacio público, pensando en el montaje?', correcta:'EN EL ESPACIO PÚBLICO LAS OBRAS DEBEN RESISTIR CLIMA Y USO COTIDIANO, Y EL PÚBLICO LLEGA SIN PLANEARLO', opts:['NO HAY NINGUNA DIFERENCIA DE MONTAJE','EN LA CALLE LAS OBRAS NO NECESITAN INSTALARSE','LOS MUSEOS NO REQUIEREN NINGÚN CUIDADO'] },
 ];
 export function genMontajeDifusion8Round(){
+  const recurso = 'El <b>montaje</b> de una exposición es la forma en que se organizan y ubican las obras en el espacio para que el público las recorra bien: incluye decidir la iluminación (que destaca cada obra sin dañarla), la altura y distancia entre piezas (para que cada una tenga su propio espacio), y las fichas o cartelas que informan título, autor, técnica y año. Los <b>espacios de difusión del arte</b> —museos, galerías, murales o centros culturales— cumplen distintas funciones sociales: acercan el arte a la comunidad, ofrecen un lugar de encuentro, y cada tipo de espacio (una sala cerrada, el espacio público, una plataforma virtual) exige adaptar el montaje a sus propias condiciones, como el clima si es al aire libre o el alcance si es en línea.';
   const item = pick(MONTAJE_8_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }

@@ -1529,7 +1529,7 @@ export function genOrtografia8Round(){
   const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál oración está bien puntuada?</p>',
-    options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien puntuada?', cols:1, panel:true,
+    options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien puntuada?', cols:2, panel:true,
     explain: item.regla,
     recurso: recurso,
   };

@@ -198,7 +198,7 @@ export function genVocabularioAvanzado7Round(){
   const opts = shuffle([item.english].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">How do you say this in English?</p>',
-    options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:1, kind:'word',
+    options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, panel:true,
     explain: 'Se dice <b>'+item.english+'</b> en inglés.',
     recurso: recurso,
   };
@@ -266,7 +266,7 @@ export function genFuncionesIdioma8Round(){
   const opts = shuffle([item.english].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">How do you say this in English?</p>',
-    options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:1, kind:'word',
+    options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, panel:true,
     explain: 'Se dice <b>'+item.english+'</b> en inglés.',
     recurso: recurso,
   };

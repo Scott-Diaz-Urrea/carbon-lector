@@ -92,7 +92,9 @@ export const state = {
            analisissoluciones8:0,
            funcionesidioma8:0, lecturaavanzada8:0,
            qdcasosrenal:0, qdcasoshepatico:0, qdorina:0, qdliquidos:0, qdlcr:0,
-           qdvalorescriticos:0, qdcontrolcalidad:0, qdendocrinotumoral:0, qdgasesarteriales:0, qdpancreas:0, qdreactivos:0 },
+           qdvalorescriticos:0, qdcontrolcalidad:0, qdendocrinotumoral:0, qdgasesarteriales:0, qdpancreas:0, qdreactivos:0,
+           microfundamentos:0, microantimicrobianos:0, microsusceptibilidad:0, microresistencia:0, microcarbapenemasas:0,
+           microtaxonomia:0, microstaphylo:0, microstrepto:0, microbacilos:0, microentero:0, microbgnnf:0, microvibrio:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

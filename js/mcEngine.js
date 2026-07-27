@@ -124,6 +124,11 @@ import {
   genValoresCriticos7Round, genControlCalidad7Round, genEndocrinoTumoral7Round,
   genGasesArteriales7Round, genPancreas7Round, genReactivos7Round,
 } from './content/estudioPruebas/quimicaDiagnostica.js';
+import {
+  genFundamentos7Round, genAntimicrobianos7Round, genSusceptibilidad7Round, genResistencia7Round,
+  genCarbapenemasas7Round, genTaxonomia7Round, genStaphylo7Round, genStrepto7Round,
+  genBacilos7Round, genEntero7Round, genBgnnf7Round, genVibrio7Round,
+} from './content/estudioPruebas/microbiologiaClinica.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
@@ -212,7 +217,9 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'analisissoluciones8',
   'funcionesidioma8','lecturaavanzada8',
   'qdcasosrenal','qdcasoshepatico','qdorina','qdliquidos','qdlcr',
-  'qdvalorescriticos','qdcontrolcalidad','qdendocrinotumoral','qdgasesarteriales','qdpancreas','qdreactivos'];
+  'qdvalorescriticos','qdcontrolcalidad','qdendocrinotumoral','qdgasesarteriales','qdpancreas','qdreactivos',
+  'microfundamentos','microantimicrobianos','microsusceptibilidad','microresistencia','microcarbapenemasas','microtaxonomia',
+  'microstaphylo','microstrepto','microbacilos','microentero','microbgnnf','microvibrio'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -527,6 +534,18 @@ export const MC_GAMES = {
   qdgasesarteriales: { title:'Gases Arteriales y Equilibrio Ácido-Base', gen: genGasesArteriales7Round, rounds:8 },
   qdpancreas: { title:'Páncreas: Enzimas y Pancreatitis', gen: genPancreas7Round, rounds:8 },
   qdreactivos: { title:'Bioquímica de Reactivos e Insertos', gen: genReactivos7Round, rounds:8 },
+  microfundamentos: { title:'Fundamentos Bacterianos', gen: genFundamentos7Round, rounds:8 },
+  microantimicrobianos: { title:'Antimicrobianos: Mecanismo y Clasificación', gen: genAntimicrobianos7Round, rounds:8 },
+  microsusceptibilidad: { title:'Estudios de Susceptibilidad', gen: genSusceptibilidad7Round, rounds:7 },
+  microresistencia: { title:'Mecanismos de Resistencia', gen: genResistencia7Round, rounds:8 },
+  microcarbapenemasas: { title:'Carbapenemasas y Detección', gen: genCarbapenemasas7Round, rounds:7 },
+  microtaxonomia: { title:'Taxonomía y Medios de Cultivo', gen: genTaxonomia7Round, rounds:8 },
+  microstaphylo: { title:'Staphylococcus', gen: genStaphylo7Round, rounds:7 },
+  microstrepto: { title:'Streptococcus y Enterococcus', gen: genStrepto7Round, rounds:8 },
+  microbacilos: { title:'Bacilos Gram Positivos', gen: genBacilos7Round, rounds:7 },
+  microentero: { title:'Enterobacterales', gen: genEntero7Round, rounds:8 },
+  microbgnnf: { title:'Bacilos Gram Negativos No Fermentadores', gen: genBgnnf7Round, rounds:7 },
+  microvibrio: { title:'Vibrionaceae, Campylobacter y Helicobacter', gen: genVibrio7Round, rounds:7 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

@@ -328,6 +328,18 @@ export const MODULE_TITLES = {
   qdgasesarteriales:'Maestro Ácido-Base',
   qdpancreas:'Experto en Páncreas',
   qdreactivos:'Bioquímico de Reactivos',
+  microfundamentos:'Explorador Celular',
+  microantimicrobianos:'Farmacólogo Antimicrobiano',
+  microsusceptibilidad:'Maestro del Antibiograma',
+  microresistencia:'Detective de la Resistencia',
+  microcarbapenemasas:'Experto en Carbapenemasas',
+  microtaxonomia:'Curador de Medios de Cultivo',
+  microstaphylo:'Cazador de Estafilococos',
+  microstrepto:'Cazador de Estreptococos',
+  microbacilos:'Bacteriólogo de Bacilos Gram+',
+  microentero:'Experto en Enterobacterales',
+  microbgnnf:'Especialista en No Fermentadores',
+  microvibrio:'Explorador de Vibrionaceae',
 };
 
 export function spawnConfetti(container){

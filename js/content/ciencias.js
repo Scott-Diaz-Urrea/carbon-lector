@@ -1717,6 +1717,7 @@ const ITS_BANK = [
   { pregunta:'¿Por qué es importante hacerse exámenes médicos de manera regular?', correcta:'PORQUE ALGUNAS ITS PUEDEN NO PRESENTAR SEÑALES VISIBLES AL PRINCIPIO', opts:['PORQUE TODAS LAS ITS DUELEN MUCHO DESDE EL PRIMER DÍA','PORQUE LOS EXÁMENES MÉDICOS NUNCA SIRVEN DE NADA','PORQUE ES SOLO UNA FORMALIDAD SIN NINGÚN PROPÓSITO'] },
 ];
 export function genSexualidadReproduccion7Round(){
+  const recurso = 'El sistema reproductor femenino y masculino producen los <b>gametos</b> (óvulos y espermatozoides) necesarios para la reproducción humana; el <b>ciclo menstrual</b> es el proceso mensual mediante el cual el cuerpo de la mujer prepara y libera un óvulo. Los <b>métodos anticonceptivos</b> son formas de prevenir un embarazo cuando se decide no tenerlo en ese momento, y varían en su forma de uso y efectividad. Las <b>infecciones de transmisión sexual (ITS)</b> se pueden prevenir con medidas de cuidado y se detectan y tratan con ayuda de un profesional de la salud — ante cualquier duda sobre estos temas, siempre es importante conversar con un adulto de confianza o consultar a un médico.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(CICLO_MENSTRUAL_GAMETOS_BANK);
@@ -1725,6 +1726,7 @@ export function genSexualidadReproduccion7Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1734,6 +1736,7 @@ export function genSexualidadReproduccion7Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   const item = pick(ITS_BANK);
@@ -1742,6 +1745,7 @@ export function genSexualidadReproduccion7Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1762,6 +1766,7 @@ const BIOTECNOLOGIA_BANK = [
   { pregunta:'¿Qué producen algunos microorganismos al descomponer materia orgánica, que se puede usar como fuente de energía?', correcta:'METANO (BIOGÁS)', opts:['OXÍGENO PURO SOLAMENTE','AGUA POTABLE DIRECTAMENTE','SAL DE MESA'] },
 ];
 export function genInmunologicoMicroorganismos7Round(){
+  const recurso = 'El cuerpo se defiende de los agentes patógenos con <b>barreras defensivas</b> (la piel, los glóbulos blancos) y con la ayuda de <b>vacunas</b>, que preparan al sistema inmunológico sin causar la enfermedad. Los <b>virus</b> necesitan una célula huésped para reproducirse, mientras que las <b>bacterias</b> pueden reproducirse por sí solas; no todos los microorganismos son dañinos — muchos hongos y bacterias son beneficiosos, usados en la <b>biotecnología</b> para producir alimentos (pan, yogur, queso) o para ayudar al medioambiente descomponiendo sustancias contaminantes.';
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(BARRERAS_DEFENSIVAS_BANK);
@@ -1770,6 +1775,7 @@ export function genInmunologicoMicroorganismos7Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.7){
@@ -1779,6 +1785,7 @@ export function genInmunologicoMicroorganismos7Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   const item = pick(BIOTECNOLOGIA_BANK);
@@ -1787,6 +1794,7 @@ export function genInmunologicoMicroorganismos7Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1804,6 +1812,7 @@ const PRESION_BANK = [
   { pregunta:'¿Por qué usar raquetas de nieve o esquís ayuda a no hundirse tanto en la nieve?', correcta:'PORQUE REPARTEN EL PESO EN UNA SUPERFICIE MÁS GRANDE, DISMINUYENDO LA PRESIÓN', opts:['PORQUE SON MÁS PESADOS','PORQUE DERRITEN LA NIEVE','PORQUE SON DE COLOR BLANCO'] },
 ];
 export function genFuerzasPresion7Round(){
+  const recurso = 'Existen distintos tipos de <b>fuerza</b>: la <b>gravitacional</b> atrae los objetos hacia la Tierra (o entre sí), la de <b>fricción (roce)</b> se opone al movimiento entre dos superficies en contacto, y la <b>elástica</b> aparece cuando un objeto se deforma y vuelve a su forma original (como un resorte). La <b>presión</b> es la fuerza aplicada sobre una superficie: a menor superficie, mayor presión (por eso un cuchillo afilado corta mejor), y a mayor superficie, menor presión (por eso las raquetas de nieve evitan hundirse).';
   if(Math.random()<0.6){
     const item = pick(FUERZAS7_BANK);
     const todos = ['GRAVITACIONAL','DE FRICCIÓN (ROCE)','ELÁSTICA'];
@@ -1813,6 +1822,7 @@ export function genFuerzasPresion7Round(){
       promptHTML: '<p class="prompt-sentence">'+item.escenario+'.</p><p class="prompt-hint">¿Qué tipo de fuerza actúa principalmente en esta situación?</p>',
       options: opts, correctValue: item.fuerza, speakText: item.escenario, cols:2, kind:'word', panel:true,
       explain: 'Aquí actúa principalmente la fuerza <b>'+item.fuerza.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(PRESION_BANK);
@@ -1821,6 +1831,7 @@ export function genFuerzasPresion7Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1843,6 +1854,7 @@ const CLIMA7_BANK = [
   { pregunta:'¿Qué factor geográfico puede influir en el clima de una zona costera en comparación con una zona de cordillera?', correcta:'LA CERCANÍA AL MAR Y LA ALTITUD SOBRE EL NIVEL DEL MAR', opts:['EL COLOR DE LAS CASAS DE ESA ZONA','EL NÚMERO DE HABITANTES DE LA ZONA','EL IDIOMA QUE SE HABLA EN ESA ZONA'] },
 ];
 export function genGeologiaClima7Round(){
+  const recurso = 'La <b>tectónica de placas</b> explica que la corteza terrestre está dividida en placas que se mueven lentamente: cuando se separan (límite divergente) puede surgir nuevo material, y cuando chocan (límite convergente) se forman cordilleras o zonas de alta actividad sísmica y volcánica. El <b>ciclo de las rocas</b> describe cómo las rocas ígneas (por enfriamiento de magma/lava), sedimentarias (por acumulación de sedimentos) y metamórficas (por calor y presión) se transforman unas en otras a lo largo del tiempo geológico. El <b>clima</b> de un lugar es dinámico porque depende de la interacción de varios factores que cambian constantemente, como la cercanía al mar y la altitud.';
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(TECTONICA_BANK);
@@ -1851,6 +1863,7 @@ export function genGeologiaClima7Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -1860,6 +1873,7 @@ export function genGeologiaClima7Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -1869,6 +1883,7 @@ export function genGeologiaClima7Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   const item = pick(CLIMA7_BANK);
@@ -1877,6 +1892,7 @@ export function genGeologiaClima7Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1900,6 +1916,7 @@ const CAMBIOS_FISQUIM_BANK = [
   { desc:'La leche se corta y se transforma en yogur', tipo:'CAMBIO QUÍMICO' },
 ];
 export function genMateriaGases7Round(){
+  const recurso = 'Según la <b>teoría cinético-molecular</b>, las partículas de un gas se mueven rápido y al azar con mucho espacio entre ellas; al comprimir o calentar un gas en un recipiente cerrado, su presión generalmente aumenta. La materia se puede clasificar en <b>sustancias puras</b> (un solo tipo de componente) o <b>mezclas</b> (combinación de varias sustancias que se pueden separar con técnicas como filtración o destilación). Un <b>cambio físico</b> no forma una sustancia nueva (como congelar agua), mientras que un <b>cambio químico</b> sí forma una sustancia distinta con propiedades nuevas (como quemar papel u oxidar un clavo).';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(GASES_BANK);
@@ -1908,6 +1925,7 @@ export function genMateriaGases7Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1917,6 +1935,7 @@ export function genMateriaGases7Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
       explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   const item = pick(CAMBIOS_FISQUIM_BANK);
@@ -1925,6 +1944,7 @@ export function genMateriaGases7Round(){
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Es un cambio físico o un cambio químico?</p>',
     options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, panel:true,
     explain: 'Esto es un <b>'+item.tipo.toLowerCase()+'</b>'+(item.tipo==='CAMBIO QUÍMICO' ? ': se forma una sustancia nueva con propiedades distintas.' : ': la sustancia sigue siendo la misma, solo cambia su forma o estado.'),
+    recurso: recurso,
   };
 }
 

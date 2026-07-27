@@ -265,12 +265,14 @@ const IMPACTO_TECNOLOGICO_7_BANK = [
   { pregunta:'La inteligencia artificial puede ayudar a resolver problemas complejos rápidamente, pero también puede cometer errores o ser usada de forma poco ética. ¿Qué actitud refleja mejor evaluar su impacto?', correcta:'Aprovechar sus beneficios mientras se revisan sus resultados con sentido crítico', opts:['Confiar en ella sin revisar nunca ningún resultado','Rechazarla por completo sin considerar sus beneficios','Usarla sin pensar en ninguna consecuencia'] },
 ];
 export function genSolucionesTecnologicas7Round(){
+  const recurso = 'Casi toda <b>solución tecnológica</b> trae beneficios y también algún tipo de impacto negativo al mismo tiempo (el auto facilita el traslado pero contamina; el celular conecta pero puede afectar el descanso). Evaluar una tecnología significa considerar ambos lados, no solo sus ventajas, y buscar formas de reducir su impacto negativo (usar materiales reutilizables, tratar los desechos, usar los recursos de forma eficiente) sin dejar de aprovechar sus beneficios.';
   const item = pick(IMPACTO_TECNOLOGICO_7_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:1, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 

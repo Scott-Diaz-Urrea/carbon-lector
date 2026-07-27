@@ -526,12 +526,14 @@ const ESTRATEGIA_DEPORTIVA_BANK = [
   { desc:'Un equipo de básquetbol practica una jugada específica varias veces antes del partido para ejecutarla bien cuando la necesite', correcta:'PREPARAR JUGADAS ESTRATÉGICAS CON ANTICIPACIÓN', opts:['IMPROVISAR TODAS LAS JUGADAS SIN NINGÚN TIPO DE PREPARACIÓN','JUGAR SIEMPRE IGUAL SIN PRACTICAR NADA NUEVO','IGNORAR CUALQUIER TIPO DE ESTRATEGIA ANTES DEL PARTIDO'] },
 ];
 export function genEstrategiasTacticas7Round(){
+  const recurso = 'Jugar en equipo no es solo correr detrás de la pelota: incluye ocupar espacios libres antes de recibir un pase, distribuirse en posiciones para cubrir toda la cancha, anticipar la jugada del rival observando sus movimientos, comunicarse con los compañeros durante el juego y planificar jugadas con anticipación. Estas <b>estrategias y tácticas</b> permiten que un equipo juegue de forma coordinada, en vez de que cada jugador actúe por su cuenta.';
   const item = pick(ESTRATEGIA_DEPORTIVA_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué estrategia deportiva se muestra aquí?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
     explain: 'Esto es un ejemplo de: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 

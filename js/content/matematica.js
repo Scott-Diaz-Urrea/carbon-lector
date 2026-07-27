@@ -2146,6 +2146,7 @@ export const MATE_POS_G7 = [
 ];
 
 export function genEnteros7Round(){
+  const recurso = 'Los números enteros incluyen los positivos, los negativos y el cero. Para sumar o restar enteros, es útil pensar en una recta numérica: sumar un número negativo es lo mismo que restar su valor absoluto, y restar un número negativo equivale a sumarlo. En situaciones de la vida real (temperatura bajo cero, profundidad bajo el nivel del mar, una deuda), los números negativos representan valores por debajo de un punto de referencia (el cero), y las operaciones con enteros permiten calcular cómo cambia esa cantidad.';
   const roll = Math.random();
   if(roll<0.5){
     const a = randInt(-20,20), b = randInt(-20,20);
@@ -2156,6 +2157,7 @@ export function genEnteros7Round(){
       promptHTML: '<p class="prompt-count" style="font-size:28px;">'+a+' '+(suma?'+':'-')+' ('+b+')</p><p class="prompt-hint">¿Cuánto es?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuánto es '+a+' '+(suma?'más':'menos')+' '+b+'?', cols:4,
       explain: a+' '+(suma?'+':'-')+' ('+b+') = <b>'+correct+'</b>.',
+      recurso: recurso,
     };
   }
   const contexto = pick([
@@ -2169,10 +2171,12 @@ export function genEnteros7Round(){
     promptHTML: '<p class="prompt-hint">Un valor comienza en '+contexto.inicio+' '+contexto.unidad+', y luego sube '+contexto.cambio+'. ¿En qué valor queda?</p>',
     options: opts, correctValue: correct, speakText: '¿En qué valor queda?', cols:4,
     explain: contexto.inicio+' + '+contexto.cambio+' = <b>'+correct+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genFraccionesDecimales7Round(){
+  const recurso = 'Para <b>multiplicar fracciones</b>, se multiplican los numeradores entre sí y los denominadores entre sí. Para <b>dividir fracciones</b>, se multiplica la primera por el inverso (recíproco) de la segunda — por eso "dividir es multiplicar por la fracción invertida". Al <b>multiplicar o dividir decimales</b>, conviene pensar en cuántas cifras decimales tiene el resultado, sumando (al multiplicar) o restando (al dividir) la cantidad de decimales de cada número.';
   const roll = Math.random();
   if(roll<0.34){
     const d1 = pick([2,3,4,5]), n1 = randInt(1,d1-1);
@@ -2183,6 +2187,7 @@ export function genFraccionesDecimales7Round(){
       promptHTML: '<p class="prompt-count" style="font-size:26px;">'+n1+'/'+d1+' × '+n2+'/'+d2+'</p><p class="prompt-hint">¿Cuánto es?</p>',
       options: opts, correctValue: numResult+'/'+denResult, speakText: '¿Cuánto es '+n1+'/'+d1+' por '+n2+'/'+d2+'?', cols:4,
       explain: 'Se multiplican los numeradores entre sí y los denominadores entre sí: '+n1+'×'+n2+' / '+d1+'×'+d2+' = <b>'+numResult+'/'+denResult+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -2194,6 +2199,7 @@ export function genFraccionesDecimales7Round(){
       promptHTML: '<p class="prompt-count" style="font-size:26px;">'+n1+'/'+d1+' ÷ '+n2+'/'+d2+'</p><p class="prompt-hint">¿Cuánto es? (Pista: multiplica por la fracción invertida)</p>',
       options: opts, correctValue: numResult+'/'+denResult, speakText: '¿Cuánto es '+n1+'/'+d1+' dividido '+n2+'/'+d2+'?', cols:4,
       explain: 'Dividir por una fracción es multiplicar por su inverso: '+n1+'/'+d1+' × '+d2+'/'+n2+' = <b>'+numResult+'/'+denResult+'</b>.',
+      recurso: recurso,
     };
   }
   const dec = randInt(11,99)/10;
@@ -2205,10 +2211,12 @@ export function genFraccionesDecimales7Round(){
     promptHTML: '<p class="prompt-count" style="font-size:26px;">'+dec.toFixed(1)+' '+(multiplicar?'×':'÷')+' '+nat+'</p><p class="prompt-hint">¿Cuánto es?</p>',
     options: opts, correctValue: correct.toFixed(2), speakText: '¿Cuánto es '+dec.toFixed(1)+' '+(multiplicar?'por':'dividido')+' '+nat+'?', cols:4,
     explain: dec.toFixed(1)+' '+(multiplicar?'×':'÷')+' '+nat+' = <b>'+correct.toFixed(2)+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genPorcentajePotencias7Round(){
+  const recurso = 'El <b>porcentaje</b> de un número se calcula multiplicando el número por el porcentaje y dividiendo por 100 (por ejemplo, el 20% de 150 es 150×20÷100=30). Las <b>potencias de base 10</b> siguen un patrón simple: 10 elevado a un exponente n es un 1 seguido de n ceros (10³=1000), lo que se usa mucho para representar números grandes de forma más compacta.';
   if(Math.random()<0.5){
     const n = pick([50,80,120,150,200,250,400,500]);
     const p = pick([5,10,15,20,30,40,60,75]);
@@ -2218,6 +2226,7 @@ export function genPorcentajePotencias7Round(){
       promptHTML: '<p class="prompt-hint">¿Cuánto es el '+p+'% de '+n+'?</p>',
       options: opts, correctValue: correct.toString(), speakText: '¿Cuánto es el '+p+' por ciento de '+n+'?', cols:4,
       explain: 'El '+p+'% de '+n+' es <b>'+correct+'</b>.',
+      recurso: recurso,
     };
   }
   const exp = randInt(1,5);
@@ -2228,6 +2237,7 @@ export function genPorcentajePotencias7Round(){
     promptHTML: '<p class="prompt-count" style="font-size:32px;">10<sup>'+exp+'</sup></p><p class="prompt-hint">¿Cuánto es esta potencia de base 10?</p>',
     options: optsObj, correctValue: correct, speakText: '¿Cuánto es 10 elevado a '+exp+'?', cols:4,
     explain: '10 elevado a '+exp+' es un 1 seguido de '+exp+' ceros: <b>'+correct.toLocaleString('es-CL')+'</b>.',
+    recurso: recurso,
   };
 }
 
@@ -2239,6 +2249,7 @@ const FRASE_ALGEBRA7_BANK = [
   { frase:'El doble de un número aumentado en 3', expresion:'2n + 3' },
 ];
 export function genAlgebra7Round(){
+  const recurso = 'Una <b>expresión algebraica</b> traduce una frase en palabras a símbolos matemáticos, usando una letra (como "n") para representar un número desconocido — por ejemplo, "el doble de un número más 3" se escribe 2n+3. Los <b>términos semejantes</b> son los que tienen la misma parte literal (como 3x y 5x); para reducirlos, se suman o restan solo sus coeficientes (los números que acompañan a la letra), dejando la parte literal sin cambios.';
   if(Math.random()<0.5){
     const item = pick(FRASE_ALGEBRA7_BANK);
     const distract = shuffle(FRASE_ALGEBRA7_BANK.filter(function(f){ return f.expresion!==item.expresion; })).slice(0,3).map(function(f){ return f.expresion; });
@@ -2247,6 +2258,7 @@ export function genAlgebra7Round(){
       promptHTML: '<p class="prompt-sentence">"'+item.frase+'"</p><p class="prompt-hint">¿Qué expresión algebraica representa esta frase? (n = el número)</p>',
       options: opts, correctValue: item.expresion, speakText: item.frase, cols:2,
       explain: '"'+item.frase+'" se escribe como <b>'+item.expresion+'</b>.',
+      recurso: recurso,
     };
   }
   const a = randInt(2,9), b = randInt(2,9);
@@ -2257,6 +2269,7 @@ export function genAlgebra7Round(){
     promptHTML: '<p class="prompt-count" style="font-size:26px;">'+a+'x + '+b+'x + '+c+'</p><p class="prompt-hint">Al reunir los términos semejantes, ¿cuál es el coeficiente que acompaña a la "x"?</p>',
     options: opts, correctValue: correctA, speakText: '¿Cuál es el coeficiente de equis, al reunir los términos semejantes?', cols:4,
     explain: a+'x + '+b+'x = <b>'+correctA+'x</b> (se suman los coeficientes de los términos con la misma parte literal); el '+c+' no cambia porque no tiene "x".',
+    recurso: recurso,
   };
 }
 
@@ -2268,6 +2281,7 @@ const PROPORCION_BANK = [
   { contexto:'La cantidad de horas trabajadas y el pago total, si el pago por hora es fijo (a más horas, más pago)', tipo:'DIRECTA' },
 ];
 export function genProporcionesEcuaciones7Round(){
+  const recurso = 'En una <b>proporción directa</b>, cuando una cantidad aumenta, la otra también aumenta en la misma proporción (a más horas trabajadas, más pago). En una <b>proporción inversa</b>, cuando una cantidad aumenta, la otra disminuye (a más velocidad, menos tiempo de viaje). Para resolver una <b>ecuación</b> como ax+b=c, se despeja la incógnita aplicando operaciones inversas en orden contrario: primero se resta b a ambos lados, y luego se divide por a.';
   if(Math.random()<0.5){
     const item = pick(PROPORCION_BANK);
     const opts = shuffle([{label:'PROPORCIÓN DIRECTA', value:'DIRECTA'},{label:'PROPORCIÓN INVERSA', value:'INVERSA'}]);
@@ -2275,6 +2289,7 @@ export function genProporcionesEcuaciones7Round(){
       promptHTML: '<p class="prompt-sentence">'+item.contexto+'.</p><p class="prompt-hint">¿Es una proporción directa o inversa?</p>',
       options: opts, correctValue: item.tipo, speakText: '¿Es una proporción directa o inversa?', cols:2, panel:true,
       explain: 'Esta es una proporción <b>'+item.tipo.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const x = randInt(1,25);
@@ -2286,6 +2301,7 @@ export function genProporcionesEcuaciones7Round(){
     promptHTML: '<p class="prompt-count" style="font-size:26px;">'+coef+'x + '+suma+' = '+total+'</p><p class="prompt-hint">¿Cuál es el valor de x?</p>',
     options: opts, correctValue: x, speakText: '¿Cuál es el valor de equis?', cols:4,
     explain: '('+total+' - '+suma+') ÷ '+coef+' = <b>'+x+'</b>, así que x = '+x+'.',
+    recurso: recurso,
   };
 }
 
@@ -2294,6 +2310,7 @@ const POLIGONO_ANGULOS_BANK = [
   { lados:5, nombre:'PENTÁGONO' }, { lados:6, nombre:'HEXÁGONO' }, { lados:8, nombre:'OCTÓGONO' },
 ];
 export function genGeometria7Round(){
+  const recurso = 'La suma de los <b>ángulos interiores</b> de un polígono se calcula con la fórmula (n-2)×180°, donde n es el número de lados. En un círculo, el <b>diámetro</b> es siempre el doble del <b>radio</b> (el radio es la distancia del centro al borde, el diámetro atraviesa el círculo entero pasando por el centro). En el <b>plano cartesiano</b>, cuando un punto se desplaza según un vector (dx, dy), su nueva posición se obtiene sumando dx a la primera coordenada y dy a la segunda.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(POLIGONO_ANGULOS_BANK);
@@ -2303,6 +2320,7 @@ export function genGeometria7Round(){
       promptHTML: '<p class="prompt-sentence">Un '+item.nombre.toLowerCase()+' tiene '+item.lados+' lados.</p><p class="prompt-hint">¿Cuánto suman sus ángulos interiores? (Fórmula: (n - 2) × 180°)</p>',
       options: opts, correctValue: sumaInterior, speakText: '¿Cuánto suman los ángulos interiores de un '+item.nombre.toLowerCase()+'?', cols:4,
       explain: '('+item.lados+' - 2) × 180° = <b>'+sumaInterior+'°</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -2315,6 +2333,7 @@ export function genGeometria7Round(){
       promptHTML: '<p class="prompt-hint">Un círculo tiene '+(preguntaDiametro?'radio':'diámetro')+' de '+(preguntaDiametro?radio:diametro)+' cm. ¿Cuál es su '+(preguntaDiametro?'diámetro':'radio')+'?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuál es la medida que falta?', cols:4,
       explain: preguntaDiametro ? 'El diámetro es el doble del radio: '+radio+' × 2 = <b>'+diametro+' cm</b>.' : 'El radio es la mitad del diámetro: '+diametro+' ÷ 2 = <b>'+radio+' cm</b>.',
+      recurso: recurso,
     };
   }
   const col = randInt(1,10), row = randInt(1,10);
@@ -2324,10 +2343,12 @@ export function genGeometria7Round(){
     promptHTML: '<p class="prompt-hint">Un punto está en la coordenada ('+col+', '+row+'). Si se desplaza según el vector ('+dx+', '+dy+'), ¿en qué coordenada queda?</p>',
     options: opts, correctValue: (col+dx)+','+(row+dy), speakText: '¿En qué coordenada queda el punto?', cols:2, panel:true,
     explain: 'Sumas '+dx+' a la primera coordenada y '+dy+' a la segunda: ('+(col+dx)+', '+(row+dy)+').',
+    recurso: recurso,
   };
 }
 
 export function genEstadisticaMuestreo7Round(){
+  const recurso = 'Para calcular el <b>porcentaje</b> que representa una categoría dentro de una encuesta, se divide su valor por el total y se multiplica por 100. El <b>rango</b> de un conjunto de datos es la diferencia entre el valor máximo y el valor mínimo, y da una idea rápida de cuánto varían los datos. Un <b>gráfico de barras</b> permite comparar categorías de un vistazo, mientras que una <b>tabla de frecuencias</b> es más precisa para leer valores exactos, aunque menos inmediata visualmente.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(DATOS_ENCUESTA);
@@ -2339,6 +2360,7 @@ export function genEstadisticaMuestreo7Round(){
       promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' Aproximadamente, ¿qué porcentaje del total eligió "'+cat.label+'"?</p>',
       options: opts, correctValue: pctExacto+'%', speakText: '¿Qué porcentaje eligió '+cat.label+'?', cols:4,
       explain: cat.valor+' de '+total+' es aproximadamente <b>'+pctExacto+'%</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -2349,6 +2371,7 @@ export function genEstadisticaMuestreo7Round(){
       promptHTML: '<p class="prompt-count">'+datos.join(', ')+'</p><p class="prompt-hint">¿Cuál es el rango de este conjunto de datos (el valor máximo menos el valor mínimo)?</p>',
       options: opts, correctValue: rango, speakText: '¿Cuál es el rango de estos datos?', cols:4,
       explain: 'Rango = máximo - mínimo = '+Math.max.apply(null,datos)+' - '+Math.min.apply(null,datos)+' = <b>'+rango+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(DATOS_ENCUESTA);
@@ -2358,6 +2381,7 @@ export function genEstadisticaMuestreo7Round(){
     promptHTML: '<p class="prompt-hint">Si quieres mostrar visualmente, de un vistazo, qué categoría fue la más popular en una encuesta, ¿qué representación es más útil: una tabla de frecuencias o un gráfico de barras?</p>',
     options: opts, correctValue: 'GRAFICO', speakText: '¿Qué representación es más útil para comparar categorías de un vistazo?', cols:2, panel:true,
     explain: 'Un <b>gráfico de barras</b> permite comparar visualmente las categorías de un vistazo; la tabla es más precisa para leer valores exactos, pero menos inmediata para comparar.',
+    recurso: recurso,
   };
 }
 
@@ -2368,6 +2392,7 @@ const PROBABILIDAD_TEORICA_BANK = [
   { total:4, favorable:1, contexto:'obtener cara, al lanzar una moneda (dos resultados posibles, dividido en 4 para simplificar la fracción)' },
 ];
 export function genProbabilidades7Round(){
+  const recurso = 'La <b>probabilidad teórica</b> de un evento se calcula dividiendo los casos favorables por el total de casos posibles (por ejemplo, la probabilidad de sacar una bolita roja de 8 bolitas, si 3 son rojas, es 3/8). La <b>frecuencia experimental</b> es lo que realmente ocurre al repetir un experimento un número de veces, y es normal que no coincida exactamente con la probabilidad teórica en pocas repeticiones — mientras más veces se repite el experimento, más se acerca la frecuencia experimental a la probabilidad teórica.';
   if(Math.random()<0.5){
     const item = pick(PROBABILIDAD_TEORICA_BANK.slice(0,3));
     const opts = uniqueDistractors(item.favorable, 1, item.total-1, 1, Math.min(4,item.total-1)).map(function(v){ return {label:v+'/'+item.total, value:v+'/'+item.total}; });
@@ -2375,6 +2400,7 @@ export function genProbabilidades7Round(){
       promptHTML: '<p class="prompt-hint">¿Cuál es la probabilidad teórica de obtener '+item.contexto+'?</p>',
       options: opts, correctValue: item.favorable+'/'+item.total, speakText: '¿Cuál es la probabilidad de obtener '+item.contexto+'?', cols:4,
       explain: 'La probabilidad teórica es (casos favorables) ÷ (casos posibles) = <b>'+item.favorable+'/'+item.total+'</b>.',
+      recurso: recurso,
     };
   }
   const teorica = pick([0.5, 0.25, 0.75]);
@@ -2385,6 +2411,7 @@ export function genProbabilidades7Round(){
     promptHTML: '<p class="prompt-hint">La probabilidad teórica de un evento es '+(teorica*100)+'%. Al repetir el experimento '+lanzamientos+' veces, ocurrió '+experimental+' veces (en vez de exactamente '+Math.round(teorica*lanzamientos)+'). ¿Es normal que exista esta pequeña diferencia entre la frecuencia experimental y la probabilidad teórica?</p>',
     options: opts, correctValue: true, speakText: '¿Es normal que exista esta diferencia?', cols:2, panel:true,
     explain: 'Sí: la frecuencia experimental se acerca a la probabilidad teórica mientras más se repite el experimento, pero rara vez coincide exactamente en una cantidad limitada de repeticiones.',
+    recurso: recurso,
   };
 }
 

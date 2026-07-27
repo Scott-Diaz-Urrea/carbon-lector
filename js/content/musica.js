@@ -382,12 +382,14 @@ const SECUENCIA_MELODICA_BANK = [
   { desc:'Una melodía de 4 notas se repite manteniendo la misma forma, pero cada repetición comienza más abajo que la anterior, como bajando una escalera', correcta:'SECUENCIA MELÓDICA', opts:['OSTINATO','VARIACIÓN','CONTRASTE'] },
 ];
 export function genProcedimientosCompositivos7Round(){
+  const recurso = 'Un <b>ostinato</b> es un patrón musical corto (rítmico o melódico) que se repite exactamente igual, sin cambios, durante toda una pieza o una sección, sirviendo como base mientras otras voces varían encima. Una <b>secuencia melódica</b> es distinta: una frase corta se repite manteniendo su misma forma, pero cada repetición se desplaza más arriba o más abajo en tono, como subiendo o bajando una escalera musical. Ambos son formas en que los compositores construyen y desarrollan una pieza a partir de una idea pequeña.';
   const item = pick(Math.random()<0.5 ? OSTINATO_BANK : SECUENCIA_MELODICA_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué procedimiento compositivo se usa aquí?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word',
     explain: 'Esto se llama <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 

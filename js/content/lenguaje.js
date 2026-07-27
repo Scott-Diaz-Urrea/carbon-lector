@@ -1125,6 +1125,7 @@ const COMPRENSION7_NOLITERARIO_BANK = [
   { text:'Una noticia informa que la biblioteca municipal amplió su horario de atención tras una encuesta donde el 80% de los vecinos pidió más horas disponibles.', question:'¿Por qué la biblioteca amplió su horario, según el texto?', correct:'PORQUE LA MAYORÍA DE LOS VECINOS ENCUESTADOS LO PIDIÓ', opts:['PORQUE EL GOBIERNO LO ORDENÓ SIN CONSULTAR A NADIE','PORQUE IBA A CERRAR DEFINITIVAMENTE','PORQUE NADIE LA VISITABA'] },
 ];
 export function genComprension7Round(){
+  const recurso = 'Comprender bien un texto significa ir más allá de las palabras: hay que <b>inferir</b> lo que no se dice directamente, reconocer el problema central de la historia (el <b>conflicto narrativo</b>), identificar el rol de cada personaje (protagonista, antagonista, secundario) y notar cómo se organiza el tiempo del relato (si sigue el orden cronológico o usa saltos hacia el pasado o el futuro). En los textos no literarios (noticias, artículos, folletos) también hay que evaluar si la información es suficiente y confiable, y quién la está entregando. Practicar estas estrategias ayuda a leer con más profundidad, sea un cuento, una noticia o cualquier texto.';
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(CONFLICTO_NARRATIVO_BANK);
@@ -1133,6 +1134,7 @@ export function genComprension7Round(){
       promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
       options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
       explain: 'El conflicto principal es: '+item.correct.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -1142,6 +1144,7 @@ export function genComprension7Round(){
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
       explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -1151,6 +1154,7 @@ export function genComprension7Round(){
       promptHTML: '<p class="prompt-sentence">'+item.desc+'</p><p class="prompt-hint">¿Qué recurso de disposición temporal se usa aquí?</p>',
       options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
       explain: 'Este recurso se llama <b>'+item.correcta.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(COMPRENSION7_NOLITERARIO_BANK);
@@ -1159,6 +1163,7 @@ export function genComprension7Round(){
     promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correct.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1181,6 +1186,7 @@ const ROMANCE_BANK = [
   { pregunta:'¿Qué tipo de temas solían tratar los romances históricos, además de hazañas del pueblo?', correcta:'SUCESOS HISTÓRICOS, GUERRAS Y PERSONAJES CONOCIDOS POR LA COMUNIDAD', opts:['SOLO TEMAS DE MATEMÁTICA','SOLO INSTRUCCIONES DE COCINA','SOLO EL PRONÓSTICO DEL CLIMA'] },
 ];
 export function genRimaMetrica7Round(){
+  const recurso = 'La <b>rima consonante</b> ocurre cuando coinciden todos los sonidos (vocales y consonantes) desde la última sílaba acentuada de dos versos; la <b>rima asonante</b> ocurre cuando solo coinciden los sonidos vocálicos, sin que las consonantes sean iguales. El <b>romance</b> es una forma poética tradicional, transmitida oralmente de generación en generación: versos de ocho sílabas que suelen llevar rima asonante en los versos pares, usados para contar historias, hazañas y sucesos que interesaban al pueblo. Su ritmo y su rima repetida ayudaban a memorizarlo sin necesidad de escribirlo.';
   if(Math.random()<0.6){
     const item = pick(RIMA_BANK);
     const opts = shuffle([{label:'RIMA CONSONANTE', value:'RIMA CONSONANTE'},{label:'RIMA ASONANTE', value:'RIMA ASONANTE'}]);
@@ -1188,6 +1194,7 @@ export function genRimaMetrica7Round(){
       promptHTML: '<p class="prompt-sentence">'+item.verso+'</p><p class="prompt-hint">¿Qué tipo de rima se usa aquí?</p>',
       options: opts, correctValue: item.tipo, speakText: item.verso, cols:2, panel:true,
       explain: item.explicacion,
+      recurso: recurso,
     };
   }
   const item = pick(ROMANCE_BANK);
@@ -1196,6 +1203,7 @@ export function genRimaMetrica7Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1218,6 +1226,7 @@ const ESTEREOTIPO_BANK = [
   { texto:'Un artículo asegura que "todos los jóvenes de esa ciudad son perezosos", generalizando a partir de la conducta de solo un par de personas.', pregunta:'¿Qué problema tiene esta afirmación?', correcta:'GENERALIZA A UN GRUPO ENTERO A PARTIR DE POCOS CASOS, UN ESTEREOTIPO', opts:['ES UNA CONCLUSIÓN BASADA EN UN ESTUDIO AMPLIO Y RIGUROSO','ES UN HECHO COMPROBADO CIENTÍFICAMENTE','NO TIENE NINGÚN PROBLEMA'] },
 ];
 export function genPensamientoCritico7Round(){
+  const recurso = 'Un <b>hecho</b> es algo que se puede comprobar (una fecha, una medida, un dato verificable); una <b>opinión</b> es un juicio personal que puede variar de una persona a otra. Al leer un texto argumentativo, conviene identificar la <b>postura del autor</b> (qué defiende o qué propone) y separarla de los datos que usa para sustentarla. También hay que estar atento a los <b>estereotipos</b>: generalizaciones que atribuyen características a todo un grupo de personas a partir de pocos casos o prejuicios, sin base real — reconocerlos es clave para leer noticias, avisos publicitarios y redes sociales de forma crítica.';
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(HECHO_OPINION_BANK);
@@ -1226,6 +1235,7 @@ export function genPensamientoCritico7Round(){
       promptHTML: '<p class="prompt-sentence">"'+item.frase+'"</p><p class="prompt-hint">¿Esto es un hecho (se puede comprobar) o una opinión (un juicio personal)?</p>',
       options: opts, correctValue: item.tipo, speakText: item.frase, cols:2, panel:true,
       explain: 'Esto es: <b>'+item.tipo.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.7){
@@ -1235,6 +1245,7 @@ export function genPensamientoCritico7Round(){
       promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
       explain: 'La postura del autor es: '+item.correcta.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   const item = pick(ESTEREOTIPO_BANK);
@@ -1243,6 +1254,7 @@ export function genPensamientoCritico7Round(){
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
@@ -1264,6 +1276,7 @@ const TIEMPOS_VERBALES_BANK = [
   { texto:'Mañana caminaré al colegio, saludaré a mis amigos y luego entraré a la sala.', tiempo:'FUTURO' },
 ];
 export function genVocabularioGramatica7Round(){
+  const recurso = 'La <b>concordancia</b> exige que el verbo (predicado) coincida en número y persona con el sujeto de la oración, aunque el sujeto esté compuesto por varias palabras o vaya lejos del verbo. Un <b>sinónimo</b> es una palabra con significado parecido a otra; un <b>hiperónimo</b> es una palabra más general que incluye a otras más específicas (por ejemplo, "flor" es hiperónimo de "rosa"). Los <b>tiempos verbales</b> (presente, pretérito, futuro) indican cuándo ocurre la acción narrada, y reconocerlos ayuda a entender el orden de los hechos en un relato.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(CONCORDANCIA_SUJETO_PREDICADO_BANK);
@@ -1272,6 +1285,7 @@ export function genVocabularioGramatica7Round(){
       promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué verbo mantiene la concordancia correcta con el sujeto?</p>',
       options: opts, correctValue: item.correcto, speakText: item.texto.replace('___', item.correcto), cols:4, kind:'word',
       explain: '<b>'+item.correcto+'</b> concuerda correctamente en número y persona con el sujeto de la oración.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1281,6 +1295,7 @@ export function genVocabularioGramatica7Round(){
       promptHTML: '<p class="prompt-word">'+item.palabra+'</p><p class="prompt-hint">¿Cuál palabra es un '+item.tipo.toLowerCase()+' de "'+item.palabra.toLowerCase()+'"?</p>',
       options: opts, correctValue: item.correcta, speakText: '¿Cuál es un '+item.tipo.toLowerCase()+' de '+item.palabra.toLowerCase()+'?', cols:2, kind:'word',
       explain: '<b>'+item.correcta+'</b> es un '+item.tipo.toLowerCase()+' de "'+item.palabra.toLowerCase()+'".',
+      recurso: recurso,
     };
   }
   const item = pick(TIEMPOS_VERBALES_BANK);
@@ -1291,6 +1306,7 @@ export function genVocabularioGramatica7Round(){
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿En qué tiempo verbal está narrado este texto?</p>',
     options: opts, correctValue: item.tiempo, speakText: item.texto, cols:2, kind:'word',
     explain: 'Este texto está narrado en <b>'+item.tiempo.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
@@ -1308,12 +1324,14 @@ const POR_QUE_BANK = [
   { incorrecta:'Este es el motivo por qué te llamé.', correcta:'Este es el motivo por que te llamé.', regla:'Cuando "que" es un pronombre relativo reemplazable por "el cual", se escribe "por que" en dos palabras y sin tilde.' },
 ];
 export function genOrtografia7Round(){
+  const recurso = 'Estas cuatro formas se escriben distinto según su función: <b>"¿por qué?"</b> (dos palabras, con tilde) se usa para preguntar, incluso en preguntas indirectas; <b>"porque"</b> (una palabra, sin tilde) se usa para dar una razón o explicación; <b>"el porqué"</b> (una palabra, con tilde) funciona como sustantivo y equivale a "la razón" o "el motivo"; <b>"por que"</b> (dos palabras, sin tilde) aparece cuando "que" es un pronombre relativo que se puede reemplazar por "el cual". Fijarse en la función de la oración —¿es pregunta, explicación, sustantivo o relativo?— es la forma más segura de elegir la correcta.';
   const item = pick(POR_QUE_BANK);
   const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál oración está bien escrita?</p>',
     options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
     explain: item.regla,
+    recurso: recurso,
   };
 }
 

@@ -469,6 +469,7 @@ const FUNCION_SOCIAL_ESPACIOS_BANK = [
   { pregunta:'¿Por qué algunas comunidades eligen pintar murales en sus barrios en vez de solo exhibir arte en museos?', correcta:'PARA QUE EL ARTE FORME PARTE DE LA VIDA COTIDIANA Y REFLEJE LA IDENTIDAD DEL BARRIO', opts:['PORQUE LOS MUSEOS ESTÁN PROHIBIDOS EN ESA COMUNIDAD', 'PORQUE ES IMPOSIBLE EXHIBIR ARTE DE OTRA FORMA', 'PORQUE LOS MURALES SON SIEMPRE MÁS BARATOS QUE CUALQUIER OTRA OPCIÓN'] },
 ];
 export function genEspaciosDifusion7Round(){
+  const recurso = 'El arte se difunde de varias formas: un <b>museo</b> exhibe de forma permanente colecciones de valor patrimonial; una <b>galería</b> muestra exposiciones temporales, muchas veces de artistas contemporáneos; un <b>mural</b> es una obra pintada directamente sobre un muro, visible para cualquiera que pase; y el <b>espacio público</b> (una plaza, una calle) permite instalar arte al alcance de toda la comunidad, sin necesidad de entrar a un edificio ni pagar entrada. Cada espacio cumple una función social distinta: el arte público suele llegar a más personas porque no depende de que alguien decida visitarlo.';
   if(Math.random()<0.6){
     const item = pick(ESPACIOS_DIFUSION_BANK);
     const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
@@ -476,6 +477,7 @@ export function genEspaciosDifusion7Round(){
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué espacio de difusión del arte es este?</p>',
       options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word', panel:true,
       explain: 'Esto describe: <b>'+item.correcta.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(FUNCION_SOCIAL_ESPACIOS_BANK);
@@ -484,6 +486,7 @@ export function genEspaciosDifusion7Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 

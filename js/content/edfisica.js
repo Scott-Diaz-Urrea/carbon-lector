@@ -255,6 +255,7 @@ export function genVidaActiva3Round(){
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: 'Llevar una vida activa y saludable en 3° básico significa entender por qué te conviene moverte con regularidad, no solo hacerlo porque te lo piden: la actividad física fortalece tu corazón y tus músculos, mejora tu ánimo, y ayuda a que duermas mejor en la noche. Combinada con buenos hábitos de higiene (lavarte, dormir suficiente, comer variado), la actividad física regular es uno de los pilares más importantes para mantenerte sano a lo largo de toda tu vida, no solo mientras eres niño.',
   };
 }
 
@@ -265,6 +266,7 @@ export function genSeguridad3Round(){
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: 'El "juego limpio" en el deporte significa jugar con honestidad: seguir las reglas incluso cuando vas perdiendo, admitir tus propias faltas, y no hacer trampa aunque nadie te vea — hacer trampa "porque nadie se da cuenta" sigue siendo trampa, y arruina el sentido del juego para todos. La seguridad, por su parte, significa revisar el espacio antes de jugar, usar la ropa y protección adecuada, y avisar a un adulto si alguien se lesiona. Practicar el deporte con honestidad y cuidado es lo que realmente hace que el juego sea disfrutable y seguro para todos los que participan.',
   };
 }
 

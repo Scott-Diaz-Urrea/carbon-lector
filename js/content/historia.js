@@ -442,10 +442,12 @@ export function genCivilizaciones3Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: 'Grecia y Roma son dos de las civilizaciones más influyentes de la historia universal, y muchas cosas que usamos hoy vienen de ellas: la <b>democracia</b> (gobierno donde el pueblo elige a sus representantes) nació en la antigua Atenas griega; los <b>Juegos Olímpicos</b> también son de origen griego; y el imperio romano dejó el <b>latín</b> (idioma del que viene el español) y construcciones impresionantes como acueductos y el Coliseo. Conocer estos hechos te ayuda a entender que muchas ideas y costumbres actuales tienen raíces muy antiguas, de civilizaciones que existieron hace miles de años.',
   };
 }
 
 export function genGeografia3Round(){
+  const recurso = 'La geografía del mundo se organiza con varios sistemas: los <b>puntos cardinales</b> (norte, sur, este, oeste) te ayudan a describir direcciones; los <b>hemisferios</b> dividen el planeta en mitades (norte/sur según el ecuador, este/oeste según otro círculo imaginario); y las <b>zonas climáticas</b> (tropical, templada, polar) varían según qué tan cerca o lejos está un lugar del ecuador, determinando si el clima es cálido, templado o muy frío. Estos conceptos te dan un "lenguaje común" para describir cualquier lugar del planeta con precisión, sin importar en qué país estés.';
   const roll = Math.random();
   const bank = roll<0.34 ? CUADRANTES_BANK : roll<0.67 ? HEMISFERIOS_BANK : ZONAS_CLIMATICAS_BANK;
   const item = pick(bank);
@@ -454,10 +456,12 @@ export function genGeografia3Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genCiudadania3Round(){
+  const recurso = 'La formación ciudadana en 3° básico profundiza ideas como la honestidad (decir la verdad y asumir tus errores en vez de esconderlos), el respeto de las reglas incluso sin supervisión, y los derechos que todos los niños tienen (cuidado, educación, protección). Además, conocer las <b>instituciones</b> de tu comunidad —la biblioteca (libros), la municipalidad (organiza tu comuna), el hospital (salud)— te ayuda a saber a quién acudir según lo que necesites. Ser un buen ciudadano no es solo obedecer, es entender por qué existen estas normas e instituciones y cómo te benefician a ti y a toda tu comunidad.';
   if(Math.random()<0.6){
     const item = pick(CIUDADANIA3_BANK);
     const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
@@ -465,6 +469,7 @@ export function genCiudadania3Round(){
       promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
       options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
       explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
+      recurso: recurso,
     };
   }
   const item = pick(INSTITUCIONES3_BANK);
@@ -473,6 +478,7 @@ export function genCiudadania3Round(){
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 

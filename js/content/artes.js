@@ -238,6 +238,7 @@ export function genColorExpresivo3Round(){
     promptHTML: '<div class="shape-display">'+colorSwatchSVG(item.color,90)+'</div><p class="prompt-hint">El color '+item.color+'. ¿Qué sensación transmite generalmente en una obra de arte?</p>',
     options: opts, correctValue: item.emocion, speakText: 'El color '+item.color, cols:2, panel:true,
     explain: 'El '+item.color.toLowerCase()+' suele transmitir <b>'+item.emocion.toLowerCase()+'</b>.',
+    recurso: 'Los artistas eligen colores a propósito para transmitir una sensación específica al espectador, una convención muy usada en el arte y el diseño: colores como el rojo o el naranjo suelen transmitir energía o pasión, el azul suele transmitir calma, y el amarillo suele transmitir alegría. Esto no es una regla científica absoluta, sino una asociación cultural ampliamente compartida que los artistas aprovechan para "decirte algo" sin usar palabras. Fijarte en los colores que predominan en una obra de arte te da pistas sobre qué emoción quiso transmitir quien la creó.',
   };
 }
 
@@ -249,6 +250,7 @@ export function genMaterialesArte3Round(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿A qué categoría pertenece '+item.material+'?</p>',
     options: opts, correctValue: item.categoria, speakText: '¿A qué categoría pertenece '+item.material+'?', cols:2, kind:'word', panel:true,
     explain: (item.material.charAt(0).toUpperCase()+item.material.slice(1))+' es un <b>'+item.categoria.toLowerCase()+'</b>.',
+    recurso: 'El arte se puede crear con distintos tipos de materiales, cada uno con una textura y un uso propio: los <b>materiales de modelado</b> (arcilla, plasticina) se pueden amasar y moldear en 3 dimensiones; los <b>materiales de reciclaje</b> (cajas, botellas, latas usadas) le dan una segunda vida a objetos que ibas a botar, y además son una forma de cuidar el ambiente; y los <b>materiales naturales</b> (hojas, semillas, ramitas) vienen directamente de la naturaleza sin ninguna transformación. Conocer estas categorías te da más opciones creativas al momento de crear tus propias obras de arte.',
   };
 }
 

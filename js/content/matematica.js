@@ -355,6 +355,7 @@ function barChartHTML(categorias){
 }
 
 export function genNumeros3Round(){
+  const recurso = 'Los números hasta 1000 se organizan en <b>centenas</b> (grupos de 100), <b>decenas</b> (grupos de 10) y <b>unidades</b> (números sueltos del 0 al 9) — por ejemplo, 347 tiene 3 centenas, 4 decenas y 7 unidades. Esta forma de descomponer un número (llamada valor posicional) es la clave para comparar números grandes: primero se compara la cantidad de dígitos, luego la centena, luego la decena. Contar salteado (de 5 en 5, de 10 en 10, de 100 en 100) te ayuda a moverte más rápido entre números grandes sin tener que contar de uno en uno, algo esencial quien empieza a trabajar con números de 3 dígitos.';
   const roll = Math.random();
   if(roll<0.25){
     const step = pick([5,10,100]);
@@ -369,6 +370,7 @@ export function genNumeros3Round(){
       promptHTML: '<p class="prompt-count" style="letter-spacing:1px;">'+displaySeq+'</p><p class="prompt-hint">¿Qué número falta en la secuencia?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué número falta?', cols:4,
       explain: 'La secuencia avanza de <b>'+step+'</b> en <b>'+step+'</b>, así que el número que falta es <b>'+correct+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.5){
@@ -379,6 +381,7 @@ export function genNumeros3Round(){
       promptHTML: '<p class="prompt-hint">Toca el número <b>mayor</b></p>',
       options: opts, correctValue: a>b ? 'A' : 'B', speakText: '¿Cuál número es mayor, '+a+' o '+b+'?', cols:2, panel:true,
       explain: 'El '+Math.max(a,b)+' es mayor que el '+Math.min(a,b)+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.75){
@@ -391,6 +394,7 @@ export function genNumeros3Round(){
       promptHTML: '<p class="prompt-count" style="font-size:40px;">'+n+'</p><p class="prompt-hint">¿Cuántas '+kind.toLowerCase()+' tiene este número?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuántas '+kind.toLowerCase()+' tiene el '+n+'?', cols:4,
       explain: 'El '+n+' tiene <b>'+correct+'</b> '+kind.toLowerCase()+'.',
+      recurso: recurso,
     };
   }
   const n = randInt(0,1000);
@@ -401,10 +405,12 @@ export function genNumeros3Round(){
     promptHTML: '<p class="prompt-count" style="font-size:40px;">'+n+'</p><p class="prompt-hint">¿Cuántos dígitos tiene este número?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuántos dígitos tiene el '+n+'?', cols:2, panel:true,
     explain: 'El '+n+' tiene <b>'+correct.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genOperaciones3Round(){
+  const recurso = 'Sumar y restar con números de 3 dígitos funciona igual que con números pequeños, solo que hay que ser más ordenado: alinear las centenas con las centenas, las decenas con las decenas y las unidades con las unidades. Un uso muy práctico de la resta es calcular <b>vuelto</b>: si pagas con más dinero del que cuesta algo, el vuelto es la diferencia entre lo que pagaste y el precio real — una resta que probablemente ya haces sin darte cuenta cuando compras algo. Practicar estas operaciones con dinero (pesos chilenos) conecta la matemática de la sala de clases con situaciones que vives todos los días.';
   const roll = Math.random();
   if(roll<0.4){
     const a = randInt(10,500), b = randInt(10,500);
@@ -414,6 +420,7 @@ export function genOperaciones3Round(){
       promptHTML: '<p class="prompt-count" style="font-size:30px;">'+a+' + '+b+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
       options: opts, correctValue: sum, speakText: '¿Cuánto es '+a+' más '+b+'?', cols:4,
       explain: a+' + '+b+' = <b>'+sum+'</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.7){
@@ -424,6 +431,7 @@ export function genOperaciones3Round(){
       promptHTML: '<p class="prompt-count" style="font-size:30px;">'+a+' - '+b+'</p><p class="prompt-hint">¿Cuánto es el resultado?</p>',
       options: opts, correctValue: result, speakText: '¿Cuánto es '+a+' menos '+b+'?', cols:4,
       explain: a+' - '+b+' = <b>'+result+'</b>.',
+      recurso: recurso,
     };
   }
   const item = pick(OBJETOS_PRECIO);
@@ -434,6 +442,7 @@ export function genOperaciones3Round(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+' cuesta $'+item.precio+'. Si pagas con $'+tienes+', ¿cuánto vuelto recibes?</p>',
     options: opts, correctValue: falta, speakText: '¿Cuánto vuelto recibes?', cols:4,
     explain: '$'+tienes+' - $'+item.precio+' = <b>$'+falta+'</b> de vuelto.',
+    recurso: recurso,
   };
 }
 
@@ -445,6 +454,7 @@ export function genMultiplicar3Round(){
     promptHTML: '<p class="prompt-count" style="font-size:34px;">'+a+' × '+b+'</p><p class="prompt-hint">¿Cuánto es?</p>',
     options: opts, correctValue: total, speakText: '¿Cuánto es '+a+' por '+b+'?', cols:4,
     explain: a+' × '+b+' = <b>'+total+'</b>.',
+    recurso: 'Saberse las tablas de multiplicar de memoria (del 1 al 10) te ahorra mucho tiempo, porque son operaciones que usarás una y otra vez en el resto de la matemática que aprenderás. Una forma de entenderlas (no solo memorizarlas): multiplicar A × B significa sumar el número A, B veces seguidas — por ejemplo, 4 × 3 es lo mismo que 4+4+4. Practicar las tablas con distintos números, en vez de solo repetir siempre las mismas, es lo que realmente ayuda a que se te queden grabadas para el resto de tu vida escolar.',
   };
 }
 
@@ -456,6 +466,7 @@ export function genDividir3Round(){
     promptHTML: '<p class="prompt-hint">Tienes '+total+' objetos y los repartes en grupos de '+b+'. ¿Cuántos grupos se forman?</p>',
     options: opts, correctValue: q, speakText: '¿Cuántos grupos de '+b+' se forman con '+total+'?', cols:4,
     explain: total+' ÷ '+b+' = <b>'+q+'</b> grupos.',
+    recurso: 'Dividir es lo opuesto a multiplicar: mientras multiplicar junta grupos iguales en un total, dividir reparte un total en grupos iguales. Por eso, si sabes que 4 × 5 = 20, también sabes que 20 ÷ 4 = 5 y que 20 ÷ 5 = 4 — son la misma relación de números vista desde dos direcciones distintas. Pensar en la división como "repartir en partes iguales" (en vez de memorizarla como una operación separada) te ayuda a resolver problemas reales, como repartir objetos, dinero o comida entre varias personas de forma justa.',
   };
 }
 
@@ -476,10 +487,12 @@ export function genFracciones3Round(){
     promptHTML: '<div class="shape-display">'+dibujo+'</div><p class="prompt-hint">¿Qué fracción está coloreada?</p>',
     options: shuffle(opts), correctValue: correct, speakText: '¿Qué fracción está coloreada?', cols:4, kind:'word',
     explain: 'Están coloreadas <b>'+num+' de '+den+'</b> partes, o sea <b>'+correct+'</b>.',
+    recurso: 'Una fracción representa una parte de un todo dividido en trozos iguales: el número de abajo (denominador) dice en cuántas partes iguales se dividió el todo, y el número de arriba (numerador) dice cuántas de esas partes estás considerando. Por ejemplo, 3/4 significa que el todo se dividió en 4 partes iguales y tomas 3 de ellas. Practicar con dibujos (círculos o barras coloreadas) te ayuda a "ver" las fracciones de forma concreta antes de trabajar con ellas solo como números, algo que hace mucho más fácil entenderlas de verdad.',
   };
 }
 
 export function genPatrones3Round(){
+  const recurso = 'Un <b>patrón</b> es una secuencia de números que cambia siguiendo siempre la misma regla (por ejemplo, sumar el mismo número cada vez) — descubrir esa regla te permite predecir qué número viene después, sin que alguien te lo diga. Una <b>ecuación</b> con un número faltante (como "___ + 5 = 12") te pide encontrar qué valor hace que la igualdad sea verdadera, y para resolverla puedes pensar "¿qué número, sumado a 5, da 12?" en vez de adivinar al azar. Ambas habilidades —reconocer patrones y resolver ecuaciones simples— son la base del álgebra que aprenderás en años posteriores.';
   if(Math.random()<0.5){
     const step = randInt(2,9);
     const start = randInt(1,20);
@@ -490,6 +503,7 @@ export function genPatrones3Round(){
       promptHTML: '<p class="prompt-count">'+seq.join(', ')+', <span class="blank">?</span></p><p class="prompt-hint">¿Qué número sigue en el patrón?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué número sigue?', cols:4,
       explain: 'El patrón suma <b>'+step+'</b> cada vez, así que después de '+seq[3]+' sigue <b>'+correct+'</b>.',
+      recurso: recurso,
     };
   }
   const a = randInt(1,50), b = randInt(1,50);
@@ -502,10 +516,12 @@ export function genPatrones3Round(){
     promptHTML: '<p class="prompt-count" style="font-size:28px;">'+(askA?'<span class="blank">?</span>':'') +' + '+known+' = '+total+(!askA?' — <span class="blank">?</span>':'')+'</p><p class="prompt-hint">¿Qué número falta?</p>',
     options: opts, correctValue: correct, speakText: '¿Qué número falta en la ecuación?', cols:4,
     explain: correct+' + '+known+' = '+total+', así que el número que falta es <b>'+correct+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genGeometria3Round(){
+  const recurso = 'La geometría de 3° básico suma tres ideas nuevas: la <b>cuadrícula</b> permite ubicar un objeto con precisión usando dos números (columna y fila), igual que en un juego de mesa o un mapa; los <b>cuerpos geométricos</b> (pirámide, cubo, esfera) tienen caras, aristas y vértices que los distinguen entre sí; y los <b>ángulos</b> (recto, agudo, obtuso) describen qué tan abierta o cerrada es una esquina o un cruce de líneas — un ángulo recto es como la esquina de una hoja de papel, uno agudo es más cerrado, y uno obtuso es más abierto. Estas tres herramientas te permiten describir con precisión la forma y la posición de las cosas que te rodean.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(CUADRICULA_POOL);
@@ -515,6 +531,7 @@ export function genGeometria3Round(){
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">El '+item.label.toLowerCase()+' está en la columna '+col+' y la fila '+row+'. ¿Cuál es su posición (columna,fila)?</p>',
       options: opts, correctValue: col+','+row, speakText: '¿Cuál es la posición del '+item.label.toLowerCase()+'?', cols:2, panel:true,
       explain: 'La posición es columna '+col+', fila '+row+', o sea <b>('+col+','+row+')</b>.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -525,6 +542,7 @@ export function genGeometria3Round(){
       promptHTML: '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué cuerpo geométrico es?</p>',
       options: opts, correctValue: item.id, speakText: item.label, cols:4, kind:'word',
       explain: 'Este cuerpo geométrico es '+articuloFigura(item.id)+' <b>'+item.label.toLowerCase()+'</b>.',
+      recurso: recurso,
     };
   }
   const tipo = pick(ANGULOS_POOL);
@@ -533,10 +551,12 @@ export function genGeometria3Round(){
     promptHTML: '<div class="shape-display">'+anguloSVG(tipo,100)+'</div><p class="prompt-hint">¿Qué tipo de ángulo es?</p>',
     options: opts, correctValue: tipo, speakText: '¿Qué tipo de ángulo es?', cols:4, kind:'word',
     explain: 'Este es un ángulo <b>'+tipo.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genMedicion3Round(){
+  const recurso = 'La medición en 3° básico profundiza en 3 herramientas distintas: leer la <b>hora</b> con más precisión (cuartos y medias horas, no solo horas en punto), calcular el <b>perímetro</b> de una figura (sumar la medida de todos sus lados, útil por ejemplo para saber cuánta reja necesitas para cercar un patio), y comparar el <b>peso</b> de distintos objetos. Aunque parecen temas separados, todos comparten la misma lógica de la medición: elegir una unidad conocida (minutos, centímetros, gramos) y usarla para describir "cuánto" hay de algo, de forma que cualquier persona pueda entenderlo igual.';
   const roll = Math.random();
   if(roll<0.34){
     const hour = randInt(1,12);
@@ -554,6 +574,7 @@ export function genMedicion3Round(){
       promptHTML: '<p class="prompt-count" style="font-size:40px;">'+display+'</p><p class="prompt-hint">¿Cuál reloj digital marca esta misma hora?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué hora es?', cols:2, panel:true,
       explain: 'Son las '+display+', es decir, las '+hourLabel+labels[min]+'.',
+      recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -564,6 +585,7 @@ export function genMedicion3Round(){
       promptHTML: '<p class="prompt-hint">Los lados de '+item.label+' miden: '+item.lados.join(', ')+' (en cm). ¿Cuál es su perímetro?</p>',
       options: opts, correctValue: perimetro, speakText: '¿Cuál es el perímetro?', cols:4,
       explain: 'El perímetro es la suma de todos los lados: '+item.lados.join(' + ')+' = <b>'+perimetro+' cm</b>.',
+      recurso: recurso,
     };
   }
   let a = pick(PESO_OBJETOS), b = pick(PESO_OBJETOS);
@@ -574,10 +596,12 @@ export function genMedicion3Round(){
     promptHTML: '<p class="prompt-hint">¿Cuál de estos objetos pesa más?</p>',
     options: opts, correctValue: heavier.label, speakText: '¿Cuál pesa más?', cols:2, panel:true,
     explain: heavier.label.charAt(0).toUpperCase()+heavier.label.slice(1)+' pesa más.',
+    recurso: recurso,
   };
 }
 
 export function genDatos3Round(){
+  const recurso = 'Un <b>gráfico de barras</b> es una forma visual de mostrar los resultados de una encuesta: cada barra representa una opción distinta, y la altura de la barra muestra cuántas personas eligieron esa opción — mientras más alta la barra, más votos tuvo. Leer un gráfico de barras es más rápido que leer una lista de números, porque puedes comparar las alturas a simple vista para saber de inmediato cuál opción ganó o cuál tuvo menos apoyo. Esta habilidad de leer datos organizados visualmente es muy usada en la vida real, desde encuestas escolares hasta noticias y estudios.';
   const item = pick(DATOS_ENCUESTA);
   const roll = Math.random();
   if(roll<0.5){
@@ -588,6 +612,7 @@ export function genDatos3Round(){
       promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuál opción tuvo más votos?</p>',
       options: opts, correctValue: maxCat.label, speakText: '¿Cuál opción tuvo más votos?', cols:4, kind:'word',
       explain: '<b>'+maxCat.label+'</b> tuvo '+maxCat.valor+' votos, más que las demás opciones.',
+      recurso: recurso,
     };
   }
   const target = pick(item.categorias);
@@ -596,6 +621,7 @@ export function genDatos3Round(){
     promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuántos votos tuvo la opción "'+target.label+'"?</p>',
     options: opts, correctValue: target.valor, speakText: '¿Cuántos votos tuvo '+target.label+'?', cols:4,
     explain: 'La opción "'+target.label+'" tuvo <b>'+target.valor+'</b> votos.',
+    recurso: recurso,
   };
 }
 

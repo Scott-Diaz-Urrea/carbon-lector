@@ -3038,3 +3038,52 @@ sesión).
     "'Los niños' concuerda con Contentos en género y número." — capitalización
     correcta), sin errores de consola. Próximo paso del mismo pedido:
     `ingles.js` (152 alternativas).
+- **`ingles.js` en oración normal (2026-08-01, cuarto archivo del rollout tras
+  `historia.js`/`ciencias.js`/`lenguaje.js`):** mismo pedido, mismo criterio
+  ("procede"). Este archivo resultó ser el más simple de los cuatro: una
+  revisión previa con `grep` confirmó que no tiene ninguno de los 3 patrones
+  de bug ya documentados en archivos anteriores (sin cadenas vacías `''`,
+  sin claves de objeto ALL-CAPS sin comillas, sin `.toUpperCase()`/
+  `.toLowerCase()` en ningún lado), así que no hizo falta ningún diccionario
+  de excepciones ni fix estructural posterior al correr el script — el
+  único ajuste fue un fix manual puntual (ver abajo).
+  - **Alcance particular de este archivo:** a diferencia del resto de la
+    app, la mayoría de las cadenas ALL-CAPS convertidas aquí son
+    **contenido en inglés** (vocabulario, oraciones de ejemplo, respuestas
+    de comprensión lectora), no español — pero el mismo criterio de
+    armonía visual aplica igual: "DOG"/"YOU MUST DO THIS" en mayúscula
+    sostenida se ve igual de "gritado" en inglés que en español. Se revisó
+    explícitamente el pronombre "I" (que en inglés siempre va en mayúscula,
+    sin importar su posición en la oración): los 9 casos del archivo
+    (`I NEED HELP`, `I AM GOING TO...`, etc.) resultaron estar todos al
+    inicio de su propia cadena, así que la conversión genérica de
+    "primera letra mayúscula" ya los deja bien capitalizados sin necesitar
+    una excepción — no hay ningún caso de "I" a mitad de oración en este
+    archivo. Los días de la semana en inglés (`MONDAY`→`Monday`, etc.)
+    tampoco necesitaron diccionario: al ser nombres propios de una sola
+    palabra, la forma de oración coincide exactamente con la forma de
+    nombre propio.
+  - **Único fix manual real, encontrado por revisión del diff (no por el
+    fuzz test):** el script bajó `'ANCIENT EGYPT'` a `'Ancient egypt'`
+    (la conversión genérica solo capitaliza la primera letra de la cadena
+    completa, no cada palabra) — "Egypt" es un nombre propio (país) y debe
+    mantener su mayúscula sin importar su posición. Corregido a mano a
+    `'Ancient Egypt'`. Se revisó el resto del archivo buscando el mismo
+    patrón (nombre propio de 2+ palabras dentro de una respuesta corta) y
+    no se encontró ningún otro caso — los demás nombres propios del
+    archivo (Sofia, Mia, Anna, Tom, Sara, Ben, Leo, Marco, Elena, Maria)
+    solo aparecen dentro de los `text:` narrativos, que nunca estuvieron en
+    ALL-CAPS y por lo tanto el script nunca los tocó.
+  - Verificado: los 8 generadores pasan fuzz de 300 iteraciones cada uno
+    (sin `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue`
+    siempre presente, sin apóstrofes en `speakText` — ya evitados a
+    propósito desde la construcción original del archivo). Grep dedicado
+    confirmó 0 cadenas de 2+ letras en mayúscula sostenida remanentes.
+    `MC_KEYS.length === Object.keys(MC_GAMES).length === 324` (regresión de
+    wiring intacta). Probado visualmente en el navegador (recarga completa
+    para evitar el caché de módulos ES ya documentado): módulo "Vocabulario
+    Básico" (Inglés 5° básico) con alternativas "Book"/"Baby"/"Fish"/
+    "Green" en oración normal, una ronda jugada completa (respuesta
+    correcta), overlay de Carboncito mostrando "Se dice Book en inglés."
+    con capitalización correcta, sin errores de consola. Próximo paso del
+    mismo pedido: `edfisica.js` (115 alternativas).

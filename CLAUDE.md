@@ -3143,3 +3143,66 @@ sesión).
     movimiento de locomoción." — capitalización correcta, mid-oración en
     minúscula), sin errores de consola. Próximo paso del mismo pedido:
     `artes.js` (94 alternativas).
+- **`artes.js` en oración normal (2026-08-01, sexto archivo del rollout tras
+  `historia.js`/`ciencias.js`/`lenguaje.js`/`ingles.js`/`edfisica.js`):** mismo
+  pedido, mismo criterio ("procede"). Sin diccionario de excepciones: el
+  pre-escaneo (`grep -c "''"`, claves de objeto ALL-CAPS sin comillas,
+  ternarios ALL-CAPS mid-oración) no encontró ninguno de los 3 patrones de bug
+  ya documentados, y el contenido ALL-CAPS del archivo (nombres de color,
+  tipos de línea/textura, categorías de material, respuestas de museografía)
+  no tiene ningún nombre propio de 2+ palabras.
+  - **Bug nuevo, no documentado en archivos anteriores, encontrado ANTES de
+    correr el script (por inspección, no por el fuzz test):** `colorSwatchSVG(name)`
+    y `lineTypeSVG(tipo)` (`js/svg.js`) son helpers **compartidos entre
+    archivos** (usados también por `content/parvularia/lenguajesArtisticos.js`,
+    que no forma parte de este rollout) y dependían de una comparación de
+    cadena EXACTA contra valores ALL-CAPS: `COLOR_HEX[name]` (un objeto con
+    claves `ROJO`/`AZUL`/etc.) y una cadena de `if(tipo === 'VERTICAL')`/
+    `'HORIZONTAL'`/etc. Como `artes.js` pasa sus propios valores de banco
+    (`item.label`/`item.color`/`item.a`/`item.b`, todos convertidos a
+    `'Rojo'`/`'Azul'`) directo a estos helpers para dibujar el círculo de
+    color o la línea, convertir el contenido de `artes.js` sin tocar
+    `svg.js` habría roto el lookup silenciosamente: `COLOR_HEX['Rojo']` es
+    `undefined` (la clave real es `ROJO`), y el swatch habría caído al color
+    de respaldo (`#12A594`, un teal) en vez del color real — mostrando un
+    círculo verde-azulado para CUALQUIER color, sin ningún error de consola
+    que lo delatara. Ninguno de los 5 archivos anteriores de este rollout
+    llama a estos dos helpers, así que este bug no se había manifestado
+    todavía. **Fix (en `svg.js`, no en `artes.js`):** se normalizó la entrada
+    con `.toUpperCase()` antes de la comparación/lookup en ambas funciones
+    (`const key = String(name||'').toUpperCase();` en `colorSwatchSVG`,
+    `tipo = String(tipo||'').toUpperCase();` al inicio de `lineTypeSVG`) —
+    así ambos helpers funcionan sin importar si quien los llama pasa
+    ALL-CAPS (`lenguajesArtisticos.js`, todavía sin convertir) o sentence
+    case (`artes.js`, ya convertido), sin necesidad de tocar ningún otro
+    archivo ni esperar a que Parvularia se convierta. **Lección para los
+    archivos que faltan:** antes de correr el script de conversión, grepear
+    qué helpers de `svg.js`/otros módulos compartidos reciben directamente
+    un valor de banco ALL-CAPS como parámetro (no solo para mostrarlo, sino
+    para indexar una tabla o compararlo con un literal) — `shapeSVG` no tuvo
+    este problema porque sus ids (`'circulo'`, `'cuadrado'`) ya eran
+    minúsculas desde el inicio, nunca ALL-CAPS.
+  - Los 6 usos de `.toLowerCase()` que "citan la respuesta como entidad"
+    (patrón "La respuesta correcta es: X" ×5, "Esto describe: X" ×1) se
+    corrigieron quitando `.toLowerCase()`; los 14 usos restantes (embebidos
+    mid-oración: "esa es una línea recta", "el rojo es un color primario",
+    "esta obra usa una gama cálida", etc.) se dejaron intactos, mismo
+    criterio que todos los archivos anteriores.
+  - Verificado: los 11 generadores pasan fuzz de 300 iteraciones cada uno
+    (sin `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue`
+    siempre presente en las opciones, sin apóstrofes en `speakText`). Grep
+    dedicado confirmó 0 cadenas de 2+ letras en mayúscula sostenida
+    remanentes. `MC_KEYS.length === Object.keys(MC_GAMES).length === 324`
+    (regresión de wiring intacta). Probado visualmente en el navegador tras
+    el fix de `svg.js`: módulo "Colores" (1° básico) con el círculo rojo y
+    azul renderizando el color REAL (no el color de respaldo), alternativas
+    "Naranjo"/"Rosado"/"Verde"/"Morado" en oración normal, una ronda jugada
+    completa (mezcla correcta de rojo+azul=morado, y de rojo+blanco=rosado,
+    con el círculo blanco con borde también renderizando bien); módulo
+    "Líneas y Colores" (2° básico) con una ronda de color (respuesta
+    incorrecta mostró el overlay "El amarillo es un color primario." con
+    capitalización correcta) y una ronda de tipo de línea (el SVG de línea
+    quebrada renderizó correctamente en teal, con alternativas "Vertical"/
+    "Horizontal"/"Quebrada" en oración normal) — confirmando que el fix de
+    `svg.js` funciona en ambos helpers. Sin errores de consola en ningún
+    caso. Próximo paso del mismo pedido: `musica.js` (71 alternativas).

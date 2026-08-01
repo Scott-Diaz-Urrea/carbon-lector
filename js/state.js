@@ -1,4 +1,4 @@
-import { GRADES, PARVULARIA_NIVELES } from './content/grades.js';
+import { GRADES, PARVULARIA_NIVELES, EPJA_NIVELES } from './content/grades.js';
 import { render } from './render.js';
 import { sfxLevelup } from './audio.js';
 import { saveProgress } from './persistence.js';
@@ -7,6 +7,7 @@ export const state = {
   xp: 0,
   currentGrade: 1,
   currentNivel: 'nt',
+  currentEpjaNivel: 'n1basica',
   userName: '',
   stars: { vocales:0, silabas:0, memorama:0, palabras:0, comprension:0, contar:0, sumar:0, comparar:0, formas:0,
            combinaciones:0, secuencia:0, salta:0, multiplicar:0,
@@ -94,7 +95,9 @@ export const state = {
            qdcasosrenal:0, qdcasoshepatico:0, qdorina:0, qdliquidos:0, qdlcr:0,
            qdvalorescriticos:0, qdcontrolcalidad:0, qdendocrinotumoral:0, qdgasesarteriales:0, qdpancreas:0, qdreactivos:0,
            microfundamentos:0, microantimicrobianos:0, microsusceptibilidad:0, microresistencia:0, microcarbapenemasas:0,
-           microtaxonomia:0, microstaphylo:0, microstrepto:0, microbacilos:0, microentero:0, microbgnnf:0, microvibrio:0 },
+           microtaxonomia:0, microstaphylo:0, microstrepto:0, microbacilos:0, microentero:0, microbgnnf:0, microvibrio:0,
+           comprensionEpjaN1:0, sinonimosAntonimosEpjaN1:0, tiposTextoEpjaN1:0, gramaticaOrtografiaEpjaN1:0,
+           numerosEpjaN1:0, unidadesMedidaEpjaN1:0, operacionesEpjaN1:0, patronesEpjaN1:0, perimetroAreaEpjaN1:0, datosEpjaN1:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];
@@ -110,6 +113,11 @@ export function gradeLabel(id){
 export function selectNivel(id){ state.currentNivel = id; saveProgress(); goTo('nucleoMap'); }
 export function nivelLabel(id){
   const n = PARVULARIA_NIVELES.filter(function(x){ return x.id===id; })[0];
+  return n ? n.label : '';
+}
+export function selectEpjaNivel(id){ state.currentEpjaNivel = id; saveProgress(); goTo('epjaSubjectMap'); }
+export function epjaNivelLabel(id){
+  const n = EPJA_NIVELES.filter(function(x){ return x.id===id; })[0];
   return n ? n.label : '';
 }
 

@@ -340,6 +340,16 @@ export const MODULE_TITLES = {
   microentero:'Experto en Enterobacterales',
   microbgnnf:'Especialista en No Fermentadores',
   microvibrio:'Explorador de Vibrionaceae',
+  comprensionEpjaN1:'Lector Constante',
+  sinonimosAntonimosEpjaN1:'Amplio de Vocabulario',
+  tiposTextoEpjaN1:'Conocedor de Textos',
+  gramaticaOrtografiaEpjaN1:'Guardián de la Ortografía',
+  numerosEpjaN1:'Maestro de los Números',
+  unidadesMedidaEpjaN1:'Experto en Medidas',
+  operacionesEpjaN1:'Resuelve Problemas',
+  patronesEpjaN1:'Detector de Patrones',
+  perimetroAreaEpjaN1:'Geómetra Práctico',
+  datosEpjaN1:'Lector de Gráficos',
 };
 
 export function spawnConfetti(container){

@@ -136,6 +136,20 @@ import {
   genNumerosEpjaN1Round, genUnidadesMedidaEpjaN1Round, genOperacionesEpjaN1Round,
   genPatronesEpjaN1Round, genPerimetroAreaEpjaN1Round, genDatosEpjaN1Round,
 } from './content/epja/matematicaNivel1.js';
+import {
+  genComprensionEpjaN2Round, genVocabularioContextoEpjaN2Round, genTiposTextoEpjaN2Round, genHechosOpinionesEpjaN2Round,
+} from './content/epja/lenguajeNivel2.js';
+import {
+  genMultiplosFactoresEpjaN2Round, genFraccionesDecimalesEpjaN2Round, genOperatoriaEpjaN2Round,
+  genPerimetroAreaEpjaN2Round, genVolumenEpjaN2Round, genDatosPromedioEpjaN2Round,
+} from './content/epja/matematicaNivel2.js';
+import {
+  genSeresVivosEcosistemasEpjaN2Round, genNutricionEpjaN2Round, genSistemaSolarUniversoEpjaN2Round,
+  genMateriaEstadosEpjaN2Round, genMezclasAguaSueloEpjaN2Round,
+} from './content/epja/cienciasNivel2.js';
+import {
+  genChileColoniaIndependenciaEpjaN2Round, genChileSigloXIXXXEpjaN2Round, genGeografiaChileEpjaN2Round,
+} from './content/epja/estudiosSocialesNivel2.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
@@ -228,7 +242,11 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'microfundamentos','microantimicrobianos','microsusceptibilidad','microresistencia','microcarbapenemasas','microtaxonomia',
   'microstaphylo','microstrepto','microbacilos','microentero','microbgnnf','microvibrio',
   'comprensionEpjaN1','sinonimosAntonimosEpjaN1','tiposTextoEpjaN1','gramaticaOrtografiaEpjaN1',
-  'numerosEpjaN1','unidadesMedidaEpjaN1','operacionesEpjaN1','patronesEpjaN1','perimetroAreaEpjaN1','datosEpjaN1'];
+  'numerosEpjaN1','unidadesMedidaEpjaN1','operacionesEpjaN1','patronesEpjaN1','perimetroAreaEpjaN1','datosEpjaN1',
+  'comprensionEpjaN2','vocabularioContextoEpjaN2','tiposTextoEpjaN2','hechosOpinionesEpjaN2',
+  'multiplosFactoresEpjaN2','fraccionesDecimalesEpjaN2','operatoriaEpjaN2','perimetroAreaEpjaN2','volumenEpjaN2','datosPromedioEpjaN2',
+  'seresVivosEcosistemasEpjaN2','nutricionEpjaN2','sistemaSolarUniversoEpjaN2','materiaEstadosEpjaN2','mezclasAguaSueloEpjaN2',
+  'chileColoniaIndependenciaEpjaN2','chileSigloXIXXXEpjaN2','geografiaChileEpjaN2'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -565,6 +583,24 @@ export const MC_GAMES = {
   patronesEpjaN1:             { title:'Patrones y Secuencias',      gen: genPatronesEpjaN1Round,              rounds:10 },
   perimetroAreaEpjaN1:        { title:'Perímetro y Área',           gen: genPerimetroAreaEpjaN1Round,         rounds:8  },
   datosEpjaN1:                { title:'Datos y Gráficos',           gen: genDatosEpjaN1Round,                 rounds:8  },
+  comprensionEpjaN2:          { title:'Comprensión de Lectura',      gen: genComprensionEpjaN2Round,          rounds:8  },
+  vocabularioContextoEpjaN2:  { title:'Vocabulario en Contexto',     gen: genVocabularioContextoEpjaN2Round,  rounds:8  },
+  tiposTextoEpjaN2:           { title:'Tipos de Texto y Noticia',    gen: genTiposTextoEpjaN2Round,           rounds:8  },
+  hechosOpinionesEpjaN2:      { title:'Hechos y Opiniones',          gen: genHechosOpinionesEpjaN2Round,      rounds:8  },
+  multiplosFactoresEpjaN2:    { title:'Múltiplos y Factores',        gen: genMultiplosFactoresEpjaN2Round,    rounds:10 },
+  fraccionesDecimalesEpjaN2:  { title:'Fracciones y Decimales',      gen: genFraccionesDecimalesEpjaN2Round,  rounds:10 },
+  operatoriaEpjaN2:           { title:'Operatoria y Problemas',      gen: genOperatoriaEpjaN2Round,           rounds:10 },
+  perimetroAreaEpjaN2:        { title:'Perímetro y Área',            gen: genPerimetroAreaEpjaN2Round,        rounds:8  },
+  volumenEpjaN2:              { title:'Volumen de Prismas',          gen: genVolumenEpjaN2Round,              rounds:8  },
+  datosPromedioEpjaN2:        { title:'Datos y Promedio',            gen: genDatosPromedioEpjaN2Round,        rounds:8  },
+  seresVivosEcosistemasEpjaN2:{ title:'Seres Vivos y Ecosistemas',   gen: genSeresVivosEcosistemasEpjaN2Round,rounds:8  },
+  nutricionEpjaN2:            { title:'Nutrición y Sistema Digestivo',gen: genNutricionEpjaN2Round,           rounds:8  },
+  sistemaSolarUniversoEpjaN2: { title:'Sistema Solar y Universo',    gen: genSistemaSolarUniversoEpjaN2Round, rounds:8  },
+  materiaEstadosEpjaN2:       { title:'Materiales y Estados de la Materia', gen: genMateriaEstadosEpjaN2Round, rounds:8  },
+  mezclasAguaSueloEpjaN2:     { title:'Mezclas, Agua y Suelo',       gen: genMezclasAguaSueloEpjaN2Round,     rounds:8  },
+  chileColoniaIndependenciaEpjaN2: { title:'Colonia e Independencia', gen: genChileColoniaIndependenciaEpjaN2Round, rounds:8 },
+  chileSigloXIXXXEpjaN2:      { title:'Chile: Siglo XIX y XX',       gen: genChileSigloXIXXXEpjaN2Round,      rounds:8  },
+  geografiaChileEpjaN2:       { title:'Geografía de Chile',          gen: genGeografiaChileEpjaN2Round,       rounds:8  },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

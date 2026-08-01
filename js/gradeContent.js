@@ -20,6 +20,10 @@ import { QUIMICA_DIAGNOSTICA_MODULES, QUIMICA_DIAGNOSTICA_POS } from './content/
 import { MICROBIOLOGIA_CLINICA_MODULES, MICROBIOLOGIA_CLINICA_POS } from './content/estudioPruebas/microbiologiaClinica.js';
 import { LENGUAJE_EPJA_N1_MODULES, LENGUAJE_EPJA_N1_POS } from './content/epja/lenguajeNivel1.js';
 import { MATEMATICA_EPJA_N1_MODULES, MATEMATICA_EPJA_N1_POS } from './content/epja/matematicaNivel1.js';
+import { LENGUAJE_EPJA_N2_MODULES, LENGUAJE_EPJA_N2_POS } from './content/epja/lenguajeNivel2.js';
+import { MATEMATICA_EPJA_N2_MODULES, MATEMATICA_EPJA_N2_POS } from './content/epja/matematicaNivel2.js';
+import { CIENCIAS_EPJA_N2_MODULES, CIENCIAS_EPJA_N2_POS } from './content/epja/cienciasNivel2.js';
+import { ESTUDIOS_SOCIALES_EPJA_N2_MODULES, ESTUDIOS_SOCIALES_EPJA_N2_POS } from './content/epja/estudiosSocialesNivel2.js';
 
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
@@ -164,25 +168,36 @@ export const COMPRENSION_ENTORNO_SOCIOCULTURAL_BY_NIVEL = {
 /* ---------------- EPJA (por nivel, no por año — ver content/grades.js) ---------------- */
 export const LENGUAJE_EPJA_BY_NIVEL = {
   n1basica: { modules: LENGUAJE_EPJA_N1_MODULES, pos: LENGUAJE_EPJA_N1_POS, height: 360 },
+  n2basica: { modules: LENGUAJE_EPJA_N2_MODULES, pos: LENGUAJE_EPJA_N2_POS, height: 360 },
 };
 export const MATEMATICA_EPJA_BY_NIVEL = {
   n1basica: { modules: MATEMATICA_EPJA_N1_MODULES, pos: MATEMATICA_EPJA_N1_POS, height: 560 },
+  n2basica: { modules: MATEMATICA_EPJA_N2_MODULES, pos: MATEMATICA_EPJA_N2_POS, height: 560 },
+};
+export const CIENCIAS_EPJA_BY_NIVEL = {
+  n2basica: { modules: CIENCIAS_EPJA_N2_MODULES, pos: CIENCIAS_EPJA_N2_POS, height: 460 },
+};
+export const ESTUDIOS_SOCIALES_EPJA_BY_NIVEL = {
+  n2basica: { modules: ESTUDIOS_SOCIALES_EPJA_N2_MODULES, pos: ESTUDIOS_SOCIALES_EPJA_N2_POS, height: 320 },
 };
 
 /* Asignaturas de EPJA por nivel — a diferencia de SUBJECT_DEFS (Básica, 9-10
    materias iguales en todos los años), aquí la lista de asignaturas varía
    según el nivel (Nivel 1 Básica solo tiene 2: Lenguaje y Matemática; Nivel 2
-   y 3 Básica del temario real agregan Ciencias Naturales y Estudios
-   Sociales; Educación Media agrega más asignaturas todavía — ver
-   content/grades.js para el detalle de qué asignaturas trae cada nivel
-   según el temario oficial). Para agregar la siguiente asignatura/nivel:
-   mismo patrón que un núcleo de Parvularia (content/epja/<nombre>Nivel<N>.js
-   con MODULES/POS + genXxxRound, registrar en MC_GAMES/MC_KEYS, agregar
-   `byNivel` a la entrada correspondiente aquí). Un nivel sin `byNivel[nivel]`
-   muestra automáticamente una tarjeta "🚧 en preparación" en epjaSubjectMap. */
+   Básica agrega Ciencias Naturales y Estudios Sociales, tal como lista el
+   Temario real; Nivel 3 Básica y Educación Media agregan más asignaturas
+   todavía — ver content/grades.js para el detalle de qué asignaturas trae
+   cada nivel según el temario oficial). Para agregar la siguiente
+   asignatura/nivel: mismo patrón que un núcleo de Parvularia
+   (content/epja/<nombre>Nivel<N>.js con MODULES/POS + genXxxRound, registrar
+   en MC_GAMES/MC_KEYS, agregar `byNivel` a la entrada correspondiente aquí).
+   Un nivel sin `byNivel[nivel]` muestra automáticamente una tarjeta "🚧 en
+   preparación" en epjaSubjectMap. */
 export const EPJA_SUBJECT_DEFS = [
   { icon:'📖', label:'Lenguaje y Comunicación', screen:'lenguajeEpjaMap', byNivel: LENGUAJE_EPJA_BY_NIVEL },
   { icon:'🔢', label:'Matemática', screen:'matematicaEpjaMap', byNivel: MATEMATICA_EPJA_BY_NIVEL },
+  { icon:'🔬', label:'Ciencias Naturales', screen:'cienciasEpjaMap', byNivel: CIENCIAS_EPJA_BY_NIVEL },
+  { icon:'🌎', label:'Estudios Sociales', screen:'estudiosSocialesEpjaMap', byNivel: ESTUDIOS_SOCIALES_EPJA_BY_NIVEL },
 ];
 
 /* Núcleos de aprendizaje de Educación Parvularia — los 8 núcleos del nivel

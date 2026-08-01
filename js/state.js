@@ -97,7 +97,11 @@ export const state = {
            microfundamentos:0, microantimicrobianos:0, microsusceptibilidad:0, microresistencia:0, microcarbapenemasas:0,
            microtaxonomia:0, microstaphylo:0, microstrepto:0, microbacilos:0, microentero:0, microbgnnf:0, microvibrio:0,
            comprensionEpjaN1:0, sinonimosAntonimosEpjaN1:0, tiposTextoEpjaN1:0, gramaticaOrtografiaEpjaN1:0,
-           numerosEpjaN1:0, unidadesMedidaEpjaN1:0, operacionesEpjaN1:0, patronesEpjaN1:0, perimetroAreaEpjaN1:0, datosEpjaN1:0 },
+           numerosEpjaN1:0, unidadesMedidaEpjaN1:0, operacionesEpjaN1:0, patronesEpjaN1:0, perimetroAreaEpjaN1:0, datosEpjaN1:0,
+           comprensionEpjaN2:0, vocabularioContextoEpjaN2:0, tiposTextoEpjaN2:0, hechosOpinionesEpjaN2:0,
+           multiplosFactoresEpjaN2:0, fraccionesDecimalesEpjaN2:0, operatoriaEpjaN2:0, perimetroAreaEpjaN2:0, volumenEpjaN2:0, datosPromedioEpjaN2:0,
+           seresVivosEcosistemasEpjaN2:0, nutricionEpjaN2:0, sistemaSolarUniversoEpjaN2:0, materiaEstadosEpjaN2:0, mezclasAguaSueloEpjaN2:0,
+           chileColoniaIndependenciaEpjaN2:0, chileSigloXIXXXEpjaN2:0, geografiaChileEpjaN2:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

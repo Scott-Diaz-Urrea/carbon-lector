@@ -13,12 +13,12 @@ export const ORIENTACION_POS = [{x:24,y:80},{x:70,y:50},{x:24,y:20}];
    Convivencia. OA01,03 (autodescripción y expresión de afecto personal)
    quedaron fuera por ser subjetivos/reflexivos, no aptos para opción múltiple. */
 const EMOCIONES_ITEMS = [
-  { emoji:'😄', label:'ALEGRÍA', desc:'Sientes esto cuando algo te hace muy feliz.' },
-  { emoji:'😢', label:'PENA', desc:'Sientes esto cuando algo te pone triste.' },
-  { emoji:'😠', label:'RABIA', desc:'Sientes esto cuando algo te molesta mucho.' },
-  { emoji:'😨', label:'MIEDO', desc:'Sientes esto cuando algo te asusta.' },
-  { emoji:'😲', label:'SORPRESA', desc:'Sientes esto cuando pasa algo que no esperabas.' },
-  { emoji:'🥰', label:'CARIÑO', desc:'Sientes esto cuando quieres mucho a alguien.' },
+  { emoji:'😄', label:'Alegría', desc:'Sientes esto cuando algo te hace muy feliz.' },
+  { emoji:'😢', label:'Pena', desc:'Sientes esto cuando algo te pone triste.' },
+  { emoji:'😠', label:'Rabia', desc:'Sientes esto cuando algo te molesta mucho.' },
+  { emoji:'😨', label:'Miedo', desc:'Sientes esto cuando algo te asusta.' },
+  { emoji:'😲', label:'Sorpresa', desc:'Sientes esto cuando pasa algo que no esperabas.' },
+  { emoji:'🥰', label:'Cariño', desc:'Sientes esto cuando quieres mucho a alguien.' },
 ];
 const AUTOCUIDADO_ITEMS = [
   { emoji: toothbrushSVG(30), label:'Lavarte los dientes es parte de cuidar tu cuerpo', v:true },
@@ -64,16 +64,16 @@ export const ORIENTACION_MODULES_G2 = [
 ];
 export const ORIENTACION_POS_G2 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
 
-const EMOCIONES_LABELS_2 = ['ALEGRÍA','PENA','RABIA','MIEDO','SORPRESA','CARIÑO'];
+const EMOCIONES_LABELS_2 = ['Alegría','Pena','Rabia','Miedo','Sorpresa','Cariño'];
 const EMOCIONES_ESCENAS_2 = [
-  { texto:'A Pedro se le perdió su juguete favorito y no lo puede encontrar.', emocion:'PENA' },
-  { texto:'Sofía ganó el primer lugar en la carrera de la escuela.', emocion:'ALEGRÍA' },
-  { texto:'Un perro grande le ladró fuerte a Martín en la calle.', emocion:'MIEDO' },
-  { texto:'Alguien le quitó su lápiz favorito sin pedirlo.', emocion:'RABIA' },
-  { texto:'Vio una película con un final que no se esperaba para nada.', emocion:'SORPRESA' },
-  { texto:'Su mamá lo abrazó fuerte al llegar a casa después del colegio.', emocion:'CARIÑO' },
-  { texto:'Se despertó en la noche por un ruido muy fuerte y desconocido.', emocion:'MIEDO' },
-  { texto:'Le regalaron el cuento que tanto quería para su cumpleaños.', emocion:'ALEGRÍA' },
+  { texto:'A Pedro se le perdió su juguete favorito y no lo puede encontrar.', emocion:'Pena' },
+  { texto:'Sofía ganó el primer lugar en la carrera de la escuela.', emocion:'Alegría' },
+  { texto:'Un perro grande le ladró fuerte a Martín en la calle.', emocion:'Miedo' },
+  { texto:'Alguien le quitó su lápiz favorito sin pedirlo.', emocion:'Rabia' },
+  { texto:'Vio una película con un final que no se esperaba para nada.', emocion:'Sorpresa' },
+  { texto:'Su mamá lo abrazó fuerte al llegar a casa después del colegio.', emocion:'Cariño' },
+  { texto:'Se despertó en la noche por un ruido muy fuerte y desconocido.', emocion:'Miedo' },
+  { texto:'Le regalaron el cuento que tanto quería para su cumpleaños.', emocion:'Alegría' },
 ];
 /* Ambos bancos se ampliaron (8→12 y 6→12) — antes garantizaban una
    repetición en cada partida de rounds:10, detectado simulando sesiones
@@ -141,7 +141,7 @@ export function genEmociones2Round(){
 export function genAutocuidado2Round(){
   const recurso = 'El autocuidado en 2° básico profundiza los mismos hábitos de 1° básico (higiene, alimentación, descanso) pero esperando más autonomía de tu parte: reconocer tú mismo cuándo necesitas lavarte las manos, cuándo abrigarte, o cuándo descansar, sin que un adulto te lo tenga que decir cada vez. Practicar estos hábitos de forma independiente es un paso importante hacia ser más responsable de tu propio bienestar a medida que creces.';
   const item = pick(AUTOCUIDADO_2_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -153,7 +153,7 @@ export function genAutocuidado2Round(){
 export function genHabitosEscolares2Round(){
   const recurso = 'Los <b>hábitos de trabajo escolar</b> son las conductas que te ayudan a aprender mejor en clases y a organizarte con tus tareas: prestar atención cuando el profesor explica, ordenar tus materiales antes de empezar una actividad, terminar lo que empiezas, y pedir ayuda cuando no entiendes algo en vez de quedarte con la duda. Estos hábitos no dependen de qué tan "inteligente" seas — cualquier estudiante puede aprender a organizarse mejor practicando estas conductas una y otra vez, hasta que se vuelvan automáticas.';
   const item = pick(HABITOS_ESCOLARES_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -169,7 +169,7 @@ export function genConvivencia2Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema sin lastimar a nadie.',
+    explain: 'Lo mejor es "'+item.correcta+'" — así se resuelve el problema sin lastimar a nadie.',
     recurso: recurso,
   };
 }
@@ -198,7 +198,7 @@ export function genEmocionesRound(){
 export function genAutocuidadoRound(){
   const recurso = 'El <b>autocuidado</b> son los hábitos que tú mismo puedes practicar todos los días para mantenerte sano, sin depender de que un adulto te lo recuerde siempre: lavarte las manos antes de comer, cepillarte los dientes, dormir temprano, y comer alimentos variados. Aprender estos hábitos desde pequeño es importante porque, con el tiempo, se convierten en algo automático que haces por costumbre — y esos hábitos que formas ahora son los que probablemente sigas practicando de adulto.';
   const item = pick(AUTOCUIDADO_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -210,7 +210,7 @@ export function genAutocuidadoRound(){
 export function genConvivenciaRound(){
   const recurso = 'La <b>buena convivencia</b> es el conjunto de conductas que hacen que un grupo (tu curso, tu familia, tus amigos) pueda estar junto sin problemas: compartir, esperar tu turno, pedir las cosas por favor, escuchar cuando otro habla, y resolver los conflictos hablando en vez de peleando. No es algo que "simplemente pasa" — se construye con pequeñas acciones diarias de cada persona del grupo. Reconocer qué conductas ayudan a la buena convivencia (y cuáles la dañan) te prepara para ser un buen compañero en cualquier grupo del que formes parte.';
   const item = pick(CONVIVENCIA_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -288,14 +288,14 @@ export function genManejoEmocional3Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción sin lastimarte a ti ni a otros.',
+    explain: 'Lo mejor es "'+item.correcta+'" — así manejas la emoción sin lastimarte a ti ni a otros.',
     recurso: 'El manejo emocional no significa "no sentir" emociones difíciles como el enojo o la frustración —eso es imposible y no es la meta—, sino aprender estrategias para expresarlas sin lastimarte a ti mismo ni a los demás: respirar hondo antes de reaccionar, hablar de lo que sientes en vez de explotar, o alejarte un momento de la situación para calmarte. Practicar estas estrategias desde pequeño te da herramientas que vas a necesitar toda la vida, porque las emociones intensas van a seguir apareciendo — lo que cambia con la práctica es cómo las manejas.',
   };
 }
 
 export function genAutocuidado3Round(){
   const item = pick(AUTOCUIDADO_3_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -310,14 +310,14 @@ export function genBuenTrato3Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema con respeto.',
+    explain: 'Lo mejor es "'+item.correcta+'" — así se resuelve el problema con respeto.',
     recurso: 'El "buen trato" significa tratar a los demás con respeto y empatía, incluso cuando hay un desacuerdo o alguien está teniendo dificultades: apoyar a un compañero que está siendo molestado, escuchar distintos puntos de vista antes de decidir algo en grupo, y preguntar en vez de excluir cuando alguien no quiere participar. Resolver los conflictos con buen trato —hablando y escuchando— en vez de ignorarlos o pelear, es una habilidad social que te sirve para llevarte mejor con cualquier grupo de personas en tu vida.',
   };
 }
 
 export function genHabitosEstudio3Round(){
   const item = pick(HABITOS_ESTUDIO_3_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -396,14 +396,14 @@ export function genManejoEmocional4Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción sin lastimarte a ti ni a otros.',
+    explain: 'Lo mejor es "'+item.correcta+'" — así manejas la emoción sin lastimarte a ti ni a otros.',
     recurso: 'El <b>manejo emocional</b> no significa esconder o negar lo que sientes, sino reconocer la emoción (celos, decepción, ansiedad, orgullo, frustración) y elegir una respuesta que no te dañe a ti ni a otros. Un primer paso útil es simplemente nombrar la emoción ("estoy sintiendo celos" o "esto me da vergüenza") — ponerle nombre a lo que sientes ayuda a que no te controle por completo. Después, hay estrategias concretas según la emoción: respirar y calmarte ante la frustración, conversar con un adulto de confianza ante la ansiedad, o reconocer tu esfuerzo aunque no hayas ganado. Con práctica, manejar tus emociones se vuelve más fácil, igual que cualquier otra habilidad.',
   };
 }
 
 export function genAutocuidado4Round(){
   const item = pick(AUTOCUIDADO_4_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -418,14 +418,14 @@ export function genBuenTrato4Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema con respeto.',
+    explain: 'Lo mejor es "'+item.correcta+'" — así se resuelve el problema con respeto.',
     recurso: 'Resolver un conflicto de buena manera casi siempre empieza con lo mismo: escuchar todas las partes involucradas antes de sacar conclusiones, y buscar una solución en conjunto en vez de imponer una idea sin conversar. Frente a una injusticia (como que alguien se burle de un compañero, o que un nuevo estudiante se sienta excluido), la mejor respuesta suele ser acercarse con empatía, apoyar a quien está siendo afectado, y —si la situación lo requiere— buscar la ayuda de un adulto, en vez de sumarte al comportamiento injusto o ignorarlo. Practicar el buen trato en situaciones pequeñas del día a día te prepara para resolver conflictos más grandes de forma pacífica en el futuro.',
   };
 }
 
 export function genHabitosEstudio4Round(){
   const item = pick(HABITOS_ESTUDIO_4_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -486,7 +486,7 @@ export function genManejoEmocional5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer, pensando en ti y en los demás?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así reconoces tu emoción sin dañar a quienes te rodean.', recurso: recurso,
+    explain: 'Lo mejor es "'+item.correcta+'" — así reconoces tu emoción sin dañar a quienes te rodean.', recurso: recurso,
   };
 }
 
@@ -503,7 +503,7 @@ const AUTOCUIDADO_DIGITAL5_ITEMS = [
 export function genAutocuidadoDigital5Round(){
   const recurso = 'Cuidarse en internet significa proteger tu información personal (nombre completo, dirección, teléfono, fotos) y no compartirla con desconocidos, revisar la configuración de privacidad de tus redes sociales, y pedir permiso a un adulto antes de usar aplicaciones nuevas. Si algo te incomoda en internet, o si alguien te pide guardar un secreto que te hace sentir mal, lo correcto siempre es contárselo a un adulto de confianza — mantener una buena comunicación con tu familia sobre lo que haces en línea es la mejor protección.';
   const item = pick(AUTOCUIDADO_DIGITAL5_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -524,7 +524,7 @@ const PREVENCION_SALUDABLE5_ITEMS = [
 export function genPrevencionSaludable5Round(){
   const recurso = 'Un <b>factor protector</b> es algo que ayuda a una persona a tomar buenas decisiones y a mantenerse alejada de conductas de riesgo: buenos hábitos (dormir bien, hacer deporte), una buena comunicación con la familia, amistades que apoyan y respetan, y saber decir "no" ante una presión que va contra los propios valores. Ocupar el tiempo libre en actividades que gustan (un deporte, un pasatiempo) y pedir ayuda a un adulto de confianza cuando algo preocupa son también estrategias de prevención importantes.';
   const item = pick(PREVENCION_SALUDABLE5_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -549,7 +549,7 @@ export function genBuenTrato5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que se puede hacer en esta situación?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el conflicto con respeto y empatía.', recurso: recurso,
+    explain: 'Lo mejor es "'+item.correcta+'" — así se resuelve el conflicto con respeto y empatía.', recurso: recurso,
   };
 }
 
@@ -568,7 +568,7 @@ const HABITOS_ESTUDIO_5_BANK = [
 export function genHabitosEstudio5Round(){
   const recurso = 'Tener buenos <b>hábitos de trabajo escolar</b> empieza por fijarse una meta clara antes de comenzar una tarea, dividir tareas grandes en pasos más pequeños para no sentirse abrumado, y revisar el propio progreso para saber si hace falta ajustar el esfuerzo. Perseverar cuando algo se pone difícil (en vez de abandonar de inmediato), celebrar los avances pequeños, y trabajar en colaboración repartiendo tareas con los compañeros son estrategias que ayudan a lograr mejores resultados que compararse constantemente con el desempeño de otros.';
   const item = pick(HABITOS_ESTUDIO_5_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -617,7 +617,7 @@ export function genManejoEmocional6Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así manejas la emoción con respeto hacia ti y hacia otros.', recurso: recurso,
+    explain: 'Lo mejor es "'+item.correcta+'" — así manejas la emoción con respeto hacia ti y hacia otros.', recurso: recurso,
   };
 }
 
@@ -635,7 +635,7 @@ const AUTOCUIDADO_DIGITAL6_ITEMS = [
 export function genAutocuidadoDigital6Round(){
   const recurso = 'Cuidarse en internet significa pensar antes de compartir: quién podría ver una foto o un dato personal, y qué consecuencias podría tener eso. Prácticas concretas como revisar los permisos de una aplicación con un adulto, bloquear o reportar a quien te molesta, y usar contraseñas distintas y seguras para cada cuenta, protegen tu información e intimidad. Y si algo incómodo pasa en línea, hablarlo con la familia siempre ayuda a resolverlo mejor que guardarlo en secreto.';
   const item = pick(AUTOCUIDADO_DIGITAL6_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -644,15 +644,15 @@ export function genAutocuidadoDigital6Round(){
 }
 
 const PREVENCION_6_BANK = [
-  { pregunta:'¿Cuál es un efecto nocivo del consumo de tabaco en el cuerpo?', correcta:'DAÑA LOS PULMONES Y EL CORAZÓN', opts:['MEJORA LA CAPACIDAD PULMONAR','FORTALECE EL SISTEMA INMUNE','AYUDA A CONCENTRARSE MEJOR'] },
-  { pregunta:'¿Cuál es un efecto nocivo del consumo de alcohol en el cuerpo?', correcta:'AFECTA EL HÍGADO Y EL SISTEMA NERVIOSO', opts:['FORTALECE LOS HUESOS','MEJORA LOS REFLEJOS','AYUDA A LA DIGESTIÓN'] },
-  { pregunta:'¿Cuál es un efecto nocivo del consumo de marihuana en un niño o adolescente?', correcta:'PUEDE AFECTAR LA MEMORIA Y LA CONCENTRACIÓN', opts:['MEJORA EL RENDIMIENTO ESCOLAR','FORTALECE EL CORAZÓN','MEJORA LA VISIÓN'] },
-  { pregunta:'¿Cuál de estas es una buena estrategia para prevenir el consumo de drogas?', correcta:'PRACTICAR UN DEPORTE O ACTIVIDAD QUE TE GUSTE Y RODEARTE DE BUENAS AMISTADES', opts:['AISLARTE DE TU FAMILIA Y AMIGOS','ACEPTAR CUALQUIER COSA QUE TE OFREZCAN PARA ENCAJAR','IGNORAR TUS PROPIOS VALORES PARA SEGUIR AL GRUPO'] },
-  { pregunta:'¿Por qué es importante tener una buena comunicación con la familia respecto a estos temas?', correcta:'PORQUE AYUDA A RECIBIR APOYO Y CONSEJOS ANTE SITUACIONES DIFÍCILES', opts:['PORQUE NO TIENE NINGUNA UTILIDAD','PORQUE ASÍ SE EVITA HABLAR DEL TEMA PARA SIEMPRE','PORQUE LA FAMILIA NUNCA PUEDE AYUDAR EN ESTOS TEMAS'] },
-  { pregunta:'¿Qué es un "factor protector" frente al consumo de drogas?', correcta:'ALGO QUE AYUDA A UNA PERSONA A TOMAR DECISIONES SALUDABLES, COMO EL DEPORTE O LA FAMILIA', opts:['UNA SUSTANCIA QUE SE CONSUME PARA PROTEGERSE','UN TIPO DE MEDICAMENTO PARA DORMIR','UNA REGLA QUE OBLIGA A CONSUMIR DROGAS'] },
-  { pregunta:'¿Qué deberías hacer si un conocido te ofrece probar tabaco, alcohol o marihuana?', correcta:'RECHAZARLO CON SEGURIDAD Y ALEJARTE DE LA SITUACIÓN SI ES NECESARIO', opts:['ACEPTARLO PARA NO QUEDAR MAL','PROBARLO SOLO UNA VEZ SIN DECIRLE A NADIE','GUARDAR EL SECRETO PARA SIEMPRE'] },
-  { pregunta:'¿Por qué el cuerpo de un niño o adolescente es especialmente vulnerable a los efectos de las drogas?', correcta:'PORQUE SU CUERPO Y CEREBRO TODAVÍA ESTÁN EN DESARROLLO', opts:['PORQUE LOS NIÑOS SON MÁS FUERTES QUE LOS ADULTOS','PORQUE NO LES AFECTA EN NADA','PORQUE SU CUERPO YA TERMINÓ DE DESARROLLARSE'] },
-  { pregunta:'¿Cuál de estas es una señal de que alguien podría necesitar ayuda con un problema de consumo de sustancias?', correcta:'CAMBIOS BRUSCOS DE ÁNIMO Y ALEJAMIENTO DE SUS SERES QUERIDOS', opts:['SACAR SIEMPRE BUENAS NOTAS','DORMIR LAS HORAS RECOMENDADAS','PRACTICAR DEPORTE REGULARMENTE'] },
+  { pregunta:'¿Cuál es un efecto nocivo del consumo de tabaco en el cuerpo?', correcta:'Daña los pulmones y el corazón', opts:['Mejora la capacidad pulmonar','Fortalece el sistema inmune','Ayuda a concentrarse mejor'] },
+  { pregunta:'¿Cuál es un efecto nocivo del consumo de alcohol en el cuerpo?', correcta:'Afecta el hígado y el sistema nervioso', opts:['Fortalece los huesos','Mejora los reflejos','Ayuda a la digestión'] },
+  { pregunta:'¿Cuál es un efecto nocivo del consumo de marihuana en un niño o adolescente?', correcta:'Puede afectar la memoria y la concentración', opts:['Mejora el rendimiento escolar','Fortalece el corazón','Mejora la visión'] },
+  { pregunta:'¿Cuál de estas es una buena estrategia para prevenir el consumo de drogas?', correcta:'Practicar un deporte o actividad que te guste y rodearte de buenas amistades', opts:['Aislarte de tu familia y amigos','Aceptar cualquier cosa que te ofrezcan para encajar','Ignorar tus propios valores para seguir al grupo'] },
+  { pregunta:'¿Por qué es importante tener una buena comunicación con la familia respecto a estos temas?', correcta:'Porque ayuda a recibir apoyo y consejos ante situaciones difíciles', opts:['Porque no tiene ninguna utilidad','Porque así se evita hablar del tema para siempre','Porque la familia nunca puede ayudar en estos temas'] },
+  { pregunta:'¿Qué es un "factor protector" frente al consumo de drogas?', correcta:'Algo que ayuda a una persona a tomar decisiones saludables, como el deporte o la familia', opts:['Una sustancia que se consume para protegerse','Un tipo de medicamento para dormir','Una regla que obliga a consumir drogas'] },
+  { pregunta:'¿Qué deberías hacer si un conocido te ofrece probar tabaco, alcohol o marihuana?', correcta:'Rechazarlo con seguridad y alejarte de la situación si es necesario', opts:['Aceptarlo para no quedar mal','Probarlo solo una vez sin decirle a nadie','Guardar el secreto para siempre'] },
+  { pregunta:'¿Por qué el cuerpo de un niño o adolescente es especialmente vulnerable a los efectos de las drogas?', correcta:'Porque su cuerpo y cerebro todavía están en desarrollo', opts:['Porque los niños son más fuertes que los adultos','Porque no les afecta en nada','Porque su cuerpo ya terminó de desarrollarse'] },
+  { pregunta:'¿Cuál de estas es una señal de que alguien podría necesitar ayuda con un problema de consumo de sustancias?', correcta:'Cambios bruscos de ánimo y alejamiento de sus seres queridos', opts:['Sacar siempre buenas notas','Dormir las horas recomendadas','Practicar deporte regularmente'] },
 ];
 export function genPrevencion6Round(){
   const recurso = 'El cuerpo de un niño o adolescente todavía está en desarrollo, por lo que es especialmente vulnerable a sustancias como el tabaco, el alcohol o la marihuana, que dañan órganos concretos y pueden afectar la memoria y la concentración. Un <b>factor protector</b> es algo que ayuda a tomar decisiones saludables —como el deporte, buenas amistades o una comunicación abierta con la familia—, y saber rechazar con seguridad una oferta de estas sustancias es una habilidad real de autocuidado, no solo una regla que hay que seguir.';
@@ -661,7 +661,7 @@ export function genPrevencion6Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+    explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
   };
 }
 
@@ -682,7 +682,7 @@ export function genBuenTrato6Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que se puede hacer en esta situación?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
-    explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el conflicto con respeto.', recurso: recurso,
+    explain: 'Lo mejor es "'+item.correcta+'" — así se resuelve el conflicto con respeto.', recurso: recurso,
   };
 }
 
@@ -701,7 +701,7 @@ const HABITOS_ESTUDIO_6_BANK = [
 export function genHabitosEstudio6Round(){
   const recurso = 'Estudiar de forma efectiva no depende solo de "esforzarse más", sino de buenos hábitos concretos: organizarse con anticipación revisando el calendario de pruebas, estudiar en un lugar tranquilo, repasar varios días antes en vez de dejarlo todo para la noche anterior, tomar pequeños descansos, y pedir ayuda cuando algo no se entiende. Fijarse metas realistas para cada sesión de estudio también ayuda a mantener la motivación en el tiempo.';
   const item = pick(HABITOS_ESTUDIO_6_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -751,7 +751,7 @@ const PREVENCION_RIESGO_7_BANK = [
 export function genPrevencionRiesgo7Round(){
   const recurso = 'Los <b>factores de protección</b> son elementos que ayudan a evitar conductas de riesgo: tener un adulto de confianza con quien hablar, participar en actividades deportivas o artísticas, saber a quién acudir ante una situación difícil, y sentirte con la libertad de decir "no" ante una propuesta riesgosa sin perder a tus amigos. Reconocerlos ayuda a cuidarte a ti mismo y a apoyar a otros que puedan estar pasando por una situación de riesgo.';
   const item = pick(PREVENCION_RIESGO_7_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -777,7 +777,7 @@ export function genBienestarVida7Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
-    explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+    explain: 'Lo mejor es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
@@ -798,7 +798,7 @@ const REDES_SOCIALES_7_BANK = [
 export function genRedesSociales7Round(){
   const recurso = 'Usar las <b>redes sociales</b> de forma responsable incluye pensar antes de publicar (imaginando cómo podría afectar a otras personas), cuidar la privacidad (no compartir contraseñas, dirección o el colegio en público), revisar la configuración de privacidad, y saber que todo lo publicado puede quedar guardado aunque se borre después. El <b>ciberacoso</b> (burlarse repetidamente de alguien por internet) es dañino, y contarle a un adulto de confianza si ves que alguien lo está viviendo es una buena decisión.';
   const item = pick(REDES_SOCIALES_7_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -826,7 +826,7 @@ export function genResolucionConflictos7Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
-    explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+    explain: 'Lo mejor es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
@@ -847,7 +847,7 @@ const AUTONOMIA_APRENDIZAJE_7_BANK = [
 export function genAutonomiaAprendizaje7Round(){
   const recurso = 'La <b>autonomía en el aprendizaje</b> significa hacerte responsable de tu propio proceso: organizar tu horario de estudio, fijarte tus propias metas además de las del profesor, reconocer en qué temas te cuesta más para pedir ayuda o practicar más, y evaluar si una técnica de estudio te está funcionando para cambiarla si no da resultado — en vez de depender siempre de que otra persona te diga exactamente qué hacer.';
   const item = pick(AUTONOMIA_APRENDIZAJE_7_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -904,7 +904,7 @@ const PREVENCION_8_BANK = [
 export function genPrevencionRiesgo8Round(){
   const recurso = 'Los <b>factores de protección</b> son recursos que reducen la probabilidad de que alguien viva una situación de riesgo: contar con una red de apoyo (familia, amistades de confianza, un adulto a quien recurrir), saber decir "no" con firmeza frente a la presión de un grupo, participar en actividades que motivan (deporte, arte, música), y estar en un ambiente donde se puede hablar de los problemas sin miedo a burlas. Los <b>factores de riesgo</b>, en cambio, aumentan esa probabilidad: enfrentar solo una situación difícil sin contarle a nadie, o guardar en secreto algo que genera incomodidad. Reconocer estas señales a tiempo, y saber que pedir ayuda a un adulto o especialista es un signo de madurez (no de debilidad), es la base de la prevención.';
   const item = pick(PREVENCION_8_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -932,7 +932,7 @@ export function genBienestar8Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
-    explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+    explain: 'Lo mejor es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
@@ -952,7 +952,7 @@ const RELACIONES_INCLUSION_8_BANK = [
 export function genRelacionesInclusion8Round(){
   const recurso = 'Tratar con la misma <b>dignidad</b> a todas las personas, sin importar su origen, apariencia o creencias, es la base de la <b>inclusión</b> y de relaciones saludables. La <b>discriminación</b> puede tomar formas sutiles —burlarse de un acento, excluir a alguien de un grupo, difundir rumores en un chat— y sigue vulnerando a la persona aunque ocurra "solo" en línea, no solo cara a cara. Estos principios de respeto e igualdad aplican por igual en las redes sociales y en persona. Un grupo que integra personas con distintas experiencias y puntos de vista es más rico y creativo, y apoyar a un compañero que sufre discriminación (en vez de mirar para el lado) es parte de construir una convivencia sana.';
   const item = pick(RELACIONES_INCLUSION_8_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -979,7 +979,7 @@ export function genParticipacionDemocratica8Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
-    explain: 'Lo mejor es: '+item.correcta.toLowerCase()+'.',
+    explain: 'Lo mejor es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
@@ -999,7 +999,7 @@ const GESTION_APRENDIZAJE_8_BANK = [
 export function genGestionAprendizaje8Round(){
   const recurso = 'Gestionar el propio aprendizaje de forma autónoma implica varios hábitos: conocer los propios intereses y capacidades para fijarse metas con sentido, dividir una meta grande en pasos pequeños y medibles (más fácil de cumplir que una meta enorme de una sola vez), y revisar periódicamente el avance para ajustar el plan si algo no está funcionando. Anotar plazos y tareas en una agenda evita la acumulación de última hora, y pedir retroalimentación a los profesores sobre cómo mejorar es parte de aprender con autonomía. Celebrar los avances parciales —no solo la meta final— ayuda a mantener la motivación en el camino.';
   const item = pick(GESTION_APRENDIZAJE_8_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,

@@ -3340,3 +3340,50 @@ sesión).
     Tecnológicas" (8° básico) con las 4 alternativas en oración normal. Sin
     errores de consola en ningún caso. Próximo paso del mismo pedido:
     `orientacion.js` (36 alternativas).
+- **`orientacion.js` en oración normal (2026-08-01, noveno archivo del rollout tras
+  `historia.js`/`ciencias.js`/`lenguaje.js`/`ingles.js`/`edfisica.js`/`artes.js`/
+  `musica.js`/`tecnologia.js`):** mismo pedido, mismo criterio ("procede"). El
+  contenido ALL-CAPS real estaba en 3 lugares: las 6 etiquetas de emoción
+  (`EMOCIONES_ITEMS`, `EMOCIONES_LABELS_2`, `EMOCIONES_ESCENAS_2` — 1° y 2°
+  básico), `PREVENCION_6_BANK` (6° básico, contenido protegido de prevención de
+  tabaco/alcohol/marihuana), y **19 apariciones del literal `{label:'VERDADERO',
+  value:true},{label:'FALSO', value:false}`** repetido en generadores de
+  verdadero/falso a lo largo de todo el archivo (1°-8° básico) — este último ya
+  se había convertido en `ciencias.js` (`'Verdadero'`/`'Falso'`) pero nunca en
+  `orientacion.js`, así que se unificó aquí con `replace_all` en una sola edición.
+  Archivo convertido a mano vía `Edit` (sin script de PowerShell), mismo criterio
+  de tamaño que `tecnologia.js`.
+  - **Contenido protegido, tocado con cuidado:** `PREVENCION_6_BANK` es el banco
+    de prevención de drogas de 6° básico, documentado como contenido sensible ya
+    revisado y confirmado con el usuario en sesiones anteriores. Se convirtió
+    **solo el case** de `correcta`/`opts` (10 ítems), preservando el texto, los
+    hechos y el tono preventivo/factual exactamente igual — verificado
+    comparando cada string original contra su versión convertida antes de
+    aplicar el cambio, y probado visualmente en el navegador para confirmar que
+    ninguna palabra cambió, solo mayúscula/minúscula.
+  - **Clasificación de los 17 usos de `.toLowerCase()` del archivo:** 14
+    removidos (9 del patrón `'Lo mejor es "'+item.correcta.toLowerCase()+'"'`,
+    4 del patrón `'Lo mejor es: '+item.correcta.toLowerCase()+'.'` en los
+    generadores de 7°-8° básico, y 1 de `'La respuesta correcta es: '+item.
+    correcta.toLowerCase()+'.'` en `genPrevencion6Round`) — todos citan la
+    respuesta como entidad, mismo criterio que el resto del rollout. 3 se
+    dejaron intactos por ser embeds mid-oración que nombran el ítem específico
+    dentro de una oración ya empezada (mismo criterio que "Ese timbre
+    corresponde al X" de `musica.js`): `'Ante esa situación, lo más común es
+    sentir <b>'+item.emocion.toLowerCase()+'</b>.'`, `'Esta cara muestra <b>'+
+    item.label.toLowerCase()+'</b>: '+item.desc.toLowerCase()`, y `'Esa
+    descripción corresponde a la <b>'+item.label.toLowerCase()+'</b>.'`
+    (`genEmocionesRound`, 1° básico).
+  - Verificado: los 34 generadores pasan fuzz de 300 iteraciones cada uno (sin
+    `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue` siempre
+    presente, sin apóstrofes en `speakText`). Grep dedicado confirmó 0 cadenas
+    de 2+ letras en mayúscula sostenida remanentes. `MC_KEYS.length ===
+    Object.keys(MC_GAMES).length === 324` (regresión de wiring intacta).
+    Probado visualmente en el navegador: módulo "Mis Emociones" (1° básico) con
+    alternativas "Cariño"/"Alegría"/"Sorpresa"/"Rabia" en oración normal, una
+    ronda jugada completa (respuesta incorrecta mostró el overlay "Esta cara
+    muestra cariño: sientes esto cuando quieres mucho a alguien." con
+    capitalización correcta); módulo "Prevención VI" (6° básico, contenido
+    protegido) con las 4 alternativas en oración normal y el texto/hechos
+    intactos. Sin errores de consola en ningún caso. Próximo paso del mismo
+    pedido: `matematica.js` (27 alternativas) — último archivo del rollout.

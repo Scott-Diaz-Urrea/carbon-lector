@@ -545,6 +545,7 @@ export function fraccionBarraSVG(num, den, size){
    agudo (menor a 90°) u obtuso (mayor a 90°). */
 export function anguloSVG(tipo, size){
   size = size || 100;
+  tipo = String(tipo||'').toUpperCase();
   const deg = tipo==='RECTO' ? 90 : tipo==='AGUDO' ? 45 : 130;
   const rad = deg * Math.PI/180;
   const cx = 15, cy = 85, r = 70;

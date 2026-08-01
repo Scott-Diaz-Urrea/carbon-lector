@@ -397,8 +397,9 @@ export function chileFlagSVG(size){
 const COLOR_HEX = { ROJO:'#E63946', NARANJO:'#FFB627', AMARILLO:'#FFD23F', AZUL:'#1D4ED8', VERDE:'#12A594', MORADO:'#7C6FF0', ROSADO:'#FF9EB0', CELESTE:'#7EC8E3', BLANCO:'#FFFFFF' };
 export function colorSwatchSVG(name, size){
   size = size || 60;
-  const hex = COLOR_HEX[name] || '#12A594';
-  const stroke = name==='BLANCO' ? '#CBD9D4' : 'rgba(0,0,0,0.08)';
+  const key = String(name||'').toUpperCase();
+  const hex = COLOR_HEX[key] || '#12A594';
+  const stroke = key==='BLANCO' ? '#CBD9D4' : 'rgba(0,0,0,0.08)';
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
     '<circle cx="50" cy="50" r="42" fill="'+hex+'" stroke="'+stroke+'" stroke-width="4"/>'+
   '</svg>';
@@ -409,6 +410,7 @@ export function colorSwatchSVG(name, size){
    un concepto central al módulo. */
 export function lineTypeSVG(tipo, size){
   size = size || 90;
+  tipo = String(tipo||'').toUpperCase();
   let inner = '';
   if(tipo === 'VERTICAL'){
     inner = '<line x1="50" y1="10" x2="50" y2="90" stroke="#7C6FF0" stroke-width="7" stroke-linecap="round"/>';

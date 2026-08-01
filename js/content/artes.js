@@ -18,30 +18,30 @@ export const ARTES_POS = [{x:24,y:80},{x:70,y:50},{x:24,y:20}];
    pastel de uso común en la sala de clases, con la misma clasificación
    cálido/frío intuitiva que el resto del banco. */
 const COLORES_ITEMS = [
-  { label:'ROJO', tipo:'CÁLIDO' },
-  { label:'NARANJO', tipo:'CÁLIDO' },
-  { label:'AMARILLO', tipo:'CÁLIDO' },
-  { label:'ROSADO', tipo:'CÁLIDO' },
-  { label:'AZUL', tipo:'FRÍO' },
-  { label:'VERDE', tipo:'FRÍO' },
-  { label:'MORADO', tipo:'FRÍO' },
-  { label:'CELESTE', tipo:'FRÍO' },
+  { label:'Rojo', tipo:'Cálido' },
+  { label:'Naranjo', tipo:'Cálido' },
+  { label:'Amarillo', tipo:'Cálido' },
+  { label:'Rosado', tipo:'Cálido' },
+  { label:'Azul', tipo:'Frío' },
+  { label:'Verde', tipo:'Frío' },
+  { label:'Morado', tipo:'Frío' },
+  { label:'Celeste', tipo:'Frío' },
 ];
 const MEZCLAS_COLOR = [
-  { a:'ROJO', b:'AMARILLO', result:'NARANJO' },
-  { a:'AZUL', b:'AMARILLO', result:'VERDE' },
-  { a:'ROJO', b:'AZUL', result:'MORADO' },
-  { a:'ROJO', b:'BLANCO', result:'ROSADO' },
+  { a:'Rojo', b:'Amarillo', result:'Naranjo' },
+  { a:'Azul', b:'Amarillo', result:'Verde' },
+  { a:'Rojo', b:'Azul', result:'Morado' },
+  { a:'Rojo', b:'Blanco', result:'Rosado' },
 ];
 const LINEAS_ITEMS = [
-  { emoji:'➖', desc:'Una línea que va derecho, sin curvas.', label:'RECTA' },
-  { emoji:'📏', desc:'El borde de una regla es un ejemplo de esta línea.', label:'RECTA' },
-  { emoji:'〰️', desc:'Una línea que sube y baja como las olas del mar.', label:'ONDULADA' },
-  { emoji:'🐍', desc:'El cuerpo de una serpiente se mueve dibujando esta línea.', label:'ONDULADA' },
-  { emoji:'✏️', desc:'Una línea muy fina y delgadita.', label:'DELGADA' },
-  { emoji:'🧵', desc:'Un hilo dibuja una línea así de fina.', label:'DELGADA' },
-  { emoji:'🖍️', desc:'Una línea ancha y bien marcada.', label:'GRUESA' },
-  { emoji:'🖊️', desc:'Un plumón grueso deja una línea así de marcada.', label:'GRUESA' },
+  { emoji:'➖', desc:'Una línea que va derecho, sin curvas.', label:'Recta' },
+  { emoji:'📏', desc:'El borde de una regla es un ejemplo de esta línea.', label:'Recta' },
+  { emoji:'〰️', desc:'Una línea que sube y baja como las olas del mar.', label:'Ondulada' },
+  { emoji:'🐍', desc:'El cuerpo de una serpiente se mueve dibujando esta línea.', label:'Ondulada' },
+  { emoji:'✏️', desc:'Una línea muy fina y delgadita.', label:'Delgada' },
+  { emoji:'🧵', desc:'Un hilo dibuja una línea así de fina.', label:'Delgada' },
+  { emoji:'🖍️', desc:'Una línea ancha y bien marcada.', label:'Gruesa' },
+  { emoji:'🖊️', desc:'Un plumón grueso deja una línea así de marcada.', label:'Gruesa' },
 ];
 /* 🪨/🪞 crudos no se renderizan en varios navegadores (mismo problema ya
    resuelto en otros archivos) — se reusan piedraSVG()/espejoSVG() aquí
@@ -55,25 +55,25 @@ const LINEAS_ITEMS = [
    se reconoce por sus espinas (peligro al tocar), no por su textura de
    superficie, así que mezclaba dos conceptos distintos en un mismo ítem. */
 const TEXTURAS_ITEMS = [
-  { emoji: piedraSVG(30), label:'ÁSPERA', desc:'Una piedra sin pulir se siente rasposa al tocarla: raspa un poco los dedos.' },
-  { emoji:'🧱', label:'ÁSPERA', desc:'Un ladrillo sin pulir se siente rasposo al tocarlo: raspa un poco los dedos.' },
-  { emoji:'🧊', label:'LISA', desc:'Un vidrio o un hielo se sienten así: parejos, sin relieve.' },
-  { emoji: espejoSVG(30), label:'LISA', desc:'Un espejo se siente así al tocarlo: parejo, sin relieve.' },
-  { emoji:'🧶', label:'SUAVE', desc:'La lana o un peluche se sienten así: agradables y delicados.' },
-  { emoji:'☁️', label:'SUAVE', desc:'Una almohada de plumas se siente así: agradable y delicada.' },
-  { emoji:'🌳', label:'RUGOSA', desc:'La corteza de un árbol tiene arrugas y bultos, pero no raspa al tocarla.' },
-  { emoji:'🍍', label:'RUGOSA', desc:'La cáscara de una piña tiene bultos y hendiduras, pero no raspa al tocarla.' },
+  { emoji: piedraSVG(30), label:'Áspera', desc:'Una piedra sin pulir se siente rasposa al tocarla: raspa un poco los dedos.' },
+  { emoji:'🧱', label:'Áspera', desc:'Un ladrillo sin pulir se siente rasposo al tocarlo: raspa un poco los dedos.' },
+  { emoji:'🧊', label:'Lisa', desc:'Un vidrio o un hielo se sienten así: parejos, sin relieve.' },
+  { emoji: espejoSVG(30), label:'Lisa', desc:'Un espejo se siente así al tocarlo: parejo, sin relieve.' },
+  { emoji:'🧶', label:'Suave', desc:'La lana o un peluche se sienten así: agradables y delicados.' },
+  { emoji:'☁️', label:'Suave', desc:'Una almohada de plumas se siente así: agradable y delicada.' },
+  { emoji:'🌳', label:'Rugosa', desc:'La corteza de un árbol tiene arrugas y bultos, pero no raspa al tocarla.' },
+  { emoji:'🍍', label:'Rugosa', desc:'La cáscara de una piña tiene bultos y hendiduras, pero no raspa al tocarla.' },
 ];
 /* "PLASTICINA" usaba 🖍️ (un crayón, una herramienta de dibujo, no una masa
    moldeable) → plasticinaSVG(), el mismo helper que corrige el mismo error
    en Ciencias Naturales (ver ciencias.js). */
 const HERRAMIENTAS_ARTE = [
-  { emoji:'🖌️', label:'PINCEL', uso:'Sirve para pintar con témpera o acuarela.' },
-  { emoji:'✂️', label:'TIJERA', uso:'Sirve para cortar papel y otros materiales.' },
-  { emoji:'✏️', label:'LÁPIZ', uso:'Sirve para dibujar y hacer bocetos.' },
-  { emoji:'🧵', label:'HILO', uso:'Sirve para unir telas o hacer manualidades.' },
-  { emoji: plasticinaSVG(30), label:'PLASTICINA', uso:'Sirve para modelar figuras con las manos.' },
-  { emoji:'🧴', label:'PEGAMENTO', uso:'Sirve para unir papeles y materiales de collage.' },
+  { emoji:'🖌️', label:'Pincel', uso:'Sirve para pintar con témpera o acuarela.' },
+  { emoji:'✂️', label:'Tijera', uso:'Sirve para cortar papel y otros materiales.' },
+  { emoji:'✏️', label:'Lápiz', uso:'Sirve para dibujar y hacer bocetos.' },
+  { emoji:'🧵', label:'Hilo', uso:'Sirve para unir telas o hacer manualidades.' },
+  { emoji: plasticinaSVG(30), label:'Plasticina', uso:'Sirve para modelar figuras con las manos.' },
+  { emoji:'🧴', label:'Pegamento', uso:'Sirve para unir papeles y materiales de collage.' },
 ];
 
 /* ---------------- Contenido Artes Visuales 2° Básico ----------------
@@ -87,14 +87,14 @@ export const ARTES_MODULES_G2 = [
 ];
 export const ARTES_POS_G2 = [{x:50,y:50}];
 
-const LINEAS_G2_BANK = ['VERTICAL','HORIZONTAL','DIAGONAL','ESPIRAL','QUEBRADA'];
+const LINEAS_G2_BANK = ['Vertical','Horizontal','Diagonal','Espiral','Quebrada'];
 const COLORES_PRIM_SEC = [
-  { label:'ROJO', tipo:'PRIMARIO' },
-  { label:'AZUL', tipo:'PRIMARIO' },
-  { label:'AMARILLO', tipo:'PRIMARIO' },
-  { label:'VERDE', tipo:'SECUNDARIO' },
-  { label:'NARANJO', tipo:'SECUNDARIO' },
-  { label:'MORADO', tipo:'SECUNDARIO' },
+  { label:'Rojo', tipo:'Primario' },
+  { label:'Azul', tipo:'Primario' },
+  { label:'Amarillo', tipo:'Primario' },
+  { label:'Verde', tipo:'Secundario' },
+  { label:'Naranjo', tipo:'Secundario' },
+  { label:'Morado', tipo:'Secundario' },
 ];
 
 export function genLineasColores2Round(){
@@ -111,7 +111,7 @@ export function genLineasColores2Round(){
     };
   }
   const item = pick(COLORES_PRIM_SEC);
-  const opts = shuffle([{label:'PRIMARIO', value:'PRIMARIO'},{label:'SECUNDARIO', value:'SECUNDARIO'}]);
+  const opts = shuffle([{label:'Primario', value:'Primario'},{label:'Secundario', value:'Secundario'}]);
   return {
     promptHTML: '<div class="shape-display">'+colorSwatchSVG(item.label,90)+'</div><p class="prompt-hint">El color '+item.label+'. ¿Es un color primario o secundario?</p>',
     options: opts, correctValue: item.tipo, speakText: 'El color '+item.label, cols:2, panel:true,
@@ -124,7 +124,7 @@ export function genColoresRound(){
   const recurso = 'Los colores se agrupan en dos familias según la sensación que transmiten: los <b>cálidos</b> (rojo, naranjo, amarillo) recuerdan al sol y al fuego, y los <b>fríos</b> (azul, verde, celeste) recuerdan al agua y al cielo. Además, hay solo 3 colores <b>primarios</b> (rojo, amarillo, azul) que no se pueden formar mezclando otros colores, pero que sí sirven para crear todos los demás: mezclando dos primarios en distintas cantidades obtienes los colores <b>secundarios</b> (naranjo, verde, morado). Entender esto te ayuda a predecir qué color obtendrás antes de mezclar de verdad, y a elegir colores a propósito según lo que quieras transmitir en un dibujo.';
   if(Math.random()<0.5){
     const item = pick(COLORES_ITEMS);
-    const opts = shuffle([{label:'CÁLIDO', value:'CÁLIDO'},{label:'FRÍO', value:'FRÍO'}]);
+    const opts = shuffle([{label:'Cálido', value:'Cálido'},{label:'Frío', value:'Frío'}]);
     const visual = '<div class="shape-display">'+colorSwatchSVG(item.label, 90)+'</div>';
     return {
       promptHTML: visual+'<p class="prompt-hint">El color '+item.label+'. ¿Es un color cálido o frío?</p>',
@@ -134,7 +134,7 @@ export function genColoresRound(){
     };
   }
   const item = pick(MEZCLAS_COLOR);
-  const distract = shuffle(['NARANJO','VERDE','MORADO','ROSADO'].filter(function(c){ return c!==item.result; })).slice(0,3);
+  const distract = shuffle(['Naranjo','Verde','Morado','Rosado'].filter(function(c){ return c!==item.result; })).slice(0,3);
   const opts = shuffle([item.result].concat(distract)).map(function(c){ return {label:c, value:c}; });
   const visual = '<div class="mix-row">'+
     '<div class="mix-swatch">'+colorSwatchSVG(item.a,60)+'<span>'+item.a+'</span></div>'+
@@ -210,24 +210,24 @@ export const ARTES_POS_G3 = [{x:30,y:70},{x:70,y:30}];
    educación artística (no una verdad científica única), consistente con
    el nivel de abstracción esperado para 3° básico. */
 const COLOR_EXPRESIVO_BANK = [
-  { color:'ROJO', emocion:'ENERGÍA O PASIÓN' },
-  { color:'AZUL', emocion:'CALMA O TRANQUILIDAD' },
-  { color:'AMARILLO', emocion:'ALEGRÍA' },
-  { color:'NEGRO', emocion:'MISTERIO O SERIEDAD' },
-  { color:'VERDE', emocion:'NATURALEZA O FRESCURA' },
-  { color:'NARANJO', emocion:'ENTUSIASMO' },
-  { color:'ROSADO', emocion:'TERNURA' },
-  { color:'MORADO', emocion:'CREATIVIDAD' },
+  { color:'Rojo', emocion:'Energía o pasión' },
+  { color:'Azul', emocion:'Calma o tranquilidad' },
+  { color:'Amarillo', emocion:'Alegría' },
+  { color:'Negro', emocion:'Misterio o seriedad' },
+  { color:'Verde', emocion:'Naturaleza o frescura' },
+  { color:'Naranjo', emocion:'Entusiasmo' },
+  { color:'Rosado', emocion:'Ternura' },
+  { color:'Morado', emocion:'Creatividad' },
 ];
 const MATERIALES_ARTE3_BANK = [
-  { emoji:'🏺', material:'la arcilla', categoria:'MATERIAL DE MODELADO' },
-  { emoji:'🧶', material:'la plasticina', categoria:'MATERIAL DE MODELADO' },
-  { emoji:'📦', material:'una caja de cartón usada', categoria:'MATERIAL DE RECICLAJE' },
-  { emoji:'🥤', material:'una botella de plástico usada', categoria:'MATERIAL DE RECICLAJE' },
-  { emoji:'🥫', material:'una lata de bebida usada', categoria:'MATERIAL DE RECICLAJE' },
-  { emoji:'🍃', material:'las hojas secas', categoria:'MATERIAL NATURAL' },
-  { emoji:'🌰', material:'las semillas', categoria:'MATERIAL NATURAL' },
-  { emoji:'🪵', material:'las ramitas', categoria:'MATERIAL NATURAL' },
+  { emoji:'🏺', material:'la arcilla', categoria:'Material de modelado' },
+  { emoji:'🧶', material:'la plasticina', categoria:'Material de modelado' },
+  { emoji:'📦', material:'una caja de cartón usada', categoria:'Material de reciclaje' },
+  { emoji:'🥤', material:'una botella de plástico usada', categoria:'Material de reciclaje' },
+  { emoji:'🥫', material:'una lata de bebida usada', categoria:'Material de reciclaje' },
+  { emoji:'🍃', material:'las hojas secas', categoria:'Material natural' },
+  { emoji:'🌰', material:'las semillas', categoria:'Material natural' },
+  { emoji:'🪵', material:'las ramitas', categoria:'Material natural' },
 ];
 
 export function genColorExpresivo3Round(){
@@ -273,14 +273,14 @@ export const ARTES_POS_G4 = [{x:50,y:50}];
 const LENGUAJE_VISUAL4_BANK = [
   { pregunta:'¿Qué es una línea de contorno en un dibujo?', correcta:'La línea que marca el borde o silueta de una figura', opts:['El color de fondo del dibujo','La textura de la superficie','El título de la obra'] },
   { pregunta:'¿Para qué sirve la línea de contorno al dibujar un objeto?', correcta:'Para definir claramente su forma y separarlo del fondo', opts:['Para llenar todo el espacio de color','Para borrar el dibujo','Para escribir el nombre del autor'] },
-  { pregunta:'Si agregas blanco a un color para aclararlo, ¿qué estás cambiando?', correcta:'SU TONO', opts:['SU FORMA','SU TEXTURA','SU TAMAÑO'] },
-  { pregunta:'Si oscureces un color agregándole negro, ¿qué estás cambiando?', correcta:'SU TONO', opts:['SU FORMA','SU TEXTURA','SU TAMAÑO'] },
+  { pregunta:'Si agregas blanco a un color para aclararlo, ¿qué estás cambiando?', correcta:'Su tono', opts:['Su forma','Su textura','Su tamaño'] },
+  { pregunta:'Si oscureces un color agregándole negro, ¿qué estás cambiando?', correcta:'Su tono', opts:['Su forma','Su textura','Su tamaño'] },
   { pregunta:'¿Qué es el "matiz" de un color?', correcta:'La variación específica de ese color (como un rojo más anaranjado o más violeta)', opts:['El tamaño del dibujo','La textura de la pintura','El nombre del artista'] },
-  { pregunta:'Un dibujo de un gato bien reconocible, con orejas, bigotes y cola, es una forma...', correcta:'FIGURATIVA', opts:['NO FIGURATIVA (ABSTRACTA)','TRANSPARENTE','SIMÉTRICA'] },
-  { pregunta:'Una mancha de pintura sin forma reconocible es una forma...', correcta:'NO FIGURATIVA (ABSTRACTA)', opts:['FIGURATIVA','TRANSPARENTE','SIMÉTRICA'] },
-  { pregunta:'Un dibujo de una casa con techo, puerta y ventanas es una forma...', correcta:'FIGURATIVA', opts:['NO FIGURATIVA (ABSTRACTA)','TRANSPARENTE','SIMÉTRICA'] },
-  { pregunta:'Un patrón de líneas y colores que no representa nada concreto es una forma...', correcta:'NO FIGURATIVA (ABSTRACTA)', opts:['FIGURATIVA','TRANSPARENTE','SIMÉTRICA'] },
-  { pregunta:'Un retrato realista de una persona, donde se reconoce su cara, es una forma...', correcta:'FIGURATIVA', opts:['NO FIGURATIVA (ABSTRACTA)','TRANSPARENTE','SIMÉTRICA'] },
+  { pregunta:'Un dibujo de un gato bien reconocible, con orejas, bigotes y cola, es una forma...', correcta:'Figurativa', opts:['No figurativa (abstracta)','Transparente','Simétrica'] },
+  { pregunta:'Una mancha de pintura sin forma reconocible es una forma...', correcta:'No figurativa (abstracta)', opts:['Figurativa','Transparente','Simétrica'] },
+  { pregunta:'Un dibujo de una casa con techo, puerta y ventanas es una forma...', correcta:'Figurativa', opts:['No figurativa (abstracta)','Transparente','Simétrica'] },
+  { pregunta:'Un patrón de líneas y colores que no representa nada concreto es una forma...', correcta:'No figurativa (abstracta)', opts:['Figurativa','Transparente','Simétrica'] },
+  { pregunta:'Un retrato realista de una persona, donde se reconoce su cara, es una forma...', correcta:'Figurativa', opts:['No figurativa (abstracta)','Transparente','Simétrica'] },
 ];
 
 export function genLenguajeVisual4Round(){
@@ -289,7 +289,7 @@ export function genLenguajeVisual4Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: 'La <b>línea de contorno</b> es la línea que marca el borde de una figura, separándola del fondo y definiendo claramente su forma — es lo primero que suele dibujarse al bosquejar un objeto. Un mismo color puede variar de dos formas distintas: el <b>tono</b> (qué tan claro u oscuro es, según se le agregue blanco o negro) y el <b>matiz</b> (la variación específica dentro de ese color, como un rojo más anaranjado o más violeta). Una obra también se puede clasificar según qué tan reconocible es lo que representa: una forma <b>figurativa</b> muestra algo identificable del mundo real (un gato, una casa), mientras que una forma <b>no figurativa</b> (o abstracta) es un patrón de líneas y colores que no representa nada concreto.',
   };
 }
@@ -312,12 +312,12 @@ export const ARTES_MODULES_G5 = [
 export const ARTES_POS_G5 = [{x:50,y:50}];
 
 const COLOR_COMPLEMENTARIO_BANK = [
-  { color:'ROJO', complementario:'VERDE' }, { color:'AZUL', complementario:'NARANJO' }, { color:'AMARILLO', complementario:'MORADO' },
+  { color:'Rojo', complementario:'Verde' }, { color:'Azul', complementario:'Naranjo' }, { color:'Amarillo', complementario:'Morado' },
 ];
 const FORMAS_CERRADAS_BANK = [
-  { id:'circulo', label:'CÍRCULO' }, { id:'cuadrado', label:'CUADRADO' },
-  { id:'triangulo', label:'TRIÁNGULO' }, { id:'rombo', label:'ROMBO' },
-  { id:'hexagono', label:'HEXÁGONO' },
+  { id:'circulo', label:'Círculo' }, { id:'cuadrado', label:'Cuadrado' },
+  { id:'triangulo', label:'Triángulo' }, { id:'rombo', label:'Rombo' },
+  { id:'hexagono', label:'Hexágono' },
 ];
 const FORMAS_ABIERTAS_DESC = [
   'Una línea en zigzag que nunca se junta consigo misma, sin encerrar ningún espacio.',
@@ -326,17 +326,17 @@ const FORMAS_ABIERTAS_DESC = [
   'Una línea en espiral que nunca termina de cerrarse sobre sí misma.',
 ];
 const LUZ_SOMBRA_BANK = [
-  { pregunta:'¿Para qué se usa la sombra al dibujar un objeto redondo, como una pelota?', correcta:'PARA DARLE SENSACIÓN DE VOLUMEN Y PROFUNDIDAD', opts:['PARA BORRAR EL DIBUJO','PARA CAMBIAR SU FORMA REAL','PARA QUITARLE COLOR AL DIBUJO'] },
-  { pregunta:'¿Qué es la "sombra propia" de un objeto?', correcta:'LA PARTE DEL OBJETO QUE NO RECIBE LUZ DIRECTA', opts:['LA SOMBRA QUE EL OBJETO PROYECTA EN EL SUELO','EL COLOR ORIGINAL DEL OBJETO','EL BRILLO MÁS CLARO DEL OBJETO'] },
-  { pregunta:'¿Qué es la "sombra proyectada" de un objeto?', correcta:'LA SOMBRA QUE EL OBJETO ARROJA SOBRE OTRA SUPERFICIE, COMO EL SUELO', opts:['LA PARTE MÁS OSCURA DEL PROPIO OBJETO','EL COLOR MÁS BRILLANTE DEL OBJETO','LA FORMA EXACTA DEL OBJETO'] },
-  { pregunta:'Si la luz viene de un solo lado de un objeto, ¿qué ocurre en el lado opuesto?', correcta:'SE FORMA UNA ZONA DE SOMBRA', opts:['SE FORMA UN BRILLO MÁS INTENSO','EL OBJETO CAMBIA DE COLOR POR COMPLETO','NO OCURRE NINGÚN CAMBIO VISUAL'] },
+  { pregunta:'¿Para qué se usa la sombra al dibujar un objeto redondo, como una pelota?', correcta:'Para darle sensación de volumen y profundidad', opts:['Para borrar el dibujo','Para cambiar su forma real','Para quitarle color al dibujo'] },
+  { pregunta:'¿Qué es la "sombra propia" de un objeto?', correcta:'La parte del objeto que no recibe luz directa', opts:['La sombra que el objeto proyecta en el suelo','El color original del objeto','El brillo más claro del objeto'] },
+  { pregunta:'¿Qué es la "sombra proyectada" de un objeto?', correcta:'La sombra que el objeto arroja sobre otra superficie, como el suelo', opts:['La parte más oscura del propio objeto','El color más brillante del objeto','La forma exacta del objeto'] },
+  { pregunta:'Si la luz viene de un solo lado de un objeto, ¿qué ocurre en el lado opuesto?', correcta:'Se forma una zona de sombra', opts:['Se forma un brillo más intenso','El objeto cambia de color por completo','No ocurre ningún cambio visual'] },
 ];
 export function genLenguajeVisual5Round(){
   const recurso = 'En el <b>círculo cromático</b>, cada color tiene un <b>color complementario</b> justo enfrente (como el rojo y el verde, o el azul y el naranjo) — al ponerlos juntos se resaltan mutuamente con mucho contraste. Una forma es <b>cerrada</b> cuando su línea vuelve al punto donde comenzó, encerrando un espacio (como un círculo o un cuadrado); es <b>abierta</b> cuando la línea no se junta consigo misma. La <b>luz y la sombra</b> le dan volumen a un dibujo: la sombra propia está en el objeto mismo (el lado que no recibe luz), y la sombra proyectada es la que el objeto arroja sobre la superficie donde está apoyado.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(COLOR_COMPLEMENTARIO_BANK);
-    const todos = ['VERDE','NARANJO','MORADO','ROJO','AZUL','AMARILLO'];
+    const todos = ['Verde','Naranjo','Morado','Rojo','Azul','Amarillo'];
     const distract = shuffle(todos.filter(function(c){ return c!==item.complementario; })).slice(0,3);
     const opts = shuffle([item.complementario].concat(distract)).map(function(c){ return {label:c, value:c}; });
     return {
@@ -346,7 +346,7 @@ export function genLenguajeVisual5Round(){
     };
   }
   if(roll<0.67){
-    const opts = shuffle([{label:'FORMA CERRADA', value:true},{label:'FORMA ABIERTA', value:false}]);
+    const opts = shuffle([{label:'Forma cerrada', value:true},{label:'Forma abierta', value:false}]);
     if(Math.random()<0.5){
       const item = pick(FORMAS_CERRADAS_BANK);
       return {
@@ -367,7 +367,7 @@ export function genLenguajeVisual5Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+    explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
   };
 }
 
@@ -390,30 +390,30 @@ export const ARTES_MODULES_G6 = [
 export const ARTES_POS_G6 = [{x:50,y:50}];
 
 const GAMA_COLOR_BANK = [
-  { desc:'Una pintura usa solo tonos de rojo, naranjo y amarillo, dando una sensación cálida y energética', gama:'GAMA CÁLIDA' },
-  { desc:'Un afiche usa solo tonos de azul, verde y morado, dando una sensación fresca y calmada', gama:'GAMA FRÍA' },
-  { desc:'Un cuadro combina distintos tonos de un mismo color, como varios tonos de azul, del más claro al más oscuro', gama:'MONOCROMÁTICA' },
-  { desc:'Un mural usa solo tonos de amarillo, naranjo y rojo intenso para transmitir el calor de un atardecer', gama:'GAMA CÁLIDA' },
-  { desc:'Una ilustración de un paisaje invernal usa solo tonos de celeste, azul y blanco grisáceo', gama:'GAMA FRÍA' },
-  { desc:'Un dibujo usa distintos tonos de verde, desde uno muy claro hasta uno muy oscuro, para representar un bosque', gama:'MONOCROMÁTICA' },
+  { desc:'Una pintura usa solo tonos de rojo, naranjo y amarillo, dando una sensación cálida y energética', gama:'Gama cálida' },
+  { desc:'Un afiche usa solo tonos de azul, verde y morado, dando una sensación fresca y calmada', gama:'Gama fría' },
+  { desc:'Un cuadro combina distintos tonos de un mismo color, como varios tonos de azul, del más claro al más oscuro', gama:'Monocromática' },
+  { desc:'Un mural usa solo tonos de amarillo, naranjo y rojo intenso para transmitir el calor de un atardecer', gama:'Gama cálida' },
+  { desc:'Una ilustración de un paisaje invernal usa solo tonos de celeste, azul y blanco grisáceo', gama:'Gama fría' },
+  { desc:'Un dibujo usa distintos tonos de verde, desde uno muy claro hasta uno muy oscuro, para representar un bosque', gama:'Monocromática' },
 ];
 const CONTRASTE_COLOR_BANK = [
-  { desc:'Una ilustración combina un fondo muy oscuro con una figura muy clara, para que resalte con fuerza', tipo:'CONTRASTE CLARO-OSCURO' },
-  { desc:'Un diseño combina rojo y verde, dos colores que están justo enfrente en el círculo cromático, para resaltar ambos al máximo', tipo:'CONTRASTE DE COMPLEMENTARIOS' },
-  { desc:'Un afiche usa letras blancas sobre un fondo negro, para que el texto se lea con claridad a la distancia', tipo:'CONTRASTE CLARO-OSCURO' },
-  { desc:'Un logo combina azul y naranjo, dos colores opuestos en el círculo cromático, para que ambos se vean más intensos', tipo:'CONTRASTE DE COMPLEMENTARIOS' },
+  { desc:'Una ilustración combina un fondo muy oscuro con una figura muy clara, para que resalte con fuerza', tipo:'Contraste claro-oscuro' },
+  { desc:'Un diseño combina rojo y verde, dos colores que están justo enfrente en el círculo cromático, para resaltar ambos al máximo', tipo:'Contraste de complementarios' },
+  { desc:'Un afiche usa letras blancas sobre un fondo negro, para que el texto se lea con claridad a la distancia', tipo:'Contraste claro-oscuro' },
+  { desc:'Un logo combina azul y naranjo, dos colores opuestos en el círculo cromático, para que ambos se vean más intensos', tipo:'Contraste de complementarios' },
 ];
 const VOLUMEN_LLENO_VACIO_BANK = [
-  { desc:'Una escultura de greda tiene partes sólidas y partes con huecos o espacios abiertos que dejan ver a través de ella', pregunta:'¿Cómo se llaman esas dos partes en el lenguaje del volumen?', correcta:'LLENO (SÓLIDO) Y VACÍO (ESPACIO ABIERTO)', opts:['CLARO Y OSCURO SOLAMENTE','CÁLIDO Y FRÍO SOLAMENTE','GRANDE Y PEQUEÑO SOLAMENTE'] },
-  { desc:'Al modelar una figura en arcilla, la parte de material que ocupa espacio se llama "lleno", y el hueco o espacio que queda alrededor o dentro se llama "vacío"', pregunta:'¿Por qué es importante el "vacío" en una escultura, y no solo el "lleno"?', correcta:'PORQUE EL ESPACIO VACÍO TAMBIÉN FORMA PARTE DE LA COMPOSICIÓN VISUAL DE LA OBRA', opts:['PORQUE EL VACÍO NUNCA SE CONSIDERA PARTE DE LA OBRA','PORQUE LAS ESCULTURAS SIEMPRE DEBEN SER TOTALMENTE SÓLIDAS','PORQUE EL VACÍO ARRUINA CUALQUIER ESCULTURA'] },
-  { desc:'Una escultura de madera calada (con agujeros a propósito) deja ver el espacio detrás de ella a través de sus huecos', pregunta:'¿Qué parte de la escultura representa el "vacío"?', correcta:'LOS HUECOS QUE DEJAN VER A TRAVÉS DE LA ESCULTURA', opts:['LA MADERA SÓLIDA QUE FORMA LA FIGURA','EL COLOR DE LA MADERA','LA BASE QUE SOSTIENE LA ESCULTURA'] },
+  { desc:'Una escultura de greda tiene partes sólidas y partes con huecos o espacios abiertos que dejan ver a través de ella', pregunta:'¿Cómo se llaman esas dos partes en el lenguaje del volumen?', correcta:'Lleno (sólido) y vacío (espacio abierto)', opts:['Claro y oscuro solamente','Cálido y frío solamente','Grande y pequeño solamente'] },
+  { desc:'Al modelar una figura en arcilla, la parte de material que ocupa espacio se llama "lleno", y el hueco o espacio que queda alrededor o dentro se llama "vacío"', pregunta:'¿Por qué es importante el "vacío" en una escultura, y no solo el "lleno"?', correcta:'Porque el espacio vacío también forma parte de la composición visual de la obra', opts:['Porque el vacío nunca se considera parte de la obra','Porque las esculturas siempre deben ser totalmente sólidas','Porque el vacío arruina cualquier escultura'] },
+  { desc:'Una escultura de madera calada (con agujeros a propósito) deja ver el espacio detrás de ella a través de sus huecos', pregunta:'¿Qué parte de la escultura representa el "vacío"?', correcta:'Los huecos que dejan ver a través de la escultura', opts:['La madera sólida que forma la figura','El color de la madera','La base que sostiene la escultura'] },
 ];
 export function genLenguajeVisual6Round(){
   const recurso = 'Una <b>gama de color</b> es un conjunto de colores emparentados que da una sensación general a una obra: cálida (rojos, naranjos, amarillos), fría (azules, verdes, morados) o monocromática (tonos distintos de un mismo color). El <b>contraste</b> resalta elementos al ponerlos en oposición: claro-oscuro (para que algo destaque con fuerza) o de complementarios (colores opuestos en el círculo cromático, que se intensifican mutuamente). Y en escultura, el <b>volumen</b> se describe con "lleno" (la parte sólida) y "vacío" (los huecos o espacios abiertos) — ambos forman parte de la composición visual de la obra, no solo el material sólido.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(GAMA_COLOR_BANK);
-    const todos = ['GAMA CÁLIDA','GAMA FRÍA','MONOCROMÁTICA'];
+    const todos = ['Gama cálida','Gama fría','Monocromática'];
     const distract = todos.filter(function(g){ return g!==item.gama; });
     const opts = shuffle([item.gama].concat(distract)).map(function(g){ return {label:g, value:g}; });
     return {
@@ -424,8 +424,8 @@ export function genLenguajeVisual6Round(){
   }
   if(roll<0.67){
     const item = pick(CONTRASTE_COLOR_BANK);
-    const otroTipo = ['CONTRASTE CLARO-OSCURO','CONTRASTE DE COMPLEMENTARIOS'].filter(function(t){ return t!==item.tipo; })[0];
-    const opts = shuffle([item.tipo, otroTipo, 'SIN NINGÚN CONTRASTE']).map(function(t){ return {label:t, value:t}; });
+    const otroTipo = ['Contraste claro-oscuro','Contraste de complementarios'].filter(function(t){ return t!==item.tipo; })[0];
+    const opts = shuffle([item.tipo, otroTipo, 'Sin ningún contraste']).map(function(t){ return {label:t, value:t}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué tipo de contraste se usa aquí?</p>',
       options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, panel:true,
@@ -437,7 +437,7 @@ export function genLenguajeVisual6Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+    explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
   };
 }
 
@@ -455,18 +455,18 @@ export const ARTES_MODULES_G7 = [
 export const ARTES_POS_G7 = [{x:50,y:50}];
 
 const ESPACIOS_DIFUSION_BANK = [
-  { desc:'Un edificio que conserva y exhibe colecciones de obras de arte, muchas veces antiguas o históricas, para que el público las visite', correcta:'MUSEO', opts:['GALERÍA', 'MURAL', 'TALLER DE ARTISTA'] },
-  { desc:'Un local más pequeño que un museo, donde se exhiben y también se venden obras de artistas, muchas veces contemporáneos', correcta:'GALERÍA', opts:['MUSEO', 'BIBLIOTECA', 'TEATRO'] },
-  { desc:'Una obra de gran tamaño pintada directamente sobre una pared o muro, visible para cualquiera que pase por ese lugar', correcta:'MURAL (ARTE PÚBLICO)', opts:['MUSEO', 'GALERÍA', 'ESCULTURA DE INTERIOR'] },
-  { desc:'Un espacio en una plaza o calle donde se instala una escultura para que toda la comunidad pueda verla libremente', correcta:'ESPACIO PÚBLICO', opts:['UN MUSEO CON ENTRADA PAGADA', 'UNA GALERÍA PRIVADA', 'EL TALLER PERSONAL DE UN ARTISTA'] },
-  { desc:'Un centro cultural organiza una exposición temporal de fotografía, abierta al público durante solo un par de meses', correcta:'GALERÍA', opts:['MUSEO', 'MURAL (ARTE PÚBLICO)', 'ESPACIO PÚBLICO'] },
-  { desc:'Un edificio patrimonial exhibe de forma permanente una colección de pinturas de hace más de cien años', correcta:'MUSEO', opts:['GALERÍA', 'MURAL (ARTE PÚBLICO)', 'ESPACIO PÚBLICO'] },
+  { desc:'Un edificio que conserva y exhibe colecciones de obras de arte, muchas veces antiguas o históricas, para que el público las visite', correcta:'Museo', opts:['Galería', 'Mural', 'Taller de artista'] },
+  { desc:'Un local más pequeño que un museo, donde se exhiben y también se venden obras de artistas, muchas veces contemporáneos', correcta:'Galería', opts:['Museo', 'Biblioteca', 'Teatro'] },
+  { desc:'Una obra de gran tamaño pintada directamente sobre una pared o muro, visible para cualquiera que pase por ese lugar', correcta:'Mural (arte público)', opts:['Museo', 'Galería', 'Escultura de interior'] },
+  { desc:'Un espacio en una plaza o calle donde se instala una escultura para que toda la comunidad pueda verla libremente', correcta:'Espacio público', opts:['Un museo con entrada pagada', 'Una galería privada', 'El taller personal de un artista'] },
+  { desc:'Un centro cultural organiza una exposición temporal de fotografía, abierta al público durante solo un par de meses', correcta:'Galería', opts:['Museo', 'Mural (arte público)', 'Espacio público'] },
+  { desc:'Un edificio patrimonial exhibe de forma permanente una colección de pinturas de hace más de cien años', correcta:'Museo', opts:['Galería', 'Mural (arte público)', 'Espacio público'] },
 ];
 const FUNCION_SOCIAL_ESPACIOS_BANK = [
-  { pregunta:'¿Qué diferencia principal hay entre ver una obra en un museo y ver un mural en la calle?', correcta:'EL MURAL ESTÁ AL ALCANCE DE CUALQUIERA QUE PASE POR AHÍ, SIN NECESIDAD DE ENTRAR A UN EDIFICIO', opts:['NO HAY NINGUNA DIFERENCIA ENTRE AMBOS', 'EL MURAL SOLO PUEDE VERSE PAGANDO ENTRADA', 'LOS MUSEOS SIEMPRE ESTÁN AL AIRE LIBRE'] },
-  { pregunta:'¿Por qué el arte en espacios públicos (como un mural o una escultura en una plaza) puede llegar a más personas que el arte en un museo?', correcta:'PORQUE CUALQUIERA QUE TRANSITE POR ESE LUGAR PUEDE VERLO, SIN NECESIDAD DE DECIDIR VISITAR UN MUSEO', opts:['PORQUE LOS MUSEOS ESTÁN SIEMPRE CERRADOS', 'PORQUE EL ARTE PÚBLICO ES SIEMPRE MÁS PEQUEÑO', 'PORQUE NADIE VISITA NUNCA LOS MUSEOS'] },
-  { pregunta:'¿Qué ventaja tiene una galería frente a un museo para un artista que recién comienza su carrera?', correcta:'LA GALERÍA SUELE EXHIBIR Y VENDER OBRAS DE ARTISTAS CONTEMPORÁNEOS, MÁS ACCESIBLE PARA ARTISTAS NUEVOS', opts:['LA GALERÍA NUNCA MUESTRA OBRAS DE ARTISTAS NUEVOS', 'LOS MUSEOS SIEMPRE ACEPTAN A CUALQUIER ARTISTA SIN REQUISITOS', 'NO EXISTE NINGUNA DIFERENCIA ENTRE AMBOS ESPACIOS'] },
-  { pregunta:'¿Por qué algunas comunidades eligen pintar murales en sus barrios en vez de solo exhibir arte en museos?', correcta:'PARA QUE EL ARTE FORME PARTE DE LA VIDA COTIDIANA Y REFLEJE LA IDENTIDAD DEL BARRIO', opts:['PORQUE LOS MUSEOS ESTÁN PROHIBIDOS EN ESA COMUNIDAD', 'PORQUE ES IMPOSIBLE EXHIBIR ARTE DE OTRA FORMA', 'PORQUE LOS MURALES SON SIEMPRE MÁS BARATOS QUE CUALQUIER OTRA OPCIÓN'] },
+  { pregunta:'¿Qué diferencia principal hay entre ver una obra en un museo y ver un mural en la calle?', correcta:'El mural está al alcance de cualquiera que pase por ahí, sin necesidad de entrar a un edificio', opts:['No hay ninguna diferencia entre ambos', 'El mural solo puede verse pagando entrada', 'Los museos siempre están al aire libre'] },
+  { pregunta:'¿Por qué el arte en espacios públicos (como un mural o una escultura en una plaza) puede llegar a más personas que el arte en un museo?', correcta:'Porque cualquiera que transite por ese lugar puede verlo, sin necesidad de decidir visitar un museo', opts:['Porque los museos están siempre cerrados', 'Porque el arte público es siempre más pequeño', 'Porque nadie visita nunca los museos'] },
+  { pregunta:'¿Qué ventaja tiene una galería frente a un museo para un artista que recién comienza su carrera?', correcta:'La galería suele exhibir y vender obras de artistas contemporáneos, más accesible para artistas nuevos', opts:['La galería nunca muestra obras de artistas nuevos', 'Los museos siempre aceptan a cualquier artista sin requisitos', 'No existe ninguna diferencia entre ambos espacios'] },
+  { pregunta:'¿Por qué algunas comunidades eligen pintar murales en sus barrios en vez de solo exhibir arte en museos?', correcta:'Para que el arte forme parte de la vida cotidiana y refleje la identidad del barrio', opts:['Porque los museos están prohibidos en esa comunidad', 'Porque es imposible exhibir arte de otra forma', 'Porque los murales son siempre más baratos que cualquier otra opción'] },
 ];
 export function genEspaciosDifusion7Round(){
   const recurso = 'El arte se difunde de varias formas: un <b>museo</b> exhibe de forma permanente colecciones de valor patrimonial; una <b>galería</b> muestra exposiciones temporales, muchas veces de artistas contemporáneos; un <b>mural</b> es una obra pintada directamente sobre un muro, visible para cualquiera que pase; y el <b>espacio público</b> (una plaza, una calle) permite instalar arte al alcance de toda la comunidad, sin necesidad de entrar a un edificio ni pagar entrada. Cada espacio cumple una función social distinta: el arte público suele llegar a más personas porque no depende de que alguien decida visitarlo.';
@@ -476,7 +476,7 @@ export function genEspaciosDifusion7Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué espacio de difusión del arte es este?</p>',
       options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word', panel:true,
-      explain: 'Esto describe: <b>'+item.correcta.toLowerCase()+'</b>.',
+      explain: 'Esto describe: <b>'+item.correcta+'</b>.',
       recurso: recurso,
     };
   }
@@ -485,8 +485,7 @@ export function genEspaciosDifusion7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
-    recurso: recurso,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',    recurso: recurso,
   };
 }
 
@@ -506,16 +505,16 @@ export const ARTES_MODULES_G8 = [
 export const ARTES_POS_G8 = [{x:50,y:50}];
 
 const MONTAJE_8_BANK = [
-  { pregunta:'¿Qué es el "montaje" de una exposición de artes visuales?', correcta:'LA FORMA EN QUE SE ORGANIZAN Y UBICAN LAS OBRAS EN EL ESPACIO PARA QUE EL PÚBLICO LAS RECORRA', opts:['EL PRECIO DE LAS ENTRADAS','EL TRANSPORTE DE LOS VISITANTES','LA LIMPIEZA DEL EDIFICIO'] },
-  { pregunta:'¿Por qué importa la iluminación al montar una exposición?', correcta:'PORQUE DESTACA CADA OBRA Y PERMITE APRECIAR SUS COLORES Y DETALLES SIN DAÑARLA', opts:['PORQUE LAS OBRAS NECESITAN CALOR PARA CONSERVARSE','SOLO PARA GASTAR MÁS ELECTRICIDAD','NO TIENE NINGUNA IMPORTANCIA'] },
-  { pregunta:'¿Qué función cumple la ficha o cartela junto a una obra en una exposición?', correcta:'INFORMAR TÍTULO, AUTOR, TÉCNICA Y AÑO, AYUDANDO AL PÚBLICO A COMPRENDER LA OBRA', opts:['TAPAR PARTE DE LA OBRA','INDICAR EL PRECIO DE LA CAFETERÍA','DECORAR LA PARED SIN INFORMACIÓN'] },
-  { pregunta:'¿Qué se considera al decidir la altura y distancia entre obras en una sala?', correcta:'LA COMODIDAD VISUAL DEL PÚBLICO Y QUE CADA OBRA TENGA SU PROPIO ESPACIO', opts:['SOLO EL TAMAÑO DE LA PUERTA DE ENTRADA','EL COLOR DEL TECHO','NADA: SE CUELGAN AL AZAR'] },
-  { pregunta:'¿En qué se diferencia el montaje de una instalación artística del de un cuadro tradicional?', correcta:'LA INSTALACIÓN OCUPA EL ESPACIO COMPLETO Y EL PÚBLICO PUEDE RECORRERLA O RODEARLA', opts:['NO EXISTE NINGUNA DIFERENCIA','LAS INSTALACIONES SOLO SE CUELGAN EN MUROS','LOS CUADROS SIEMPRE SE PONEN EN EL SUELO'] },
-  { pregunta:'¿Qué aporta a su comunidad un espacio de difusión del arte, como un centro cultural de barrio?', correcta:'ACERCA EL ARTE A LOS VECINOS Y OFRECE UN LUGAR DE ENCUENTRO Y EXPRESIÓN', opts:['SOLO OCUPA ESPACIO SIN NINGÚN APORTE','REEMPLAZA A LAS ESCUELAS','IMPIDE OTRAS ACTIVIDADES DEL BARRIO'] },
-  { pregunta:'¿Por qué una exposición virtual (en línea) amplía el público de una muestra de arte?', correcta:'PORQUE PERSONAS DE CUALQUIER LUGAR PUEDEN VISITARLA SIN VIAJAR', opts:['PORQUE ELIMINA LAS OBRAS ORIGINALES','PORQUE SOLO LA VEN LOS ARTISTAS','PORQUE FUNCIONA ÚNICAMENTE DE NOCHE'] },
-  { pregunta:'¿Qué conviene considerar sobre el público al planificar una exposición?', correcta:'QUIÉNES LA VISITARÁN, PARA ADAPTAR RECORRIDO, TEXTOS Y ACTIVIDADES A ESE PÚBLICO', opts:['NADA: TODOS LOS PÚBLICOS SON IDÉNTICOS','SOLO SU ESTATURA','QUE NO ENTRE NADIE'] },
-  { pregunta:'¿Qué medio de expresión contemporáneo puede requerir pantallas y sonido en su montaje?', correcta:'EL VIDEOARTE', opts:['LA ACUARELA TRADICIONAL','EL DIBUJO A LÁPIZ','LA GREDA SIN COCER'] },
-  { pregunta:'¿Qué diferencia hay entre exponer en un museo y en el espacio público, pensando en el montaje?', correcta:'EN EL ESPACIO PÚBLICO LAS OBRAS DEBEN RESISTIR CLIMA Y USO COTIDIANO, Y EL PÚBLICO LLEGA SIN PLANEARLO', opts:['NO HAY NINGUNA DIFERENCIA DE MONTAJE','EN LA CALLE LAS OBRAS NO NECESITAN INSTALARSE','LOS MUSEOS NO REQUIEREN NINGÚN CUIDADO'] },
+  { pregunta:'¿Qué es el "montaje" de una exposición de artes visuales?', correcta:'La forma en que se organizan y ubican las obras en el espacio para que el público las recorra', opts:['El precio de las entradas','El transporte de los visitantes','La limpieza del edificio'] },
+  { pregunta:'¿Por qué importa la iluminación al montar una exposición?', correcta:'Porque destaca cada obra y permite apreciar sus colores y detalles sin dañarla', opts:['Porque las obras necesitan calor para conservarse','Solo para gastar más electricidad','No tiene ninguna importancia'] },
+  { pregunta:'¿Qué función cumple la ficha o cartela junto a una obra en una exposición?', correcta:'Informar título, autor, técnica y año, ayudando al público a comprender la obra', opts:['Tapar parte de la obra','Indicar el precio de la cafetería','Decorar la pared sin información'] },
+  { pregunta:'¿Qué se considera al decidir la altura y distancia entre obras en una sala?', correcta:'La comodidad visual del público y que cada obra tenga su propio espacio', opts:['Solo el tamaño de la puerta de entrada','El color del techo','Nada: se cuelgan al azar'] },
+  { pregunta:'¿En qué se diferencia el montaje de una instalación artística del de un cuadro tradicional?', correcta:'La instalación ocupa el espacio completo y el público puede recorrerla o rodearla', opts:['No existe ninguna diferencia','Las instalaciones solo se cuelgan en muros','Los cuadros siempre se ponen en el suelo'] },
+  { pregunta:'¿Qué aporta a su comunidad un espacio de difusión del arte, como un centro cultural de barrio?', correcta:'Acerca el arte a los vecinos y ofrece un lugar de encuentro y expresión', opts:['Solo ocupa espacio sin ningún aporte','Reemplaza a las escuelas','Impide otras actividades del barrio'] },
+  { pregunta:'¿Por qué una exposición virtual (en línea) amplía el público de una muestra de arte?', correcta:'Porque personas de cualquier lugar pueden visitarla sin viajar', opts:['Porque elimina las obras originales','Porque solo la ven los artistas','Porque funciona únicamente de noche'] },
+  { pregunta:'¿Qué conviene considerar sobre el público al planificar una exposición?', correcta:'Quiénes la visitarán, para adaptar recorrido, textos y actividades a ese público', opts:['Nada: todos los públicos son idénticos','Solo su estatura','Que no entre nadie'] },
+  { pregunta:'¿Qué medio de expresión contemporáneo puede requerir pantallas y sonido en su montaje?', correcta:'El videoarte', opts:['La acuarela tradicional','El dibujo a lápiz','La greda sin cocer'] },
+  { pregunta:'¿Qué diferencia hay entre exponer en un museo y en el espacio público, pensando en el montaje?', correcta:'En el espacio público las obras deben resistir clima y uso cotidiano, y el público llega sin planearlo', opts:['No hay ninguna diferencia de montaje','En la calle las obras no necesitan instalarse','Los museos no requieren ningún cuidado'] },
 ];
 export function genMontajeDifusion8Round(){
   const recurso = 'El <b>montaje</b> de una exposición es la forma en que se organizan y ubican las obras en el espacio para que el público las recorra bien: incluye decidir la iluminación (que destaca cada obra sin dañarla), la altura y distancia entre piezas (para que cada una tenga su propio espacio), y las fichas o cartelas que informan título, autor, técnica y año. Los <b>espacios de difusión del arte</b> —museos, galerías, murales o centros culturales— cumplen distintas funciones sociales: acercan el arte a la comunidad, ofrecen un lugar de encuentro, y cada tipo de espacio (una sala cerrada, el espacio público, una plataforma virtual) exige adaptar el montaje a sus propias condiciones, como el clima si es al aire libre o el alcance si es en línea.';
@@ -524,7 +523,6 @@ export function genMontajeDifusion8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
-    recurso: recurso,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',    recurso: recurso,
   };
 }

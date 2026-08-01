@@ -3296,3 +3296,47 @@ sesión).
     descripción en oración normal, confirmando que el fix del diccionario de
     excepciones funciona. Sin errores de consola en ningún caso. Próximo paso
     del mismo pedido: `tecnologia.js` (38 alternativas).
+- **`tecnologia.js` en oración normal (2026-08-01, octavo archivo del rollout tras
+  `historia.js`/`ciencias.js`/`lenguaje.js`/`ingles.js`/`edfisica.js`/`artes.js`/
+  `musica.js`):** mismo pedido, mismo criterio ("procede"). El conteo real fue de
+  solo 50 cadenas ALL-CAPS (menos que la estimación original de 38... en realidad
+  más, ya que la estimación subestimaba `ANALISIS_SOLUCIONES_8_BANK`), repartidas
+  en 3 lugares: `HERRAMIENTAS_TEC`/`MATERIALES_TEC` (1° básico, 10 labels de
+  herramienta/material) y `ANALISIS_SOLUCIONES_8_BANK` (8° básico, 10 ítems ×
+  4 = 40 strings de correcta/opts). El resto de los bancos del archivo
+  (`TEC_DIGITAL_BANK` 2°-6°, `IMPACTO_TECNOLOGICO_7_BANK`) ya estaban en oración
+  normal desde su construcción original — no necesitaron ningún cambio.
+  - **Archivo chico, sin script de PowerShell:** dado el volumen reducido (50
+    cadenas en 2 bancos), se convirtió a mano vía `Edit` en vez de escribir un
+    script de conversión — evitando por completo el riesgo de los bugs de
+    metodología de PowerShell ya documentados (case-insensitividad de
+    `-match`/BOM de `.ps1`), ya que no se necesitó ningún script para un
+    volumen tan acotado. El pre-escaneo (`grep` de cadenas vacías, claves
+    ALL-CAPS sin comillas, `toUpperCase`, ternarios ALL-CAPS, llamadas a
+    helpers de `svg.js`) confirmó que ninguno de los patrones de bug ya
+    documentados aplica a este archivo: 0 cadenas vacías, 0 claves de objeto
+    ALL-CAPS, 0 `toUpperCase()`, 0 ternarios de énfasis, y 0 llamadas a
+    helpers compartidos (`svg.js`) desde este archivo.
+  - Los 2 usos de `.toLowerCase()` en `genHerramientasTecRound` (`'Esa
+    herramienta es <b>'+item.label.toLowerCase()+'</b>.'` / `'Ese material es
+    <b>'+item.label.toLowerCase()+'</b>.'`) se dejaron intactos — mismo
+    criterio que "Ese timbre corresponde al X" en `musica.js` (mid-sentence,
+    nombrando el ítem específico dentro de una oración ya empezada, no una
+    cita tipo "La respuesta correcta es"). Los 2 usos en
+    `genSolucionesTecnologicas7Round`/`genAnalisisSoluciones8Round`
+    (`'La respuesta correcta es: '+item.correcta.toLowerCase()+'.'`) sí se
+    corrigieron quitando `.toLowerCase()`, mismo patrón literal ya establecido
+    en los 7 archivos anteriores.
+  - Verificado: los 8 generadores pasan fuzz de 300 iteraciones cada uno (sin
+    `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue` siempre
+    presente, sin apóstrofes en `speakText`). Grep dedicado confirmó 0 cadenas
+    de 2+ letras en mayúscula sostenida remanentes. `MC_KEYS.length ===
+    Object.keys(MC_GAMES).length === 324` (regresión de wiring intacta).
+    Probado visualmente en el navegador: módulo "Herramientas y Materiales"
+    (1° básico) con alternativas "Hilo y aguja"/"Regla"/"Pegamento"/"Tijera"
+    en oración normal, una ronda jugada completa (respuesta incorrecta mostró
+    el overlay "Sirve para medir y trazar líneas rectas. Esa herramienta es
+    regla." con capitalización correcta); módulo "Análisis de Soluciones
+    Tecnológicas" (8° básico) con las 4 alternativas en oración normal. Sin
+    errores de consola en ningún caso. Próximo paso del mismo pedido:
+    `orientacion.js` (36 alternativas).

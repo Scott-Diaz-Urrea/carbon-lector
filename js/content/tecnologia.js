@@ -10,21 +10,21 @@ export const TECNOLOGIA_POS = [{x:48,y:50}];
    de resultados, uso de software real) quedaron fuera por ser procesos prácticos
    que no se resuelven con una pregunta de opción múltiple. */
 const HERRAMIENTAS_TEC = [
-  { emoji:'✂️', label:'TIJERA', uso:'Sirve para cortar papel, cartón o telas.' },
-  { emoji:'📏', label:'REGLA', uso:'Sirve para medir y trazar líneas rectas.' },
-  { emoji:'🧴', label:'PEGAMENTO', uso:'Sirve para unir y pegar materiales.' },
-  { emoji:'🖊️', label:'LÁPIZ O PLUMÓN', uso:'Sirve para marcar o dibujar sobre el material.' },
-  { emoji:'🧵', label:'HILO Y AGUJA', uso:'Sirve para coser o unir telas.' },
-  { emoji:'🔨', label:'MARTILLO', uso:'Sirve para clavar o unir piezas de madera.' },
+  { emoji:'✂️', label:'Tijera', uso:'Sirve para cortar papel, cartón o telas.' },
+  { emoji:'📏', label:'Regla', uso:'Sirve para medir y trazar líneas rectas.' },
+  { emoji:'🧴', label:'Pegamento', uso:'Sirve para unir y pegar materiales.' },
+  { emoji:'🖊️', label:'Lápiz o plumón', uso:'Sirve para marcar o dibujar sobre el material.' },
+  { emoji:'🧵', label:'Hilo y aguja', uso:'Sirve para coser o unir telas.' },
+  { emoji:'🔨', label:'Martillo', uso:'Sirve para clavar o unir piezas de madera.' },
 ];
 /* "CARTÓN" usaba 🧻 (un rollo de papel higiénico/toalla de papel, sin
    relación con el cartón) → 📦 (una caja), ya que las cajas de cartón son
    el ejemplo que el propio texto menciona. */
 const MATERIALES_TEC = [
-  { emoji:'📄', label:'PAPEL', uso:'Material liviano que se usa para dibujar, doblar o recortar.' },
-  { emoji:'📦', label:'CARTÓN', uso:'Material firme, útil para construir maquetas y cajas.' },
-  { emoji:'🧶', label:'FIBRAS O LANA', uso:'Material que sirve para tejer o decorar.' },
-  { emoji:'♻️', label:'MATERIAL DE RECICLAJE', uso:'Botellas, tapas o cajas que se reutilizan para crear objetos nuevos.' },
+  { emoji:'📄', label:'Papel', uso:'Material liviano que se usa para dibujar, doblar o recortar.' },
+  { emoji:'📦', label:'Cartón', uso:'Material firme, útil para construir maquetas y cajas.' },
+  { emoji:'🧶', label:'Fibras o lana', uso:'Material que sirve para tejer o decorar.' },
+  { emoji:'♻️', label:'Material de reciclaje', uso:'Botellas, tapas o cajas que se reutilizan para crear objetos nuevos.' },
 ];
 
 /* ---------------- Contenido Tecnología 2° Básico ----------------
@@ -271,7 +271,7 @@ export function genSolucionesTecnologicas7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
@@ -292,16 +292,16 @@ export const TECNOLOGIA_MODULES_G8 = [
 export const TECNOLOGIA_POS_G8 = [{x:48,y:50}];
 
 const ANALISIS_SOLUCIONES_8_BANK = [
-  { pregunta:'Al analizar una aplicación de transporte, ¿qué significa considerar a sus "usuarios"?', correcta:'ESTUDIAR QUIÉNES LA USAN, QUÉ NECESITAN Y SI LA SOLUCIÓN RESPONDE BIEN A ESAS NECESIDADES', opts:['CONTAR SOLO CUÁNTO DINERO GENERA','MIRAR ÚNICAMENTE SU LOGOTIPO','IGNORAR A LAS PERSONAS QUE LA USAN'] },
-  { pregunta:'Una silla de ruedas motorizada resuelve una necesidad de movilidad. ¿Qué aspecto TÉCNICO conviene analizar?', correcta:'SU AUTONOMÍA DE BATERÍA, PESO, MATERIALES Y FACILIDAD DE MANTENCIÓN', opts:['EL COLOR FAVORITO DEL VENDEDOR','LA MÚSICA QUE SUENA EN LA TIENDA','NINGÚN ASPECTO TÉCNICO'] },
-  { pregunta:'Una aplicación gratuita muestra publicidad usando los datos personales de sus usuarios. ¿Qué perspectiva de análisis levanta preguntas aquí?', correcta:'LA PERSPECTIVA ÉTICA: SI LOS USUARIOS SABEN Y ACEPTAN CÓMO SE USAN SUS DATOS', opts:['SOLO LA PERSPECTIVA DEL DISEÑO GRÁFICO','NINGUNA: LOS DATOS PERSONALES NO IMPORTAN','LA PERSPECTIVA DEL CLIMA'] },
-  { pregunta:'Un envase biodegradable cuesta un poco más que uno plástico tradicional. ¿Qué implica evaluarlo desde la perspectiva ambiental?', correcta:'CONSIDERAR SU IMPACTO COMPLETO: MATERIALES, DEGRADACIÓN Y RESIDUOS QUE GENERA', opts:['MIRAR SOLO EL PRECIO DE VENTA','ELEGIR SIEMPRE EL MÁS BARATO SIN ANÁLISIS','IGNORAR QUÉ PASA CON EL ENVASE DESPUÉS DE USARLO'] },
-  { pregunta:'Un municipio evalúa instalar bicicletas públicas compartidas. ¿Qué aspecto FUNCIONAL debería analizar?', correcta:'SI EL SISTEMA REALMENTE FUNCIONA PARA TRASLADARSE: ESTACIONES, DISPONIBILIDAD Y ESTADO DE LAS BICICLETAS', opts:['EL NOMBRE DEL ALCALDE','LA MARCA DE LOS CANDADOS ÚNICAMENTE','SI LAS BICICLETAS SON BONITAS EN FOTOS'] },
-  { pregunta:'Al comparar dos soluciones para potabilizar agua en zonas rurales, ¿qué análisis es más completo?', correcta:'COMPARAR COSTO, MANTENCIÓN, FACILIDAD DE USO PARA LA COMUNIDAD Y EFECTO AMBIENTAL DE CADA UNA', opts:['ELEGIR LA QUE TENGA EL NOMBRE MÁS MODERNO','MIRAR SOLO CUÁL SE VE MÁS TECNOLÓGICA','DESCARTAR AMBAS SIN ANALIZARLAS'] },
-  { pregunta:'Una red social lanza una función que fomenta pasar más horas conectado. ¿Qué pregunta ética cabe hacerse?', correcta:'SI LA FUNCIÓN RESPETA EL BIENESTAR DE LOS USUARIOS O SOLO BUSCA RETENERLOS MÁS TIEMPO', opts:['SI LOS ÍCONOS SON REDONDOS O CUADRADOS','NINGUNA: LAS FUNCIONES NUEVAS SIEMPRE SON BUENAS','SI EL NOMBRE DE LA FUNCIÓN ES PEGAJOSO'] },
-  { pregunta:'Los audífonos con reducción de ruido ayudan a concentrarse, pero usarlos al cruzar la calle reduce la percepción del entorno. ¿Qué muestra este análisis?', correcta:'QUE UNA MISMA SOLUCIÓN PUEDE SER POSITIVA O RIESGOSA SEGÚN EL CONTEXTO DE USO', opts:['QUE LOS AUDÍFONOS SON SIEMPRE PELIGROSOS','QUE LOS AUDÍFONOS NO TIENEN NINGÚN RIESGO','QUE EL CONTEXTO DE USO NO IMPORTA'] },
-  { pregunta:'Una empresa presenta su nueva máquina como "totalmente ecológica" sin entregar ningún dato. ¿Qué corresponde hacer al analizarla?', correcta:'PEDIR EVIDENCIA VERIFICABLE ANTES DE ACEPTAR LA AFIRMACIÓN', opts:['CREER LA AFIRMACIÓN PORQUE SUENA BIEN','DESCARTAR TODA LA TECNOLOGÍA DE LA EMPRESA','COMPRARLA DE INMEDIATO'] },
-  { pregunta:'¿Por qué conviene incluir a los propios usuarios al evaluar una solución tecnológica ya implementada?', correcta:'PORQUE SU EXPERIENCIA REAL REVELA PROBLEMAS Y MEJORAS QUE EL DISEÑO ORIGINAL NO PREVIÓ', opts:['PORQUE ASÍ SE EVITA TENER QUE MEJORAR NADA','NO CONVIENE: LOS USUARIOS NUNCA APORTAN','PORQUE LOS USUARIOS DEBEN PAGAR MÁS'] },
+  { pregunta:'Al analizar una aplicación de transporte, ¿qué significa considerar a sus "usuarios"?', correcta:'Estudiar quiénes la usan, qué necesitan y si la solución responde bien a esas necesidades', opts:['Contar solo cuánto dinero genera','Mirar únicamente su logotipo','Ignorar a las personas que la usan'] },
+  { pregunta:'Una silla de ruedas motorizada resuelve una necesidad de movilidad. ¿Qué aspecto TÉCNICO conviene analizar?', correcta:'Su autonomía de batería, peso, materiales y facilidad de mantención', opts:['El color favorito del vendedor','La música que suena en la tienda','Ningún aspecto técnico'] },
+  { pregunta:'Una aplicación gratuita muestra publicidad usando los datos personales de sus usuarios. ¿Qué perspectiva de análisis levanta preguntas aquí?', correcta:'La perspectiva ética: si los usuarios saben y aceptan cómo se usan sus datos', opts:['Solo la perspectiva del diseño gráfico','Ninguna: los datos personales no importan','La perspectiva del clima'] },
+  { pregunta:'Un envase biodegradable cuesta un poco más que uno plástico tradicional. ¿Qué implica evaluarlo desde la perspectiva ambiental?', correcta:'Considerar su impacto completo: materiales, degradación y residuos que genera', opts:['Mirar solo el precio de venta','Elegir siempre el más barato sin análisis','Ignorar qué pasa con el envase después de usarlo'] },
+  { pregunta:'Un municipio evalúa instalar bicicletas públicas compartidas. ¿Qué aspecto FUNCIONAL debería analizar?', correcta:'Si el sistema realmente funciona para trasladarse: estaciones, disponibilidad y estado de las bicicletas', opts:['El nombre del alcalde','La marca de los candados únicamente','Si las bicicletas son bonitas en fotos'] },
+  { pregunta:'Al comparar dos soluciones para potabilizar agua en zonas rurales, ¿qué análisis es más completo?', correcta:'Comparar costo, mantención, facilidad de uso para la comunidad y efecto ambiental de cada una', opts:['Elegir la que tenga el nombre más moderno','Mirar solo cuál se ve más tecnológica','Descartar ambas sin analizarlas'] },
+  { pregunta:'Una red social lanza una función que fomenta pasar más horas conectado. ¿Qué pregunta ética cabe hacerse?', correcta:'Si la función respeta el bienestar de los usuarios o solo busca retenerlos más tiempo', opts:['Si los íconos son redondos o cuadrados','Ninguna: las funciones nuevas siempre son buenas','Si el nombre de la función es pegajoso'] },
+  { pregunta:'Los audífonos con reducción de ruido ayudan a concentrarse, pero usarlos al cruzar la calle reduce la percepción del entorno. ¿Qué muestra este análisis?', correcta:'Que una misma solución puede ser positiva o riesgosa según el contexto de uso', opts:['Que los audífonos son siempre peligrosos','Que los audífonos no tienen ningún riesgo','Que el contexto de uso no importa'] },
+  { pregunta:'Una empresa presenta su nueva máquina como "totalmente ecológica" sin entregar ningún dato. ¿Qué corresponde hacer al analizarla?', correcta:'Pedir evidencia verificable antes de aceptar la afirmación', opts:['Creer la afirmación porque suena bien','Descartar toda la tecnología de la empresa','Comprarla de inmediato'] },
+  { pregunta:'¿Por qué conviene incluir a los propios usuarios al evaluar una solución tecnológica ya implementada?', correcta:'Porque su experiencia real revela problemas y mejoras que el diseño original no previó', opts:['Porque así se evita tener que mejorar nada','No conviene: los usuarios nunca aportan','Porque los usuarios deben pagar más'] },
 ];
 export function genAnalisisSoluciones8Round(){
   const recurso = 'Analizar una <b>solución tecnológica</b> —una aplicación, un dispositivo, un sistema— implica mirarla desde varias perspectivas a la vez. La perspectiva del <b>usuario</b> pregunta quién la usa y si realmente responde a sus necesidades; la perspectiva <b>funcional/técnica</b> evalúa si funciona bien en la práctica (autonomía, materiales, mantención); la perspectiva <b>ambiental</b> considera su impacto completo, desde los materiales hasta los residuos que genera; y la perspectiva <b>ética</b> se pregunta si la solución respeta el bienestar de las personas —por ejemplo, si usa sus datos personales con su conocimiento y consentimiento, o si busca retenerlas más tiempo del que les conviene—. Un buen análisis nunca acepta afirmaciones sin evidencia ("totalmente ecológica" sin datos) y siempre considera que una misma tecnología puede ser positiva o riesgosa según el contexto en que se use.';
@@ -310,7 +310,7 @@ export function genAnalisisSoluciones8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }

@@ -2757,4 +2757,65 @@ sesión).
     `artes.js`, `musica.js`, `tecnologia.js`, `orientacion.js`,
     `matematica.js` — cada uno en su propio commit/PR, con la misma
     metodología (script + revisión manual del diff + fuzz + prueba
-    visual) ya validada aquí.
+    visual) ya validada aquí. **Actualización 2026-07-31: este plan
+    quedó en pausa** — antes de seguir con `ciencias.js`, el usuario
+    revisó el resultado de `historia.js` y reportó un problema distinto
+    (ver bullet siguiente, "Unificación del formato de alternativas").
+- **Unificación del formato de alternativas a una sola columna
+  (2026-07-31, pedido explícito del usuario con capturas de pantalla):**
+  tras revisar `historia.js` ya en oración normal, el usuario notó que el
+  tipo de letra quedó bien, pero el **formato/diseño** de dónde aparece
+  cada alternativa seguía "no uniforme" — comparó dos capturas del mismo
+  1° básico: "Calendario" (grilla de 2-3 columnas: 3 botones en una fila y
+  un cuarto solo, centrado, en la fila siguiente) vs. "Símbolos de Chile"
+  (una sola columna, ancho completo, con el borde de acento a la
+  izquierda) — pidiendo que TODA la app se vea como el segundo caso.
+  - **Causa:** `mcEngine.js` (`drawMCRound()`) todavía decidía el layout
+    por generador: `gridClass` dependía de `r.cols===2` (grilla
+    multi-columna vs. panel de una columna) y `optClass` dependía de
+    `r.panel`/`r.kind==='word'` (tres estilos de botón distintos:
+    `option-btn` base -Baloo 2, 20-30px, centrado-, `option-btn.wordopt`
+    -15-18px, centrado- y `option-btn.panel` -Quicksand, 15-19px,
+    izquierda, con acento de color-). Con ~300 módulos repartidos entre
+    estos 3 estilos según el largo típico de su contenido, la app se
+    sentía inconsistente al pasar de un módulo a otro, incluso dentro del
+    mismo curso.
+  - **Decisión (confirmada explícitamente por el usuario vía
+    `AskUserQuestion`, incluyendo una segunda confirmación tras verle
+    mostrar el efecto real en Vocales):** eliminar por completo el modo
+    grilla multi-columna y el estilo `wordopt` — **`gridClass` y
+    `optClass` ahora son fijos** (`'option-grid panels'` /
+    `'option-btn panel'`), sin importar qué `cols`/`kind`/`panel` traiga
+    el objeto que retorna cada `genXxxRound()`. Esos campos se dejan tal
+    cual en el código de cada generador (no se tocó ni un archivo de
+    `content/`) porque ya no tienen ningún efecto en el layout — solo
+    quedan como metadata histórica. Un solo cambio de 2 líneas en
+    `mcEngine.js` resuelve el problema en los ~300 módulos de la app de
+    una vez, sin necesidad de tocar generador por generador.
+  - **Trade-off advertido y aceptado explícitamente:** esto also implica
+    que respuestas de una sola letra o palabra (Vocales, días de la
+    semana, colores) pasan de verse grandes/negrita/centradas (20-30px)
+    a verse más chicas/alineadas a la izquierda (15-19px), igual que una
+    alternativa de oración larga — medido en el navegador: un botón de
+    335px de ancho con una sola vocal en 15px a la izquierda, con mucho
+    espacio vacío a la derecha. Se le presentó este trade-off al usuario
+    explícitamente (con las medidas reales, no solo la descripción) antes
+    de aplicarlo — priorizó la uniformidad de formato sobre el tamaño de
+    letra de las respuestas cortas.
+  - Verificado: `gridClass`/`optClass` fijos confirmados por inspección
+    del DOM (`getBoundingClientRect()`) en escritorio (1280px) y mobile
+    (375px) en 6 módulos de distintos años/asignaturas/etapas (Calendario
+    1° básico, Vocales 1° básico, Plantas 3° básico, Contar 1° básico,
+    Patrones NT/Parvularia, Casos Clínicos: Función Renal de Química
+    Diagnóstica — este último ya usaba `panel:true` antes, así que sirve
+    de control de que no cambió nada ahí). Las 4 alternativas de cada
+    módulo probado renderizan con el mismo ancho (335px en mobile),
+    apiladas en una sola columna. Se probó también el flujo de responder
+    (clase `correct`/`wrong` se sigue aplicando bien sobre `option-btn
+    panel`, ya que `answerMC()` solo usa `classList.add()`, no depende
+    del estilo base). Sin errores de consola en ningún módulo probado.
+    No se pudo tomar captura de pantalla en esta sesión (el panel del
+    navegador no estaba disponible), así que la verificación fue 100%
+    vía inspección del DOM en vez de comparación visual directa — si se
+    quiere una confirmación visual, conviene pedirla en la próxima
+    sesión con captura de pantalla real.

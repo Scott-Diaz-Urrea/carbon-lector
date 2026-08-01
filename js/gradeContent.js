@@ -24,6 +24,10 @@ import { LENGUAJE_EPJA_N2_MODULES, LENGUAJE_EPJA_N2_POS } from './content/epja/l
 import { MATEMATICA_EPJA_N2_MODULES, MATEMATICA_EPJA_N2_POS } from './content/epja/matematicaNivel2.js';
 import { CIENCIAS_EPJA_N2_MODULES, CIENCIAS_EPJA_N2_POS } from './content/epja/cienciasNivel2.js';
 import { ESTUDIOS_SOCIALES_EPJA_N2_MODULES, ESTUDIOS_SOCIALES_EPJA_N2_POS } from './content/epja/estudiosSocialesNivel2.js';
+import { LENGUAJE_EPJA_N3_MODULES, LENGUAJE_EPJA_N3_POS } from './content/epja/lenguajeNivel3.js';
+import { MATEMATICA_EPJA_N3_MODULES, MATEMATICA_EPJA_N3_POS } from './content/epja/matematicaNivel3.js';
+import { CIENCIAS_EPJA_N3_MODULES, CIENCIAS_EPJA_N3_POS } from './content/epja/cienciasNivel3.js';
+import { ESTUDIOS_SOCIALES_EPJA_N3_MODULES, ESTUDIOS_SOCIALES_EPJA_N3_POS } from './content/epja/estudiosSocialesNivel3.js';
 
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
@@ -169,16 +173,20 @@ export const COMPRENSION_ENTORNO_SOCIOCULTURAL_BY_NIVEL = {
 export const LENGUAJE_EPJA_BY_NIVEL = {
   n1basica: { modules: LENGUAJE_EPJA_N1_MODULES, pos: LENGUAJE_EPJA_N1_POS, height: 360 },
   n2basica: { modules: LENGUAJE_EPJA_N2_MODULES, pos: LENGUAJE_EPJA_N2_POS, height: 360 },
+  n3basica: { modules: LENGUAJE_EPJA_N3_MODULES, pos: LENGUAJE_EPJA_N3_POS, height: 360 },
 };
 export const MATEMATICA_EPJA_BY_NIVEL = {
   n1basica: { modules: MATEMATICA_EPJA_N1_MODULES, pos: MATEMATICA_EPJA_N1_POS, height: 560 },
   n2basica: { modules: MATEMATICA_EPJA_N2_MODULES, pos: MATEMATICA_EPJA_N2_POS, height: 560 },
+  n3basica: { modules: MATEMATICA_EPJA_N3_MODULES, pos: MATEMATICA_EPJA_N3_POS, height: 560 },
 };
 export const CIENCIAS_EPJA_BY_NIVEL = {
   n2basica: { modules: CIENCIAS_EPJA_N2_MODULES, pos: CIENCIAS_EPJA_N2_POS, height: 460 },
+  n3basica: { modules: CIENCIAS_EPJA_N3_MODULES, pos: CIENCIAS_EPJA_N3_POS, height: 560 },
 };
 export const ESTUDIOS_SOCIALES_EPJA_BY_NIVEL = {
   n2basica: { modules: ESTUDIOS_SOCIALES_EPJA_N2_MODULES, pos: ESTUDIOS_SOCIALES_EPJA_N2_POS, height: 320 },
+  n3basica: { modules: ESTUDIOS_SOCIALES_EPJA_N3_MODULES, pos: ESTUDIOS_SOCIALES_EPJA_N3_POS, height: 320 },
 };
 
 /* Asignaturas de EPJA por nivel — a diferencia de SUBJECT_DEFS (Básica, 9-10

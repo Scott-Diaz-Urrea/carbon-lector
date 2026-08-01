@@ -150,6 +150,20 @@ import {
 import {
   genChileColoniaIndependenciaEpjaN2Round, genChileSigloXIXXXEpjaN2Round, genGeografiaChileEpjaN2Round,
 } from './content/epja/estudiosSocialesNivel2.js';
+import {
+  genComprensionEpjaN3Round, genVocabularioContextoEpjaN3Round, genTiposTextoEpjaN3Round, genHechosOpinionesEpjaN3Round,
+} from './content/epja/lenguajeNivel3.js';
+import {
+  genNumerosEnterosEpjaN3Round, genPotenciasNotacionEpjaN3Round, genRazonesProporcionesEpjaN3Round,
+  genPitagorasCircunferenciaEpjaN3Round, genAngulosTriangulosEpjaN3Round, genEstadisticaEpjaN3Round,
+} from './content/epja/matematicaNivel3.js';
+import {
+  genModeloCineticoEpjaN3Round, genAtomosReaccionesEpjaN3Round, genEnergiaTransformacionesEpjaN3Round,
+  genOrigenVidaGeneticaEpjaN3Round, genReproduccionSexualidadEpjaN3Round, genSistemaInmuneEnfermedadesEpjaN3Round,
+} from './content/epja/cienciasNivel3.js';
+import {
+  genHistoriaEconomiaMundialEpjaN3Round, genTrabajoChileEpjaN3Round, genDemocraciaDerechosEpjaN3Round,
+} from './content/epja/estudiosSocialesNivel3.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
@@ -246,7 +260,11 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'comprensionEpjaN2','vocabularioContextoEpjaN2','tiposTextoEpjaN2','hechosOpinionesEpjaN2',
   'multiplosFactoresEpjaN2','fraccionesDecimalesEpjaN2','operatoriaEpjaN2','perimetroAreaEpjaN2','volumenEpjaN2','datosPromedioEpjaN2',
   'seresVivosEcosistemasEpjaN2','nutricionEpjaN2','sistemaSolarUniversoEpjaN2','materiaEstadosEpjaN2','mezclasAguaSueloEpjaN2',
-  'chileColoniaIndependenciaEpjaN2','chileSigloXIXXXEpjaN2','geografiaChileEpjaN2'];
+  'chileColoniaIndependenciaEpjaN2','chileSigloXIXXXEpjaN2','geografiaChileEpjaN2',
+  'comprensionEpjaN3','vocabularioContextoEpjaN3','tiposTextoEpjaN3','hechosOpinionesEpjaN3',
+  'numerosEnterosEpjaN3','potenciasNotacionEpjaN3','razonesProporcionesEpjaN3','pitagorasCircunferenciaEpjaN3','angulosTriangulosEpjaN3','estadisticaEpjaN3',
+  'modeloCineticoEpjaN3','atomosReaccionesEpjaN3','energiaTransformacionesEpjaN3','origenVidaGeneticaEpjaN3','reproduccionSexualidadEpjaN3','sistemaInmuneEnfermedadesEpjaN3',
+  'historiaEconomiaMundialEpjaN3','trabajoChileEpjaN3','democraciaDerechosEpjaN3'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -601,6 +619,25 @@ export const MC_GAMES = {
   chileColoniaIndependenciaEpjaN2: { title:'Colonia e Independencia', gen: genChileColoniaIndependenciaEpjaN2Round, rounds:8 },
   chileSigloXIXXXEpjaN2:      { title:'Chile: Siglo XIX y XX',       gen: genChileSigloXIXXXEpjaN2Round,      rounds:8  },
   geografiaChileEpjaN2:       { title:'Geografía de Chile',          gen: genGeografiaChileEpjaN2Round,       rounds:8  },
+  comprensionEpjaN3:          { title:'Comprensión de Lectura',      gen: genComprensionEpjaN3Round,          rounds:8  },
+  vocabularioContextoEpjaN3:  { title:'Vocabulario en Contexto',     gen: genVocabularioContextoEpjaN3Round,  rounds:8  },
+  tiposTextoEpjaN3:           { title:'Tipos de Texto y Comunicación', gen: genTiposTextoEpjaN3Round,         rounds:8  },
+  hechosOpinionesEpjaN3:      { title:'Hechos y Opiniones',          gen: genHechosOpinionesEpjaN3Round,      rounds:8  },
+  numerosEnterosEpjaN3:       { title:'Números Enteros',             gen: genNumerosEnterosEpjaN3Round,       rounds:10 },
+  potenciasNotacionEpjaN3:    { title:'Potencias y Notación Científica', gen: genPotenciasNotacionEpjaN3Round, rounds:8  },
+  razonesProporcionesEpjaN3:  { title:'Razones, Porcentajes y Escala', gen: genRazonesProporcionesEpjaN3Round, rounds:10 },
+  pitagorasCircunferenciaEpjaN3: { title:'Pitágoras y Circunferencia', gen: genPitagorasCircunferenciaEpjaN3Round, rounds:8 },
+  angulosTriangulosEpjaN3:    { title:'Ángulos y Triángulos',        gen: genAngulosTriangulosEpjaN3Round,    rounds:8  },
+  estadisticaEpjaN3:          { title:'Estadística y Tendencia Central', gen: genEstadisticaEpjaN3Round,      rounds:8  },
+  modeloCineticoEpjaN3:       { title:'Modelo Cinético y Materia',   gen: genModeloCineticoEpjaN3Round,       rounds:8  },
+  atomosReaccionesEpjaN3:     { title:'Átomos y Reacciones Químicas', gen: genAtomosReaccionesEpjaN3Round,    rounds:8  },
+  energiaTransformacionesEpjaN3: { title:'Energía y Transformaciones', gen: genEnergiaTransformacionesEpjaN3Round, rounds:8 },
+  origenVidaGeneticaEpjaN3:   { title:'Origen de la Vida y Genética', gen: genOrigenVidaGeneticaEpjaN3Round,  rounds:8  },
+  reproduccionSexualidadEpjaN3: { title:'Reproducción y Sexualidad Responsable', gen: genReproduccionSexualidadEpjaN3Round, rounds:8 },
+  sistemaInmuneEnfermedadesEpjaN3: { title:'Sistema Inmune y Enfermedades', gen: genSistemaInmuneEnfermedadesEpjaN3Round, rounds:8 },
+  historiaEconomiaMundialEpjaN3: { title:'Historia y Economía Mundial S.XX', gen: genHistoriaEconomiaMundialEpjaN3Round, rounds:8 },
+  trabajoChileEpjaN3:         { title:'El Trabajo en Chile',         gen: genTrabajoChileEpjaN3Round,         rounds:8  },
+  democraciaDerechosEpjaN3:   { title:'Democracia, DD.HH. y Estado', gen: genDemocraciaDerechosEpjaN3Round,   rounds:8  },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

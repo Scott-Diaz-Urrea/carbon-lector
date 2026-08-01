@@ -129,6 +129,13 @@ import {
   genCarbapenemasas7Round, genTaxonomia7Round, genStaphylo7Round, genStrepto7Round,
   genBacilos7Round, genEntero7Round, genBgnnf7Round, genVibrio7Round,
 } from './content/estudioPruebas/microbiologiaClinica.js';
+import {
+  genComprensionEpjaN1Round, genSinonimosAntonimosEpjaN1Round, genTiposTextoEpjaN1Round, genGramaticaOrtografiaEpjaN1Round,
+} from './content/epja/lenguajeNivel1.js';
+import {
+  genNumerosEpjaN1Round, genUnidadesMedidaEpjaN1Round, genOperacionesEpjaN1Round,
+  genPatronesEpjaN1Round, genPerimetroAreaEpjaN1Round, genDatosEpjaN1Round,
+} from './content/epja/matematicaNivel1.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
@@ -219,7 +226,9 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'qdcasosrenal','qdcasoshepatico','qdorina','qdliquidos','qdlcr',
   'qdvalorescriticos','qdcontrolcalidad','qdendocrinotumoral','qdgasesarteriales','qdpancreas','qdreactivos',
   'microfundamentos','microantimicrobianos','microsusceptibilidad','microresistencia','microcarbapenemasas','microtaxonomia',
-  'microstaphylo','microstrepto','microbacilos','microentero','microbgnnf','microvibrio'];
+  'microstaphylo','microstrepto','microbacilos','microentero','microbgnnf','microvibrio',
+  'comprensionEpjaN1','sinonimosAntonimosEpjaN1','tiposTextoEpjaN1','gramaticaOrtografiaEpjaN1',
+  'numerosEpjaN1','unidadesMedidaEpjaN1','operacionesEpjaN1','patronesEpjaN1','perimetroAreaEpjaN1','datosEpjaN1'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -546,6 +555,16 @@ export const MC_GAMES = {
   microentero: { title:'Enterobacterales', gen: genEntero7Round, rounds:8 },
   microbgnnf: { title:'Bacilos Gram Negativos No Fermentadores', gen: genBgnnf7Round, rounds:7 },
   microvibrio: { title:'Vibrionaceae, Campylobacter y Helicobacter', gen: genVibrio7Round, rounds:7 },
+  comprensionEpjaN1:          { title:'Comprensión de Lectura',      gen: genComprensionEpjaN1Round,          rounds:8  },
+  sinonimosAntonimosEpjaN1:   { title:'Sinónimos y Antónimos',       gen: genSinonimosAntonimosEpjaN1Round,   rounds:10 },
+  tiposTextoEpjaN1:           { title:'Tipos de Textos',             gen: genTiposTextoEpjaN1Round,           rounds:8  },
+  gramaticaOrtografiaEpjaN1:  { title:'Gramática y Ortografía',      gen: genGramaticaOrtografiaEpjaN1Round,  rounds:8  },
+  numerosEpjaN1:              { title:'Números Naturales',          gen: genNumerosEpjaN1Round,              rounds:10 },
+  unidadesMedidaEpjaN1:       { title:'Unidades de Medida',         gen: genUnidadesMedidaEpjaN1Round,        rounds:8  },
+  operacionesEpjaN1:          { title:'Operaciones y Problemas',    gen: genOperacionesEpjaN1Round,           rounds:10 },
+  patronesEpjaN1:             { title:'Patrones y Secuencias',      gen: genPatronesEpjaN1Round,              rounds:10 },
+  perimetroAreaEpjaN1:        { title:'Perímetro y Área',           gen: genPerimetroAreaEpjaN1Round,         rounds:8  },
+  datosEpjaN1:                { title:'Datos y Gráficos',           gen: genDatosEpjaN1Round,                 rounds:8  },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

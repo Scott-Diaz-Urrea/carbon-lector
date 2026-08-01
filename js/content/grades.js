@@ -21,3 +21,20 @@ export const GRADE_POS = [
 export const PARVULARIA_NIVELES = [
   { id:'nt', label:'Transición', open:true },
 ];
+
+/* EPJA (Educación de Personas Jóvenes y Adultas) tampoco se organiza por año
+   individual, sino por NIVELES que agrupan varios años en un solo examen de
+   Validación de Estudios (Decreto Supremo N°10 de 2022, epja.mineduc.cl):
+   Nivel 1 Básica = 1°-4° básico, Nivel 2 Básica = 5°-6°, Nivel 3 Básica =
+   7°-8°, Nivel 1 Media = 1°-2° medio, Nivel 2 Media = 3°-4° medio. Solo
+   Nivel 1 Básica tiene contenido jugable por ahora (Lenguaje y Matemática,
+   ver content/epja/*Nivel1.js) — los otros 4 niveles se muestran bloqueados
+   como hoja de ruta, mismo criterio que GRADES para años de Básica todavía
+   no construidos. */
+export const EPJA_NIVELES = [
+  { id:'n1basica', label:'Nivel 1 Básica', sub:'Equivale a 1° - 4° básico', open:true },
+  { id:'n2basica', label:'Nivel 2 Básica', sub:'Equivale a 5° - 6° básico', open:false },
+  { id:'n3basica', label:'Nivel 3 Básica', sub:'Equivale a 7° - 8° básico', open:false },
+  { id:'n1media', label:'Nivel 1 Media', sub:'Equivale a 1° - 2° medio', open:false },
+  { id:'n2media', label:'Nivel 2 Media', sub:'Equivale a 3° - 4° medio', open:false },
+];

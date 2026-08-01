@@ -1,7 +1,7 @@
-import { currentScreen, screenStack, state, gradeLabel, nivelLabel, level, totalStars, maxStars } from './state.js';
+import { currentScreen, screenStack, state, gradeLabel, nivelLabel, epjaNivelLabel, level, totalStars, maxStars } from './state.js';
 import { backIconSVG, starSVG, lockIconSVG, starsRow, mascotSVG } from './svg.js';
 import { pathD } from './utils.js';
-import { GRADES, GRADE_POS } from './content/grades.js';
+import { GRADES, GRADE_POS, EPJA_NIVELES } from './content/grades.js';
 import { MC_KEYS, renderMCScreen, initMCGame } from './mcEngine.js';
 import { renderSilabasScreen, initSilabasGame } from './games/silabas.js';
 import { renderSecuenciaScreen, initSecuenciaGame } from './games/secuencia.js';
@@ -13,7 +13,7 @@ import {
   LENGUAJE_BY_GRADE, MATE_BY_GRADE, CIENCIAS_BY_GRADE, HISTORIA_BY_GRADE,
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
   TECNOLOGIA_BY_GRADE, INGLES_BY_GRADE, SUBJECT_DEFS, NUCLEO_DEFS,
-  ESTUDIO_PRUEBAS_SUBMODULOS,
+  ESTUDIO_PRUEBAS_SUBMODULOS, EPJA_SUBJECT_DEFS,
 } from './gradeContent.js';
 
 export function render(){
@@ -26,6 +26,10 @@ export function render(){
   else if(scr === 'etapaMap') body = renderEtapaMap();
   else if(scr === 'gradeMap') body = renderGradeMap();
   else if(scr === 'nucleoMap') body = renderNucleoMap();
+  else if(scr === 'epjaMap') body = renderEpjaMap();
+  else if(scr === 'epjaSubjectMap') body = renderEpjaSubjectMap();
+  else if(scr === 'lenguajeEpjaMap') body = renderLenguajeEpjaMap();
+  else if(scr === 'matematicaEpjaMap') body = renderMatematicaEpjaMap();
   else if(scr === 'estudioPruebasMap') body = renderEstudioPruebasMap();
   else if(scr === 'quimicaDiagnosticaMap') body = renderQuimicaDiagnosticaMap();
   else if(scr === 'microbiologiaClinicaMap') body = renderMicrobiologiaClinicaMap();
@@ -104,9 +108,9 @@ function renderEtapaMap(){
         '<span class="subject-icon">🎓</span>'+
         '<span class="subject-info"><b>Educación Media</b><small>1° a 4° medio</small></span>'+
       '</button>'+
-      '<button class="subject-card locked" onclick="showToast(\'🚧 Etapa en preparación\')">'+
+      '<button class="subject-card" onclick="goTo(\'epjaMap\')">'+
         '<span class="subject-icon">🌙</span>'+
-        '<span class="subject-info"><b>Educación para Adultos</b><small>EPJA · jornada diurna y vespertina</small></span>'+
+        '<span class="subject-info"><b>Educación para Adultos</b><small>EPJA · Nivel 1 Básica disponible</small></span>'+
       '</button>'+
       '<button class="subject-card" onclick="goTo(\'estudioPruebasMap\')">'+
         '<span class="subject-icon">🎓</span>'+
@@ -209,6 +213,62 @@ function renderExploracionEntornoNaturalMap(){
 }
 function renderComprensionEntornoSocioculturalMap(){
   return renderNucleoMapFor('comprensionEntornoSocioculturalMap','Comprensión del Entorno Sociocultural','🏘️');
+}
+
+function renderEpjaMap(){
+  const cards = EPJA_NIVELES.map(function(n){
+    if(!n.open){
+      return '<button class="subject-card locked" onclick="showToast(\'🚧 Este nivel está en preparación\')">'+
+        '<span class="subject-icon">🌙</span>'+
+        '<span class="subject-info"><b>'+n.label+'</b><small>'+n.sub+'</small></span>'+
+      '</button>';
+    }
+    return '<button class="subject-card" onclick="selectEpjaNivel(\''+n.id+'\')">'+
+      '<span class="subject-icon">🌙</span>'+
+      '<span class="subject-info"><b>'+n.label+'</b><small>'+n.sub+'</small></span>'+
+    '</button>';
+  }).join('');
+  return '<div class="screen">'+
+    '<p class="section-title">Educación para Adultos (EPJA)</p>'+
+    '<p class="section-sub">Cada nivel agrupa varios años en un solo examen de Validación de Estudios.</p>'+
+    '<div class="subject-list">'+cards+'</div>'+
+  '</div>';
+}
+function renderEpjaSubjectMap(){
+  const n = state.currentEpjaNivel;
+  const cards = EPJA_SUBJECT_DEFS.map(function(sd){
+    const data = sd.byNivel[n];
+    if(!data){
+      return '<button class="subject-card locked" onclick="showToast(\'🚧 Asignatura en preparación\')">'+
+        '<span class="subject-icon">'+sd.icon+'</span>'+
+        '<span class="subject-info"><b>'+sd.label+'</b><small>Próximamente</small></span>'+
+      '</button>';
+    }
+    const keys = data.modules.filter(function(m){ return m.key; }).map(function(m){ return m.key; });
+    const stars = keys.reduce(function(a,k){ return a + state.stars[k]; }, 0);
+    const sub = data.modules.map(function(m){ return m.label; }).join(' · ');
+    return '<button class="subject-card" onclick="goTo(\''+sd.screen+'\')">'+
+      '<span class="subject-icon">'+sd.icon+'</span>'+
+      '<span class="subject-info"><b>'+sd.label+'</b><small>'+sub+'</small></span>'+
+      '<span class="subject-stars">⭐ '+stars+'/'+(keys.length*3)+'</span>'+
+    '</button>';
+  }).join('');
+  return '<div class="screen">'+
+    '<p class="section-title">'+epjaNivelLabel(n)+'</p>'+
+    '<p class="section-sub">Elige una asignatura para empezar a jugar.</p>'+
+    '<div class="subject-list">'+cards+'</div>'+
+  '</div>';
+}
+function renderEpjaSubjectMapFor(screenName, title, badgeIcon){
+  const data = EPJA_SUBJECT_DEFS.filter(function(sd){ return sd.screen===screenName; })[0].byNivel[state.currentEpjaNivel];
+  if(!data) return renderComingSoonSubject(title);
+  return renderModuleMap(title, badgeIcon+' Alineado a '+title+' · '+epjaNivelLabel(state.currentEpjaNivel)+' (EPJA)', data.modules, data.pos, data.height);
+}
+function renderLenguajeEpjaMap(){
+  return renderEpjaSubjectMapFor('lenguajeEpjaMap','Lenguaje y Comunicación','📖');
+}
+function renderMatematicaEpjaMap(){
+  return renderEpjaSubjectMapFor('matematicaEpjaMap','Matemática','🔢');
 }
 
 function renderEstudioPruebasMap(){

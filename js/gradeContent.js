@@ -18,6 +18,8 @@ import { EXPLORACION_ENTORNO_NATURAL_MODULES, EXPLORACION_ENTORNO_NATURAL_POS } 
 import { COMPRENSION_ENTORNO_SOCIOCULTURAL_MODULES, COMPRENSION_ENTORNO_SOCIOCULTURAL_POS } from './content/parvularia/comprensionEntornoSociocultural.js';
 import { QUIMICA_DIAGNOSTICA_MODULES, QUIMICA_DIAGNOSTICA_POS } from './content/estudioPruebas/quimicaDiagnostica.js';
 import { MICROBIOLOGIA_CLINICA_MODULES, MICROBIOLOGIA_CLINICA_POS } from './content/estudioPruebas/microbiologiaClinica.js';
+import { LENGUAJE_EPJA_N1_MODULES, LENGUAJE_EPJA_N1_POS } from './content/epja/lenguajeNivel1.js';
+import { MATEMATICA_EPJA_N1_MODULES, MATEMATICA_EPJA_N1_POS } from './content/epja/matematicaNivel1.js';
 
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
@@ -158,6 +160,30 @@ export const EXPLORACION_ENTORNO_NATURAL_BY_NIVEL = {
 export const COMPRENSION_ENTORNO_SOCIOCULTURAL_BY_NIVEL = {
   nt: { modules: COMPRENSION_ENTORNO_SOCIOCULTURAL_MODULES, pos: COMPRENSION_ENTORNO_SOCIOCULTURAL_POS, height: 360 },
 };
+
+/* ---------------- EPJA (por nivel, no por año — ver content/grades.js) ---------------- */
+export const LENGUAJE_EPJA_BY_NIVEL = {
+  n1basica: { modules: LENGUAJE_EPJA_N1_MODULES, pos: LENGUAJE_EPJA_N1_POS, height: 360 },
+};
+export const MATEMATICA_EPJA_BY_NIVEL = {
+  n1basica: { modules: MATEMATICA_EPJA_N1_MODULES, pos: MATEMATICA_EPJA_N1_POS, height: 560 },
+};
+
+/* Asignaturas de EPJA por nivel — a diferencia de SUBJECT_DEFS (Básica, 9-10
+   materias iguales en todos los años), aquí la lista de asignaturas varía
+   según el nivel (Nivel 1 Básica solo tiene 2: Lenguaje y Matemática; Nivel 2
+   y 3 Básica del temario real agregan Ciencias Naturales y Estudios
+   Sociales; Educación Media agrega más asignaturas todavía — ver
+   content/grades.js para el detalle de qué asignaturas trae cada nivel
+   según el temario oficial). Para agregar la siguiente asignatura/nivel:
+   mismo patrón que un núcleo de Parvularia (content/epja/<nombre>Nivel<N>.js
+   con MODULES/POS + genXxxRound, registrar en MC_GAMES/MC_KEYS, agregar
+   `byNivel` a la entrada correspondiente aquí). Un nivel sin `byNivel[nivel]`
+   muestra automáticamente una tarjeta "🚧 en preparación" en epjaSubjectMap. */
+export const EPJA_SUBJECT_DEFS = [
+  { icon:'📖', label:'Lenguaje y Comunicación', screen:'lenguajeEpjaMap', byNivel: LENGUAJE_EPJA_BY_NIVEL },
+  { icon:'🔢', label:'Matemática', screen:'matematicaEpjaMap', byNivel: MATEMATICA_EPJA_BY_NIVEL },
+];
 
 /* Núcleos de aprendizaje de Educación Parvularia — los 8 núcleos del nivel
    Transición (NT) ya tienen contenido jugable. Para agregar un núcleo nuevo

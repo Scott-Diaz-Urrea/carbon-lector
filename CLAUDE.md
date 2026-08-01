@@ -2251,15 +2251,132 @@ Verificado tras las 3 correcciones: `genCasosHepatico7Round`, `genLcr7Round` y
 apóstrofes en `speakText`) y los 312 módulos de toda la app pasan la
 verificación de regresión.
 
-### Educación Media, EPJA — 🔒 sin construir
-`GRADES` los tiene marcados `open:false` para 7°-8° ya no aplica (ambos
-están abiertos). Antes de construir Educación Media, definir con el
-usuario su lista real de asignaturas (probablemente distintas: Física/
-Química/Biología separadas, Filosofía, etc. — no asumir que es igual a
-Básica) y confirmar su decreto curricular vigente en curriculumnacional.cl.
-Luego EPJA, que tiene currículum propio organizado por niveles que
-agrupan varios años en uno, no por año individual — revisar su decreto
-específico antes de construir.
+### Educación Media — 🔒 sin construir
+Antes de construir, definir con el usuario su lista real de asignaturas
+(probablemente distintas: Física/Química/Biología separadas, Filosofía,
+etc. — no asumir que es igual a Básica) y confirmar su decreto curricular
+vigente en curriculumnacional.cl.
+
+### EPJA (Educación para Personas Jóvenes y Adultas) — Nivel 1 Básica ✅ completo, 4 niveles restantes 🔒
+Pedido explícito del usuario (2026-08-01, "procede con epja") de empezar a
+construir esta etapa, dejando el orden y el punto de partida a criterio de
+Claude ("dejar que yo decida el orden", confirmado vía `AskUserQuestion`).
+
+**Arquitectura (tercer patrón de navegación distinto, ni año/asignatura
+como Básica ni nivel/núcleo como Parvularia):** EPJA se organiza por
+**niveles que agrupan varios años en un solo examen de Validación de
+Estudios** — Nivel 1 Básica (1°-4° básico), Nivel 2 Básica (5°-6°), Nivel 3
+Básica (7°-8°), Nivel 1 Media (1°-2° medio), Nivel 2 Media (3°-4° medio) —,
+y dentro de cada nivel por **asignatura**, pero la lista de asignaturas
+varía según el nivel (Nivel 1 Básica solo tiene 2: Lenguaje y Matemática;
+niveles posteriores agregan Ciencias Naturales, Estudios Sociales, Inglés,
+y en Media asignaturas propias de adultos como Educación Financiera o
+Emprendimiento y Empleabilidad — ver `content/grades.js` para el detalle
+completo investigado). Por eso no se reutilizó `SUBJECT_DEFS`/`byGrade` ni
+`NUCLEO_DEFS`/`byNivel` de Parvularia: se creó un tercer par paralelo,
+`EPJA_NIVELES` (`content/grades.js`) + `EPJA_SUBJECT_DEFS`/`byNivel`
+(`gradeContent.js`), mismo criterio de "premature abstraction" ya aplicado
+al separar Parvularia de Básica. Jerarquía de pantallas: `etapaMap` →
+`epjaMap` (tarjetas de nivel, `EPJA_NIVELES` con `open:true/false` igual que
+`GRADES`) → `epjaSubjectMap` (tarjetas de asignatura del nivel actual, lee
+`state.currentEpjaNivel`) → `lenguajeEpjaMap`/`matematicaEpjaMap` (mapa de
+módulos, vía el helper `renderEpjaSubjectMapFor()` que reutiliza
+`renderModuleMap()`, mismo patrón que `renderNucleoMapFor()` de Parvularia)
+→ juego individual. `state.currentEpjaNivel` (`selectEpjaNivel()`/
+`epjaNivelLabel()` en `state.js`) es el tercer selector de contexto de
+navegación, junto a `currentGrade` (Básica) y `currentNivel` (Parvularia).
+Contenido en `content/epja/<asignatura>Nivel<N>.js` (mismo patrón de
+archivo que un núcleo de Parvularia o un submódulo de Estudio para
+Pruebas: bancos + `genXxxRound` + `MODULES`/`POS`).
+
+**Fuente curricular real, investigada antes de escribir contenido (regla
+de oro del proyecto):** a diferencia de Básica (Decreto 439/2012, un solo
+documento estable), EPJA está en transición — Mineduc publicó nuevas
+"Bases Curriculares EPJA 2024", pero solo se implementan progresivamente
+(Lenguaje y Matemática de Nivel 1 Básica desde 2025). Se investigó primero
+qué documento real y vigente existía para Nivel 1 Básica: el "Temario
+Nivel 1 de Educación Básica — Proceso de exámenes de Validación de
+Estudios Adultos (mayores de 18 años)", Decreto Supremo N°10 de 2022,
+versión 2026 (la más reciente publicada por epja.mineduc.cl al momento de
+construir), que lista objetivos de evaluación concretos y evaluables para
+Lenguaje y Comunicación y Matemática — más preciso incluso que el programa
+pedagógico completo de 2006 ("Educación Básica de Adultos"), porque es
+literalmente el temario de examen oficial vigente. Los PDF de
+epja.mineduc.cl vinieron en dos variantes: algunos con texto extraíble vía
+`pdftotext -layout` (el temario 2026 usado aquí, y el programa 2006 de
+Lengua Castellana), y otros como imagen escaneada con CCITT Fax (sin capa
+de texto, no legibles ni con WebFetch ni con `pdftotext` — se habría
+necesitado `pdftoppm`/OCR, no instalado en este entorno; se evitó ese PDF
+en particular buscando una fuente alternativa con texto real en su lugar,
+en vez de inventar contenido a partir de un documento no verificable).
+
+- **Lenguaje y Comunicación, Nivel 1** (4 módulos,
+  `content/epja/lenguajeNivel1.js`): Comprensión de Lectura (información
+  explícita e inferencias sobre textos narrativos y no literarios: cartas,
+  avisos, noticias, recetas, instrucciones, textos informativos — 10
+  textos breves originales, contextos de vida adulta: trabajo, familia,
+  comunidad, trámites), Sinónimos y Antónimos, Tipos de Textos
+  (reconocer estructura/propósito de un texto dado, sin requerir
+  producción escrita), Gramática y Ortografía (concordancia género/número,
+  tildes, mayúsculas, puntuación). El eje "Escribir un texto" del temario
+  real queda cubierto solo en sus partes reconocibles en opción múltiple
+  (destinatario/propósito/estructura, reglas de concordancia/ortografía);
+  la producción escrita real (redactar un texto propio) queda fuera del
+  motor de opción múltiple, mismo criterio que excluye OA de producción
+  escrita en el resto de la app.
+- **Matemática, Nivel 1** (6 módulos,
+  `content/epja/matematicaNivel1.js`): Números Naturales (representación en
+  palabras/símbolos —incluye un `numeroALetras()` propio hasta 999—, usos
+  del número como conteo/medida/ordinal/código, comparar números),
+  Unidades de Medida (tiempo, masa, longitud, monetarias — equivalencias y
+  elegir la unidad apropiada), Operaciones y Problemas (+,-,×,÷ con
+  contextos de compras/precios en pesos chilenos y reparto en partes
+  iguales), Patrones y Secuencias, Perímetro y Área (cuadrados,
+  rectángulos, elementos de triángulos/cuadriláteros), Datos y Gráficos
+  (gráfico de barras propio —`barChartEpjaHTML()`, mismas clases CSS
+  `.bar-chart` ya usadas en `matematica.js`, sin necesitar CSS nuevo—,
+  tabla de encuestas con contextos adultos: transporte, turnos de trabajo,
+  motivo de retomar estudios). Cubre los 3 ejes del temario real (Números y
+  Operaciones aritméticas, Geometría, Estadística y Probabilidad).
+- Los ejemplos y contextos de ambas asignaturas son deliberadamente de vida
+  adulta (trabajo, dinero real en pesos chilenos, trámites, comunidad) en
+  vez de escolares/infantiles, siguiendo el enfoque explícito del programa
+  EPJA de vincular el aprendizaje con la experiencia vital de personas
+  jóvenes y adultas — distinto del resto de la app (Básica/Parvularia),
+  donde los ejemplos sí son infantiles a propósito.
+- **`DATOS_EPJA_ENCUESTA` ampliado de 3 a 5 ítems durante la construcción**
+  (no después, a diferencia de otros años donde este bug se encontró recién
+  en el fuzz-testing): con 3 ítems × 2 ramas (categoría más alta / total)
+  daban solo 6 combinaciones posibles, insuficiente para `rounds:8` sin
+  repetición garantizada — se detectó revisando el tamaño del banco antes
+  de fuzz-testear, aplicando la lección ya documentada en años anteriores
+  de Básica ("revisar el tamaño real de cada banco ANTES de dar por
+  terminado un módulo").
+- Verificado: los 10 generadores pasan fuzz de 300 iteraciones cada uno
+  (sin `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue`
+  siempre presente, sin apóstrofes en `speakText`) y simulación de 200
+  sesiones completas cada uno sin ningún repetido. `MC_KEYS.length ===
+  Object.keys(MC_GAMES).length === 334` (324 previos + 10 nuevos, sin
+  claves huérfanas). Probado visualmente en el navegador: navegación
+  completa `etapaMap` (con el botón "Educación para Adultos" ya
+  desbloqueado) → `epjaMap` (5 niveles, solo Nivel 1 Básica abierto) →
+  `epjaSubjectMap` (2 asignaturas) → mapa de módulos de ambas asignaturas
+  (sin solapamiento de nodos) → una partida completa jugada en
+  "Comprensión de Lectura" (textos reales, avance correcto tras responder
+  bien) y en "Datos y Gráficos" (gráfico de barras renderizando alturas
+  proporcionales correctamente, botón Recurso abriendo el modal con el
+  texto real). Probado también en 375px (mobile): tarjetas de nivel/
+  asignatura se ven bien, sin errores de consola en ningún caso.
+
+**Próximo paso del mismo pedido:** Nivel 2 Básica (5°-6°, agrega Ciencias
+Naturales y Estudios Sociales según el temario real — hay que investigar
+si existe un "Temario Nivel 2 de Educación Básica" 2025/2026 equivalente
+al de Nivel 1, o si hay que recurrir al programa 2006 completo), luego
+Nivel 3 Básica (7°-8°), y finalmente Educación Media EPJA (Niveles 1-2,
+Formación General + partes de Diferenciada/Instrumental con sentido para
+trivia — quedan fuera las especialidades técnico-profesionales y de
+oficios, producción práctica de un oficio específico). Educación Media
+regular (no EPJA) sigue sin construir — ver sección de arriba.
 
 ## Próximos pasos sugeridos (en orden)
 

@@ -584,8 +584,18 @@ function drawMCRound(){
   }while(mc.seenPrompts.has(sig) && attempts < 300);
   mc.seenPrompts.add(sig);
   mc.current = r;
-  const optClass = r.panel ? 'option-btn panel' : (r.kind==='word' ? 'option-btn wordopt' : 'option-btn');
-  const gridClass = r.cols === 2 ? 'option-grid panels' : 'option-grid';
+  /* Pedido explícito del usuario (2026-07-31): unificar el formato de TODAS
+     las alternativas de la app a una sola columna apilada hacia abajo (el
+     estilo `panel`), eliminando la grilla de varias columnas (`wordopt`)
+     que antes se usaba para respuestas cortas (días, vocales, colores). El
+     usuario detectó que la app se sentía "no uniforme" al mezclar ambos
+     estilos incluso dentro del mismo curso (ver capturas de "Calendario"
+     vs "Símbolos de Chile", 1° básico) — ahora `cols`/`kind`/`panel` en el
+     objeto que retorna cada `genXxxRound()` ya no afectan el layout (se
+     dejan en el contenido por compatibilidad histórica, pero el motor los
+     ignora a propósito). */
+  const optClass = 'option-btn panel';
+  const gridClass = 'option-grid panels';
 
   const hasActions = r.speakText || r.recurso;
   el.innerHTML =

@@ -2257,7 +2257,7 @@ Antes de construir, definir con el usuario su lista real de asignaturas
 etc. — no asumir que es igual a Básica) y confirmar su decreto curricular
 vigente en curriculumnacional.cl.
 
-### EPJA (Educación para Personas Jóvenes y Adultas) — Nivel 1 y Nivel 2 Básica ✅ completos, 3 niveles restantes 🔒
+### EPJA (Educación para Personas Jóvenes y Adultas) — Nivel 1, 2 y 3 Básica ✅ completos, 2 niveles restantes 🔒
 Pedido explícito del usuario (2026-08-01, "procede con epja") de empezar a
 construir esta etapa, dejando el orden y el punto de partida a criterio de
 Claude ("dejar que yo decida el orden", confirmado vía `AskUserQuestion`).
@@ -2454,14 +2454,112 @@ WebFetch y procesado localmente, mismo mecanismo ya usado para Nivel 1).
   también en 375px (mobile): mismo layout de una columna, sin errores de
   consola en ningún caso.
 
-**Próximo paso del mismo pedido:** Nivel 3 Básica (7°-8°, mismo patrón de
-investigación: verificar si existe un "Temario Nivel 3 de Educación
-Básica" 2025/2026 y bajo qué decreto), y finalmente Educación Media EPJA
-(Niveles 1-2, Formación General + partes de Diferenciada/Instrumental con
-sentido para trivia — quedan fuera las especialidades técnico-
-profesionales y de oficios, producción práctica de un oficio específico).
-Educación Media regular (no EPJA) sigue sin construir — ver sección de
-arriba.
+**Nivel 3 Básica — ✅ completo (2026-08-01), 19 módulos, 4 asignaturas
+(Lenguaje y Comunicación, Matemática, Ciencias Naturales, Estudios
+Sociales):** continuación directa del mismo pedido ("procede"), mismo
+patrón de investigación que Nivel 2. Se confirmó que existe un "Temario
+Tercer Nivel de Educación Básica" 2026 (2do semestre) equivalente al de
+Nivel 2, en `epja.mineduc.cl/wp-content/uploads/sites/43/2026/06/
+Temario-nivel-3-de-basica-2026_2do-semestre.pdf` — mismo Decreto Supremo
+N°257 de 2009 que Nivel 2 (confirma que Nivel 3 tampoco migró todavía a
+las nuevas Bases EPJA 2024), con los 4 subsectores en un solo PDF con
+texto real extraíble vía `pdftotext -layout` (mismo mecanismo ya usado
+para Nivel 1/2).
+- **Lenguaje y Comunicación** (4 módulos, `content/epja/lenguajeNivel3.js`):
+  Comprensión de Lectura, Vocabulario en Contexto, Tipos de Texto y
+  Comunicación (emisor/receptor), y Hechos y Opiniones — mismo eje que
+  Nivel 2 (comprensión de textos literarios/no literarios, inferencia,
+  vocabulario en contexto, hechos vs. opiniones), pero el temario de NB3
+  **no pide** identificar elementos estructurales de una noticia (epígrafe/
+  título/bajada/cuerpo, sí presente en NB2) — el módulo de tipos de texto
+  aquí es más simple que su equivalente de Nivel 2 a propósito, sin forzar
+  un sub-eje que el temario no exige. Ningún objetivo de NB3 Lenguaje queda
+  fuera del motor de opción múltiple (no incluye producción escrita).
+- **Matemática** (6 módulos, `content/epja/matematicaNivel3.js`): Números
+  Enteros (interpretación en contexto -temperatura, profundidad, haber/
+  deber-, orden, operatoria), Potencias y Notación Científica, Razones,
+  Porcentajes y Escala (razón, proporcionalidad directa/inversa,
+  porcentaje, escala de mapas/planos, problemas de decimales), Pitágoras y
+  Circunferencia (teorema y su recíproco, elementos de la circunferencia),
+  Ángulos y Triángulos (ángulos entre paralelas cortadas por transversal,
+  suma de ángulos interiores/exteriores), y Estadística y Tendencia
+  Central (gráfico de barras, media, moda, mediana). Cubre los 18
+  objetivos de NB3 Matemática sin dejar ninguno fuera.
+- **Ciencias Naturales** (6 módulos, `content/epja/cienciasNivel3.js`, el
+  subsector más denso del temario con 24 objetivos): Modelo Cinético y
+  Materia, Átomos y Reacciones Químicas (Dalton, Lavoisier, velocidad de
+  reacción, exotérmica/endotérmica), Energía y Transformaciones (formas,
+  ley de conservación, dispositivos cotidianos), Origen de la Vida y
+  Genética (evolución, fósiles, ADN/genoma, reproducción asexual/sexual,
+  la célula y los gametos), **Reproducción y Sexualidad Responsable**
+  (estructura/función de los sistemas reproductores, concepción,
+  desarrollo embrionario, lactancia, métodos de control de la natalidad,
+  paternidad/maternidad responsable, factores biológicos/psicológicos/
+  sociales/valóricos de la sexualidad humana — mismo tono clínico/factual
+  ya establecido en `ciencias.js` para `genSexualidadReproduccion7Round`
+  -7° básico-, sin detalle gráfico ni juicio de valor, siempre remitiendo a
+  un profesional de la salud ante cualquier duda; al ser EPJA educación
+  para personas MAYORES DE 18 AÑOS, este módulo trata los métodos de
+  control de la natalidad con más detalle factual que su equivalente
+  escolar, ya que el propio temario oficial de Nivel 3 lo exige
+  explícitamente para población adulta), y Sistema Inmune y Enfermedades
+  (barreras del organismo, origen de enfermedades, vida saludable,
+  patógenos y prevención). Cubre los 24 objetivos de NB3 Ciencias sin
+  dejar ninguno fuera.
+- **Estudios Sociales** (3 módulos, `content/epja/estudiosSocialesNivel3.js`):
+  Historia y Economía Mundial del Siglo XX (guerras mundiales, Guerra
+  Fría, interconectividad global, comercio mundial e inserción de Chile,
+  problemas globales, conceptos de oferta/demanda/mercado), El Trabajo en
+  Chile (industrialización, terciarización, inserción de las mujeres,
+  impacto tecnológico, empleo formal/informal), y Democracia, Derechos
+  Humanos y Estado (dimensiones de los DD.HH., la Constitución y tratados,
+  sistemas democráticos vs. dictatoriales/totalitarios, mecanismos de
+  elección, soberanía, poderes del Estado). **A diferencia de Nivel 2**
+  (cuyo eje de historia de Chile sí exigía tratar el quiebre democrático de
+  1973 y el retorno a la democracia en 1990, con el mismo criterio de solo
+  hechos cronológicos ya usado en `historia.js`), el objetivo de NB3 sobre
+  sistemas democráticos vs. dictatoriales/totalitarios es puramente
+  conceptual y comparativo (definiciones generales, sin pedir ubicar
+  temporalmente un período específico de la historia de Chile) — no se
+  activó esa misma política de contenido sensible porque el propio temario
+  no pide ese análisis histórico puntual en este nivel. Cubre los 16
+  objetivos de NB3 Estudios Sociales sin dejar ninguno fuera.
+- Contextos de vida adulta en las 4 asignaturas, mismo criterio que Nivel
+  1/2. Bug de bank-size encontrado por el fuzz-testing (no detectado
+  proactivamente esta vez, a diferencia de otros bancos de este mismo PR
+  que sí se revisaron por tamaño antes de darlos por terminados):
+  `TRABAJO_CHILE_N3_BANK` (Estudios Sociales) tenía exactamente 7 ítems
+  para `rounds:8` — 200/200 sesiones simuladas con repetición garantizada.
+  Ampliado a 10 ítems (margen de 2) con contenido real dentro del mismo
+  bloque temático ya citado.
+- Verificado: los 19 generadores pasan fuzz de 300 iteraciones cada uno
+  (sin `undefined`, sin opciones duplicadas fuera de las ramas binarias/
+  ternarias intencionales -hechos/opiniones, sí/no de Pitágoras recíproco,
+  flota/se hunde, gráfico de barras con 3 categorías-, `correctValue`
+  siempre presente en las opciones, sin apóstrofes en `speakText`,
+  `recurso` siempre presente) y simulación de 200 sesiones completas cada
+  uno sin ningún repetido (tras el fix de `TRABAJO_CHILE_N3_BANK`).
+  `MC_KEYS.length === Object.keys(MC_GAMES).length === 371` (352 previos +
+  19 nuevos, sin claves huérfanas). Probado visualmente en el navegador:
+  navegación completa `etapaMap` → `epjaMap` (Nivel 3 Básica ya
+  desbloqueado) → `epjaSubjectMap` (4 asignaturas, con su conteo de
+  estrellas correcto: 0/12, 0/18, 0/18, 0/9) → mapa de módulos de las 4
+  asignaturas (sin solapamiento de nodos ni etiquetas truncadas en ninguno
+  de los 4 mapas, de 3 a 6 nodos cada uno) → una partida jugada en "El
+  Trabajo en Chile" (Estudios Sociales, overlay de Carboncito con el
+  `explain` correcto tras una respuesta incorrecta, y el modal de Recurso
+  abriendo con el texto real), una ronda en "Estadística y Tendencia
+  Central" (Matemática, gráfico de barras renderizando alturas
+  proporcionales correctamente, avance correcto tras responder bien), y
+  una ronda en "Reproducción y Sexualidad Responsable" (Ciencias,
+  confirmando visualmente el tono clínico/factual). Probado también en
+  375px (mobile), sin errores de consola en ningún caso.
+
+**Próximo paso del mismo pedido:** Educación Media EPJA (Niveles 1-2,
+Formación General + partes de Diferenciada/Instrumental con sentido para
+trivia — quedan fuera las especialidades técnico-profesionales y de
+oficios, producción práctica de un oficio específico). Educación Media
+regular (no EPJA) sigue sin construir — ver sección de arriba.
 
 ## Próximos pasos sugeridos (en orden)
 

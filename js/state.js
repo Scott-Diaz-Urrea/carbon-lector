@@ -101,7 +101,11 @@ export const state = {
            comprensionEpjaN2:0, vocabularioContextoEpjaN2:0, tiposTextoEpjaN2:0, hechosOpinionesEpjaN2:0,
            multiplosFactoresEpjaN2:0, fraccionesDecimalesEpjaN2:0, operatoriaEpjaN2:0, perimetroAreaEpjaN2:0, volumenEpjaN2:0, datosPromedioEpjaN2:0,
            seresVivosEcosistemasEpjaN2:0, nutricionEpjaN2:0, sistemaSolarUniversoEpjaN2:0, materiaEstadosEpjaN2:0, mezclasAguaSueloEpjaN2:0,
-           chileColoniaIndependenciaEpjaN2:0, chileSigloXIXXXEpjaN2:0, geografiaChileEpjaN2:0 },
+           chileColoniaIndependenciaEpjaN2:0, chileSigloXIXXXEpjaN2:0, geografiaChileEpjaN2:0,
+           comprensionEpjaN3:0, vocabularioContextoEpjaN3:0, tiposTextoEpjaN3:0, hechosOpinionesEpjaN3:0,
+           numerosEnterosEpjaN3:0, potenciasNotacionEpjaN3:0, razonesProporcionesEpjaN3:0, pitagorasCircunferenciaEpjaN3:0, angulosTriangulosEpjaN3:0, estadisticaEpjaN3:0,
+           modeloCineticoEpjaN3:0, atomosReaccionesEpjaN3:0, energiaTransformacionesEpjaN3:0, origenVidaGeneticaEpjaN3:0, reproduccionSexualidadEpjaN3:0, sistemaInmuneEnfermedadesEpjaN3:0,
+           historiaEconomiaMundialEpjaN3:0, trabajoChileEpjaN3:0, democraciaDerechosEpjaN3:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

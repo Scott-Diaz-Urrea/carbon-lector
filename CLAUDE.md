@@ -2752,15 +2752,18 @@ sesión).
     completa (respuesta incorrecta en Calendario) confirmó que el texto
     del `explain` ("Después de Diciembre viene Enero.") lee con
     puntuación y mayúsculas correctas. Sin errores de consola.
-  - Próximo paso (mismo pedido, orden ya acordado): `ciencias.js` (455
-    alternativas), luego `lenguaje.js`, `ingles.js`, `edfisica.js`,
-    `artes.js`, `musica.js`, `tecnologia.js`, `orientacion.js`,
-    `matematica.js` — cada uno en su propio commit/PR, con la misma
-    metodología (script + revisión manual del diff + fuzz + prueba
-    visual) ya validada aquí. **Actualización 2026-07-31: este plan
-    quedó en pausa** — antes de seguir con `ciencias.js`, el usuario
+  - Próximo paso (mismo pedido, orden ya acordado) tras `historia.js`:
+    `ciencias.js` (455 alternativas), luego `lenguaje.js`, `ingles.js`,
+    `edfisica.js`, `artes.js`, `musica.js`, `tecnologia.js`,
+    `orientacion.js`, `matematica.js` — cada uno en su propio commit/PR,
+    con la misma metodología (script + revisión manual del diff + fuzz +
+    prueba visual) ya validada aquí. **Actualización 2026-07-31: este
+    plan quedó en pausa** — antes de seguir con `ciencias.js`, el usuario
     revisó el resultado de `historia.js` y reportó un problema distinto
     (ver bullet siguiente, "Unificación del formato de alternativas").
+    **Retomado el mismo día, tras resolver ese bloqueo:** ver
+    "`ciencias.js` en oración normal" más abajo — 574 alternativas
+    convertidas, próximo archivo en la fila: `lenguaje.js`.
 - **Unificación del formato de alternativas a una sola columna
   (2026-07-31, pedido explícito del usuario con capturas de pantalla):**
   tras revisar `historia.js` ya en oración normal, el usuario notó que el
@@ -2819,3 +2822,98 @@ sesión).
     vía inspección del DOM en vez de comparación visual directa — si se
     quiere una confirmación visual, conviene pedirla en la próxima
     sesión con captura de pantalla real.
+- **`ciencias.js` en oración normal (2026-07-31/08-01, continuación del
+  rollout de MAYÚSCULAS SOSTENIDAS, segundo archivo tras `historia.js`):**
+  mismo pedido, mismo criterio ("procede" para continuar tras resolver el
+  bloqueo de formato de alternativas). A diferencia de `historia.js`
+  (predominan nombres propios/lugares), el diccionario de excepciones de
+  `ciencias.js` fue mucho más chico: solo 7 nombres de científicos
+  (Robert Hooke, Isaac Newton, Charles Darwin, Gregor Mendel, Anton van
+  Leeuwenhoek — con "van" en minúscula, convención neerlandesa real—,
+  Louis Pasteur, Alexander Fleming) y 3 valores de `nombre`/`fuente` del
+  banco de Sistema Solar (`'EL SOL'`→`'El Sol'`, `'LA TIERRA'`→`'La
+  Tierra'`, `'LA LUNA'`→`'La Luna'`, como nombres propios de cuerpos
+  celestes) que necesitaban un valor exacto de reemplazo en vez del
+  genérico "minúscula + primera letra mayúscula". El resto del banco
+  (~564 cadenas) usa ese genérico sin excepciones — no hay apellidos ni
+  topónimos chilenos en este archivo como sí los hay en historia.js.
+  - **Mismo guion de PowerShell que `historia.js`, con dos mejoras
+    deliberadas para evitar el bug de solapamiento de diccionario ya
+    documentado ahí:** en vez de un diccionario de sustitución por
+    substring (razón del bug de "Camino Inca"/"inca" en `historia.js`),
+    este guion usa un diccionario de **coincidencia de cadena completa**
+    (la cadena entre comillas debe ser EXACTAMENTE `'EL SOL'`, no
+    contenerlo) — así "El Sol" nunca se pisa con otra entrada aunque
+    aparezca como substring de una oración más larga en otro lugar del
+    archivo. Los 3 acrónimos reales del archivo (ADN, ITS, LED, que
+    aparecen incrustados dentro de oraciones más largas entre paréntesis
+    o como sigla) se restauran aparte, con un regex de límite de palabra
+    (`\bADN\b`) después de la conversión genérica a minúscula.
+  - **Un caso real de "Tierra" con doble sentido, resuelto a mano (no por
+    diccionario):** la palabra "tierra" aparece en el archivo tanto como
+    sustantivo común (suelo/terreno — "un cultivo que crece bajo la
+    tierra", "rodeado de tierra por todos lados" — correctamente en
+    minúscula) como nombre propio del planeta ("el interior de la
+    Tierra", "que la Tierra no tiene continentes", en el banco de placas
+    tectónicas de 6° básico) — un diccionario de substring ciego habría
+    forzado un solo criterio para ambos casos y roto uno de los dos. Se
+    dejó el genérico (minúscula) para todos los casos y se corrigieron a
+    mano, después de revisar el diff completo, los 2 únicos casos donde
+    "tierra" se refiere al planeta.
+  - **Bug real encontrado por el fuzz test tras la primera pasada del
+    guion, no por revisión manual:** `genSistemaSolar3Round` tenía
+    `explain: 'Esa descripción corresponde a <b>'+item.nombre.toLowerCase()+'</b>.'`
+    — antes de la conversión esto era inofensivo (`'EL SOL'.toLowerCase()`
+    daba "el sol", ya en minúscula sin nada que preservar), pero con
+    `item.nombre` ya convertido a `'El Sol'`/`'La Tierra'`/`'La Luna'`
+    (nombres propios), el mismo `.toLowerCase()` volvía a bajar la "S"/"T"/
+    "L" interna, mostrando "el sol" en vez de "El Sol" en el texto leído
+    tras responder. Se corrigió quitando `.toLowerCase()` en esa única
+    línea (los otros 2 valores posibles del mismo campo, "Un cometa"/"Un
+    planeta con anillos", se leen igual de bien sin forzar minúscula, ya
+    que quedan como sustantivo capitalizado tras "corresponde a", mismo
+    criterio que ya se usa para `item.correcta` en el patrón "La respuesta
+    correcta es: X"). Detectado con un fuzz de 200 iteraciones dirigido
+    específicamente a ese generador, buscando `<b>(el sol|la tierra|la
+    luna)</b>` en el `explain` — 0 casos tras la corrección.
+  - **Se aplicó el mismo criterio ya establecido para `.toLowerCase()`
+    sobre `item.correcta`** (quitarlo solo cuando el patrón es
+    literalmente "La respuesta correcta es: X." o "La respuesta correcta
+    es &lt;b&gt;X&lt;/b&gt;." — 30 ocurrencias en 27 generadores distintos)
+    y se dejó intacto en los demás usos mid-oración (p. ej. "esto es un
+    ejemplo de &lt;b&gt;conducción&lt;/b&gt;", "transforma la energía en
+    &lt;b&gt;luz y calor&lt;/b&gt;"), donde SÍ corresponde mostrar el
+    valor en minúscula por ir incrustado como complemento de una oración
+    ya empezada — mismo criterio de "¿es la respuesta citada como
+    entidad, o el complemento de una oración?" ya usado en `historia.js`.
+  - **Bug de contenido pre-existente, no relacionado con MAYÚSCULAS,
+    encontrado de paso al construir el diccionario:** un ítem de
+    `SISTEMAS_CUERPO_8_BANK` tenía la cadena
+    `'AYUDAN A ABSORBER ciertas VITAMINAS Y PROTEGEN ÓRGANOS DEL CUERPO'`
+    — una mezcla real de mayúsculas y minúsculas ya rota desde antes de
+    esta sesión (por eso el detector de "ALL-CAPS puro" del guion la
+    saltó sin tocarla: tiene la palabra "ciertas" en minúscula). Corregida
+    a mano a `'Ayudan a absorber ciertas vitaminas y protegen órganos del
+    cuerpo'`.
+  - **Nota de alcance, dejada fuera a propósito de este PR:** se encontró
+    de paso que 4 generadores (`genVertebrados2Round`,
+    `genClima2Round`/`genAlimentacion3Round`/`genSistemaSolar3Round`) usan
+    el placeholder literal `"un(a)"` sin resolver en su `explain` — el
+    mismo bug ya documentado y corregido en `lenguaje.js`/`matematica.js`
+    durante la auditoría de 6° básico, pero nunca tocado en
+    `ciencias.js`. No se corrigió en este PR por ser un bug de gramática
+    no relacionado con MAYÚSCULAS/formato (fuera del alcance de esta
+    tarea puntual) — queda pendiente para una sesión futura.
+  - Verificado: los 43 generadores de `ciencias.js` pasan fuzz de 300
+    iteraciones cada uno (sin `THROW`, sin `undefined`, sin opciones
+    duplicadas, `correctValue` siempre presente en las opciones, sin
+    apóstrofes en `speakText`, `recurso` sin `undefined`) — 0 hallazgos.
+    Grep dedicado confirmó 0 cadenas de 4+ letras en mayúscula sostenida
+    remanentes (fuera de ADN/ITS/LED, ya restaurados a propósito).
+    `MC_KEYS.length === Object.keys(MC_GAMES).length === 324` (regresión
+    de wiring intacta). Probado visualmente en el navegador en mobile
+    (375px): módulo "La Luz" (3° básico) con las alternativas "Fuente
+    natural"/"Fuente artificial" y luego "Verdadero"/"Falso" en oración
+    normal, una ronda completa jugada (respuesta correcta avanza de 1/8 a
+    2/8), botón Recurso abre el modal sin errores de consola. Próximo
+    paso del mismo pedido: `lenguaje.js` (246 alternativas).

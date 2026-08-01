@@ -16,63 +16,63 @@ export const CIENCIAS_POS = [{x:22,y:88},{x:68,y:70},{x:24,y:52},{x:70,y:34},{x:
    CN01 OA06-07 -> Mi Cuerpo · CN01 OA08-09 -> Materiales ·
    CN01 OA11-12 -> Día y Noche / Estaciones */
 const VIVOS_ITEMS = [
-  { emoji:'🐶', label:'PERRO', vivo:true },
-  { emoji:'🌳', label:'ÁRBOL', vivo:true },
-  { emoji:'🦋', label:'MARIPOSA', vivo:true },
-  { emoji:'🐟', label:'PEZ', vivo:true },
-  { emoji:'🌻', label:'FLOR', vivo:true },
-  { emoji:'🐦', label:'AVE', vivo:true },
-  { emoji:'🐢', label:'TORTUGA', vivo:true },
-  { emoji:'🌵', label:'CACTUS', vivo:true },
-  { emoji:'🐛', label:'ORUGA', vivo:true },
-  { emoji:'🍄', label:'HONGO', vivo:true },
-  { emoji: piedraSVG(30), label:'PIEDRA', vivo:false },
-  { emoji:'🚗', label:'AUTO', vivo:false },
-  { emoji:'⚽', label:'PELOTA', vivo:false },
-  { emoji:'🪑', label:'SILLA', vivo:false },
-  { emoji:'💧', label:'GOTA DE AGUA', vivo:false },
-  { emoji:'🧸', label:'PELUCHE', vivo:false },
-  { emoji:'📱', label:'CELULAR', vivo:false },
-  { emoji:'☁️', label:'NUBE', vivo:false },
+  { emoji:'🐶', label:'Perro', vivo:true },
+  { emoji:'🌳', label:'Árbol', vivo:true },
+  { emoji:'🦋', label:'Mariposa', vivo:true },
+  { emoji:'🐟', label:'Pez', vivo:true },
+  { emoji:'🌻', label:'Flor', vivo:true },
+  { emoji:'🐦', label:'Ave', vivo:true },
+  { emoji:'🐢', label:'Tortuga', vivo:true },
+  { emoji:'🌵', label:'Cactus', vivo:true },
+  { emoji:'🐛', label:'Oruga', vivo:true },
+  { emoji:'🍄', label:'Hongo', vivo:true },
+  { emoji: piedraSVG(30), label:'Piedra', vivo:false },
+  { emoji:'🚗', label:'Auto', vivo:false },
+  { emoji:'⚽', label:'Pelota', vivo:false },
+  { emoji:'🪑', label:'Silla', vivo:false },
+  { emoji:'💧', label:'Gota de agua', vivo:false },
+  { emoji:'🧸', label:'Peluche', vivo:false },
+  { emoji:'📱', label:'Celular', vivo:false },
+  { emoji:'☁️', label:'Nube', vivo:false },
 ];
 const ANIMAL_COVER_ITEMS = [
-  { emoji:'🐶', label:'PERRO', cubierta:'PELO' },
-  { emoji:'🐱', label:'GATO', cubierta:'PELO' },
-  { emoji:'🐰', label:'CONEJO', cubierta:'PELO' },
-  { emoji:'🐑', label:'OVEJA', cubierta:'LANA' },
-  { emoji:'🐦', label:'AVE', cubierta:'PLUMAS' },
-  { emoji:'🦜', label:'LORO', cubierta:'PLUMAS' },
-  { emoji:'🐧', label:'PINGÜINO', cubierta:'PLUMAS' },
-  { emoji:'🐍', label:'SERPIENTE', cubierta:'ESCAMAS' },
-  { emoji:'🐟', label:'PEZ', cubierta:'ESCAMAS' },
-  { emoji:'🐊', label:'COCODRILO', cubierta:'ESCAMAS' },
-  { emoji:'🐸', label:'RANA', cubierta:'PIEL' },
-  { emoji:'🐘', label:'ELEFANTE', cubierta:'PIEL' },
+  { emoji:'🐶', label:'Perro', cubierta:'Pelo' },
+  { emoji:'🐱', label:'Gato', cubierta:'Pelo' },
+  { emoji:'🐰', label:'Conejo', cubierta:'Pelo' },
+  { emoji:'🐑', label:'Oveja', cubierta:'Lana' },
+  { emoji:'🐦', label:'Ave', cubierta:'Plumas' },
+  { emoji:'🦜', label:'Loro', cubierta:'Plumas' },
+  { emoji:'🐧', label:'Pingüino', cubierta:'Plumas' },
+  { emoji:'🐍', label:'Serpiente', cubierta:'Escamas' },
+  { emoji:'🐟', label:'Pez', cubierta:'Escamas' },
+  { emoji:'🐊', label:'Cocodrilo', cubierta:'Escamas' },
+  { emoji:'🐸', label:'Rana', cubierta:'Piel' },
+  { emoji:'🐘', label:'Elefante', cubierta:'Piel' },
 ];
 const PLANT_PARTS = [
-  { emoji:'🌿', part:'HOJA', desc:'Parte verde y plana que usa la luz del sol para fabricar el alimento de la planta.' },
-  { emoji:'🌸', part:'FLOR', desc:'Parte colorida y perfumada que atrae a los insectos.' },
-  { emoji:'🌱', part:'TALLO', desc:'Parte que sostiene a la planta y lleva el agua hacia arriba.' },
-  { emoji:'🥕', part:'RAÍZ', desc:'Parte que está bajo la tierra y absorbe agua y nutrientes.' },
+  { emoji:'🌿', part:'Hoja', desc:'Parte verde y plana que usa la luz del sol para fabricar el alimento de la planta.' },
+  { emoji:'🌸', part:'Flor', desc:'Parte colorida y perfumada que atrae a los insectos.' },
+  { emoji:'🌱', part:'Tallo', desc:'Parte que sostiene a la planta y lleva el agua hacia arriba.' },
+  { emoji:'🥕', part:'Raíz', desc:'Parte que está bajo la tierra y absorbe agua y nutrientes.' },
 ];
 const FRUIT_SIZE = [
-  { emoji:'🌰', label:'CASTAÑA', size:1 },
-  { emoji:'🍇', label:'UVA', size:2 },
-  { emoji:'🍒', label:'CEREZA', size:3 },
-  { emoji:'🍓', label:'FRUTILLA', size:4 },
-  { emoji:'🍐', label:'PERA', size:5 },
-  { emoji:'🍎', label:'MANZANA', size:6 },
-  { emoji:'🥭', label:'MANGO', size:7 },
-  { emoji:'🍍', label:'PIÑA', size:8 },
-  { emoji:'🍉', label:'SANDÍA', size:9 },
-  { emoji:'🎃', label:'ZAPALLO', size:10 },
+  { emoji:'🌰', label:'Castaña', size:1 },
+  { emoji:'🍇', label:'Uva', size:2 },
+  { emoji:'🍒', label:'Cereza', size:3 },
+  { emoji:'🍓', label:'Frutilla', size:4 },
+  { emoji:'🍐', label:'Pera', size:5 },
+  { emoji:'🍎', label:'Manzana', size:6 },
+  { emoji:'🥭', label:'Mango', size:7 },
+  { emoji:'🍍', label:'Piña', size:8 },
+  { emoji:'🍉', label:'Sandía', size:9 },
+  { emoji:'🎃', label:'Zapallo', size:10 },
 ];
 const SENTIDOS = [
-  { emoji:'👁️', organ:'OJOS', sense:'VER' },
-  { emoji:'👂', organ:'OÍDOS', sense:'OÍR' },
-  { emoji:'👃', organ:'NARIZ', sense:'OLER' },
-  { emoji:'👅', organ:'LENGUA', sense:'SABOREAR' },
-  { emoji:'✋', organ:'PIEL', sense:'TOCAR' },
+  { emoji:'👁️', organ:'Ojos', sense:'Ver' },
+  { emoji:'👂', organ:'Oídos', sense:'Oír' },
+  { emoji:'👃', organ:'Nariz', sense:'Oler' },
+  { emoji:'👅', organ:'Lengua', sense:'Saborear' },
+  { emoji:'✋', organ:'Piel', sense:'Tocar' },
 ];
 /* "No lavarse las manos" (bueno:false) usaba 🧴 (una botella de jabón/
    crema) — un ícono que en realidad sugiere buena higiene, al revés de lo
@@ -96,16 +96,16 @@ const HABITOS_SALUDABLES = [
    no un vaso para beber (mismo tipo de error que 🥛 para "vaso de agua",
    ver corporalidadMovimiento.js). vasoVacioSVG() dibuja el vaso real. */
 const MATERIALES_ITEMS = [
-  { emoji:'🪵', object:'una mesa de madera', material:'MADERA' },
-  { emoji:'🥄', object:'una cuchara de metal', material:'METAL' },
-  { emoji:'🧸', object:'un juguete de peluche', material:'TELA' },
-  { emoji: vasoVacioSVG(30), object:'un vaso de vidrio', material:'VIDRIO' },
-  { emoji:'🥤', object:'una botella de plástico', material:'PLÁSTICO' },
-  { emoji:'🧱', object:'un muro de ladrillo', material:'LADRILLO' },
-  { emoji:'📄', object:'una hoja de papel', material:'PAPEL' },
-  { emoji:'🪢', object:'una cuerda de lana', material:'LANA' },
-  { emoji:'🔑', object:'una llave de metal', material:'METAL' },
-  { emoji:'👖', object:'unos pantalones de tela', material:'TELA' },
+  { emoji:'🪵', object:'una mesa de madera', material:'Madera' },
+  { emoji:'🥄', object:'una cuchara de metal', material:'Metal' },
+  { emoji:'🧸', object:'un juguete de peluche', material:'Tela' },
+  { emoji: vasoVacioSVG(30), object:'un vaso de vidrio', material:'Vidrio' },
+  { emoji:'🥤', object:'una botella de plástico', material:'Plástico' },
+  { emoji:'🧱', object:'un muro de ladrillo', material:'Ladrillo' },
+  { emoji:'📄', object:'una hoja de papel', material:'Papel' },
+  { emoji:'🪢', object:'una cuerda de lana', material:'Lana' },
+  { emoji:'🔑', object:'una llave de metal', material:'Metal' },
+  { emoji:'👖', object:'unos pantalones de tela', material:'Tela' },
 ];
 /* Tres correcciones de ícono-texto: "plastilina" usaba 🖌️ (un pincel, una
    herramienta, no una masa moldeable) → plasticinaSVG(). "Semilla" usaba
@@ -115,40 +115,40 @@ const MATERIALES_ITEMS = [
    usaba 🌓 (una fase de la luna, sin relación con un afiche/póster) → 🖼️
    (un cuadro/lámina) se parece mucho más al objeto real. */
 const CAMBIOS_MATERIALES = [
-  { emoji:'🧊', text:'Un cubo de hielo se derrite', cause:'CALOR' },
-  { emoji:'🍞', text:'El pan se tuesta en el fuego', cause:'CALOR' },
-  { emoji:'👕', text:'La ropa mojada se seca al sol', cause:'CALOR' },
-  { emoji:'🍫', text:'Una barra de chocolate se derrite en la mano', cause:'CALOR' },
-  { emoji:'🎈', text:'Un globo se estira al inflarlo', cause:'FUERZA' },
-  { emoji: plasticinaSVG(30), text:'La plastilina cambia de forma al apretarla', cause:'FUERZA' },
-  { emoji:'📄', text:'Una hoja de papel se arruga al apretarla con la mano', cause:'FUERZA' },
-  { emoji: semillaSVG(30), text:'Una semilla crece al regarla', cause:'AGUA' },
-  { emoji:'👗', text:'La ropa se moja bajo la lluvia', cause:'AGUA' },
-  { emoji:'🧽', text:'Una esponja seca se hincha al mojarla', cause:'AGUA' },
-  { emoji:'🖼️', text:'Un afiche se decolora al dejarlo mucho tiempo al sol', cause:'LUZ' },
-  { emoji:'🪴', text:'Una planta crece inclinada buscando la ventana', cause:'LUZ' },
+  { emoji:'🧊', text:'Un cubo de hielo se derrite', cause:'Calor' },
+  { emoji:'🍞', text:'El pan se tuesta en el fuego', cause:'Calor' },
+  { emoji:'👕', text:'La ropa mojada se seca al sol', cause:'Calor' },
+  { emoji:'🍫', text:'Una barra de chocolate se derrite en la mano', cause:'Calor' },
+  { emoji:'🎈', text:'Un globo se estira al inflarlo', cause:'Fuerza' },
+  { emoji: plasticinaSVG(30), text:'La plastilina cambia de forma al apretarla', cause:'Fuerza' },
+  { emoji:'📄', text:'Una hoja de papel se arruga al apretarla con la mano', cause:'Fuerza' },
+  { emoji: semillaSVG(30), text:'Una semilla crece al regarla', cause:'Agua' },
+  { emoji:'👗', text:'La ropa se moja bajo la lluvia', cause:'Agua' },
+  { emoji:'🧽', text:'Una esponja seca se hincha al mojarla', cause:'Agua' },
+  { emoji:'🖼️', text:'Un afiche se decolora al dejarlo mucho tiempo al sol', cause:'Luz' },
+  { emoji:'🪴', text:'Una planta crece inclinada buscando la ventana', cause:'Luz' },
 ];
 const DIA_NOCHE_ITEMS = [
-  { emoji:'☀️', label:'El Sol brilla fuerte en el cielo', momento:'DÍA' },
-  { emoji:'🌕', label:'La Luna llena se ve en el cielo', momento:'NOCHE' },
-  { emoji:'⭐', label:'Las estrellas brillan en el cielo oscuro', momento:'NOCHE' },
-  { emoji:'🌤️', label:'El cielo está celeste y muy iluminado', momento:'DÍA' },
-  { emoji:'🦉', label:'El búho sale a cazar', momento:'NOCHE' },
-  { emoji:'🐓', label:'El gallo canta al amanecer', momento:'DÍA' },
-  { emoji:'🦇', label:'Los murciélagos salen a volar', momento:'NOCHE' },
-  { emoji:'🏫', label:'Los niños van a la escuela', momento:'DÍA' },
-  { emoji:'🛌', label:'La familia se va a dormir', momento:'NOCHE' },
-  { emoji:'🌻', label:'Los girasoles miran hacia el sol', momento:'DÍA' },
+  { emoji:'☀️', label:'El Sol brilla fuerte en el cielo', momento:'Día' },
+  { emoji:'🌕', label:'La Luna llena se ve en el cielo', momento:'Noche' },
+  { emoji:'⭐', label:'Las estrellas brillan en el cielo oscuro', momento:'Noche' },
+  { emoji:'🌤️', label:'El cielo está celeste y muy iluminado', momento:'Día' },
+  { emoji:'🦉', label:'El búho sale a cazar', momento:'Noche' },
+  { emoji:'🐓', label:'El gallo canta al amanecer', momento:'Día' },
+  { emoji:'🦇', label:'Los murciélagos salen a volar', momento:'Noche' },
+  { emoji:'🏫', label:'Los niños van a la escuela', momento:'Día' },
+  { emoji:'🛌', label:'La familia se va a dormir', momento:'Noche' },
+  { emoji:'🌻', label:'Los girasoles miran hacia el sol', momento:'Día' },
 ];
 const ESTACIONES = [
-  { emoji:'☀️', label:'Hace mucho calor y vamos a la playa', season:'VERANO' },
-  { emoji:'🍉', label:'Comemos sandía porque hace mucho calor', season:'VERANO' },
-  { emoji:'🍂', label:'Las hojas de los árboles caen y cambian de color', season:'OTOÑO' },
-  { emoji:'🌰', label:'Se cosechan castañas y nueces', season:'OTOÑO' },
-  { emoji:'❄️', label:'Hace mucho frío y en algunos lugares nieva', season:'INVIERNO' },
-  { emoji:'☂️', label:'Llueve seguido y usamos paraguas y botas', season:'INVIERNO' },
-  { emoji:'🌸', label:'Las flores empiezan a florecer y el clima se entibia', season:'PRIMAVERA' },
-  { emoji:'🐝', label:'Las abejas despiertan y visitan las flores nuevas', season:'PRIMAVERA' },
+  { emoji:'☀️', label:'Hace mucho calor y vamos a la playa', season:'Verano' },
+  { emoji:'🍉', label:'Comemos sandía porque hace mucho calor', season:'Verano' },
+  { emoji:'🍂', label:'Las hojas de los árboles caen y cambian de color', season:'Otoño' },
+  { emoji:'🌰', label:'Se cosechan castañas y nueces', season:'Otoño' },
+  { emoji:'❄️', label:'Hace mucho frío y en algunos lugares nieva', season:'Invierno' },
+  { emoji:'☂️', label:'Llueve seguido y usamos paraguas y botas', season:'Invierno' },
+  { emoji:'🌸', label:'Las flores empiezan a florecer y el clima se entibia', season:'Primavera' },
+  { emoji:'🐝', label:'Las abejas despiertan y visitan las flores nuevas', season:'Primavera' },
 ];
 
 /* ---------------- Contenido Ciencias Naturales 2° Básico ----------------
@@ -172,24 +172,24 @@ export const CIENCIAS_POS_G2 = [
 ];
 
 const VERTEBRADOS_BANK = [
-  { emoji:'🐶', label:'PERRO', tipo:'MAMÍFERO' },
-  { emoji:'🐱', label:'GATO', tipo:'MAMÍFERO' },
-  { emoji:'🐘', label:'ELEFANTE', tipo:'MAMÍFERO' },
-  { emoji:'🦅', label:'ÁGUILA', tipo:'AVE' },
-  { emoji:'🦜', label:'LORO', tipo:'AVE' },
-  { emoji:'🦎', label:'LAGARTIJA', tipo:'REPTIL' },
-  { emoji:'🐍', label:'SERPIENTE', tipo:'REPTIL' },
-  { emoji:'🐸', label:'RANA', tipo:'ANFIBIO' },
-  { emoji:'🐟', label:'PEZ', tipo:'PEZ' },
-  { emoji:'🦈', label:'TIBURÓN', tipo:'PEZ' },
+  { emoji:'🐶', label:'Perro', tipo:'Mamífero' },
+  { emoji:'🐱', label:'Gato', tipo:'Mamífero' },
+  { emoji:'🐘', label:'Elefante', tipo:'Mamífero' },
+  { emoji:'🦅', label:'Águila', tipo:'Ave' },
+  { emoji:'🦜', label:'Loro', tipo:'Ave' },
+  { emoji:'🦎', label:'Lagartija', tipo:'Reptil' },
+  { emoji:'🐍', label:'Serpiente', tipo:'Reptil' },
+  { emoji:'🐸', label:'Rana', tipo:'Anfibio' },
+  { emoji:'🐟', label:'Pez', tipo:'Pez' },
+  { emoji:'🦈', label:'Tiburón', tipo:'Pez' },
 ];
 const INVERTEBRADOS_BANK = [
-  { emoji:'🦋', label:'MARIPOSA' },
-  { emoji:'🐝', label:'ABEJA' },
-  { emoji:'🕷️', label:'ARAÑA' },
-  { emoji:'🦂', label:'ESCORPIÓN' },
-  { emoji:'🦀', label:'CANGREJO' },
-  { emoji:'🐌', label:'CARACOL' },
+  { emoji:'🦋', label:'Mariposa' },
+  { emoji:'🐝', label:'Abeja' },
+  { emoji:'🕷️', label:'Araña' },
+  { emoji:'🦂', label:'Escorpión' },
+  { emoji:'🦀', label:'Cangrejo' },
+  { emoji:'🐌', label:'Caracol' },
 ];
 
 const MARIPOSA_CICLO = [{ emoji:'🥚', label:'Huevo', orden:1 },{ emoji:'🐛', label:'Oruga', orden:2 },{ emoji:'🦋', label:'Mariposa adulta', orden:3 }];
@@ -199,15 +199,15 @@ const MAMIFERO_CICLO = [{ emoji:'🍼', label:'Recién nacido', orden:1 },{ emoj
 const CICLOS_G2 = [MARIPOSA_CICLO, RANA_CICLO, AVE_CICLO, MAMIFERO_CICLO];
 
 const HABITAT_ANIMALES = [
-  { emoji:'🐧', label:'PINGÜINO', habitat:'POLO' },
-  { emoji: focaSVG(30), label:'FOCA', habitat:'POLO' },
-  { emoji:'🐫', label:'CAMELLO', habitat:'DESIERTO' },
-  { emoji:'🦂', label:'ESCORPIÓN', habitat:'DESIERTO' },
-  { emoji:'🐬', label:'DELFÍN', habitat:'OCÉANO' },
-  { emoji:'🐙', label:'PULPO', habitat:'OCÉANO' },
-  { emoji:'🐒', label:'MONO', habitat:'SELVA' },
-  { emoji:'🦜', label:'TUCÁN', habitat:'SELVA' },
-  { emoji:'🐻', label:'OSO', habitat:'BOSQUE' },
+  { emoji:'🐧', label:'Pingüino', habitat:'Polo' },
+  { emoji: focaSVG(30), label:'Foca', habitat:'Polo' },
+  { emoji:'🐫', label:'Camello', habitat:'Desierto' },
+  { emoji:'🦂', label:'Escorpión', habitat:'Desierto' },
+  { emoji:'🐬', label:'Delfín', habitat:'Océano' },
+  { emoji:'🐙', label:'Pulpo', habitat:'Océano' },
+  { emoji:'🐒', label:'Mono', habitat:'Selva' },
+  { emoji:'🦜', label:'Tucán', habitat:'Selva' },
+  { emoji:'🐻', label:'Oso', habitat:'Bosque' },
 ];
 const CUIDADO_ANIMAL_BANK = [
   { correcta:'No botar basura en el bosque donde viven animales', incorrectas:['Cazar animales en peligro de extinción','Destruir su hábitat natural','Contaminar los ríos donde beben agua'] },
@@ -216,11 +216,11 @@ const CUIDADO_ANIMAL_BANK = [
 ];
 
 const ORGANOS_BANK = [
-  { emoji:'❤️', organo:'CORAZÓN', funcion:'Bombea la sangre por todo el cuerpo' },
-  { emoji:'🫁', organo:'PULMONES', funcion:'Nos ayudan a respirar' },
-  { emoji: estomagoSVG(30), organo:'ESTÓMAGO', funcion:'Digiere los alimentos que comemos' },
-  { emoji:'🦴', organo:'ESQUELETO', funcion:'Sostiene y protege nuestro cuerpo' },
-  { emoji:'💪', organo:'MÚSCULOS', funcion:'Nos permiten movernos' },
+  { emoji:'❤️', organo:'Corazón', funcion:'Bombea la sangre por todo el cuerpo' },
+  { emoji:'🫁', organo:'Pulmones', funcion:'Nos ayudan a respirar' },
+  { emoji: estomagoSVG(30), organo:'Estómago', funcion:'Digiere los alimentos que comemos' },
+  { emoji:'🦴', organo:'Esqueleto', funcion:'Sostiene y protege nuestro cuerpo' },
+  { emoji:'💪', organo:'Músculos', funcion:'Nos permiten movernos' },
 ];
 const EJERCICIO_BANK = [
   { pregunta:'¿Qué le pasa a tu corazón cuando haces ejercicio?', correcta:'Late más rápido y se fortalece', opts:['Deja de latir','Se hace más pequeño','No cambia nada'] },
@@ -228,9 +228,9 @@ const EJERCICIO_BANK = [
 ];
 
 const AGUA_ESTADOS_BANK = [
-  { emoji:'🧊', label:'HIELO', estado:'SÓLIDO' },
-  { emoji:'💧', label:'AGUA LÍQUIDA', estado:'LÍQUIDO' },
-  { emoji:'💨', label:'VAPOR DE AGUA', estado:'GASEOSO' },
+  { emoji:'🧊', label:'Hielo', estado:'Sólido' },
+  { emoji:'💧', label:'Agua líquida', estado:'Líquido' },
+  { emoji:'💨', label:'Vapor de agua', estado:'Gaseoso' },
 ];
 const CICLO_AGUA = [
   { emoji:'☀️', label:'Evaporación: el sol calienta el agua', orden:1 },
@@ -251,19 +251,19 @@ const AGUA_PROPIEDADES_BANK = [
    HIGRÓMETRO son instrumentos meteorológicos reales tan estándar como los
    3 ya incluidos (siguen siendo CN02 OA12-13). */
 const INSTRUMENTOS_CLIMA_BANK = [
-  { emoji:'🌡️', label:'TERMÓMETRO', mide:'LA TEMPERATURA' },
-  { svg:'pluviometro', label:'PLUVIÓMETRO', mide:'LA LLUVIA' },
-  { svg:'veleta', label:'VELETA', mide:'LA DIRECCIÓN DEL VIENTO' },
-  { emoji:'🌬️', label:'ANEMÓMETRO', mide:'LA VELOCIDAD DEL VIENTO' },
-  { emoji:'💧', label:'HIGRÓMETRO', mide:'LA HUMEDAD DEL AIRE' },
+  { emoji:'🌡️', label:'Termómetro', mide:'La temperatura' },
+  { svg:'pluviometro', label:'Pluviómetro', mide:'La lluvia' },
+  { svg:'veleta', label:'Veleta', mide:'La dirección del viento' },
+  { emoji:'🌬️', label:'Anemómetro', mide:'La velocidad del viento' },
+  { emoji:'💧', label:'Higrómetro', mide:'La humedad del aire' },
 ];
 const TIEMPO_ATMOSFERICO_BANK = [
-  { emoji:'🌧️', texto:'Cae mucha agua del cielo', tipo:'LLUVIA' },
-  { emoji:'💨', texto:'Las hojas de los árboles se mueven fuerte', tipo:'VIENTO' },
-  { emoji:'☀️', texto:'Hace mucho calor y sudas', tipo:'CALOR' },
-  { emoji:'❄️', texto:'Hace mucho frío y ves tu respiración', tipo:'FRÍO' },
-  { emoji:'☁️', texto:'El cielo se cubre de nubes grises y no se ve el sol', tipo:'NUBLADO' },
-  { emoji:'🌨️', texto:'Caen copitos blancos y fríos del cielo', tipo:'NEVADO' },
+  { emoji:'🌧️', texto:'Cae mucha agua del cielo', tipo:'Lluvia' },
+  { emoji:'💨', texto:'Las hojas de los árboles se mueven fuerte', tipo:'Viento' },
+  { emoji:'☀️', texto:'Hace mucho calor y sudas', tipo:'Calor' },
+  { emoji:'❄️', texto:'Hace mucho frío y ves tu respiración', tipo:'Frío' },
+  { emoji:'☁️', texto:'El cielo se cubre de nubes grises y no se ve el sol', tipo:'Nublado' },
+  { emoji:'🌨️', texto:'Caen copitos blancos y fríos del cielo', tipo:'Nevado' },
 ];
 
 export function genVertebrados2Round(){
@@ -271,7 +271,7 @@ export function genVertebrados2Round(){
   if(Math.random()<0.5){
     const isVert = Math.random()<0.5;
     const item = isVert ? pick(VERTEBRADOS_BANK) : pick(INVERTEBRADOS_BANK);
-    const opts = shuffle([{label:'TIENE COLUMNA VERTEBRAL', value:true},{label:'NO TIENE COLUMNA VERTEBRAL', value:false}]);
+    const opts = shuffle([{label:'Tiene columna vertebral', value:true},{label:'No tiene columna vertebral', value:false}]);
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿El/la '+item.label.toLowerCase()+' tiene columna vertebral?</p>',
       options: opts, correctValue: isVert, speakText: item.label, cols:2, panel:true,
@@ -280,7 +280,7 @@ export function genVertebrados2Round(){
     };
   }
   const item = pick(VERTEBRADOS_BANK);
-  const distract = shuffle(['MAMÍFERO','AVE','REPTIL','ANFIBIO','PEZ'].filter(function(t){ return t!==item.tipo; })).slice(0,3);
+  const distract = shuffle(['Mamífero','Ave','Reptil','Anfibio','Pez'].filter(function(t){ return t!==item.tipo; })).slice(0,3);
   const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué tipo de vertebrado es?</p>',
@@ -383,7 +383,7 @@ export function genAgua2Round(){
     };
   }
   const item = pick(AGUA_PROPIEDADES_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
     options: opts, correctValue: item.valor, speakText: item.texto, cols:2, panel:true,
@@ -423,7 +423,7 @@ export function genSeresVivosRound(){
   const recurso = 'Un <b>ser vivo</b> es algo que nace, crece, se alimenta, respira y puede tener crías — como tú, un perro o una planta. Una piedra o un juguete no hacen nada de eso por sí solos: no necesitan comer ni respirar, por eso no están vivos. Los animales, además, tienen distintas cubiertas en su cuerpo que los ayudan a sobrevivir en su ambiente: el pelo y la lana los mantienen abrigados, las plumas les sirven para volar y aislarse del frío o la lluvia, y las escamas los protegen como una armadura. Fijarte en estas dos cosas — si algo cumple las funciones de un ser vivo, y cómo es su cuerpo por fuera — te ayuda a entender mejor a los animales y plantas que te rodean.';
   if(Math.random()<0.5){
     const item = pick(VIVOS_ITEMS);
-    const opts = shuffle([{label:'SER VIVO', value:true},{label:'NO ES SER VIVO', value:false}]);
+    const opts = shuffle([{label:'Ser vivo', value:true},{label:'No es ser vivo', value:false}]);
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Es un ser vivo o no?</p>',
       options: opts, correctValue: item.vivo, speakText: item.label, cols:2, panel:true,
@@ -432,7 +432,7 @@ export function genSeresVivosRound(){
     };
   }
   const item = pick(ANIMAL_COVER_ITEMS);
-  const distract = shuffle(['PELO','PLUMAS','ESCAMAS','PIEL','LANA'].filter(function(c){ return c!==item.cubierta; })).slice(0,3);
+  const distract = shuffle(['Pelo','Plumas','Escamas','Piel','Lana'].filter(function(c){ return c!==item.cubierta; })).slice(0,3);
   const opts = shuffle([item.cubierta].concat(distract)).map(function(c){ return {label:c, value:c}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué cubre el cuerpo de este animal?</p>',
@@ -481,7 +481,7 @@ export function genCuerpoRound(){
     };
   }
   const item = pick(HABITOS_SALUDABLES);
-  const opts = shuffle([{label:'HÁBITO SALUDABLE', value:true},{label:'NO ES SALUDABLE', value:false}]);
+  const opts = shuffle([{label:'Hábito saludable', value:true},{label:'No es saludable', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.bueno, speakText: item.label, cols:2, panel:true,
@@ -505,7 +505,7 @@ export function genMaterialesRound(){
     };
   }
   const item = pick(CAMBIOS_MATERIALES);
-  const distract = shuffle(['CALOR','FUERZA','AGUA','LUZ'].filter(function(c){ return c!==item.cause; })).slice(0,3);
+  const distract = shuffle(['Calor','Fuerza','Agua','Luz'].filter(function(c){ return c!==item.cause; })).slice(0,3);
   const opts = shuffle([item.cause].concat(distract)).map(function(c){ return {label:c, value:c}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.text+'. ¿Qué produjo este cambio?</p>',
@@ -543,17 +543,17 @@ export const CIENCIAS_POS_G3 = [
    de cada parte, y especie/cultivo chileno), en vez de dejar un módulo
    separado con muy poca variedad real. */
 const PARTES_PLANTA_BANK = [
-  { parte:'RAÍZ', funcion:'Absorbe agua y nutrientes de la tierra y sostiene la planta', emoji:'🥕' },
-  { parte:'TALLO', funcion:'Sostiene la planta y transporta el agua desde la raíz hasta las hojas', emoji:'🌱' },
-  { parte:'HOJAS', funcion:'Fabrican el alimento de la planta usando la luz del sol', emoji:'🌿' },
+  { parte:'Raíz', funcion:'Absorbe agua y nutrientes de la tierra y sostiene la planta', emoji:'🥕' },
+  { parte:'Tallo', funcion:'Sostiene la planta y transporta el agua desde la raíz hasta las hojas', emoji:'🌱' },
+  { parte:'Hojas', funcion:'Fabrican el alimento de la planta usando la luz del sol', emoji:'🌿' },
 ];
 const PLANTAS_CHILE_BANK = [
-  { emoji:'🌺', planta:'COPIHUE', tipo:'FLOR NACIONAL DE CHILE' },
-  { emoji:'🌲', planta:'ARAUCARIA', tipo:'ÁRBOL NATIVO DE CHILE' },
-  { emoji:'🌾', planta:'TRIGO', tipo:'CULTIVO PARA HACER PAN Y HARINA' },
-  { emoji:'🌽', planta:'MAÍZ', tipo:'CULTIVO PARA HACER CHOCLO Y HARINA' },
-  { emoji:'🥔', planta:'PAPA', tipo:'CULTIVO QUE CRECE BAJO LA TIERRA' },
-  { emoji:'🍇', planta:'VID', tipo:'CULTIVO PARA HACER UVAS Y VINO' },
+  { emoji:'🌺', planta:'Copihue', tipo:'Flor nacional de chile' },
+  { emoji:'🌲', planta:'Araucaria', tipo:'Árbol nativo de chile' },
+  { emoji:'🌾', planta:'Trigo', tipo:'Cultivo para hacer pan y harina' },
+  { emoji:'🌽', planta:'Maíz', tipo:'Cultivo para hacer choclo y harina' },
+  { emoji:'🥔', planta:'Papa', tipo:'Cultivo que crece bajo la tierra' },
+  { emoji:'🍇', planta:'Vid', tipo:'Cultivo para hacer uvas y vino' },
 ];
 const CICLO_PLANTA_BANK = [
   { emoji:'🌰', label:'Semilla', desc:'Cae al suelo y espera las condiciones para crecer', orden:1 },
@@ -573,12 +573,12 @@ const CUIDADO_AMBIENTE3_BANK = [
   { correcta:'Apagar las luces y desenchufar aparatos que no se están usando', incorrectas:['Dejar todos los aparatos enchufados todo el día','Dejar las luces prendidas aunque no haya nadie','Usar más electricidad de la necesaria a propósito'] },
 ];
 const ALIMENTOS3_BANK = [
-  { emoji:'🥦', alimento:'el brócoli', categoria:'VERDURA' },
-  { emoji:'🍎', alimento:'la manzana', categoria:'FRUTA' },
-  { emoji:'🍗', alimento:'el pollo', categoria:'PROTEÍNA' },
-  { emoji:'🥛', alimento:'la leche', categoria:'LÁCTEO' },
-  { emoji:'🍞', alimento:'el pan', categoria:'CEREAL' },
-  { emoji:'🍬', alimento:'el dulce', categoria:'AZÚCAR (CONSUMO MODERADO)' },
+  { emoji:'🥦', alimento:'el brócoli', categoria:'Verdura' },
+  { emoji:'🍎', alimento:'la manzana', categoria:'Fruta' },
+  { emoji:'🍗', alimento:'el pollo', categoria:'Proteína' },
+  { emoji:'🥛', alimento:'la leche', categoria:'Lácteo' },
+  { emoji:'🍞', alimento:'el pan', categoria:'Cereal' },
+  { emoji:'🍬', alimento:'el dulce', categoria:'Azúcar (consumo moderado)' },
 ];
 const HIGIENE_ALIMENTOS_BANK = [
   { correcta:'Lavarse las manos antes de preparar o comer alimentos', incorrectas:['Cocinar sin lavarse las manos','Tocar la comida con las manos sucias','Estornudar sobre los alimentos'] },
@@ -586,12 +586,12 @@ const HIGIENE_ALIMENTOS_BANK = [
   { correcta:'Guardar los alimentos en el refrigerador para que no se echen a perder', incorrectas:['Dejar la comida cocinada afuera todo el día','Guardar la comida ya vencida','Mezclar comida cruda con comida cocinada'] },
 ];
 const LUZ_FUENTES_BANK = [
-  { emoji:'☀️', fuente:'el Sol', tipo:'NATURAL' },
-  { emoji:'💡', fuente:'una ampolleta', tipo:'ARTIFICIAL' },
-  { emoji:'🔥', fuente:'el fuego', tipo:'NATURAL' },
-  { emoji:'🔦', fuente:'una linterna', tipo:'ARTIFICIAL' },
-  { emoji:'🌟', fuente:'una estrella', tipo:'NATURAL' },
-  { emoji:'🕯️', fuente:'una vela', tipo:'ARTIFICIAL' },
+  { emoji:'☀️', fuente:'el Sol', tipo:'Natural' },
+  { emoji:'💡', fuente:'una ampolleta', tipo:'Artificial' },
+  { emoji:'🔥', fuente:'el fuego', tipo:'Natural' },
+  { emoji:'🔦', fuente:'una linterna', tipo:'Artificial' },
+  { emoji:'🌟', fuente:'una estrella', tipo:'Natural' },
+  { emoji:'🕯️', fuente:'una vela', tipo:'Artificial' },
 ];
 const LUZ_PROPIEDADES_BANK = [
   { texto:'La luz viaja en línea recta', valor:true },
@@ -611,23 +611,23 @@ const SONIDO_PROPIEDADES_BANK = [
   { texto:'El sonido viaja más rápido en el aire que en un sólido', valor:false },
 ];
 const SISTEMA_SOLAR_BANK = [
-  { emoji:'☀️', nombre:'EL SOL', desc:'Es la estrella que está en el centro del Sistema Solar y nos da luz y calor' },
-  { emoji:'🌍', nombre:'LA TIERRA', desc:'Es el planeta donde vivimos, el tercero más cercano al Sol' },
-  { emoji:'🌙', nombre:'LA LUNA', desc:'Es el satélite natural que gira alrededor de la Tierra' },
-  { emoji:'☄️', nombre:'UN COMETA', desc:'Es un cuerpo helado que forma una cola brillante al acercarse al Sol' },
-  { emoji:'🪐', nombre:'UN PLANETA CON ANILLOS', desc:'Como Saturno, un planeta rodeado de anillos de hielo y roca' },
+  { emoji:'☀️', nombre:'El Sol', desc:'Es la estrella que está en el centro del Sistema Solar y nos da luz y calor' },
+  { emoji:'🌍', nombre:'La Tierra', desc:'Es el planeta donde vivimos, el tercero más cercano al Sol' },
+  { emoji:'🌙', nombre:'La Luna', desc:'Es el satélite natural que gira alrededor de la Tierra' },
+  { emoji:'☄️', nombre:'Un cometa', desc:'Es un cuerpo helado que forma una cola brillante al acercarse al Sol' },
+  { emoji:'🪐', nombre:'Un planeta con anillos', desc:'Como Saturno, un planeta rodeado de anillos de hielo y roca' },
 ];
 const MOVIMIENTOS_TIERRA_BANK = [
-  { pregunta:'¿Cómo se llama el movimiento de la Tierra que produce el día y la noche?', correcta:'ROTACIÓN', opts:['TRASLACIÓN','ECLIPSE','GRAVEDAD'] },
-  { pregunta:'¿Cómo se llama el movimiento de la Tierra alrededor del Sol que dura un año?', correcta:'TRASLACIÓN', opts:['ROTACIÓN','ECLIPSE','GRAVEDAD'] },
-  { pregunta:'¿Cuánto tiempo demora la Tierra en dar una vuelta completa sobre su propio eje?', correcta:'UN DÍA (24 HORAS)', opts:['UN MES','UNA SEMANA','UN AÑO'] },
-  { pregunta:'¿Cuánto tiempo demora la Tierra en dar una vuelta completa alrededor del Sol?', correcta:'UN AÑO', opts:['UN DÍA','UNA SEMANA','UN MES'] },
+  { pregunta:'¿Cómo se llama el movimiento de la Tierra que produce el día y la noche?', correcta:'Rotación', opts:['Traslación','Eclipse','Gravedad'] },
+  { pregunta:'¿Cómo se llama el movimiento de la Tierra alrededor del Sol que dura un año?', correcta:'Traslación', opts:['Rotación','Eclipse','Gravedad'] },
+  { pregunta:'¿Cuánto tiempo demora la Tierra en dar una vuelta completa sobre su propio eje?', correcta:'Un día (24 horas)', opts:['Un mes','Una semana','Un año'] },
+  { pregunta:'¿Cuánto tiempo demora la Tierra en dar una vuelta completa alrededor del Sol?', correcta:'Un año', opts:['Un día','Una semana','Un mes'] },
 ];
 const FASES_LUNA_BANK = [
-  { emoji:'🌑', fase:'LUNA NUEVA', desc:'No se ve la Luna iluminada desde la Tierra' },
-  { emoji:'🌓', fase:'CUARTO CRECIENTE', desc:'Se ve la mitad de la Luna iluminada, creciendo' },
-  { emoji:'🌕', fase:'LUNA LLENA', desc:'Se ve todo el disco de la Luna iluminado' },
-  { emoji:'🌗', fase:'CUARTO MENGUANTE', desc:'Se ve la mitad de la Luna iluminada, disminuyendo' },
+  { emoji:'🌑', fase:'Luna nueva', desc:'No se ve la Luna iluminada desde la Tierra' },
+  { emoji:'🌓', fase:'Cuarto creciente', desc:'Se ve la mitad de la Luna iluminada, creciendo' },
+  { emoji:'🌕', fase:'Luna llena', desc:'Se ve todo el disco de la Luna iluminado' },
+  { emoji:'🌗', fase:'Cuarto menguante', desc:'Se ve la mitad de la Luna iluminada, disminuyendo' },
 ];
 
 export function genPlantas3Round(){
@@ -638,9 +638,9 @@ export function genPlantas3Round(){
     const distract = shuffle(PARTES_PLANTA_BANK.filter(function(p){ return p.parte!==item.parte; })).map(function(p){ return p.funcion; });
     const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Cuál es la función de '+(item.parte==='HOJAS'?'las':'la')+' '+item.parte.toLowerCase()+'?</p>',
+      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Cuál es la función de '+(item.parte==='Hojas'?'las':'la')+' '+item.parte.toLowerCase()+'?</p>',
       options: opts, correctValue: item.funcion, speakText: '¿Cuál es la función de la '+item.parte.toLowerCase()+'?', cols:2, panel:true,
-      explain: (item.parte==='HOJAS'?'Las':'La')+' '+item.parte.toLowerCase()+': '+item.funcion.toLowerCase()+'.',
+      explain: (item.parte==='Hojas'?'Las':'La')+' '+item.parte.toLowerCase()+': '+item.funcion.toLowerCase()+'.',
       recurso: recurso,
     };
   }
@@ -651,7 +651,7 @@ export function genPlantas3Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.funcion+'</p><p class="prompt-hint">¿De qué parte de la planta se trata?</p>',
       options: opts, correctValue: item.parte, speakText: item.funcion, cols:4, kind:'word',
-      explain: 'Esa es la función de '+(item.parte==='HOJAS'?'las':'la')+' <b>'+item.parte.toLowerCase()+'</b>.',
+      explain: 'Esa es la función de '+(item.parte==='Hojas'?'las':'la')+' <b>'+item.parte.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
@@ -719,7 +719,7 @@ export function genLuz3Round(){
   const recurso = 'La luz puede venir de <b>fuentes naturales</b> (el Sol, el fuego) o <b>fuentes artificiales</b> (una ampolleta, una linterna) creadas por el ser humano. La luz tiene propiedades que puedes comprobar tú mismo: viaja en línea recta (por eso una sombra tiene la misma forma que el objeto que la produce), y puede atravesar algunos materiales transparentes (como el vidrio) pero no otros opacos (como la madera), lo que forma sombras. Entender cómo se comporta la luz te ayuda a explicar fenómenos cotidianos, como por qué se forma una sombra o por qué no puedes ver a través de una pared.';
   if(Math.random()<0.5){
     const item = pick(LUZ_FUENTES_BANK);
-    const opts = shuffle([{label:'FUENTE NATURAL', value:'NATURAL'},{label:'FUENTE ARTIFICIAL', value:'ARTIFICIAL'}]);
+    const opts = shuffle([{label:'Fuente natural', value:'Natural'},{label:'Fuente artificial', value:'Artificial'}]);
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.fuente+'. ¿Es una fuente de luz natural o artificial?</p>',
       options: opts, correctValue: item.tipo, speakText: item.fuente, cols:2, panel:true,
@@ -728,7 +728,7 @@ export function genLuz3Round(){
     };
   }
   const item = pick(LUZ_PROPIEDADES_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
     options: opts, correctValue: item.valor, speakText: item.texto, cols:2, panel:true,
@@ -739,7 +739,7 @@ export function genLuz3Round(){
 
 export function genSonido3Round(){
   const item = pick(SONIDO_PROPIEDADES_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
     options: opts, correctValue: item.valor, speakText: item.texto, cols:2, panel:true,
@@ -758,7 +758,7 @@ export function genSistemaSolar3Round(){
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.nombre, speakText: item.desc, cols:4, kind:'word',
-      explain: 'Esa descripción corresponde a <b>'+item.nombre.toLowerCase()+'</b>.',
+      explain: 'Esa descripción corresponde a <b>'+item.nombre+'</b>.',
       recurso: recurso,
     };
   }
@@ -768,7 +768,7 @@ export function genSistemaSolar3Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
       recurso: recurso,
     };
   }
@@ -787,7 +787,7 @@ export function genDiaNocheRound(){
   const recurso = 'El día y la noche existen porque la Tierra gira sobre sí misma como un trompo (a esto se le llama <b>rotación</b>): cuando tu ciudad mira hacia el Sol, es de día; cuando la Tierra gira y tu ciudad queda mirando hacia el lado oscuro, es de noche. Una vuelta completa de este giro toma 24 horas, un día completo. Las <b>estaciones del año</b> (verano, otoño, invierno, primavera) cambian por un motivo distinto: la Tierra además viaja alrededor del Sol durante todo el año, y según en qué punto de ese recorrido esté, algunas zonas reciben más luz solar directa (más calor, verano) y otras reciben menos (más frío, invierno). Fijarte en pistas como la ropa que usa la gente o las actividades que hacen te ayuda a reconocer en qué momento del día o del año ocurre una escena.';
   if(Math.random()<0.5){
     const item = pick(DIA_NOCHE_ITEMS);
-    const opts = shuffle([{label:'DÍA', value:'DÍA'},{label:'NOCHE', value:'NOCHE'}]);
+    const opts = shuffle([{label:'Día', value:'Día'},{label:'Noche', value:'Noche'}]);
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Es de día o de noche?</p>',
       options: opts, correctValue: item.momento, speakText: item.label, cols:2, panel:true,
@@ -831,12 +831,12 @@ export const CIENCIAS_MODULES_G4 = [
 export const CIENCIAS_POS_G4 = [{x:22,y:90},{x:68,y:70},{x:24,y:50},{x:70,y:30},{x:24,y:10}];
 
 const ECOSISTEMA_ELEMENTOS_BANK = [
-  { emoji:'🐦', elemento:'un pájaro', tipo:'ELEMENTO VIVO' },
-  { emoji:'🌳', elemento:'un árbol', tipo:'ELEMENTO VIVO' },
-  { emoji:'🦋', elemento:'una mariposa', tipo:'ELEMENTO VIVO' },
-  { emoji: piedraSVG(30), elemento:'una roca', tipo:'ELEMENTO NO VIVO' },
-  { emoji:'💧', elemento:'el agua', tipo:'ELEMENTO NO VIVO' },
-  { emoji:'☀️', elemento:'la luz del sol', tipo:'ELEMENTO NO VIVO' },
+  { emoji:'🐦', elemento:'un pájaro', tipo:'Elemento vivo' },
+  { emoji:'🌳', elemento:'un árbol', tipo:'Elemento vivo' },
+  { emoji:'🦋', elemento:'una mariposa', tipo:'Elemento vivo' },
+  { emoji: piedraSVG(30), elemento:'una roca', tipo:'Elemento no vivo' },
+  { emoji:'💧', elemento:'el agua', tipo:'Elemento no vivo' },
+  { emoji:'☀️', elemento:'la luz del sol', tipo:'Elemento no vivo' },
 ];
 const ADAPTACIONES_BANK = [
   { emoji:'🦒', animal:'la jirafa', adaptacion:'Tiene el cuello largo para alcanzar hojas altas de los árboles' },
@@ -846,9 +846,9 @@ const ADAPTACIONES_BANK = [
   { emoji:'🌵', animal:'el cactus', adaptacion:'Guarda agua en su tallo grueso para sobrevivir en el desierto' },
 ];
 const CADENA_ALIMENTARIA_BANK = [
-  { emoji:'🌱', rol:'PRODUCTOR', desc:'Fabrica su propio alimento usando la luz del sol (como una planta)' },
-  { emoji:'🐇', rol:'CONSUMIDOR', desc:'Se alimenta de otros seres vivos (como un animal herbívoro o carnívoro)' },
-  { emoji:'🍄', rol:'DESCOMPONEDOR', desc:'Descompone los restos de seres vivos muertos y devuelve nutrientes a la tierra' },
+  { emoji:'🌱', rol:'Productor', desc:'Fabrica su propio alimento usando la luz del sol (como una planta)' },
+  { emoji:'🐇', rol:'Consumidor', desc:'Se alimenta de otros seres vivos (como un animal herbívoro o carnívoro)' },
+  { emoji:'🍄', rol:'Descomponedor', desc:'Descompone los restos de seres vivos muertos y devuelve nutrientes a la tierra' },
 ];
 const CUIDADO_ECOSISTEMA_BANK = [
   { correcta:'Proteger los bosques nativos de Chile de la tala ilegal', incorrectas:['Talar árboles sin control','Quemar bosques para hacer espacio','Ignorar los incendios forestales'] },
@@ -858,35 +858,35 @@ const CUIDADO_ECOSISTEMA_BANK = [
 ];
 
 const HUESOS_BANK = [
-  { emoji:'💀', hueso:'EL CRÁNEO', funcion:'Protege el cerebro' },
-  { emoji:'🦴', hueso:'LAS COSTILLAS', funcion:'Protegen el corazón y los pulmones' },
-  { emoji:'🦵', hueso:'EL FÉMUR', funcion:'Es el hueso más largo, está en el muslo y sostiene el peso del cuerpo' },
-  { emoji:'🖐️', hueso:'LOS HUESOS DE LA MANO', funcion:'Permiten sujetar objetos con precisión' },
-  { emoji:'🦴', hueso:'LA COLUMNA VERTEBRAL', funcion:'Sostiene el cuerpo y protege la médula espinal' },
+  { emoji:'💀', hueso:'El cráneo', funcion:'Protege el cerebro' },
+  { emoji:'🦴', hueso:'Las costillas', funcion:'Protegen el corazón y los pulmones' },
+  { emoji:'🦵', hueso:'El fémur', funcion:'Es el hueso más largo, está en el muslo y sostiene el peso del cuerpo' },
+  { emoji:'🖐️', hueso:'Los huesos de la mano', funcion:'Permiten sujetar objetos con precisión' },
+  { emoji:'🦴', hueso:'La columna vertebral', funcion:'Sostiene el cuerpo y protege la médula espinal' },
 ];
 const MOVIMIENTO_CUERPO_BANK = [
-  { pregunta:'¿Qué parte del cuerpo se contrae y se relaja para mover los huesos?', correcta:'LOS MÚSCULOS', opts:['LOS TENDONES','LA PIEL','LA SANGRE'] },
-  { pregunta:'¿Qué conecta a los músculos con los huesos?', correcta:'LOS TENDONES', opts:['LOS MÚSCULOS','LOS NERVIOS','LA PIEL'] },
-  { pregunta:'¿Cómo se llama el punto donde se unen dos huesos y permite el movimiento?', correcta:'LA ARTICULACIÓN', opts:['EL TENDÓN','EL MÚSCULO','EL NERVIO'] },
+  { pregunta:'¿Qué parte del cuerpo se contrae y se relaja para mover los huesos?', correcta:'Los músculos', opts:['Los tendones','La piel','La sangre'] },
+  { pregunta:'¿Qué conecta a los músculos con los huesos?', correcta:'Los tendones', opts:['Los músculos','Los nervios','La piel'] },
+  { pregunta:'¿Cómo se llama el punto donde se unen dos huesos y permite el movimiento?', correcta:'La articulación', opts:['El tendón','El músculo','El nervio'] },
 ];
 const SISTEMA_NERVIOSO_BANK = [
-  { emoji:'🧠', estructura:'EL CEREBRO', funcion:'Controla el pensamiento, el movimiento y las emociones' },
-  { emoji:'🦴', estructura:'LA MÉDULA ESPINAL', funcion:'Lleva las señales entre el cerebro y el resto del cuerpo' },
-  { emoji:'⚡', estructura:'LOS NERVIOS', funcion:'Transmiten información entre el cerebro y todo el cuerpo' },
+  { emoji:'🧠', estructura:'El cerebro', funcion:'Controla el pensamiento, el movimiento y las emociones' },
+  { emoji:'🦴', estructura:'La médula espinal', funcion:'Lleva las señales entre el cerebro y el resto del cuerpo' },
+  { emoji:'⚡', estructura:'Los nervios', funcion:'Transmiten información entre el cerebro y todo el cuerpo' },
 ];
 
 const ESTADOS_MATERIA4_BANK = [
-  { emoji:'🧊', ejemplo:'un cubo de hielo', estado:'SÓLIDO' },
-  { emoji:'💧', ejemplo:'el agua líquida', estado:'LÍQUIDO' },
-  { emoji:'💨', ejemplo:'el vapor de agua', estado:'GASEOSO' },
-  { emoji: piedraSVG(30), ejemplo:'una piedra', estado:'SÓLIDO' },
-  { emoji:'🥛', ejemplo:'la leche', estado:'LÍQUIDO' },
-  { emoji:'🎈', ejemplo:'el aire dentro de un globo', estado:'GASEOSO' },
+  { emoji:'🧊', ejemplo:'un cubo de hielo', estado:'Sólido' },
+  { emoji:'💧', ejemplo:'el agua líquida', estado:'Líquido' },
+  { emoji:'💨', ejemplo:'el vapor de agua', estado:'Gaseoso' },
+  { emoji: piedraSVG(30), ejemplo:'una piedra', estado:'Sólido' },
+  { emoji:'🥛', ejemplo:'la leche', estado:'Líquido' },
+  { emoji:'🎈', ejemplo:'el aire dentro de un globo', estado:'Gaseoso' },
 ];
 const INSTRUMENTOS_MEDICION_BANK = [
-  { emoji:'⚖️', instrumento:'LA BALANZA', mide:'LA MASA' },
-  { emoji:'🌡️', instrumento:'EL TERMÓMETRO', mide:'LA TEMPERATURA' },
-  { emoji:'🥤', instrumento:'LA PROBETA (VASO GRADUADO)', mide:'EL VOLUMEN' },
+  { emoji:'⚖️', instrumento:'La balanza', mide:'La masa' },
+  { emoji:'🌡️', instrumento:'El termómetro', mide:'La temperatura' },
+  { emoji:'🥤', instrumento:'La probeta (vaso graduado)', mide:'El volumen' },
 ];
 const MATERIA_PROPIEDADES_BANK = [
   { texto:'Toda la materia tiene masa y ocupa un espacio', valor:true },
@@ -896,22 +896,22 @@ const MATERIA_PROPIEDADES_BANK = [
 ];
 
 const FUERZA_EFECTOS_BANK = [
-  { emoji:'⚽', texto:'Patear una pelota la hace moverse', efecto:'CAMBIA SU MOVIMIENTO' },
-  { emoji:'🧲', texto:'Un imán atrae un clip de metal', efecto:'CAMBIA SU MOVIMIENTO' },
-  { emoji: plasticinaSVG(30), texto:'Apretar la plasticina cambia su forma', efecto:'CAMBIA SU FORMA' },
-  { emoji:'🎈', texto:'Inflar un globo lo estira y cambia su forma', efecto:'CAMBIA SU FORMA' },
+  { emoji:'⚽', texto:'Patear una pelota la hace moverse', efecto:'Cambia su movimiento' },
+  { emoji:'🧲', texto:'Un imán atrae un clip de metal', efecto:'Cambia su movimiento' },
+  { emoji: plasticinaSVG(30), texto:'Apretar la plasticina cambia su forma', efecto:'Cambia su forma' },
+  { emoji:'🎈', texto:'Inflar un globo lo estira y cambia su forma', efecto:'Cambia su forma' },
 ];
 const TIPOS_FUERZA_BANK = [
-  { emoji:'🧲', texto:'La fuerza que atrae objetos de metal sin tocarlos', tipo:'FUERZA MAGNÉTICA' },
-  { emoji:'🍎', texto:'La fuerza que hace que las cosas caigan hacia el suelo', tipo:'FUERZA DE GRAVEDAD' },
-  { emoji:'🤚', texto:'La fuerza que se hace al empujar o tirar de un objeto directamente', tipo:'FUERZA DE CONTACTO' },
-  { emoji:'👟', texto:'La fuerza que frena un objeto al rozar con una superficie', tipo:'FUERZA DE ROCE' },
+  { emoji:'🧲', texto:'La fuerza que atrae objetos de metal sin tocarlos', tipo:'Fuerza magnética' },
+  { emoji:'🍎', texto:'La fuerza que hace que las cosas caigan hacia el suelo', tipo:'Fuerza de gravedad' },
+  { emoji:'🤚', texto:'La fuerza que se hace al empujar o tirar de un objeto directamente', tipo:'Fuerza de contacto' },
+  { emoji:'👟', texto:'La fuerza que frena un objeto al rozar con una superficie', tipo:'Fuerza de roce' },
 ];
 
 const CAPAS_TIERRA_BANK = [
-  { capa:'LA CORTEZA', desc:'Es la capa más externa y delgada, donde vivimos' },
-  { capa:'EL MANTO', desc:'Es la capa intermedia, muy caliente y en parte fundida' },
-  { capa:'EL NÚCLEO', desc:'Es la capa más interna y caliente, en el centro de la Tierra' },
+  { capa:'La corteza', desc:'Es la capa más externa y delgada, donde vivimos' },
+  { capa:'El manto', desc:'Es la capa intermedia, muy caliente y en parte fundida' },
+  { capa:'El núcleo', desc:'Es la capa más interna y caliente, en el centro de la Tierra' },
 ];
 const PLACAS_TECTONICAS_BANK = [
   { pregunta:'¿Qué son las placas tectónicas?', correcta:'Grandes bloques de la corteza terrestre que se mueven muy lentamente', opts:['Las capas de la atmósfera','Los océanos del planeta','Las estrellas del sistema solar'] },
@@ -929,7 +929,7 @@ export function genEcosistemas4Round(){
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(ECOSISTEMA_ELEMENTOS_BANK);
-    const opts = shuffle([{label:'ELEMENTO VIVO', value:'ELEMENTO VIVO'},{label:'ELEMENTO NO VIVO', value:'ELEMENTO NO VIVO'}]);
+    const opts = shuffle([{label:'Elemento vivo', value:'Elemento vivo'},{label:'Elemento no vivo', value:'Elemento no vivo'}]);
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.elemento.charAt(0).toUpperCase()+item.elemento.slice(1)+'. ¿Es un elemento vivo o no vivo de un ecosistema?</p>',
       options: opts, correctValue: item.tipo, speakText: item.elemento, cols:2, panel:true,
@@ -989,7 +989,7 @@ export function genCuerpoHumano4Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
       recurso: recurso,
     };
   }
@@ -1009,7 +1009,7 @@ export function genMateria4Round(){
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(ESTADOS_MATERIA4_BANK);
-    const distract = shuffle(['SÓLIDO','LÍQUIDO','GASEOSO'].filter(function(e){ return e!==item.estado; }));
+    const distract = shuffle(['Sólido','Líquido','Gaseoso'].filter(function(e){ return e!==item.estado; }));
     const opts = shuffle([item.estado].concat(distract)).map(function(e){ return {label:e, value:e}; });
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+(item.ejemplo.charAt(0).toUpperCase()+item.ejemplo.slice(1))+'. ¿En qué estado de la materia está?</p>',
@@ -1030,7 +1030,7 @@ export function genMateria4Round(){
     };
   }
   const item = pick(MATERIA_PROPIEDADES_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.texto+'</p>',
     options: opts, correctValue: item.valor, speakText: item.texto, cols:2, panel:true,
@@ -1048,7 +1048,7 @@ export function genFuerzas4Round(){
        idénticas repetidas. Al ser una clasificación binaria real, la
        pregunta usa 2 opciones, no 4. */
     const item = pick(FUERZA_EFECTOS_BANK);
-    const otroEfecto = ['CAMBIA SU MOVIMIENTO','CAMBIA SU FORMA'].filter(function(e){ return e!==item.efecto; })[0];
+    const otroEfecto = ['Cambia su movimiento','Cambia su forma'].filter(function(e){ return e!==item.efecto; })[0];
     const opts = shuffle([{label:item.efecto, value:item.efecto},{label:otroEfecto, value:otroEfecto}]);
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto+'. ¿Qué efecto de la fuerza es?</p>',
@@ -1124,26 +1124,26 @@ export const CIENCIAS_MODULES_G5 = [
 export const CIENCIAS_POS_G5 = [{x:22,y:88},{x:68,y:64},{x:24,y:38},{x:70,y:12}];
 
 const CELULA_BANK = [
-  { pregunta:'¿Cuál es la unidad básica que forma a todos los seres vivos?', correcta:'LA CÉLULA', opts:['EL ÓRGANO','EL TEJIDO','EL HUESO'] },
-  { pregunta:'Una bacteria está formada por una sola célula. ¿Cómo se llama este tipo de ser vivo?', correcta:'UNICELULAR', opts:['MULTICELULAR','PLURICELULAR','SIN CÉLULAS'] },
-  { pregunta:'Un ser humano está formado por billones de células trabajando juntas. ¿Cómo se llama este tipo de ser vivo?', correcta:'MULTICELULAR', opts:['UNICELULAR','MONOCELULAR','ACELULAR'] },
-  { pregunta:'Una planta también está formada por muchas células. ¿Cómo se llama este tipo de ser vivo?', correcta:'MULTICELULAR', opts:['UNICELULAR','SIN CÉLULAS','MONOCELULAR'] },
+  { pregunta:'¿Cuál es la unidad básica que forma a todos los seres vivos?', correcta:'La célula', opts:['El órgano','El tejido','El hueso'] },
+  { pregunta:'Una bacteria está formada por una sola célula. ¿Cómo se llama este tipo de ser vivo?', correcta:'Unicelular', opts:['Multicelular','Pluricelular','Sin células'] },
+  { pregunta:'Un ser humano está formado por billones de células trabajando juntas. ¿Cómo se llama este tipo de ser vivo?', correcta:'Multicelular', opts:['Unicelular','Monocelular','Acelular'] },
+  { pregunta:'Una planta también está formada por muchas células. ¿Cómo se llama este tipo de ser vivo?', correcta:'Multicelular', opts:['Unicelular','Sin células','Monocelular'] },
 ];
 const DIGESTIVO_BANK = [
-  { parte:'LA BOCA', funcion:'TRITURAR Y COMENZAR A DESCOMPONER EL ALIMENTO' },
-  { parte:'EL ESÓFAGO', funcion:'TRANSPORTAR EL ALIMENTO HACIA EL ESTÓMAGO' },
-  { parte:'EL ESTÓMAGO', funcion:'DESCOMPONER EL ALIMENTO CON JUGOS GÁSTRICOS' },
-  { parte:'EL INTESTINO DELGADO', funcion:'ABSORBER LOS NUTRIENTES DEL ALIMENTO' },
+  { parte:'La boca', funcion:'Triturar y comenzar a descomponer el alimento' },
+  { parte:'El esófago', funcion:'Transportar el alimento hacia el estómago' },
+  { parte:'El estómago', funcion:'Descomponer el alimento con jugos gástricos' },
+  { parte:'El intestino delgado', funcion:'Absorber los nutrientes del alimento' },
 ];
 const RESPIRATORIO_BANK = [
-  { parte:'LA NARIZ', funcion:'FILTRAR Y CALENTAR EL AIRE QUE RESPIRAMOS' },
-  { parte:'LA TRÁQUEA', funcion:'CONDUCIR EL AIRE HACIA LOS PULMONES' },
-  { parte:'LOS PULMONES', funcion:'INTERCAMBIAR OXÍGENO Y DIÓXIDO DE CARBONO CON LA SANGRE' },
+  { parte:'La nariz', funcion:'Filtrar y calentar el aire que respiramos' },
+  { parte:'La tráquea', funcion:'Conducir el aire hacia los pulmones' },
+  { parte:'Los pulmones', funcion:'Intercambiar oxígeno y dióxido de carbono con la sangre' },
 ];
 const CIRCULATORIO_BANK = [
-  { parte:'EL CORAZÓN', funcion:'BOMBEAR LA SANGRE POR TODO EL CUERPO' },
-  { parte:'LAS ARTERIAS', funcion:'LLEVAR SANGRE DESDE EL CORAZÓN HACIA EL RESTO DEL CUERPO' },
-  { parte:'LAS VENAS', funcion:'LLEVAR SANGRE DE VUELTA HACIA EL CORAZÓN' },
+  { parte:'El corazón', funcion:'Bombear la sangre por todo el cuerpo' },
+  { parte:'Las arterias', funcion:'Llevar sangre desde el corazón hacia el resto del cuerpo' },
+  { parte:'Las venas', funcion:'Llevar sangre de vuelta hacia el corazón' },
 ];
 function sistemaRound(bank, sistemaLabel, recurso){
   const item = pick(bank);
@@ -1164,7 +1164,7 @@ export function genCelulaSistemas5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
-      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+      explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.5) return sistemaRound(DIGESTIVO_BANK,'digestivo',recurso);
@@ -1173,24 +1173,24 @@ export function genCelulaSistemas5Round(){
 }
 
 const CONSUMO_ALIMENTOS_BANK = [
-  { pregunta:'Los alimentos ricos en proteínas, como la carne, el huevo y las legumbres, ayudan principalmente a...', correcta:'CRECER Y REPARAR LOS TEJIDOS DEL CUERPO', opts:['DAR SOLO SABOR DULCE A LAS COMIDAS','ENFRIAR EL CUERPO','EVITAR QUE TE DÉ SUEÑO'] },
-  { pregunta:'Los alimentos ricos en carbohidratos, como el pan, el arroz y la papa, entregan principalmente...', correcta:'ENERGÍA PARA LAS ACTIVIDADES DIARIAS', opts:['CALCIO PARA LOS HUESOS','PROTECCIÓN CONTRA EL FRÍO','COLOR A LA PIEL'] },
-  { pregunta:'Comer frutas y verduras variadas todos los días ayuda principalmente a...', correcta:'ENTREGAR VITAMINAS Y MINERALES QUE EL CUERPO NECESITA', opts:['HACER QUE CREZCA EL CABELLO MÁS RÁPIDO','REEMPLAZAR LA NECESIDAD DE DORMIR','EVITAR TENER QUE HACER EJERCICIO'] },
-  { pregunta:'¿Por qué es importante comer alimentos variados y no solo un tipo de comida?', correcta:'PORQUE CADA GRUPO DE ALIMENTOS APORTA NUTRIENTES DISTINTOS QUE EL CUERPO NECESITA', opts:['PORQUE ASÍ LA COMIDA ES MÁS BARATA','PORQUE ASÍ SE OCUPAN MENOS PLATOS','PORQUE EL CUERPO SOLO NECESITA UN NUTRIENTE'] },
+  { pregunta:'Los alimentos ricos en proteínas, como la carne, el huevo y las legumbres, ayudan principalmente a...', correcta:'Crecer y reparar los tejidos del cuerpo', opts:['Dar solo sabor dulce a las comidas','Enfriar el cuerpo','Evitar que te dé sueño'] },
+  { pregunta:'Los alimentos ricos en carbohidratos, como el pan, el arroz y la papa, entregan principalmente...', correcta:'Energía para las actividades diarias', opts:['Calcio para los huesos','Protección contra el frío','Color a la piel'] },
+  { pregunta:'Comer frutas y verduras variadas todos los días ayuda principalmente a...', correcta:'Entregar vitaminas y minerales que el cuerpo necesita', opts:['Hacer que crezca el cabello más rápido','Reemplazar la necesidad de dormir','Evitar tener que hacer ejercicio'] },
+  { pregunta:'¿Por qué es importante comer alimentos variados y no solo un tipo de comida?', correcta:'Porque cada grupo de alimentos aporta nutrientes distintos que el cuerpo necesita', opts:['Porque así la comida es más barata','Porque así se ocupan menos platos','Porque el cuerpo solo necesita un nutriente'] },
 ];
 const CIGARRILLO_BANK = [
-  { pregunta:'¿Qué órgano resulta dañado principalmente por el humo del cigarrillo?', correcta:'LOS PULMONES', opts:['LOS HUESOS','LAS UÑAS','EL CABELLO'] },
-  { pregunta:'El cigarrillo contiene una sustancia llamada nicotina, que puede generar en quien fuma...', correcta:'ADICCIÓN, ES DECIR, UNA NECESIDAD DIFÍCIL DE CONTROLAR DE SEGUIR FUMANDO', opts:['MÁS ENERGÍA PARA HACER DEPORTE','MEJOR VISIÓN NOCTURNA','MÁS APETITO POR VERDURAS'] },
-  { pregunta:'¿Qué le puede pasar a una persona que fuma durante muchos años?', correcta:'PUEDE DESARROLLAR ENFERMEDADES RESPIRATORIAS GRAVES', opts:['MEJORA SU CAPACIDAD PULMONAR','NO LE AFECTA EN NADA A SU SALUD','CRECE MÁS RÁPIDO'] },
-  { pregunta:'¿Por qué respirar el humo de alguien que fuma cerca (fumador pasivo) también es dañino?', correcta:'PORQUE ESE HUMO TAMBIÉN CONTIENE SUSTANCIAS DAÑINAS PARA QUIEN LO RESPIRA', opts:['PORQUE HUELE MAL, PERO NO HACE DAÑO','PORQUE SOLO AFECTA A QUIEN FUMA DIRECTAMENTE','PORQUE MEJORA LA CALIDAD DEL AIRE'] },
+  { pregunta:'¿Qué órgano resulta dañado principalmente por el humo del cigarrillo?', correcta:'Los pulmones', opts:['Los huesos','Las uñas','El cabello'] },
+  { pregunta:'El cigarrillo contiene una sustancia llamada nicotina, que puede generar en quien fuma...', correcta:'Adicción, es decir, una necesidad difícil de controlar de seguir fumando', opts:['Más energía para hacer deporte','Mejor visión nocturna','Más apetito por verduras'] },
+  { pregunta:'¿Qué le puede pasar a una persona que fuma durante muchos años?', correcta:'Puede desarrollar enfermedades respiratorias graves', opts:['Mejora su capacidad pulmonar','No le afecta en nada a su salud','Crece más rápido'] },
+  { pregunta:'¿Por qué respirar el humo de alguien que fuma cerca (fumador pasivo) también es dañino?', correcta:'Porque ese humo también contiene sustancias dañinas para quien lo respira', opts:['Porque huele mal, pero no hace daño','Porque solo afecta a quien fuma directamente','Porque mejora la calidad del aire'] },
 ];
 const MICROORGANISMOS_BANK = [
-  { nombre:'LAS BACTERIAS QUE TRANSFORMAN LA LECHE EN YOGUR', tipo:'BENEFICIOSO' },
-  { nombre:'LA LEVADURA QUE HACE CRECER EL PAN', tipo:'BENEFICIOSO' },
-  { nombre:'EL MOHO QUE APARECE EN EL PAN VIEJO', tipo:'DAÑINO' },
-  { nombre:'LAS BACTERIAS QUE CAUSAN UNA INFECCIÓN A LA GARGANTA', tipo:'DAÑINO' },
-  { nombre:'LAS BACTERIAS QUE AYUDAN A LA DIGESTIÓN EN EL INTESTINO', tipo:'BENEFICIOSO' },
-  { nombre:'EL VIRUS QUE CAUSA EL RESFRÍO COMÚN', tipo:'DAÑINO' },
+  { nombre:'Las bacterias que transforman la leche en yogur', tipo:'Beneficioso' },
+  { nombre:'La levadura que hace crecer el pan', tipo:'Beneficioso' },
+  { nombre:'El moho que aparece en el pan viejo', tipo:'Dañino' },
+  { nombre:'Las bacterias que causan una infección a la garganta', tipo:'Dañino' },
+  { nombre:'Las bacterias que ayudan a la digestión en el intestino', tipo:'Beneficioso' },
+  { nombre:'El virus que causa el resfrío común', tipo:'Dañino' },
 ];
 export function genAlimentacionSalud5Round(){
   const recurso = 'Una alimentación saludable combina distintos grupos de alimentos porque cada uno aporta algo distinto: las <b>proteínas</b> (carne, huevo, legumbres) ayudan a crecer y reparar el cuerpo, los <b>carbohidratos</b> (pan, arroz, papa) entregan energía para el día a día, y las <b>frutas y verduras</b> aportan vitaminas y minerales. El cigarrillo daña principalmente los pulmones y contiene nicotina, una sustancia que genera adicción. No todos los microorganismos son dañinos: algunos, como las bacterias que transforman la leche en yogur, son beneficiosos y hasta se usan para preparar alimentos.';
@@ -1201,7 +1201,7 @@ export function genAlimentacionSalud5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+      explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1210,11 +1210,11 @@ export function genAlimentacionSalud5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+      explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
     };
   }
   const item = pick(MICROORGANISMOS_BANK);
-  const opts = shuffle([{label:'BENEFICIOSO PARA LA SALUD', value:'BENEFICIOSO'},{label:'DAÑINO PARA LA SALUD', value:'DAÑINO'}]);
+  const opts = shuffle([{label:'Beneficioso para la salud', value:'Beneficioso'},{label:'Dañino para la salud', value:'Dañino'}]);
   return {
     promptHTML: '<p class="prompt-sentence">'+item.nombre+'</p><p class="prompt-hint">¿Este microorganismo es beneficioso o dañino para la salud?</p>',
     options: opts, correctValue: item.tipo, speakText: item.nombre, cols:2, panel:true,
@@ -1223,30 +1223,30 @@ export function genAlimentacionSalud5Round(){
 }
 
 const TRANSFORMACION_ELECTRICA_BANK = [
-  { objeto:'UNA AMPOLLETA ENCENDIDA', correcta:'LUZ Y CALOR', opts:['SONIDO','MOVIMIENTO','FRÍO'] },
-  { objeto:'UN PARLANTE REPRODUCIENDO MÚSICA', correcta:'SONIDO', opts:['LUZ','FRÍO','OLOR'] },
-  { objeto:'UN VENTILADOR ENCENDIDO', correcta:'MOVIMIENTO', opts:['SONIDO SOLAMENTE','LUZ SOLAMENTE','OLOR'] },
-  { objeto:'UNA PLANCHA DE ROPA ENCENDIDA', correcta:'CALOR', opts:['SONIDO','FRÍO','LUZ DE COLORES'] },
+  { objeto:'Una ampolleta encendida', correcta:'Luz y calor', opts:['Sonido','Movimiento','Frío'] },
+  { objeto:'Un parlante reproduciendo música', correcta:'Sonido', opts:['Luz','Frío','Olor'] },
+  { objeto:'Un ventilador encendido', correcta:'Movimiento', opts:['Sonido solamente','Luz solamente','Olor'] },
+  { objeto:'Una plancha de ropa encendida', correcta:'Calor', opts:['Sonido','Frío','Luz de colores'] },
 ];
 const CIRCUITO_BANK = [
-  { componente:'LA PILA', funcion:'ENTREGAR LA ENERGÍA ELÉCTRICA AL CIRCUITO' },
-  { componente:'EL CABLE', funcion:'CONDUCIR LA CORRIENTE ELÉCTRICA ENTRE LOS COMPONENTES' },
-  { componente:'EL INTERRUPTOR', funcion:'ABRIR O CERRAR EL PASO DE LA CORRIENTE' },
-  { componente:'LA AMPOLLETA', funcion:'TRANSFORMAR LA ELECTRICIDAD EN LUZ' },
+  { componente:'La pila', funcion:'Entregar la energía eléctrica al circuito' },
+  { componente:'El cable', funcion:'Conducir la corriente eléctrica entre los componentes' },
+  { componente:'El interruptor', funcion:'Abrir o cerrar el paso de la corriente' },
+  { componente:'La ampolleta', funcion:'Transformar la electricidad en luz' },
 ];
 const CONDUCTORES_AISLANTES_BANK = [
-  { material:'EL COBRE (UN METAL)', conductor:true }, { material:'EL ALUMINIO (UN METAL)', conductor:true },
-  { material:'EL AGUA CON SAL', conductor:true }, { material:'LA MADERA SECA', conductor:false },
-  { material:'EL PLÁSTICO', conductor:false }, { material:'EL VIDRIO', conductor:false },
-  { material:'LA GOMA (CAUCHO)', conductor:false }, { material:'EL PAPEL', conductor:false },
+  { material:'El cobre (un metal)', conductor:true }, { material:'El aluminio (un metal)', conductor:true },
+  { material:'El agua con sal', conductor:true }, { material:'La madera seca', conductor:false },
+  { material:'El plástico', conductor:false }, { material:'El vidrio', conductor:false },
+  { material:'La goma (caucho)', conductor:false }, { material:'El papel', conductor:false },
 ];
 const AHORRO_ENERGIA_BANK = [
-  { accion:'APAGAR LAS LUCES AL SALIR DE UNA HABITACIÓN VACÍA', ahorra:true },
-  { accion:'DESCONECTAR LOS APARATOS QUE NO SE ESTÁN USANDO', ahorra:true },
-  { accion:'USAR AMPOLLETAS DE BAJO CONSUMO (LED)', ahorra:true },
-  { accion:'DEJAR EL TELEVISOR ENCENDIDO TODA LA NOCHE SIN VERLO', ahorra:false },
-  { accion:'DEJAR LA PUERTA DEL REFRIGERADOR ABIERTA POR MUCHO RATO', ahorra:false },
-  { accion:'APROVECHAR LA LUZ NATURAL DURANTE EL DÍA EN VEZ DE ENCENDER LUCES', ahorra:true },
+  { accion:'Apagar las luces al salir de una habitación vacía', ahorra:true },
+  { accion:'Desconectar los aparatos que no se están usando', ahorra:true },
+  { accion:'Usar ampolletas de bajo consumo (LED)', ahorra:true },
+  { accion:'Dejar el televisor encendido toda la noche sin verlo', ahorra:false },
+  { accion:'Dejar la puerta del refrigerador abierta por mucho rato', ahorra:false },
+  { accion:'Aprovechar la luz natural durante el día en vez de encender luces', ahorra:true },
 ];
 export function genElectricidad5Round(){
   const recurso = 'La energía eléctrica se puede <b>transformar</b> en otros tipos de energía: luz y calor en una ampolleta, sonido en un parlante, movimiento en un ventilador. Un <b>circuito eléctrico simple</b> necesita una pila (entrega la energía), cables (conducen la corriente) y un interruptor (abre o cierra el paso de la corriente) para que la electricidad pueda circular. Los materiales <b>conductores</b> (como los metales o el agua con sal) dejan pasar la corriente eléctrica, mientras que los <b>aislantes</b> (como la madera, el plástico o el vidrio) no la dejan pasar — por eso los cables tienen un forro de plástico. Ahorrar energía (apagar luces, desconectar aparatos) cuida tanto el medioambiente como el gasto en la casa.';
@@ -1272,7 +1272,7 @@ export function genElectricidad5Round(){
   }
   if(roll<0.75){
     const item = pick(CONDUCTORES_AISLANTES_BANK);
-    const opts = shuffle([{label:'ES CONDUCTOR (DEJA PASAR LA ELECTRICIDAD)', value:true},{label:'ES AISLANTE (NO DEJA PASAR LA ELECTRICIDAD)', value:false}]);
+    const opts = shuffle([{label:'Es conductor (deja pasar la electricidad)', value:true},{label:'Es aislante (no deja pasar la electricidad)', value:false}]);
     return {
       promptHTML: '<p class="prompt-sentence">'+item.material+'</p><p class="prompt-hint">¿Este material es conductor o aislante de la electricidad?</p>',
       options: opts, correctValue: item.conductor, speakText: item.material, cols:2, panel:true,
@@ -1280,7 +1280,7 @@ export function genElectricidad5Round(){
     };
   }
   const item = pick(AHORRO_ENERGIA_BANK);
-  const opts = shuffle([{label:'SÍ AYUDA A AHORRAR ENERGÍA', value:true},{label:'NO AYUDA A AHORRAR ENERGÍA', value:false}]);
+  const opts = shuffle([{label:'Sí ayuda a ahorrar energía', value:true},{label:'No ayuda a ahorrar energía', value:false}]);
   return {
     promptHTML: '<p class="prompt-sentence">'+item.accion+'</p><p class="prompt-hint">¿Esta acción ayuda a ahorrar energía eléctrica?</p>',
     options: opts, correctValue: item.ahorra, speakText: item.accion, cols:2, panel:true,
@@ -1289,22 +1289,22 @@ export function genElectricidad5Round(){
 }
 
 const DISTRIBUCION_AGUA_BANK = [
-  { pregunta:'¿Dónde se encuentra la mayor parte del agua de nuestro planeta?', correcta:'EN LOS OCÉANOS (AGUA SALADA)', opts:['EN LOS RÍOS (AGUA DULCE)','EN LOS GLACIARES SOLAMENTE','EN LAS NUBES SOLAMENTE'] },
-  { pregunta:'¿Qué tipo de agua es la que podemos beber directamente sin procesarla mucho?', correcta:'EL AGUA DULCE', opts:['EL AGUA SALADA DE MAR','EL AGUA DE MAR HIRVIENDO','NINGÚN TIPO DE AGUA ES POTABLE'] },
-  { pregunta:'¿Por qué el agua dulce es un recurso que se debe cuidar, aunque parezca abundante?', correcta:'PORQUE SOLO ES UNA PEQUEÑA PARTE DE TODA EL AGUA DEL PLANETA', opts:['PORQUE NO EXISTE EN NINGÚN LUGAR','PORQUE ES MÁS ABUNDANTE QUE EL AGUA SALADA','PORQUE NUNCA SE PUEDE CONTAMINAR'] },
+  { pregunta:'¿Dónde se encuentra la mayor parte del agua de nuestro planeta?', correcta:'En los océanos (agua salada)', opts:['En los ríos (agua dulce)','En los glaciares solamente','En las nubes solamente'] },
+  { pregunta:'¿Qué tipo de agua es la que podemos beber directamente sin procesarla mucho?', correcta:'El agua dulce', opts:['El agua salada de mar','El agua de mar hirviendo','Ningún tipo de agua es potable'] },
+  { pregunta:'¿Por qué el agua dulce es un recurso que se debe cuidar, aunque parezca abundante?', correcta:'Porque solo es una pequeña parte de toda el agua del planeta', opts:['Porque no existe en ningún lugar','Porque es más abundante que el agua salada','Porque nunca se puede contaminar'] },
 ];
 const OCEANOS_LAGOS_BANK = [
-  { caracteristica:'TIENE AGUA SALADA Y MAREAS', tipo:'OCÉANO' },
-  { caracteristica:'GENERALMENTE TIENE AGUA DULCE Y ESTÁ RODEADO DE TIERRA POR TODOS LADOS', tipo:'LAGO' },
-  { caracteristica:'ES LA MASA DE AGUA MÁS GRANDE Y PROFUNDA DEL PLANETA', tipo:'OCÉANO' },
-  { caracteristica:'SUELE SER MÁS PEQUEÑO Y NO ESTÁ CONECTADO DIRECTAMENTE CON EL MAR', tipo:'LAGO' },
+  { caracteristica:'Tiene agua salada y mareas', tipo:'Océano' },
+  { caracteristica:'Generalmente tiene agua dulce y está rodeado de tierra por todos lados', tipo:'Lago' },
+  { caracteristica:'Es la masa de agua más grande y profunda del planeta', tipo:'Océano' },
+  { caracteristica:'Suele ser más pequeño y no está conectado directamente con el mar', tipo:'Lago' },
 ];
 const PROTECCION_AGUA_BANK = [
-  { accion:'BOTAR BASURA O QUÍMICOS A UN RÍO', protege:false },
-  { accion:'NO DESPERDICIAR AGUA POTABLE EN LA CASA', protege:true },
-  { accion:'LIMPIAR LA ORILLA DE UN LAGO DE BASURA', protege:true },
-  { accion:'VERTER ACEITE DE COCINA POR EL DESAGÜE HACIA LOS RÍOS', protege:false },
-  { accion:'CUIDAR QUE LAS FÁBRICAS NO CONTAMINEN LOS CUERPOS DE AGUA', protege:true },
+  { accion:'Botar basura o químicos a un río', protege:false },
+  { accion:'No desperdiciar agua potable en la casa', protege:true },
+  { accion:'Limpiar la orilla de un lago de basura', protege:true },
+  { accion:'Verter aceite de cocina por el desagüe hacia los ríos', protege:false },
+  { accion:'Cuidar que las fábricas no contaminen los cuerpos de agua', protege:true },
 ];
 export function genAguaTierra5Round(){
   const recurso = 'Casi toda el agua del planeta está en los océanos, en forma de <b>agua salada</b> — el agua dulce, la que podemos beber, es solo una pequeña parte del total, repartida en ríos, lagos, glaciares y aguas subterráneas. Un <b>océano</b> es una masa de agua salada enorme y profunda con mareas, mientras que un <b>lago</b> suele ser más pequeño, con agua dulce y rodeado de tierra. Como el agua dulce es escasa, cuidarla (no desperdiciarla, no contaminarla con basura o químicos) es fundamental para que siga estando disponible para todos los seres vivos.';
@@ -1315,12 +1315,12 @@ export function genAguaTierra5Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+      explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
     };
   }
   if(roll<0.67){
     const item = pick(OCEANOS_LAGOS_BANK);
-    const opts = shuffle([{label:'OCÉANO', value:'OCÉANO'},{label:'LAGO', value:'LAGO'}]);
+    const opts = shuffle([{label:'Océano', value:'Océano'},{label:'Lago', value:'Lago'}]);
     return {
       promptHTML: '<p class="prompt-sentence">'+item.caracteristica+'</p><p class="prompt-hint">¿Es una característica de un océano o de un lago?</p>',
       options: opts, correctValue: item.tipo, speakText: item.caracteristica, cols:2, kind:'word',
@@ -1328,7 +1328,7 @@ export function genAguaTierra5Round(){
     };
   }
   const item = pick(PROTECCION_AGUA_BANK);
-  const opts = shuffle([{label:'SÍ PROTEGE LOS CUERPOS DE AGUA', value:true},{label:'NO PROTEGE, LOS DAÑA', value:false}]);
+  const opts = shuffle([{label:'Sí protege los cuerpos de agua', value:true},{label:'No protege, los daña', value:false}]);
   return {
     promptHTML: '<p class="prompt-sentence">'+item.accion+'</p><p class="prompt-hint">¿Esta acción protege los cuerpos de agua o los daña?</p>',
     options: opts, correctValue: item.protege, speakText: item.accion, cols:2, panel:true,
@@ -1371,18 +1371,18 @@ export const CIENCIAS_MODULES_G6 = [
 export const CIENCIAS_POS_G6 = [{x:20,y:94},{x:64,y:80},{x:24,y:64},{x:66,y:48},{x:22,y:30},{x:66,y:10}];
 
 const FOTOSINTESIS_BANK = [
-  { pregunta:'¿Qué necesita una planta para realizar la fotosíntesis?', correcta:'AGUA, DIÓXIDO DE CARBONO Y LUZ SOLAR', opts:['SOLO AGUA Y OSCURIDAD','SOLO TIERRA Y AIRE FRÍO','SOLO SEMILLAS Y VIENTO'] },
-  { pregunta:'¿Qué produce la fotosíntesis, además del azúcar que alimenta a la planta?', correcta:'OXÍGENO', opts:['DIÓXIDO DE CARBONO SOLAMENTE','AGUA SOLAMENTE','NITRÓGENO'] },
-  { pregunta:'¿En qué parte de la planta ocurre principalmente la fotosíntesis?', correcta:'EN LAS HOJAS', opts:['EN LAS RAÍCES','EN LAS SEMILLAS','EN LA CORTEZA DEL TRONCO'] },
-  { pregunta:'¿Qué le pasaría a una planta si nunca recibiera luz solar?', correcta:'NO PODRÍA REALIZAR LA FOTOSÍNTESIS Y MORIRÍA', opts:['CRECERÍA MÁS RÁPIDO QUE NUNCA','LE SALDRÍAN MÁS FLORES','NO LE AFECTARÍA EN NADA'] },
+  { pregunta:'¿Qué necesita una planta para realizar la fotosíntesis?', correcta:'Agua, dióxido de carbono y luz solar', opts:['Solo agua y oscuridad','Solo tierra y aire frío','Solo semillas y viento'] },
+  { pregunta:'¿Qué produce la fotosíntesis, además del azúcar que alimenta a la planta?', correcta:'Oxígeno', opts:['Dióxido de carbono solamente','Agua solamente','Nitrógeno'] },
+  { pregunta:'¿En qué parte de la planta ocurre principalmente la fotosíntesis?', correcta:'En las hojas', opts:['En las raíces','En las semillas','En la corteza del tronco'] },
+  { pregunta:'¿Qué le pasaría a una planta si nunca recibiera luz solar?', correcta:'No podría realizar la fotosíntesis y moriría', opts:['Crecería más rápido que nunca','Le saldrían más flores','No le afectaría en nada'] },
 ];
 const CADENA_ALIMENTARIA6_BANK = [
-  { cadena:['PASTO','CONEJO','ZORRO'] },
-  { cadena:['ALGAS','PEZ PEQUEÑO','PEZ GRANDE'] },
-  { cadena:['TRIGO','RATÓN','BÚHO'] },
-  { cadena:['FITOPLANCTON','KRILL','BALLENA'] },
+  { cadena:['Pasto','Conejo','Zorro'] },
+  { cadena:['Algas','Pez pequeño','Pez grande'] },
+  { cadena:['Trigo','Ratón','Búho'] },
+  { cadena:['Fitoplancton','Krill','Ballena'] },
 ];
-const ROLES_CADENA = ['PRODUCTOR (HACE SU PROPIO ALIMENTO)','CONSUMIDOR PRIMARIO (SE ALIMENTA DEL PRODUCTOR)','CONSUMIDOR SECUNDARIO (SE ALIMENTA DE OTRO CONSUMIDOR)'];
+const ROLES_CADENA = ['Productor (hace su propio alimento)','Consumidor primario (se alimenta del productor)','Consumidor secundario (se alimenta de otro consumidor)'];
 const IMPACTO_HUMANO_BANK = [
   { afirmacion:'Talar un bosque puede eliminar la fuente de alimento de muchos animales', v:true },
   { afirmacion:'Sobrepescar una especie puede afectar a los depredadores que se alimentan de ella', v:true },
@@ -1399,7 +1399,7 @@ export function genFotosintesisCadenas6Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+      explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
     };
   }
   if(roll<0.67){
@@ -1416,7 +1416,7 @@ export function genFotosintesisCadenas6Round(){
     };
   }
   const item = pick(IMPACTO_HUMANO_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',
     options: opts, correctValue: item.v, speakText: item.afirmacion, cols:2, panel:true,
@@ -1436,11 +1436,11 @@ export function genFotosintesisCadenas6Round(){
    Orientación, donde permanece excluido desde 3° básico por requerir el
    acompañamiento real de un adulto en una instancia dedicada. */
 const SISTEMA_REPRODUCTOR_BANK = [
-  { pregunta:'¿Cuál es la función principal de los ovarios en el sistema reproductor femenino?', correcta:'PRODUCIR ÓVULOS', opts:['DIGERIR LOS ALIMENTOS','BOMBEAR LA SANGRE','FILTRAR EL AIRE'] },
-  { pregunta:'¿Cuál es la función principal de los testículos en el sistema reproductor masculino?', correcta:'PRODUCIR ESPERMATOZOIDES', opts:['DIGERIR LOS ALIMENTOS','BOMBEAR LA SANGRE','FILTRAR EL AIRE'] },
-  { pregunta:'¿En qué órgano del sistema reproductor femenino se desarrolla un bebé durante el embarazo?', correcta:'EN EL ÚTERO', opts:['EN EL ESTÓMAGO','EN LOS PULMONES','EN EL CORAZÓN'] },
-  { pregunta:'¿Qué es la menstruación?', correcta:'LA ELIMINACIÓN MENSUAL DEL REVESTIMIENTO DEL ÚTERO CUANDO NO HAY EMBARAZO', opts:['UNA ENFERMEDAD QUE HAY QUE CURAR','UN PROBLEMA DIGESTIVO','UNA SEÑAL DE QUE ALGO ANDA MAL'] },
-  { pregunta:'¿Cuál es la función general del sistema reproductor humano?', correcta:'PERMITIR LA REPRODUCCIÓN Y CONTINUIDAD DE LA ESPECIE HUMANA', opts:['AYUDAR A RESPIRAR','AYUDAR A DIGERIR LOS ALIMENTOS','BOMBEAR LA SANGRE POR EL CUERPO'] },
+  { pregunta:'¿Cuál es la función principal de los ovarios en el sistema reproductor femenino?', correcta:'Producir óvulos', opts:['Digerir los alimentos','Bombear la sangre','Filtrar el aire'] },
+  { pregunta:'¿Cuál es la función principal de los testículos en el sistema reproductor masculino?', correcta:'Producir espermatozoides', opts:['Digerir los alimentos','Bombear la sangre','Filtrar el aire'] },
+  { pregunta:'¿En qué órgano del sistema reproductor femenino se desarrolla un bebé durante el embarazo?', correcta:'En el útero', opts:['En el estómago','En los pulmones','En el corazón'] },
+  { pregunta:'¿Qué es la menstruación?', correcta:'La eliminación mensual del revestimiento del útero cuando no hay embarazo', opts:['Una enfermedad que hay que curar','Un problema digestivo','Una señal de que algo anda mal'] },
+  { pregunta:'¿Cuál es la función general del sistema reproductor humano?', correcta:'Permitir la reproducción y continuidad de la especie humana', opts:['Ayudar a respirar','Ayudar a digerir los alimentos','Bombear la sangre por el cuerpo'] },
 ];
 const PUBERTAD_CAMBIOS_BANK = [
   { afirmacion:'Durante la pubertad, es común que el cuerpo experimente un crecimiento acelerado (un "estirón")', v:true },
@@ -1460,11 +1460,11 @@ export function genReproductorPubertad6Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+      explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
     };
   }
   const item = pick(PUBERTAD_CAMBIOS_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',
     options: opts, correctValue: item.v, speakText: item.afirmacion, cols:2, panel:true,
@@ -1481,16 +1481,16 @@ const HABITOS_CRECIMIENTO_BANK = [
   { afirmacion:'Una alimentación variada apoya el crecimiento saludable del cuerpo', v:true },
 ];
 const DROGAS_EFECTOS_BANK = [
-  { pregunta:'¿Cuál es un efecto nocivo del consumo de tabaco en el cuerpo?', correcta:'DAÑA LOS PULMONES Y EL CORAZÓN', opts:['MEJORA LA CAPACIDAD PULMONAR','FORTALECE EL SISTEMA INMUNE','AYUDA A DORMIR MEJOR'] },
-  { pregunta:'¿Cuál es un efecto nocivo del consumo de alcohol en el cuerpo?', correcta:'AFECTA EL HÍGADO Y EL SISTEMA NERVIOSO', opts:['FORTALECE LOS HUESOS','MEJORA LA CONCENTRACIÓN','AYUDA A LA DIGESTIÓN'] },
-  { pregunta:'¿Cuál de estas es una conducta de protección frente a las drogas?', correcta:'RODEARSE DE AMISTADES QUE RESPETEN TUS DECISIONES', opts:['PROBAR CUALQUIER COSA QUE OFREZCA UN AMIGO','IGNORAR LOS CONSEJOS DE LA FAMILIA','GUARDAR EL PROBLEMA EN SECRETO SIEMPRE'] },
-  { pregunta:'¿Qué factor ayuda a prevenir el consumo de drogas en la adolescencia?', correcta:'TENER UNA BUENA COMUNICACIÓN CON LA FAMILIA', opts:['AISLARSE DE LA FAMILIA POR COMPLETO','EVITAR HABLAR DE CUALQUIER PROBLEMA','SEGUIR SIEMPRE LA PRESIÓN DE UN GRUPO'] },
+  { pregunta:'¿Cuál es un efecto nocivo del consumo de tabaco en el cuerpo?', correcta:'Daña los pulmones y el corazón', opts:['Mejora la capacidad pulmonar','Fortalece el sistema inmune','Ayuda a dormir mejor'] },
+  { pregunta:'¿Cuál es un efecto nocivo del consumo de alcohol en el cuerpo?', correcta:'Afecta el hígado y el sistema nervioso', opts:['Fortalece los huesos','Mejora la concentración','Ayuda a la digestión'] },
+  { pregunta:'¿Cuál de estas es una conducta de protección frente a las drogas?', correcta:'Rodearse de amistades que respeten tus decisiones', opts:['Probar cualquier cosa que ofrezca un amigo','Ignorar los consejos de la familia','Guardar el problema en secreto siempre'] },
+  { pregunta:'¿Qué factor ayuda a prevenir el consumo de drogas en la adolescencia?', correcta:'Tener una buena comunicación con la familia', opts:['Aislarse de la familia por completo','Evitar hablar de cualquier problema','Seguir siempre la presión de un grupo'] },
 ];
 export function genHabitosSaludables6Round(){
   const recurso = 'El cuerpo durante el crecimiento necesita cuidados constantes: higiene regular, alimentación variada, sueño suficiente y actividad física. El tabaco y el alcohol son sustancias que dañan órganos concretos del cuerpo (pulmones, corazón, hígado, sistema nervioso) — conocer sus efectos reales, y no solo que "hacen mal", ayuda a entender por qué evitarlas. Factores protectores como una buena comunicación familiar y rodearse de amistades que respeten las propias decisiones son herramientas reales de prevención, no solo consejos genéricos.';
   if(Math.random()<0.5){
     const item = pick(HABITOS_CRECIMIENTO_BANK);
-    const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+    const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
     return {
       promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',
       options: opts, correctValue: item.v, speakText: item.afirmacion, cols:2, panel:true,
@@ -1502,20 +1502,20 @@ export function genHabitosSaludables6Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+    explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
   };
 }
 
 const TRANSFORMACION_ENERGIA6_BANK = [
-  { objeto:'UNA VELA ENCENDIDA', correcta:'LUZ Y CALOR', opts:['SONIDO','MOVIMIENTO','FRÍO'] },
-  { objeto:'UN PANEL SOLAR', correcta:'ENERGÍA ELÉCTRICA', opts:['SONIDO','OLOR','FRÍO'] },
-  { objeto:'UN MOLINO DE VIENTO (AEROGENERADOR)', correcta:'ENERGÍA ELÉCTRICA O MECÁNICA', opts:['LUZ SOLAMENTE','OLOR','FRÍO'] },
-  { objeto:'UNA PILA QUE ENCIENDE UNA LINTERNA', correcta:'ENERGÍA QUÍMICA A ENERGÍA ELÉCTRICA Y LUZ', opts:['ENERGÍA SONORA A ENERGÍA SOLAR','FRÍO A CALOR','MOVIMIENTO A OLOR'] },
+  { objeto:'Una vela encendida', correcta:'Luz y calor', opts:['Sonido','Movimiento','Frío'] },
+  { objeto:'Un panel solar', correcta:'Energía eléctrica', opts:['Sonido','Olor','Frío'] },
+  { objeto:'Un molino de viento (aerogenerador)', correcta:'Energía eléctrica o mecánica', opts:['Luz solamente','Olor','Frío'] },
+  { objeto:'Una pila que enciende una linterna', correcta:'Energía química a energía eléctrica y luz', opts:['Energía sonora a energía solar','Frío a calor','Movimiento a olor'] },
 ];
 const RECURSOS_RENOVABLES6_BANK = [
-  { recurso:'ENERGÍA SOLAR', tipo:'RENOVABLE' }, { recurso:'ENERGÍA EÓLICA (VIENTO)', tipo:'RENOVABLE' },
-  { recurso:'ENERGÍA HIDRÁULICA (AGUA)', tipo:'RENOVABLE' }, { recurso:'EL PETRÓLEO', tipo:'NO RENOVABLE' },
-  { recurso:'EL CARBÓN', tipo:'NO RENOVABLE' }, { recurso:'EL GAS NATURAL', tipo:'NO RENOVABLE' },
+  { recurso:'Energía solar', tipo:'Renovable' }, { recurso:'Energía eólica (viento)', tipo:'Renovable' },
+  { recurso:'Energía hidráulica (agua)', tipo:'Renovable' }, { recurso:'El petróleo', tipo:'No renovable' },
+  { recurso:'El carbón', tipo:'No renovable' }, { recurso:'El gas natural', tipo:'No renovable' },
 ];
 const USO_RESPONSABLE_ENERGIA_BANK = [
   { accion:'Usar la bicicleta o caminar para trayectos cortos en vez del auto', ayuda:true },
@@ -1538,7 +1538,7 @@ export function genEnergiaTransformaciones6Round(){
   }
   if(roll<0.67){
     const item = pick(RECURSOS_RENOVABLES6_BANK);
-    const opts = shuffle([{label:'RENOVABLE', value:'RENOVABLE'},{label:'NO RENOVABLE', value:'NO RENOVABLE'}]);
+    const opts = shuffle([{label:'Renovable', value:'Renovable'},{label:'No renovable', value:'No renovable'}]);
     return {
       promptHTML: '<p class="prompt-sentence">'+item.recurso+'</p><p class="prompt-hint">¿Es un recurso energético renovable o no renovable?</p>',
       options: opts, correctValue: item.tipo, speakText: item.recurso, cols:2, panel:true,
@@ -1546,7 +1546,7 @@ export function genEnergiaTransformaciones6Round(){
     };
   }
   const item = pick(USO_RESPONSABLE_ENERGIA_BANK);
-  const opts = shuffle([{label:'SÍ AYUDA A USAR LA ENERGÍA DE FORMA RESPONSABLE', value:true},{label:'NO AYUDA, ES UN USO IRRESPONSABLE', value:false}]);
+  const opts = shuffle([{label:'Sí ayuda a usar la energía de forma responsable', value:true},{label:'No ayuda, es un uso irresponsable', value:false}]);
   return {
     promptHTML: '<p class="prompt-sentence">'+item.accion+'</p><p class="prompt-hint">¿Esta acción ayuda a usar la energía de forma responsable?</p>',
     options: opts, correctValue: item.ayuda, speakText: item.accion, cols:2, panel:true,
@@ -1555,26 +1555,26 @@ export function genEnergiaTransformaciones6Round(){
 }
 
 const CALOR_FLUJO_BANK = [
-  { escenario:'Pones un cubo de hielo en un vaso de agua tibia', correcta:'DEL AGUA TIBIA HACIA EL HIELO', opts:['DEL HIELO HACIA EL AGUA TIBIA','NO HAY NINGÚN FLUJO DE CALOR','EL CALOR DESAPARECE POR COMPLETO'] },
-  { escenario:'Tocas una taza de té caliente con la mano fría', correcta:'DE LA TAZA CALIENTE HACIA TU MANO', opts:['DE TU MANO HACIA LA TAZA','NO HAY NINGÚN FLUJO DE CALOR','EL CALOR SE QUEDA SOLO EN LA TAZA'] },
-  { escenario:'Dejas una bebida fría al sol en un día caluroso', correcta:'DEL AIRE CALIENTE HACIA LA BEBIDA FRÍA', opts:['DE LA BEBIDA FRÍA HACIA EL AIRE','NO HAY NINGÚN FLUJO DE CALOR','LA BEBIDA SE ENFRÍA AÚN MÁS'] },
+  { escenario:'Pones un cubo de hielo en un vaso de agua tibia', correcta:'Del agua tibia hacia el hielo', opts:['Del hielo hacia el agua tibia','No hay ningún flujo de calor','El calor desaparece por completo'] },
+  { escenario:'Tocas una taza de té caliente con la mano fría', correcta:'De la taza caliente hacia tu mano', opts:['De tu mano hacia la taza','No hay ningún flujo de calor','El calor se queda solo en la taza'] },
+  { escenario:'Dejas una bebida fría al sol en un día caluroso', correcta:'Del aire caliente hacia la bebida fría', opts:['De la bebida fría hacia el aire','No hay ningún flujo de calor','La bebida se enfría aún más'] },
 ];
 const ESTADOS_PARTICULAS_BANK = [
-  { desc:'Las partículas están muy juntas y apenas se mueven, manteniendo una forma fija', estado:'SÓLIDO' },
-  { desc:'Las partículas están más separadas y se deslizan unas sobre otras, tomando la forma del recipiente', estado:'LÍQUIDO' },
-  { desc:'Las partículas están muy separadas entre sí y se mueven rápidamente en todas direcciones', estado:'GASEOSO' },
+  { desc:'Las partículas están muy juntas y apenas se mueven, manteniendo una forma fija', estado:'Sólido' },
+  { desc:'Las partículas están más separadas y se deslizan unas sobre otras, tomando la forma del recipiente', estado:'Líquido' },
+  { desc:'Las partículas están muy separadas entre sí y se mueven rápidamente en todas direcciones', estado:'Gaseoso' },
 ];
 const CAMBIOS_ESTADO_BANK = [
-  { desc:'Un cubo de hielo se derrite y se convierte en agua líquida', proceso:'FUSIÓN' },
-  { desc:'El agua de un charco desaparece poco a poco al sol, convirtiéndose en vapor', proceso:'EVAPORACIÓN' },
-  { desc:'El agua hirviendo en una olla se convierte rápidamente en vapor', proceso:'EBULLICIÓN' },
-  { desc:'El vapor de agua en el espejo del baño se convierte en gotitas de agua', proceso:'CONDENSACIÓN' },
-  { desc:'El agua líquida se convierte en hielo al meterla al congelador', proceso:'SOLIDIFICACIÓN' },
-  { desc:'El hielo seco (dióxido de carbono sólido) se convierte directamente en gas, sin pasar por líquido', proceso:'SUBLIMACIÓN' },
+  { desc:'Un cubo de hielo se derrite y se convierte en agua líquida', proceso:'Fusión' },
+  { desc:'El agua de un charco desaparece poco a poco al sol, convirtiéndose en vapor', proceso:'Evaporación' },
+  { desc:'El agua hirviendo en una olla se convierte rápidamente en vapor', proceso:'Ebullición' },
+  { desc:'El vapor de agua en el espejo del baño se convierte en gotitas de agua', proceso:'Condensación' },
+  { desc:'El agua líquida se convierte en hielo al meterla al congelador', proceso:'Solidificación' },
+  { desc:'El hielo seco (dióxido de carbono sólido) se convierte directamente en gas, sin pasar por líquido', proceso:'Sublimación' },
 ];
 const CALOR_TEMPERATURA_BANK = [
-  { pregunta:'¿Qué mide un termómetro: el calor o la temperatura?', correcta:'LA TEMPERATURA', opts:['EL CALOR','EL SONIDO','LA HUMEDAD'] },
-  { pregunta:'¿Qué es el calor?', correcta:'LA ENERGÍA QUE SE TRANSFIERE DE UN OBJETO A OTRO', opts:['UNA UNIDAD PARA MEDIR EL PESO','UN INSTRUMENTO DE MEDICIÓN','UN TIPO DE SONIDO'] },
+  { pregunta:'¿Qué mide un termómetro: el calor o la temperatura?', correcta:'La temperatura', opts:['El calor','El sonido','La humedad'] },
+  { pregunta:'¿Qué es el calor?', correcta:'La energía que se transfiere de un objeto a otro', opts:['Una unidad para medir el peso','Un instrumento de medición','Un tipo de sonido'] },
 ];
 export function genCalorTemperatura6Round(){
   const recurso = 'El <b>calor</b> es la energía que se transfiere siempre desde el objeto más caliente hacia el más frío (nunca al revés), mientras que la <b>temperatura</b> es lo que mide un termómetro para indicar qué tan caliente o frío está algo. La materia existe en tres estados según cómo se comportan sus partículas: <b>sólido</b> (muy juntas, forma fija), <b>líquido</b> (más separadas, toman la forma del recipiente) y <b>gaseoso</b> (muy separadas, se mueven libremente). El calor es precisamente lo que provoca los cambios entre estos estados: fusión, evaporación, ebullición, condensación, solidificación y sublimación.';
@@ -1590,7 +1590,7 @@ export function genCalorTemperatura6Round(){
   }
   if(roll<0.5){
     const item = pick(ESTADOS_PARTICULAS_BANK);
-    const todos = ['SÓLIDO','LÍQUIDO','GASEOSO'];
+    const todos = ['Sólido','Líquido','Gaseoso'];
     const distract = todos.filter(function(e){ return e!==item.estado; });
     const opts = shuffle([item.estado].concat(distract)).map(function(e){ return {label:e, value:e}; });
     return {
@@ -1614,24 +1614,24 @@ export function genCalorTemperatura6Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+    explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
   };
 }
 
 const CAPAS_TIERRA6_BANK = [
-  { capa:'ATMÓSFERA', desc:'La capa de aire y gases que rodea la Tierra y nos permite respirar' },
-  { capa:'LITÓSFERA', desc:'La capa sólida de rocas y suelo sobre la que caminamos y construimos' },
-  { capa:'HIDRÓSFERA', desc:'Toda el agua del planeta: océanos, ríos, lagos y glaciares' },
+  { capa:'Atmósfera', desc:'La capa de aire y gases que rodea la Tierra y nos permite respirar' },
+  { capa:'Litósfera', desc:'La capa sólida de rocas y suelo sobre la que caminamos y construimos' },
+  { capa:'Hidrósfera', desc:'Toda el agua del planeta: océanos, ríos, lagos y glaciares' },
 ];
 const SUELO_BANK = [
-  { pregunta:'¿De qué se forma principalmente el suelo?', correcta:'DE ROCAS DESCOMPUESTAS Y MATERIA ORGÁNICA (RESTOS DE PLANTAS Y ANIMALES)', opts:['SOLO DE AGUA DE LLUVIA','SOLO DE AIRE ATRAPADO','SOLO DE HIELO DERRETIDO'] },
-  { pregunta:'¿Cuál de estas es una propiedad importante del suelo que se puede observar u medir?', correcta:'SU CAPACIDAD DE RETENER AGUA', opts:['SU VELOCIDAD DE VUELO','SU TEMPERATURA DE EBULLICIÓN','SU CONDUCTIVIDAD ELÉCTRICA'] },
-  { pregunta:'¿Por qué es importante proteger el suelo de la contaminación?', correcta:'PORQUE LAS PLANTAS Y LOS CULTIVOS DEPENDEN DE UN SUELO SANO PARA CRECER', opts:['PORQUE EL SUELO SE USA PARA RESPIRAR','PORQUE EL SUELO NUNCA SE CONTAMINA','PORQUE NO TIENE NINGUNA FUNCIÓN IMPORTANTE'] },
+  { pregunta:'¿De qué se forma principalmente el suelo?', correcta:'De rocas descompuestas y materia orgánica (restos de plantas y animales)', opts:['Solo de agua de lluvia','Solo de aire atrapado','Solo de hielo derretido'] },
+  { pregunta:'¿Cuál de estas es una propiedad importante del suelo que se puede observar u medir?', correcta:'Su capacidad de retener agua', opts:['Su velocidad de vuelo','Su temperatura de ebullición','Su conductividad eléctrica'] },
+  { pregunta:'¿Por qué es importante proteger el suelo de la contaminación?', correcta:'Porque las plantas y los cultivos dependen de un suelo sano para crecer', opts:['Porque el suelo se usa para respirar','Porque el suelo nunca se contamina','Porque no tiene ninguna función importante'] },
 ];
 const EROSION_BANK = [
-  { agente:'EL VIENTO', desc:'Arrastra partículas de arena y tierra, desgastando rocas con el tiempo' },
-  { agente:'EL AGUA', desc:'La lluvia y los ríos arrastran tierra y desgastan rocas al fluir sobre ellas' },
-  { agente:'LAS ACTIVIDADES HUMANAS', desc:'Talar bosques o sobreexplotar terrenos deja el suelo más expuesto y vulnerable' },
+  { agente:'El viento', desc:'Arrastra partículas de arena y tierra, desgastando rocas con el tiempo' },
+  { agente:'El agua', desc:'La lluvia y los ríos arrastran tierra y desgastan rocas al fluir sobre ellas' },
+  { agente:'Las actividades humanas', desc:'Talar bosques o sobreexplotar terrenos deja el suelo más expuesto y vulnerable' },
 ];
 export function genTierraSueloErosion6Round(){
   const recurso = 'La Tierra tiene varias capas: la <b>atmósfera</b> (aire que rodea el planeta), la <b>litósfera</b> (la capa sólida de rocas y suelo) y la <b>hidrósfera</b> (toda el agua del planeta). El <b>suelo</b> se forma de rocas descompuestas junto con materia orgánica (restos de plantas y animales), y es esencial para que crezcan los cultivos. La <b>erosión</b> es el desgaste del suelo y las rocas por agentes naturales como el viento y el agua, pero también puede acelerarse por actividades humanas como talar bosques o sobreexplotar terrenos, dejando el suelo más expuesto y vulnerable.';
@@ -1652,7 +1652,7 @@ export function genTierraSueloErosion6Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+      explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
     };
   }
   const item = pick(EROSION_BANK);
@@ -1699,22 +1699,22 @@ export const CIENCIAS_MODULES_G7 = [
 export const CIENCIAS_POS_G7 = [{x:20,y:92},{x:64,y:74},{x:24,y:54},{x:66,y:34},{x:22,y:12}];
 
 const CICLO_MENSTRUAL_GAMETOS_BANK = [
-  { pregunta:'¿Qué es el ciclo menstrual?', correcta:'UN PROCESO MENSUAL EN EL CUERPO DE LA MUJER QUE PREPARA AL ÚTERO PARA UN POSIBLE EMBARAZO', opts:['UNA ENFERMEDAD QUE HAY QUE CURAR','UN PROBLEMA DIGESTIVO','UNA SEÑAL DE QUE ALGO ANDA MAL EN EL CUERPO'] },
-  { pregunta:'¿Qué son los gametos?', correcta:'LAS CÉLULAS REPRODUCTIVAS: EL ÓVULO EN LA MUJER Y EL ESPERMATOZOIDE EN EL HOMBRE', opts:['LOS GLÓBULOS ROJOS DE LA SANGRE','LAS CÉLULAS DE LA PIEL','LAS CÉLULAS DEL SISTEMA NERVIOSO'] },
-  { pregunta:'¿Cómo se llama la unión de un óvulo y un espermatozoide?', correcta:'FECUNDACIÓN', opts:['DIGESTIÓN','RESPIRACIÓN','CIRCULACIÓN'] },
-  { pregunta:'¿Qué es la ovulación?', correcta:'LA LIBERACIÓN DE UN ÓVULO MADURO DESDE EL OVARIO', opts:['LA PRODUCCIÓN DE GLÓBULOS BLANCOS','LA DIGESTIÓN DE LOS ALIMENTOS','LA FORMACIÓN DE HUESOS NUEVOS'] },
+  { pregunta:'¿Qué es el ciclo menstrual?', correcta:'Un proceso mensual en el cuerpo de la mujer que prepara al útero para un posible embarazo', opts:['Una enfermedad que hay que curar','Un problema digestivo','Una señal de que algo anda mal en el cuerpo'] },
+  { pregunta:'¿Qué son los gametos?', correcta:'Las células reproductivas: el óvulo en la mujer y el espermatozoide en el hombre', opts:['Los glóbulos rojos de la sangre','Las células de la piel','Las células del sistema nervioso'] },
+  { pregunta:'¿Cómo se llama la unión de un óvulo y un espermatozoide?', correcta:'Fecundación', opts:['Digestión','Respiración','Circulación'] },
+  { pregunta:'¿Qué es la ovulación?', correcta:'La liberación de un óvulo maduro desde el ovario', opts:['La producción de glóbulos blancos','La digestión de los alimentos','La formación de huesos nuevos'] },
 ];
 const METODOS_ANTICONCEPTIVOS_BANK = [
-  { pregunta:'¿Para qué sirven principalmente los métodos anticonceptivos?', correcta:'PARA PREVENIR UN EMBARAZO NO PLANIFICADO', opts:['PARA CURAR RESFRIADOS','PARA MEJORAR LA VISIÓN','PARA FORTALECER LOS HUESOS'] },
-  { pregunta:'¿Cuál de estos es un método anticonceptivo de barrera?', correcta:'EL PRESERVATIVO (CONDÓN)', opts:['UNA VACUNA','UN ANALGÉSICO','UN ANTIBIÓTICO'] },
-  { pregunta:'Además de prevenir el embarazo, ¿qué otra función importante cumple el uso del preservativo?', correcta:'PREVENIR EL CONTAGIO DE INFECCIONES DE TRANSMISIÓN SEXUAL', opts:['MEJORAR EL RENDIMIENTO ESCOLAR','PREVENIR RESFRIADOS COMUNES','FORTALECER EL SISTEMA DIGESTIVO'] },
-  { pregunta:'¿Por qué es importante consultar a un profesional de la salud antes de elegir un método anticonceptivo?', correcta:'PARA RECIBIR INFORMACIÓN CORRECTA Y ELEGIR EL MÁS ADECUADO PARA LA SALUD DE CADA PERSONA', opts:['NO ES NECESARIO CONSULTAR A NADIE','PORQUE TODOS LOS MÉTODOS SON EXACTAMENTE IGUALES','PORQUE ES OBLIGATORIO POR LEY SIN NINGUNA RAZÓN DE SALUD'] },
+  { pregunta:'¿Para qué sirven principalmente los métodos anticonceptivos?', correcta:'Para prevenir un embarazo no planificado', opts:['Para curar resfriados','Para mejorar la visión','Para fortalecer los huesos'] },
+  { pregunta:'¿Cuál de estos es un método anticonceptivo de barrera?', correcta:'El preservativo (condón)', opts:['Una vacuna','Un analgésico','Un antibiótico'] },
+  { pregunta:'Además de prevenir el embarazo, ¿qué otra función importante cumple el uso del preservativo?', correcta:'Prevenir el contagio de infecciones de transmisión sexual', opts:['Mejorar el rendimiento escolar','Prevenir resfriados comunes','Fortalecer el sistema digestivo'] },
+  { pregunta:'¿Por qué es importante consultar a un profesional de la salud antes de elegir un método anticonceptivo?', correcta:'Para recibir información correcta y elegir el más adecuado para la salud de cada persona', opts:['No es necesario consultar a nadie','Porque todos los métodos son exactamente iguales','Porque es obligatorio por ley sin ninguna razón de salud'] },
 ];
 const ITS_BANK = [
-  { pregunta:'¿Qué son las infecciones de transmisión sexual (ITS)?', correcta:'INFECCIONES QUE SE PUEDEN TRANSMITIR PRINCIPALMENTE POR CONTACTO SEXUAL', opts:['INFECCIONES QUE SOLO SE TRANSMITEN POR EL AIRE','ENFERMEDADES QUE SOLO AFECTAN A LOS ANIMALES','UN TIPO DE ALERGIA ALIMENTARIA'] },
-  { pregunta:'¿Cuál es una forma efectiva de prevenir el contagio de una ITS?', correcta:'USAR PRESERVATIVO Y MANTENER CONTROLES DE SALUD REGULARES', opts:['NO EXISTE NINGUNA FORMA DE PREVENCIÓN','SOLO LAVARSE LAS MANOS ES SUFICIENTE','IGNORAR EL TEMA POR COMPLETO'] },
-  { pregunta:'¿Qué se debe hacer si una persona sospecha que podría tener una ITS?', correcta:'CONSULTAR A UN PROFESIONAL DE LA SALUD LO ANTES POSIBLE', opts:['ESPERAR A QUE SE CURE SOLA SIN CONSULTAR A NADIE','OCULTARLO DE TODOS PARA SIEMPRE','AUTOMEDICARSE SIN SUPERVISIÓN MÉDICA'] },
-  { pregunta:'¿Por qué es importante hacerse exámenes médicos de manera regular?', correcta:'PORQUE ALGUNAS ITS PUEDEN NO PRESENTAR SEÑALES VISIBLES AL PRINCIPIO', opts:['PORQUE TODAS LAS ITS DUELEN MUCHO DESDE EL PRIMER DÍA','PORQUE LOS EXÁMENES MÉDICOS NUNCA SIRVEN DE NADA','PORQUE ES SOLO UNA FORMALIDAD SIN NINGÚN PROPÓSITO'] },
+  { pregunta:'¿Qué son las infecciones de transmisión sexual (ITS)?', correcta:'Infecciones que se pueden transmitir principalmente por contacto sexual', opts:['Infecciones que solo se transmiten por el aire','Enfermedades que solo afectan a los animales','Un tipo de alergia alimentaria'] },
+  { pregunta:'¿Cuál es una forma efectiva de prevenir el contagio de una ITS?', correcta:'Usar preservativo y mantener controles de salud regulares', opts:['No existe ninguna forma de prevención','Solo lavarse las manos es suficiente','Ignorar el tema por completo'] },
+  { pregunta:'¿Qué se debe hacer si una persona sospecha que podría tener una ITS?', correcta:'Consultar a un profesional de la salud lo antes posible', opts:['Esperar a que se cure sola sin consultar a nadie','Ocultarlo de todos para siempre','Automedicarse sin supervisión médica'] },
+  { pregunta:'¿Por qué es importante hacerse exámenes médicos de manera regular?', correcta:'Porque algunas ITS pueden no presentar señales visibles al principio', opts:['Porque todas las ITS duelen mucho desde el primer día','Porque los exámenes médicos nunca sirven de nada','Porque es solo una formalidad sin ningún propósito'] },
 ];
 export function genSexualidadReproduccion7Round(){
   const recurso = 'El sistema reproductor femenino y masculino producen los <b>gametos</b> (óvulos y espermatozoides) necesarios para la reproducción humana; el <b>ciclo menstrual</b> es el proceso mensual mediante el cual el cuerpo de la mujer prepara y libera un óvulo. Los <b>métodos anticonceptivos</b> son formas de prevenir un embarazo cuando se decide no tenerlo en ese momento, y varían en su forma de uso y efectividad. Las <b>infecciones de transmisión sexual (ITS)</b> se pueden prevenir con medidas de cuidado y se detectan y tratan con ayuda de un profesional de la salud — ante cualquier duda sobre estos temas, siempre es importante conversar con un adulto de confianza o consultar a un médico.';
@@ -1725,7 +1725,7 @@ export function genSexualidadReproduccion7Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1735,7 +1735,7 @@ export function genSexualidadReproduccion7Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1744,26 +1744,26 @@ export function genSexualidadReproduccion7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const BARRERAS_DEFENSIVAS_BANK = [
-  { pregunta:'¿Cuál es la primera barrera de defensa del cuerpo contra los agentes patógenos?', correcta:'LA PIEL', opts:['LOS HUESOS','EL CABELLO','LAS UÑAS'] },
-  { pregunta:'¿Qué función cumplen los glóbulos blancos en el cuerpo?', correcta:'DEFENDER AL CUERPO DE AGENTES PATÓGENOS COMO VIRUS Y BACTERIAS', opts:['TRANSPORTAR OXÍGENO POR LA SANGRE','DIGERIR LOS ALIMENTOS','FORMAR LOS HUESOS'] },
-  { pregunta:'¿Qué es una vacuna?', correcta:'UNA SUSTANCIA QUE PREPARA AL SISTEMA INMUNOLÓGICO PARA DEFENDERSE DE UN AGENTE ESPECÍFICO, SIN CAUSAR LA ENFERMEDAD', opts:['UN TIPO DE ALIMENTO','UN ANALGÉSICO PARA EL DOLOR','UN TRATAMIENTO PARA HUESOS ROTOS'] },
-  { pregunta:'¿Por qué a veces el cuerpo tiene fiebre cuando está combatiendo una infección?', correcta:'PORQUE ES UNA RESPUESTA DE DEFENSA QUE DIFICULTA LA REPRODUCCIÓN DE ALGUNOS AGENTES PATÓGENOS', opts:['PORQUE EL CUERPO ESTÁ FALLANDO POR COMPLETO','PORQUE ES UNA SEÑAL SIN NINGÚN PROPÓSITO','PORQUE EL CUERPO DEJA DE FUNCIONAR'] },
+  { pregunta:'¿Cuál es la primera barrera de defensa del cuerpo contra los agentes patógenos?', correcta:'La piel', opts:['Los huesos','El cabello','Las uñas'] },
+  { pregunta:'¿Qué función cumplen los glóbulos blancos en el cuerpo?', correcta:'Defender al cuerpo de agentes patógenos como virus y bacterias', opts:['Transportar oxígeno por la sangre','Digerir los alimentos','Formar los huesos'] },
+  { pregunta:'¿Qué es una vacuna?', correcta:'Una sustancia que prepara al sistema inmunológico para defenderse de un agente específico, sin causar la enfermedad', opts:['Un tipo de alimento','Un analgésico para el dolor','Un tratamiento para huesos rotos'] },
+  { pregunta:'¿Por qué a veces el cuerpo tiene fiebre cuando está combatiendo una infección?', correcta:'Porque es una respuesta de defensa que dificulta la reproducción de algunos agentes patógenos', opts:['Porque el cuerpo está fallando por completo','Porque es una señal sin ningún propósito','Porque el cuerpo deja de funcionar'] },
 ];
 const VIRUS_BACTERIAS_HONGOS_BANK = [
-  { pregunta:'¿Qué característica distingue a un virus de una bacteria?', correcta:'EL VIRUS NECESITA UNA CÉLULA HUÉSPED PARA REPRODUCIRSE, LA BACTERIA PUEDE REPRODUCIRSE POR SÍ SOLA', opts:['EL VIRUS SIEMPRE ES MÁS GRANDE QUE LA BACTERIA','LAS BACTERIAS SIEMPRE SON DAÑINAS Y LOS VIRUS NUNCA','LOS VIRUS SIEMPRE VIVEN EN EL AGUA'] },
-  { pregunta:'¿Cuál de estos microorganismos puede ser beneficioso, como en la producción de pan o queso?', correcta:'LOS HONGOS (COMO LAS LEVADURAS)', opts:['SOLO LOS VIRUS','NINGÚN MICROORGANISMO PUEDE SER BENEFICIOSO','SOLO LOS PARÁSITOS'] },
-  { pregunta:'¿Qué tienen en común las bacterias con otros seres vivos, a diferencia de los virus?', correcta:'LAS BACTERIAS ESTÁN FORMADAS POR CÉLULAS, IGUAL QUE OTROS SERES VIVOS', opts:['LAS BACTERIAS NUNCA SE REPRODUCEN','LAS BACTERIAS SIEMPRE SON MICROSCÓPICAMENTE IDÉNTICAS A LOS VIRUS','LAS BACTERIAS NUNCA EXISTEN EN LA NATURALEZA'] },
+  { pregunta:'¿Qué característica distingue a un virus de una bacteria?', correcta:'El virus necesita una célula huésped para reproducirse, la bacteria puede reproducirse por sí sola', opts:['El virus siempre es más grande que la bacteria','Las bacterias siempre son dañinas y los virus nunca','Los virus siempre viven en el agua'] },
+  { pregunta:'¿Cuál de estos microorganismos puede ser beneficioso, como en la producción de pan o queso?', correcta:'Los hongos (como las levaduras)', opts:['Solo los virus','Ningún microorganismo puede ser beneficioso','Solo los parásitos'] },
+  { pregunta:'¿Qué tienen en común las bacterias con otros seres vivos, a diferencia de los virus?', correcta:'Las bacterias están formadas por células, igual que otros seres vivos', opts:['Las bacterias nunca se reproducen','Las bacterias siempre son microscópicamente idénticas a los virus','Las bacterias nunca existen en la naturaleza'] },
 ];
 const BIOTECNOLOGIA_BANK = [
-  { pregunta:'¿Para qué se usan microorganismos en la producción de alimentos como el yogur?', correcta:'PARA FERMENTAR LA LECHE Y TRANSFORMARLA EN YOGUR', opts:['PARA COLOREAR EL ENVASE','PARA ENFRIAR EL PRODUCTO','PARA AUMENTAR SU PESO'] },
-  { pregunta:'¿Cómo se pueden usar microorganismos para ayudar al medioambiente?', correcta:'ALGUNOS PUEDEN DESCOMPONER SUSTANCIAS CONTAMINANTES', opts:['NUNCA SE PUEDEN USAR PARA CUIDAR EL MEDIOAMBIENTE','SOLO SIRVEN PARA CONTAMINAR MÁS','SOLO EXISTEN PARA CAUSAR ENFERMEDADES'] },
-  { pregunta:'¿Qué producen algunos microorganismos al descomponer materia orgánica, que se puede usar como fuente de energía?', correcta:'METANO (BIOGÁS)', opts:['OXÍGENO PURO SOLAMENTE','AGUA POTABLE DIRECTAMENTE','SAL DE MESA'] },
+  { pregunta:'¿Para qué se usan microorganismos en la producción de alimentos como el yogur?', correcta:'Para fermentar la leche y transformarla en yogur', opts:['Para colorear el envase','Para enfriar el producto','Para aumentar su peso'] },
+  { pregunta:'¿Cómo se pueden usar microorganismos para ayudar al medioambiente?', correcta:'Algunos pueden descomponer sustancias contaminantes', opts:['Nunca se pueden usar para cuidar el medioambiente','Solo sirven para contaminar más','Solo existen para causar enfermedades'] },
+  { pregunta:'¿Qué producen algunos microorganismos al descomponer materia orgánica, que se puede usar como fuente de energía?', correcta:'Metano (biogás)', opts:['Oxígeno puro solamente','Agua potable directamente','Sal de mesa'] },
 ];
 export function genInmunologicoMicroorganismos7Round(){
   const recurso = 'El cuerpo se defiende de los agentes patógenos con <b>barreras defensivas</b> (la piel, los glóbulos blancos) y con la ayuda de <b>vacunas</b>, que preparan al sistema inmunológico sin causar la enfermedad. Los <b>virus</b> necesitan una célula huésped para reproducirse, mientras que las <b>bacterias</b> pueden reproducirse por sí solas; no todos los microorganismos son dañinos — muchos hongos y bacterias son beneficiosos, usados en la <b>biotecnología</b> para producir alimentos (pan, yogur, queso) o para ayudar al medioambiente descomponiendo sustancias contaminantes.';
@@ -1774,7 +1774,7 @@ export function genInmunologicoMicroorganismos7Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1784,7 +1784,7 @@ export function genInmunologicoMicroorganismos7Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1793,29 +1793,29 @@ export function genInmunologicoMicroorganismos7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const FUERZAS7_BANK = [
-  { escenario:'Una manzana cae del árbol hacia el suelo', fuerza:'GRAVITACIONAL' },
-  { escenario:'Frotar las manos genera calor por el roce entre ellas', fuerza:'DE FRICCIÓN (ROCE)' },
-  { escenario:'Un resorte vuelve a su forma original después de estirarlo y soltarlo', fuerza:'ELÁSTICA' },
-  { escenario:'Una pelota rueda por el suelo y se detiene poco a poco por el roce con la superficie', fuerza:'DE FRICCIÓN (ROCE)' },
-  { escenario:'Un satélite es atraído hacia la Tierra y orbita alrededor de ella', fuerza:'GRAVITACIONAL' },
-  { escenario:'Una cama elástica (trampolín) impulsa hacia arriba a quien salta sobre ella', fuerza:'ELÁSTICA' },
+  { escenario:'Una manzana cae del árbol hacia el suelo', fuerza:'Gravitacional' },
+  { escenario:'Frotar las manos genera calor por el roce entre ellas', fuerza:'De fricción (roce)' },
+  { escenario:'Un resorte vuelve a su forma original después de estirarlo y soltarlo', fuerza:'Elástica' },
+  { escenario:'Una pelota rueda por el suelo y se detiene poco a poco por el roce con la superficie', fuerza:'De fricción (roce)' },
+  { escenario:'Un satélite es atraído hacia la Tierra y orbita alrededor de ella', fuerza:'Gravitacional' },
+  { escenario:'Una cama elástica (trampolín) impulsa hacia arriba a quien salta sobre ella', fuerza:'Elástica' },
 ];
 const PRESION_BANK = [
-  { pregunta:'¿Por qué un cuchillo afilado corta mejor que uno sin filo, aplicando la misma fuerza?', correcta:'PORQUE CONCENTRA LA FUERZA EN UNA SUPERFICIE MÁS PEQUEÑA, AUMENTANDO LA PRESIÓN', opts:['PORQUE PESA MENOS','PORQUE ES MÁS LARGO','PORQUE ES DE OTRO COLOR'] },
-  { pregunta:'¿Qué le ocurre a la presión que siente un buzo a medida que se sumerge más profundo en el agua?', correcta:'AUMENTA', opts:['DISMINUYE','SE MANTIENE IGUAL SIEMPRE','DESAPARECE POR COMPLETO'] },
-  { pregunta:'¿Por qué usar raquetas de nieve o esquís ayuda a no hundirse tanto en la nieve?', correcta:'PORQUE REPARTEN EL PESO EN UNA SUPERFICIE MÁS GRANDE, DISMINUYENDO LA PRESIÓN', opts:['PORQUE SON MÁS PESADOS','PORQUE DERRITEN LA NIEVE','PORQUE SON DE COLOR BLANCO'] },
+  { pregunta:'¿Por qué un cuchillo afilado corta mejor que uno sin filo, aplicando la misma fuerza?', correcta:'Porque concentra la fuerza en una superficie más pequeña, aumentando la presión', opts:['Porque pesa menos','Porque es más largo','Porque es de otro color'] },
+  { pregunta:'¿Qué le ocurre a la presión que siente un buzo a medida que se sumerge más profundo en el agua?', correcta:'Aumenta', opts:['Disminuye','Se mantiene igual siempre','Desaparece por completo'] },
+  { pregunta:'¿Por qué usar raquetas de nieve o esquís ayuda a no hundirse tanto en la nieve?', correcta:'Porque reparten el peso en una superficie más grande, disminuyendo la presión', opts:['Porque son más pesados','Porque derriten la nieve','Porque son de color blanco'] },
 ];
 export function genFuerzasPresion7Round(){
   const recurso = 'Existen distintos tipos de <b>fuerza</b>: la <b>gravitacional</b> atrae los objetos hacia la Tierra (o entre sí), la de <b>fricción (roce)</b> se opone al movimiento entre dos superficies en contacto, y la <b>elástica</b> aparece cuando un objeto se deforma y vuelve a su forma original (como un resorte). La <b>presión</b> es la fuerza aplicada sobre una superficie: a menor superficie, mayor presión (por eso un cuchillo afilado corta mejor), y a mayor superficie, menor presión (por eso las raquetas de nieve evitan hundirse).';
   if(Math.random()<0.6){
     const item = pick(FUERZAS7_BANK);
-    const todos = ['GRAVITACIONAL','DE FRICCIÓN (ROCE)','ELÁSTICA'];
+    const todos = ['Gravitacional','De fricción (roce)','Elástica'];
     const distract = todos.filter(function(f){ return f!==item.fuerza; });
     const opts = shuffle([item.fuerza].concat(distract)).map(function(f){ return {label:f, value:f}; });
     return {
@@ -1830,28 +1830,28 @@ export function genFuerzasPresion7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const TECTONICA_BANK = [
-  { pregunta:'¿Qué ocurre cuando dos placas tectónicas se separan una de la otra?', correcta:'ES UN LÍMITE DIVERGENTE, DONDE PUEDE SURGIR NUEVO MATERIAL DESDE EL INTERIOR DE LA TIERRA', opts:['SIEMPRE SE FORMA UN OCÉANO NUEVO DE INMEDIATO','LAS PLACAS DEJAN DE EXISTIR','NO OCURRE NINGÚN CAMBIO GEOLÓGICO'] },
-  { pregunta:'¿Qué ocurre cuando dos placas tectónicas chocan entre sí?', correcta:'ES UN LÍMITE CONVERGENTE, QUE PUEDE FORMAR CORDILLERAS O ZONAS DE ALTA ACTIVIDAD SÍSMICA', opts:['LAS PLACAS SE DETIENEN PARA SIEMPRE SIN CONSECUENCIAS','SIEMPRE SE FORMA UN VOLCÁN INSTANTÁNEAMENTE','NO TIENE NINGÚN EFECTO GEOLÓGICO'] },
-  { pregunta:'¿Qué propone la teoría de la deriva continental?', correcta:'QUE LOS CONTINENTES SE HAN MOVIDO A LO LARGO DEL TIEMPO GEOLÓGICO', opts:['QUE LOS CONTINENTES SIEMPRE HAN ESTADO EXACTAMENTE EN EL MISMO LUGAR','QUE LA TIERRA NO TIENE CONTINENTES','QUE LOS OCÉANOS NUNCA CAMBIAN DE TAMAÑO'] },
+  { pregunta:'¿Qué ocurre cuando dos placas tectónicas se separan una de la otra?', correcta:'Es un límite divergente, donde puede surgir nuevo material desde el interior de la Tierra', opts:['Siempre se forma un océano nuevo de inmediato','Las placas dejan de existir','No ocurre ningún cambio geológico'] },
+  { pregunta:'¿Qué ocurre cuando dos placas tectónicas chocan entre sí?', correcta:'Es un límite convergente, que puede formar cordilleras o zonas de alta actividad sísmica', opts:['Las placas se detienen para siempre sin consecuencias','Siempre se forma un volcán instantáneamente','No tiene ningún efecto geológico'] },
+  { pregunta:'¿Qué propone la teoría de la deriva continental?', correcta:'Que los continentes se han movido a lo largo del tiempo geológico', opts:['Que los continentes siempre han estado exactamente en el mismo lugar','Que la Tierra no tiene continentes','Que los océanos nunca cambian de tamaño'] },
 ];
 const VOLCANES_BANK = [
-  { pregunta:'¿Qué relación existe entre los volcanes y los límites de placas tectónicas?', correcta:'MUCHOS VOLCANES SE FORMAN CERCA DE LOS LÍMITES ENTRE PLACAS TECTÓNICAS', opts:['LOS VOLCANES NUNCA TIENEN RELACIÓN CON LAS PLACAS TECTÓNICAS','LOS VOLCANES SOLO EXISTEN EN EL OCÉANO','LOS VOLCANES APARECEN AL AZAR SIN NINGÚN PATRÓN'] },
-  { pregunta:'¿Cuál es una consecuencia social de una erupción volcánica importante?', correcta:'PUEDE OBLIGAR A EVACUAR A LA POBLACIÓN CERCANA POR SEGURIDAD', opts:['SIEMPRE MEJORA INMEDIATAMENTE LA ECONOMÍA LOCAL','NUNCA AFECTA A LAS PERSONAS QUE VIVEN CERCA','NO TIENE NINGÚN EFECTO EN LA SOCIEDAD'] },
+  { pregunta:'¿Qué relación existe entre los volcanes y los límites de placas tectónicas?', correcta:'Muchos volcanes se forman cerca de los límites entre placas tectónicas', opts:['Los volcanes nunca tienen relación con las placas tectónicas','Los volcanes solo existen en el océano','Los volcanes aparecen al azar sin ningún patrón'] },
+  { pregunta:'¿Cuál es una consecuencia social de una erupción volcánica importante?', correcta:'Puede obligar a evacuar a la población cercana por seguridad', opts:['Siempre mejora inmediatamente la economía local','Nunca afecta a las personas que viven cerca','No tiene ningún efecto en la sociedad'] },
 ];
 const CICLO_ROCAS_BANK = [
-  { pregunta:'¿Cómo se forman las rocas ígneas?', correcta:'POR EL ENFRIAMIENTO Y SOLIDIFICACIÓN DEL MAGMA O LA LAVA', opts:['POR LA ACUMULACIÓN DE SEDIMENTOS SOLAMENTE','POR EL CALOR Y LA PRESIÓN SOBRE OTRA ROCA SOLAMENTE','POR LA EVAPORACIÓN DEL AGUA DE MAR'] },
-  { pregunta:'¿Cómo se forman las rocas sedimentarias?', correcta:'POR LA ACUMULACIÓN Y COMPACTACIÓN DE SEDIMENTOS A LO LARGO DEL TIEMPO', opts:['POR EL ENFRIAMIENTO DIRECTO DE LA LAVA','POR UNA EXPLOSIÓN VOLCÁNICA INSTANTÁNEA','POR LA CONGELACIÓN DEL AGUA'] },
-  { pregunta:'¿Cómo se forman las rocas metamórficas?', correcta:'CUANDO UNA ROCA EXISTENTE ES TRANSFORMADA POR CALOR Y PRESIÓN INTENSOS, SIN LLEGAR A DERRETIRSE POR COMPLETO', opts:['SOLO POR ACUMULACIÓN DE ARENA EN EL DESIERTO','SOLO POR LA ACCIÓN DEL VIENTO','SOLO POR CONGELAMIENTO RÁPIDO'] },
+  { pregunta:'¿Cómo se forman las rocas ígneas?', correcta:'Por el enfriamiento y solidificación del magma o la lava', opts:['Por la acumulación de sedimentos solamente','Por el calor y la presión sobre otra roca solamente','Por la evaporación del agua de mar'] },
+  { pregunta:'¿Cómo se forman las rocas sedimentarias?', correcta:'Por la acumulación y compactación de sedimentos a lo largo del tiempo', opts:['Por el enfriamiento directo de la lava','Por una explosión volcánica instantánea','Por la congelación del agua'] },
+  { pregunta:'¿Cómo se forman las rocas metamórficas?', correcta:'Cuando una roca existente es transformada por calor y presión intensos, sin llegar a derretirse por completo', opts:['Solo por acumulación de arena en el desierto','Solo por la acción del viento','Solo por congelamiento rápido'] },
 ];
 const CLIMA7_BANK = [
-  { pregunta:'¿Por qué se dice que el clima de un lugar es "dinámico"?', correcta:'PORQUE RESULTA DE LA INTERACCIÓN DE MÚLTIPLES VARIABLES QUE CAMBIAN CONSTANTEMENTE (TEMPERATURA, VIENTOS, HUMEDAD)', opts:['PORQUE EL CLIMA NUNCA CAMBIA EN NINGÚN LUGAR','PORQUE SOLO DEPENDE DE UN ÚNICO FACTOR FIJO','PORQUE ES IDÉNTICO EN TODOS LOS LUGARES DEL PLANETA'] },
-  { pregunta:'¿Qué factor geográfico puede influir en el clima de una zona costera en comparación con una zona de cordillera?', correcta:'LA CERCANÍA AL MAR Y LA ALTITUD SOBRE EL NIVEL DEL MAR', opts:['EL COLOR DE LAS CASAS DE ESA ZONA','EL NÚMERO DE HABITANTES DE LA ZONA','EL IDIOMA QUE SE HABLA EN ESA ZONA'] },
+  { pregunta:'¿Por qué se dice que el clima de un lugar es "dinámico"?', correcta:'Porque resulta de la interacción de múltiples variables que cambian constantemente (temperatura, vientos, humedad)', opts:['Porque el clima nunca cambia en ningún lugar','Porque solo depende de un único factor fijo','Porque es idéntico en todos los lugares del planeta'] },
+  { pregunta:'¿Qué factor geográfico puede influir en el clima de una zona costera en comparación con una zona de cordillera?', correcta:'La cercanía al mar y la altitud sobre el nivel del mar', opts:['El color de las casas de esa zona','El número de habitantes de la zona','El idioma que se habla en esa zona'] },
 ];
 export function genGeologiaClima7Round(){
   const recurso = 'La <b>tectónica de placas</b> explica que la corteza terrestre está dividida en placas que se mueven lentamente: cuando se separan (límite divergente) puede surgir nuevo material, y cuando chocan (límite convergente) se forman cordilleras o zonas de alta actividad sísmica y volcánica. El <b>ciclo de las rocas</b> describe cómo las rocas ígneas (por enfriamiento de magma/lava), sedimentarias (por acumulación de sedimentos) y metamórficas (por calor y presión) se transforman unas en otras a lo largo del tiempo geológico. El <b>clima</b> de un lugar es dinámico porque depende de la interacción de varios factores que cambian constantemente, como la cercanía al mar y la altitud.';
@@ -1862,7 +1862,7 @@ export function genGeologiaClima7Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1872,7 +1872,7 @@ export function genGeologiaClima7Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1882,7 +1882,7 @@ export function genGeologiaClima7Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1891,29 +1891,29 @@ export function genGeologiaClima7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const GASES_BANK = [
-  { pregunta:'Si comprimes un gas dentro de un recipiente cerrado (reduces su volumen) sin cambiar la temperatura, ¿qué le ocurre a su presión?', correcta:'AUMENTA', opts:['DISMINUYE','SE MANTIENE EXACTAMENTE IGUAL','DESAPARECE POR COMPLETO'] },
-  { pregunta:'Si calientas un gas dentro de un recipiente cerrado de volumen fijo, ¿qué le ocurre generalmente a su presión?', correcta:'AUMENTA', opts:['DISMINUYE','SE MANTIENE EXACTAMENTE IGUAL','SE CONVIERTE EN LÍQUIDO'] },
-  { pregunta:'Según la teoría cinético-molecular, ¿cómo se comportan las partículas de un gas?', correcta:'SE MUEVEN RÁPIDAMENTE Y AL AZAR, CON MUCHO ESPACIO ENTRE ELLAS', opts:['ESTÁN COMPLETAMENTE QUIETAS Y MUY JUNTAS','SE MUEVEN EN UNA SOLA DIRECCIÓN FIJA','NO SE MUEVEN NUNCA'] },
+  { pregunta:'Si comprimes un gas dentro de un recipiente cerrado (reduces su volumen) sin cambiar la temperatura, ¿qué le ocurre a su presión?', correcta:'Aumenta', opts:['Disminuye','Se mantiene exactamente igual','Desaparece por completo'] },
+  { pregunta:'Si calientas un gas dentro de un recipiente cerrado de volumen fijo, ¿qué le ocurre generalmente a su presión?', correcta:'Aumenta', opts:['Disminuye','Se mantiene exactamente igual','Se convierte en líquido'] },
+  { pregunta:'Según la teoría cinético-molecular, ¿cómo se comportan las partículas de un gas?', correcta:'Se mueven rápidamente y al azar, con mucho espacio entre ellas', opts:['Están completamente quietas y muy juntas','Se mueven en una sola dirección fija','No se mueven nunca'] },
 ];
 const CLASIFICACION_MATERIA7_BANK = [
-  { pregunta:'¿Qué es una sustancia pura?', correcta:'UNA SUSTANCIA FORMADA POR UN SOLO TIPO DE COMPONENTE, CON PROPIEDADES CONSTANTES', opts:['UNA COMBINACIÓN DE VARIOS MATERIALES DISTINTOS','UN LÍQUIDO DE CUALQUIER TIPO','UN OBJETO SÓLIDO DE CUALQUIER TIPO'] },
-  { pregunta:'¿Qué es una mezcla?', correcta:'LA COMBINACIÓN DE DOS O MÁS SUSTANCIAS QUE MANTIENEN SUS PROPIEDADES', opts:['UN ÚNICO ELEMENTO QUÍMICO PURO','UN GAS SIN NINGÚN OTRO COMPONENTE','UNA SUSTANCIA QUE NO SE PUEDE SEPARAR NUNCA'] },
-  { pregunta:'¿Qué técnica de separación usarías para separar arena de agua?', correcta:'FILTRACIÓN', opts:['DESTILACIÓN','IMANTACIÓN','NINGUNA TÉCNICA PUEDE SEPARARLAS'] },
-  { pregunta:'¿Qué técnica de separación se usa para separar el agua de la sal disuelta en ella (obteniendo agua pura)?', correcta:'DESTILACIÓN', opts:['FILTRACIÓN','IMANTACIÓN','NINGUNA TÉCNICA PUEDE SEPARARLAS'] },
+  { pregunta:'¿Qué es una sustancia pura?', correcta:'Una sustancia formada por un solo tipo de componente, con propiedades constantes', opts:['Una combinación de varios materiales distintos','Un líquido de cualquier tipo','Un objeto sólido de cualquier tipo'] },
+  { pregunta:'¿Qué es una mezcla?', correcta:'La combinación de dos o más sustancias que mantienen sus propiedades', opts:['Un único elemento químico puro','Un gas sin ningún otro componente','Una sustancia que no se puede separar nunca'] },
+  { pregunta:'¿Qué técnica de separación usarías para separar arena de agua?', correcta:'Filtración', opts:['Destilación','Imantación','Ninguna técnica puede separarlas'] },
+  { pregunta:'¿Qué técnica de separación se usa para separar el agua de la sal disuelta en ella (obteniendo agua pura)?', correcta:'Destilación', opts:['Filtración','Imantación','Ninguna técnica puede separarlas'] },
 ];
 const CAMBIOS_FISQUIM_BANK = [
-  { desc:'El agua se congela y se convierte en hielo', tipo:'CAMBIO FÍSICO' },
-  { desc:'Un papel se quema y se convierte en cenizas', tipo:'CAMBIO QUÍMICO' },
-  { desc:'Se corta una manzana en trozos más pequeños', tipo:'CAMBIO FÍSICO' },
-  { desc:'Un clavo de hierro se oxida y forma óxido de hierro', tipo:'CAMBIO QUÍMICO' },
-  { desc:'La sal se disuelve en agua', tipo:'CAMBIO FÍSICO' },
-  { desc:'La leche se corta y se transforma en yogur', tipo:'CAMBIO QUÍMICO' },
+  { desc:'El agua se congela y se convierte en hielo', tipo:'Cambio físico' },
+  { desc:'Un papel se quema y se convierte en cenizas', tipo:'Cambio químico' },
+  { desc:'Se corta una manzana en trozos más pequeños', tipo:'Cambio físico' },
+  { desc:'Un clavo de hierro se oxida y forma óxido de hierro', tipo:'Cambio químico' },
+  { desc:'La sal se disuelve en agua', tipo:'Cambio físico' },
+  { desc:'La leche se corta y se transforma en yogur', tipo:'Cambio químico' },
 ];
 export function genMateriaGases7Round(){
   const recurso = 'Según la <b>teoría cinético-molecular</b>, las partículas de un gas se mueven rápido y al azar con mucho espacio entre ellas; al comprimir o calentar un gas en un recipiente cerrado, su presión generalmente aumenta. La materia se puede clasificar en <b>sustancias puras</b> (un solo tipo de componente) o <b>mezclas</b> (combinación de varias sustancias que se pueden separar con técnicas como filtración o destilación). Un <b>cambio físico</b> no forma una sustancia nueva (como congelar agua), mientras que un <b>cambio químico</b> sí forma una sustancia distinta con propiedades nuevas (como quemar papel u oxidar un clavo).';
@@ -1924,7 +1924,7 @@ export function genMateriaGases7Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1934,16 +1934,16 @@ export function genMateriaGases7Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
   const item = pick(CAMBIOS_FISQUIM_BANK);
-  const opts = shuffle([{label:'CAMBIO FÍSICO', value:'CAMBIO FÍSICO'},{label:'CAMBIO QUÍMICO', value:'CAMBIO QUÍMICO'}]);
+  const opts = shuffle([{label:'Cambio físico', value:'Cambio físico'},{label:'Cambio químico', value:'Cambio químico'}]);
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Es un cambio físico o un cambio químico?</p>',
     options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, panel:true,
-    explain: 'Esto es un <b>'+item.tipo.toLowerCase()+'</b>'+(item.tipo==='CAMBIO QUÍMICO' ? ': se forma una sustancia nueva con propiedades distintas.' : ': la sustancia sigue siendo la misma, solo cambia su forma o estado.'),
+    explain: 'Esto es un <b>'+item.tipo.toLowerCase()+'</b>'+(item.tipo==='Cambio químico' ? ': se forma una sustancia nueva con propiedades distintas.' : ': la sustancia sigue siendo la misma, solo cambia su forma o estado.'),
     recurso: recurso,
   };
 }
@@ -1976,16 +1976,16 @@ export const CIENCIAS_MODULES_G8 = [
 export const CIENCIAS_POS_G8 = [{x:20,y:92},{x:64,y:74},{x:24,y:54},{x:66,y:34},{x:22,y:12}];
 
 const CELULA_8_BANK = [
-  { pregunta:'¿Quién observó por primera vez "celdas" en una lámina de corcho usando un microscopio, dando origen al nombre "célula"?', correcta:'ROBERT HOOKE', opts:['ISAAC NEWTON','CHARLES DARWIN','GREGOR MENDEL'] },
-  { pregunta:'¿Quién fue el primero en observar microorganismos vivos ("animálculos") usando microscopios que él mismo mejoró?', correcta:'ANTON VAN LEEUWENHOEK', opts:['ROBERT HOOKE','LOUIS PASTEUR','ALEXANDER FLEMING'] },
-  { pregunta:'¿Qué diferencia principal hay entre una célula procarionte y una eucarionte?', correcta:'LA EUCARIONTE TIENE UN NÚCLEO QUE ENCIERRA SU MATERIAL GENÉTICO, LA PROCARIONTE NO', opts:['LA PROCARIONTE ES SIEMPRE MÁS GRANDE QUE LA EUCARIONTE','SOLO LA PROCARIONTE TIENE MEMBRANA CELULAR','NO EXISTE NINGUNA DIFERENCIA ENTRE AMBAS'] },
-  { pregunta:'¿Qué tipo de célula tienen las bacterias?', correcta:'PROCARIONTE', opts:['EUCARIONTE','NINGUNA: LAS BACTERIAS NO TIENEN CÉLULAS','UNA CÉLULA CON DOS NÚCLEOS'] },
-  { pregunta:'¿Qué estructura celular actúa como la "central energética" de la célula, produciendo la energía que esta necesita?', correcta:'LA MITOCONDRIA', opts:['EL NÚCLEO','EL CLOROPLASTO','LA MEMBRANA CELULAR'] },
-  { pregunta:'¿Qué estructura, presente en las células vegetales pero no en las animales, permite realizar la fotosíntesis?', correcta:'EL CLOROPLASTO', opts:['LA MITOCONDRIA','EL NÚCLEO','EL CITOPLASMA'] },
-  { pregunta:'¿Qué función cumple el núcleo en una célula eucarionte?', correcta:'CONTIENE Y PROTEGE EL MATERIAL GENÉTICO (ADN) DE LA CÉLULA', opts:['PRODUCE TODA LA ENERGÍA DE LA CÉLULA','REALIZA LA FOTOSÍNTESIS','NO CUMPLE NINGUNA FUNCIÓN'] },
-  { pregunta:'¿Qué es la difusión, en el contexto del intercambio de partículas de una célula con su ambiente?', correcta:'EL MOVIMIENTO DE PARTÍCULAS DESDE DONDE HAY MÁS CONCENTRACIÓN HACIA DONDE HAY MENOS, SIN GASTAR ENERGÍA', opts:['EL MOVIMIENTO DE PARTÍCULAS SIEMPRE CONTRA LA CONCENTRACIÓN Y GASTANDO ENERGÍA','LA DESTRUCCIÓN TOTAL DE LA CÉLULA','LA DIVISIÓN DE UNA CÉLULA EN DOS'] },
-  { pregunta:'¿Qué es la ósmosis?', correcta:'EL PASO DE AGUA A TRAVÉS DE LA MEMBRANA CELULAR, DESDE DONDE HAY MENOS SOLUTOS HACIA DONDE HAY MÁS', opts:['EL PASO DE LUZ A TRAVÉS DE LA CÉLULA','LA PRODUCCIÓN DE ENERGÍA EN LA MITOCONDRIA','LA DIVISIÓN DEL NÚCLEO EN DOS PARTES'] },
-  { pregunta:'¿Por qué una célula colocada en agua muy salada (con muchos solutos afuera) puede perder agua y encogerse?', correcta:'PORQUE POR ÓSMOSIS EL AGUA SALE DE LA CÉLULA HACIA EL LUGAR CON MÁS CONCENTRACIÓN DE SAL', opts:['PORQUE LA SAL ENTRA DIRECTAMENTE Y EMPUJA EL AGUA HACIA FUERA POR LA FUERZA','PORQUE LA CÉLULA SIEMPRE PIERDE AGUA SIN NINGUNA RAZÓN','PORQUE LA MEMBRANA CELULAR SE ROMPE INMEDIATAMENTE'] },
+  { pregunta:'¿Quién observó por primera vez "celdas" en una lámina de corcho usando un microscopio, dando origen al nombre "célula"?', correcta:'Robert Hooke', opts:['Isaac Newton','Charles Darwin','Gregor Mendel'] },
+  { pregunta:'¿Quién fue el primero en observar microorganismos vivos ("animálculos") usando microscopios que él mismo mejoró?', correcta:'Anton van Leeuwenhoek', opts:['Robert Hooke','Louis Pasteur','Alexander Fleming'] },
+  { pregunta:'¿Qué diferencia principal hay entre una célula procarionte y una eucarionte?', correcta:'La eucarionte tiene un núcleo que encierra su material genético, la procarionte no', opts:['La procarionte es siempre más grande que la eucarionte','Solo la procarionte tiene membrana celular','No existe ninguna diferencia entre ambas'] },
+  { pregunta:'¿Qué tipo de célula tienen las bacterias?', correcta:'Procarionte', opts:['Eucarionte','Ninguna: las bacterias no tienen células','Una célula con dos núcleos'] },
+  { pregunta:'¿Qué estructura celular actúa como la "central energética" de la célula, produciendo la energía que esta necesita?', correcta:'La mitocondria', opts:['El núcleo','El cloroplasto','La membrana celular'] },
+  { pregunta:'¿Qué estructura, presente en las células vegetales pero no en las animales, permite realizar la fotosíntesis?', correcta:'El cloroplasto', opts:['La mitocondria','El núcleo','El citoplasma'] },
+  { pregunta:'¿Qué función cumple el núcleo en una célula eucarionte?', correcta:'Contiene y protege el material genético (ADN) de la célula', opts:['Produce toda la energía de la célula','Realiza la fotosíntesis','No cumple ninguna función'] },
+  { pregunta:'¿Qué es la difusión, en el contexto del intercambio de partículas de una célula con su ambiente?', correcta:'El movimiento de partículas desde donde hay más concentración hacia donde hay menos, sin gastar energía', opts:['El movimiento de partículas siempre contra la concentración y gastando energía','La destrucción total de la célula','La división de una célula en dos'] },
+  { pregunta:'¿Qué es la ósmosis?', correcta:'El paso de agua a través de la membrana celular, desde donde hay menos solutos hacia donde hay más', opts:['El paso de luz a través de la célula','La producción de energía en la mitocondria','La división del núcleo en dos partes'] },
+  { pregunta:'¿Por qué una célula colocada en agua muy salada (con muchos solutos afuera) puede perder agua y encogerse?', correcta:'Porque por ósmosis el agua sale de la célula hacia el lugar con más concentración de sal', opts:['Porque la sal entra directamente y empuja el agua hacia fuera por la fuerza','Porque la célula siempre pierde agua sin ninguna razón','Porque la membrana celular se rompe inmediatamente'] },
 ];
 export function genCelula8Round(){
   const recurso = 'La <b>célula</b> es la unidad básica de todo ser vivo — descubierta por Robert Hooke al observar corcho al microscopio, y descrita viva por primera vez por Anton van Leeuwenhoek. Existen dos tipos principales: las células <b>procariontes</b> (como las bacterias), que no tienen núcleo definido, y las <b>eucariontes</b> (como las de plantas, animales y hongos), que sí tienen un núcleo que guarda su material genético, además de otras estructuras internas como la mitocondria (que produce energía) o el cloroplasto (que realiza fotosíntesis, solo en células vegetales). La <b>difusión</b> y la <b>osmosis</b> son formas en que sustancias como el agua o los nutrientes entran y salen de la célula a través de su membrana, moviéndose siempre desde donde hay más concentración hacia donde hay menos.';
@@ -1994,23 +1994,23 @@ export function genCelula8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const SISTEMAS_CUERPO_8_BANK = [
-  { pregunta:'¿Qué sistema se encarga de transportar el oxígeno y los nutrientes a todas las células del cuerpo?', correcta:'EL SISTEMA CIRCULATORIO', opts:['EL SISTEMA DIGESTIVO','EL SISTEMA EXCRETOR','EL SISTEMA RESPIRATORIO'] },
-  { pregunta:'¿Qué sistema se encarga de captar el oxígeno del aire y eliminar el dióxido de carbono del cuerpo?', correcta:'EL SISTEMA RESPIRATORIO', opts:['EL SISTEMA DIGESTIVO','EL SISTEMA CIRCULATORIO','EL SISTEMA EXCRETOR'] },
-  { pregunta:'¿Qué sistema se encarga de descomponer los alimentos en nutrientes que el cuerpo puede usar?', correcta:'EL SISTEMA DIGESTIVO', opts:['EL SISTEMA EXCRETOR','EL SISTEMA RESPIRATORIO','EL SISTEMA CIRCULATORIO'] },
-  { pregunta:'¿Qué sistema se encarga de filtrar la sangre y eliminar los desechos del cuerpo a través de la orina?', correcta:'EL SISTEMA EXCRETOR', opts:['EL SISTEMA DIGESTIVO','EL SISTEMA RESPIRATORIO','EL SISTEMA CIRCULATORIO'] },
-  { pregunta:'Después de digerir un alimento, ¿qué sistema transporta los nutrientes obtenidos hacia el resto del cuerpo?', correcta:'EL SISTEMA CIRCULATORIO', opts:['EL SISTEMA EXCRETOR SOLAMENTE','NINGÚN SISTEMA: LOS NUTRIENTES SE QUEDAN EN EL ESTÓMAGO','EL SISTEMA RESPIRATORIO SOLAMENTE'] },
-  { pregunta:'¿Qué grupo de nutrientes es la principal fuente de energía rápida para el cuerpo, presente en el pan, el arroz y las papas?', correcta:'LOS CARBOHIDRATOS', opts:['LAS PROTEÍNAS','LAS VITAMINAS','LOS MINERALES'] },
-  { pregunta:'¿Qué nutrientes son fundamentales para la formación y reparación de los músculos y tejidos del cuerpo?', correcta:'LAS PROTEÍNAS', opts:['LOS CARBOHIDRATOS','LAS GRASAS','EL AGUA'] },
-  { pregunta:'¿Qué función cumplen las grasas en una alimentación equilibrada, además de aportar energía?', correcta:'AYUDAN A ABSORBER ciertas VITAMINAS Y PROTEGEN ÓRGANOS DEL CUERPO', opts:['NO CUMPLEN NINGUNA FUNCIÓN EN EL CUERPO','SOLO SIRVEN PARA DAR SABOR A LA COMIDA','ELIMINAN LOS NUTRIENTES DE OTROS ALIMENTOS'] },
-  { pregunta:'¿Por qué el cuerpo necesita vitaminas y minerales en la dieta, aunque se necesiten en pequeñas cantidades?', correcta:'PORQUE REGULAN PROCESOS IMPORTANTES DEL CUERPO, COMO EL SISTEMA INMUNE Y LOS HUESOS', opts:['PORQUE APORTAN LA MAYOR PARTE DE LA ENERGÍA DIARIA','PORQUE REEMPLAZAN COMPLETAMENTE A LAS PROTEÍNAS','NO CUMPLEN NINGUNA FUNCIÓN REAL EN EL CUERPO'] },
-  { pregunta:'¿Por qué el agua es considerada un nutriente esencial, aunque no aporte energía (calorías)?', correcta:'PORQUE ES NECESARIA PARA CASI TODOS LOS PROCESOS DEL CUERPO, COMO LA DIGESTIÓN Y LA CIRCULACIÓN', opts:['PORQUE APORTA MÁS ENERGÍA QUE LOS CARBOHIDRATOS','PORQUE SU ÚNICA FUNCIÓN ES DAR SABOR A LA COMIDA','EL AGUA NO ES REALMENTE NECESARIA PARA EL CUERPO'] },
-  { pregunta:'¿Por qué se dice que los sistemas digestivo, circulatorio, respiratorio y excretor "trabajan en conjunto"?', correcta:'PORQUE EL RESULTADO DE UNO (COMO LOS NUTRIENTES DIGERIDOS U OXÍGENO CAPTADO) ES USADO POR LOS OTROS', opts:['PORQUE FUNCIONAN COMPLETAMENTE POR SEPARADO, SIN NINGUNA RELACIÓN','PORQUE SOLO UNO DE ELLOS ES REALMENTE NECESARIO','PORQUE TODOS HACEN EXACTAMENTE LA MISMA FUNCIÓN'] },
+  { pregunta:'¿Qué sistema se encarga de transportar el oxígeno y los nutrientes a todas las células del cuerpo?', correcta:'El sistema circulatorio', opts:['El sistema digestivo','El sistema excretor','El sistema respiratorio'] },
+  { pregunta:'¿Qué sistema se encarga de captar el oxígeno del aire y eliminar el dióxido de carbono del cuerpo?', correcta:'El sistema respiratorio', opts:['El sistema digestivo','El sistema circulatorio','El sistema excretor'] },
+  { pregunta:'¿Qué sistema se encarga de descomponer los alimentos en nutrientes que el cuerpo puede usar?', correcta:'El sistema digestivo', opts:['El sistema excretor','El sistema respiratorio','El sistema circulatorio'] },
+  { pregunta:'¿Qué sistema se encarga de filtrar la sangre y eliminar los desechos del cuerpo a través de la orina?', correcta:'El sistema excretor', opts:['El sistema digestivo','El sistema respiratorio','El sistema circulatorio'] },
+  { pregunta:'Después de digerir un alimento, ¿qué sistema transporta los nutrientes obtenidos hacia el resto del cuerpo?', correcta:'El sistema circulatorio', opts:['El sistema excretor solamente','Ningún sistema: los nutrientes se quedan en el estómago','El sistema respiratorio solamente'] },
+  { pregunta:'¿Qué grupo de nutrientes es la principal fuente de energía rápida para el cuerpo, presente en el pan, el arroz y las papas?', correcta:'Los carbohidratos', opts:['Las proteínas','Las vitaminas','Los minerales'] },
+  { pregunta:'¿Qué nutrientes son fundamentales para la formación y reparación de los músculos y tejidos del cuerpo?', correcta:'Las proteínas', opts:['Los carbohidratos','Las grasas','El agua'] },
+  { pregunta:'¿Qué función cumplen las grasas en una alimentación equilibrada, además de aportar energía?', correcta:'Ayudan a absorber ciertas vitaminas y protegen órganos del cuerpo', opts:['No cumplen ninguna función en el cuerpo','Solo sirven para dar sabor a la comida','Eliminan los nutrientes de otros alimentos'] },
+  { pregunta:'¿Por qué el cuerpo necesita vitaminas y minerales en la dieta, aunque se necesiten en pequeñas cantidades?', correcta:'Porque regulan procesos importantes del cuerpo, como el sistema inmune y los huesos', opts:['Porque aportan la mayor parte de la energía diaria','Porque reemplazan completamente a las proteínas','No cumplen ninguna función real en el cuerpo'] },
+  { pregunta:'¿Por qué el agua es considerada un nutriente esencial, aunque no aporte energía (calorías)?', correcta:'Porque es necesaria para casi todos los procesos del cuerpo, como la digestión y la circulación', opts:['Porque aporta más energía que los carbohidratos','Porque su única función es dar sabor a la comida','El agua no es realmente necesaria para el cuerpo'] },
+  { pregunta:'¿Por qué se dice que los sistemas digestivo, circulatorio, respiratorio y excretor "trabajan en conjunto"?', correcta:'Porque el resultado de uno (como los nutrientes digeridos u oxígeno captado) es usado por los otros', opts:['Porque funcionan completamente por separado, sin ninguna relación','Porque solo uno de ellos es realmente necesario','Porque todos hacen exactamente la misma función'] },
 ];
 export function genNutricionSistemas8Round(){
   const recurso = 'El cuerpo humano funciona como un equipo de sistemas que trabajan en conjunto: el <b>sistema digestivo</b> descompone los alimentos en nutrientes, el <b>sistema circulatorio</b> transporta esos nutrientes y el oxígeno a todas las células, el <b>sistema respiratorio</b> capta el oxígeno del aire, y el <b>sistema excretor</b> filtra la sangre y elimina los desechos. Los <b>nutrientes</b> cumplen funciones distintas: los carbohidratos dan energía rápida, las proteínas forman y reparan tejidos, las grasas aportan energía de reserva y ayudan a absorber ciertas vitaminas, y las vitaminas/minerales regulan procesos importantes aunque se necesiten en pequeñas cantidades. El agua, aunque no aporta energía, es esencial para casi todos los procesos del cuerpo.';
@@ -2019,22 +2019,22 @@ export function genNutricionSistemas8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const ELECTRICIDAD8_BANK = [
-  { pregunta:'¿Qué ocurre cuando dos objetos se frotan entre sí y quedan "electrizados"?', correcta:'SE TRANSFIEREN CARGAS ELÉCTRICAS ENTRE LOS OBJETOS', opts:['SE TRANSFIERE CALOR ÚNICAMENTE, SIN NINGUNA CARGA','LOS OBJETOS PIERDEN TODA SU MASA','NO OCURRE NINGÚN FENÓMENO FÍSICO REAL'] },
-  { pregunta:'¿Qué tipos de carga eléctrica existen?', correcta:'POSITIVA Y NEGATIVA', opts:['SOLO POSITIVA','SOLO NEGATIVA','CALIENTE Y FRÍA'] },
-  { pregunta:'¿Qué sucede entre dos objetos con carga eléctrica del mismo signo (por ejemplo, ambos negativos)?', correcta:'SE REPELEN (SE ALEJAN ENTRE SÍ)', opts:['SE ATRAEN FUERTEMENTE','NO OCURRE NINGÚN EFECTO ENTRE ELLOS','SE FUSIONAN EN UN SOLO OBJETO'] },
-  { pregunta:'¿Qué tecnología transforma la luz solar directamente en electricidad?', correcta:'LOS PANELES SOLARES (FOTOVOLTAICOS)', opts:['LAS TURBINAS EÓLICAS','LAS PILAS COMUNES','LAS CENTRALES HIDROELÉCTRICAS'] },
-  { pregunta:'¿Qué tecnología aprovecha la fuerza del viento para generar electricidad?', correcta:'LOS GENERADORES EÓLICOS (AEROGENERADORES)', opts:['LOS PANELES SOLARES','LAS PILAS COMUNES','LAS CENTRALES GEOTÉRMICAS'] },
-  { pregunta:'¿Qué tecnología usa el movimiento del agua (por ejemplo, en una represa) para generar electricidad?', correcta:'LAS CENTRALES HIDROELÉCTRICAS', opts:['LOS PANELES SOLARES','LAS PILAS COMUNES','LOS GENERADORES EÓLICOS'] },
-  { pregunta:'¿Cómo se comporta la corriente en un circuito eléctrico en serie, donde los componentes están conectados uno tras otro?', correcta:'LA MISMA CORRIENTE PASA POR TODOS LOS COMPONENTES, EN UN SOLO CAMINO', opts:['CADA COMPONENTE TIENE SU PROPIO CAMINO INDEPENDIENTE','LA CORRIENTE NO PUEDE CIRCULAR EN ABSOLUTO','LOS COMPONENTES NUNCA RECIBEN CORRIENTE'] },
-  { pregunta:'¿Qué ocurre con el resto del circuito en serie si uno de sus componentes (por ejemplo, una ampolleta) se quema?', correcta:'TODO EL CIRCUITO DEJA DE FUNCIONAR, PORQUE SOLO HAY UN CAMINO PARA LA CORRIENTE', opts:['EL RESTO DEL CIRCUITO SIGUE FUNCIONANDO NORMALMENTE','SOLO EL COMPONENTE QUEMADO SE APAGA, EL RESTO SIGUE IGUAL','EL CIRCUITO FUNCIONA MEJOR QUE ANTES'] },
-  { pregunta:'¿Qué ventaja tiene un circuito en paralelo, donde cada componente tiene su propio camino, frente a uno en serie?', correcta:'SI UN COMPONENTE FALLA, LOS DEMÁS PUEDEN SEGUIR FUNCIONANDO', opts:['SIEMPRE CONSUME MENOS ENERGÍA QUE UNO EN SERIE, SIN EXCEPCIÓN','NO PERMITE CONECTAR MÁS DE UN COMPONENTE','ES IMPOSIBLE DE CONSTRUIR EN LA PRÁCTICA'] },
-  { pregunta:'¿Por qué las instalaciones eléctricas de una casa (enchufes, ampolletas) suelen conectarse en paralelo y no en serie?', correcta:'PARA QUE CADA APARATO PUEDA ENCENDERSE O APAGARSE SIN AFECTAR A LOS DEMÁS', opts:['PARA QUE TODOS LOS APARATOS SE ENCIENDAN Y APAGUEN SIEMPRE JUNTOS','PORQUE ASÍ SE GASTA MÁS ELECTRICIDAD A PROPÓSITO','PORQUE EL PARALELO ES MÁS BARATO DE INSTALAR EN TODOS LOS CASOS'] },
+  { pregunta:'¿Qué ocurre cuando dos objetos se frotan entre sí y quedan "electrizados"?', correcta:'Se transfieren cargas eléctricas entre los objetos', opts:['Se transfiere calor únicamente, sin ninguna carga','Los objetos pierden toda su masa','No ocurre ningún fenómeno físico real'] },
+  { pregunta:'¿Qué tipos de carga eléctrica existen?', correcta:'Positiva y negativa', opts:['Solo positiva','Solo negativa','Caliente y fría'] },
+  { pregunta:'¿Qué sucede entre dos objetos con carga eléctrica del mismo signo (por ejemplo, ambos negativos)?', correcta:'Se repelen (se alejan entre sí)', opts:['Se atraen fuertemente','No ocurre ningún efecto entre ellos','Se fusionan en un solo objeto'] },
+  { pregunta:'¿Qué tecnología transforma la luz solar directamente en electricidad?', correcta:'Los paneles solares (fotovoltaicos)', opts:['Las turbinas eólicas','Las pilas comunes','Las centrales hidroeléctricas'] },
+  { pregunta:'¿Qué tecnología aprovecha la fuerza del viento para generar electricidad?', correcta:'Los generadores eólicos (aerogeneradores)', opts:['Los paneles solares','Las pilas comunes','Las centrales geotérmicas'] },
+  { pregunta:'¿Qué tecnología usa el movimiento del agua (por ejemplo, en una represa) para generar electricidad?', correcta:'Las centrales hidroeléctricas', opts:['Los paneles solares','Las pilas comunes','Los generadores eólicos'] },
+  { pregunta:'¿Cómo se comporta la corriente en un circuito eléctrico en serie, donde los componentes están conectados uno tras otro?', correcta:'La misma corriente pasa por todos los componentes, en un solo camino', opts:['Cada componente tiene su propio camino independiente','La corriente no puede circular en absoluto','Los componentes nunca reciben corriente'] },
+  { pregunta:'¿Qué ocurre con el resto del circuito en serie si uno de sus componentes (por ejemplo, una ampolleta) se quema?', correcta:'Todo el circuito deja de funcionar, porque solo hay un camino para la corriente', opts:['El resto del circuito sigue funcionando normalmente','Solo el componente quemado se apaga, el resto sigue igual','El circuito funciona mejor que antes'] },
+  { pregunta:'¿Qué ventaja tiene un circuito en paralelo, donde cada componente tiene su propio camino, frente a uno en serie?', correcta:'Si un componente falla, los demás pueden seguir funcionando', opts:['Siempre consume menos energía que uno en serie, sin excepción','No permite conectar más de un componente','Es imposible de construir en la práctica'] },
+  { pregunta:'¿Por qué las instalaciones eléctricas de una casa (enchufes, ampolletas) suelen conectarse en paralelo y no en serie?', correcta:'Para que cada aparato pueda encenderse o apagarse sin afectar a los demás', opts:['Para que todos los aparatos se enciendan y apaguen siempre juntos','Porque así se gasta más electricidad a propósito','Porque el paralelo es más barato de instalar en todos los casos'] },
 ];
 export function genElectricidad8Round(){
   const recurso = 'La <b>electricidad</b> se produce por el movimiento de cargas eléctricas, que pueden ser positivas o negativas — cargas del mismo signo se repelen y de signo distinto se atraen. Existen distintas <b>tecnologías de generación eléctrica</b> que aprovechan fuentes renovables: los paneles solares (fotovoltaicos) transforman la luz del sol en electricidad, los aerogeneradores usan la fuerza del viento, y las centrales hidroeléctricas usan el movimiento del agua. Un <b>circuito eléctrico</b> puede conectarse en serie (un solo camino para la corriente: si un componente falla, todo el circuito se apaga) o en paralelo (cada componente tiene su propio camino: si uno falla, los demás siguen funcionando) — por eso las instalaciones de una casa se conectan en paralelo.';
@@ -2043,22 +2043,22 @@ export function genElectricidad8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const TRANSFERENCIA_CALOR_8_BANK = [
-  { desc:'El mango de una cuchara de metal se calienta poco a poco mientras revuelve una olla con sopa caliente', correcta:'CONDUCCIÓN', opts:['CONVECCIÓN','RADIACIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
-  { desc:'El agua caliente en el fondo de una olla sube, y el agua más fría de arriba baja, formando una corriente circular', correcta:'CONVECCIÓN', opts:['CONDUCCIÓN','RADIACIÓN','EVAPORACIÓN'] },
-  { desc:'Sientes el calor del sol en tu piel un día despejado, aunque el sol está a millones de kilómetros de distancia', correcta:'RADIACIÓN', opts:['CONDUCCIÓN','CONVECCIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
-  { desc:'Al tocar una baranda de metal en un día frío, sientes que te "roba" el calor de la mano casi de inmediato', correcta:'CONDUCCIÓN', opts:['CONVECCIÓN','RADIACIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
-  { desc:'El aire caliente cerca de una estufa se eleva hacia el techo, mientras el aire frío del suelo se acerca a la estufa', correcta:'CONVECCIÓN', opts:['CONDUCCIÓN','RADIACIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
-  { desc:'Una fogata calienta a las personas sentadas alrededor, incluso sin que el aire entre ellas y el fuego se mueva directamente', correcta:'RADIACIÓN', opts:['CONDUCCIÓN','CONVECCIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
-  { desc:'Un sartén de metal transmite el calor de la cocina directamente hacia la comida que está sobre él', correcta:'CONDUCCIÓN', opts:['CONVECCIÓN','RADIACIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
-  { desc:'El agua de una tetera se calienta de manera pareja porque las corrientes de agua caliente y fría se mezclan constantemente', correcta:'CONVECCIÓN', opts:['CONDUCCIÓN','RADIACIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
-  { desc:'Un termómetro de infrarrojos mide la temperatura de un objeto a distancia, sin necesidad de tocarlo', correcta:'RADIACIÓN', opts:['CONDUCCIÓN','CONVECCIÓN','NINGUNA TRANSFERENCIA DE CALOR'] },
-  { desc:'¿Por qué los mangos de las ollas suelen ser de plástico o madera, y no de metal?', correcta:'PORQUE ESOS MATERIALES CONDUCEN MUY POCO EL CALOR, A DIFERENCIA DEL METAL', opts:['PORQUE EL METAL ES DEMASIADO CARO PARA FABRICAR MANGOS','PORQUE EL PLÁSTICO Y LA MADERA CONDUCEN EL CALOR MEJOR QUE EL METAL','PORQUE NO HAY NINGUNA RAZÓN PARTICULAR'] },
+  { desc:'El mango de una cuchara de metal se calienta poco a poco mientras revuelve una olla con sopa caliente', correcta:'Conducción', opts:['Convección','Radiación','Ninguna transferencia de calor'] },
+  { desc:'El agua caliente en el fondo de una olla sube, y el agua más fría de arriba baja, formando una corriente circular', correcta:'Convección', opts:['Conducción','Radiación','Evaporación'] },
+  { desc:'Sientes el calor del sol en tu piel un día despejado, aunque el sol está a millones de kilómetros de distancia', correcta:'Radiación', opts:['Conducción','Convección','Ninguna transferencia de calor'] },
+  { desc:'Al tocar una baranda de metal en un día frío, sientes que te "roba" el calor de la mano casi de inmediato', correcta:'Conducción', opts:['Convección','Radiación','Ninguna transferencia de calor'] },
+  { desc:'El aire caliente cerca de una estufa se eleva hacia el techo, mientras el aire frío del suelo se acerca a la estufa', correcta:'Convección', opts:['Conducción','Radiación','Ninguna transferencia de calor'] },
+  { desc:'Una fogata calienta a las personas sentadas alrededor, incluso sin que el aire entre ellas y el fuego se mueva directamente', correcta:'Radiación', opts:['Conducción','Convección','Ninguna transferencia de calor'] },
+  { desc:'Un sartén de metal transmite el calor de la cocina directamente hacia la comida que está sobre él', correcta:'Conducción', opts:['Convección','Radiación','Ninguna transferencia de calor'] },
+  { desc:'El agua de una tetera se calienta de manera pareja porque las corrientes de agua caliente y fría se mezclan constantemente', correcta:'Convección', opts:['Conducción','Radiación','Ninguna transferencia de calor'] },
+  { desc:'Un termómetro de infrarrojos mide la temperatura de un objeto a distancia, sin necesidad de tocarlo', correcta:'Radiación', opts:['Conducción','Convección','Ninguna transferencia de calor'] },
+  { desc:'¿Por qué los mangos de las ollas suelen ser de plástico o madera, y no de metal?', correcta:'Porque esos materiales conducen muy poco el calor, a diferencia del metal', opts:['Porque el metal es demasiado caro para fabricar mangos','Porque el plástico y la madera conducen el calor mejor que el metal','Porque no hay ninguna razón particular'] },
 ];
 export function genCalor8Round(){
   const recurso = 'El <b>calor</b> siempre se transfiere de un cuerpo más caliente a uno más frío, y hay tres formas principales de que esto ocurra. La <b>conducción</b> es la transferencia de calor a través de un material sólido, por contacto directo, como el mango de una cuchara de metal que se calienta poco a poco. La <b>convección</b> ocurre en líquidos o gases, cuando el material caliente (menos denso) sube y el frío (más denso) baja, formando corrientes — como el agua que hierve en una olla. La <b>radiación</b> es la transferencia de calor a través del espacio vacío, sin necesidad de un medio material, como el calor del sol que llega a la Tierra o el de una fogata. Por eso los mangos de las ollas se hacen de materiales que conducen poco el calor, como el plástico o la madera.';
@@ -2073,17 +2073,17 @@ export function genCalor8Round(){
 }
 
 const ATOMO_8_BANK = [
-  { pregunta:'¿Qué propuso el modelo atómico de Dalton, a principios del siglo XIX?', correcta:'QUE LA MATERIA ESTÁ FORMADA POR PARTÍCULAS INDIVISIBLES LLAMADAS ÁTOMOS', opts:['QUE EL ÁTOMO TIENE UN NÚCLEO CON ELECTRONES ORBITANDO A SU ALREDEDOR','QUE LA MATERIA NO ESTÁ FORMADA POR NINGUNA PARTÍCULA','QUE LOS ÁTOMOS SON INFINITAMENTE DIVISIBLES'] },
-  { pregunta:'¿Qué aportó el modelo atómico de Thomson respecto al de Dalton?', correcta:'PROPUSO QUE EL ÁTOMO CONTIENE PARTÍCULAS CON CARGA NEGATIVA (ELECTRONES) DENTRO DE UNA ESFERA CON CARGA POSITIVA', opts:['PROPUSO QUE EL ÁTOMO ES COMPLETAMENTE INDIVISIBLE','PROPUSO QUE EL ÁTOMO NO TIENE NINGUNA CARGA ELÉCTRICA','PROPUSO QUE LOS ÁTOMOS SON VISIBLES A SIMPLE VISTA'] },
-  { pregunta:'¿Qué descubrió Rutherford con su experimento de la lámina de oro, que cambió el modelo atómico?', correcta:'QUE EL ÁTOMO TIENE UN NÚCLEO PEQUEÑO Y DENSO, CON CARGA POSITIVA, RODEADO DE ESPACIO VACÍO', opts:['QUE EL ÁTOMO ES UNA ESFERA MACIZA SIN NINGÚN ESPACIO VACÍO','QUE LOS ÁTOMOS NO TIENEN NÚCLEO','QUE LA MATERIA NO ESTÁ FORMADA POR ÁTOMOS'] },
-  { pregunta:'¿Qué propuso el modelo atómico de Bohr sobre los electrones?', correcta:'QUE LOS ELECTRONES GIRAN ALREDEDOR DEL NÚCLEO EN ÓRBITAS O NIVELES DE ENERGÍA DEFINIDOS', opts:['QUE LOS ELECTRONES ESTÁN FIJOS Y NO SE MUEVEN NUNCA','QUE EL ÁTOMO NO TIENE ELECTRONES','QUE LOS ELECTRONES ESTÁN DENTRO DEL NÚCLEO'] },
-  { pregunta:'¿Qué partícula del átomo tiene carga positiva y se ubica en el núcleo?', correcta:'EL PROTÓN', opts:['EL ELECTRÓN','EL NEUTRÓN','NINGUNA: EL NÚCLEO NO TIENE CARGA'] },
-  { pregunta:'¿Qué partícula del átomo no tiene carga eléctrica y también se ubica en el núcleo?', correcta:'EL NEUTRÓN', opts:['EL PROTÓN','EL ELECTRÓN','NINGUNA PARTÍCULA CARECE DE CARGA'] },
-  { pregunta:'¿Qué partícula del átomo tiene carga negativa y se ubica fuera del núcleo?', correcta:'EL ELECTRÓN', opts:['EL PROTÓN','EL NEUTRÓN','NINGUNA: TODAS LAS PARTÍCULAS ESTÁN EN EL NÚCLEO'] },
-  { pregunta:'¿Para qué sirve la tabla periódica de los elementos?', correcta:'PARA ORGANIZAR LOS ELEMENTOS QUÍMICOS Y PREDECIR SUS PROPIEDADES SEGÚN SU POSICIÓN', opts:['PARA MEDIR LA TEMPERATURA DEL AMBIENTE','PARA CALCULAR DISTANCIAS ASTRONÓMICAS','PARA REGISTRAR RECETAS DE COCINA'] },
-  { pregunta:'¿Qué elementos químicos son considerados esenciales para la vida en la Tierra, presentes en moléculas como el agua y los seres vivos?', correcta:'CARBONO, HIDRÓGENO, OXÍGENO Y NITRÓGENO', opts:['ORO, PLATA Y COBRE','HELIO Y NEÓN','SOLO EL HIERRO'] },
-  { pregunta:'¿Por qué el carbono es especialmente importante para formar las moléculas de los seres vivos?', correcta:'PORQUE PUEDE FORMAR MUCHOS ENLACES Y COMBINARSE DE FORMAS MUY DIVERSAS CON OTROS ÁTOMOS', opts:['PORQUE ES EL ELEMENTO MÁS PESADO DE LA TABLA PERIÓDICA','PORQUE NO PUEDE FORMAR NINGÚN ENLACE QUÍMICO','PORQUE SOLO EXISTE EN FORMA DE GAS'] },
-  { pregunta:'¿Qué elemento, presente en el agua y esencial para respirar, es necesario para la mayoría de los seres vivos?', correcta:'EL OXÍGENO', opts:['EL CARBONO','EL NITRÓGENO','EL HIDRÓGENO ÚNICAMENTE'] },
+  { pregunta:'¿Qué propuso el modelo atómico de Dalton, a principios del siglo XIX?', correcta:'Que la materia está formada por partículas indivisibles llamadas átomos', opts:['Que el átomo tiene un núcleo con electrones orbitando a su alrededor','Que la materia no está formada por ninguna partícula','Que los átomos son infinitamente divisibles'] },
+  { pregunta:'¿Qué aportó el modelo atómico de Thomson respecto al de Dalton?', correcta:'Propuso que el átomo contiene partículas con carga negativa (electrones) dentro de una esfera con carga positiva', opts:['Propuso que el átomo es completamente indivisible','Propuso que el átomo no tiene ninguna carga eléctrica','Propuso que los átomos son visibles a simple vista'] },
+  { pregunta:'¿Qué descubrió Rutherford con su experimento de la lámina de oro, que cambió el modelo atómico?', correcta:'Que el átomo tiene un núcleo pequeño y denso, con carga positiva, rodeado de espacio vacío', opts:['Que el átomo es una esfera maciza sin ningún espacio vacío','Que los átomos no tienen núcleo','Que la materia no está formada por átomos'] },
+  { pregunta:'¿Qué propuso el modelo atómico de Bohr sobre los electrones?', correcta:'Que los electrones giran alrededor del núcleo en órbitas o niveles de energía definidos', opts:['Que los electrones están fijos y no se mueven nunca','Que el átomo no tiene electrones','Que los electrones están dentro del núcleo'] },
+  { pregunta:'¿Qué partícula del átomo tiene carga positiva y se ubica en el núcleo?', correcta:'El protón', opts:['El electrón','El neutrón','Ninguna: el núcleo no tiene carga'] },
+  { pregunta:'¿Qué partícula del átomo no tiene carga eléctrica y también se ubica en el núcleo?', correcta:'El neutrón', opts:['El protón','El electrón','Ninguna partícula carece de carga'] },
+  { pregunta:'¿Qué partícula del átomo tiene carga negativa y se ubica fuera del núcleo?', correcta:'El electrón', opts:['El protón','El neutrón','Ninguna: todas las partículas están en el núcleo'] },
+  { pregunta:'¿Para qué sirve la tabla periódica de los elementos?', correcta:'Para organizar los elementos químicos y predecir sus propiedades según su posición', opts:['Para medir la temperatura del ambiente','Para calcular distancias astronómicas','Para registrar recetas de cocina'] },
+  { pregunta:'¿Qué elementos químicos son considerados esenciales para la vida en la Tierra, presentes en moléculas como el agua y los seres vivos?', correcta:'Carbono, hidrógeno, oxígeno y nitrógeno', opts:['Oro, plata y cobre','Helio y neón','Solo el hierro'] },
+  { pregunta:'¿Por qué el carbono es especialmente importante para formar las moléculas de los seres vivos?', correcta:'Porque puede formar muchos enlaces y combinarse de formas muy diversas con otros átomos', opts:['Porque es el elemento más pesado de la tabla periódica','Porque no puede formar ningún enlace químico','Porque solo existe en forma de gas'] },
+  { pregunta:'¿Qué elemento, presente en el agua y esencial para respirar, es necesario para la mayoría de los seres vivos?', correcta:'El oxígeno', opts:['El carbono','El nitrógeno','El hidrógeno únicamente'] },
 ];
 export function genAtomoTabla8Round(){
   const recurso = 'El modelo del <b>átomo</b> ha cambiado a lo largo de la historia, a medida que se hicieron nuevos descubrimientos: Dalton propuso que la materia está formada por partículas indivisibles; Thomson descubrió que el átomo contiene electrones (carga negativa) dentro de una esfera con carga positiva; Rutherford, con su experimento de la lámina de oro, descubrió que el átomo tiene un núcleo pequeño y denso rodeado de espacio vacío; y Bohr propuso que los electrones giran alrededor del núcleo en órbitas definidas. El átomo tiene tres partículas principales: el <b>protón</b> (carga positiva, en el núcleo), el <b>neutrón</b> (sin carga, en el núcleo) y el <b>electrón</b> (carga negativa, fuera del núcleo). La <b>tabla periódica</b> organiza todos los elementos químicos conocidos según sus propiedades, y elementos como el carbono, hidrógeno, oxígeno y nitrógeno son esenciales para formar las moléculas de los seres vivos.';
@@ -2092,7 +2092,7 @@ export function genAtomoTabla8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }

@@ -3206,3 +3206,93 @@ sesión).
     "Horizontal"/"Quebrada" en oración normal) — confirmando que el fix de
     `svg.js` funciona en ambos helpers. Sin errores de consola en ningún
     caso. Próximo paso del mismo pedido: `musica.js` (71 alternativas).
+- **`musica.js` en oración normal (2026-08-01, séptimo archivo del rollout tras
+  `historia.js`/`ciencias.js`/`lenguaje.js`/`ingles.js`/`edfisica.js`/`artes.js`):**
+  mismo pedido, mismo criterio ("procede"). El pre-escaneo no encontró ninguno
+  de los 5 patrones de bug ya documentados (sin cadenas vacías `''`, sin claves
+  ALL-CAPS sin comillas, sin `toUpperCase`/ternarios ALL-CAPS mid-oración, sin
+  llamadas a helpers compartidos con un valor de banco como argumento — las 3
+  llamadas a `maracasSVG()`/`djembeSVG()`/`baldeSVG()` en este archivo solo
+  reciben un tamaño numérico fijo, nunca el `label` del banco). Sin diccionario
+  de excepciones por nombre propio (no hay personas/países en el contenido).
+  - **Bug nuevo, no visto en los 6 archivos anteriores: contenido con "códigos
+    de letra" (A-A-A, A-B-A, A-B-C...) que deben mantenerse en mayúscula
+    completa, no solo la primera letra.** `FORMA_MUSICAL_BANK` (3° básico)
+    describe la forma de una canción con literales como
+    `'A-A-A (SE REPITE LA MISMA SECCIÓN)'` — el patrón de letras (A, B, C)
+    representa las secciones de la canción tal como se muestran arriba en
+    pantalla (`item.patron.join(' - ')` dibuja "A - A - A" en grande), y debe
+    permanecer en mayúscula en TODAS sus apariciones, no solo la primera letra
+    del string completo. La regla genérica de conversión ("minúscula + primera
+    letra mayúscula del string completo") habría producido `'A-a-a (se repite
+    la misma sección)'` — la segunda y tercera "A" quedarían minúsculas,
+    rompiendo el código visual. Se resolvió con un diccionario de 7 excepciones
+    de coincidencia EXACTA (las 6 `forma` de `FORMA_MUSICAL_BANK` + el
+    distractor literal `'FORMA A-B-A'` en `genTexturaMusical5Round`) que
+    preservan el código de letras intacto y solo convierten la descripción
+    entre paréntesis a oración normal (`'A-A-A (se repite la misma sección)'`).
+    Ningún otro archivo del rollout hasta ahora tenía este patrón de contenido
+    (letras usadas como símbolos/códigos en vez de como parte de una palabra).
+  - **Bug real de metodología encontrado y corregido en el script mismo, no en
+    el contenido — afecta a los archivos que faltan:** las primeras dos
+    corridas del script de conversión no aplicaron NINGÚN cambio genérico (solo
+    las excepciones del diccionario "pegaban"), porque `-match`/`-notmatch` de
+    PowerShell son **case-insensitive por defecto**, lo que hace que
+    `'AGUDO' -match '\p{Ll}'` devuelva `$true` incorrectamente (la categoría
+    Unicode "minúscula" deja de discriminar por case bajo un match
+    case-insensitive) — el chequeo "¿tiene mayúsculas Y no tiene minúsculas?"
+    fallaba para toda cadena ALL-CAPS, dejándola sin convertir. corregido
+    cambiando a `-cmatch`/`-cnotmatch` (case-sensitive) en ambos chequeos.
+    Además, tras corregir eso, dos entradas del diccionario de excepciones
+    (las que contienen la palabra con tilde "SECCIÓN", singular) seguían sin
+    aplicarse — causa raíz distinta: el archivo `.ps1` no tenía BOM UTF-8, así
+    que `powershell.exe` (Windows PowerShell 5.1) interpretó los bytes UTF-8 de
+    "Ó" (`C3 93`) como dos caracteres ANSI/cp1252 corruptos al parsear el
+    *script* (no el archivo `.js` de destino, que sí se lee con
+    `-Encoding UTF8` explícito) — el string literal de la clave del diccionario
+    quedó con contenido distinto al extraído del archivo real, y `ContainsKey`
+    fallaba silenciosamente. Se confirmó comparando bytes: "SECCIONES" (plural,
+    sin tilde) coincidía bien, pero "SECCIÓN" (singular, con tilde) no — la
+    prueba de que el problema era específicamente el tilde mal decodificado
+    dentro del script, no un problema con el archivo de destino. Corregido
+    re-guardando el `.ps1` con BOM UTF-8 explícito
+    (`New-Object System.Text.UTF8Encoding($true)`) antes de ejecutarlo.
+    **Lección para `tecnologia.js`/`orientacion.js`/`matematica.js`:** (1)
+    usar siempre `-cmatch`/`-cnotmatch`, nunca `-match`/`-notmatch`, al
+    verificar categorías Unicode de mayúscula/minúscula en PowerShell; (2) si
+    el script de conversión (`.ps1`) contiene algún carácter acentuado escrito
+    directamente (en el diccionario de excepciones u otro literal), guardarlo
+    con BOM UTF-8 antes de ejecutarlo — de lo contrario Windows PowerShell 5.1
+    puede parsear mal esos literales sin lanzar ningún error, fallando en
+    silencio exactamente igual que el bug de `-match` case-insensitive. Ambos
+    bugs se detectaron por revisión manual del diff (la primera corrida dejó
+    91 líneas sin convertir; tras el fix de `-cmatch` quedaban solo 2 líneas
+    con el diccionario sin aplicar) — ninguno lo habría revelado el fuzz test,
+    ya que un banco 100% en MAYÚSCULAS sigue siendo estructuralmente válido
+    (opciones únicas, `correctValue` presente, etc.); solo la revisión visual
+    del diff lo expuso.
+  - Los 7 usos de `.toLowerCase()` que citan la respuesta como entidad ("La
+    respuesta correcta es: X" ×2, "Ese término musical es: X", "Esto es un
+    ejemplo de: X", "Esta estructura se llama: X", "Esto se llama: X" ×2) se
+    corrigieron quitando `.toLowerCase()`; los 7 restantes (embebidos
+    mid-oración: "corresponde al X", "es un sonido X", "es un instrumento X",
+    "corresponde a la forma X", "es escuchar X", "es una X" -categoría
+    binaria-, "es un diseño melódico X" -categoría de 3 vías-) se dejaron
+    intactos, mismo criterio de todo el rollout.
+  - Verificado: los 10 generadores pasan fuzz de 300 iteraciones cada uno (sin
+    `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue` siempre
+    presente, sin apóstrofes en `speakText`). Grep dedicado confirmó 0 cadenas
+    de 2+ letras en mayúscula sostenida remanentes (fuera de los códigos
+    A-A-A/A-B-A/etc., preservados a propósito). `MC_KEYS.length ===
+    Object.keys(MC_GAMES).length === 324` (regresión de wiring intacta).
+    Probado visualmente en el navegador: módulo "Instrumentos" (1° básico) con
+    alternativas "No convencional"/"Convencional" en oración normal, una ronda
+    jugada completa (respuesta incorrecta mostró el overlay "Una lata vacía es
+    un instrumento no convencional." con capitalización correcta); módulo
+    "Lenguaje Musical" (3° básico) con una ronda de forma musical mostrando
+    "A - A - A" en grande y las alternativas "A-B-C (tres secciones
+    distintas)"/"A-A-B (dos veces lo mismo y luego algo nuevo)"/"A-B-B (algo
+    nuevo que se repite)" — el código de letras intacto en mayúscula y la
+    descripción en oración normal, confirmando que el fix del diccionario de
+    excepciones funciona. Sin errores de consola en ningún caso. Próximo paso
+    del mismo pedido: `tecnologia.js` (38 alternativas).

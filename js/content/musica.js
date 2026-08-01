@@ -15,34 +15,34 @@ export const MUSICA_POS = [{x:24,y:70},{x:70,y:25}];
 /* Ampliado de 10 a 12 ítems (antes coincidía exactamente con rounds:10,
    sin margen — ver mcEngine.js). */
 const SONIDO_ITEMS = [
-  { emoji:'🐭', label:'El sonido de un ratoncito chiquito', cualidad:'AGUDO', par:['AGUDO','GRAVE'] },
-  { emoji:'🦁', label:'El rugido de un león', cualidad:'GRAVE', par:['AGUDO','GRAVE'] },
-  { emoji:'🐘', label:'El sonido de un elefante', cualidad:'GRAVE', par:['AGUDO','GRAVE'] },
-  { emoji:'🐦', label:'El canto de un pajarito', cualidad:'AGUDO', par:['AGUDO','GRAVE'] },
-  { emoji:'📢', label:'Un grito bien fuerte', cualidad:'FUERTE', par:['FUERTE','SUAVE'] },
-  { emoji:'🤫', label:'Un susurro suavecito', cualidad:'SUAVE', par:['FUERTE','SUAVE'] },
-  { emoji:'🚂', label:'El pitido de un tren', cualidad:'FUERTE', par:['FUERTE','SUAVE'] },
-  { emoji:'🍃', label:'El viento suave entre las hojas', cualidad:'SUAVE', par:['FUERTE','SUAVE'] },
-  { emoji:'🎵', label:'Una nota musical que dura muchos segundos', cualidad:'LARGO', par:['LARGO','CORTO'] },
-  { emoji:'👏', label:'Un aplauso rápido y breve', cualidad:'CORTO', par:['LARGO','CORTO'] },
-  { emoji:'🦗', label:'El canto de un grillo en la noche', cualidad:'AGUDO', par:['AGUDO','GRAVE'] },
-  { emoji:'🥁', label:'El golpe seco de un tambor grande', cualidad:'GRAVE', par:['AGUDO','GRAVE'] },
+  { emoji:'🐭', label:'El sonido de un ratoncito chiquito', cualidad:'Agudo', par:['Agudo','Grave'] },
+  { emoji:'🦁', label:'El rugido de un león', cualidad:'Grave', par:['Agudo','Grave'] },
+  { emoji:'🐘', label:'El sonido de un elefante', cualidad:'Grave', par:['Agudo','Grave'] },
+  { emoji:'🐦', label:'El canto de un pajarito', cualidad:'Agudo', par:['Agudo','Grave'] },
+  { emoji:'📢', label:'Un grito bien fuerte', cualidad:'Fuerte', par:['Fuerte','Suave'] },
+  { emoji:'🤫', label:'Un susurro suavecito', cualidad:'Suave', par:['Fuerte','Suave'] },
+  { emoji:'🚂', label:'El pitido de un tren', cualidad:'Fuerte', par:['Fuerte','Suave'] },
+  { emoji:'🍃', label:'El viento suave entre las hojas', cualidad:'Suave', par:['Fuerte','Suave'] },
+  { emoji:'🎵', label:'Una nota musical que dura muchos segundos', cualidad:'Largo', par:['Largo','Corto'] },
+  { emoji:'👏', label:'Un aplauso rápido y breve', cualidad:'Corto', par:['Largo','Corto'] },
+  { emoji:'🦗', label:'El canto de un grillo en la noche', cualidad:'Agudo', par:['Agudo','Grave'] },
+  { emoji:'🥁', label:'El golpe seco de un tambor grande', cualidad:'Grave', par:['Agudo','Grave'] },
 ];
 /* 🪇 (maracas), 🪘 (djembé) y 🪣 (balde) son adiciones Unicode 2020-2021 que
    no se renderizan en varios navegadores/sistemas (mismo problema ya
    documentado para 🪥🪮🪨🪞🫘🪖 en otros archivos) — se reemplazan por
    maracasSVG()/djembeSVG()/baldeSVG() (ver svg.js). */
 const INSTRUMENTOS_ITEMS = [
-  { emoji:'🥁', label:'TAMBOR', tipo:'CONVENCIONAL' },
-  { emoji: maracasSVG(30), label:'MARACAS', tipo:'CONVENCIONAL' },
-  { emoji: djembeSVG(30), label:'DJEMBÉ (TAMBOR AFRICANO)', tipo:'CONVENCIONAL' },
-  { emoji:'🎻', label:'VIOLÍN', tipo:'CONVENCIONAL' },
-  { emoji:'🎺', label:'TROMPETA', tipo:'CONVENCIONAL' },
-  { emoji:'🎸', label:'GUITARRA', tipo:'CONVENCIONAL' },
-  { emoji:'🥫', label:'UNA LATA VACÍA', tipo:'NO CONVENCIONAL' },
-  { emoji: baldeSVG(30), label:'UN BALDE', tipo:'NO CONVENCIONAL' },
-  { emoji:'🥄', label:'DOS CUCHARAS', tipo:'NO CONVENCIONAL' },
-  { emoji:'📦', label:'UNA CAJA DE CARTÓN', tipo:'NO CONVENCIONAL' },
+  { emoji:'🥁', label:'Tambor', tipo:'Convencional' },
+  { emoji: maracasSVG(30), label:'Maracas', tipo:'Convencional' },
+  { emoji: djembeSVG(30), label:'Djembé (tambor africano)', tipo:'Convencional' },
+  { emoji:'🎻', label:'Violín', tipo:'Convencional' },
+  { emoji:'🎺', label:'Trompeta', tipo:'Convencional' },
+  { emoji:'🎸', label:'Guitarra', tipo:'Convencional' },
+  { emoji:'🥫', label:'Una lata vacía', tipo:'No convencional' },
+  { emoji: baldeSVG(30), label:'Un balde', tipo:'No convencional' },
+  { emoji:'🥄', label:'Dos cucharas', tipo:'No convencional' },
+  { emoji:'📦', label:'Una caja de cartón', tipo:'No convencional' },
 ];
 
 /* ---------------- Contenido Música 2° Básico ----------------
@@ -61,11 +61,11 @@ export const MUSICA_MODULES_G2 = [
 export const MUSICA_POS_G2 = [{x:50,y:50}];
 
 const TIMBRE_BANK = [
-  { emoji:'🥁', instrumento:'TAMBOR', desc:'Un sonido seco y golpeado, como un golpe fuerte.' },
-  { emoji:'🎻', instrumento:'VIOLÍN', desc:'Un sonido que se desliza y vibra, como un canto largo.' },
-  { emoji:'🔔', instrumento:'CAMPANA', desc:'Un sonido metálico que resuena y se queda vibrando.' },
-  { emoji:'🎹', instrumento:'PIANO', desc:'Un sonido claro que se apaga rápido después de tocar la tecla.' },
-  { emoji:'🎺', instrumento:'TROMPETA', desc:'Un sonido brillante y potente, como una fanfarria.' },
+  { emoji:'🥁', instrumento:'Tambor', desc:'Un sonido seco y golpeado, como un golpe fuerte.' },
+  { emoji:'🎻', instrumento:'Violín', desc:'Un sonido que se desliza y vibra, como un canto largo.' },
+  { emoji:'🔔', instrumento:'Campana', desc:'Un sonido metálico que resuena y se queda vibrando.' },
+  { emoji:'🎹', instrumento:'Piano', desc:'Un sonido claro que se apaga rápido después de tocar la tecla.' },
+  { emoji:'🎺', instrumento:'Trompeta', desc:'Un sonido brillante y potente, como una fanfarria.' },
 ];
 const PULSO_BANK = [
   { pregunta:'¿Qué es el "pulso" en la música?', correcta:'El latido constante, como el tic-tac de un reloj', opts:['Una nota muy aguda','El nombre de un instrumento','El final de una canción'] },
@@ -110,7 +110,7 @@ export function genSonidosRound(){
 export function genInstrumentosRound(){
   const recurso = 'Un instrumento musical <b>convencional</b> es uno fabricado especialmente para hacer música (como una guitarra, un tambor o un piano), diseñado con materiales y formas pensadas para producir sonidos afinados y controlables. Un instrumento <b>no convencional</b>, en cambio, es cualquier objeto cotidiano que no fue creado para hacer música pero que puedes usar para producir sonido y ritmo — como golpear una olla, agitar unas llaves, o sacudir una botella con arroz adentro. Esta idea es importante porque te muestra que la música puede crearse con lo que tengas a mano, no solo con instrumentos "de verdad" comprados en una tienda.';
   const item = pick(INSTRUMENTOS_ITEMS);
-  const opts = shuffle([{label:'CONVENCIONAL', value:'CONVENCIONAL'},{label:'NO CONVENCIONAL', value:'NO CONVENCIONAL'}]);
+  const opts = shuffle([{label:'Convencional', value:'Convencional'},{label:'No convencional', value:'No convencional'}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Es un instrumento musical convencional o no convencional?</p>',
     options: opts, correctValue: item.tipo, speakText: item.label, cols:2, panel:true,
@@ -138,26 +138,26 @@ export const MUSICA_MODULES_G3 = [
 export const MUSICA_POS_G3 = [{x:30,y:70},{x:70,y:30}];
 
 const FORMA_MUSICAL_BANK = [
-  { patron:['A','A','A'], forma:'A-A-A (SE REPITE LA MISMA SECCIÓN)' },
-  { patron:['A','B','A'], forma:'A-B-A (VUELVE A LA SECCIÓN INICIAL)' },
-  { patron:['A','A','B'], forma:'A-A-B (DOS VECES LO MISMO Y LUEGO ALGO NUEVO)' },
-  { patron:['A','B','B'], forma:'A-B-B (ALGO NUEVO QUE SE REPITE)' },
-  { patron:['A','B','C'], forma:'A-B-C (TRES SECCIONES DISTINTAS)' },
-  { patron:['A','B','A','B'], forma:'A-B-A-B (DOS SECCIONES QUE SE ALTERNAN)' },
+  { patron:['A','A','A'], forma:'A-A-A (se repite la misma sección)' },
+  { patron:['A','B','A'], forma:'A-B-A (vuelve a la sección inicial)' },
+  { patron:['A','A','B'], forma:'A-A-B (dos veces lo mismo y luego algo nuevo)' },
+  { patron:['A','B','B'], forma:'A-B-B (algo nuevo que se repite)' },
+  { patron:['A','B','C'], forma:'A-B-C (tres secciones distintas)' },
+  { patron:['A','B','A','B'], forma:'A-B-A-B (dos secciones que se alternan)' },
 ];
 const PULSO_ACENTO_BANK = [
-  { pregunta:'¿Cómo se llama el "latido" constante y regular que se repite en una canción, como el tic-tac de un reloj?', correcta:'EL PULSO', opts:['EL ACENTO','LA MELODÍA','EL SILENCIO'] },
-  { pregunta:'¿Cómo se llama cuando un golpe o nota suena más fuerte que las demás dentro del pulso?', correcta:'EL ACENTO', opts:['EL PULSO','LA PAUSA','EL TONO'] },
+  { pregunta:'¿Cómo se llama el "latido" constante y regular que se repite en una canción, como el tic-tac de un reloj?', correcta:'El pulso', opts:['El acento','La melodía','El silencio'] },
+  { pregunta:'¿Cómo se llama cuando un golpe o nota suena más fuerte que las demás dentro del pulso?', correcta:'El acento', opts:['El pulso','La pausa','El tono'] },
 ];
 const MUSICA_SOCIEDAD_BANK = [
-  { situacion:'Una fiesta de cumpleaños, justo cuando traen la torta con velitas', correcta:'"FELIZ CUMPLEAÑOS" (CUMPLEAÑOS FELIZ)', opts:['UN HIMNO NACIONAL','UNA CANCIÓN DE CUNA','UNA MARCHA FÚNEBRE'] },
-  { situacion:'Un bebé que no se puede dormir en la noche', correcta:'UNA CANCIÓN DE CUNA', opts:['UNA CANCIÓN DE CUMPLEAÑOS','UNA MARCHA MILITAR','UN HIMNO NACIONAL'] },
-  { situacion:'Una ceremonia oficial del país, como un acto cívico en la escuela', correcta:'EL HIMNO NACIONAL', opts:['UNA CANCIÓN DE CUNA','UNA CANCIÓN DE CUMPLEAÑOS','UN JINGLE PUBLICITARIO'] },
-  { situacion:'Un anuncio de televisión que quiere que recuerdes un producto', correcta:'UN JINGLE PUBLICITARIO', opts:['UN HIMNO NACIONAL','UNA CANCIÓN DE CUNA','UNA MARCHA FÚNEBRE'] },
-  { situacion:'Una fiesta patria como el 18 de septiembre en Chile', correcta:'CUECA (MÚSICA FOLCLÓRICA CHILENA)', opts:['UNA CANCIÓN DE CUNA','UN JINGLE PUBLICITARIO','UNA ÓPERA'] },
-  { situacion:'Un partido de fútbol, cuando el equipo sale a la cancha', correcta:'UN HIMNO O CÁNTICO DEL EQUIPO', opts:['UNA CANCIÓN DE CUNA','UN VALS CLÁSICO','UNA MARCHA FÚNEBRE'] },
-  { situacion:'Una boda, justo cuando la novia entra caminando', correcta:'LA MARCHA NUPCIAL', opts:['UN JINGLE PUBLICITARIO','UNA CANCIÓN DE CUNA','EL HIMNO NACIONAL'] },
-  { situacion:'Una ceremonia solemne y triste de despedida', correcta:'UNA MARCHA FÚNEBRE', opts:['UNA CANCIÓN DE CUMPLEAÑOS','UN JINGLE PUBLICITARIO','LA CUECA'] },
+  { situacion:'Una fiesta de cumpleaños, justo cuando traen la torta con velitas', correcta:'"Feliz cumpleaños" (cumpleaños feliz)', opts:['Un himno nacional','Una canción de cuna','Una marcha fúnebre'] },
+  { situacion:'Un bebé que no se puede dormir en la noche', correcta:'Una canción de cuna', opts:['Una canción de cumpleaños','Una marcha militar','Un himno nacional'] },
+  { situacion:'Una ceremonia oficial del país, como un acto cívico en la escuela', correcta:'El himno nacional', opts:['Una canción de cuna','Una canción de cumpleaños','Un jingle publicitario'] },
+  { situacion:'Un anuncio de televisión que quiere que recuerdes un producto', correcta:'Un jingle publicitario', opts:['Un himno nacional','Una canción de cuna','Una marcha fúnebre'] },
+  { situacion:'Una fiesta patria como el 18 de septiembre en Chile', correcta:'Cueca (música folclórica chilena)', opts:['Una canción de cuna','Un jingle publicitario','Una ópera'] },
+  { situacion:'Un partido de fútbol, cuando el equipo sale a la cancha', correcta:'Un himno o cántico del equipo', opts:['Una canción de cuna','Un vals clásico','Una marcha fúnebre'] },
+  { situacion:'Una boda, justo cuando la novia entra caminando', correcta:'La marcha nupcial', opts:['Un jingle publicitario','Una canción de cuna','El himno nacional'] },
+  { situacion:'Una ceremonia solemne y triste de despedida', correcta:'Una marcha fúnebre', opts:['Una canción de cumpleaños','Un jingle publicitario','La cueca'] },
 ];
 
 export function genLenguajeMusical3Round(){
@@ -178,7 +178,7 @@ export function genLenguajeMusical3Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-    explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: recurso,
   };
 }
@@ -210,16 +210,16 @@ export const MUSICA_MODULES_G4 = [
 export const MUSICA_POS_G4 = [{x:50,y:50}];
 
 const DINAMICA_BANK = [
-  { desc:'Un volumen muy suave, casi un susurro musical', termino:'PIANO (SUAVE)' },
-  { desc:'Un volumen muy fuerte y potente', termino:'FORTE (FUERTE)' },
-  { desc:'Un volumen que va aumentando poco a poco, de suave a fuerte', termino:'CRESCENDO' },
-  { desc:'Un volumen que va disminuyendo poco a poco, de fuerte a suave', termino:'DECRESCENDO' },
+  { desc:'Un volumen muy suave, casi un susurro musical', termino:'Piano (suave)' },
+  { desc:'Un volumen muy fuerte y potente', termino:'Forte (fuerte)' },
+  { desc:'Un volumen que va aumentando poco a poco, de suave a fuerte', termino:'Crescendo' },
+  { desc:'Un volumen que va disminuyendo poco a poco, de fuerte a suave', termino:'Decrescendo' },
 ];
 const TEMPO_BANK = [
-  { desc:'Una canción que se toca muy rápido', termino:'ALLEGRO (RÁPIDO)' },
-  { desc:'Una canción que se toca muy lenta y calmada', termino:'LARGO (MUY LENTO)' },
-  { desc:'Una canción que se toca a velocidad moderada, ni rápida ni lenta', termino:'MODERATO' },
-  { desc:'Una canción que se toca a un paso tranquilo, como una caminata', termino:'ANDANTE' },
+  { desc:'Una canción que se toca muy rápido', termino:'Allegro (rápido)' },
+  { desc:'Una canción que se toca muy lenta y calmada', termino:'Largo (muy lento)' },
+  { desc:'Una canción que se toca a velocidad moderada, ni rápida ni lenta', termino:'Moderato' },
+  { desc:'Una canción que se toca a un paso tranquilo, como una caminata', termino:'Andante' },
 ];
 
 export function genDinamicaTempo4Round(){
@@ -230,7 +230,7 @@ export function genDinamicaTempo4Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué término musical describe esto?</p>',
     options: opts, correctValue: item.termino, speakText: item.desc, cols:2, kind:'word',
-    explain: 'Ese término musical es <b>'+item.termino.toLowerCase()+'</b>.',
+    explain: 'Ese término musical es <b>'+item.termino+'</b>.',
     recurso: 'La <b>dinámica</b> en música se refiere a qué tan fuerte o suave suena algo: "piano" significa suave, "forte" significa fuerte, y "crescendo"/"decrescendo" describen un volumen que va aumentando o disminuyendo gradualmente durante la canción. El <b>tempo</b>, en cambio, se refiere a la velocidad: "allegro" es rápido, "largo" es muy lento, "moderato" es una velocidad intermedia y "andante" es un paso tranquilo, como caminar. Estos términos vienen del italiano porque los primeros compositores que los estandarizaron, hace varios siglos, eran principalmente italianos — hoy músicos de todo el mundo usan las mismas palabras para indicar cómo debe sonar una pieza, sin importar en qué idioma se compuso.',
   };
 }
@@ -252,36 +252,36 @@ export const MUSICA_MODULES_G5 = [
 export const MUSICA_POS_G5 = [{x:50,y:50}];
 
 const TEXTURA_MUSICAL_BANK = [
-  { desc:'Una persona cantando sola, sin ningún acompañamiento musical', tipo:'MONOFONÍA' },
-  { desc:'Todo el curso cantando el mismo himno al unísono, sin ninguna otra voz sonando', tipo:'MONOFONÍA' },
-  { desc:'Un solista cantando la melodía principal mientras la guitarra toca acordes de acompañamiento', tipo:'HOMOFONÍA' },
-  { desc:'Una banda donde el cantante lleva la melodía y los demás instrumentos tocan acordes de fondo', tipo:'HOMOFONÍA' },
-  { desc:'Un coro donde cada grupo de voces va entrando con la misma melodía en momentos distintos, sobreponiéndose entre sí, como en un canon', tipo:'POLIFONÍA' },
-  { desc:'Varios instrumentos tocando cada uno su propia melodía independiente, entrelazadas entre sí', tipo:'POLIFONÍA' },
+  { desc:'Una persona cantando sola, sin ningún acompañamiento musical', tipo:'Monofonía' },
+  { desc:'Todo el curso cantando el mismo himno al unísono, sin ninguna otra voz sonando', tipo:'Monofonía' },
+  { desc:'Un solista cantando la melodía principal mientras la guitarra toca acordes de acompañamiento', tipo:'Homofonía' },
+  { desc:'Una banda donde el cantante lleva la melodía y los demás instrumentos tocan acordes de fondo', tipo:'Homofonía' },
+  { desc:'Un coro donde cada grupo de voces va entrando con la misma melodía en momentos distintos, sobreponiéndose entre sí, como en un canon', tipo:'Polifonía' },
+  { desc:'Varios instrumentos tocando cada uno su propia melodía independiente, entrelazadas entre sí', tipo:'Polifonía' },
 ];
 const PREGUNTA_RESPUESTA_BANK = [
-  { desc:'Una frase musical que suena como una "pregunta", seguida de otra frase que la "responde", como una conversación musical', correcta:'ESTRUCTURA DE PREGUNTA-RESPUESTA' },
-  { desc:'Un instrumento toca una frase corta y luego otro instrumento le contesta con una frase parecida, como si conversaran', correcta:'ESTRUCTURA DE PREGUNTA-RESPUESTA' },
+  { desc:'Una frase musical que suena como una "pregunta", seguida de otra frase que la "responde", como una conversación musical', correcta:'Estructura de pregunta-respuesta' },
+  { desc:'Un instrumento toca una frase corta y luego otro instrumento le contesta con una frase parecida, como si conversaran', correcta:'Estructura de pregunta-respuesta' },
 ];
 export function genTexturaMusical5Round(){
   const recurso = 'La <b>textura musical</b> describe cómo se combinan las voces o instrumentos que suenan al mismo tiempo: en la <b>monofonía</b> suena una sola melodía sin acompañamiento (como cantar solo), en la <b>homofonía</b> una melodía principal suena acompañada por otras voces que la apoyan, y en la <b>polifonía</b> suenan dos o más melodías independientes al mismo tiempo (como un canon). Otra forma de organizar la música es la estructura de <b>pregunta-respuesta</b>: una frase musical "pregunta" y otra frase la "responde", como una conversación entre instrumentos o voces.';
   if(Math.random()<0.6){
     const item = pick(TEXTURA_MUSICAL_BANK);
-    const todos = ['MONOFONÍA','HOMOFONÍA','POLIFONÍA'];
+    const todos = ['Monofonía','Homofonía','Polifonía'];
     const distract = todos.filter(function(t){ return t!==item.tipo; });
     const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué textura musical describe esta situación?</p>',
       options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, kind:'word',
-      explain: 'Esta situación es un ejemplo de <b>'+item.tipo.toLowerCase()+'</b>.', recurso: recurso,
+      explain: 'Esta situación es un ejemplo de <b>'+item.tipo+'</b>.', recurso: recurso,
     };
   }
   const item = pick(PREGUNTA_RESPUESTA_BANK);
-  const opts = shuffle([{label:item.correcta, value:item.correcta},{label:'FORMA A-B-A', value:'FORMA A-B-A'},{label:'CRESCENDO', value:'CRESCENDO'},{label:'MONOFONÍA', value:'MONOFONÍA'}]);
+  const opts = shuffle([{label:item.correcta, value:item.correcta},{label:'Forma A-B-A', value:'Forma A-B-A'},{label:'Crescendo', value:'Crescendo'},{label:'Monofonía', value:'Monofonía'}]);
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Cómo se llama esta estructura musical?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
-    explain: 'Esta estructura se llama <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'Esta estructura se llama <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
@@ -307,26 +307,26 @@ export const MUSICA_MODULES_G6 = [
 export const MUSICA_POS_G6 = [{x:50,y:50}];
 
 const REITERACION_CONTRASTE_BANK = [
-  { desc:'Una canción repite exactamente la misma frase musical dos veces seguidas', tipo:'REITERACIÓN' },
-  { desc:'Una canción toca una frase suave y calmada, y luego una frase completamente distinta, fuerte y agitada', tipo:'CONTRASTE' },
-  { desc:'Un coro canta la misma melodía una y otra vez a lo largo de toda la canción, sin cambiar nada', tipo:'REITERACIÓN' },
-  { desc:'Una pieza musical pasa de una sección lenta y triste a una sección rápida y alegre, muy diferente a la anterior', tipo:'CONTRASTE' },
+  { desc:'Una canción repite exactamente la misma frase musical dos veces seguidas', tipo:'Reiteración' },
+  { desc:'Una canción toca una frase suave y calmada, y luego una frase completamente distinta, fuerte y agitada', tipo:'Contraste' },
+  { desc:'Un coro canta la misma melodía una y otra vez a lo largo de toda la canción, sin cambiar nada', tipo:'Reiteración' },
+  { desc:'Una pieza musical pasa de una sección lenta y triste a una sección rápida y alegre, muy diferente a la anterior', tipo:'Contraste' },
 ];
 const DISENO_MELODICO_BANK = [
-  { desc:'Una melodía que va subiendo de tono, nota por nota, de más grave a más aguda', diseno:'ASCENDENTE' },
-  { desc:'Una melodía que va bajando de tono, nota por nota, de más aguda a más grave', diseno:'DESCENDENTE' },
-  { desc:'Una melodía que sube y baja de tono varias veces, como las olas del mar', diseno:'ONDULANTE' },
+  { desc:'Una melodía que va subiendo de tono, nota por nota, de más grave a más aguda', diseno:'Ascendente' },
+  { desc:'Una melodía que va bajando de tono, nota por nota, de más aguda a más grave', diseno:'Descendente' },
+  { desc:'Una melodía que sube y baja de tono varias veces, como las olas del mar', diseno:'Ondulante' },
 ];
 const VARIACION_BANK = [
-  { desc:'Una canción presenta su melodía principal, y luego la repite pero un poco más rápido y con un instrumento distinto', pregunta:'¿Cómo se llama a repetir una idea musical con algunos cambios, en vez de repetirla exactamente igual?', correcta:'VARIACIÓN', opts:['SILENCIO','PAUSA','ACORDE'] },
-  { desc:'Un compositor toma un tema musical simple y lo repite varias veces, cada vez con un ritmo o una dinámica distinta', pregunta:'¿Cómo se llama a esta técnica de repetir un tema con cambios?', correcta:'VARIACIÓN', opts:['SILENCIO','PAUSA','ACORDE'] },
+  { desc:'Una canción presenta su melodía principal, y luego la repite pero un poco más rápido y con un instrumento distinto', pregunta:'¿Cómo se llama a repetir una idea musical con algunos cambios, en vez de repetirla exactamente igual?', correcta:'Variación', opts:['Silencio','Pausa','Acorde'] },
+  { desc:'Un compositor toma un tema musical simple y lo repite varias veces, cada vez con un ritmo o una dinámica distinta', pregunta:'¿Cómo se llama a esta técnica de repetir un tema con cambios?', correcta:'Variación', opts:['Silencio','Pausa','Acorde'] },
 ];
 export function genMelodiaVariaciones6Round(){
   const recurso = 'Una melodía se construye repitiendo o cambiando frases musicales: la <b>reiteración</b> repite exactamente la misma frase, mientras que el <b>contraste</b> presenta una frase muy distinta (por ejemplo, pasar de algo suave a algo fuerte). El <b>diseño melódico</b> describe la forma que dibuja una melodía al moverse: ascendente (sube), descendente (baja) u ondulante (sube y baja, como olas). Y la <b>variación</b> es repetir una idea musical pero con algunos cambios —más rápido, con otro instrumento— en vez de tocarla exactamente igual cada vez.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(REITERACION_CONTRASTE_BANK);
-    const opts = shuffle([{label:'REITERACIÓN', value:'REITERACIÓN'},{label:'CONTRASTE', value:'CONTRASTE'}]);
+    const opts = shuffle([{label:'Reiteración', value:'Reiteración'},{label:'Contraste', value:'Contraste'}]);
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Esto es una reiteración o un contraste?</p>',
       options: opts, correctValue: item.tipo, speakText: item.desc, cols:2, panel:true,
@@ -335,7 +335,7 @@ export function genMelodiaVariaciones6Round(){
   }
   if(roll<0.67){
     const item = pick(DISENO_MELODICO_BANK);
-    const todos = ['ASCENDENTE','DESCENDENTE','ONDULANTE'];
+    const todos = ['Ascendente','Descendente','Ondulante'];
     const distract = todos.filter(function(d){ return d!==item.diseno; });
     const opts = shuffle([item.diseno].concat(distract)).map(function(d){ return {label:d, value:d}; });
     return {
@@ -349,7 +349,7 @@ export function genMelodiaVariaciones6Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word',
-    explain: 'Esto se llama <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'Esto se llama <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
@@ -370,16 +370,16 @@ export const MUSICA_MODULES_G7 = [
 export const MUSICA_POS_G7 = [{x:50,y:50}];
 
 const OSTINATO_BANK = [
-  { desc:'Mientras la melodía principal cambia, el bajo repite exactamente el mismo patrón corto de 4 notas una y otra vez, sin variar, durante toda la canción', correcta:'OSTINATO', opts:['SECUENCIA MELÓDICA','VARIACIÓN','SILENCIO'] },
-  { desc:'La percusión toca el mismo patrón rítmico corto, sin ningún cambio, repetido continuamente como base de toda la pieza', correcta:'OSTINATO', opts:['SECUENCIA MELÓDICA','CONTRASTE','ACORDE'] },
-  { desc:'Un pianista toca la mano izquierda con el mismo patrón de notas repetido sin cambios durante toda la canción, mientras la mano derecha toca la melodía principal', correcta:'OSTINATO', opts:['SECUENCIA MELÓDICA','REITERACIÓN DE FRASE COMPLETA','DISEÑO MELÓDICO ONDULANTE'] },
-  { desc:'En una canción de cuna, un mismo patrón corto de guitarra se repite igual desde el principio hasta el final, sin ningún cambio', correcta:'OSTINATO', opts:['SECUENCIA MELÓDICA','VARIACIÓN','CONTRASTE'] },
+  { desc:'Mientras la melodía principal cambia, el bajo repite exactamente el mismo patrón corto de 4 notas una y otra vez, sin variar, durante toda la canción', correcta:'Ostinato', opts:['Secuencia melódica','Variación','Silencio'] },
+  { desc:'La percusión toca el mismo patrón rítmico corto, sin ningún cambio, repetido continuamente como base de toda la pieza', correcta:'Ostinato', opts:['Secuencia melódica','Contraste','Acorde'] },
+  { desc:'Un pianista toca la mano izquierda con el mismo patrón de notas repetido sin cambios durante toda la canción, mientras la mano derecha toca la melodía principal', correcta:'Ostinato', opts:['Secuencia melódica','Reiteración de frase completa','Diseño melódico ondulante'] },
+  { desc:'En una canción de cuna, un mismo patrón corto de guitarra se repite igual desde el principio hasta el final, sin ningún cambio', correcta:'Ostinato', opts:['Secuencia melódica','Variación','Contraste'] },
 ];
 const SECUENCIA_MELODICA_BANK = [
-  { desc:'Un compositor toca una frase corta de 3 notas, y luego repite esa misma frase pero empezando 2 notas más arriba, y después otra vez empezando aún más arriba', correcta:'SECUENCIA MELÓDICA', opts:['OSTINATO','SILENCIO','PAUSA'] },
-  { desc:'Una melodía corta se repite varias veces seguidas, cada vez desplazada a un tono más bajo que la anterior, manteniendo la misma forma', correcta:'SECUENCIA MELÓDICA', opts:['OSTINATO','ACORDE','DINÁMICA'] },
-  { desc:'Un violinista toca un pequeño motivo musical, y luego lo repite tres veces más, cada vez un poco más agudo que la anterior', correcta:'SECUENCIA MELÓDICA', opts:['OSTINATO','SILENCIO','ACORDE'] },
-  { desc:'Una melodía de 4 notas se repite manteniendo la misma forma, pero cada repetición comienza más abajo que la anterior, como bajando una escalera', correcta:'SECUENCIA MELÓDICA', opts:['OSTINATO','VARIACIÓN','CONTRASTE'] },
+  { desc:'Un compositor toca una frase corta de 3 notas, y luego repite esa misma frase pero empezando 2 notas más arriba, y después otra vez empezando aún más arriba', correcta:'Secuencia melódica', opts:['Ostinato','Silencio','Pausa'] },
+  { desc:'Una melodía corta se repite varias veces seguidas, cada vez desplazada a un tono más bajo que la anterior, manteniendo la misma forma', correcta:'Secuencia melódica', opts:['Ostinato','Acorde','Dinámica'] },
+  { desc:'Un violinista toca un pequeño motivo musical, y luego lo repite tres veces más, cada vez un poco más agudo que la anterior', correcta:'Secuencia melódica', opts:['Ostinato','Silencio','Acorde'] },
+  { desc:'Una melodía de 4 notas se repite manteniendo la misma forma, pero cada repetición comienza más abajo que la anterior, como bajando una escalera', correcta:'Secuencia melódica', opts:['Ostinato','Variación','Contraste'] },
 ];
 export function genProcedimientosCompositivos7Round(){
   const recurso = 'Un <b>ostinato</b> es un patrón musical corto (rítmico o melódico) que se repite exactamente igual, sin cambios, durante toda una pieza o una sección, sirviendo como base mientras otras voces varían encima. Una <b>secuencia melódica</b> es distinta: una frase corta se repite manteniendo su misma forma, pero cada repetición se desplaza más arriba o más abajo en tono, como subiendo o bajando una escalera musical. Ambos son formas en que los compositores construyen y desarrollan una pieza a partir de una idea pequeña.';
@@ -388,7 +388,7 @@ export function genProcedimientosCompositivos7Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué procedimiento compositivo se usa aquí?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word',
-    explain: 'Esto se llama <b>'+item.correcta.toLowerCase()+'</b>.',
+    explain: 'Esto se llama <b>'+item.correcta+'</b>.',
     recurso: recurso,
   };
 }
@@ -414,16 +414,16 @@ export const MUSICA_MODULES_G8 = [
 export const MUSICA_POS_G8 = [{x:50,y:50}];
 
 const ARMONIA_8_BANK = [
-  { pregunta:'¿Qué es un acorde?', correcta:'TRES O MÁS NOTAS QUE SUENAN AL MISMO TIEMPO', opts:['UNA SOLA NOTA MUY LARGA','UN SILENCIO ENTRE DOS NOTAS','EL NOMBRE DE UN INSTRUMENTO'] },
-  { pregunta:'¿Qué hace un acompañamiento armónico en una canción?', correcta:'SOSTIENE LA MELODÍA CON ACORDES QUE LE DAN CUERPO Y CARÁCTER', opts:['REEMPLAZA LA MELODÍA POR COMPLETO','ELIMINA EL RITMO DE LA CANCIÓN','SOLO SUBE EL VOLUMEN'] },
-  { pregunta:'Según la convención expresiva más usada en música, ¿qué carácter suele asociarse a una tonalidad MAYOR?', correcta:'UN CARÁCTER MÁS LUMINOSO O ALEGRE', opts:['SIEMPRE UN CARÁCTER TERRORÍFICO','NINGÚN CARÁCTER: NO SE USA EN CANCIONES','UN SONIDO IMPOSIBLE DE ESCUCHAR'] },
-  { pregunta:'Según esa misma convención, ¿qué carácter suele asociarse a una tonalidad MENOR?', correcta:'UN CARÁCTER MÁS MELANCÓLICO O ÍNTIMO', opts:['SIEMPRE UN CARÁCTER FESTIVO Y RUIDOSO','NINGUNO: LAS TONALIDADES MENORES NO EXISTEN','UN VOLUMEN MÁS BAJO OBLIGATORIO'] },
-  { pregunta:'¿Qué instrumento puede tocar acordes completos, y por eso suele acompañar al canto?', correcta:'LA GUITARRA (O EL PIANO)', opts:['EL TRIÁNGULO','LA FLAUTA DULCE TOCANDO UNA SOLA NOTA','EL BOMBO'] },
-  { pregunta:'En una canción típica, ¿qué relación hay entre melodía y acompañamiento?', correcta:'LA MELODÍA LLEVA EL PROTAGONISMO Y EL ACOMPAÑAMIENTO LA SOSTIENE CON ACORDES Y RITMO', opts:['SIEMPRE SUENAN EXACTAMENTE LAS MISMAS NOTAS','EL ACOMPAÑAMIENTO DEBE TAPAR LA MELODÍA','NO PUEDEN SONAR JUNTOS'] },
-  { pregunta:'¿Cómo se llama la sucesión de acordes que se repite como base de muchas canciones populares?', correcta:'PROGRESIÓN ARMÓNICA', opts:['ESCALA CROMÁTICA','SILENCIO DE NEGRA','CLAVE DE SOL'] },
-  { pregunta:'Si una misma melodía se acompaña con acordes distintos, ¿qué puede cambiar?', correcta:'EL CARÁCTER O COLOR EXPRESIVO DE LA CANCIÓN, AUNQUE LA MELODÍA SEA LA MISMA', opts:['NADA: EL ACOMPAÑAMIENTO NO INFLUYE EN NADA','LA LETRA CAMBIA AUTOMÁTICAMENTE','EL INSTRUMENTO DESAPARECE'] },
-  { pregunta:'¿Qué músico de una banda suele encargarse de la base armónica junto a la guitarra o el piano?', correcta:'EL BAJISTA, QUE REFUERZA LA NOTA FUNDAMENTAL DE CADA ACORDE', opts:['EL CANTANTE SOLISTA','QUIEN APLAUDE ENTRE CANCIONES','EL SONIDISTA DE LA SALA'] },
-  { pregunta:'¿Por qué se dice que la armonía es una dimensión "vertical" de la música?', correcta:'PORQUE MIRA LAS NOTAS QUE SUENAN SIMULTÁNEAMENTE, COMO UNA COLUMNA DE SONIDOS', opts:['PORQUE SOLO SE TOCA DE PIE','PORQUE LAS PARTITURAS SE LEEN DE ABAJO HACIA ARRIBA','PORQUE REQUIERE INSTRUMENTOS ALTOS'] },
+  { pregunta:'¿Qué es un acorde?', correcta:'Tres o más notas que suenan al mismo tiempo', opts:['Una sola nota muy larga','Un silencio entre dos notas','El nombre de un instrumento'] },
+  { pregunta:'¿Qué hace un acompañamiento armónico en una canción?', correcta:'Sostiene la melodía con acordes que le dan cuerpo y carácter', opts:['Reemplaza la melodía por completo','Elimina el ritmo de la canción','Solo sube el volumen'] },
+  { pregunta:'Según la convención expresiva más usada en música, ¿qué carácter suele asociarse a una tonalidad MAYOR?', correcta:'Un carácter más luminoso o alegre', opts:['Siempre un carácter terrorífico','Ningún carácter: no se usa en canciones','Un sonido imposible de escuchar'] },
+  { pregunta:'Según esa misma convención, ¿qué carácter suele asociarse a una tonalidad MENOR?', correcta:'Un carácter más melancólico o íntimo', opts:['Siempre un carácter festivo y ruidoso','Ninguno: las tonalidades menores no existen','Un volumen más bajo obligatorio'] },
+  { pregunta:'¿Qué instrumento puede tocar acordes completos, y por eso suele acompañar al canto?', correcta:'La guitarra (o el piano)', opts:['El triángulo','La flauta dulce tocando una sola nota','El bombo'] },
+  { pregunta:'En una canción típica, ¿qué relación hay entre melodía y acompañamiento?', correcta:'La melodía lleva el protagonismo y el acompañamiento la sostiene con acordes y ritmo', opts:['Siempre suenan exactamente las mismas notas','El acompañamiento debe tapar la melodía','No pueden sonar juntos'] },
+  { pregunta:'¿Cómo se llama la sucesión de acordes que se repite como base de muchas canciones populares?', correcta:'Progresión armónica', opts:['Escala cromática','Silencio de negra','Clave de sol'] },
+  { pregunta:'Si una misma melodía se acompaña con acordes distintos, ¿qué puede cambiar?', correcta:'El carácter o color expresivo de la canción, aunque la melodía sea la misma', opts:['Nada: el acompañamiento no influye en nada','La letra cambia automáticamente','El instrumento desaparece'] },
+  { pregunta:'¿Qué músico de una banda suele encargarse de la base armónica junto a la guitarra o el piano?', correcta:'El bajista, que refuerza la nota fundamental de cada acorde', opts:['El cantante solista','Quien aplaude entre canciones','El sonidista de la sala'] },
+  { pregunta:'¿Por qué se dice que la armonía es una dimensión "vertical" de la música?', correcta:'Porque mira las notas que suenan simultáneamente, como una columna de sonidos', opts:['Porque solo se toca de pie','Porque las partituras se leen de abajo hacia arriba','Porque requiere instrumentos altos'] },
 ];
 export function genArmonia8Round(){
   const recurso = 'Un <b>acorde</b> es un grupo de tres o más notas que suenan al mismo tiempo, y forma la base de la <b>armonía</b> — la dimensión "vertical" de la música, que mira las notas simultáneas como una columna de sonidos (a diferencia de la melodía, que es la sucesión de notas en el tiempo). El <b>acompañamiento armónico</b> sostiene la melodía con esos acordes, dándole cuerpo y carácter, y suele estar a cargo de instrumentos como la guitarra o el piano (que pueden tocar varias notas a la vez), junto al bajo, que refuerza la nota fundamental de cada acorde. Existe una convención expresiva ampliamente usada en la música (no una verdad absoluta) donde la tonalidad <b>mayor</b> suele asociarse a un carácter más luminoso o alegre, y la tonalidad <b>menor</b> a uno más melancólico o íntimo.';
@@ -432,7 +432,7 @@ export function genArmonia8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }

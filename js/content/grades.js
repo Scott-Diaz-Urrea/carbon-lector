@@ -33,7 +33,7 @@ export const PARVULARIA_NIVELES = [
    no construidos. */
 export const EPJA_NIVELES = [
   { id:'n1basica', label:'Nivel 1 Básica', sub:'Equivale a 1° - 4° básico', open:true },
-  { id:'n2basica', label:'Nivel 2 Básica', sub:'Equivale a 5° - 6° básico', open:false },
+  { id:'n2basica', label:'Nivel 2 Básica', sub:'Equivale a 5° - 6° básico', open:true },
   { id:'n3basica', label:'Nivel 3 Básica', sub:'Equivale a 7° - 8° básico', open:false },
   { id:'n1media', label:'Nivel 1 Media', sub:'Equivale a 1° - 2° medio', open:false },
   { id:'n2media', label:'Nivel 2 Media', sub:'Equivale a 3° - 4° medio', open:false },

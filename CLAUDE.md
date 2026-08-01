@@ -2257,7 +2257,7 @@ Antes de construir, definir con el usuario su lista real de asignaturas
 etc. — no asumir que es igual a Básica) y confirmar su decreto curricular
 vigente en curriculumnacional.cl.
 
-### EPJA (Educación para Personas Jóvenes y Adultas) — Nivel 1 Básica ✅ completo, 4 niveles restantes 🔒
+### EPJA (Educación para Personas Jóvenes y Adultas) — Nivel 1 y Nivel 2 Básica ✅ completos, 3 niveles restantes 🔒
 Pedido explícito del usuario (2026-08-01, "procede con epja") de empezar a
 construir esta etapa, dejando el orden y el punto de partida a criterio de
 Claude ("dejar que yo decida el orden", confirmado vía `AskUserQuestion`).
@@ -2368,15 +2368,100 @@ en vez de inventar contenido a partir de un documento no verificable).
   texto real). Probado también en 375px (mobile): tarjetas de nivel/
   asignatura se ven bien, sin errores de consola en ningún caso.
 
-**Próximo paso del mismo pedido:** Nivel 2 Básica (5°-6°, agrega Ciencias
-Naturales y Estudios Sociales según el temario real — hay que investigar
-si existe un "Temario Nivel 2 de Educación Básica" 2025/2026 equivalente
-al de Nivel 1, o si hay que recurrir al programa 2006 completo), luego
-Nivel 3 Básica (7°-8°), y finalmente Educación Media EPJA (Niveles 1-2,
-Formación General + partes de Diferenciada/Instrumental con sentido para
-trivia — quedan fuera las especialidades técnico-profesionales y de
-oficios, producción práctica de un oficio específico). Educación Media
-regular (no EPJA) sigue sin construir — ver sección de arriba.
+**Nivel 2 Básica — ✅ completo (2026-08-01), 18 módulos, 4 asignaturas
+(Lenguaje y Comunicación, Matemática, Ciencias Naturales, Estudios
+Sociales):** continuación directa del mismo pedido ("procede con epja"),
+sin necesidad de una nueva confirmación del usuario dado el patrón de
+merge automático ya establecido para este repo. Se investigó primero si
+existía un "Temario Nivel 2 de Educación Básica" 2025/2026 equivalente al
+usado para Nivel 1 — a diferencia de Nivel 1 (Lenguaje/Matemática ya
+migrados a las nuevas Bases EPJA 2024, Decreto Supremo N°10/2022), Nivel 2
+Básica **todavía se rige por el Decreto Supremo N°257 de 2009** (el
+decreto anterior a la transición curricular), confirmando la naturaleza
+gradual de esa transición ya anotada arriba. Se encontró un documento aún
+mejor que el de Nivel 1: el "Temario Segundo Nivel de Educación Básica"
+2026 (1er semestre) combina los 4 subsectores en un solo PDF con texto
+real extraíble vía `pdftotext -layout` (epja.mineduc.cl, descargado con
+WebFetch y procesado localmente, mismo mecanismo ya usado para Nivel 1).
+- **Lenguaje y Comunicación** (4 módulos, `content/epja/lenguajeNivel2.js`):
+  Comprensión de Lectura (información explícita, inferencia, aspectos
+  físicos/psicológicos de personajes, secuencia de un relato, sentimientos
+  de un poema), Vocabulario en Contexto (sentido de una palabra/expresión
+  según pistas del contexto, reemplazo por sinónimo dentro de una
+  oración), Tipos de Texto y Noticia (tipo de texto por estructura,
+  elementos de una noticia —epígrafe/título/bajada/cuerpo—, emisor/
+  receptor), y Hechos y Opiniones (distinguir y fundamentar). Cubre el eje
+  completo de NB2 Lenguaje sin dejar ningún OA fuera (a diferencia de
+  Nivel 1, este eje no tiene componente de producción escrita).
+- **Matemática** (6 módulos, `content/epja/matematicaNivel2.js`):
+  Múltiplos y Factores (identificar divisores/múltiplos/todos los factores
+  de un número), Fracciones y Decimales (orden, suma, multiplicación,
+  conversión decimal↔fracción), Operatoria y Problemas (prioridad de
+  operaciones, redondeo/estimación, problemas de dinero), Perímetro y Área
+  (polígonos, cuadrados/rectángulos/**triángulos** —ángulo nuevo respecto
+  a Nivel 1—), Volumen de Prismas Rectos (módulo nuevo, no existía en
+  Nivel 1), y Datos y Promedio (gráfico de barras + cálculo de promedio
+  aritmético, ambos explícitos en el temario de NB2). Cubre los 17
+  objetivos de NB2 Matemática.
+- **Ciencias Naturales** (5 módulos, `content/epja/cienciasNivel2.js`,
+  primera aparición de esta asignatura en EPJA): Seres Vivos y Ecosistemas
+  (clasificación unicelular/pluricelular, los 5 reinos, cadenas
+  alimenticias, factores bióticos/abióticos, intervención humana),
+  Nutrición y Sistema Digestivo, Sistema Solar y Universo (movimientos
+  planetarios, galaxias, Big Bang, estrellas), Materiales y Estados de la
+  Materia (propiedades, cambios de estado, curvas de calentamiento), y
+  Mezclas, Agua y Suelo (sustancias puras/mezclas, métodos de separación,
+  dureza del agua, suelos, contaminación). El temario NB2 Ciencias es el
+  más denso del documento combinado; ningún objetivo queda fuera.
+- **Estudios Sociales** (3 módulos, `content/epja/estudiosSocialesNivel2.js`,
+  también primera aparición en EPJA): Colonia e Independencia (pueblos
+  originarios, organización colonial, proceso de independencia), Chile:
+  Siglo XIX y XX (ciclo del salitre, crisis de 1929, voto femenino,
+  Reforma Agraria, Nacionalización del cobre), y Geografía de Chile
+  (posición relativa/absoluta, organización político-administrativa,
+  espacios físico-naturales, riesgos naturales, distribución de la
+  población). **El contenido del quiebre democrático de 1973 y el retorno
+  a la democracia en 1990** (parte del mismo eje temático que agrupa
+  salitre/crisis de 1929/voto femenino en el temario de NB2, dentro del
+  módulo "Chile: Siglo XIX y XX") sigue, deliberadamente, el mismo criterio
+  ya establecido para ese período en `historia.js`
+  (`SIGLOXX_DEMOCRATIZACION_BANK`, 6° básico): solo hechos cronológicos
+  indiscutibles (fechas y sucesos verificables), sin ningún juicio de
+  valor, causa, consecuencia o interpretación multiperspectiva — no se
+  volvió a plantear la pregunta al usuario porque el criterio ya estaba
+  resuelto y documentado para este mismo período histórico.
+- Contextos de vida adulta en las 4 asignaturas, mismo criterio que
+  Nivel 1. Bancos revisados por tamaño ANTES del fuzz-testing (lección ya
+  reforzada varias veces en el proyecto): se detectó y corrigió durante la
+  autoría —no después— que `DATOS_EPJA_N2`/`PROMEDIO_EPJA_N2_BANK`
+  (Matemática) solo tenían 3+4=7 combinaciones posibles para `rounds:8`;
+  ampliados a 6+6=12 antes de dar el módulo por terminado.
+- Verificado: los 18 generadores pasan fuzz de 300 iteraciones cada uno
+  (sin `undefined`, sin opciones duplicadas, `correctValue` siempre
+  presente en las opciones, sin apóstrofes en `speakText`, `recurso`
+  siempre presente) y simulación de 200 sesiones completas cada uno sin
+  ningún repetido. `MC_KEYS.length === Object.keys(MC_GAMES).length === 352`
+  (334 previos + 18 nuevos, sin claves huérfanas). Probado visualmente en
+  el navegador: navegación completa `etapaMap` → `epjaMap` (Nivel 2 Básica
+  ya desbloqueado) → `epjaSubjectMap` (4 asignaturas, con su conteo de
+  estrellas correcto: 0/12, 0/18, 0/15, 0/9) → mapa de módulos de las 4
+  asignaturas (sin solapamiento de nodos en ninguno de los 4 mapas, de 3 a
+  6 nodos cada uno) → una partida jugada en "Seres Vivos y Ecosistemas"
+  (Ciencias, incluyendo el modal de Recurso) y en "Chile: Siglo XIX y XX"
+  (Estudios Sociales, overlay de Carboncito con el `explain` correcto tras
+  una respuesta incorrecta) → el gráfico de barras de "Datos y Promedio"
+  (Matemática) renderizando alturas proporcionales correctamente. Probado
+  también en 375px (mobile): mismo layout de una columna, sin errores de
+  consola en ningún caso.
+
+**Próximo paso del mismo pedido:** Nivel 3 Básica (7°-8°, mismo patrón de
+investigación: verificar si existe un "Temario Nivel 3 de Educación
+Básica" 2025/2026 y bajo qué decreto), y finalmente Educación Media EPJA
+(Niveles 1-2, Formación General + partes de Diferenciada/Instrumental con
+sentido para trivia — quedan fuera las especialidades técnico-
+profesionales y de oficios, producción práctica de un oficio específico).
+Educación Media regular (no EPJA) sigue sin construir — ver sección de
+arriba.
 
 ## Próximos pasos sugeridos (en orden)
 

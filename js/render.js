@@ -30,6 +30,8 @@ export function render(){
   else if(scr === 'epjaSubjectMap') body = renderEpjaSubjectMap();
   else if(scr === 'lenguajeEpjaMap') body = renderLenguajeEpjaMap();
   else if(scr === 'matematicaEpjaMap') body = renderMatematicaEpjaMap();
+  else if(scr === 'cienciasEpjaMap') body = renderCienciasEpjaMap();
+  else if(scr === 'estudiosSocialesEpjaMap') body = renderEstudiosSocialesEpjaMap();
   else if(scr === 'estudioPruebasMap') body = renderEstudioPruebasMap();
   else if(scr === 'quimicaDiagnosticaMap') body = renderQuimicaDiagnosticaMap();
   else if(scr === 'microbiologiaClinicaMap') body = renderMicrobiologiaClinicaMap();
@@ -269,6 +271,12 @@ function renderLenguajeEpjaMap(){
 }
 function renderMatematicaEpjaMap(){
   return renderEpjaSubjectMapFor('matematicaEpjaMap','Matemática','🔢');
+}
+function renderCienciasEpjaMap(){
+  return renderEpjaSubjectMapFor('cienciasEpjaMap','Ciencias Naturales','🔬');
+}
+function renderEstudiosSocialesEpjaMap(){
+  return renderEpjaSubjectMapFor('estudiosSocialesEpjaMap','Estudios Sociales','🌎');
 }
 
 function renderEstudioPruebasMap(){

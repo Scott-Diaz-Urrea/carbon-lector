@@ -15,95 +15,95 @@ import { espejoSVG, igluSVG } from '../svg.js';
    vocal empieza esta palabra"; se cambió a INSECTO (🐜), una palabra con
    vocal I inicial y un emoji que sí representa exactamente lo que dice. */
 export const VOCAL_WORDS = [
-  { emoji:'🕷️', word:'ARAÑA', answer:'A' },
-  { emoji:'✈️', word:'AVIÓN', answer:'A' },
-  { emoji:'🐝', word:'ABEJA', answer:'A' },
-  { emoji:'🌳', word:'ÁRBOL', answer:'A' },
-  { emoji:'💧', word:'AGUA', answer:'A' },
-  { emoji:'🦅', word:'ÁGUILA', answer:'A' },
-  { emoji:'⚓', word:'ANCLA', answer:'A' },
-  { emoji:'🐘', word:'ELEFANTE', answer:'E' },
-  { emoji:'⭐', word:'ESTRELLA', answer:'E' },
-  { emoji:'🏫', word:'ESCUELA', answer:'E' },
-  { emoji: espejoSVG(30), word:'ESPEJO', answer:'E' },
-  { emoji:'🌋', word:'ERUPCIÓN', answer:'E' },
-  { emoji:'🏝️', word:'ISLA', answer:'I' },
-  { emoji: igluSVG(30), word:'IGLÚ', answer:'I' },
-  { emoji:'🐜', word:'INSECTO', answer:'I' },
-  { emoji:'🧲', word:'IMÁN', answer:'I' },
-  { emoji:'🦎', word:'IGUANA', answer:'I' },
-  { emoji:'🐻', word:'OSO', answer:'O' },
-  { emoji:'🐑', word:'OVEJA', answer:'O' },
-  { emoji:'👂', word:'OREJA', answer:'O' },
-  { emoji:'🐻', word:'OSITO', answer:'O' },
-  { emoji:'🌊', word:'OLA', answer:'O' },
-  { emoji:'🍇', word:'UVA', answer:'U' },
-  { emoji:'💅', word:'UÑA', answer:'U' },
-  { emoji:'1️⃣', word:'UNO', answer:'U' },
-  { emoji:'🎽', word:'UNIFORME', answer:'U' },
-  { emoji:'🦄', word:'UNICORNIO', answer:'U' },
+  { emoji:'🕷️', word:'Araña', answer:'A' },
+  { emoji:'✈️', word:'Avión', answer:'A' },
+  { emoji:'🐝', word:'Abeja', answer:'A' },
+  { emoji:'🌳', word:'Árbol', answer:'A' },
+  { emoji:'💧', word:'Agua', answer:'A' },
+  { emoji:'🦅', word:'Águila', answer:'A' },
+  { emoji:'⚓', word:'Ancla', answer:'A' },
+  { emoji:'🐘', word:'Elefante', answer:'E' },
+  { emoji:'⭐', word:'Estrella', answer:'E' },
+  { emoji:'🏫', word:'Escuela', answer:'E' },
+  { emoji: espejoSVG(30), word:'Espejo', answer:'E' },
+  { emoji:'🌋', word:'Erupción', answer:'E' },
+  { emoji:'🏝️', word:'Isla', answer:'I' },
+  { emoji: igluSVG(30), word:'Iglú', answer:'I' },
+  { emoji:'🐜', word:'Insecto', answer:'I' },
+  { emoji:'🧲', word:'Imán', answer:'I' },
+  { emoji:'🦎', word:'Iguana', answer:'I' },
+  { emoji:'🐻', word:'Oso', answer:'O' },
+  { emoji:'🐑', word:'Oveja', answer:'O' },
+  { emoji:'👂', word:'Oreja', answer:'O' },
+  { emoji:'🐻', word:'Osito', answer:'O' },
+  { emoji:'🌊', word:'Ola', answer:'O' },
+  { emoji:'🍇', word:'Uva', answer:'U' },
+  { emoji:'💅', word:'Uña', answer:'U' },
+  { emoji:'1️⃣', word:'Uno', answer:'U' },
+  { emoji:'🎽', word:'Uniforme', answer:'U' },
+  { emoji:'🦄', word:'Unicornio', answer:'U' },
 ];
 
 export const PALABRA_WORDS = [
-  { emoji:'🐱', word:'GATO', opts:['GALLO','GORRO','GLOBO'] },
-  { emoji:'🦆', word:'PATO', opts:['PALO','PISO','PESO'] },
-  { emoji:'☀️', word:'SOL', opts:['SAL','SUR','SON'] },
-  { emoji:'🌙', word:'LUNA', opts:['LATA','LOMA','LIMA'] },
-  { emoji:'🏠', word:'CASA', opts:['COSA','CAJA','CAMA'] },
-  { emoji:'🌸', word:'FLOR', opts:['FRÍO','FRUTA','FOCA'] },
-  { emoji:'🐟', word:'PEZ', opts:['PAZ','PIE','POR'] },
-  { emoji:'🐻', word:'OSO', opts:['OJO','ASA','USO'] },
-  { emoji:'🐄', word:'VACA', opts:['VELA','VIDA','VASO'] },
-  { emoji:'🚂', word:'TREN', opts:['TRES','TRAJE','TRIGO'] },
-  { emoji:'📖', word:'LIBRO', opts:['LOBO','LADO','LUPA'] },
-  { emoji:'⚽', word:'PELOTA', opts:['PALETA','MALETA','CAMISETA'] },
-  { emoji:'🐝', word:'ABEJA', opts:['ABUELA','ARENA','AGUJA'] },
-  { emoji:'☁️', word:'NUBE', opts:['NAVE','NIEVE','NOCHE'] },
-  { emoji:'⭐', word:'ESTRELLA', opts:['ESCUELA','ESCALERA','ESPEJO'] },
-  { emoji:'✋', word:'MANO', opts:['MESA','MONO','MULA'] },
-  { emoji:'🐢', word:'TORTUGA', opts:['TORMENTA','TOSTADA','TORNADO'] },
-  { emoji:'🦋', word:'MARIPOSA', opts:['MARIONETA','MADRINA','MARINERO'] },
-  { emoji:'🌙', word:'NOCHE', opts:['LECHE','COCHE','NIEVE'] },
-  { emoji:'🐕', word:'PERRO', opts:['PERO','PIRO','PARRA'] },
-  { emoji:'🎨', word:'PINTURA', opts:['CINTURA','PINTOR','CULTURA'] },
-  { emoji:'🚲', word:'BICICLETA', opts:['BOCADILLO','BICEPS','BOTELLA'] },
-  { emoji:'🍦', word:'HELADO', opts:['PELADO','SALADO','MOJADO'] },
-  { emoji:'🦷', word:'DIENTE', opts:['DUENDE','DIENTES','DIANTRE'] },
+  { emoji:'🐱', word:'Gato', opts:['Gallo','Gorro','Globo'] },
+  { emoji:'🦆', word:'Pato', opts:['Palo','Piso','Peso'] },
+  { emoji:'☀️', word:'Sol', opts:['Sal','Sur','Son'] },
+  { emoji:'🌙', word:'Luna', opts:['Lata','Loma','Lima'] },
+  { emoji:'🏠', word:'Casa', opts:['Cosa','Caja','Cama'] },
+  { emoji:'🌸', word:'Flor', opts:['Frío','Fruta','Foca'] },
+  { emoji:'🐟', word:'Pez', opts:['Paz','Pie','Por'] },
+  { emoji:'🐻', word:'Oso', opts:['Ojo','Asa','Uso'] },
+  { emoji:'🐄', word:'Vaca', opts:['Vela','Vida','Vaso'] },
+  { emoji:'🚂', word:'Tren', opts:['Tres','Traje','Trigo'] },
+  { emoji:'📖', word:'Libro', opts:['Lobo','Lado','Lupa'] },
+  { emoji:'⚽', word:'Pelota', opts:['Paleta','Maleta','Camiseta'] },
+  { emoji:'🐝', word:'Abeja', opts:['Abuela','Arena','Aguja'] },
+  { emoji:'☁️', word:'Nube', opts:['Nave','Nieve','Noche'] },
+  { emoji:'⭐', word:'Estrella', opts:['Escuela','Escalera','Espejo'] },
+  { emoji:'✋', word:'Mano', opts:['Mesa','Mono','Mula'] },
+  { emoji:'🐢', word:'Tortuga', opts:['Tormenta','Tostada','Tornado'] },
+  { emoji:'🦋', word:'Mariposa', opts:['Marioneta','Madrina','Marinero'] },
+  { emoji:'🌙', word:'Noche', opts:['Leche','Coche','Nieve'] },
+  { emoji:'🐕', word:'Perro', opts:['Pero','Piro','Parra'] },
+  { emoji:'🎨', word:'Pintura', opts:['Cintura','Pintor','Cultura'] },
+  { emoji:'🚲', word:'Bicicleta', opts:['Bocadillo','Biceps','Botella'] },
+  { emoji:'🍦', word:'Helado', opts:['Pelado','Salado','Mojado'] },
+  { emoji:'🦷', word:'Diente', opts:['Duende','Dientes','Diantre'] },
 ];
 
 export const COMPRENSION_BANK = [
-  { text:'EL GATO DUERME EN LA CAMA.', question:'¿Dónde duerme el gato?', correct:'🛏️', opts:['🌳','⚽','🚗'] },
-  { text:'LA NIÑA COME UNA MANZANA.', question:'¿Qué come la niña?', correct:'🍎', opts:['🍌','🍇','🍓'] },
-  { text:'EL PERRO CORRE EN EL PARQUE.', question:'¿Dónde corre el perro?', correct:'🌳', opts:['🏠','🛏️','🚗'] },
-  { text:'LA MAMÁ COCINA UNA SOPA.', question:'¿Qué cocina la mamá?', correct:'🍲', opts:['🍕','🎂','🥗'] },
-  { text:'EL NIÑO LEE UN LIBRO.', question:'¿Qué hace el niño?', correct:'📖', opts:['⚽','🎨','🎵'] },
-  { text:'LA ABEJA VUELA HACIA LA FLOR.', question:'¿Hacia dónde vuela la abeja?', correct:'🌸', opts:['🌙','🚗','📖'] },
-  { text:'EL PEZ NADA EN EL AGUA.', question:'¿Dónde nada el pez?', correct:'🌊', opts:['🌳','🏠','☁️'] },
-  { text:'LOS NIÑOS JUEGAN CON LA PELOTA.', question:'¿Con qué juegan los niños?', correct:'⚽', opts:['📖','🍎','🚗'] },
-  { text:'LA LUNA BRILLA DE NOCHE.', question:'¿Cuándo brilla la luna?', correct:'🌙', opts:['☀️','🌧️','⛄'] },
-  { text:'EL PATO NADA EN EL ESTANQUE.', question:'¿Quién nada en el estanque?', correct:'🦆', opts:['🐱','🐄','🐝'] },
-  { text:'LA TORTUGA CAMINA MUY LENTO.', question:'¿Cómo camina la tortuga?', correct:'🐢', opts:['🐆','🐇','🦅'] },
-  { text:'EL SOL CALIENTA LA PLAYA.', question:'¿Qué calienta el sol?', correct:'🏖️', opts:['🏔️','🌧️','🌙'] },
-  { text:'LA MARIPOSA VUELA DE FLOR EN FLOR.', question:'¿Qué hace la mariposa?', correct:'🦋', opts:['🐌','🐛','🐜'] },
-  { text:'EL PANADERO HORNEA EL PAN TEMPRANO.', question:'¿Quién hornea el pan?', correct:'👨‍🍳', opts:['👩‍⚕️','👮','👨‍🌾'] },
-  { text:'LOS PÁJAROS CANTAN EN LA MAÑANA.', question:'¿Cuándo cantan los pájaros?', correct:'🌅', opts:['🌃','🌆','⛈️'] },
-  { text:'LA ABUELA TEJE UNA BUFANDA DE LANA.', question:'¿Qué teje la abuela?', correct:'🧣', opts:['🧦','🧤','👒'] },
+  { text:'El gato duerme en la cama.', question:'¿Dónde duerme el gato?', correct:'🛏️', opts:['🌳','⚽','🚗'] },
+  { text:'La niña come una manzana.', question:'¿Qué come la niña?', correct:'🍎', opts:['🍌','🍇','🍓'] },
+  { text:'El perro corre en el parque.', question:'¿Dónde corre el perro?', correct:'🌳', opts:['🏠','🛏️','🚗'] },
+  { text:'La mamá cocina una sopa.', question:'¿Qué cocina la mamá?', correct:'🍲', opts:['🍕','🎂','🥗'] },
+  { text:'El niño lee un libro.', question:'¿Qué hace el niño?', correct:'📖', opts:['⚽','🎨','🎵'] },
+  { text:'La abeja vuela hacia la flor.', question:'¿Hacia dónde vuela la abeja?', correct:'🌸', opts:['🌙','🚗','📖'] },
+  { text:'El pez nada en el agua.', question:'¿Dónde nada el pez?', correct:'🌊', opts:['🌳','🏠','☁️'] },
+  { text:'Los niños juegan con la pelota.', question:'¿Con qué juegan los niños?', correct:'⚽', opts:['📖','🍎','🚗'] },
+  { text:'La luna brilla de noche.', question:'¿Cuándo brilla la luna?', correct:'🌙', opts:['☀️','🌧️','⛄'] },
+  { text:'El pato nada en el estanque.', question:'¿Quién nada en el estanque?', correct:'🦆', opts:['🐱','🐄','🐝'] },
+  { text:'La tortuga camina muy lento.', question:'¿Cómo camina la tortuga?', correct:'🐢', opts:['🐆','🐇','🦅'] },
+  { text:'El sol calienta la playa.', question:'¿Qué calienta el sol?', correct:'🏖️', opts:['🏔️','🌧️','🌙'] },
+  { text:'La mariposa vuela de flor en flor.', question:'¿Qué hace la mariposa?', correct:'🦋', opts:['🐌','🐛','🐜'] },
+  { text:'El panadero hornea el pan temprano.', question:'¿Quién hornea el pan?', correct:'👨‍🍳', opts:['👩‍⚕️','👮','👨‍🌾'] },
+  { text:'Los pájaros cantan en la mañana.', question:'¿Cuándo cantan los pájaros?', correct:'🌅', opts:['🌃','🌆','⛈️'] },
+  { text:'La abuela teje una bufanda de lana.', question:'¿Qué teje la abuela?', correct:'🧣', opts:['🧦','🧤','👒'] },
 ];
 
-export const ALL_COMBOS = ['QUE','QUI','GE','GI','GUE','GUI','CE','CI','GÜE','GÜI'];
+export const ALL_COMBOS = ['Que','Qui','Ge','Gi','Gue','Gui','Ce','Ci','Güe','Güi'];
 export const COMBO_WORDS = [
-  { emoji:'🧀', before:'', combo:'QUE', after:'SO' },
-  { emoji:'🏪', before:'', combo:'QUI', after:'OSCO' },
-  { emoji:'👥', before:'', combo:'GE', after:'NTE' },
-  { emoji:'🌻', before:'', combo:'GI', after:'RASOL' },
-  { emoji:'🎸', before:'', combo:'GUI', after:'TARRA' },
-  { emoji:'🚿', before:'MAN', combo:'GUE', after:'RA' },
-  { emoji:'☁️', before:'', combo:'CI', after:'ELO' },
-  { emoji:'🍳', before:'CO', combo:'CI', after:'NA' },
-  { emoji:'🐧', before:'PIN', combo:'GÜI', after:'NO' },
-  { emoji:'🧅', before:'', combo:'CE', after:'BOLLA' },
-  { emoji:'🏸', before:'RA', combo:'QUE', after:'TA' },
-  { emoji:'🎩', before:'MA', combo:'GI', after:'A' },
+  { emoji:'🧀', before:'', combo:'Que', after:'So' },
+  { emoji:'🏪', before:'', combo:'Qui', after:'Osco' },
+  { emoji:'👥', before:'', combo:'Ge', after:'Nte' },
+  { emoji:'🌻', before:'', combo:'Gi', after:'Rasol' },
+  { emoji:'🎸', before:'', combo:'Gui', after:'Tarra' },
+  { emoji:'🚿', before:'Man', combo:'Gue', after:'Ra' },
+  { emoji:'☁️', before:'', combo:'Ci', after:'Elo' },
+  { emoji:'🍳', before:'Co', combo:'Ci', after:'Na' },
+  { emoji:'🐧', before:'Pin', combo:'Güi', after:'No' },
+  { emoji:'🧅', before:'', combo:'Ce', after:'Bolla' },
+  { emoji:'🏸', before:'Ra', combo:'Que', after:'Ta' },
+  { emoji:'🎩', before:'Ma', combo:'Gi', after:'A' },
 ];
 
 export const LENGUAJE_MODULES = [
@@ -192,11 +192,11 @@ export function genCombinacionRound(){
    (concordancia de género y número). Comprensión II -> OA03, OA05, OA07
    (estrategias de comprensión, narraciones con inferencia, textos no literarios). */
 const ADJ_FORMS = [
-  { base:'ALTO', M_S:'ALTO', F_S:'ALTA', M_P:'ALTOS', F_P:'ALTAS' },
-  { base:'BONITO', M_S:'BONITO', F_S:'BONITA', M_P:'BONITOS', F_P:'BONITAS' },
-  { base:'PEQUEÑO', M_S:'PEQUEÑO', F_S:'PEQUEÑA', M_P:'PEQUEÑOS', F_P:'PEQUEÑAS' },
-  { base:'CONTENTO', M_S:'CONTENTO', F_S:'CONTENTA', M_P:'CONTENTOS', F_P:'CONTENTAS' },
-  { base:'ORDENADO', M_S:'ORDENADO', F_S:'ORDENADA', M_P:'ORDENADOS', F_P:'ORDENADAS' },
+  { base:'Alto', M_S:'Alto', F_S:'Alta', M_P:'Altos', F_P:'Altas' },
+  { base:'Bonito', M_S:'Bonito', F_S:'Bonita', M_P:'Bonitos', F_P:'Bonitas' },
+  { base:'Pequeño', M_S:'Pequeño', F_S:'Pequeña', M_P:'Pequeños', F_P:'Pequeñas' },
+  { base:'Contento', M_S:'Contento', F_S:'Contenta', M_P:'Contentos', F_P:'Contentas' },
+  { base:'Ordenado', M_S:'Ordenado', F_S:'Ordenada', M_P:'Ordenados', F_P:'Ordenadas' },
 ];
 const SUJETOS_CONCORDANCIA = [
   { texto:'La niña', genero:'F', numero:'S' },
@@ -209,12 +209,12 @@ const SUJETOS_CONCORDANCIA = [
   { texto:'Las mesas', genero:'F', numero:'P' },
 ];
 const ORACIONES_GRAMATICA = [
-  { texto:'El gato negro corre', sustantivo:'GATO', adjetivo:'NEGRO', otras:['EL','CORRE'] },
-  { texto:'La casa grande brilla', sustantivo:'CASA', adjetivo:'GRANDE', otras:['LA','BRILLA'] },
-  { texto:'Un perro pequeño ladra', sustantivo:'PERRO', adjetivo:'PEQUEÑO', otras:['UN','LADRA'] },
-  { texto:'Las flores bonitas crecen', sustantivo:'FLORES', adjetivo:'BONITAS', otras:['LAS','CRECEN'] },
-  { texto:'El pájaro azul canta', sustantivo:'PÁJARO', adjetivo:'AZUL', otras:['EL','CANTA'] },
-  { texto:'La niña feliz salta', sustantivo:'NIÑA', adjetivo:'FELIZ', otras:['LA','SALTA'] },
+  { texto:'El gato negro corre', sustantivo:'Gato', adjetivo:'Negro', otras:['El','Corre'] },
+  { texto:'La casa grande brilla', sustantivo:'Casa', adjetivo:'Grande', otras:['La','Brilla'] },
+  { texto:'Un perro pequeño ladra', sustantivo:'Perro', adjetivo:'Pequeño', otras:['Un','Ladra'] },
+  { texto:'Las flores bonitas crecen', sustantivo:'Flores', adjetivo:'Bonitas', otras:['Las','Crecen'] },
+  { texto:'El pájaro azul canta', sustantivo:'Pájaro', adjetivo:'Azul', otras:['El','Canta'] },
+  { texto:'La niña feliz salta', sustantivo:'Niña', adjetivo:'Feliz', otras:['La','Salta'] },
 ];
 
 export function genGramatica2Round(){
@@ -237,7 +237,7 @@ export function genGramatica2Round(){
   const askSustantivo = Math.random()<0.5;
   const correct = askSustantivo ? item.sustantivo : item.adjetivo;
   const otherTarget = askSustantivo ? item.adjetivo : item.sustantivo;
-  const opts = shuffle([correct, otherTarget].concat(item.otras).map(function(w){ return w.toUpperCase(); })).map(function(w){ return {label:w, value:w}; });
+  const opts = shuffle([correct, otherTarget].concat(item.otras)).map(function(w){ return {label:w, value:w}; });
   return {
     promptHTML: '<p class="prompt-sentence">"'+item.texto+'"</p><p class="prompt-hint">¿Cuál palabra es el '+(askSustantivo ? 'sustantivo (nombra a alguien o algo)' : 'adjetivo (dice cómo es)')+'?</p>',
     options: opts, correctValue: correct, speakText: item.texto, cols:4, kind:'word',
@@ -294,18 +294,18 @@ export const LENGUAJE_MODULES_G3 = [
 export const LENGUAJE_POS_G3 = [{x:22,y:92},{x:68,y:78},{x:24,y:62},{x:70,y:46},{x:24,y:28},{x:70,y:10}];
 
 const GENEROS_BANK = [
-  { desc:'Un texto breve con ritmo y a veces con rima, que expresa sentimientos.', label:'POEMA' },
-  { desc:'Texto que usa versos, y a veces rima, para expresar una emoción.', label:'POEMA' },
-  { desc:'Una historia corta e inventada, con personajes que enfrentan un problema y lo resuelven.', label:'CUENTO' },
-  { desc:'Una historia breve con animales que hablan y actúan como personas, y que termina con una enseñanza.', label:'FÁBULA' },
-  { desc:'Un cuento donde los animales hablan para enseñarnos una moraleja.', label:'FÁBULA' },
-  { desc:'Una historia tradicional que se cuenta de generación en generación, mezclando hechos reales con elementos fantásticos.', label:'LEYENDA' },
-  { desc:'Una historia antigua que explica el origen del mundo o de la naturaleza, protagonizada por dioses o héroes.', label:'MITO' },
-  { desc:'Una historia larga, dividida en capítulos, con varios personajes y una trama que se desarrolla poco a poco.', label:'NOVELA' },
-  { desc:'Una historia contada con dibujos en secuencia y globos de diálogo.', label:'HISTORIETA' },
-  { desc:'Relato que se lee como una serie de viñetas con imágenes y texto.', label:'HISTORIETA' },
+  { desc:'Un texto breve con ritmo y a veces con rima, que expresa sentimientos.', label:'Poema' },
+  { desc:'Texto que usa versos, y a veces rima, para expresar una emoción.', label:'Poema' },
+  { desc:'Una historia corta e inventada, con personajes que enfrentan un problema y lo resuelven.', label:'Cuento' },
+  { desc:'Una historia breve con animales que hablan y actúan como personas, y que termina con una enseñanza.', label:'Fábula' },
+  { desc:'Un cuento donde los animales hablan para enseñarnos una moraleja.', label:'Fábula' },
+  { desc:'Una historia tradicional que se cuenta de generación en generación, mezclando hechos reales con elementos fantásticos.', label:'Leyenda' },
+  { desc:'Una historia antigua que explica el origen del mundo o de la naturaleza, protagonizada por dioses o héroes.', label:'Mito' },
+  { desc:'Una historia larga, dividida en capítulos, con varios personajes y una trama que se desarrolla poco a poco.', label:'Novela' },
+  { desc:'Una historia contada con dibujos en secuencia y globos de diálogo.', label:'Historieta' },
+  { desc:'Relato que se lee como una serie de viñetas con imágenes y texto.', label:'Historieta' },
 ];
-const GENEROS_POOL = ['POEMA','CUENTO','FÁBULA','LEYENDA','MITO','NOVELA','HISTORIETA'];
+const GENEROS_POOL = ['Poema','Cuento','Fábula','Leyenda','Mito','Novela','Historieta'];
 
 const COMPRENSION3_BANK = [
   { text:'Sofía leyó las instrucciones del juego dos veces antes de empezar a jugar.', question:'¿Por qué Sofía leyó las instrucciones dos veces?', correct:'Para entender bien cómo se juega antes de empezar', opts:['Porque no sabía leer','Porque el juego no traía instrucciones','Porque quería aburrirse'], reason:'Leer con atención antes de actuar es una forma de asegurarse de entender bien algo.' },
@@ -321,39 +321,39 @@ const COMPRENSION3_BANK = [
 ];
 
 const VOCABULARIO3_BANK = [
-  { texto:'Después de subir la montaña, el grupo llegó ', palabra:'EXHAUSTO', resto:' al campamento.', significado:'Muy cansado', opts:['Muy alegre','Con mucho frío','Muy asustado'] },
-  { texto:'El mago hizo un truco tan ', palabra:'ASOMBROSO', resto:' que todos aplaudieron sorprendidos.', significado:'Que sorprende mucho', opts:['Aburrido','Muy simple','Peligroso'] },
-  { texto:'La biblioteca estaba en ', palabra:'PENUMBRA', resto:' porque se había cortado la luz.', significado:'Poca luz, casi oscuro', opts:['Mucha luz','Lleno de gente','Muy ordenado'] },
-  { texto:'El cachorro era tan ', palabra:'DIMINUTO', resto:' que cabía en la palma de la mano.', significado:'Muy pequeño', opts:['Muy grande','Muy ruidoso','Muy rápido'] },
-  { texto:'El científico observó el experimento con gran ', palabra:'CAUTELA', resto:' para no equivocarse.', significado:'Cuidado y precaución', opts:['Rapidez sin pensar','Aburrimiento','Enojo'] },
-  { texto:'La noticia del premio lo dejó ', palabra:'ATÓNITO', resto:', sin poder decir ni una palabra.', significado:'Muy sorprendido', opts:['Muy enojado','Con sueño','Aburrido'] },
-  { texto:'El camino hacia el pueblo era largo y ', palabra:'SINUOSO', resto:', lleno de curvas.', significado:'Con muchas curvas', opts:['Muy recto','Muy corto','Muy ancho'] },
-  { texto:'Después de la tormenta, el cielo quedó ', palabra:'DESPEJADO', resto:' y soleado.', significado:'Sin nubes', opts:['Muy nublado','Lleno de lluvia','Con mucho viento'] },
-  { texto:'El abuelo contaba historias con una voz ', palabra:'PAUSADA', resto:' y tranquila.', significado:'Lenta y calmada', opts:['Muy rápida','Muy fuerte y gritona','Muy aguda'] },
-  { texto:'La receta pedía una ', palabra:'PIZCA', resto:' de sal, apenas un poquito.', significado:'Una cantidad muy pequeña', opts:['Una cantidad enorme','La mitad del total','Ninguna cantidad'] },
+  { texto:'Después de subir la montaña, el grupo llegó ', palabra:'Exhausto', resto:' al campamento.', significado:'Muy cansado', opts:['Muy alegre','Con mucho frío','Muy asustado'] },
+  { texto:'El mago hizo un truco tan ', palabra:'Asombroso', resto:' que todos aplaudieron sorprendidos.', significado:'Que sorprende mucho', opts:['Aburrido','Muy simple','Peligroso'] },
+  { texto:'La biblioteca estaba en ', palabra:'Penumbra', resto:' porque se había cortado la luz.', significado:'Poca luz, casi oscuro', opts:['Mucha luz','Lleno de gente','Muy ordenado'] },
+  { texto:'El cachorro era tan ', palabra:'Diminuto', resto:' que cabía en la palma de la mano.', significado:'Muy pequeño', opts:['Muy grande','Muy ruidoso','Muy rápido'] },
+  { texto:'El científico observó el experimento con gran ', palabra:'Cautela', resto:' para no equivocarse.', significado:'Cuidado y precaución', opts:['Rapidez sin pensar','Aburrimiento','Enojo'] },
+  { texto:'La noticia del premio lo dejó ', palabra:'Atónito', resto:', sin poder decir ni una palabra.', significado:'Muy sorprendido', opts:['Muy enojado','Con sueño','Aburrido'] },
+  { texto:'El camino hacia el pueblo era largo y ', palabra:'Sinuoso', resto:', lleno de curvas.', significado:'Con muchas curvas', opts:['Muy recto','Muy corto','Muy ancho'] },
+  { texto:'Después de la tormenta, el cielo quedó ', palabra:'Despejado', resto:' y soleado.', significado:'Sin nubes', opts:['Muy nublado','Lleno de lluvia','Con mucho viento'] },
+  { texto:'El abuelo contaba historias con una voz ', palabra:'Pausada', resto:' y tranquila.', significado:'Lenta y calmada', opts:['Muy rápida','Muy fuerte y gritona','Muy aguda'] },
+  { texto:'La receta pedía una ', palabra:'Pizca', resto:' de sal, apenas un poquito.', significado:'Una cantidad muy pequeña', opts:['Una cantidad enorme','La mitad del total','Ninguna cantidad'] },
 ];
 
-const ALFABETICO_POOL = ['ARDILLA','BALLENA','CABALLO','DELFÍN','ELEFANTE','FOCA','GATO','HORMIGA','IGUANA','JIRAFA','KOALA','LEÓN','MARIPOSA','NUTRIA','OSO','PATO'];
+const ALFABETICO_POOL = ['Ardilla','Ballena','Caballo','Delfín','Elefante','Foca','Gato','Hormiga','Iguana','Jirafa','Koala','León','Mariposa','Nutria','Oso','Pato'];
 
 const ORACIONES_GRAMATICA_G3 = [
-  { texto:'El gato negro corre', articulo:'EL', sustantivo:'GATO', adjetivo:'NEGRO', otras:['CORRE'] },
-  { texto:'La casa grande brilla', articulo:'LA', sustantivo:'CASA', adjetivo:'GRANDE', otras:['BRILLA'] },
-  { texto:'Un perro pequeño ladra', articulo:'UN', sustantivo:'PERRO', adjetivo:'PEQUEÑO', otras:['LADRA'] },
-  { texto:'Las flores bonitas crecen', articulo:'LAS', sustantivo:'FLORES', adjetivo:'BONITAS', otras:['CRECEN'] },
-  { texto:'El pájaro azul canta', articulo:'EL', sustantivo:'PÁJARO', adjetivo:'AZUL', otras:['CANTA'] },
-  { texto:'Una niña feliz salta', articulo:'UNA', sustantivo:'NIÑA', adjetivo:'FELIZ', otras:['SALTA'] },
+  { texto:'El gato negro corre', articulo:'El', sustantivo:'Gato', adjetivo:'Negro', otras:['Corre'] },
+  { texto:'La casa grande brilla', articulo:'La', sustantivo:'Casa', adjetivo:'Grande', otras:['Brilla'] },
+  { texto:'Un perro pequeño ladra', articulo:'Un', sustantivo:'Perro', adjetivo:'Pequeño', otras:['Ladra'] },
+  { texto:'Las flores bonitas crecen', articulo:'Las', sustantivo:'Flores', adjetivo:'Bonitas', otras:['Crecen'] },
+  { texto:'El pájaro azul canta', articulo:'El', sustantivo:'Pájaro', adjetivo:'Azul', otras:['Canta'] },
+  { texto:'Una niña feliz salta', articulo:'Una', sustantivo:'Niña', adjetivo:'Feliz', otras:['Salta'] },
 ];
 const PRONOMBRES_BANK = [
-  { texto:'Los niños jugaban en el patio. ___ se divertían mucho.', correcto:'ELLOS' },
-  { texto:'Mi hermana estudia mucho. ___ quiere ser doctora.', correcto:'ELLA' },
-  { texto:'El profesor explicó la tarea. ___ fue muy claro.', correcto:'ÉL' },
-  { texto:'Las flores del jardín son hermosas. ___ tienen muchos colores.', correcto:'ELLAS' },
-  { texto:'Tomás y yo iremos al cine. ___ compraremos palomitas.', correcto:'NOSOTROS' },
-  { texto:'Mi abuela cocina muy rico. ___ hace pasteles los domingos.', correcto:'ELLA' },
-  { texto:'Los pájaros cantan en la mañana. ___ despiertan a todos.', correcto:'ELLOS' },
-  { texto:'Mi papá arregla el auto. ___ sabe mucho de mecánica.', correcto:'ÉL' },
+  { texto:'Los niños jugaban en el patio. ___ se divertían mucho.', correcto:'Ellos' },
+  { texto:'Mi hermana estudia mucho. ___ quiere ser doctora.', correcto:'Ella' },
+  { texto:'El profesor explicó la tarea. ___ fue muy claro.', correcto:'Él' },
+  { texto:'Las flores del jardín son hermosas. ___ tienen muchos colores.', correcto:'Ellas' },
+  { texto:'Tomás y yo iremos al cine. ___ compraremos palomitas.', correcto:'Nosotros' },
+  { texto:'Mi abuela cocina muy rico. ___ hace pasteles los domingos.', correcto:'Ella' },
+  { texto:'Los pájaros cantan en la mañana. ___ despiertan a todos.', correcto:'Ellos' },
+  { texto:'Mi papá arregla el auto. ___ sabe mucho de mecánica.', correcto:'Él' },
 ];
-const PRONOMBRES_POOL = ['ÉL','ELLA','ELLOS','ELLAS','NOSOTROS'];
+const PRONOMBRES_POOL = ['Él','Ella','Ellos','Ellas','Nosotros'];
 
 /* "Hoy es Lunes"→"lunes" enseña una regla real y no intuitiva: en español los
    días de la semana NO llevan mayúscula (a diferencia del inglés). */
@@ -372,7 +372,7 @@ const ORTOGRAFIA_BANK = [
 
 /* Artículo correcto por género gramatical, para no dejar el literal "un(a)"
    sin resolver en el explain (bug encontrado en la auditoría 2026-07-22). */
-const GENERO_ARTICULO = { POEMA:'un', CUENTO:'un', FÁBULA:'una', LEYENDA:'una', MITO:'un', NOVELA:'una', HISTORIETA:'una' };
+const GENERO_ARTICULO = { Poema:'un', Cuento:'un', Fábula:'una', Leyenda:'una', Mito:'un', Novela:'una', Historieta:'una' };
 export function genGenerosLiterarios3Round(){
   const recurso = 'Los géneros literarios son categorías que agrupan los textos según sus características comunes: un <b>cuento</b> es una historia corta con pocos personajes, una <b>fábula</b> usa animales que hablan para enseñar una moraleja, una <b>leyenda</b> mezcla hechos reales con elementos fantásticos para explicar el origen de algo, un <b>mito</b> explica fenómenos naturales o el origen del mundo con dioses o seres sobrenaturales, y un <b>poema</b> usa el ritmo y la rima para expresar emociones. Reconocer estas diferencias te ayuda a saber qué esperar de un texto antes de leerlo completo, y a entender mejor la intención de quien lo escribió.';
   const item = pick(GENEROS_BANK);
@@ -417,7 +417,7 @@ export function genAlfabetico3Round(){
   const correct = askFirst ? sorted[0] : sorted[sorted.length-1];
   const opts = shuffle(words).map(function(w){ return {label:w, value:w}; });
   return {
-    promptHTML: '<p class="prompt-count" style="font-size:22px;">'+words.join(' — ')+'</p><p class="prompt-hint">¿Cuál de estas palabras aparece '+(askFirst?'PRIMERO':'AL FINAL')+' en el orden alfabético?</p>',
+    promptHTML: '<p class="prompt-count" style="font-size:22px;">'+words.join(' — ')+'</p><p class="prompt-hint">¿Cuál de estas palabras aparece '+(askFirst?'primero':'al final')+' en el orden alfabético?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuál palabra va '+(askFirst?'primero':'al final')+' en orden alfabético?', cols:4, kind:'word',
     explain: 'En orden alfabético: '+sorted.join(' → ')+'. La respuesta '+(askFirst?'que va primero':'que va al final')+' es <b>'+correct+'</b>.',
     recurso: recurso,
@@ -432,7 +432,7 @@ export function genGramatica3Round(){
     const kind = roll<0.34 ? 'sustantivo' : (roll<0.67 ? 'adjetivo' : 'articulo');
     const correct = item[kind];
     const otherTargets = ['sustantivo','adjetivo','articulo'].filter(function(k){ return k!==kind; }).map(function(k){ return item[k]; });
-    const opts = shuffle(otherTargets.concat(item.otras).concat([correct]).map(function(w){ return w.toUpperCase(); })).map(function(w){ return {label:w, value:w}; });
+    const opts = shuffle(otherTargets.concat(item.otras).concat([correct])).map(function(w){ return {label:w, value:w}; });
     const kindLabel = kind==='sustantivo' ? 'sustantivo (nombra a alguien o algo)' : kind==='adjetivo' ? 'adjetivo (dice cómo es)' : 'artículo (el/la/un/una/los/las)';
     return {
       promptHTML: '<p class="prompt-sentence">"'+item.texto+'"</p><p class="prompt-hint">¿Cuál palabra es el '+kindLabel+'?</p>',
@@ -496,9 +496,9 @@ const COMPRENSION4_BANK = [
   { text:'El explorador avanzaba con pasos de gigante por la selva, decidido a llegar antes del anochecer.', question:"¿Qué significa que avanzaba 'con pasos de gigante'?", correct:'Que caminaba muy rápido, con pasos largos y decididos', opts:['Que era literalmente un gigante','Que caminaba muy despacio','Que se perdió en la selva'], reason:'Es una comparación (lenguaje figurado) para expresar rapidez y decisión.' },
   { text:'Rodrigo practicó su triple salto todos los días durante un mes antes de la competencia regional.', question:'¿Qué podemos inferir sobre Rodrigo?', correct:'Que se preparó con dedicación y disciplina para competir', opts:['Que no le interesaba ganar','Que improvisó el día de la competencia','Que se aburrió de entrenar'], reason:'Practicar todos los días durante un mes muestra dedicación y disciplina.' },
   { text:'Para armar un velero de papel: dobla la hoja por la mitad, forma un triángulo en cada extremo, y despliega las alas del barco.', question:'¿Qué haces primero para armar el velero?', correct:'Doblar la hoja por la mitad', opts:['Desplegar las alas del barco','Formar los triángulos','Recortar la hoja en cuadrados'], reason:'El texto indica el primer paso: "dobla la hoja por la mitad".' },
-  { text:'Un cuento corto donde un zorro astuto engaña a un cuervo para que suelte su queso, y termina con una moraleja sobre la vanidad.', question:'¿Qué género literario es este texto?', correct:'FÁBULA', opts:['NOVELA','HISTORIETA','MITO'], reason:'Es una fábula: animales que actúan como personas y una moraleja al final.' },
-  { text:'Una historia extensa dividida en 20 capítulos, que sigue las aventuras de varios personajes a lo largo de varios años.', question:'¿Qué género literario es este texto?', correct:'NOVELA', opts:['POEMA','FÁBULA','HISTORIETA'], reason:'Una historia larga dividida en capítulos es una novela.' },
-  { text:'Una historia antigua que explica por qué el sol cruza el cielo cada día, protagonizada por un dios que conduce un carro de fuego.', question:'¿Qué género literario es este texto?', correct:'MITO', opts:['HISTORIETA','NOVELA','FÁBULA'], reason:'Un relato antiguo con dioses que explica un fenómeno natural es un mito.' },
+  { text:'Un cuento corto donde un zorro astuto engaña a un cuervo para que suelte su queso, y termina con una moraleja sobre la vanidad.', question:'¿Qué género literario es este texto?', correct:'Fábula', opts:['Novela','Historieta','Mito'], reason:'Es una fábula: animales que actúan como personas y una moraleja al final.' },
+  { text:'Una historia extensa dividida en 20 capítulos, que sigue las aventuras de varios personajes a lo largo de varios años.', question:'¿Qué género literario es este texto?', correct:'Novela', opts:['Poema','Fábula','Historieta'], reason:'Una historia larga dividida en capítulos es una novela.' },
+  { text:'Una historia antigua que explica por qué el sol cruza el cielo cada día, protagonizada por un dios que conduce un carro de fuego.', question:'¿Qué género literario es este texto?', correct:'Mito', opts:['Historieta','Novela','Fábula'], reason:'Un relato antiguo con dioses que explica un fenómeno natural es un mito.' },
   { text:'Camila guardaba sus ahorros en una alcancía en forma de cerdo, contando las monedas cada domingo antes de dormir.', question:'¿Qué podemos inferir sobre Camila?', correct:'Que es cuidadosa y constante con sus ahorros', opts:['Que gasta todo su dinero de inmediato','Que no le interesa el dinero','Que perdió su alcancía'], reason:'Contar sus ahorros cada semana muestra que es constante y cuidadosa con el dinero.' },
 ];
 
@@ -506,36 +506,36 @@ const COMPRENSION4_BANK = [
    agrega el ángulo de prefijos/sufijos que menciona explícitamente OA10:
    cómo un prefijo cambia el significado de una palabra base. */
 const VOCABULARIO4_CONTEXTO_BANK = [
-  { texto:'El científico hizo un ', palabra:'MINUCIOSO', resto:' análisis de cada muestra, revisando cada detalle.', significado:'Muy detallado y cuidadoso', opts:['Muy rápido y descuidado','Aburrido','Peligroso'] },
-  { texto:'La actriz recibió una ', palabra:'OVACIÓN', resto:' del público al terminar la obra.', significado:'Un aplauso largo y entusiasta', opts:['Una crítica negativa','Un silencio incómodo','Una pregunta'] },
-  { texto:'El terreno era tan ', palabra:'ÁRIDO', resto:' que casi ninguna planta lograba crecer ahí.', significado:'Muy seco, con poca agua', opts:['Muy húmedo y fértil','Cubierto de nieve','Lleno de árboles'] },
-  { texto:'Su respuesta fue tan ', palabra:'AMBIGUA', resto:' que nadie entendió si estaba de acuerdo o no.', significado:'Que se puede entender de más de una forma', opts:['Muy clara y directa','Muy grosera','Muy larga'] },
-  { texto:'El abuelo era conocido por su ', palabra:'GENEROSIDAD', resto:', siempre dispuesto a ayudar sin esperar nada a cambio.', significado:'La cualidad de dar y compartir con otros', opts:['La cualidad de guardar todo para sí mismo','El miedo a las alturas','La costumbre de dormir temprano'] },
+  { texto:'El científico hizo un ', palabra:'Minucioso', resto:' análisis de cada muestra, revisando cada detalle.', significado:'Muy detallado y cuidadoso', opts:['Muy rápido y descuidado','Aburrido','Peligroso'] },
+  { texto:'La actriz recibió una ', palabra:'Ovación', resto:' del público al terminar la obra.', significado:'Un aplauso largo y entusiasta', opts:['Una crítica negativa','Un silencio incómodo','Una pregunta'] },
+  { texto:'El terreno era tan ', palabra:'Árido', resto:' que casi ninguna planta lograba crecer ahí.', significado:'Muy seco, con poca agua', opts:['Muy húmedo y fértil','Cubierto de nieve','Lleno de árboles'] },
+  { texto:'Su respuesta fue tan ', palabra:'Ambigua', resto:' que nadie entendió si estaba de acuerdo o no.', significado:'Que se puede entender de más de una forma', opts:['Muy clara y directa','Muy grosera','Muy larga'] },
+  { texto:'El abuelo era conocido por su ', palabra:'Generosidad', resto:', siempre dispuesto a ayudar sin esperar nada a cambio.', significado:'La cualidad de dar y compartir con otros', opts:['La cualidad de guardar todo para sí mismo','El miedo a las alturas','La costumbre de dormir temprano'] },
 ];
 const PREFIJOS_BANK = [
-  { prefijo:'DES-', ejemplo:'DESHACER', significadoPrefijo:'Indica que se deshace o revierte la acción', base:'HACER' },
-  { prefijo:'RE-', ejemplo:'REHACER', significadoPrefijo:'Indica que la acción se repite', base:'HACER' },
-  { prefijo:'IN-', ejemplo:'INCAPAZ', significadoPrefijo:'Indica negación: que no tiene esa cualidad', base:'CAPAZ' },
-  { prefijo:'PRE-', ejemplo:'PRECALENTAR', significadoPrefijo:'Indica que la acción ocurre antes', base:'CALENTAR' },
-  { prefijo:'SUB-', ejemplo:'SUBMARINO', significadoPrefijo:'Indica que algo está debajo de', base:'MARINO' },
+  { prefijo:'Des-', ejemplo:'Deshacer', significadoPrefijo:'Indica que se deshace o revierte la acción', base:'Hacer' },
+  { prefijo:'Re-', ejemplo:'Rehacer', significadoPrefijo:'Indica que la acción se repite', base:'Hacer' },
+  { prefijo:'In-', ejemplo:'Incapaz', significadoPrefijo:'Indica negación: que no tiene esa cualidad', base:'Capaz' },
+  { prefijo:'Pre-', ejemplo:'Precalentar', significadoPrefijo:'Indica que la acción ocurre antes', base:'Calentar' },
+  { prefijo:'Sub-', ejemplo:'Submarino', significadoPrefijo:'Indica que algo está debajo de', base:'Marino' },
 ];
 
 const ADVERBIOS_BANK = [
-  { texto:'Caminaba LENTAMENTE por el parque.', palabra:'LENTAMENTE', tipo:'ADVERBIO DE MODO' },
-  { texto:'Llegaremos MAÑANA a la ciudad.', palabra:'MAÑANA', tipo:'ADVERBIO DE TIEMPO' },
-  { texto:'El gato duerme AQUÍ todas las tardes.', palabra:'AQUÍ', tipo:'ADVERBIO DE LUGAR' },
-  { texto:'Comió MUCHO en el almuerzo.', palabra:'MUCHO', tipo:'ADVERBIO DE CANTIDAD' },
-  { texto:'Ella canta MARAVILLOSAMENTE en el coro.', palabra:'MARAVILLOSAMENTE', tipo:'ADVERBIO DE MODO' },
-  { texto:'Nos vemos AYER en la tarde.', palabra:'AYER', tipo:'ADVERBIO DE TIEMPO' },
-  { texto:'El perro corre ALLÍ, cerca del árbol.', palabra:'ALLÍ', tipo:'ADVERBIO DE LUGAR' },
-  { texto:'Estudió POCO para la prueba de mañana.', palabra:'POCO', tipo:'ADVERBIO DE CANTIDAD' },
+  { texto:'Caminaba LENTAMENTE por el parque.', palabra:'Lentamente', tipo:'Adverbio de modo' },
+  { texto:'Llegaremos MAÑANA a la ciudad.', palabra:'Mañana', tipo:'Adverbio de tiempo' },
+  { texto:'El gato duerme AQUÍ todas las tardes.', palabra:'Aquí', tipo:'Adverbio de lugar' },
+  { texto:'Comió MUCHO en el almuerzo.', palabra:'Mucho', tipo:'Adverbio de cantidad' },
+  { texto:'Ella canta MARAVILLOSAMENTE en el coro.', palabra:'Maravillosamente', tipo:'Adverbio de modo' },
+  { texto:'Nos vemos AYER en la tarde.', palabra:'Ayer', tipo:'Adverbio de tiempo' },
+  { texto:'El perro corre ALLÍ, cerca del árbol.', palabra:'Allí', tipo:'Adverbio de lugar' },
+  { texto:'Estudió POCO para la prueba de mañana.', palabra:'Poco', tipo:'Adverbio de cantidad' },
 ];
 const VERBOS_CONCORDANCIA_BANK = [
-  { texto:'Los niños ___ en el patio.', correcto:'JUEGAN', malas:['JUEGA','JUEGO','JUGAMOS'] },
-  { texto:'Mi hermana ___ todos los días al colegio.', correcto:'CAMINA', malas:['CAMINAN','CAMINO','CAMINAMOS'] },
-  { texto:'Nosotros ___ un libro nuevo cada mes.', correcto:'LEEMOS', malas:['LEE','LEEN','LEO'] },
-  { texto:'Yo ___ mi pieza todos los sábados.', correcto:'ORDENO', malas:['ORDENA','ORDENAN','ORDENAMOS'] },
-  { texto:'Las plantas ___ agua para crecer.', correcto:'NECESITAN', malas:['NECESITA','NECESITO','NECESITAMOS'] },
+  { texto:'Los niños ___ en el patio.', correcto:'Juegan', malas:['Juega','Juego','Jugamos'] },
+  { texto:'Mi hermana ___ todos los días al colegio.', correcto:'Camina', malas:['Caminan','Camino','Caminamos'] },
+  { texto:'Nosotros ___ un libro nuevo cada mes.', correcto:'Leemos', malas:['Lee','Leen','Leo'] },
+  { texto:'Yo ___ mi pieza todos los sábados.', correcto:'Ordeno', malas:['Ordena','Ordenan','Ordenamos'] },
+  { texto:'Las plantas ___ agua para crecer.', correcto:'Necesitan', malas:['Necesita','Necesito','Necesitamos'] },
 ];
 
 /* Ortografía de 4° básico cubre reglas distintas a las de 3° básico
@@ -592,7 +592,7 @@ export function genGramatica4Round(){
   const recurso = 'Un <b>adverbio</b> es una palabra que modifica a un verbo, dando más información sobre CÓMO (modo: lentamente), CUÁNDO (tiempo: mañana), DÓNDE (lugar: aquí) o CUÁNTO (cantidad: mucho) ocurre la acción — a diferencia de un adjetivo, que describe a un sustantivo, el adverbio siempre acompaña a un verbo. Por otro lado, la <b>concordancia sujeto-verbo</b> es la regla que exige que el verbo cambie su forma según quién realiza la acción: "yo camino", "tú caminas", "nosotros caminamos" — el mismo verbo "caminar" toma una terminación distinta según el sujeto, y una oración donde no concuerdan ("Los niños juega") suena incorrecta al oído porque rompe esta regla.';
   if(Math.random()<0.5){
     const item = pick(ADVERBIOS_BANK);
-    const distract = shuffle(['ADVERBIO DE MODO','ADVERBIO DE TIEMPO','ADVERBIO DE LUGAR','ADVERBIO DE CANTIDAD'].filter(function(t){ return t!==item.tipo; }));
+    const distract = shuffle(['Adverbio de modo','Adverbio de tiempo','Adverbio de lugar','Adverbio de cantidad'].filter(function(t){ return t!==item.tipo; }));
     const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.texto.replace(item.palabra,'<b>'+item.palabra+'</b>')+'</p><p class="prompt-hint">¿Qué tipo de adverbio es la palabra en negrita?</p>',
@@ -676,12 +676,12 @@ const COMPRENSION5_NOLITERARIO_BANK = [
   { text:'El aviso del municipio informa que la piscina pública abrirá de martes a domingo, de 10:00 a 18:00 horas, y permanecerá cerrada los lunes por mantención.', question:'¿Qué día permanece cerrada la piscina?', correct:'Los lunes', opts:['Los domingos','Los martes','Todos los días'], reason:'El texto lo indica explícitamente: "permanecerá cerrada los lunes por mantención".' },
 ];
 const EVALUAR_INFO_BANK = [
-  { escenario:'Un sitio web asegura "esta crema hace crecer el pelo en 3 días" pero no menciona ningún estudio, doctor ni fuente que lo respalde.', pregunta:'¿Esta afirmación tiene suficiente respaldo para creerla?', correcta:'NO, PORQUE NO ENTREGA NINGUNA FUENTE QUE LA RESPALDE', opts:['SÍ, PORQUE LO DICE UN SITIO WEB','SÍ, PORQUE SUENA CONVINCENTE','NO IMPORTA SI TIENE FUENTES O NO'] },
-  { escenario:'Un artículo de una revista científica explica un descubrimiento citando el estudio, la universidad donde se hizo y el nombre de los investigadores.', pregunta:'¿Este artículo entrega información confiable?', correcta:'SÍ, PORQUE CITA FUENTES VERIFICABLES', opts:['NO, PORQUE ES DEMASIADO LARGO','NO, PORQUE HABLA DE CIENCIA','SÍ, PERO SOLO SI ES GRATIS'] },
-  { escenario:'Un anuncio dice: "todos los niños que compran nuestro cereal se convierten en los mejores deportistas del colegio".', pregunta:'¿Cuál es el propósito principal de este texto?', correcta:'CONVENCER A LOS NIÑOS DE COMPRAR EL CEREAL', opts:['INFORMAR SOBRE NUTRICIÓN DE FORMA OBJETIVA','ENSEÑAR REGLAS DE UN DEPORTE','DAR INSTRUCCIONES DE COCINA'] },
-  { escenario:'Una noticia sobre el clima cita datos de la Dirección Meteorológica de Chile y explica cómo se hizo la medición.', pregunta:'¿Cuál es el propósito principal de este texto?', correcta:'INFORMAR CON DATOS VERIFICABLES', opts:['CONVENCER DE COMPRAR UN PARAGUAS','CONTAR UN CUENTO DE FANTASÍA','EXPRESAR UNA OPINIÓN SIN DATOS'] },
-  { escenario:'Un mensaje de cadena en redes sociales dice "comparte esto o te pasará algo malo" sin dar ninguna explicación real.', pregunta:'¿Qué deberías hacer frente a este mensaje?', correcta:'NO CREERLO NI COMPARTIRLO, PORQUE NO TIENE NINGÚN RESPALDO', opts:['COMPARTIRLO INMEDIATAMENTE POR SI ACASO','CREERLO PORQUE LO ENVIÓ UN AMIGO','IGNORAR SI TIENE RESPALDO O NO'] },
-  { escenario:'Un folleto de una farmacia explica los efectos de un medicamento citando al Instituto de Salud Pública y sugiere consultar a un médico.', pregunta:'¿Este folleto entrega información confiable?', correcta:'SÍ, PORQUE CITA UNA FUENTE OFICIAL Y RECOMIENDA UN EXPERTO', opts:['NO, PORQUE ES UN FOLLETO IMPRESO','NO, PORQUE MENCIONA UN MEDICAMENTO','SÍ, PERO SOLO SI TIENE COLORES LLAMATIVOS'] },
+  { escenario:'Un sitio web asegura "esta crema hace crecer el pelo en 3 días" pero no menciona ningún estudio, doctor ni fuente que lo respalde.', pregunta:'¿Esta afirmación tiene suficiente respaldo para creerla?', correcta:'No, porque no entrega ninguna fuente que la respalde', opts:['Sí, porque lo dice un sitio web','Sí, porque suena convincente','No importa si tiene fuentes o no'] },
+  { escenario:'Un artículo de una revista científica explica un descubrimiento citando el estudio, la universidad donde se hizo y el nombre de los investigadores.', pregunta:'¿Este artículo entrega información confiable?', correcta:'Sí, porque cita fuentes verificables', opts:['No, porque es demasiado largo','No, porque habla de ciencia','Sí, pero solo si es gratis'] },
+  { escenario:'Un anuncio dice: "todos los niños que compran nuestro cereal se convierten en los mejores deportistas del colegio".', pregunta:'¿Cuál es el propósito principal de este texto?', correcta:'Convencer a los niños de comprar el cereal', opts:['Informar sobre nutrición de forma objetiva','Enseñar reglas de un deporte','Dar instrucciones de cocina'] },
+  { escenario:'Una noticia sobre el clima cita datos de la Dirección Meteorológica de Chile y explica cómo se hizo la medición.', pregunta:'¿Cuál es el propósito principal de este texto?', correcta:'Informar con datos verificables', opts:['Convencer de comprar un paraguas','Contar un cuento de fantasía','Expresar una opinión sin datos'] },
+  { escenario:'Un mensaje de cadena en redes sociales dice "comparte esto o te pasará algo malo" sin dar ninguna explicación real.', pregunta:'¿Qué deberías hacer frente a este mensaje?', correcta:'No creerlo ni compartirlo, porque no tiene ningún respaldo', opts:['Compartirlo inmediatamente por si acaso','Creerlo porque lo envió un amigo','Ignorar si tiene respaldo o no'] },
+  { escenario:'Un folleto de una farmacia explica los efectos de un medicamento citando al Instituto de Salud Pública y sugiere consultar a un médico.', pregunta:'¿Este folleto entrega información confiable?', correcta:'Sí, porque cita una fuente oficial y recomienda un experto', opts:['No, porque es un folleto impreso','No, porque menciona un medicamento','Sí, pero solo si tiene colores llamativos'] },
 ];
 const IDEA_PRINCIPAL_BANK = [
   { parrafo:'El reciclaje ayuda a cuidar el planeta porque reduce la basura que llega a los vertederos, ahorra energía al reutilizar materiales, y disminuye la necesidad de extraer nuevos recursos naturales.', correcta:'El reciclaje beneficia al planeta de varias formas', opts:['El reciclaje solo sirve para el papel','Los vertederos son buenos para el planeta','Nunca se deben extraer recursos naturales'] },
@@ -718,7 +718,7 @@ export function genComprension5Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.escenario+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.escenario, cols:2, panel:true,
-      explain: 'La respuesta correcta es: <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+      explain: 'La respuesta correcta es: <b>'+item.correcta+'</b>.', recurso: recurso,
     };
   }
   const item = pick(IDEA_PRINCIPAL_BANK);
@@ -726,26 +726,26 @@ export function genComprension5Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.parrafo+'</p><p class="prompt-hint">¿Cuál oración resume mejor la idea principal del párrafo?</p>',
     options: opts, correctValue: item.correcta, speakText: item.parrafo, cols:2, panel:true,
-    explain: 'La idea principal es: <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'La idea principal es: <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
 const RECURSOS_POETICOS_BANK = [
-  { verso:'El viento susurraba secretos entre las hojas del bosque.', recurso:'PERSONIFICACIÓN', explicacion:'Le da al viento una acción humana ("susurrar secretos") que en realidad no puede hacer.' },
-  { verso:'La luna sonreía traviesa sobre el tejado de la casa.', recurso:'PERSONIFICACIÓN', explicacion:'Le da a la luna una expresión humana ("sonreía traviesa") que en realidad no tiene.' },
-  { verso:'Sus ojos brillaban como dos estrellas en la noche.', recurso:'COMPARACIÓN', explicacion:'Usa la palabra "como" para comparar los ojos con las estrellas.' },
-  { verso:'Su voz era tan suave como una caricia.', recurso:'COMPARACIÓN', explicacion:'Usa la palabra "como" para comparar la voz con una caricia.' },
-  { verso:'El río corría cantando alegre entre las piedras.', recurso:'PERSONIFICACIÓN', explicacion:'Le da al río la capacidad humana de "cantar", que en realidad no tiene.' },
-  { verso:'Sus manos eran frías como el hielo del invierno.', recurso:'COMPARACIÓN', explicacion:'Usa la palabra "como" para comparar sus manos con el hielo.' },
-  { verso:'El fuego devoraba con furia cada rincón del bosque.', recurso:'PERSONIFICACIÓN', explicacion:'Le da al fuego una acción y emoción humana ("devorar con furia").' },
-  { verso:'El aroma del pan recién horneado inundaba toda la casa.', recurso:'APELA AL OLFATO', explicacion:'Describe un olor (el aroma del pan) para que el lector casi pueda sentirlo.' },
-  { verso:'El sonido de las campanas retumbaba dulce en el silencio de la plaza.', recurso:'APELA AL OÍDO', explicacion:'Describe un sonido (las campanas) para que el lector casi pueda escucharlo.' },
-  { verso:'El sabor agridulce de la fruta madura llenó su boca.', recurso:'APELA AL GUSTO', explicacion:'Describe un sabor (agridulce) para que el lector casi pueda saborearlo.' },
+  { verso:'El viento susurraba secretos entre las hojas del bosque.', recurso:'Personificación', explicacion:'Le da al viento una acción humana ("susurrar secretos") que en realidad no puede hacer.' },
+  { verso:'La luna sonreía traviesa sobre el tejado de la casa.', recurso:'Personificación', explicacion:'Le da a la luna una expresión humana ("sonreía traviesa") que en realidad no tiene.' },
+  { verso:'Sus ojos brillaban como dos estrellas en la noche.', recurso:'Comparación', explicacion:'Usa la palabra "como" para comparar los ojos con las estrellas.' },
+  { verso:'Su voz era tan suave como una caricia.', recurso:'Comparación', explicacion:'Usa la palabra "como" para comparar la voz con una caricia.' },
+  { verso:'El río corría cantando alegre entre las piedras.', recurso:'Personificación', explicacion:'Le da al río la capacidad humana de "cantar", que en realidad no tiene.' },
+  { verso:'Sus manos eran frías como el hielo del invierno.', recurso:'Comparación', explicacion:'Usa la palabra "como" para comparar sus manos con el hielo.' },
+  { verso:'El fuego devoraba con furia cada rincón del bosque.', recurso:'Personificación', explicacion:'Le da al fuego una acción y emoción humana ("devorar con furia").' },
+  { verso:'El aroma del pan recién horneado inundaba toda la casa.', recurso:'Apela al olfato', explicacion:'Describe un olor (el aroma del pan) para que el lector casi pueda sentirlo.' },
+  { verso:'El sonido de las campanas retumbaba dulce en el silencio de la plaza.', recurso:'Apela al oído', explicacion:'Describe un sonido (las campanas) para que el lector casi pueda escucharlo.' },
+  { verso:'El sabor agridulce de la fruta madura llenó su boca.', recurso:'Apela al gusto', explicacion:'Describe un sabor (agridulce) para que el lector casi pueda saborearlo.' },
 ];
 export function genRecursosPoeticos5Round(){
   const recurso = 'Los poemas usan <b>recursos del lenguaje poético</b> para crear imágenes más vivas que una descripción normal. La <b>personificación</b> le da a algo que no es humano (el viento, la luna, el río) una acción o emoción propia de las personas. La <b>comparación</b> une dos ideas usando "como" para resaltar una semejanza ("brillaban como estrellas"). Y "apelar a los sentidos" significa describir algo de forma tan vívida (un olor, un sonido, un sabor) que el lector casi puede sentirlo mientras lee, aunque no esté presente en la escena.';
   const item = pick(RECURSOS_POETICOS_BANK);
-  const todos = ['PERSONIFICACIÓN','COMPARACIÓN','APELA AL OLFATO','APELA AL OÍDO','APELA AL GUSTO'];
+  const todos = ['Personificación','Comparación','Apela al olfato','Apela al oído','Apela al gusto'];
   const distract = shuffle(todos.filter(function(r){ return r!==item.recurso; })).slice(0,3);
   const opts = shuffle([item.recurso].concat(distract)).map(function(r){ return {label:r, value:r}; });
   return {
@@ -756,19 +756,19 @@ export function genRecursosPoeticos5Round(){
 }
 
 const RAICES_AFIJOS_BANK = [
-  { palabra:'BIÓLOGO', raiz:'BIO', significadoRaiz:'Vida', significadoPalabra:'Persona que estudia los seres vivos' },
-  { palabra:'TELÉFONO', raiz:'TELE', significadoRaiz:'A distancia', significadoPalabra:'Aparato para hablar a distancia' },
-  { palabra:'ACUARIO', raiz:'ACUA', significadoRaiz:'Agua', significadoPalabra:'Lugar donde se guardan animales acuáticos' },
-  { palabra:'AUTOBIOGRAFÍA', raiz:'AUTO', significadoRaiz:'Uno mismo', significadoPalabra:'Historia de la vida de una persona escrita por ella misma' },
-  { palabra:'GEOGRAFÍA', raiz:'GEO', significadoRaiz:'Tierra', significadoPalabra:'Ciencia que estudia la superficie de la Tierra' },
-  { palabra:'FOTOGRAFÍA', raiz:'FOTO', significadoRaiz:'Luz', significadoPalabra:'Imagen capturada usando la luz' },
+  { palabra:'Biólogo', raiz:'Bio', significadoRaiz:'Vida', significadoPalabra:'Persona que estudia los seres vivos' },
+  { palabra:'Teléfono', raiz:'Tele', significadoRaiz:'A distancia', significadoPalabra:'Aparato para hablar a distancia' },
+  { palabra:'Acuario', raiz:'Acua', significadoRaiz:'Agua', significadoPalabra:'Lugar donde se guardan animales acuáticos' },
+  { palabra:'Autobiografía', raiz:'Auto', significadoRaiz:'Uno mismo', significadoPalabra:'Historia de la vida de una persona escrita por ella misma' },
+  { palabra:'Geografía', raiz:'Geo', significadoRaiz:'Tierra', significadoPalabra:'Ciencia que estudia la superficie de la Tierra' },
+  { palabra:'Fotografía', raiz:'Foto', significadoRaiz:'Luz', significadoPalabra:'Imagen capturada usando la luz' },
 ];
 const MATICES_SINONIMOS_BANK = [
-  { oracion:'Después del maratón, el corredor estaba ___.', mejor:'EXHAUSTO', peor:'UN POCO CANSADO', explicacion:'"Exhausto" transmite un cansancio extremo, mucho más intenso que "un poco cansado" — mejor para describir a alguien que acaba de correr un maratón.' },
-  { oracion:'La sopa que preparó la abuela estaba ___.', mejor:'DELICIOSA', peor:'ALGO COMESTIBLE', explicacion:'"Deliciosa" transmite un sabor muy agradable, mientras que "algo comestible" apenas dice que se puede comer — mucho menos elogioso.' },
-  { oracion:'El examen fue tan difícil que Marco quedó ___.', mejor:'DESCONCERTADO', peor:'UN POCO CONFUNDIDO', explicacion:'"Desconcertado" transmite una confusión mucho más fuerte que "un poco confundido" — mejor para un examen muy difícil.' },
-  { oracion:'La noticia de que ganó el premio lo dejó ___.', mejor:'EUFÓRICO', peor:'MEDIANAMENTE CONTENTO', explicacion:'"Eufórico" transmite una alegría intensa, mucho mayor que "medianamente contento" — mejor para una noticia tan buena.' },
-  { oracion:'El silencio en la biblioteca era ___.', mejor:'ABSOLUTO', peor:'BASTANTE NOTORIO', explicacion:'"Absoluto" transmite que no había ningún ruido en lo absoluto, más preciso que "bastante notorio" para describir el silencio de una biblioteca.' },
+  { oracion:'Después del maratón, el corredor estaba ___.', mejor:'Exhausto', peor:'Un poco cansado', explicacion:'"Exhausto" transmite un cansancio extremo, mucho más intenso que "un poco cansado" — mejor para describir a alguien que acaba de correr un maratón.' },
+  { oracion:'La sopa que preparó la abuela estaba ___.', mejor:'Deliciosa', peor:'Algo comestible', explicacion:'"Deliciosa" transmite un sabor muy agradable, mientras que "algo comestible" apenas dice que se puede comer — mucho menos elogioso.' },
+  { oracion:'El examen fue tan difícil que Marco quedó ___.', mejor:'Desconcertado', peor:'Un poco confundido', explicacion:'"Desconcertado" transmite una confusión mucho más fuerte que "un poco confundido" — mejor para un examen muy difícil.' },
+  { oracion:'La noticia de que ganó el premio lo dejó ___.', mejor:'Eufórico', peor:'Medianamente contento', explicacion:'"Eufórico" transmite una alegría intensa, mucho mayor que "medianamente contento" — mejor para una noticia tan buena.' },
+  { oracion:'El silencio en la biblioteca era ___.', mejor:'Absoluto', peor:'Bastante notorio', explicacion:'"Absoluto" transmite que no había ningún ruido en lo absoluto, más preciso que "bastante notorio" para describir el silencio de una biblioteca.' },
 ];
 export function genVocabulario5Round(){
   const recurso = 'Muchas palabras se forman a partir de una <b>raíz</b> (una parte fija con un significado propio) que viene del griego o del latín — por ejemplo "bio" significa vida y aparece en biólogo, biografía, biología. Reconocer raíces ayuda a deducir el significado de palabras nuevas sin necesidad de buscarlas en el diccionario. Además, entre dos sinónimos casi siempre hay un <b>matiz</b> de intensidad: "exhausto" transmite mucho más cansancio que "un poco cansado" — elegir la palabra con la intensidad correcta hace que un texto comunique mejor lo que realmente se quiere decir.';
@@ -792,14 +792,14 @@ export function genVocabulario5Round(){
 }
 
 const CONJUGACION_BANK = [
-  { texto:'Ayer, yo ___ (CAMINAR) hasta la escuela.', correcto:'CAMINÉ', malas:['CAMINO','CAMINABA','CAMINARÁ'] },
-  { texto:'Mañana, ella ___ (ESTUDIAR) para la prueba.', correcto:'ESTUDIARÁ', malas:['ESTUDIÓ','ESTUDIA','ESTUDIABA'] },
-  { texto:'Todos los días, nosotros ___ (COMER) fruta en el recreo.', correcto:'COMEMOS', malas:['COMIMOS','COMERÁ','COMÍA'] },
-  { texto:'El año pasado, tú ___ (VIAJAR) a la playa con tu familia.', correcto:'VIAJASTE', malas:['VIAJAS','VIAJARÁS','VIAJANDO'] },
-  { texto:'Cuando era pequeño, yo ___ (JUGAR) todas las tardes en el parque.', correcto:'JUGABA', malas:['JUGARÉ','JUEGO','JUGUÉ'] },
-  { texto:'La próxima semana, ellos ___ (VISITAR) el museo.', correcto:'VISITARÁN', malas:['VISITARON','VISITAN','VISITABAN'] },
-  { texto:'Ahora mismo, el perro ___ (CORRER) por el jardín.', correcto:'CORRE', malas:['CORRIÓ','CORRERÁ','CORRÍA'] },
-  { texto:'Anoche, ustedes ___ (LEER) un cuento antes de dormir.', correcto:'LEYERON', malas:['LEEN','LEERÁN','LEÍAN'] },
+  { texto:'Ayer, yo ___ (CAMINAR) hasta la escuela.', correcto:'Caminé', malas:['Camino','Caminaba','Caminará'] },
+  { texto:'Mañana, ella ___ (ESTUDIAR) para la prueba.', correcto:'Estudiará', malas:['Estudió','Estudia','Estudiaba'] },
+  { texto:'Todos los días, nosotros ___ (COMER) fruta en el recreo.', correcto:'Comemos', malas:['Comimos','Comerá','Comía'] },
+  { texto:'El año pasado, tú ___ (VIAJAR) a la playa con tu familia.', correcto:'Viajaste', malas:['Viajas','Viajarás','Viajando'] },
+  { texto:'Cuando era pequeño, yo ___ (JUGAR) todas las tardes en el parque.', correcto:'Jugaba', malas:['Jugaré','Juego','Jugué'] },
+  { texto:'La próxima semana, ellos ___ (VISITAR) el museo.', correcto:'Visitarán', malas:['Visitaron','Visitan','Visitaban'] },
+  { texto:'Ahora mismo, el perro ___ (CORRER) por el jardín.', correcto:'Corre', malas:['Corrió','Correrá','Corría'] },
+  { texto:'Anoche, ustedes ___ (LEER) un cuento antes de dormir.', correcto:'Leyeron', malas:['Leen','Leerán','Leían'] },
 ];
 export function genGramatica5Round(){
   const recurso = 'La <b>conjugación de un verbo</b> cambia según cuándo ocurre la acción (presente, pasado o futuro) y quién la realiza (yo, tú, él/ella, nosotros, ellos). Las pistas como "ayer", "todos los días" o "mañana" indican en qué tiempo hay que conjugar el verbo: "ayer" pide pasado, "todos los días" pide presente, y "mañana" pide futuro. Elegir la conjugación correcta es clave para que una oración tenga sentido y sea gramaticalmente correcta.';
@@ -889,12 +889,12 @@ const COMPRENSION6_NOLITERARIO_BANK = [
   { text:'El itinerario del viaje escolar indica: 8:00 salida en bus, 10:30 llegada al museo, 12:30 almuerzo, 14:00 visita guiada al parque, 17:00 regreso al colegio.', question:'¿Qué actividad ocurre justo después del almuerzo?', correct:'La visita guiada al parque', opts:['La salida en bus','La llegada al museo','El regreso al colegio'], reason:'Según el itinerario, después del almuerzo (12:30) sigue la visita guiada al parque (14:00).' },
 ];
 const MENSAJES_PUBLICITARIOS_BANK = [
-  { aviso:'Un aviso muestra a niños sonriendo mientras comen un cereal muy azucarado, con el texto "¡El desayuno favorito de los campeones!".', pregunta:'¿Cuál es la intención principal de este aviso?', correcta:'CONVENCER A LOS NIÑOS DE COMPRAR ESE CEREAL', opts:['INFORMAR DE FORMA OBJETIVA SOBRE NUTRICIÓN','ENSEÑAR UNA RECETA DE COCINA','ADVERTIR SOBRE LOS RIESGOS DEL AZÚCAR'] },
-  { aviso:'Un comercial de zapatillas deportivas muestra a un jugador profesional anotando un punto decisivo, sugiriendo que esas zapatillas ayudan a ganar.', pregunta:'¿A qué público está dirigido principalmente este aviso?', correcta:'A PERSONAS INTERESADAS EN EL DEPORTE Y QUE ADMIRAN A ESE JUGADOR', opts:['A PERSONAS QUE NUNCA HACEN DEPORTE','A BEBÉS RECIÉN NACIDOS','A ADULTOS MAYORES QUE NO CAMINAN'] },
-  { aviso:'Un aviso de un jugo en caja dice "100% natural" en letras grandes, pero en la lista de ingredientes (letra pequeña) aparece azúcar añadida.', pregunta:'¿Por qué es importante leer la lista de ingredientes completa y no solo el eslogan?', correcta:'PORQUE EL ESLOGAN PUEDE NO MOSTRAR TODA LA INFORMACIÓN REAL DEL PRODUCTO', opts:['PORQUE LA LETRA PEQUEÑA SIEMPRE ES FALSA','PORQUE NO ES NECESARIO REVISAR NADA MÁS','PORQUE EL ESLOGAN ES SIEMPRE MÁS IMPORTANTE'] },
-  { aviso:'Un aviso de un parque de diversiones muestra a una familia riendo en los juegos, con el texto "¡El lugar más divertido para toda la familia!".', pregunta:'¿Cuál es el emisor más probable de este aviso?', correcta:'LA EMPRESA DUEÑA DEL PARQUE DE DIVERSIONES', opts:['UN CIENTÍFICO INDEPENDIENTE','EL GOBIERNO','UN MEDIO DE NOTICIAS SIN INTERÉS COMERCIAL'] },
-  { aviso:'Un aviso de un videojuego usa colores brillantes, música emocionante y la frase "¡Todos tus amigos ya lo están jugando!" para invitarte a comprarlo.', pregunta:'¿Qué recurso usa este aviso para intentar convencer, además de la imagen y la música?', correcta:'LA PRESIÓN DE GRUPO ("TODOS TUS AMIGOS YA LO ESTÁN JUGANDO")', opts:['UN INFORME CIENTÍFICO SOBRE VIDEOJUEGOS','UNA ENCUESTA OFICIAL DEL GOBIERNO','UN DATO HISTÓRICO VERIFICABLE'] },
-  { aviso:'Un aviso de protector solar muestra a un dermatólogo explicando los beneficios del producto y citando estudios sobre protección UV.', pregunta:'¿Por qué este aviso podría parecer más confiable que uno sin ningún respaldo?', correcta:'PORQUE CITA A UN EXPERTO Y ESTUDIOS VERIFICABLES', opts:['PORQUE USA COLORES MÁS BONITOS','PORQUE ES MÁS LARGO QUE OTROS AVISOS','PORQUE TIENE MÚSICA DE FONDO'] },
+  { aviso:'Un aviso muestra a niños sonriendo mientras comen un cereal muy azucarado, con el texto "¡El desayuno favorito de los campeones!".', pregunta:'¿Cuál es la intención principal de este aviso?', correcta:'Convencer a los niños de comprar ese cereal', opts:['Informar de forma objetiva sobre nutrición','Enseñar una receta de cocina','Advertir sobre los riesgos del azúcar'] },
+  { aviso:'Un comercial de zapatillas deportivas muestra a un jugador profesional anotando un punto decisivo, sugiriendo que esas zapatillas ayudan a ganar.', pregunta:'¿A qué público está dirigido principalmente este aviso?', correcta:'A personas interesadas en el deporte y que admiran a ese jugador', opts:['A personas que nunca hacen deporte','A bebés recién nacidos','A adultos mayores que no caminan'] },
+  { aviso:'Un aviso de un jugo en caja dice "100% natural" en letras grandes, pero en la lista de ingredientes (letra pequeña) aparece azúcar añadida.', pregunta:'¿Por qué es importante leer la lista de ingredientes completa y no solo el eslogan?', correcta:'Porque el eslogan puede no mostrar toda la información real del producto', opts:['Porque la letra pequeña siempre es falsa','Porque no es necesario revisar nada más','Porque el eslogan es siempre más importante'] },
+  { aviso:'Un aviso de un parque de diversiones muestra a una familia riendo en los juegos, con el texto "¡El lugar más divertido para toda la familia!".', pregunta:'¿Cuál es el emisor más probable de este aviso?', correcta:'La empresa dueña del parque de diversiones', opts:['Un científico independiente','El gobierno','Un medio de noticias sin interés comercial'] },
+  { aviso:'Un aviso de un videojuego usa colores brillantes, música emocionante y la frase "¡Todos tus amigos ya lo están jugando!" para invitarte a comprarlo.', pregunta:'¿Qué recurso usa este aviso para intentar convencer, además de la imagen y la música?', correcta:'La presión de grupo ("todos tus amigos ya lo están jugando")', opts:['Un informe científico sobre videojuegos','Una encuesta oficial del gobierno','Un dato histórico verificable'] },
+  { aviso:'Un aviso de protector solar muestra a un dermatólogo explicando los beneficios del producto y citando estudios sobre protección UV.', pregunta:'¿Por qué este aviso podría parecer más confiable que uno sin ningún respaldo?', correcta:'Porque cita a un experto y estudios verificables', opts:['Porque usa colores más bonitos','Porque es más largo que otros avisos','Porque tiene música de fondo'] },
 ];
 const IDEA_PRINCIPAL6_BANK = [
   { parrafo:'Aprender un segundo idioma no solo permite comunicarse con más personas: también mejora la memoria, ayuda a resolver problemas de otras formas, y abre puertas a nuevas culturas.', correcta:'Aprender un segundo idioma trae múltiples beneficios', opts:['Aprender un segundo idioma no sirve para nada','Solo los adultos pueden aprender otro idioma','La memoria empeora al aprender otro idioma'] },
@@ -930,7 +930,7 @@ export function genComprension6Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.aviso+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.aviso, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.', recurso: recurso,
+      explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
     };
   }
   const item = pick(IDEA_PRINCIPAL6_BANK);
@@ -938,26 +938,26 @@ export function genComprension6Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.parrafo+'</p><p class="prompt-hint">¿Cuál oración resume mejor la idea principal del párrafo?</p>',
     options: opts, correctValue: item.correcta, speakText: item.parrafo, cols:2, panel:true,
-    explain: 'La idea principal es: <b>'+item.correcta.toLowerCase()+'</b>.', recurso: recurso,
+    explain: 'La idea principal es: <b>'+item.correcta+'</b>.', recurso: recurso,
   };
 }
 
 const RECURSOS_POETICOS2_BANK = [
-  { verso:'La montaña dormía cubierta de niebla, esperando el amanecer.', recurso:'PERSONIFICACIÓN', explicacion:'Le da a la montaña una acción humana ("dormía", "esperando") que en realidad no puede hacer.' },
-  { verso:'Su sonrisa era como un rayo de sol en un día nublado.', recurso:'COMPARACIÓN', explicacion:'Usa la palabra "como" para comparar la sonrisa con un rayo de sol.' },
-  { verso:'Te lo he repetido un millón de veces y todavía no me escuchas.', recurso:'HIPÉRBOLE', explicacion:'Es una exageración enorme para enfatizar que se ha repetido muchas veces, no literalmente un millón.' },
-  { verso:'Lloré tantas lágrimas que podría haber llenado el océano entero.', recurso:'HIPÉRBOLE', explicacion:'Es una exageración imposible (llenar un océano con lágrimas) para enfatizar la intensidad del llanto.' },
-  { verso:'El reloj de la abuela hacía tic-tac, tic-tac, en el silencio de la noche.', recurso:'ONOMATOPEYA', explicacion:'"Tic-tac" imita el sonido real que hace un reloj — eso es una onomatopeya.' },
-  { verso:'Las abejas hacían bzzz, bzzz alrededor de las flores del jardín.', recurso:'ONOMATOPEYA', explicacion:'"Bzzz" imita el sonido real que hacen las abejas al volar — eso es una onomatopeya.' },
-  { verso:'El viento veloz volaba entre los árboles del valle.', recurso:'ALITERACIÓN', explicacion:'Se repite el sonido de la "v" varias veces seguidas ("veloz", "volaba", "valle") — eso es una aliteración.' },
-  { verso:'Tres tristes tigres tragaban trigo en un trigal.', recurso:'ALITERACIÓN', explicacion:'Se repite el sonido "tr" varias veces seguidas — eso es una aliteración.' },
-  { verso:'El río conversaba en voz baja con las piedras del camino.', recurso:'PERSONIFICACIÓN', explicacion:'Le da al río la capacidad humana de "conversar", que en realidad no tiene.' },
-  { verso:'Sus palabras eran afiladas como cuchillos.', recurso:'COMPARACIÓN', explicacion:'Usa la palabra "como" para comparar las palabras con cuchillos.' },
+  { verso:'La montaña dormía cubierta de niebla, esperando el amanecer.', recurso:'Personificación', explicacion:'Le da a la montaña una acción humana ("dormía", "esperando") que en realidad no puede hacer.' },
+  { verso:'Su sonrisa era como un rayo de sol en un día nublado.', recurso:'Comparación', explicacion:'Usa la palabra "como" para comparar la sonrisa con un rayo de sol.' },
+  { verso:'Te lo he repetido un millón de veces y todavía no me escuchas.', recurso:'Hipérbole', explicacion:'Es una exageración enorme para enfatizar que se ha repetido muchas veces, no literalmente un millón.' },
+  { verso:'Lloré tantas lágrimas que podría haber llenado el océano entero.', recurso:'Hipérbole', explicacion:'Es una exageración imposible (llenar un océano con lágrimas) para enfatizar la intensidad del llanto.' },
+  { verso:'El reloj de la abuela hacía tic-tac, tic-tac, en el silencio de la noche.', recurso:'Onomatopeya', explicacion:'"Tic-tac" imita el sonido real que hace un reloj — eso es una onomatopeya.' },
+  { verso:'Las abejas hacían bzzz, bzzz alrededor de las flores del jardín.', recurso:'Onomatopeya', explicacion:'"Bzzz" imita el sonido real que hacen las abejas al volar — eso es una onomatopeya.' },
+  { verso:'El viento veloz volaba entre los árboles del valle.', recurso:'Aliteración', explicacion:'Se repite el sonido de la "v" varias veces seguidas ("veloz", "volaba", "valle") — eso es una aliteración.' },
+  { verso:'Tres tristes tigres tragaban trigo en un trigal.', recurso:'Aliteración', explicacion:'Se repite el sonido "tr" varias veces seguidas — eso es una aliteración.' },
+  { verso:'El río conversaba en voz baja con las piedras del camino.', recurso:'Personificación', explicacion:'Le da al río la capacidad humana de "conversar", que en realidad no tiene.' },
+  { verso:'Sus palabras eran afiladas como cuchillos.', recurso:'Comparación', explicacion:'Usa la palabra "como" para comparar las palabras con cuchillos.' },
 ];
 export function genRecursosPoeticos6Round(){
   const recurso = 'Los poemas usan recursos del lenguaje para crear efectos e imágenes especiales: la <b>hipérbole</b> exagera algo a propósito para enfatizar ("lloré un océano"); la <b>onomatopeya</b> imita con palabras un sonido real ("tic-tac", "bzzz"); y la <b>aliteración</b> repite un mismo sonido varias veces seguidas para crear un efecto musical ("tres tristes tigres"). Junto a la personificación y la comparación (ya vistas en años anteriores), estos recursos hacen que un texto suene más vívido y expresivo que una descripción simple.';
   const item = pick(RECURSOS_POETICOS2_BANK);
-  const todos = ['PERSONIFICACIÓN','COMPARACIÓN','HIPÉRBOLE','ONOMATOPEYA','ALITERACIÓN'];
+  const todos = ['Personificación','Comparación','Hipérbole','Onomatopeya','Aliteración'];
   const distract = shuffle(todos.filter(function(r){ return r!==item.recurso; })).slice(0,3);
   const opts = shuffle([item.recurso].concat(distract)).map(function(r){ return {label:r, value:r}; });
   return {
@@ -968,25 +968,25 @@ export function genRecursosPoeticos6Round(){
 }
 
 const SUFIJOS_BANK = [
-  { palabra:'VELOCIDAD', sufijo:'-DAD', significadoSufijo:'Indica una cualidad (ser veloz)', base:'VELOZ' },
-  { palabra:'LENTAMENTE', sufijo:'-MENTE', significadoSufijo:'Indica el modo en que se hace algo (de forma lenta)', base:'LENTA' },
-  { palabra:'PANADERO', sufijo:'-ERO', significadoSufijo:'Indica el oficio de alguien (que trabaja con pan)', base:'PAN' },
-  { palabra:'CARIÑOSO', sufijo:'-OSO', significadoSufijo:'Indica que algo tiene esa cualidad en abundancia (lleno de cariño)', base:'CARIÑO' },
-  { palabra:'FELICIDAD', sufijo:'-DAD', significadoSufijo:'Indica una cualidad (ser feliz)', base:'FELIZ' },
-  { palabra:'JARDINERO', sufijo:'-ERO', significadoSufijo:'Indica el oficio de alguien (que trabaja en el jardín)', base:'JARDÍN' },
+  { palabra:'Velocidad', sufijo:'-dad', significadoSufijo:'Indica una cualidad (ser veloz)', base:'Veloz' },
+  { palabra:'Lentamente', sufijo:'-mente', significadoSufijo:'Indica el modo en que se hace algo (de forma lenta)', base:'Lenta' },
+  { palabra:'Panadero', sufijo:'-ero', significadoSufijo:'Indica el oficio de alguien (que trabaja con pan)', base:'Pan' },
+  { palabra:'Cariñoso', sufijo:'-oso', significadoSufijo:'Indica que algo tiene esa cualidad en abundancia (lleno de cariño)', base:'Cariño' },
+  { palabra:'Felicidad', sufijo:'-dad', significadoSufijo:'Indica una cualidad (ser feliz)', base:'Feliz' },
+  { palabra:'Jardinero', sufijo:'-ero', significadoSufijo:'Indica el oficio de alguien (que trabaja en el jardín)', base:'Jardín' },
 ];
 const HIPERONIMOS_GRUPOS = [
-  { hiperonimo:'MUEBLE', hiponimos:['SILLA','MESA','CAMA'] },
-  { hiperonimo:'FLOR', hiponimos:['ROSA','CLAVEL','TULIPÁN'] },
-  { hiperonimo:'VEHÍCULO', hiponimos:['AUTO','BICICLETA','CAMIÓN'] },
-  { hiperonimo:'HERRAMIENTA', hiponimos:['MARTILLO','DESTORNILLADOR','SIERRA'] },
+  { hiperonimo:'Mueble', hiponimos:['Silla','Mesa','Cama'] },
+  { hiperonimo:'Flor', hiponimos:['Rosa','Clavel','Tulipán'] },
+  { hiperonimo:'Vehículo', hiponimos:['Auto','Bicicleta','Camión'] },
+  { hiperonimo:'Herramienta', hiponimos:['Martillo','Destornillador','Sierra'] },
 ];
 const LOCUCIONES_BANK = [
-  { locucion:'DE VEZ EN CUANDO', significado:'A VECES, NO SIEMPRE', opts:['TODOS LOS DÍAS SIN FALTA','NUNCA JAMÁS','SOLO UNA VEZ EN LA VIDA'] },
-  { locucion:'EN UN ABRIR Y CERRAR DE OJOS', significado:'MUY RÁPIDAMENTE', opts:['MUY LENTAMENTE','DESPUÉS DE MUCHOS AÑOS','SIN NINGÚN APURO'] },
-  { locucion:'A MÁS TARDAR', significado:'COMO PLAZO MÁXIMO', opts:['SIN NINGÚN LÍMITE DE TIEMPO','LO MÁS TEMPRANO POSIBLE','NUNCA'] },
-  { locucion:'POCO A POCO', significado:'LENTAMENTE Y CON CALMA', opts:['DE UNA SOLA VEZ Y MUY RÁPIDO','SIN NINGÚN ORDEN','DE FORMA VIOLENTA'] },
-  { locucion:'DE PIES A CABEZA', significado:'COMPLETAMENTE, DE PRINCIPIO A FIN', opts:['SOLO UNA PEQUEÑA PARTE','DE FORMA DESORDENADA','NUNCA POR COMPLETO'] },
+  { locucion:'De vez en cuando', significado:'A veces, no siempre', opts:['Todos los días sin falta','Nunca jamás','Solo una vez en la vida'] },
+  { locucion:'En un abrir y cerrar de ojos', significado:'Muy rápidamente', opts:['Muy lentamente','Después de muchos años','Sin ningún apuro'] },
+  { locucion:'A más tardar', significado:'Como plazo máximo', opts:['Sin ningún límite de tiempo','Lo más temprano posible','Nunca'] },
+  { locucion:'Poco a poco', significado:'Lentamente y con calma', opts:['De una sola vez y muy rápido','Sin ningún orden','De forma violenta'] },
+  { locucion:'De pies a cabeza', significado:'Completamente, de principio a fin', opts:['Solo una pequeña parte','De forma desordenada','Nunca por completo'] },
 ];
 export function genVocabulario6Round(){
   const recurso = 'Un <b>sufijo</b> es una partícula que se agrega al final de una palabra base para cambiar su significado (VELOZ + -DAD = VELOCIDAD, una cualidad). Un <b>hiperónimo</b> es una palabra general que agrupa a otras más específicas (MUEBLE agrupa a SILLA, MESA, CAMA — esas son sus hipónimos). Y una <b>locución</b> es una expresión fija de varias palabras cuyo significado en conjunto no siempre se adivina palabra por palabra (como "de vez en cuando", que significa "a veces"). Reconocer estas piezas del idioma ayuda a entender palabras y expresiones nuevas sin necesidad de memorizarlas una por una.';
@@ -1023,16 +1023,16 @@ export function genVocabulario6Round(){
 }
 
 const PARTICIPIOS_IRREGULARES_BANK = [
-  { texto:'Ya he ___ (ROMPER) el jarrón sin querer.', correcto:'ROTO', malas:['ROMPIDO','ROMPIENDO','ROMPE'] },
-  { texto:'Ella ha ___ (ESCRIBIR) tres cartas esta semana.', correcto:'ESCRITO', malas:['ESCRIBIDO','ESCRIBIENDO','ESCRIBE'] },
-  { texto:'Nunca me había ___ (DECIR) algo tan bonito.', correcto:'DICHO', malas:['DECIDO','DECIENDO','DICE'] },
-  { texto:'¿Ya has ___ (HACER) toda la tarea?', correcto:'HECHO', malas:['HACIDO','HACIENDO','HACE'] },
-  { texto:'Hemos ___ (PONER) la mesa para la cena.', correcto:'PUESTO', malas:['PONIDO','PONIENDO','PONE'] },
-  { texto:'¿Alguna vez has ___ (VER) una ballena de cerca?', correcto:'VISTO', malas:['VEIDO','VIENDO','VE'] },
-  { texto:'El viento ha ___ (ABRIR) la ventana de golpe.', correcto:'ABIERTO', malas:['ABRIDO','ABRIENDO','ABRE'] },
-  { texto:'El científico ha ___ (RESOLVER) el problema matemático.', correcto:'RESUELTO', malas:['RESOLVIDO','RESOLVIENDO','RESUELVE'] },
-  { texto:'La nieve ha ___ (CUBRIR) todo el jardín esta mañana.', correcto:'CUBIERTO', malas:['CUBRIDO','CUBRIENDO','CUBRE'] },
-  { texto:'Mi hermana ya ha ___ (VOLVER) de su viaje.', correcto:'VUELTO', malas:['VOLVIDO','VOLVIENDO','VUELVE'] },
+  { texto:'Ya he ___ (ROMPER) el jarrón sin querer.', correcto:'Roto', malas:['Rompido','Rompiendo','Rompe'] },
+  { texto:'Ella ha ___ (ESCRIBIR) tres cartas esta semana.', correcto:'Escrito', malas:['Escribido','Escribiendo','Escribe'] },
+  { texto:'Nunca me había ___ (DECIR) algo tan bonito.', correcto:'Dicho', malas:['Decido','Deciendo','Dice'] },
+  { texto:'¿Ya has ___ (HACER) toda la tarea?', correcto:'Hecho', malas:['Hacido','Haciendo','Hace'] },
+  { texto:'Hemos ___ (PONER) la mesa para la cena.', correcto:'Puesto', malas:['Ponido','Poniendo','Pone'] },
+  { texto:'¿Alguna vez has ___ (VER) una ballena de cerca?', correcto:'Visto', malas:['Veido','Viendo','Ve'] },
+  { texto:'El viento ha ___ (ABRIR) la ventana de golpe.', correcto:'Abierto', malas:['Abrido','Abriendo','Abre'] },
+  { texto:'El científico ha ___ (RESOLVER) el problema matemático.', correcto:'Resuelto', malas:['Resolvido','Resolviendo','Resuelve'] },
+  { texto:'La nieve ha ___ (CUBRIR) todo el jardín esta mañana.', correcto:'Cubierto', malas:['Cubrido','Cubriendo','Cubre'] },
+  { texto:'Mi hermana ya ha ___ (VOLVER) de su viaje.', correcto:'Vuelto', malas:['Volvido','Volviendo','Vuelve'] },
 ];
 export function genGramatica6Round(){
   const recurso = 'El <b>participio</b> es la forma del verbo que se usa después de "he", "has", "ha"... (como en "he comido"). La mayoría de los participios son regulares y terminan en "-ado" o "-ido" (comido, hablado), pero algunos verbos tienen un <b>participio irregular</b> que no sigue esa regla — como ROTO (de romper), ESCRITO (de escribir) o HECHO (de hacer). Estos participios irregulares no se pueden deducir con una fórmula: hay que aprenderlos de memoria, uno por uno, porque son excepciones fijas del idioma.';
@@ -1105,24 +1105,24 @@ export const LENGUAJE_MODULES_G7 = [
 export const LENGUAJE_POS_G7 = [{x:22,y:90},{x:68,y:70},{x:22,y:50},{x:68,y:30},{x:22,y:10}];
 
 const CONFLICTO_NARRATIVO_BANK = [
-  { text:'Marco y su mejor amigo dejan de hablarse por un malentendido, y pasan el resto del cuento tratando de reconciliarse.', question:'¿Cuál es el conflicto principal de esta historia?', correct:'LA RUPTURA DE UNA AMISTAD POR UN MALENTENDIDO', opts:['UNA COMPETENCIA DEPORTIVA','UN VIAJE A OTRO PAÍS','LA BÚSQUEDA DE UN TESORO'] },
-  { text:'Una joven debe elegir entre quedarse en su pueblo a cuidar a su familia o aceptar una beca en la ciudad para estudiar lo que ama.', question:'¿Cuál es el conflicto principal de esta historia?', correct:'UN DILEMA ENTRE EL DEBER FAMILIAR Y UNA OPORTUNIDAD PERSONAL', opts:['UNA PELEA POR DINERO','UN PROBLEMA CON UN VECINO','LA PÉRDIDA DE UNA MASCOTA'] },
-  { text:'Un explorador debe cruzar un desierto sin agua suficiente para llegar a la única ciudad cercana.', question:'¿Cuál es el conflicto principal de esta historia?', correct:'LA LUCHA POR SOBREVIVIR EN UN AMBIENTE HOSTIL', opts:['UN CONFLICTO ENTRE DOS HERMANOS','UNA COMPETENCIA DE BAILE','UNA CONFUSIÓN DE IDENTIDAD'] },
+  { text:'Marco y su mejor amigo dejan de hablarse por un malentendido, y pasan el resto del cuento tratando de reconciliarse.', question:'¿Cuál es el conflicto principal de esta historia?', correct:'La ruptura de una amistad por un malentendido', opts:['Una competencia deportiva','Un viaje a otro país','La búsqueda de un tesoro'] },
+  { text:'Una joven debe elegir entre quedarse en su pueblo a cuidar a su familia o aceptar una beca en la ciudad para estudiar lo que ama.', question:'¿Cuál es el conflicto principal de esta historia?', correct:'Un dilema entre el deber familiar y una oportunidad personal', opts:['Una pelea por dinero','Un problema con un vecino','La pérdida de una mascota'] },
+  { text:'Un explorador debe cruzar un desierto sin agua suficiente para llegar a la única ciudad cercana.', question:'¿Cuál es el conflicto principal de esta historia?', correct:'La lucha por sobrevivir en un ambiente hostil', opts:['Un conflicto entre dos hermanos','Una competencia de baile','Una confusión de identidad'] },
 ];
 const ROLES_PERSONAJE_BANK = [
-  { pregunta:'¿Cómo se llama el personaje principal de una historia, alrededor de quien gira la trama?', correcta:'PROTAGONISTA', opts:['ANTAGONISTA','NARRADOR','PERSONAJE SECUNDARIO'] },
-  { pregunta:'¿Cómo se llama el personaje que se opone a los objetivos del protagonista?', correcta:'ANTAGONISTA', opts:['PROTAGONISTA','NARRADOR','PERSONAJE SECUNDARIO'] },
-  { pregunta:'¿Cómo se llama un personaje que acompaña la trama pero no es central en el conflicto principal?', correcta:'PERSONAJE SECUNDARIO', opts:['PROTAGONISTA','ANTAGONISTA','NARRADOR'] },
+  { pregunta:'¿Cómo se llama el personaje principal de una historia, alrededor de quien gira la trama?', correcta:'Protagonista', opts:['Antagonista','Narrador','Personaje secundario'] },
+  { pregunta:'¿Cómo se llama el personaje que se opone a los objetivos del protagonista?', correcta:'Antagonista', opts:['Protagonista','Narrador','Personaje secundario'] },
+  { pregunta:'¿Cómo se llama un personaje que acompaña la trama pero no es central en el conflicto principal?', correcta:'Personaje secundario', opts:['Protagonista','Antagonista','Narrador'] },
 ];
 const DISPOSICION_TEMPORAL_BANK = [
-  { desc:'Un cuento comienza mostrando el final de la historia, y luego retrocede en el tiempo para contar cómo los personajes llegaron ahí.', correcta:'RETROSPECCIÓN (FLASHBACK)', opts:['ORDEN CRONOLÓGICO LINEAL','DIÁLOGO DIRECTO','DESCRIPCIÓN DE AMBIENTE'] },
-  { desc:'Un cuento narra los hechos exactamente en el orden en que ocurrieron, del principio al final.', correcta:'ORDEN CRONOLÓGICO LINEAL', opts:['RETROSPECCIÓN (FLASHBACK)','UN DIÁLOGO','UNA DESCRIPCIÓN'] },
-  { desc:'Una novela interrumpe la historia principal para mostrar brevemente un adelanto de algo que ocurrirá más adelante.', correcta:'ANTICIPACIÓN (FLASH-FORWARD)', opts:['ORDEN CRONOLÓGICO LINEAL','RETROSPECCIÓN (FLASHBACK)','UN MONÓLOGO'] },
+  { desc:'Un cuento comienza mostrando el final de la historia, y luego retrocede en el tiempo para contar cómo los personajes llegaron ahí.', correcta:'Retrospección (flashback)', opts:['Orden cronológico lineal','Diálogo directo','Descripción de ambiente'] },
+  { desc:'Un cuento narra los hechos exactamente en el orden en que ocurrieron, del principio al final.', correcta:'Orden cronológico lineal', opts:['Retrospección (flashback)','Un diálogo','Una descripción'] },
+  { desc:'Una novela interrumpe la historia principal para mostrar brevemente un adelanto de algo que ocurrirá más adelante.', correcta:'Anticipación (flash-forward)', opts:['Orden cronológico lineal','Retrospección (flashback)','Un monólogo'] },
 ];
 const COMPRENSION7_NOLITERARIO_BANK = [
   { text:'Un artículo científico explica que el 71% de la superficie de la Tierra está cubierta por océanos, y que estos regulan gran parte del clima del planeta.', question:'¿Qué porcentaje de la superficie terrestre está cubierta por océanos, según el texto?', correct:'71%', opts:['25%','50%','99%'] },
-  { text:'Un manual de primeros auxilios indica: primero evalúa la seguridad del lugar, luego revisa si la persona respira, y recién después llama a emergencias.', question:'¿Qué se debe hacer justo después de evaluar la seguridad del lugar?', correct:'REVISAR SI LA PERSONA RESPIRA', opts:['LLAMAR A EMERGENCIAS DE INMEDIATO','MOVER A LA PERSONA','IGNORAR LA SITUACIÓN'] },
-  { text:'Una noticia informa que la biblioteca municipal amplió su horario de atención tras una encuesta donde el 80% de los vecinos pidió más horas disponibles.', question:'¿Por qué la biblioteca amplió su horario, según el texto?', correct:'PORQUE LA MAYORÍA DE LOS VECINOS ENCUESTADOS LO PIDIÓ', opts:['PORQUE EL GOBIERNO LO ORDENÓ SIN CONSULTAR A NADIE','PORQUE IBA A CERRAR DEFINITIVAMENTE','PORQUE NADIE LA VISITABA'] },
+  { text:'Un manual de primeros auxilios indica: primero evalúa la seguridad del lugar, luego revisa si la persona respira, y recién después llama a emergencias.', question:'¿Qué se debe hacer justo después de evaluar la seguridad del lugar?', correct:'Revisar si la persona respira', opts:['Llamar a emergencias de inmediato','Mover a la persona','Ignorar la situación'] },
+  { text:'Una noticia informa que la biblioteca municipal amplió su horario de atención tras una encuesta donde el 80% de los vecinos pidió más horas disponibles.', question:'¿Por qué la biblioteca amplió su horario, según el texto?', correct:'Porque la mayoría de los vecinos encuestados lo pidió', opts:['Porque el gobierno lo ordenó sin consultar a nadie','Porque iba a cerrar definitivamente','Porque nadie la visitaba'] },
 ];
 export function genComprension7Round(){
   const recurso = 'Comprender bien un texto significa ir más allá de las palabras: hay que <b>inferir</b> lo que no se dice directamente, reconocer el problema central de la historia (el <b>conflicto narrativo</b>), identificar el rol de cada personaje (protagonista, antagonista, secundario) y notar cómo se organiza el tiempo del relato (si sigue el orden cronológico o usa saltos hacia el pasado o el futuro). En los textos no literarios (noticias, artículos, folletos) también hay que evaluar si la información es suficiente y confiable, y quién la está entregando. Practicar estas estrategias ayuda a leer con más profundidad, sea un cuento, una noticia o cualquier texto.';
@@ -1133,7 +1133,7 @@ export function genComprension7Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
       options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
-      explain: 'El conflicto principal es: '+item.correct.toLowerCase()+'.',
+      explain: 'El conflicto principal es: '+item.correct+'.',
       recurso: recurso,
     };
   }
@@ -1143,7 +1143,7 @@ export function genComprension7Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
       recurso: recurso,
     };
   }
@@ -1153,7 +1153,7 @@ export function genComprension7Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'</p><p class="prompt-hint">¿Qué recurso de disposición temporal se usa aquí?</p>',
       options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
-      explain: 'Este recurso se llama <b>'+item.correcta.toLowerCase()+'</b>.',
+      explain: 'Este recurso se llama <b>'+item.correcta+'</b>.',
       recurso: recurso,
     };
   }
@@ -1162,34 +1162,34 @@ export function genComprension7Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correct.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correct+'.',
     recurso: recurso,
   };
 }
 
 const RIMA_BANK = [
-  { verso:'"Verde que te quiero verde. / Verde viento. Verdes ramas."', tipo:'RIMA ASONANTE', explicacion:'Solo coinciden las vocales finales desde la última sílaba acentuada ("verde"/"ramas" comparten el sonido "e-a" de forma parecida, sin que coincidan también las consonantes).' },
-  { verso:'"Volverán las oscuras golondrinas / en tu balcón sus nidos a colgar"', tipo:'RIMA CONSONANTE', explicacion:'Coinciden tanto las vocales como las consonantes desde la última sílaba acentuada.' },
-  { verso:'Una canción donde "corazón" rima con "canción" y "razón" (coinciden todas las letras finales)', tipo:'RIMA CONSONANTE', explicacion:'Cuando coinciden exactamente todos los sonidos finales (vocales y consonantes), es rima consonante.' },
-  { verso:'Un poema donde "cielo" rima con "sueño" (solo coinciden las vocales e-o, no las consonantes)', tipo:'RIMA ASONANTE', explicacion:'Cuando solo coinciden los sonidos vocálicos finales, es rima asonante.' },
-  { verso:'Una canción donde "ventana" rima con "mañana" (coinciden todas las letras desde la sílaba acentuada)', tipo:'RIMA CONSONANTE', explicacion:'Coinciden exactamente todos los sonidos finales, vocales y consonantes, así que es rima consonante.' },
-  { verso:'Un poema donde "camino" rima con "destino" (coinciden todas las letras desde la sílaba acentuada)', tipo:'RIMA CONSONANTE', explicacion:'Cuando coinciden tanto vocales como consonantes desde la sílaba acentuada, es rima consonante.' },
-  { verso:'Un romance donde "prado" rima con "campo" (solo coinciden las vocales a-o, no las consonantes)', tipo:'RIMA ASONANTE', explicacion:'Solo coinciden los sonidos vocálicos finales, sin que coincidan también las consonantes, así que es rima asonante.' },
-  { verso:'Una copla donde "montaña" rima con "extraña" (coinciden todas las letras desde la sílaba acentuada)', tipo:'RIMA CONSONANTE', explicacion:'Coinciden exactamente todos los sonidos, vocales y consonantes, desde la última sílaba acentuada.' },
+  { verso:'"Verde que te quiero verde. / Verde viento. Verdes ramas."', tipo:'Rima asonante', explicacion:'Solo coinciden las vocales finales desde la última sílaba acentuada ("verde"/"ramas" comparten el sonido "e-a" de forma parecida, sin que coincidan también las consonantes).' },
+  { verso:'"Volverán las oscuras golondrinas / en tu balcón sus nidos a colgar"', tipo:'Rima consonante', explicacion:'Coinciden tanto las vocales como las consonantes desde la última sílaba acentuada.' },
+  { verso:'Una canción donde "corazón" rima con "canción" y "razón" (coinciden todas las letras finales)', tipo:'Rima consonante', explicacion:'Cuando coinciden exactamente todos los sonidos finales (vocales y consonantes), es rima consonante.' },
+  { verso:'Un poema donde "cielo" rima con "sueño" (solo coinciden las vocales e-o, no las consonantes)', tipo:'Rima asonante', explicacion:'Cuando solo coinciden los sonidos vocálicos finales, es rima asonante.' },
+  { verso:'Una canción donde "ventana" rima con "mañana" (coinciden todas las letras desde la sílaba acentuada)', tipo:'Rima consonante', explicacion:'Coinciden exactamente todos los sonidos finales, vocales y consonantes, así que es rima consonante.' },
+  { verso:'Un poema donde "camino" rima con "destino" (coinciden todas las letras desde la sílaba acentuada)', tipo:'Rima consonante', explicacion:'Cuando coinciden tanto vocales como consonantes desde la sílaba acentuada, es rima consonante.' },
+  { verso:'Un romance donde "prado" rima con "campo" (solo coinciden las vocales a-o, no las consonantes)', tipo:'Rima asonante', explicacion:'Solo coinciden los sonidos vocálicos finales, sin que coincidan también las consonantes, así que es rima asonante.' },
+  { verso:'Una copla donde "montaña" rima con "extraña" (coinciden todas las letras desde la sílaba acentuada)', tipo:'Rima consonante', explicacion:'Coinciden exactamente todos los sonidos, vocales y consonantes, desde la última sílaba acentuada.' },
 ];
 const ROMANCE_BANK = [
-  { pregunta:'¿Qué es un romance, dentro de la poesía popular?', correcta:'UN POEMA NARRATIVO TRADICIONAL, GENERALMENTE EN VERSOS DE OCHO SÍLABAS CON RIMA ASONANTE EN LOS VERSOS PARES', opts:['UNA CARTA DE AMOR EN PROSA','UN TIPO DE BAILE FOLCLÓRICO','UN INSTRUMENTO MUSICAL DE CUERDAS'] },
-  { pregunta:'¿Qué solían contar tradicionalmente los romances, transmitidos oralmente de generación en generación?', correcta:'HISTORIAS, HAZAÑAS Y SUCESOS QUE INTERESABAN AL PUEBLO', opts:['SOLO RECETAS DE COCINA','SOLO FECHAS DE CALENDARIO','SOLO NOMBRES DE PLANTAS'] },
-  { pregunta:'¿Cuántas sílabas suelen tener los versos de un romance tradicional?', correcta:'OCHO SÍLABAS', opts:['DOS SÍLABAS','VEINTE SÍLABAS','UNA SÍLABA'] },
-  { pregunta:'¿Por qué los romances eran fáciles de recordar y transmitir de generación en generación sin escribirlos?', correcta:'PORQUE SU RITMO Y SU RIMA AYUDABAN A MEMORIZARLOS', opts:['PORQUE ERAN MUY LARGOS Y COMPLICADOS','PORQUE SE ESCRIBÍAN EN VARIOS IDIOMAS A LA VEZ','PORQUE NO TENÍAN NINGÚN RITMO NI RIMA'] },
-  { pregunta:'¿Qué verso de un romance suele llevar la rima asonante, según su estructura tradicional?', correcta:'LOS VERSOS PARES (EL SEGUNDO, EL CUARTO, Y ASÍ SUCESIVAMENTE)', opts:['SOLO EL PRIMER VERSO','NINGÚN VERSO LLEVA RIMA','TODOS LOS VERSOS SIN EXCEPCIÓN'] },
-  { pregunta:'¿Qué tipo de temas solían tratar los romances históricos, además de hazañas del pueblo?', correcta:'SUCESOS HISTÓRICOS, GUERRAS Y PERSONAJES CONOCIDOS POR LA COMUNIDAD', opts:['SOLO TEMAS DE MATEMÁTICA','SOLO INSTRUCCIONES DE COCINA','SOLO EL PRONÓSTICO DEL CLIMA'] },
+  { pregunta:'¿Qué es un romance, dentro de la poesía popular?', correcta:'Un poema narrativo tradicional, generalmente en versos de ocho sílabas con rima asonante en los versos pares', opts:['Una carta de amor en prosa','Un tipo de baile folclórico','Un instrumento musical de cuerdas'] },
+  { pregunta:'¿Qué solían contar tradicionalmente los romances, transmitidos oralmente de generación en generación?', correcta:'Historias, hazañas y sucesos que interesaban al pueblo', opts:['Solo recetas de cocina','Solo fechas de calendario','Solo nombres de plantas'] },
+  { pregunta:'¿Cuántas sílabas suelen tener los versos de un romance tradicional?', correcta:'Ocho sílabas', opts:['Dos sílabas','Veinte sílabas','Una sílaba'] },
+  { pregunta:'¿Por qué los romances eran fáciles de recordar y transmitir de generación en generación sin escribirlos?', correcta:'Porque su ritmo y su rima ayudaban a memorizarlos', opts:['Porque eran muy largos y complicados','Porque se escribían en varios idiomas a la vez','Porque no tenían ningún ritmo ni rima'] },
+  { pregunta:'¿Qué verso de un romance suele llevar la rima asonante, según su estructura tradicional?', correcta:'Los versos pares (el segundo, el cuarto, y así sucesivamente)', opts:['Solo el primer verso','Ningún verso lleva rima','Todos los versos sin excepción'] },
+  { pregunta:'¿Qué tipo de temas solían tratar los romances históricos, además de hazañas del pueblo?', correcta:'Sucesos históricos, guerras y personajes conocidos por la comunidad', opts:['Solo temas de matemática','Solo instrucciones de cocina','Solo el pronóstico del clima'] },
 ];
 export function genRimaMetrica7Round(){
   const recurso = 'La <b>rima consonante</b> ocurre cuando coinciden todos los sonidos (vocales y consonantes) desde la última sílaba acentuada de dos versos; la <b>rima asonante</b> ocurre cuando solo coinciden los sonidos vocálicos, sin que las consonantes sean iguales. El <b>romance</b> es una forma poética tradicional, transmitida oralmente de generación en generación: versos de ocho sílabas que suelen llevar rima asonante en los versos pares, usados para contar historias, hazañas y sucesos que interesaban al pueblo. Su ritmo y su rima repetida ayudaban a memorizarlo sin necesidad de escribirlo.';
   if(Math.random()<0.6){
     const item = pick(RIMA_BANK);
-    const opts = shuffle([{label:'RIMA CONSONANTE', value:'RIMA CONSONANTE'},{label:'RIMA ASONANTE', value:'RIMA ASONANTE'}]);
+    const opts = shuffle([{label:'Rima consonante', value:'Rima consonante'},{label:'Rima asonante', value:'Rima asonante'}]);
     return {
       promptHTML: '<p class="prompt-sentence">'+item.verso+'</p><p class="prompt-hint">¿Qué tipo de rima se usa aquí?</p>',
       options: opts, correctValue: item.tipo, speakText: item.verso, cols:2, panel:true,
@@ -1202,39 +1202,39 @@ export function genRimaMetrica7Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const HECHO_OPINION_BANK = [
-  { frase:'El agua hierve a 100 grados Celsius a nivel del mar.', tipo:'HECHO' },
-  { frase:'Esta es la mejor película que se ha hecho jamás.', tipo:'OPINIÓN' },
-  { frase:'Chile tiene una superficie de aproximadamente 756 mil kilómetros cuadrados.', tipo:'HECHO' },
-  { frase:'La música clásica es más aburrida que la música pop.', tipo:'OPINIÓN' },
-  { frase:'El fútbol es el deporte más entretenido que existe.', tipo:'OPINIÓN' },
-  { frase:'La Tierra completa una vuelta alrededor del Sol en aproximadamente 365 días.', tipo:'HECHO' },
-  { frase:'Ese equipo de fútbol tiene la mejor hinchada del país.', tipo:'OPINIÓN' },
-  { frase:'El libro fue publicado originalmente en 1967.', tipo:'HECHO' },
+  { frase:'El agua hierve a 100 grados Celsius a nivel del mar.', tipo:'Hecho' },
+  { frase:'Esta es la mejor película que se ha hecho jamás.', tipo:'Opinión' },
+  { frase:'Chile tiene una superficie de aproximadamente 756 mil kilómetros cuadrados.', tipo:'Hecho' },
+  { frase:'La música clásica es más aburrida que la música pop.', tipo:'Opinión' },
+  { frase:'El fútbol es el deporte más entretenido que existe.', tipo:'Opinión' },
+  { frase:'La Tierra completa una vuelta alrededor del Sol en aproximadamente 365 días.', tipo:'Hecho' },
+  { frase:'Ese equipo de fútbol tiene la mejor hinchada del país.', tipo:'Opinión' },
+  { frase:'El libro fue publicado originalmente en 1967.', tipo:'Hecho' },
 ];
 const POSTURA_AUTOR_BANK = [
-  { texto:'"Es evidente que los parques urbanos deberían tener más árboles: mejoran la calidad del aire, bajan la temperatura y dan espacio de recreación a la comunidad."', pregunta:'¿Cuál es la postura del autor de este texto?', correcta:'A FAVOR DE AUMENTAR LOS ÁRBOLES EN LOS PARQUES URBANOS', opts:['EN CONTRA DE TENER PARQUES EN LA CIUDAD','NEUTRAL, SIN OPINIÓN AL RESPECTO','A FAVOR DE ELIMINAR TODOS LOS ÁRBOLES'] },
-  { texto:'"Cambiar el horario de inicio de clases a más tarde ayudaría a que los estudiantes duerman más y rindan mejor, según varios estudios."', pregunta:'¿Cuál es la postura del autor de este texto?', correcta:'A FAVOR DE RETRASAR EL HORARIO DE INICIO DE CLASES', opts:['A FAVOR DE ADELANTAR EL HORARIO DE CLASES','EN CONTRA DE QUE LOS ESTUDIANTES DUERMAN MÁS','NEUTRAL, SIN NINGUNA POSTURA'] },
+  { texto:'"Es evidente que los parques urbanos deberían tener más árboles: mejoran la calidad del aire, bajan la temperatura y dan espacio de recreación a la comunidad."', pregunta:'¿Cuál es la postura del autor de este texto?', correcta:'A favor de aumentar los árboles en los parques urbanos', opts:['En contra de tener parques en la ciudad','Neutral, sin opinión al respecto','A favor de eliminar todos los árboles'] },
+  { texto:'"Cambiar el horario de inicio de clases a más tarde ayudaría a que los estudiantes duerman más y rindan mejor, según varios estudios."', pregunta:'¿Cuál es la postura del autor de este texto?', correcta:'A favor de retrasar el horario de inicio de clases', opts:['A favor de adelantar el horario de clases','En contra de que los estudiantes duerman más','Neutral, sin ninguna postura'] },
 ];
 const ESTEREOTIPO_BANK = [
-  { texto:'Un aviso muestra solo a hombres reparando autos y solo a mujeres cocinando en la casa, como si esas fueran las únicas opciones posibles para cada género.', pregunta:'¿Qué recurso está usando este texto?', correcta:'UN ESTEREOTIPO DE GÉNERO', opts:['UN DATO CIENTÍFICO VERIFICABLE','UNA CITA DE UN EXPERTO','UNA ESTADÍSTICA OFICIAL'] },
-  { texto:'Un artículo asegura que "todos los jóvenes de esa ciudad son perezosos", generalizando a partir de la conducta de solo un par de personas.', pregunta:'¿Qué problema tiene esta afirmación?', correcta:'GENERALIZA A UN GRUPO ENTERO A PARTIR DE POCOS CASOS, UN ESTEREOTIPO', opts:['ES UNA CONCLUSIÓN BASADA EN UN ESTUDIO AMPLIO Y RIGUROSO','ES UN HECHO COMPROBADO CIENTÍFICAMENTE','NO TIENE NINGÚN PROBLEMA'] },
+  { texto:'Un aviso muestra solo a hombres reparando autos y solo a mujeres cocinando en la casa, como si esas fueran las únicas opciones posibles para cada género.', pregunta:'¿Qué recurso está usando este texto?', correcta:'Un estereotipo de género', opts:['Un dato científico verificable','Una cita de un experto','Una estadística oficial'] },
+  { texto:'Un artículo asegura que "todos los jóvenes de esa ciudad son perezosos", generalizando a partir de la conducta de solo un par de personas.', pregunta:'¿Qué problema tiene esta afirmación?', correcta:'Generaliza a un grupo entero a partir de pocos casos, un estereotipo', opts:['Es una conclusión basada en un estudio amplio y riguroso','Es un hecho comprobado científicamente','No tiene ningún problema'] },
 ];
 export function genPensamientoCritico7Round(){
   const recurso = 'Un <b>hecho</b> es algo que se puede comprobar (una fecha, una medida, un dato verificable); una <b>opinión</b> es un juicio personal que puede variar de una persona a otra. Al leer un texto argumentativo, conviene identificar la <b>postura del autor</b> (qué defiende o qué propone) y separarla de los datos que usa para sustentarla. También hay que estar atento a los <b>estereotipos</b>: generalizaciones que atribuyen características a todo un grupo de personas a partir de pocos casos o prejuicios, sin base real — reconocerlos es clave para leer noticias, avisos publicitarios y redes sociales de forma crítica.';
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(HECHO_OPINION_BANK);
-    const opts = shuffle([{label:'HECHO', value:'HECHO'},{label:'OPINIÓN', value:'OPINIÓN'}]);
+    const opts = shuffle([{label:'Hecho', value:'Hecho'},{label:'Opinión', value:'Opinión'}]);
     return {
       promptHTML: '<p class="prompt-sentence">"'+item.frase+'"</p><p class="prompt-hint">¿Esto es un hecho (se puede comprobar) o una opinión (un juicio personal)?</p>',
       options: opts, correctValue: item.tipo, speakText: item.frase, cols:2, panel:true,
-      explain: 'Esto es: <b>'+item.tipo.toLowerCase()+'</b>.',
+      explain: 'Esto es: <b>'+item.tipo+'</b>.',
       recurso: recurso,
     };
   }
@@ -1244,7 +1244,7 @@ export function genPensamientoCritico7Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
-      explain: 'La postura del autor es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La postura del autor es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1253,27 +1253,27 @@ export function genPensamientoCritico7Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const CONCORDANCIA_SUJETO_PREDICADO_BANK = [
-  { texto:'Los estudiantes de ese curso ___ un proyecto muy interesante.', correcto:'PRESENTARON', malas:['PRESENTÓ','PRESENTAMOS','PRESENTAS'] },
-  { texto:'Mi vecina y su hija ___ temprano todos los domingos.', correcto:'SALEN', malas:['SALE','SALGO','SALES'] },
-  { texto:'El equipo completo ___ satisfecho con el resultado del partido.', correcto:'QUEDÓ', malas:['QUEDARON','QUEDAMOS','QUEDASTE'] },
-  { texto:'Tú y yo ___ responsables de terminar este trabajo.', correcto:'SOMOS', malas:['ES','SON','ERES'] },
+  { texto:'Los estudiantes de ese curso ___ un proyecto muy interesante.', correcto:'Presentaron', malas:['Presentó','Presentamos','Presentas'] },
+  { texto:'Mi vecina y su hija ___ temprano todos los domingos.', correcto:'Salen', malas:['Sale','Salgo','Sales'] },
+  { texto:'El equipo completo ___ satisfecho con el resultado del partido.', correcto:'Quedó', malas:['Quedaron','Quedamos','Quedaste'] },
+  { texto:'Tú y yo ___ responsables de terminar este trabajo.', correcto:'Somos', malas:['Es','Son','Eres'] },
 ];
 const SINONIMIA_HIPERONIMIA_BANK = [
-  { palabra:'FELIZ', tipo:'SINÓNIMO', correcta:'CONTENTO', opts:['TRISTE','ENOJADO','CANSADO'] },
-  { palabra:'RÁPIDO', tipo:'SINÓNIMO', correcta:'VELOZ', opts:['LENTO','PESADO','SUAVE'] },
-  { palabra:'ROSA', tipo:'HIPERÓNIMO (PALABRA MÁS GENERAL)', correcta:'FLOR', opts:['PÉTALO','JARDÍN','MACETA'] },
-  { palabra:'CAMIÓN', tipo:'HIPERÓNIMO (PALABRA MÁS GENERAL)', correcta:'VEHÍCULO', opts:['MOTOR','RUEDA','CARGA'] },
+  { palabra:'Feliz', tipo:'Sinónimo', correcta:'Contento', opts:['Triste','Enojado','Cansado'] },
+  { palabra:'Rápido', tipo:'Sinónimo', correcta:'Veloz', opts:['Lento','Pesado','Suave'] },
+  { palabra:'Rosa', tipo:'Hiperónimo (palabra más general)', correcta:'Flor', opts:['Pétalo','Jardín','Maceta'] },
+  { palabra:'Camión', tipo:'Hiperónimo (palabra más general)', correcta:'Vehículo', opts:['Motor','Rueda','Carga'] },
 ];
 const TIEMPOS_VERBALES_BANK = [
-  { texto:'Ayer caminé al colegio, saludé a mis amigos y luego entré a la sala.', tiempo:'PRETÉRITO (PASADO)' },
-  { texto:'Todos los días camino al colegio, saludo a mis amigos y luego entro a la sala.', tiempo:'PRESENTE' },
-  { texto:'Mañana caminaré al colegio, saludaré a mis amigos y luego entraré a la sala.', tiempo:'FUTURO' },
+  { texto:'Ayer caminé al colegio, saludé a mis amigos y luego entré a la sala.', tiempo:'Pretérito (pasado)' },
+  { texto:'Todos los días camino al colegio, saludo a mis amigos y luego entro a la sala.', tiempo:'Presente' },
+  { texto:'Mañana caminaré al colegio, saludaré a mis amigos y luego entraré a la sala.', tiempo:'Futuro' },
 ];
 export function genVocabularioGramatica7Round(){
   const recurso = 'La <b>concordancia</b> exige que el verbo (predicado) coincida en número y persona con el sujeto de la oración, aunque el sujeto esté compuesto por varias palabras o vaya lejos del verbo. Un <b>sinónimo</b> es una palabra con significado parecido a otra; un <b>hiperónimo</b> es una palabra más general que incluye a otras más específicas (por ejemplo, "flor" es hiperónimo de "rosa"). Los <b>tiempos verbales</b> (presente, pretérito, futuro) indican cuándo ocurre la acción narrada, y reconocerlos ayuda a entender el orden de los hechos en un relato.';
@@ -1299,7 +1299,7 @@ export function genVocabularioGramatica7Round(){
     };
   }
   const item = pick(TIEMPOS_VERBALES_BANK);
-  const todos = ['PRETÉRITO (PASADO)','PRESENTE','FUTURO'];
+  const todos = ['Pretérito (pasado)','Presente','Futuro'];
   const distract = todos.filter(function(t){ return t!==item.tiempo; });
   const opts = shuffle([item.tiempo].concat(distract)).map(function(t){ return {label:t, value:t}; });
   return {
@@ -1364,20 +1364,20 @@ export const LENGUAJE_MODULES_G8 = [
 export const LENGUAJE_POS_G8 = [{x:22,y:90},{x:68,y:70},{x:22,y:50},{x:68,y:30},{x:22,y:10}];
 
 const NARRADOR_BANK = [
-  { texto:'"Yo caminaba por la playa cuando encontré la botella. La abrí con mis propias manos y leí el mensaje."', pregunta:'¿Qué tipo de narrador tiene este fragmento?', correcta:'NARRADOR PROTAGONISTA (EN PRIMERA PERSONA)', opts:['NARRADOR OMNISCIENTE (SABE TODO)','NARRADOR TESTIGO EXTERNO','NO HAY NARRADOR'] },
-  { texto:'"Elena estaba nerviosa, aunque nadie lo notaba. Pensaba en su familia mientras sonreía. Al mismo tiempo, al otro lado de la ciudad, su hermano también pensaba en ella."', pregunta:'¿Qué tipo de narrador tiene este fragmento?', correcta:'NARRADOR OMNISCIENTE (CONOCE PENSAMIENTOS Y HECHOS QUE LOS PERSONAJES NO VEN)', opts:['NARRADOR PROTAGONISTA','NARRADOR TESTIGO QUE SOLO DESCRIBE LO VISIBLE','NO HAY NARRADOR'] },
-  { texto:'"Vi al hombre entrar al negocio. Compró pan, pagó y salió sin decir palabra. No sé qué pensaba ni a dónde iba después."', pregunta:'¿Qué tipo de narrador tiene este fragmento?', correcta:'NARRADOR TESTIGO (CUENTA SOLO LO QUE OBSERVA, SIN CONOCER PENSAMIENTOS AJENOS)', opts:['NARRADOR OMNISCIENTE','NARRADOR PROTAGONISTA DE LOS HECHOS PRINCIPALES','NO HAY NARRADOR'] },
+  { texto:'"Yo caminaba por la playa cuando encontré la botella. La abrí con mis propias manos y leí el mensaje."', pregunta:'¿Qué tipo de narrador tiene este fragmento?', correcta:'Narrador protagonista (en primera persona)', opts:['Narrador omnisciente (sabe todo)','Narrador testigo externo','No hay narrador'] },
+  { texto:'"Elena estaba nerviosa, aunque nadie lo notaba. Pensaba en su familia mientras sonreía. Al mismo tiempo, al otro lado de la ciudad, su hermano también pensaba en ella."', pregunta:'¿Qué tipo de narrador tiene este fragmento?', correcta:'Narrador omnisciente (conoce pensamientos y hechos que los personajes no ven)', opts:['Narrador protagonista','Narrador testigo que solo describe lo visible','No hay narrador'] },
+  { texto:'"Vi al hombre entrar al negocio. Compró pan, pagó y salió sin decir palabra. No sé qué pensaba ni a dónde iba después."', pregunta:'¿Qué tipo de narrador tiene este fragmento?', correcta:'Narrador testigo (cuenta solo lo que observa, sin conocer pensamientos ajenos)', opts:['Narrador omnisciente','Narrador protagonista de los hechos principales','No hay narrador'] },
 ];
 const ESTRUCTURA_TEMPORAL_BANK = [
-  { texto:'Una novela comienza mostrando al protagonista anciano, y luego retrocede para contar toda su juventud.', pregunta:'¿Qué recurso temporal usa esta novela?', correcta:'RETROSPECCIÓN (VOLVER AL PASADO)', opts:['ORDEN ESTRICTAMENTE CRONOLÓGICO','ANTICIPACIÓN DEL FUTURO','AUSENCIA TOTAL DE TIEMPO'] },
-  { texto:'Un cuento narra los hechos exactamente en el orden en que ocurrieron, desde la mañana hasta la noche del mismo día.', pregunta:'¿Qué estructura temporal usa este cuento?', correcta:'ORDEN CRONOLÓGICO LINEAL', opts:['RETROSPECCIÓN CONSTANTE','SALTOS AL FUTURO','TIEMPO CIRCULAR SIN INICIO NI FIN'] },
-  { texto:'En medio del relato, el narrador adelanta: "Aquella decisión, aunque nadie lo sabía entonces, cambiaría su vida para siempre".', pregunta:'¿Qué recurso temporal usa este fragmento?', correcta:'ANTICIPACIÓN (ADELANTAR ALGO DEL FUTURO)', opts:['RETROSPECCIÓN AL PASADO','ORDEN CRONOLÓGICO SIMPLE','DESCRIPCIÓN SIN TIEMPO'] },
+  { texto:'Una novela comienza mostrando al protagonista anciano, y luego retrocede para contar toda su juventud.', pregunta:'¿Qué recurso temporal usa esta novela?', correcta:'Retrospección (volver al pasado)', opts:['Orden estrictamente cronológico','Anticipación del futuro','Ausencia total de tiempo'] },
+  { texto:'Un cuento narra los hechos exactamente en el orden en que ocurrieron, desde la mañana hasta la noche del mismo día.', pregunta:'¿Qué estructura temporal usa este cuento?', correcta:'Orden cronológico lineal', opts:['Retrospección constante','Saltos al futuro','Tiempo circular sin inicio ni fin'] },
+  { texto:'En medio del relato, el narrador adelanta: "Aquella decisión, aunque nadie lo sabía entonces, cambiaría su vida para siempre".', pregunta:'¿Qué recurso temporal usa este fragmento?', correcta:'Anticipación (adelantar algo del futuro)', opts:['Retrospección al pasado','Orden cronológico simple','Descripción sin tiempo'] },
 ];
 const NOLITERARIO_8_BANK = [
-  { texto:'Un reportaje sobre los océanos explica que la mayoría del plástico que llega al mar proviene de desechos mal gestionados en tierra, y que las corrientes lo concentran en grandes zonas de acumulación.', pregunta:'Según el texto, ¿de dónde proviene la mayoría del plástico que llega al mar?', correcta:'DE DESECHOS MAL GESTIONADOS EN TIERRA', opts:['DE LOS BARCOS PESQUEROS ÚNICAMENTE','DE LAS FÁBRICAS SUBMARINAS','EL TEXTO NO LO MENCIONA'] },
-  { texto:'Una infografía sobre el sueño adolescente indica que los expertos recomiendan entre 8 y 10 horas de sueño para esa edad, y que el uso de pantallas antes de dormir dificulta conciliar el sueño.', pregunta:'Según la infografía, ¿qué dificulta conciliar el sueño?', correcta:'EL USO DE PANTALLAS ANTES DE DORMIR', opts:['DORMIR ENTRE 8 Y 10 HORAS','LEER UN LIBRO IMPRESO','EL TEXTO NO LO MENCIONA'] },
-  { texto:'Un artículo de divulgación explica que los glaciares de los Andes centrales han retrocedido en las últimas décadas, y que esto afecta la disponibilidad de agua para las ciudades cercanas.', pregunta:'Según el artículo, ¿qué consecuencia tiene el retroceso de los glaciares?', correcta:'AFECTA LA DISPONIBILIDAD DE AGUA PARA LAS CIUDADES CERCANAS', opts:['AUMENTA LA DISPONIBILIDAD DE AGUA','NO TIENE NINGUNA CONSECUENCIA','HACE CRECER LOS GLACIARES DEL NORTE'] },
-  { texto:'Una noticia informa que una biblioteca municipal extendió su horario hasta las 21 horas de lunes a viernes, tras una encuesta donde los vecinos pidieron más tiempo para estudiar después del trabajo.', pregunta:'¿Por qué la biblioteca extendió su horario?', correcta:'PORQUE LOS VECINOS PIDIERON MÁS TIEMPO PARA ESTUDIAR DESPUÉS DEL TRABAJO', opts:['PORQUE CERRÓ LA BIBLIOTECA VECINA','PORQUE LO EXIGIÓ UNA LEY NUEVA','EL TEXTO NO EXPLICA EL MOTIVO'] },
+  { texto:'Un reportaje sobre los océanos explica que la mayoría del plástico que llega al mar proviene de desechos mal gestionados en tierra, y que las corrientes lo concentran en grandes zonas de acumulación.', pregunta:'Según el texto, ¿de dónde proviene la mayoría del plástico que llega al mar?', correcta:'De desechos mal gestionados en tierra', opts:['De los barcos pesqueros únicamente','De las fábricas submarinas','El texto no lo menciona'] },
+  { texto:'Una infografía sobre el sueño adolescente indica que los expertos recomiendan entre 8 y 10 horas de sueño para esa edad, y que el uso de pantallas antes de dormir dificulta conciliar el sueño.', pregunta:'Según la infografía, ¿qué dificulta conciliar el sueño?', correcta:'El uso de pantallas antes de dormir', opts:['Dormir entre 8 y 10 horas','Leer un libro impreso','El texto no lo menciona'] },
+  { texto:'Un artículo de divulgación explica que los glaciares de los Andes centrales han retrocedido en las últimas décadas, y que esto afecta la disponibilidad de agua para las ciudades cercanas.', pregunta:'Según el artículo, ¿qué consecuencia tiene el retroceso de los glaciares?', correcta:'Afecta la disponibilidad de agua para las ciudades cercanas', opts:['Aumenta la disponibilidad de agua','No tiene ninguna consecuencia','Hace crecer los glaciares del norte'] },
+  { texto:'Una noticia informa que una biblioteca municipal extendió su horario hasta las 21 horas de lunes a viernes, tras una encuesta donde los vecinos pidieron más tiempo para estudiar después del trabajo.', pregunta:'¿Por qué la biblioteca extendió su horario?', correcta:'Porque los vecinos pidieron más tiempo para estudiar después del trabajo', opts:['Porque cerró la biblioteca vecina','Porque lo exigió una ley nueva','El texto no explica el motivo'] },
 ];
 export function genComprension8Round(){
   const recurso = 'Comprender un texto en profundidad implica fijarse en varios elementos a la vez. El <b>narrador</b> es la voz que cuenta la historia (puede ser un personaje que participa, o alguien externo que observa todo); reconocerlo ayuda a entender desde qué perspectiva se cuentan los hechos. La <b>estructura temporal</b> de un relato no siempre sigue el orden en que ocurrieron los hechos: puede haber saltos al pasado (flashback) o adelantos al futuro, y seguir esa organización es clave para no perderse en la trama. Los <b>textos no literarios</b> (noticias, instructivos, cartas, afiches) tienen un propósito práctico —informar, instruir, persuadir— y para comprenderlos bien hay que identificar ese propósito y evaluar si la información entregada es clara y suficiente.';
@@ -1388,7 +1388,7 @@ export function genComprension8Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1398,7 +1398,7 @@ export function genComprension8Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1407,22 +1407,22 @@ export function genComprension8Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const GENERO_DRAMATICO_BANK = [
-  { pregunta:'¿Qué caracteriza a un texto dramático, a diferencia de un cuento o una novela?', correcta:'ESTÁ ESCRITO PARA SER REPRESENTADO EN ESCENA, CON DIÁLOGOS Y ACOTACIONES', opts:['SIEMPRE TIENE UN NARRADOR OMNISCIENTE','NUNCA TIENE PERSONAJES','SOLO PUEDE LEERSE EN SILENCIO'] },
-  { pregunta:'¿Cómo se llaman las indicaciones del texto dramático que describen movimientos, gestos o escenografía (y que no se dicen en voz alta)?', correcta:'ACOTACIONES', opts:['DIÁLOGOS','MONÓLOGOS','ESTROFAS'] },
-  { pregunta:'¿Qué es un monólogo dentro de una obra dramática?', correcta:'UN PARLAMENTO EXTENSO DICHO POR UN SOLO PERSONAJE', opts:['UNA CONVERSACIÓN ENTRE MUCHOS PERSONAJES','UNA INDICACIÓN DE ESCENOGRAFÍA','EL APLAUSO DEL PÚBLICO'] },
-  { pregunta:'¿Qué busca provocar la comedia, como género dramático, en el espectador?', correcta:'RISA Y ENTRETENCIÓN, MOSTRANDO DEFECTOS HUMANOS DE FORMA EXAGERADA O RIDÍCULA', opts:['MIEDO Y TERROR EXTREMO','LLANTO SIN NINGÚN ALIVIO','INDIFERENCIA TOTAL'] },
-  { pregunta:'¿Qué narra generalmente una epopeya o poema épico?', correcta:'LAS HAZAÑAS DE UN HÉROE, MEZCLANDO HECHOS EXTRAORDINARIOS Y VALORES DE SU PUEBLO', opts:['LA RUTINA COTIDIANA DE UNA PERSONA COMÚN SIN NINGÚN CONFLICTO','SOLO DESCRIPCIONES DE PAISAJES','INSTRUCCIONES PARA ARMAR UN OBJETO'] },
-  { pregunta:'"La Odisea", que narra el largo viaje de regreso del héroe Ulises, es un ejemplo clásico de...', correcta:'POEMA ÉPICO (EPOPEYA)', opts:['COMEDIA TEATRAL','NOTICIA PERIODÍSTICA','RECETA DE COCINA'] },
-  { pregunta:'¿Por qué es útil conocer el contexto histórico al leer un fragmento épico como "La Ilíada"?', correcta:'PORQUE AYUDA A ENTENDER LOS VALORES Y COSTUMBRES DEL PUEBLO QUE LO CREÓ', opts:['PORQUE SIN ESO ES IMPOSIBLE LEER LAS PALABRAS','PORQUE EL CONTEXTO CAMBIA LAS LETRAS DEL TEXTO','NO SIRVE DE NADA CONOCER EL CONTEXTO'] },
-  { pregunta:'En una obra dramática, ¿cómo se llama el problema central que enfrentan los personajes y que hace avanzar la acción?', correcta:'EL CONFLICTO DRAMÁTICO', opts:['LA ACOTACIÓN','EL TELÓN','EL VESTUARIO'] },
-  { pregunta:'¿Qué diferencia principal hay entre leer una obra dramática y verla representada en teatro?', correcta:'AL VERLA, LOS ACTORES DAN VIDA A LOS DIÁLOGOS Y LAS ACOTACIONES SE VUELVEN ACCIONES REALES EN ESCENA', opts:['NO HAY NINGUNA DIFERENCIA ENTRE AMBAS EXPERIENCIAS','LEERLA SIEMPRE TOMA MENOS TIEMPO QUE VERLA','AL VERLA DESAPARECE EL CONFLICTO DE LA HISTORIA'] },
-  { pregunta:'¿Qué personaje típico de la comedia clásica exagera un defecto (como la avaricia o la vanidad) para provocar risa?', correcta:'EL PERSONAJE TIPO O CARICATURESCO', opts:['EL NARRADOR OMNISCIENTE','EL PÚBLICO','EL ESCENÓGRAFO'] },
+  { pregunta:'¿Qué caracteriza a un texto dramático, a diferencia de un cuento o una novela?', correcta:'Está escrito para ser representado en escena, con diálogos y acotaciones', opts:['Siempre tiene un narrador omnisciente','Nunca tiene personajes','Solo puede leerse en silencio'] },
+  { pregunta:'¿Cómo se llaman las indicaciones del texto dramático que describen movimientos, gestos o escenografía (y que no se dicen en voz alta)?', correcta:'Acotaciones', opts:['Diálogos','Monólogos','Estrofas'] },
+  { pregunta:'¿Qué es un monólogo dentro de una obra dramática?', correcta:'Un parlamento extenso dicho por un solo personaje', opts:['Una conversación entre muchos personajes','Una indicación de escenografía','El aplauso del público'] },
+  { pregunta:'¿Qué busca provocar la comedia, como género dramático, en el espectador?', correcta:'Risa y entretención, mostrando defectos humanos de forma exagerada o ridícula', opts:['Miedo y terror extremo','Llanto sin ningún alivio','Indiferencia total'] },
+  { pregunta:'¿Qué narra generalmente una epopeya o poema épico?', correcta:'Las hazañas de un héroe, mezclando hechos extraordinarios y valores de su pueblo', opts:['La rutina cotidiana de una persona común sin ningún conflicto','Solo descripciones de paisajes','Instrucciones para armar un objeto'] },
+  { pregunta:'"La Odisea", que narra el largo viaje de regreso del héroe Ulises, es un ejemplo clásico de...', correcta:'Poema épico (epopeya)', opts:['Comedia teatral','Noticia periodística','Receta de cocina'] },
+  { pregunta:'¿Por qué es útil conocer el contexto histórico al leer un fragmento épico como "La Ilíada"?', correcta:'Porque ayuda a entender los valores y costumbres del pueblo que lo creó', opts:['Porque sin eso es imposible leer las palabras','Porque el contexto cambia las letras del texto','No sirve de nada conocer el contexto'] },
+  { pregunta:'En una obra dramática, ¿cómo se llama el problema central que enfrentan los personajes y que hace avanzar la acción?', correcta:'El conflicto dramático', opts:['La acotación','El telón','El vestuario'] },
+  { pregunta:'¿Qué diferencia principal hay entre leer una obra dramática y verla representada en teatro?', correcta:'Al verla, los actores dan vida a los diálogos y las acotaciones se vuelven acciones reales en escena', opts:['No hay ninguna diferencia entre ambas experiencias','Leerla siempre toma menos tiempo que verla','Al verla desaparece el conflicto de la historia'] },
+  { pregunta:'¿Qué personaje típico de la comedia clásica exagera un defecto (como la avaricia o la vanidad) para provocar risa?', correcta:'El personaje tipo o caricaturesco', opts:['El narrador omnisciente','El público','El escenógrafo'] },
 ];
 export function genGenerosDramaticos8Round(){
   const recurso = 'El <b>género dramático</b> agrupa los textos escritos para ser representados en escena, con diálogos entre personajes y <b>acotaciones</b> (indicaciones de movimientos, gestos o escenografía que no se dicen en voz alta). La <b>comedia</b> es un tipo de obra dramática que busca provocar risa, mostrando defectos humanos de forma exagerada. El <b>género épico</b>, por su parte, narra en verso o prosa las hazañas de un héroe, mezclando hechos extraordinarios con los valores del pueblo que creó la historia (como "La Odisea" o "La Ilíada") — conocer el contexto histórico de esa época ayuda a entender por qué esos valores eran importantes para quienes la escribieron.';
@@ -1431,24 +1431,24 @@ export function genGenerosDramaticos8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const POSTURA_ARGUMENTO_BANK = [
-  { texto:'"Las bibliotecas públicas deberían abrir también los domingos. Muchos estudiantes solo tienen ese día libre para estudiar con calma, y una ciudad que facilita el estudio invierte en su futuro."', pregunta:'¿Cuál es la postura del autor de esta columna?', correcta:'LAS BIBLIOTECAS PÚBLICAS DEBERÍAN ABRIR LOS DOMINGOS', opts:['LOS ESTUDIANTES NO NECESITAN BIBLIOTECAS','LAS BIBLIOTECAS DEBERÍAN CERRAR LOS SÁBADOS','EL AUTOR NO TIENE NINGUNA POSTURA'] },
-  { texto:'"Prohibir los celulares en la sala de clases es una medida necesaria. Diversos estudios muestran que las notificaciones interrumpen la concentración, y los propios estudiantes reconocen distraerse con ellos."', pregunta:'¿Qué evidencia usa el autor para apoyar su postura?', correcta:'ESTUDIOS SOBRE INTERRUPCIÓN DE LA CONCENTRACIÓN Y EL RECONOCIMIENTO DE LOS PROPIOS ESTUDIANTES', opts:['SOLO SU OPINIÓN PERSONAL SIN NINGÚN RESPALDO','UNA ENCUESTA SOBRE COMIDA ESCOLAR','NO USA NINGUNA EVIDENCIA'] },
-  { texto:'"El nuevo parque de la comuna es, sin duda, el mejor lugar que existe para las familias." — dice un vecino en una carta al director.', pregunta:'La frase "es el mejor lugar que existe" corresponde a...', correcta:'UNA OPINIÓN (UN JUICIO PERSONAL DEL VECINO)', opts:['UN HECHO COMPROBABLE CON DATOS','UNA CIFRA OFICIAL','UNA LEY DE LA REPÚBLICA'] },
-  { texto:'"El parque fue inaugurado el 15 de marzo y tiene 4 hectáreas de áreas verdes", informa una noticia municipal.', pregunta:'Esta afirmación corresponde a...', correcta:'UN HECHO (SE PUEDE COMPROBAR CON REGISTROS)', opts:['UNA OPINIÓN PERSONAL','UNA EXAGERACIÓN POÉTICA','UN DESEO DEL PERIODISTA'] },
+  { texto:'"Las bibliotecas públicas deberían abrir también los domingos. Muchos estudiantes solo tienen ese día libre para estudiar con calma, y una ciudad que facilita el estudio invierte en su futuro."', pregunta:'¿Cuál es la postura del autor de esta columna?', correcta:'Las bibliotecas públicas deberían abrir los domingos', opts:['Los estudiantes no necesitan bibliotecas','Las bibliotecas deberían cerrar los sábados','El autor no tiene ninguna postura'] },
+  { texto:'"Prohibir los celulares en la sala de clases es una medida necesaria. Diversos estudios muestran que las notificaciones interrumpen la concentración, y los propios estudiantes reconocen distraerse con ellos."', pregunta:'¿Qué evidencia usa el autor para apoyar su postura?', correcta:'Estudios sobre interrupción de la concentración y el reconocimiento de los propios estudiantes', opts:['Solo su opinión personal sin ningún respaldo','Una encuesta sobre comida escolar','No usa ninguna evidencia'] },
+  { texto:'"El nuevo parque de la comuna es, sin duda, el mejor lugar que existe para las familias." — dice un vecino en una carta al director.', pregunta:'La frase "es el mejor lugar que existe" corresponde a...', correcta:'Una opinión (un juicio personal del vecino)', opts:['Un hecho comprobable con datos','Una cifra oficial','Una ley de la república'] },
+  { texto:'"El parque fue inaugurado el 15 de marzo y tiene 4 hectáreas de áreas verdes", informa una noticia municipal.', pregunta:'Esta afirmación corresponde a...', correcta:'Un hecho (se puede comprobar con registros)', opts:['Una opinión personal','Una exageración poética','Un deseo del periodista'] },
 ];
 const MEDIOS_BANK = [
-  { pregunta:'Un aviso publicitario muestra que "9 de cada 10 dentistas recomiendan" una pasta dental, sin citar ningún estudio. ¿Qué conviene hacer como lector crítico?', correcta:'PREGUNTARSE DE DÓNDE SALE ESA CIFRA Y SI EXISTE UNA FUENTE VERIFICABLE', opts:['CREER LA CIFRA SIN CUESTIONARLA','COMPRAR EL PRODUCTO DE INMEDIATO','ASUMIR QUE TODA PUBLICIDAD ES SIEMPRE FALSA SIN ANALIZARLA'] },
-  { pregunta:'Una serie de televisión muestra siempre a los científicos como personas despeinadas, solitarias y sin amigos. ¿Qué recurso problemático está usando?', correcta:'UN ESTEREOTIPO (UNA IMAGEN SIMPLIFICADA Y GENERALIZADA DE UN GRUPO)', opts:['UNA ESTADÍSTICA OFICIAL','UN HECHO CIENTÍFICO COMPROBADO','UNA ACOTACIÓN DRAMÁTICA'] },
-  { pregunta:'¿Cuál es el propósito principal de un aviso publicitario?', correcta:'PERSUADIR AL PÚBLICO PARA QUE COMPRE UN PRODUCTO O PREFIERA UNA MARCA', opts:['INFORMAR DE FORMA NEUTRAL Y COMPLETA','ENSEÑAR CONTENIDOS ESCOLARES','ENTRETENER SIN NINGUNA INTENCIÓN COMERCIAL'] },
-  { pregunta:'Una noticia y una columna de opinión tratan el mismo tema. ¿Cuál es la diferencia esperable entre ambas?', correcta:'LA NOTICIA BUSCA INFORMAR HECHOS; LA COLUMNA PRESENTA EL PUNTO DE VISTA DE SU AUTOR', opts:['NO HAY NINGUNA DIFERENCIA ENTRE AMBAS','LA COLUMNA NUNCA PUEDE MENCIONAR HECHOS','LA NOTICIA SIEMPRE DA OPINIONES PERSONALES'] },
-  { pregunta:'En un afiche, la imagen de una familia sonriente ocupa casi todo el espacio y el precio del producto aparece muy pequeño. ¿Qué efecto busca ese diseño?', correcta:'ASOCIAR EL PRODUCTO A EMOCIONES POSITIVAS, RESTANDO ATENCIÓN AL PRECIO', opts:['INFORMAR EL PRECIO CON LA MAYOR CLARIDAD POSIBLE','MOSTRAR DATOS TÉCNICOS DEL PRODUCTO','EVITAR QUE ALGUIEN MIRE EL AFICHE'] },
-  { pregunta:'¿Qué elemento de una columna de opinión permite evaluar si su argumentación es sólida?', correcta:'LA CALIDAD Y VERIFICABILIDAD DE LAS RAZONES Y EVIDENCIAS QUE ENTREGA', opts:['EL TAMAÑO DE LA LETRA DEL TÍTULO','LA CANTIDAD DE ADJETIVOS ELOGIOSOS','LA FAMA DEL AUTOR SIN IMPORTAR SUS ARGUMENTOS'] },
+  { pregunta:'Un aviso publicitario muestra que "9 de cada 10 dentistas recomiendan" una pasta dental, sin citar ningún estudio. ¿Qué conviene hacer como lector crítico?', correcta:'Preguntarse de dónde sale esa cifra y si existe una fuente verificable', opts:['Creer la cifra sin cuestionarla','Comprar el producto de inmediato','Asumir que toda publicidad es siempre falsa sin analizarla'] },
+  { pregunta:'Una serie de televisión muestra siempre a los científicos como personas despeinadas, solitarias y sin amigos. ¿Qué recurso problemático está usando?', correcta:'Un estereotipo (una imagen simplificada y generalizada de un grupo)', opts:['Una estadística oficial','Un hecho científico comprobado','Una acotación dramática'] },
+  { pregunta:'¿Cuál es el propósito principal de un aviso publicitario?', correcta:'Persuadir al público para que compre un producto o prefiera una marca', opts:['Informar de forma neutral y completa','Enseñar contenidos escolares','Entretener sin ninguna intención comercial'] },
+  { pregunta:'Una noticia y una columna de opinión tratan el mismo tema. ¿Cuál es la diferencia esperable entre ambas?', correcta:'La noticia busca informar hechos; la columna presenta el punto de vista de su autor', opts:['No hay ninguna diferencia entre ambas','La columna nunca puede mencionar hechos','La noticia siempre da opiniones personales'] },
+  { pregunta:'En un afiche, la imagen de una familia sonriente ocupa casi todo el espacio y el precio del producto aparece muy pequeño. ¿Qué efecto busca ese diseño?', correcta:'Asociar el producto a emociones positivas, restando atención al precio', opts:['Informar el precio con la mayor claridad posible','Mostrar datos técnicos del producto','Evitar que alguien mire el afiche'] },
+  { pregunta:'¿Qué elemento de una columna de opinión permite evaluar si su argumentación es sólida?', correcta:'La calidad y verificabilidad de las razones y evidencias que entrega', opts:['El tamaño de la letra del título','La cantidad de adjetivos elogiosos','La fama del autor sin importar sus argumentos'] },
 ];
 export function genArgumentacionMedios8Round(){
   const recurso = 'En un texto argumentativo, la <b>postura</b> es la opinión o punto de vista que el autor defiende, y las <b>evidencias</b> son los datos, estudios o ejemplos que usa para respaldarla — mientras más verificables sean esas evidencias, más sólido es el argumento. Es fundamental distinguir un <b>hecho</b> (algo que se puede comprobar con datos o registros) de una <b>opinión</b> (un juicio personal, que puede ser válido pero no es universalmente verificable). Frente a los <b>medios de comunicación y la publicidad</b>, conviene pensar de forma crítica: preguntarse de dónde salen las cifras que se citan, notar cuando se usa un <b>estereotipo</b> (una imagen simplificada y generalizada de un grupo de personas), y recordar que el propósito de un aviso publicitario es persuadir para vender, no informar de forma neutral.';
@@ -1458,7 +1458,7 @@ export function genArgumentacionMedios8Round(){
     return {
       promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-      explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
       recurso: recurso,
     };
   }
@@ -1467,33 +1467,33 @@ export function genArgumentacionMedios8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const MODO_VERBAL_BANK = [
-  { oracion:'Mañana viajaremos al sur en tren.', modo:'INDICATIVO', explicacion:'El modo indicativo expresa hechos reales o que se dan por ciertos.' },
-  { oracion:'Ojalá que llueva pronto en el norte.', modo:'SUBJUNTIVO', explicacion:'El modo subjuntivo expresa deseos, posibilidades o dudas — aquí, un deseo.' },
-  { oracion:'Cierra la puerta antes de salir.', modo:'IMPERATIVO', explicacion:'El modo imperativo expresa órdenes, peticiones o instrucciones.' },
-  { oracion:'El tren llegó puntual a la estación.', modo:'INDICATIVO', explicacion:'El modo indicativo expresa hechos reales — aquí, algo que efectivamente ocurrió.' },
-  { oracion:'Quizás vengan mis primos este verano.', modo:'SUBJUNTIVO', explicacion:'El modo subjuntivo expresa posibilidad o duda — "quizás vengan" no es un hecho seguro.' },
-  { oracion:'Lava las verduras antes de cocinarlas.', modo:'IMPERATIVO', explicacion:'El modo imperativo da una instrucción directa.' },
-  { oracion:'Espero que tengas un buen viaje.', modo:'SUBJUNTIVO', explicacion:'"Que tengas" expresa un deseo, propio del modo subjuntivo.' },
-  { oracion:'Los estudiantes rindieron la prueba ayer.', modo:'INDICATIVO', explicacion:'Es un hecho ya ocurrido, expresado en modo indicativo.' },
-  { oracion:'Guarden silencio durante la ceremonia.', modo:'IMPERATIVO', explicacion:'Es una orden dirigida a un grupo, en modo imperativo.' },
+  { oracion:'Mañana viajaremos al sur en tren.', modo:'Indicativo', explicacion:'El modo indicativo expresa hechos reales o que se dan por ciertos.' },
+  { oracion:'Ojalá que llueva pronto en el norte.', modo:'Subjuntivo', explicacion:'El modo subjuntivo expresa deseos, posibilidades o dudas — aquí, un deseo.' },
+  { oracion:'Cierra la puerta antes de salir.', modo:'Imperativo', explicacion:'El modo imperativo expresa órdenes, peticiones o instrucciones.' },
+  { oracion:'El tren llegó puntual a la estación.', modo:'Indicativo', explicacion:'El modo indicativo expresa hechos reales — aquí, algo que efectivamente ocurrió.' },
+  { oracion:'Quizás vengan mis primos este verano.', modo:'Subjuntivo', explicacion:'El modo subjuntivo expresa posibilidad o duda — "quizás vengan" no es un hecho seguro.' },
+  { oracion:'Lava las verduras antes de cocinarlas.', modo:'Imperativo', explicacion:'El modo imperativo da una instrucción directa.' },
+  { oracion:'Espero que tengas un buen viaje.', modo:'Subjuntivo', explicacion:'"Que tengas" expresa un deseo, propio del modo subjuntivo.' },
+  { oracion:'Los estudiantes rindieron la prueba ayer.', modo:'Indicativo', explicacion:'Es un hecho ya ocurrido, expresado en modo indicativo.' },
+  { oracion:'Guarden silencio durante la ceremonia.', modo:'Imperativo', explicacion:'Es una orden dirigida a un grupo, en modo imperativo.' },
 ];
 const REFERENTE_BANK = [
-  { oracion:'Marta le prestó su bicicleta a Sofía porque ELLA no tenía cómo llegar al ensayo.', pregunta:'¿A quién se refiere "ella" en esta oración?', correcta:'A SOFÍA', opts:['A MARTA','A LA BICICLETA','AL ENSAYO'] },
-  { oracion:'El profesor revisó los trabajos y LOS devolvió corregidos al día siguiente.', pregunta:'¿A qué se refiere "los" en esta oración?', correcta:'A LOS TRABAJOS', opts:['A LOS ESTUDIANTES','A LOS DÍAS','AL PROFESOR'] },
-  { oracion:'Compramos frutas en la feria. ESTAS estaban más frescas que las del supermercado.', pregunta:'¿A qué se refiere "estas"?', correcta:'A LAS FRUTAS DE LA FERIA', opts:['A LAS FRUTAS DEL SUPERMERCADO','A LAS FERIAS DE LA CIUDAD','A LAS COMPRADORAS'] },
-  { oracion:'Llegaron los nuevos libros a la biblioteca. EL MÁS SOLICITADO fue una novela de aventuras.', pregunta:'¿A qué grupo pertenece "el más solicitado"?', correcta:'A LOS NUEVOS LIBROS', opts:['A LAS BIBLIOTECAS DE LA COMUNA','A LOS ESTUDIANTES','A LAS NOVELAS ANTIGUAS'] },
+  { oracion:'Marta le prestó su bicicleta a Sofía porque ELLA no tenía cómo llegar al ensayo.', pregunta:'¿A quién se refiere "ella" en esta oración?', correcta:'A Sofía', opts:['A Marta','A la bicicleta','Al ensayo'] },
+  { oracion:'El profesor revisó los trabajos y LOS devolvió corregidos al día siguiente.', pregunta:'¿A qué se refiere "los" en esta oración?', correcta:'A los trabajos', opts:['A los estudiantes','A los días','Al profesor'] },
+  { oracion:'Compramos frutas en la feria. ESTAS estaban más frescas que las del supermercado.', pregunta:'¿A qué se refiere "estas"?', correcta:'A las frutas de la feria', opts:['A las frutas del supermercado','A las ferias de la ciudad','A las compradoras'] },
+  { oracion:'Llegaron los nuevos libros a la biblioteca. EL MÁS SOLICITADO fue una novela de aventuras.', pregunta:'¿A qué grupo pertenece "el más solicitado"?', correcta:'A los nuevos libros', opts:['A las bibliotecas de la comuna','A los estudiantes','A las novelas antiguas'] },
 ];
 export function genGramatica8Round(){
   const recurso = 'El <b>modo verbal</b> indica la actitud del hablante frente a lo que dice: el <b>indicativo</b> expresa hechos reales o que se dan por ciertos ("viajaremos", "llegó"); el <b>subjuntivo</b> expresa deseos, dudas o posibilidades ("ojalá llueva", "quizás vengan"); y el <b>imperativo</b> expresa órdenes o instrucciones directas ("cierra la puerta"). Por otro lado, la <b>correferencia</b> es cuando una palabra (como un pronombre: "ella", "los", "estas") reemplaza a algo mencionado antes en el texto para no repetirlo — identificar correctamente a qué se refiere cada pronombre es esencial para entender bien de quién o de qué se está hablando en una oración.';
   if(Math.random()<0.6){
     const item = pick(MODO_VERBAL_BANK);
-    const opts = shuffle(['INDICATIVO','SUBJUNTIVO','IMPERATIVO']).map(function(m){ return {label:m, value:m}; });
+    const opts = shuffle(['Indicativo','Subjuntivo','Imperativo']).map(function(m){ return {label:m, value:m}; });
     return {
       promptHTML: '<p class="prompt-sentence">"'+item.oracion+'"</p><p class="prompt-hint">¿En qué modo verbal está esta oración?</p>',
       options: opts, correctValue: item.modo, speakText: item.oracion, cols:3, kind:'word', panel:true,
@@ -1506,7 +1506,7 @@ export function genGramatica8Round(){
   return {
     promptHTML: '<p class="prompt-sentence">"'+item.oracion+'"</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }

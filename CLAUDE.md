@@ -2917,3 +2917,124 @@ sesión).
     normal, una ronda completa jugada (respuesta correcta avanza de 1/8 a
     2/8), botón Recurso abre el modal sin errores de consola. Próximo
     paso del mismo pedido: `lenguaje.js` (246 alternativas).
+- **`lenguaje.js` en oración normal (2026-08-01, tercer archivo del
+  rollout tras `historia.js` y `ciencias.js`):** mismo pedido, mismo
+  criterio ("procede"). El conteo real fue de 702 cadenas únicas en
+  MAYÚSCULAS (más que las ~246 estimadas originalmente) — este archivo
+  mezcla vocabulario suelto (bancos de Vocales/Sílabas/Alfabético),
+  conjugaciones verbales, oraciones de ejemplo completas, fragmentos de
+  morfemas (prefijos/sufijos) y las respuestas de opción múltiple
+  habituales, así que el diccionario de excepciones fue mínimo: solo 2
+  nombres propios embebidos a mitad de una cadena más larga (`'A MARTA'`→
+  `'A Marta'`, `'A SOFÍA'`→`'A Sofía'`, en `REFERENTE_BANK`, un ejercicio
+  de a qué se refiere un pronombre).
+  - **Bug real de regex encontrado y corregido ANTES de aplicar el script
+    al archivo real (afecta la metodología para los archivos que faltan):**
+    el patrón `'([^'\r\n]+)'` (usado también en `historia.js`/`ciencias.js`)
+    falla silenciosamente cuando el archivo contiene cadenas vacías `''`
+    (aquí: `before:''` en varias entradas de `COMBO_WORDS`, el banco de
+    combinaciones silábicas que/qui/gue/gui/etc.). Con `+` (mínimo 1
+    carácter), el regex no encuentra contenido entre las dos comillas de
+    `''`, falla ese intento de match, y en el reintento en la posición
+    siguiente termina emparejando la comilla de cierre de `''` con la
+    comilla de APERTURA de la siguiente cadena real como si fueran un par
+    válido — capturando texto espurio (código JS entre medio, nunca
+    contenido real) y salteándose la conversión de la cadena real
+    siguiente. El síntoma visible: dentro de un mismo array
+    (`COMBO_WORDS`), algunas entradas con `before:''` quedaron sin
+    convertir (`combo:'QUE'`) mientras las entradas con `before` no vacío
+    sí se convirtieron bien (`combo:'Gue'`) — inconsistencia detectada
+    revisando el diff antes de tocar el archivo real, nunca llegó a
+    aplicarse. **Corregido cambiando `+` por `*`** (permite capturar
+    cadena vacía como su propio match atómico, sin arrastrar el
+    desalineamiento a la cadena siguiente) — con eso, las 12 entradas de
+    `COMBO_WORDS` convirtieron parejo. Se revisó `historia.js` (2 cadenas
+    `''` ya mergeado, PR #50) y `ciencias.js` (0 cadenas `''`) por el
+    mismo riesgo: `ciencias.js` nunca estuvo expuesto (no tiene cadenas
+    vacías), y las 2 de `historia.js` están aisladas dentro de una función
+    de renderizado de calendario sin contenido ALL-CAPS cerca — un grep
+    dirigido no encontró fragmentos de código filtrados como texto en el
+    archivo ya mergeado, así que se dejó intacto en vez de reabrir un PR
+    ya verificado con fuzz-testing exhaustivo. **Lección para los archivos
+    que faltan** (`ingles.js`, `edfisica.js`, `artes.js`, `musica.js`,
+    `tecnologia.js`, `orientacion.js`, `matematica.js`): usar siempre `*`
+    en vez de `+` en el patrón del script, y hacer un `grep -c "''"` sobre
+    el archivo ANTES de correr el script para saber si este riesgo aplica.
+  - **Bug real de mayúscula-para-énfasis embebida a mitad de oración,
+    encontrado por revisión manual del diff (no por el script):**
+    `genAlfabetico3Round` construía `'...aparece '+(askFirst?'PRIMERO':'AL
+    FINAL')+' en el orden alfabético?'` — un patrón nuevo que no había
+    aparecido en `historia.js`/`ciencias.js`: usar MAYÚSCULAS ahí no era
+    "la respuesta citada como entidad" sino énfasis visual a mitad de
+    oración (equivalente a negrita en texto plano). Tras la conversión
+    genérica esto se leía "aparece Primero en el orden alfabético" (con
+    mayúscula que parece nombre propio) — se corrigió a mano bajándolo a
+    minúscula (`'primero'`/`'al final'`), coincidiendo con el
+    `speakText` de la misma función que YA usaba minúscula
+    (`askFirst?'primero':'al final'`) — la inconsistencia entre
+    `promptHTML` y `speakText` ya existía desde antes de esta sesión
+    (usaban mayúscula/minúscula distintas para el mismo dato) y quedó
+    resuelta de paso al unificar ambas a minúscula.
+  - **Bug estructural real, encontrado por el fuzz test (no por revisión
+    manual del diff):** `GENERO_ARTICULO` (helper que resuelve el
+    artículo "un"/"una" correcto para el `explain` de
+    `genGenerosLiterarios3Round`) usaba claves de objeto SIN comillas
+    (`{ POEMA:'un', CUENTO:'un', ... }`) — el script de conversión solo
+    toca cadenas ENTRE COMILLAS, así que estas claves (identificadores JS
+    válidos, no strings) quedaron en MAYÚSCULAS mientras `item.label`
+    (los valores reales del banco `GENEROS_BANK`, sí entre comillas) se
+    convirtieron a `'Poema'`, `'Cuento'`, etc. — rompiendo el lookup
+    `GENERO_ARTICULO[item.label]` (`GENERO_ARTICULO['Poema']` es
+    `undefined` cuando la clave real es `POEMA`). Corregido a mano
+    actualizando las 7 claves para que calcen con la nueva capitalización
+    (`{ Poema:'un', Cuento:'un', Fábula:'una', ... }`). **Dos bugs
+    estructurales más de la misma familia** (comparación entre un campo
+    ya convertido y un array/valor que se le compara), encontrados
+    también por el fuzz test, no por inspección: `genGramatica2Round` y
+    `genGramatica3Round` construían sus alternativas con
+    `.map(function(w){ return w.toUpperCase(); })` sobre los valores de
+    sustantivo/adjetivo/artículo — antes de esta sesión esto era una
+    operación inofensiva (el dato ya venía en MAYÚSCULAS, forzarlo de
+    nuevo no cambiaba nada), pero al convertir el dato fuente a oración
+    normal, ese `.toUpperCase()` seguía forzando las ALTERNATIVAS a
+    MAYÚSCULAS mientras `correctValue` se dejaba en su nueva forma
+    normal — ningún valor de las opciones volvía a calzar con
+    `correctValue`, y el motor no tenía ninguna respuesta marcable como
+    correcta. Corregido eliminando el `.map(...toUpperCase())` en ambos
+    generadores (ya no hace falta: el dato de origen ya viene bien
+    capitalizado). **Lección reforzada para los archivos que faltan:**
+    grepear `\.toUpperCase\(\)` en el archivo ANTES de dar por terminada
+    la conversión — cualquier transformación de mayúscula/minúscula que
+    dependía de que el dato YA estuviera en un caso conocido puede
+    romperse silenciosamente al cambiar ese caso, y el fuzz test
+    (`correctValue not in options`) es la única red que atrapa este tipo
+    de bug de forma confiable.
+  - Igual que en los archivos anteriores, se aplicó el mismo criterio de
+    `.toLowerCase()` sobre el patrón "La respuesta correcta es: X" (y sus
+    variantes "La idea principal es:", "El conflicto principal es:",
+    "Este recurso se llama:", "Esto es:", "La postura del autor es:" — 19
+    ocurrencias en total) — se quitó el `.toLowerCase()` en esos casos, y
+    se dejó intacto en los ~20 usos restantes donde el valor va incrustado
+    a mitad de oración como complemento (p. ej. "el sufijo '-dad'
+    indica..."). A diferencia de `ciencias.js`, no se encontró ningún
+    placeholder `"un(a)"` sin resolver en este archivo — ya lo tenía
+    resuelto vía `GENERO_ARTICULO`, el mismo mecanismo que causó el bug de
+    la clave sin comillas descrito arriba.
+  - Verificado: los 36 generadores de `lenguaje.js` pasan fuzz de 300
+    iteraciones cada uno (sin `THROW`, sin `undefined`, sin opciones
+    duplicadas, `correctValue` siempre presente en las opciones —
+    incluyendo verificación específica post-fix de que
+    `genGramatica2Round`/`genGramatica3Round` ya no producen ese error,
+    sin apóstrofes en `speakText`) — 0 hallazgos tras las correcciones.
+    Grep dedicado confirmó 0 cadenas de 2+ letras en mayúscula sostenida
+    remanentes. `MC_KEYS.length === Object.keys(MC_GAMES).length === 324`
+    (regresión de wiring intacta). Probado visualmente en el navegador
+    (recargando la página para descartar módulos ES cacheados en memoria,
+    algo que no hace falta en una carga fresca pero sí al editar el
+    archivo y seguir navegando en la misma sesión del SPA): módulo
+    "Gramática" (2° básico) con alternativas "Contento"/"Contenta"/
+    "Contentos"/"Contentas" en oración normal, una ronda jugada completa
+    (respuesta incorrecta muestra el overlay de Carboncito con el texto
+    "'Los niños' concuerda con Contentos en género y número." — capitalización
+    correcta), sin errores de consola. Próximo paso del mismo pedido:
+    `ingles.js` (152 alternativas).

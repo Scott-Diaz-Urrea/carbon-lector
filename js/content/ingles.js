@@ -1,4 +1,4 @@
-import { pick, shuffle } from '../utils.js';
+﻿import { pick, shuffle } from '../utils.js';
 
 /* ---------------- Contenido Inglés 5° Básico ----------------
    Primera asignatura de Inglés en la app — según el currículum vigente
@@ -33,12 +33,12 @@ export const INGLES_MODULES_G5 = [
 export const INGLES_POS_G5 = [{x:30,y:70},{x:70,y:30}];
 
 const VOCABULARIO_INGLES_BANK = [
-  { emoji:'🐶', english:'DOG' }, { emoji:'🐱', english:'CAT' }, { emoji:'🐦', english:'BIRD' },
-  { emoji:'🐟', english:'FISH' }, { emoji:'🐴', english:'HORSE' }, { emoji:'🐮', english:'COW' },
-  { emoji:'🔴', english:'RED' }, { emoji:'🔵', english:'BLUE' }, { emoji:'🟢', english:'GREEN' }, { emoji:'🟡', english:'YELLOW' },
-  { emoji:'👨', english:'FATHER' }, { emoji:'👩', english:'MOTHER' }, { emoji:'👶', english:'BABY' },
-  { emoji:'📚', english:'BOOK' }, { emoji:'✏️', english:'PENCIL' }, { emoji:'🎒', english:'BACKPACK' }, { emoji:'📏', english:'RULER' },
-  { emoji:'🍎', english:'APPLE' }, { emoji:'🍌', english:'BANANA' }, { emoji:'🍞', english:'BREAD' }, { emoji:'🥛', english:'MILK' },
+  { emoji:'🐶', english:'Dog' }, { emoji:'🐱', english:'Cat' }, { emoji:'🐦', english:'Bird' },
+  { emoji:'🐟', english:'Fish' }, { emoji:'🐴', english:'Horse' }, { emoji:'🐮', english:'Cow' },
+  { emoji:'🔴', english:'Red' }, { emoji:'🔵', english:'Blue' }, { emoji:'🟢', english:'Green' }, { emoji:'🟡', english:'Yellow' },
+  { emoji:'👨', english:'Father' }, { emoji:'👩', english:'Mother' }, { emoji:'👶', english:'Baby' },
+  { emoji:'📚', english:'Book' }, { emoji:'✏️', english:'Pencil' }, { emoji:'🎒', english:'Backpack' }, { emoji:'📏', english:'Ruler' },
+  { emoji:'🍎', english:'Apple' }, { emoji:'🍌', english:'Banana' }, { emoji:'🍞', english:'Bread' }, { emoji:'🥛', english:'Milk' },
 ];
 export function genVocabularioIngles5Round(){
   const recurso = 'Aprender vocabulario nuevo en inglés es más fácil cuando se asocia directamente una <b>imagen o concepto</b> con la palabra en inglés, sin pasar por la traducción al español cada vez — así como un bebé aprende su primer idioma reconociendo objetos, no memorizando definiciones. Practicar categorías completas (animales, colores, la familia, útiles escolares, comida) ayuda a construir un vocabulario base sólido, que después sirve para formar oraciones simples y leer textos más largos en inglés.';
@@ -53,16 +53,16 @@ export function genVocabularioIngles5Round(){
 }
 
 const LECTURA_SIMPLE_BANK = [
-  { text:'I have a dog. My dog is brown and small.', question:'What color is the dog?', correct:'BROWN', opts:['BLACK','WHITE','YELLOW'] },
-  { text:'Anna has a red bike. She rides her bike to school every day.', question:'What color is the bike?', correct:'RED', opts:['BLUE','GREEN','YELLOW'] },
-  { text:'Tom likes apples. He eats an apple every morning for breakfast.', question:'What does Tom eat every morning?', correct:'AN APPLE', opts:['A BANANA','BREAD','MILK'] },
-  { text:'The cat is on the table. The dog is under the table.', question:'Where is the dog?', correct:'UNDER THE TABLE', opts:['ON THE TABLE','IN A BOX','ON A CHAIR'] },
-  { text:'This family has three pets: a dog, a cat, and a bird.', question:'How many pets does the family have?', correct:'THREE', opts:['TWO','FOUR','FIVE'] },
-  { text:'Sara wakes up. Then she brushes her teeth. Then she eats breakfast.', question:'What does Sara do first?', correct:'SHE WAKES UP', opts:['SHE EATS BREAKFAST','SHE BRUSHES HER TEETH','SHE GOES TO SCHOOL'] },
-  { text:'It is raining today, so Ben wears his yellow raincoat.', question:'What is the weather like today?', correct:'RAINING', opts:['SUNNY','SNOWING','WINDY'] },
-  { text:'The library is a quiet place. People go there to read books.', question:'What do people do in the library?', correct:'THEY READ BOOKS', opts:['THEY PLAY SOCCER','THEY SWIM','THEY COOK'] },
-  { text:'Leo has two brothers and one sister.', question:'How many sisters does Leo have?', correct:'ONE', opts:['TWO','THREE','ZERO'] },
-  { text:'The sun is bright today, and the sky is blue.', question:'What color is the sky today?', correct:'BLUE', opts:['GRAY','BLACK','GREEN'] },
+  { text:'I have a dog. My dog is brown and small.', question:'What color is the dog?', correct:'Brown', opts:['Black','White','Yellow'] },
+  { text:'Anna has a red bike. She rides her bike to school every day.', question:'What color is the bike?', correct:'Red', opts:['Blue','Green','Yellow'] },
+  { text:'Tom likes apples. He eats an apple every morning for breakfast.', question:'What does Tom eat every morning?', correct:'An apple', opts:['A banana','Bread','Milk'] },
+  { text:'The cat is on the table. The dog is under the table.', question:'Where is the dog?', correct:'Under the table', opts:['On the table','In a box','On a chair'] },
+  { text:'This family has three pets: a dog, a cat, and a bird.', question:'How many pets does the family have?', correct:'Three', opts:['Two','Four','Five'] },
+  { text:'Sara wakes up. Then she brushes her teeth. Then she eats breakfast.', question:'What does Sara do first?', correct:'She wakes up', opts:['She eats breakfast','She brushes her teeth','She goes to school'] },
+  { text:'It is raining today, so Ben wears his yellow raincoat.', question:'What is the weather like today?', correct:'Raining', opts:['Sunny','Snowing','Windy'] },
+  { text:'The library is a quiet place. People go there to read books.', question:'What do people do in the library?', correct:'They read books', opts:['They play soccer','They swim','They cook'] },
+  { text:'Leo has two brothers and one sister.', question:'How many sisters does Leo have?', correct:'One', opts:['Two','Three','Zero'] },
+  { text:'The sun is bright today, and the sky is blue.', question:'What color is the sky today?', correct:'Blue', opts:['Gray','Black','Green'] },
 ];
 export function genLecturaSimple5Round(){
   const recurso = 'Leer en inglés a este nivel no requiere entender cada palabra: se trata de identificar la <b>información explícita</b> que el texto dice directamente (un color, una cantidad, un lugar, el orden de las acciones), apoyándose en las palabras que sí se conocen y en el contexto general de la oración. Buscar palabras clave relacionadas con la pregunta dentro del texto —igual que se haría al leer en español— es la misma estrategia de comprensión lectora, solo que aplicada a otro idioma.';
@@ -100,14 +100,14 @@ export const INGLES_MODULES_G6 = [
 export const INGLES_POS_G6 = [{x:30,y:70},{x:70,y:30}];
 
 const CLIMA_VERBOS_BANK = [
-  { emoji:'☀️', english:'SUNNY' }, { emoji:'🌧️', english:'RAINY' }, { emoji:'❄️', english:'SNOWY' },
-  { emoji:'💨', english:'WINDY' }, { emoji:'☁️', english:'CLOUDY' },
-  { emoji:'🏃', english:'RUN' }, { emoji:'🏊', english:'SWIM' }, { emoji:'✍️', english:'WRITE' },
-  { emoji:'😴', english:'SLEEP' }, { emoji:'⛹️', english:'PLAY' },
+  { emoji:'☀️', english:'Sunny' }, { emoji:'🌧️', english:'Rainy' }, { emoji:'❄️', english:'Snowy' },
+  { emoji:'💨', english:'Windy' }, { emoji:'☁️', english:'Cloudy' },
+  { emoji:'🏃', english:'Run' }, { emoji:'🏊', english:'Swim' }, { emoji:'✍️', english:'Write' },
+  { emoji:'😴', english:'Sleep' }, { emoji:'⛹️', english:'Play' },
 ];
 const DIAS_SEMANA_BANK = [
-  { spanish:'LUNES', english:'MONDAY' }, { spanish:'MARTES', english:'TUESDAY' }, { spanish:'MIÉRCOLES', english:'WEDNESDAY' },
-  { spanish:'JUEVES', english:'THURSDAY' }, { spanish:'VIERNES', english:'FRIDAY' }, { spanish:'SÁBADO', english:'SATURDAY' }, { spanish:'DOMINGO', english:'SUNDAY' },
+  { spanish:'Lunes', english:'Monday' }, { spanish:'Martes', english:'Tuesday' }, { spanish:'Miércoles', english:'Wednesday' },
+  { spanish:'Jueves', english:'Thursday' }, { spanish:'Viernes', english:'Friday' }, { spanish:'Sábado', english:'Saturday' }, { spanish:'Domingo', english:'Sunday' },
 ];
 export function genVocabularioIngles6Round(){
   const recurso = 'En inglés, el clima se describe con adjetivos como "sunny" (soleado), "rainy" (lluvioso) o "windy" (con viento), y las acciones cotidianas con verbos como "run" (correr) o "sleep" (dormir). Los días de la semana en inglés ("Monday", "Tuesday"...) se aprenden mejor como traducción directa palabra por palabra, ya que —a diferencia del clima o las acciones— no tienen una imagen que los represente por sí solos. Practicar este vocabulario básico ayuda a construir las primeras oraciones simples en un segundo idioma.';
@@ -132,16 +132,16 @@ export function genVocabularioIngles6Round(){
 }
 
 const LECTURA_SIMPLE2_BANK = [
-  { text:'Dear Sofia, Thank you for the birthday gift. I love the book. See you soon. Love, Mia.', question:'What did Mia receive as a gift?', correct:'A BOOK', opts:['A TOY','A BIKE','A GAME'] },
-  { text:'You are invited to a birthday party! Saturday, 3:00 PM, at the park.', question:'What day is the party?', correct:'SATURDAY', opts:['MONDAY','FRIDAY','SUNDAY'] },
-  { text:'Postcard from the beach: The weather is sunny and the water is warm. I am eating ice cream every day.', question:'What is the weather like at the beach?', correct:'SUNNY', opts:['RAINY','SNOWY','COLD'] },
-  { text:'Menu: Soup 3 dollars, Sandwich 5 dollars, Salad 4 dollars, Juice 2 dollars.', question:'How much does a sandwich cost?', correct:'5 DOLLARS', opts:['3 DOLLARS','4 DOLLARS','2 DOLLARS'] },
-  { text:'A short poem: The cat sat on the mat, and then it took a nap.', question:'Where did the cat sit?', correct:'ON THE MAT', opts:['ON THE BED','ON THE CHAIR','ON THE FLOOR'] },
-  { text:'Comic strip: A boy drops his ice cream. He looks sad. Then his dog licks his hand and he smiles.', question:'Why does the boy smile at the end?', correct:'BECAUSE HIS DOG COMFORTS HIM', opts:['BECAUSE HE GOT NEW ICE CREAM','BECAUSE IT STARTED RAINING','BECAUSE HE WENT HOME'] },
-  { text:'A short story: Once there was a small mouse who lived in a big house. Every night, the mouse looked for cheese.', question:'What did the mouse look for every night?', correct:'CHEESE', opts:['BREAD','MILK','FRUIT'] },
-  { text:'Note on the fridge: Please buy milk and eggs. Thank you. Mom.', question:'What does Mom ask to buy?', correct:'MILK AND EGGS', opts:['BREAD AND BUTTER','APPLES AND BANANAS','RICE AND BEANS'] },
-  { text:'Greeting card: Happy birthday. I hope you have a wonderful day. With love, Grandma.', question:'Who wrote the card?', correct:'GRANDMA', opts:['MOM','A FRIEND','THE TEACHER'] },
-  { text:'A short poem: Twinkle, twinkle, little star, how I wonder what you are.', question:'What does the poem talk about?', correct:'A STAR', opts:['THE MOON','THE SUN','A CLOUD'] },
+  { text:'Dear Sofia, Thank you for the birthday gift. I love the book. See you soon. Love, Mia.', question:'What did Mia receive as a gift?', correct:'A book', opts:['A toy','A bike','A game'] },
+  { text:'You are invited to a birthday party! Saturday, 3:00 PM, at the park.', question:'What day is the party?', correct:'Saturday', opts:['Monday','Friday','Sunday'] },
+  { text:'Postcard from the beach: The weather is sunny and the water is warm. I am eating ice cream every day.', question:'What is the weather like at the beach?', correct:'Sunny', opts:['Rainy','Snowy','Cold'] },
+  { text:'Menu: Soup 3 dollars, Sandwich 5 dollars, Salad 4 dollars, Juice 2 dollars.', question:'How much does a sandwich cost?', correct:'5 Dollars', opts:['3 Dollars','4 Dollars','2 Dollars'] },
+  { text:'A short poem: The cat sat on the mat, and then it took a nap.', question:'Where did the cat sit?', correct:'On the mat', opts:['On the bed','On the chair','On the floor'] },
+  { text:'Comic strip: A boy drops his ice cream. He looks sad. Then his dog licks his hand and he smiles.', question:'Why does the boy smile at the end?', correct:'Because his dog comforts him', opts:['Because he got new ice cream','Because it started raining','Because he went home'] },
+  { text:'A short story: Once there was a small mouse who lived in a big house. Every night, the mouse looked for cheese.', question:'What did the mouse look for every night?', correct:'Cheese', opts:['Bread','Milk','Fruit'] },
+  { text:'Note on the fridge: Please buy milk and eggs. Thank you. Mom.', question:'What does Mom ask to buy?', correct:'Milk and eggs', opts:['Bread and butter','Apples and bananas','Rice and beans'] },
+  { text:'Greeting card: Happy birthday. I hope you have a wonderful day. With love, Grandma.', question:'Who wrote the card?', correct:'Grandma', opts:['Mom','A friend','The teacher'] },
+  { text:'A short poem: Twinkle, twinkle, little star, how I wonder what you are.', question:'What does the poem talk about?', correct:'A star', opts:['The moon','The sun','A cloud'] },
 ];
 export function genLecturaSimple6Round(){
   const recurso = 'Leer un texto breve en inglés (una nota, una postal, un menú o un poema corto) no requiere entender cada palabra: basta con identificar la información clave que responde la pregunta —quién escribe, qué pide, cuándo ocurre algo—, apoyándose en palabras conocidas y en el contexto general del texto. Esta misma estrategia de "leer para encontrar el dato" funciona igual en español y en inglés.';
@@ -179,18 +179,18 @@ export const INGLES_MODULES_G7 = [
 export const INGLES_POS_G7 = [{x:30,y:70},{x:70,y:30}];
 
 const OBLIGACION_SUGERENCIA_BANK = [
-  { spanish:'Debes hacer esto (obligación).', english:'YOU MUST DO THIS', opts:['YOU CAN DO THIS','YOU MIGHT DO THIS','YOU LIKE THIS'] },
-  { spanish:'Deberías intentar esto (sugerencia).', english:'YOU SHOULD TRY THIS', opts:['YOU MUST TRY THIS','YOU NEVER TRY THIS','YOU HATE THIS'] },
-  { spanish:'Necesito ayuda (necesidad).', english:'I NEED HELP', opts:['I WANT HELP','I HAVE HELP','I GIVE HELP'] },
-  { spanish:'No se permite hacer esto (prohibición).', english:'YOU MUST NOT DO THIS', opts:['YOU SHOULD DO THIS','YOU CAN DO THIS','YOU ALWAYS DO THIS'] },
-  { spanish:'¿Y si vamos al parque? (sugerencia).', english:'HOW ABOUT GOING TO THE PARK', opts:['WE NEVER GO TO THE PARK','YOU MUST GO TO THE PARK','I HATE THE PARK'] },
-  { spanish:'Es obligatorio usar casco (obligación).', english:'YOU MUST WEAR A HELMET', opts:['YOU MIGHT WEAR A HELMET','YOU DISLIKE A HELMET','YOU SEE A HELMET'] },
+  { spanish:'Debes hacer esto (obligación).', english:'You must do this', opts:['You can do this','You might do this','You like this'] },
+  { spanish:'Deberías intentar esto (sugerencia).', english:'You should try this', opts:['You must try this','You never try this','You hate this'] },
+  { spanish:'Necesito ayuda (necesidad).', english:'I need help', opts:['I want help','I have help','I give help'] },
+  { spanish:'No se permite hacer esto (prohibición).', english:'You must not do this', opts:['You should do this','You can do this','You always do this'] },
+  { spanish:'¿Y si vamos al parque? (sugerencia).', english:'How about going to the park', opts:['We never go to the park','You must go to the park','I hate the park'] },
+  { spanish:'Es obligatorio usar casco (obligación).', english:'You must wear a helmet', opts:['You might wear a helmet','You dislike a helmet','You see a helmet'] },
 ];
 const CANTIDADES_DESCRIPCIONES_BANK = [
-  { spanish:'Hay muchos libros en la mesa.', english:'THERE ARE MANY BOOKS ON THE TABLE', opts:['THERE IS ONE BOOK ON THE TABLE','THERE ARE NO BOOKS ON THE TABLE','THE TABLE HAS NO BOOKS'] },
-  { spanish:'Hay poca agua en el vaso.', english:'THERE IS LITTLE WATER IN THE GLASS', opts:['THERE IS A LOT OF WATER IN THE GLASS','THE GLASS IS COMPLETELY FULL','THE GLASS HAS NO WATER'] },
-  { spanish:'Esta caja es más pesada que esa.', english:'THIS BOX IS HEAVIER THAN THAT ONE', opts:['THIS BOX IS LIGHTER THAN THAT ONE','BOTH BOXES WEIGH THE SAME','THIS BOX HAS NO WEIGHT'] },
-  { spanish:'Ella es la persona más alta del grupo.', english:'SHE IS THE TALLEST PERSON IN THE GROUP', opts:['SHE IS THE SHORTEST PERSON IN THE GROUP','EVERYONE IS THE SAME HEIGHT','SHE IS NOT PART OF THE GROUP'] },
+  { spanish:'Hay muchos libros en la mesa.', english:'There are many books on the table', opts:['There is one book on the table','There are no books on the table','The table has no books'] },
+  { spanish:'Hay poca agua en el vaso.', english:'There is little water in the glass', opts:['There is a lot of water in the glass','The glass is completely full','The glass has no water'] },
+  { spanish:'Esta caja es más pesada que esa.', english:'This box is heavier than that one', opts:['This box is lighter than that one','Both boxes weigh the same','This box has no weight'] },
+  { spanish:'Ella es la persona más alta del grupo.', english:'She is the tallest person in the group', opts:['She is the shortest person in the group','Everyone is the same height','She is not part of the group'] },
 ];
 export function genVocabularioAvanzado7Round(){
   const recurso = 'En inglés, palabras como <b>must/have to</b> expresan obligación, <b>should</b> expresa sugerencia, y <b>need to</b> expresa necesidad — cada una indica un grado distinto de importancia sobre una acción. También se pueden describir <b>cantidades</b> (many, little, a lot of) y hacer <b>comparaciones</b> (heavier than, the tallest) para comparar dos o más cosas. Practicar estas estructuras ayuda a expresar ideas más precisas en inglés, más allá de vocabulario simple.';
@@ -205,17 +205,17 @@ export function genVocabularioAvanzado7Round(){
 }
 
 const LECTURA_INTERMEDIA_BANK = [
-  { text:'Recycling helps the environment. It reduces waste and saves natural resources like trees and water.', question:'What does recycling help reduce?', correct:'WASTE', opts:['MONEY','TIME','FRIENDS'] },
-  { text:'Marco plays soccer every weekend with his friends at the local park near his house.', question:'What sport does Marco play?', correct:'SOCCER', opts:['BASKETBALL','TENNIS','SWIMMING'] },
-  { text:'Once upon a time, a young girl named Elena found a hidden map in an old chest that belonged to her grandmother. She decided to follow it.', question:'What did Elena find?', correct:'A HIDDEN MAP', opts:['A LETTER','A PHOTOGRAPH','A KEY'] },
-  { text:'In the story, the main character is a brave fox who lives in a big forest with many other animals.', question:'Where does the main character live?', correct:'IN A FOREST', opts:['IN A CITY','IN A DESERT','IN A CAVE'] },
-  { text:'The school announced a science fair next month. Students will present projects about renewable energy.', question:'What is the topic of the projects?', correct:'RENEWABLE ENERGY', opts:['ANCIENT HISTORY','SPORTS','MUSIC'] },
-  { text:'After the rain stopped, a beautiful rainbow appeared over the mountains, and everyone came outside to see it.', question:'What appeared after the rain?', correct:'A RAINBOW', opts:['A STORM','SNOW','A FIRE'] },
-  { text:'The novel follows two brothers who travel across the country to find their missing father.', question:'What are the two brothers looking for?', correct:'THEIR MISSING FATHER', opts:['A LOST TREASURE','A NEW HOME','A FAMOUS CITY'] },
-  { text:'Healthy eating includes fruits, vegetables, and drinking enough water every day.', question:'According to the text, what should you drink enough of every day?', correct:'WATER', opts:['SODA','COFFEE','JUICE ONLY'] },
-  { text:'The museum has a new exhibit about ancient Egypt, with real artifacts from over three thousand years ago.', question:'What is the new exhibit about?', correct:'ANCIENT EGYPT', opts:['MODERN ART','SPACE TRAVEL','OCEAN LIFE'] },
-  { text:'Every summer, the town holds a music festival where local bands perform in the main square.', question:'Where do the bands perform?', correct:'IN THE MAIN SQUARE', opts:['AT THE BEACH','IN A STADIUM','AT SCHOOL'] },
-  { text:'In this story, a clever crow drops stones into a jar of water to make the water level rise so it can drink.', question:'Why does the crow drop stones into the jar?', correct:'TO MAKE THE WATER LEVEL RISE', opts:['TO BUILD A NEST','TO PLAY A GAME','TO HIDE THE STONES'] },
+  { text:'Recycling helps the environment. It reduces waste and saves natural resources like trees and water.', question:'What does recycling help reduce?', correct:'Waste', opts:['Money','Time','Friends'] },
+  { text:'Marco plays soccer every weekend with his friends at the local park near his house.', question:'What sport does Marco play?', correct:'Soccer', opts:['Basketball','Tennis','Swimming'] },
+  { text:'Once upon a time, a young girl named Elena found a hidden map in an old chest that belonged to her grandmother. She decided to follow it.', question:'What did Elena find?', correct:'A hidden map', opts:['A letter','A photograph','A key'] },
+  { text:'In the story, the main character is a brave fox who lives in a big forest with many other animals.', question:'Where does the main character live?', correct:'In a forest', opts:['In a city','In a desert','In a cave'] },
+  { text:'The school announced a science fair next month. Students will present projects about renewable energy.', question:'What is the topic of the projects?', correct:'Renewable energy', opts:['Ancient history','Sports','Music'] },
+  { text:'After the rain stopped, a beautiful rainbow appeared over the mountains, and everyone came outside to see it.', question:'What appeared after the rain?', correct:'A rainbow', opts:['A storm','Snow','A fire'] },
+  { text:'The novel follows two brothers who travel across the country to find their missing father.', question:'What are the two brothers looking for?', correct:'Their missing father', opts:['A lost treasure','A new home','A famous city'] },
+  { text:'Healthy eating includes fruits, vegetables, and drinking enough water every day.', question:'According to the text, what should you drink enough of every day?', correct:'Water', opts:['Soda','Coffee','Juice only'] },
+  { text:'The museum has a new exhibit about ancient Egypt, with real artifacts from over three thousand years ago.', question:'What is the new exhibit about?', correct:'Ancient Egypt', opts:['Modern art','Space travel','Ocean life'] },
+  { text:'Every summer, the town holds a music festival where local bands perform in the main square.', question:'Where do the bands perform?', correct:'In the main square', opts:['At the beach','In a stadium','At school'] },
+  { text:'In this story, a clever crow drops stones into a jar of water to make the water level rise so it can drink.', question:'Why does the crow drop stones into the jar?', correct:'To make the water level rise', opts:['To build a nest','To play a game','To hide the stones'] },
 ];
 export function genLecturaIntermedia7Round(){
   const recurso = 'Al leer un texto breve en inglés, ayuda buscar la información específica que responde la pregunta (quién, qué, dónde, por qué) en vez de tratar de traducir cada palabra. Fijarse en palabras clave del texto y de la pregunta permite ubicar la respuesta correcta más rápido, incluso si no se conocen todas las palabras del texto.';
@@ -249,16 +249,16 @@ export const INGLES_MODULES_G8 = [
 export const INGLES_POS_G8 = [{x:30,y:70},{x:70,y:30}];
 
 const FUNCIONES_8_BANK = [
-  { spanish:'Mi mochila es más pesada que la tuya (comparación).', english:'MY BACKPACK IS HEAVIER THAN YOURS', opts:['MY BACKPACK IS THE LIGHTEST','MY BACKPACK IS NEW','YOUR BACKPACK IS HEAVIER THAN MINE'] },
-  { spanish:'Este es el día más frío del año (superlativo).', english:'THIS IS THE COLDEST DAY OF THE YEAR', opts:['THIS DAY IS COLDER THAN TOMORROW','THIS IS A WARM DAY','EVERY DAY IS COLD'] },
-  { spanish:'Voy a viajar al sur este verano (intención futura).', english:'I AM GOING TO TRAVEL SOUTH THIS SUMMER', opts:['I TRAVELED SOUTH LAST SUMMER','I NEVER TRAVEL SOUTH','I AM TRAVELING SOUTH RIGHT NOW'] },
-  { spanish:'Mañana lloverá en la ciudad (predicción futura).', english:'IT WILL RAIN IN THE CITY TOMORROW', opts:['IT RAINED IN THE CITY YESTERDAY','IT IS RAINING NOW','IT NEVER RAINS IN THE CITY'] },
-  { spanish:'Dobla a la derecha en la esquina (indicación de dirección).', english:'TURN RIGHT AT THE CORNER', opts:['TURN LEFT AT THE PARK','GO STRAIGHT FOREVER','STOP AT THE CORNER'] },
-  { spanish:'La biblioteca está entre el banco y la plaza (ubicación).', english:'THE LIBRARY IS BETWEEN THE BANK AND THE SQUARE', opts:['THE LIBRARY IS BEHIND THE MOUNTAIN','THE LIBRARY IS INSIDE THE BANK','THE LIBRARY IS FAR FROM EVERYTHING'] },
-  { spanish:'Si estudias, aprenderás más rápido (condicional).', english:'IF YOU STUDY, YOU WILL LEARN FASTER', opts:['IF YOU SLEEP, YOU WILL LEARN FASTER','YOU NEVER STUDY','STUDYING IS NOT USEFUL'] },
-  { spanish:'Si llueve, nos quedaremos en casa (condicional).', english:'IF IT RAINS, WE WILL STAY HOME', opts:['IF IT RAINS, WE WILL GO TO THE BEACH','IT NEVER RAINS AT HOME','WE ALWAYS STAY HOME'] },
-  { spanish:'El tren es más rápido que el bus (comparación).', english:'THE TRAIN IS FASTER THAN THE BUS', opts:['THE BUS IS FASTER THAN THE TRAIN','THE TRAIN IS THE SLOWEST','BOTH ARE EQUALLY SLOW'] },
-  { spanish:'Ella es la mejor jugadora del equipo (superlativo).', english:'SHE IS THE BEST PLAYER ON THE TEAM', opts:['SHE IS A NEW PLAYER ON THE TEAM','SHE IS THE WORST PLAYER','SHE DOES NOT PLAY'] },
+  { spanish:'Mi mochila es más pesada que la tuya (comparación).', english:'My backpack is heavier than yours', opts:['My backpack is the lightest','My backpack is new','Your backpack is heavier than mine'] },
+  { spanish:'Este es el día más frío del año (superlativo).', english:'This is the coldest day of the year', opts:['This day is colder than tomorrow','This is a warm day','Every day is cold'] },
+  { spanish:'Voy a viajar al sur este verano (intención futura).', english:'I am going to travel south this summer', opts:['I traveled south last summer','I never travel south','I am traveling south right now'] },
+  { spanish:'Mañana lloverá en la ciudad (predicción futura).', english:'It will rain in the city tomorrow', opts:['It rained in the city yesterday','It is raining now','It never rains in the city'] },
+  { spanish:'Dobla a la derecha en la esquina (indicación de dirección).', english:'Turn right at the corner', opts:['Turn left at the park','Go straight forever','Stop at the corner'] },
+  { spanish:'La biblioteca está entre el banco y la plaza (ubicación).', english:'The library is between the bank and the square', opts:['The library is behind the mountain','The library is inside the bank','The library is far from everything'] },
+  { spanish:'Si estudias, aprenderás más rápido (condicional).', english:'If you study, you will learn faster', opts:['If you sleep, you will learn faster','You never study','Studying is not useful'] },
+  { spanish:'Si llueve, nos quedaremos en casa (condicional).', english:'If it rains, we will stay home', opts:['If it rains, we will go to the beach','It never rains at home','We always stay home'] },
+  { spanish:'El tren es más rápido que el bus (comparación).', english:'The train is faster than the bus', opts:['The bus is faster than the train','The train is the slowest','Both are equally slow'] },
+  { spanish:'Ella es la mejor jugadora del equipo (superlativo).', english:'She is the best player on the team', opts:['She is a new player on the team','She is the worst player','She does not play'] },
 ];
 export function genFuncionesIdioma8Round(){
   const recurso = 'En inglés, ciertas estructuras gramaticales cumplen "funciones" comunicativas específicas. Para hablar de <b>planes o predicciones futuras</b>, se usa "will" (it will rain) o "going to" (I am going to study). Para dar <b>indicaciones de dirección</b>, se usan verbos como "turn" (doblar) o "go straight" (seguir derecho), junto a preposiciones de lugar como "between" (entre) o "behind" (detrás). Los <b>condicionales simples</b> (con "if") describen una consecuencia que depende de una condición: "If you study, you will learn faster" (si estudias, aprenderás más rápido). Las <b>comparaciones</b> usan "-er than" (faster than = más rápido que) para comparar dos cosas, y el <b>superlativo</b> usa "the -est" (the best = el/la mejor) para señalar el máximo dentro de un grupo.';
@@ -273,16 +273,16 @@ export function genFuncionesIdioma8Round(){
 }
 
 const LECTURA_AVANZADA_8_BANK = [
-  { text:'Because the bus drivers were on strike, many students arrived late to school on Monday.', question:'Why did many students arrive late?', correct:'BECAUSE THE BUS DRIVERS WERE ON STRIKE', opts:['BECAUSE THE SCHOOL WAS CLOSED','BECAUSE IT WAS SNOWING','BECAUSE THEY WOKE UP EARLY'] },
-  { text:'First, mix the flour and eggs. Then, add the milk slowly. Finally, cook the mixture in a hot pan.', question:'What should you do right after mixing the flour and eggs?', correct:'ADD THE MILK SLOWLY', opts:['COOK THE MIXTURE','EAT THE FLOUR','WASH THE PAN'] },
-  { text:'The town built a new bridge over the river. As a result, people now save thirty minutes on their way to work.', question:'What was the result of building the bridge?', correct:'PEOPLE NOW SAVE THIRTY MINUTES', opts:['THE RIVER BECAME WIDER','PEOPLE STOPPED WORKING','THE TOWN LOST ITS ROADS'] },
-  { text:'Maria forgot her umbrella at home. Consequently, she got completely wet on her walk to the station.', question:'Why did Maria get wet?', correct:'BECAUSE SHE FORGOT HER UMBRELLA', opts:['BECAUSE SHE SWAM IN THE RIVER','BECAUSE THE STATION WAS FLOODED','BECAUSE SHE TOOK A SHOWER'] },
-  { text:'The story follows a young inventor who builds a robot to help her grandmother with the garden. At the end, the whole neighborhood asks for robots too.', question:'Why did the inventor build the robot?', correct:'TO HELP HER GRANDMOTHER WITH THE GARDEN', opts:['TO SELL IT TO THE NEIGHBORS','TO WIN A SCIENCE PRIZE','TO CLEAN HER ROOM'] },
-  { text:'Plastic takes hundreds of years to break down. For this reason, many cities now encourage reusable bags.', question:'Why do many cities encourage reusable bags?', correct:'BECAUSE PLASTIC TAKES HUNDREDS OF YEARS TO BREAK DOWN', opts:['BECAUSE REUSABLE BAGS ARE EXPENSIVE','BECAUSE PLASTIC DISAPPEARS QUICKLY','BECAUSE CITIES DISLIKE SHOPPING'] },
-  { text:'After the final exam, the students organized a small celebration in the park. They played games, shared food, and thanked their teachers.', question:'When did the students organize the celebration?', correct:'AFTER THE FINAL EXAM', opts:['BEFORE THE FIRST CLASS','DURING THE EXAM','A YEAR EARLIER'] },
-  { text:'The new sports center opened in March. Since then, more young people in the neighborhood practice sports every week.', question:'What happened after the sports center opened?', correct:'MORE YOUNG PEOPLE PRACTICE SPORTS EVERY WEEK', opts:['THE NEIGHBORHOOD CLOSED ITS PARKS','FEWER PEOPLE PLAY SPORTS','THE CENTER MOVED TO ANOTHER CITY'] },
-  { text:'In the novel, the main character moves to a small village by the sea. At first she feels lonely, but after joining the local choir she makes many friends.', question:'How did the character make friends?', correct:'BY JOINING THE LOCAL CHOIR', opts:['BY STAYING AT HOME','BY MOVING BACK TO THE CITY','BY BUYING A BOAT'] },
-  { text:'The library extended its hours because many students requested more time to study in the evenings.', question:'What caused the library to extend its hours?', correct:'STUDENTS REQUESTED MORE TIME TO STUDY', opts:['THE LIBRARY HAD TOO MANY BOOKS','THE EVENINGS BECAME LONGER','A NEW LIBRARY OPENED NEXT DOOR'] },
+  { text:'Because the bus drivers were on strike, many students arrived late to school on Monday.', question:'Why did many students arrive late?', correct:'Because the bus drivers were on strike', opts:['Because the school was closed','Because it was snowing','Because they woke up early'] },
+  { text:'First, mix the flour and eggs. Then, add the milk slowly. Finally, cook the mixture in a hot pan.', question:'What should you do right after mixing the flour and eggs?', correct:'Add the milk slowly', opts:['Cook the mixture','Eat the flour','Wash the pan'] },
+  { text:'The town built a new bridge over the river. As a result, people now save thirty minutes on their way to work.', question:'What was the result of building the bridge?', correct:'People now save thirty minutes', opts:['The river became wider','People stopped working','The town lost its roads'] },
+  { text:'Maria forgot her umbrella at home. Consequently, she got completely wet on her walk to the station.', question:'Why did Maria get wet?', correct:'Because she forgot her umbrella', opts:['Because she swam in the river','Because the station was flooded','Because she took a shower'] },
+  { text:'The story follows a young inventor who builds a robot to help her grandmother with the garden. At the end, the whole neighborhood asks for robots too.', question:'Why did the inventor build the robot?', correct:'To help her grandmother with the garden', opts:['To sell it to the neighbors','To win a science prize','To clean her room'] },
+  { text:'Plastic takes hundreds of years to break down. For this reason, many cities now encourage reusable bags.', question:'Why do many cities encourage reusable bags?', correct:'Because plastic takes hundreds of years to break down', opts:['Because reusable bags are expensive','Because plastic disappears quickly','Because cities dislike shopping'] },
+  { text:'After the final exam, the students organized a small celebration in the park. They played games, shared food, and thanked their teachers.', question:'When did the students organize the celebration?', correct:'After the final exam', opts:['Before the first class','During the exam','A year earlier'] },
+  { text:'The new sports center opened in March. Since then, more young people in the neighborhood practice sports every week.', question:'What happened after the sports center opened?', correct:'More young people practice sports every week', opts:['The neighborhood closed its parks','Fewer people play sports','The center moved to another city'] },
+  { text:'In the novel, the main character moves to a small village by the sea. At first she feels lonely, but after joining the local choir she makes many friends.', question:'How did the character make friends?', correct:'By joining the local choir', opts:['By staying at home','By moving back to the city','By buying a boat'] },
+  { text:'The library extended its hours because many students requested more time to study in the evenings.', question:'What caused the library to extend its hours?', correct:'Students requested more time to study', opts:['The library had too many books','The evenings became longer','A new library opened next door'] },
 ];
 export function genLecturaAvanzada8Round(){
   const recurso = 'Para comprender bien un texto en inglés, es útil identificar dos tipos de relaciones dentro del relato: la <b>secuencia</b> (el orden en que ocurren los hechos: first, then, finally — primero, luego, finalmente) y la <b>causa-efecto</b> (por qué ocurrió algo y qué consecuencia tuvo). Palabras clave como "because" (porque), "as a result" (como resultado), "consequently" (por consiguiente) y "for this reason" (por esta razón) señalan que lo que sigue es la causa o el efecto de algo mencionado antes. Reconocer estas palabras conectoras ayuda a entender la lógica interna de un texto, incluso cuando aparecen palabras nuevas — no hace falta entender cada palabra para comprender la relación general entre las ideas.';

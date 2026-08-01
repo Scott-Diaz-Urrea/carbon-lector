@@ -29,18 +29,18 @@ export const EDFISICA_POS = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
    personActionSVG (reusadas de Corporalidad y Movimiento) pero no se
    habían usado todavía en este banco. */
 const MOVIMIENTOS_ITEMS = [
-  { emoji: personActionSVG('correr', 90), label:'CORRER', tipo:'LOCOMOCIÓN' },
-  { emoji: personActionSVG('saltar', 90), label:'SALTAR', tipo:'LOCOMOCIÓN' },
-  { emoji: personActionSVG('reptar', 90), label:'REPTAR (ARRASTRARSE)', tipo:'LOCOMOCIÓN' },
-  { emoji: personActionSVG('caminar', 90), label:'CAMINAR', tipo:'LOCOMOCIÓN' },
-  { emoji: personActionSVG('trepar', 90), label:'TREPAR UNA ESTRUCTURA', tipo:'LOCOMOCIÓN' },
-  { emoji: personActionSVG('nadar', 90), label:'NADAR', tipo:'LOCOMOCIÓN' },
-  { emoji: personActionSVG('lanzar', 90), label:'LANZAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji: personActionSVG('atrapar', 90), label:'ATRAPAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji: personActionSVG('patear', 90), label:'PATEAR UNA PELOTA', tipo:'MANIPULACIÓN' },
-  { emoji: personActionSVG('equilibrio', 90), label:'MANTENER EL EQUILIBRIO EN UN PIE', tipo:'ESTABILIDAD' },
-  { emoji: personActionSVG('girar', 90), label:'GIRAR SOBRE SÍ MISMO', tipo:'ESTABILIDAD' },
-  { emoji: personActionSVG('equilibrio', 90), label:'CAMINAR SOBRE UNA LÍNEA SIN CAERSE', tipo:'ESTABILIDAD' },
+  { emoji: personActionSVG('correr', 90), label:'Correr', tipo:'Locomoción' },
+  { emoji: personActionSVG('saltar', 90), label:'Saltar', tipo:'Locomoción' },
+  { emoji: personActionSVG('reptar', 90), label:'Reptar (arrastrarse)', tipo:'Locomoción' },
+  { emoji: personActionSVG('caminar', 90), label:'Caminar', tipo:'Locomoción' },
+  { emoji: personActionSVG('trepar', 90), label:'Trepar una estructura', tipo:'Locomoción' },
+  { emoji: personActionSVG('nadar', 90), label:'Nadar', tipo:'Locomoción' },
+  { emoji: personActionSVG('lanzar', 90), label:'Lanzar una pelota', tipo:'Manipulación' },
+  { emoji: personActionSVG('atrapar', 90), label:'Atrapar una pelota', tipo:'Manipulación' },
+  { emoji: personActionSVG('patear', 90), label:'Patear una pelota', tipo:'Manipulación' },
+  { emoji: personActionSVG('equilibrio', 90), label:'Mantener el equilibrio en un pie', tipo:'Estabilidad' },
+  { emoji: personActionSVG('girar', 90), label:'Girar sobre sí mismo', tipo:'Estabilidad' },
+  { emoji: personActionSVG('equilibrio', 90), label:'Caminar sobre una línea sin caerse', tipo:'Estabilidad' },
 ];
 /* Ampliado de 10 a 12 ítems (mismo motivo que arriba). */
 const VIDA_ACTIVA_ITEMS = [
@@ -143,7 +143,7 @@ const LIDERAZGO_ITEMS = [
 export function genCuerpoResponde2Round(){
   const recurso = 'Cuando haces ejercicio, tu cuerpo reacciona de formas que puedes notar directamente: el corazón late más rápido (para bombear más sangre a los músculos que están trabajando), respiras más rápido y más profundo (para llevar más oxígeno a tu cuerpo), y puedes empezar a sudar (para enfriarte). Estas respuestas no son señales de que algo anda mal — son la forma en que tu cuerpo se adapta para darte la energía que necesitas mientras te mueves. Reconocer estas respuestas normales del cuerpo te ayuda a entender por qué es importante calentar antes de hacer deporte, y a distinguir un cansancio normal de una señal de alerta real.';
   const item = pick(CUERPO_RESPONDE_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -155,7 +155,7 @@ export function genCuerpoResponde2Round(){
 export function genVidaActiva2Round(){
   const recurso = 'Mantener una vida activa y saludable en 2° básico significa seguir combinando hábitos de movimiento regular, buena alimentación, descanso suficiente e higiene diaria — los mismos pilares de 1° básico, pero ahora con más autonomía para practicarlos tú solo, sin que un adulto tenga que recordártelo siempre. Entre más temprano se forman estos hábitos, más fácil es mantenerlos de forma natural cuando seas grande, porque se vuelven parte de tu rutina normal en vez de sentirse como una obligación.';
   const item = pick(VIDA_ACTIVA_2_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -167,7 +167,7 @@ export function genVidaActiva2Round(){
 export function genLiderazgo2Round(){
   const recurso = 'Jugar en equipo requiere algo más que solo saber jugar bien: requiere <b>liderazgo</b> positivo, que significa animar a tus compañeros, escuchar las ideas de los demás, y ayudar a resolver desacuerdos sin gritar ni pelear. Un buen líder de equipo no es necesariamente el que juega mejor, sino el que ayuda a que todo el grupo trabaje unido y se sienta incluido. Practicar estas habilidades desde pequeño —en un juego de patio— te prepara para trabajar bien en equipo en muchas otras situaciones de tu vida, no solo en el deporte.';
   const item = pick(LIDERAZGO_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -179,7 +179,7 @@ export function genLiderazgo2Round(){
 export function genMovimientoRound(){
   const recurso = 'Los movimientos del cuerpo se agrupan en 3 categorías: <b>locomoción</b> son los que te trasladan de un lugar a otro (caminar, correr, saltar); <b>manipulación</b> son los que usas para controlar un objeto (lanzar, atrapar, patear una pelota); y <b>estabilidad</b> son los que mantienen tu equilibrio sin moverte del lugar (pararse en un pie, girar). Reconocer estas 3 categorías te ayuda a entender que tu cuerpo puede hacer muchos tipos de movimiento distintos, y que cada deporte o juego combina varios de ellos — por ejemplo, jugar fútbol usa locomoción (correr) y manipulación (patear) al mismo tiempo.';
   const item = pick(MOVIMIENTOS_ITEMS);
-  const opts = shuffle(['LOCOMOCIÓN','MANIPULACIÓN','ESTABILIDAD']).map(function(t){ return {label:t, value:t}; });
+  const opts = shuffle(['Locomoción','Manipulación','Estabilidad']).map(function(t){ return {label:t, value:t}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿Qué tipo de movimiento es?</p>',
     options: opts, correctValue: item.tipo, speakText: item.label, cols:4, kind:'word',
@@ -191,7 +191,7 @@ export function genMovimientoRound(){
 export function genVidaActivaRound(){
   const recurso = 'Llevar una <b>vida activa y saludable</b> significa combinar varios hábitos todos los días: moverte y hacer actividad física con regularidad (no solo una vez a la semana), comer alimentos variados y nutritivos, dormir las horas que tu cuerpo necesita para descansar, y mantener una buena higiene (lavarte las manos, los dientes, bañarte). Ningún hábito por sí solo es suficiente — es la combinación de todos ellos, mantenida en el tiempo, la que realmente cuida tu salud y te da energía para jugar, aprender y crecer bien.';
   const item = pick(VIDA_ACTIVA_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -203,7 +203,7 @@ export function genVidaActivaRound(){
 export function genSeguridadRound(){
   const recurso = 'El <b>juego limpio</b> significa seguir las reglas del juego incluso cuando nadie te está mirando, respetar a tus compañeros y aceptar los resultados sin hacer trampa. La <b>seguridad</b> al jugar o hacer deporte significa cuidar tu cuerpo y el de los demás: usar el equipo de protección adecuado (como un casco), jugar en espacios seguros, y avisar a un adulto si algo se ve peligroso. Estas dos ideas van juntas porque un juego solo es realmente divertido para todos cuando se juega con honestidad y sin que nadie salga lastimado.';
   const item = pick(SEGURIDAD_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -250,7 +250,7 @@ const SEGURIDAD_3_ITEMS = [
 
 export function genVidaActiva3Round(){
   const item = pick(VIDA_ACTIVA_3_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -261,7 +261,7 @@ export function genVidaActiva3Round(){
 
 export function genSeguridad3Round(){
   const item = pick(SEGURIDAD_3_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -287,14 +287,14 @@ export const EDFISICA_MODULES_G4 = [
 export const EDFISICA_POS_G4 = [{x:30,y:70},{x:70,y:30}];
 
 const COMPONENTES_FISICOS_BANK = [
-  { actividad:'Correr una larga distancia sin parar', componente:'RESISTENCIA CARDIOVASCULAR' },
-  { actividad:'Trotar 20 minutos seguidos', componente:'RESISTENCIA CARDIOVASCULAR' },
-  { actividad:'Levantar un objeto pesado', componente:'FUERZA' },
-  { actividad:'Hacer flexiones de brazos', componente:'FUERZA' },
-  { actividad:'Tocarse los dedos de los pies sin doblar las rodillas', componente:'FLEXIBILIDAD' },
-  { actividad:'Hacer estiramientos antes de entrenar', componente:'FLEXIBILIDAD' },
-  { actividad:'Correr los 50 metros lo más rápido posible', componente:'VELOCIDAD' },
-  { actividad:'Hacer una carrera corta a máxima velocidad', componente:'VELOCIDAD' },
+  { actividad:'Correr una larga distancia sin parar', componente:'Resistencia cardiovascular' },
+  { actividad:'Trotar 20 minutos seguidos', componente:'Resistencia cardiovascular' },
+  { actividad:'Levantar un objeto pesado', componente:'Fuerza' },
+  { actividad:'Hacer flexiones de brazos', componente:'Fuerza' },
+  { actividad:'Tocarse los dedos de los pies sin doblar las rodillas', componente:'Flexibilidad' },
+  { actividad:'Hacer estiramientos antes de entrenar', componente:'Flexibilidad' },
+  { actividad:'Correr los 50 metros lo más rápido posible', componente:'Velocidad' },
+  { actividad:'Hacer una carrera corta a máxima velocidad', componente:'Velocidad' },
 ];
 const PULSO_BANK = [
   { pregunta:'¿Qué pasa con tu pulso (los latidos del corazón) cuando haces ejercicio intenso?', correcta:'Aumenta, late más rápido', opts:['Disminuye','No cambia','Se detiene'] },
@@ -316,7 +316,7 @@ export function genCondicionFisica4Round(){
   const recurso = 'La <b>condición física</b> tiene 4 componentes principales: la resistencia cardiovascular (la capacidad de mantener un esfuerzo por un tiempo largo, como correr sin parar), la fuerza (la capacidad de levantar o mover objetos pesados), la flexibilidad (qué tan bien se estiran tus músculos y articulaciones) y la velocidad (qué tan rápido puedes moverte en un tramo corto). El <b>pulso</b> es la cantidad de veces que late tu corazón por minuto, y se puede sentir fácilmente con los dedos en la muñeca o el cuello; medirlo antes y después de hacer ejercicio te muestra cómo responde tu cuerpo al esfuerzo — el pulso aumenta durante el ejercicio intenso porque el corazón trabaja más rápido para llevar oxígeno a los músculos.';
   if(Math.random()<0.7){
     const item = pick(COMPONENTES_FISICOS_BANK);
-    const distract = shuffle(['RESISTENCIA CARDIOVASCULAR','FUERZA','FLEXIBILIDAD','VELOCIDAD'].filter(function(c){ return c!==item.componente; }));
+    const distract = shuffle(['Resistencia cardiovascular','Fuerza','Flexibilidad','Velocidad'].filter(function(c){ return c!==item.componente; }));
     const opts = shuffle([item.componente].concat(distract)).map(function(c){ return {label:c, value:c}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué componente de la condición física se está trabajando?</p>',
@@ -337,7 +337,7 @@ export function genCondicionFisica4Round(){
 
 export function genSeguridad4Round(){
   const item = pick(SEGURIDAD_4_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -364,12 +364,12 @@ export const EDFISICA_MODULES_G5 = [
 export const EDFISICA_POS_G5 = [{x:30,y:70},{x:70,y:30}];
 
 const INTENSIDAD_ACTIVIDAD_BANK = [
-  { actividad:'Caminar tranquilamente hasta la casa de un vecino', intensidad:'BAJA' },
-  { actividad:'Quedarse sentado leyendo un libro', intensidad:'BAJA' },
-  { actividad:'Trotar suave durante 15 minutos', intensidad:'MODERADA' },
-  { actividad:'Andar en bicicleta a paso constante', intensidad:'MODERADA' },
-  { actividad:'Correr a máxima velocidad en una carrera', intensidad:'ALTA' },
-  { actividad:'Jugar un partido de fútbol completo sin parar', intensidad:'ALTA' },
+  { actividad:'Caminar tranquilamente hasta la casa de un vecino', intensidad:'Baja' },
+  { actividad:'Quedarse sentado leyendo un libro', intensidad:'Baja' },
+  { actividad:'Trotar suave durante 15 minutos', intensidad:'Moderada' },
+  { actividad:'Andar en bicicleta a paso constante', intensidad:'Moderada' },
+  { actividad:'Correr a máxima velocidad en una carrera', intensidad:'Alta' },
+  { actividad:'Jugar un partido de fútbol completo sin parar', intensidad:'Alta' },
 ];
 const PLANIFICACION_POSTURA_BANK = [
   { label:'Planificar hacer actividad física varias veces por semana ayuda a mantener un cuerpo sano', v:true },
@@ -385,9 +385,9 @@ export function genVidaPostura5Round(){
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(INTENSIDAD_ACTIVIDAD_BANK);
-    const todos = ['BAJA','MODERADA','ALTA'];
+    const todos = ['Baja','Moderada','Alta'];
     const distract = todos.filter(function(t){ return t!==item.intensidad; });
-    const opts = shuffle([item.intensidad].concat(distract)).map(function(i){ return {label:'INTENSIDAD '+i, value:i}; });
+    const opts = shuffle([item.intensidad].concat(distract)).map(function(i){ return {label:'Intensidad '+i, value:i}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué intensidad de esfuerzo físico tiene esta actividad?</p>',
       options: opts, correctValue: item.intensidad, speakText: item.actividad, cols:2, panel:true,
@@ -395,7 +395,7 @@ export function genVidaPostura5Round(){
     };
   }
   const item = pick(PLANIFICACION_POSTURA_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -416,7 +416,7 @@ const LIDERAZGO_SEGURIDAD5_ITEMS = [
 export function genLiderazgo5Round(){
   const recurso = 'Un buen <b>líder de equipo</b> organiza y motiva a sus compañeros con respeto, escuchando las ideas de todos antes de decidir — no impone su opinión ni ignora a los demás. La <b>seguridad</b> en la actividad física implica revisar que el espacio de juego esté libre de peligros, usar los implementos deportivos de forma responsable, y nunca presionar a un compañero a jugar lesionado. Jugar limpio significa aceptar las decisiones de un árbitro o profesor y seguir las normas de seguridad incluso cuando el juego se pone competitivo.';
   const item = pick(LIDERAZGO_SEGURIDAD5_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -439,12 +439,12 @@ export const EDFISICA_MODULES_G6 = [
 export const EDFISICA_POS_G6 = [{x:30,y:70},{x:70,y:30}];
 
 const INTENSIDAD_ACTIVIDAD6_BANK = [
-  { actividad:'Ver una película sentado en el sillón', intensidad:'BAJA' },
-  { actividad:'Hacer las tareas del colegio sentado en el escritorio', intensidad:'BAJA' },
-  { actividad:'Bailar a un ritmo constante durante 20 minutos', intensidad:'MODERADA' },
-  { actividad:'Nadar a un ritmo tranquilo en la piscina', intensidad:'MODERADA' },
-  { actividad:'Correr una carrera de velocidad a máximo esfuerzo', intensidad:'ALTA' },
-  { actividad:'Jugar un partido completo de básquetbol sin parar', intensidad:'ALTA' },
+  { actividad:'Ver una película sentado en el sillón', intensidad:'Baja' },
+  { actividad:'Hacer las tareas del colegio sentado en el escritorio', intensidad:'Baja' },
+  { actividad:'Bailar a un ritmo constante durante 20 minutos', intensidad:'Moderada' },
+  { actividad:'Nadar a un ritmo tranquilo en la piscina', intensidad:'Moderada' },
+  { actividad:'Correr una carrera de velocidad a máximo esfuerzo', intensidad:'Alta' },
+  { actividad:'Jugar un partido completo de básquetbol sin parar', intensidad:'Alta' },
 ];
 const HABITOS_VI_BANK = [
   { label:'Planificar un horario semanal con tiempo para actividad física ayuda a mantener una vida activa', v:true },
@@ -460,9 +460,9 @@ export function genVidaPostura6Round(){
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(INTENSIDAD_ACTIVIDAD6_BANK);
-    const todos = ['BAJA','MODERADA','ALTA'];
+    const todos = ['Baja','Moderada','Alta'];
     const distract = todos.filter(function(t){ return t!==item.intensidad; });
-    const opts = shuffle([item.intensidad].concat(distract)).map(function(i){ return {label:'INTENSIDAD '+i, value:i}; });
+    const opts = shuffle([item.intensidad].concat(distract)).map(function(i){ return {label:'Intensidad '+i, value:i}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué intensidad de esfuerzo físico tiene esta actividad?</p>',
       options: opts, correctValue: item.intensidad, speakText: item.actividad, cols:2, panel:true,
@@ -470,7 +470,7 @@ export function genVidaPostura6Round(){
     };
   }
   const item = pick(HABITOS_VI_BANK);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -491,7 +491,7 @@ const LIDERAZGO_SEGURIDAD6_ITEMS = [
 export function genLiderazgo6Round(){
   const recurso = 'El buen liderazgo en el deporte se nota en las acciones concretas: motivar a un compañero desanimado, repartir roles según las fortalezas de cada integrante, y reconocer cuando un rival juega mejor sin dejar de esforzarse (eso es <b>juego limpio</b>). La seguridad también es parte de jugar bien: revisar el estado de los materiales antes de usarlos y guardarlos correctamente al terminar evita accidentes. Gritar, hacer trampa o jugar de forma imprudente para impresionar, en cambio, no son formas válidas de liderar ni de competir.';
   const item = pick(LIDERAZGO_SEGURIDAD6_ITEMS);
-  const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
@@ -514,16 +514,16 @@ export const EDFISICA_MODULES_G7 = [
 export const EDFISICA_POS_G7 = [{x:50,y:50}];
 
 const ESTRATEGIA_DEPORTIVA_BANK = [
-  { desc:'En un partido de fútbol, un jugador se mueve hacia un espacio vacío de la cancha antes de que le pasen la pelota, en vez de quedarse quieto', correcta:'OCUPAR ESPACIOS LIBRES', opts:['QUEDARSE SIEMPRE EN EL MISMO LUGAR','IGNORAR A SUS COMPAÑEROS DE EQUIPO','CORRER SIN NINGÚN OBJETIVO'] },
-  { desc:'En vóleibol, un equipo se organiza para que cada jugador cubra una zona distinta de la cancha, sin dejar espacios sin cubrir', correcta:'DISTRIBUIRSE EN POSICIONES DE JUEGO', opts:['AGRUPARSE TODOS EN UN SOLO LUGAR','JUGAR CADA UNO POR SU CUENTA SIN ORGANIZACIÓN','IGNORAR LA POSICIÓN DE LOS RIVALES'] },
-  { desc:'En básquetbol, un jugador observa hacia dónde se mueve el rival para adelantarse a su próxima jugada, en vez de solo reaccionar', correcta:'ANTICIPAR LA JUGADA DEL RIVAL', opts:['ESPERAR SIN OBSERVAR NADA','COPIAR SIEMPRE EL MISMO MOVIMIENTO','IGNORAR POR COMPLETO AL RIVAL'] },
-  { desc:'Antes de comenzar un partido en equipo, los jugadores conversan para decidir quién cubrirá qué función durante el juego', correcta:'PLANIFICAR EL TRABAJO EN EQUIPO', opts:['JUGAR SIN NINGÚN ACUERDO PREVIO','DEJAR QUE UN SOLO JUGADOR HAGA TODO EL TRABAJO','IGNORAR LOS ROLES DENTRO DEL EQUIPO'] },
-  { desc:'En un partido de handball, dos jugadores se pasan la pelota rápidamente para confundir a la defensa rival antes de intentar anotar', correcta:'USAR UNA JUGADA COORDINADA CON UN COMPAÑERO', opts:['JUGAR SIEMPRE EN SOLITARIO SIN PASAR LA PELOTA','DETENERSE POR COMPLETO AL VER AL RIVAL','IGNORAR A LOS COMPAÑEROS DE EQUIPO'] },
-  { desc:'Durante un partido, un equipo cambia su forma de jugar al notar que el rival es muy rápido atacando por un lado de la cancha', correcta:'ADAPTAR LA ESTRATEGIA SEGÚN LO QUE HACE EL RIVAL', opts:['SEGUIR EXACTAMENTE EL MISMO PLAN SIN IMPORTAR LO QUE HAGA EL RIVAL','IGNORAR POR COMPLETO CÓMO JUEGA EL EQUIPO CONTRARIO','ABANDONAR EL PARTIDO AL NOTAR LA DIFERENCIA'] },
-  { desc:'En básquetbol, un jugador se comunica con sus compañeros gritando indicaciones sobre dónde está el rival', correcta:'COMUNICARSE CON EL EQUIPO DURANTE EL JUEGO', opts:['JUGAR EN COMPLETO SILENCIO SIN AVISAR NADA A NADIE','IGNORAR LAS INDICACIONES DE LOS COMPAÑEROS','GRITARLE SOLO AL ÁRBITRO'] },
-  { desc:'Antes de un partido de vóleibol, el equipo revisa en qué zona de la cancha el rival tiene más dificultad para recibir', correcta:'ANALIZAR LAS DEBILIDADES DEL EQUIPO RIVAL PARA APROVECHARLAS', opts:['IGNORAR POR COMPLETO CÓMO JUEGA EL RIVAL','JUGAR SIEMPRE DE LA MISMA FORMA SIN ANALIZAR NADA','ENFOCARSE SOLO EN LOS ERRORES PROPIOS DEL EQUIPO'] },
-  { desc:'En un partido de fútbol, un jugador que se cansó le hace una seña a un compañero en la banca para que lo reemplace en el momento justo', correcta:'USAR LOS CAMBIOS DE JUGADORES COMO PARTE DE LA ESTRATEGIA DEL EQUIPO', opts:['JUGAR SIEMPRE CON LOS MISMOS JUGADORES SIN IMPORTAR EL CANSANCIO','IGNORAR POR COMPLETO A LOS JUGADORES EN LA BANCA','SALIR DE LA CANCHA SIN AVISARLE A NADIE'] },
-  { desc:'Un equipo de básquetbol practica una jugada específica varias veces antes del partido para ejecutarla bien cuando la necesite', correcta:'PREPARAR JUGADAS ESTRATÉGICAS CON ANTICIPACIÓN', opts:['IMPROVISAR TODAS LAS JUGADAS SIN NINGÚN TIPO DE PREPARACIÓN','JUGAR SIEMPRE IGUAL SIN PRACTICAR NADA NUEVO','IGNORAR CUALQUIER TIPO DE ESTRATEGIA ANTES DEL PARTIDO'] },
+  { desc:'En un partido de fútbol, un jugador se mueve hacia un espacio vacío de la cancha antes de que le pasen la pelota, en vez de quedarse quieto', correcta:'Ocupar espacios libres', opts:['Quedarse siempre en el mismo lugar','Ignorar a sus compañeros de equipo','Correr sin ningún objetivo'] },
+  { desc:'En vóleibol, un equipo se organiza para que cada jugador cubra una zona distinta de la cancha, sin dejar espacios sin cubrir', correcta:'Distribuirse en posiciones de juego', opts:['Agruparse todos en un solo lugar','Jugar cada uno por su cuenta sin organización','Ignorar la posición de los rivales'] },
+  { desc:'En básquetbol, un jugador observa hacia dónde se mueve el rival para adelantarse a su próxima jugada, en vez de solo reaccionar', correcta:'Anticipar la jugada del rival', opts:['Esperar sin observar nada','Copiar siempre el mismo movimiento','Ignorar por completo al rival'] },
+  { desc:'Antes de comenzar un partido en equipo, los jugadores conversan para decidir quién cubrirá qué función durante el juego', correcta:'Planificar el trabajo en equipo', opts:['Jugar sin ningún acuerdo previo','Dejar que un solo jugador haga todo el trabajo','Ignorar los roles dentro del equipo'] },
+  { desc:'En un partido de handball, dos jugadores se pasan la pelota rápidamente para confundir a la defensa rival antes de intentar anotar', correcta:'Usar una jugada coordinada con un compañero', opts:['Jugar siempre en solitario sin pasar la pelota','Detenerse por completo al ver al rival','Ignorar a los compañeros de equipo'] },
+  { desc:'Durante un partido, un equipo cambia su forma de jugar al notar que el rival es muy rápido atacando por un lado de la cancha', correcta:'Adaptar la estrategia según lo que hace el rival', opts:['Seguir exactamente el mismo plan sin importar lo que haga el rival','Ignorar por completo cómo juega el equipo contrario','Abandonar el partido al notar la diferencia'] },
+  { desc:'En básquetbol, un jugador se comunica con sus compañeros gritando indicaciones sobre dónde está el rival', correcta:'Comunicarse con el equipo durante el juego', opts:['Jugar en completo silencio sin avisar nada a nadie','Ignorar las indicaciones de los compañeros','Gritarle solo al árbitro'] },
+  { desc:'Antes de un partido de vóleibol, el equipo revisa en qué zona de la cancha el rival tiene más dificultad para recibir', correcta:'Analizar las debilidades del equipo rival para aprovecharlas', opts:['Ignorar por completo cómo juega el rival','Jugar siempre de la misma forma sin analizar nada','Enfocarse solo en los errores propios del equipo'] },
+  { desc:'En un partido de fútbol, un jugador que se cansó le hace una seña a un compañero en la banca para que lo reemplace en el momento justo', correcta:'Usar los cambios de jugadores como parte de la estrategia del equipo', opts:['Jugar siempre con los mismos jugadores sin importar el cansancio','Ignorar por completo a los jugadores en la banca','Salir de la cancha sin avisarle a nadie'] },
+  { desc:'Un equipo de básquetbol practica una jugada específica varias veces antes del partido para ejecutarla bien cuando la necesite', correcta:'Preparar jugadas estratégicas con anticipación', opts:['Improvisar todas las jugadas sin ningún tipo de preparación','Jugar siempre igual sin practicar nada nuevo','Ignorar cualquier tipo de estrategia antes del partido'] },
 ];
 export function genEstrategiasTacticas7Round(){
   const recurso = 'Jugar en equipo no es solo correr detrás de la pelota: incluye ocupar espacios libres antes de recibir un pase, distribuirse en posiciones para cubrir toda la cancha, anticipar la jugada del rival observando sus movimientos, comunicarse con los compañeros durante el juego y planificar jugadas con anticipación. Estas <b>estrategias y tácticas</b> permiten que un equipo juegue de forma coordinada, en vez de que cada jugador actúe por su cuenta.';
@@ -532,7 +532,7 @@ export function genEstrategiasTacticas7Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué estrategia deportiva se muestra aquí?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
-    explain: 'Esto es un ejemplo de: '+item.correcta.toLowerCase()+'.',
+    explain: 'Esto es un ejemplo de: '+item.correcta+'.',
     recurso: recurso,
   };
 }
@@ -557,16 +557,16 @@ export const EDFISICA_MODULES_G8 = [
 export const EDFISICA_POS_G8 = [{x:30,y:70},{x:70,y:30}];
 
 const SISTEMAS_JUEGO_8_BANK = [
-  { desc:'En un partido de tenis, la jugadora golpea la pelota hacia el rincón opuesto a donde está su rival, obligándolo a correr', correcta:'UBICAR EL BALÓN LEJOS DEL CONTRINCANTE', opts:['GOLPEAR SIEMPRE HACIA EL MISMO LUGAR','APUNTAR DIRECTAMENTE AL RIVAL','DEVOLVER LO MÁS SUAVE POSIBLE SIN INTENCIÓN'] },
-  { desc:'En handball, un jugador corre hacia una zona vacía de la cancha justo cuando su compañero está por pasar el balón', correcta:'USAR LOS ESPACIOS PARA RECIBIR SIN OPONENTES CERCA', opts:['QUEDARSE PARADO JUNTO AL DEFENSOR RIVAL','SALIR DE LA CANCHA','PEDIR EL BALÓN DONDE HAY MÁS RIVALES'] },
-  { desc:'En un entrenamiento de básquetbol, el equipo practica el sistema "uno contra uno": cada jugador marca a un rival específico durante toda la defensa', correcta:'APLICAR UN SISTEMA DE JUEGO DE MARCA PERSONAL', opts:['DEFENDER SIN NINGUNA ORGANIZACIÓN','DEJAR LA DEFENSA A UN SOLO JUGADOR','MARCAR TODOS AL MISMO RIVAL'] },
-  { desc:'En un torneo de vóleibol tres contra tres, el equipo acuerda antes del partido quién recibe, quién levanta y quién remata', correcta:'DEFINIR ROLES DENTRO DE UN SISTEMA DE JUEGO REDUCIDO', opts:['QUE TODOS HAGAN TODO AL MISMO TIEMPO SIN ACUERDO','JUGAR SIN CONOCER LAS REGLAS','ESPERAR QUE EL RIVAL DECIDA LOS ROLES'] },
-  { desc:'El equipo pierde el balón y de inmediato todos retroceden ordenadamente a sus posiciones defensivas acordadas', correcta:'APLICAR UN REPLIEGUE DEFENSIVO ORGANIZADO', opts:['QUEDARSE MIRANDO SIN REACCIONAR','CORRER TODOS HACIA EL ARCO RIVAL','ABANDONAR LA CANCHA'] },
-  { desc:'En bádminton, el jugador alterna golpes largos al fondo y cortos a la red para desgastar y descolocar a su rival', correcta:'VARIAR LA UBICACIÓN DE LOS GOLPES COMO TÁCTICA', opts:['REPETIR SIEMPRE EXACTAMENTE EL MISMO GOLPE','GOLPEAR SIN MIRAR LA CANCHA','ESPERAR QUE EL RIVAL SE CANSE SOLO'] },
-  { desc:'Antes de un partido, el equipo estudia que el rival ataca casi siempre por la banda izquierda y decide reforzar esa zona', correcta:'AJUSTAR EL SISTEMA DEFENSIVO SEGÚN EL ANÁLISIS DEL RIVAL', opts:['IGNORAR LO QUE HACE EL RIVAL','REFORZAR UNA ZONA AL AZAR','CAMBIAR DE DEPORTE'] },
-  { desc:'En un contraataque de básquetbol, el jugador con el balón avanza por el centro mientras sus compañeros corren por los costados abriendo la defensa', correcta:'OCUPAR LA CANCHA EN AMPLITUD PARA CREAR VENTAJA NUMÉRICA', opts:['CORRER TODOS EN FILA POR EL MISMO COSTADO','DETENER EL JUEGO SIN MOTIVO','PASAR EL BALÓN HACIA ATRÁS SIEMPRE'] },
-  { desc:'El capitán nota que su equipo está cansado y pide un tiempo fuera para reordenar la táctica y dar descanso', correcta:'USAR EL TIEMPO FUERA COMO HERRAMIENTA TÁCTICA', opts:['SEGUIR JUGANDO SIN AJUSTAR NADA','RETIRARSE DEL PARTIDO','DISCUTIR CON EL ÁRBITRO'] },
-  { desc:'En fútbol, la delantera se mueve constantemente entre los defensores para que nunca sepan quién debe marcarla', correcta:'DESMARCARSE PARA GENERAR DUDAS EN LA DEFENSA RIVAL', opts:['QUEDARSE INMÓVIL TODO EL PARTIDO','SALIR DE LA CANCHA CADA JUGADA','AVISARLE AL RIVAL SUS MOVIMIENTOS'] },
+  { desc:'En un partido de tenis, la jugadora golpea la pelota hacia el rincón opuesto a donde está su rival, obligándolo a correr', correcta:'Ubicar el balón lejos del contrincante', opts:['Golpear siempre hacia el mismo lugar','Apuntar directamente al rival','Devolver lo más suave posible sin intención'] },
+  { desc:'En handball, un jugador corre hacia una zona vacía de la cancha justo cuando su compañero está por pasar el balón', correcta:'Usar los espacios para recibir sin oponentes cerca', opts:['Quedarse parado junto al defensor rival','Salir de la cancha','Pedir el balón donde hay más rivales'] },
+  { desc:'En un entrenamiento de básquetbol, el equipo practica el sistema "uno contra uno": cada jugador marca a un rival específico durante toda la defensa', correcta:'Aplicar un sistema de juego de marca personal', opts:['Defender sin ninguna organización','Dejar la defensa a un solo jugador','Marcar todos al mismo rival'] },
+  { desc:'En un torneo de vóleibol tres contra tres, el equipo acuerda antes del partido quién recibe, quién levanta y quién remata', correcta:'Definir roles dentro de un sistema de juego reducido', opts:['Que todos hagan todo al mismo tiempo sin acuerdo','Jugar sin conocer las reglas','Esperar que el rival decida los roles'] },
+  { desc:'El equipo pierde el balón y de inmediato todos retroceden ordenadamente a sus posiciones defensivas acordadas', correcta:'Aplicar un repliegue defensivo organizado', opts:['Quedarse mirando sin reaccionar','Correr todos hacia el arco rival','Abandonar la cancha'] },
+  { desc:'En bádminton, el jugador alterna golpes largos al fondo y cortos a la red para desgastar y descolocar a su rival', correcta:'Variar la ubicación de los golpes como táctica', opts:['Repetir siempre exactamente el mismo golpe','Golpear sin mirar la cancha','Esperar que el rival se canse solo'] },
+  { desc:'Antes de un partido, el equipo estudia que el rival ataca casi siempre por la banda izquierda y decide reforzar esa zona', correcta:'Ajustar el sistema defensivo según el análisis del rival', opts:['Ignorar lo que hace el rival','Reforzar una zona al azar','Cambiar de deporte'] },
+  { desc:'En un contraataque de básquetbol, el jugador con el balón avanza por el centro mientras sus compañeros corren por los costados abriendo la defensa', correcta:'Ocupar la cancha en amplitud para crear ventaja numérica', opts:['Correr todos en fila por el mismo costado','Detener el juego sin motivo','Pasar el balón hacia atrás siempre'] },
+  { desc:'El capitán nota que su equipo está cansado y pide un tiempo fuera para reordenar la táctica y dar descanso', correcta:'Usar el tiempo fuera como herramienta táctica', opts:['Seguir jugando sin ajustar nada','Retirarse del partido','Discutir con el árbitro'] },
+  { desc:'En fútbol, la delantera se mueve constantemente entre los defensores para que nunca sepan quién debe marcarla', correcta:'Desmarcarse para generar dudas en la defensa rival', opts:['Quedarse inmóvil todo el partido','Salir de la cancha cada jugada','Avisarle al rival sus movimientos'] },
 ];
 export function genSistemasJuego8Round(){
   const recurso = 'En los deportes colectivos, un <b>sistema de juego</b> es un plan acordado por el equipo para organizar el ataque y la defensa, en vez de jugar sin ninguna coordinación. Algunas ideas tácticas clave: ubicar el balón lejos del rival para dificultar su respuesta, moverse hacia espacios vacíos de la cancha para recibir sin oponentes cerca, y asignar roles claros dentro del equipo (quién recibe, quién ataca, quién defiende). También es importante adaptar la táctica según el rival —por ejemplo, reforzar una zona donde el equipo contrario ataca más seguido— y usar herramientas como el tiempo fuera para reordenar el plan durante el partido. Pensar tácticamente, además de tener buena técnica individual, es lo que distingue a un equipo bien organizado.';
@@ -575,22 +575,22 @@ export function genSistemasJuego8Round(){
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué táctica o sistema de juego se aplica aquí?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
-    explain: 'Esto es un ejemplo de: '+item.correcta.toLowerCase()+'.',
+    explain: 'Esto es un ejemplo de: '+item.correcta+'.',
     recurso: recurso,
   };
 }
 
 const ENTRENAMIENTO_8_BANK = [
-  { pregunta:'Catalina entrena 3 veces por semana. ¿Qué componente del entrenamiento describe ese dato?', correcta:'LA FRECUENCIA (CUÁNTAS VECES SE ENTRENA POR SEMANA)', opts:['LA INTENSIDAD DEL ESFUERZO','EL TIPO DE EJERCICIO','LA FLEXIBILIDAD'] },
-  { pregunta:'Tomás corre a un ritmo que apenas le permite conversar, con el pulso muy elevado. ¿Qué componente describe ese dato?', correcta:'LA INTENSIDAD (QUÉ TAN EXIGENTE ES EL ESFUERZO)', opts:['LA FRECUENCIA SEMANAL','EL TIPO DE EJERCICIO','EL CALENTAMIENTO'] },
-  { pregunta:'Una rutina indica trotar 30 minutos y luego descansar 2 minutos entre ejercicios. ¿Qué componente describe esos datos?', correcta:'EL TIEMPO DE DURACIÓN Y DE RECUPERACIÓN', opts:['LA INTENSIDAD MÁXIMA','EL TIPO DE DEPORTE','LA COMPETENCIA'] },
-  { pregunta:'Cada dos semanas, Sofía aumenta un poco la distancia que corre, en vez de exigirse todo de una vez. ¿Qué principio aplica?', correcta:'LA PROGRESIÓN (AUMENTAR LA CARGA DE FORMA GRADUAL)', opts:['LA IMPROVISACIÓN TOTAL','ENTRENAR SIEMPRE EXACTAMENTE IGUAL','SALTARSE EL DESCANSO'] },
-  { pregunta:'Un plan combina trote (resistencia), ejercicios con el peso del cuerpo (fuerza) y elongaciones (flexibilidad). ¿Qué componente varía entre esas sesiones?', correcta:'EL TIPO DE EJERCICIO', opts:['SOLO LA HORA DEL DÍA','EL CLIMA','EL COLOR DE LA ROPA DEPORTIVA'] },
-  { pregunta:'¿Qué capacidad física desarrolla principalmente el trote continuo y prolongado?', correcta:'LA RESISTENCIA CARDIOVASCULAR', opts:['LA FUERZA MÁXIMA DE BRAZOS','LA PUNTERÍA','EL EQUILIBRIO ESTÁTICO ÚNICAMENTE'] },
-  { pregunta:'¿Qué capacidad física desarrollan principalmente los ejercicios de elongación sostenida?', correcta:'LA FLEXIBILIDAD', opts:['LA VELOCIDAD DE REACCIÓN','LA RESISTENCIA CARDIOVASCULAR','LA FUERZA EXPLOSIVA'] },
-  { pregunta:'¿Por qué es importante respetar los tiempos de recuperación entre sesiones exigentes?', correcta:'PORQUE EL CUERPO NECESITA DESCANSO PARA ADAPTARSE Y EVITAR LESIONES', opts:['PORQUE ENTRENAR TODOS LOS DÍAS SIN PARAR ES SIEMPRE MEJOR','PORQUE EL DESCANSO DEBILITA','NO ES IMPORTANTE'] },
-  { pregunta:'Si el objetivo es mejorar la velocidad, ¿qué tipo de ejercicio conviene incluir en el plan?', correcta:'CARRERAS CORTAS Y RÁPIDAS (PIQUES) CON PAUSAS DE RECUPERACIÓN', opts:['SOLO CAMINATAS MUY LENTAS','SOLO ELONGACIONES','NINGÚN EJERCICIO'] },
-  { pregunta:'¿Qué señal indica que la intensidad de un ejercicio aeróbico es moderada y adecuada?', correcta:'PODER HABLAR CON ALGO DE ESFUERZO MIENTRAS SE REALIZA', opts:['NO PODER RESPIRAR EN ABSOLUTO','NO SENTIR NINGÚN ESFUERZO EN NINGÚN MOMENTO','SENTIR DOLOR FUERTE'] },
+  { pregunta:'Catalina entrena 3 veces por semana. ¿Qué componente del entrenamiento describe ese dato?', correcta:'La frecuencia (cuántas veces se entrena por semana)', opts:['La intensidad del esfuerzo','El tipo de ejercicio','La flexibilidad'] },
+  { pregunta:'Tomás corre a un ritmo que apenas le permite conversar, con el pulso muy elevado. ¿Qué componente describe ese dato?', correcta:'La intensidad (qué tan exigente es el esfuerzo)', opts:['La frecuencia semanal','El tipo de ejercicio','El calentamiento'] },
+  { pregunta:'Una rutina indica trotar 30 minutos y luego descansar 2 minutos entre ejercicios. ¿Qué componente describe esos datos?', correcta:'El tiempo de duración y de recuperación', opts:['La intensidad máxima','El tipo de deporte','La competencia'] },
+  { pregunta:'Cada dos semanas, Sofía aumenta un poco la distancia que corre, en vez de exigirse todo de una vez. ¿Qué principio aplica?', correcta:'La progresión (aumentar la carga de forma gradual)', opts:['La improvisación total','Entrenar siempre exactamente igual','Saltarse el descanso'] },
+  { pregunta:'Un plan combina trote (resistencia), ejercicios con el peso del cuerpo (fuerza) y elongaciones (flexibilidad). ¿Qué componente varía entre esas sesiones?', correcta:'El tipo de ejercicio', opts:['Solo la hora del día','El clima','El color de la ropa deportiva'] },
+  { pregunta:'¿Qué capacidad física desarrolla principalmente el trote continuo y prolongado?', correcta:'La resistencia cardiovascular', opts:['La fuerza máxima de brazos','La puntería','El equilibrio estático únicamente'] },
+  { pregunta:'¿Qué capacidad física desarrollan principalmente los ejercicios de elongación sostenida?', correcta:'La flexibilidad', opts:['La velocidad de reacción','La resistencia cardiovascular','La fuerza explosiva'] },
+  { pregunta:'¿Por qué es importante respetar los tiempos de recuperación entre sesiones exigentes?', correcta:'Porque el cuerpo necesita descanso para adaptarse y evitar lesiones', opts:['Porque entrenar todos los días sin parar es siempre mejor','Porque el descanso debilita','No es importante'] },
+  { pregunta:'Si el objetivo es mejorar la velocidad, ¿qué tipo de ejercicio conviene incluir en el plan?', correcta:'Carreras cortas y rápidas (piques) con pausas de recuperación', opts:['Solo caminatas muy lentas','Solo elongaciones','Ningún ejercicio'] },
+  { pregunta:'¿Qué señal indica que la intensidad de un ejercicio aeróbico es moderada y adecuada?', correcta:'Poder hablar con algo de esfuerzo mientras se realiza', opts:['No poder respirar en absoluto','No sentir ningún esfuerzo en ningún momento','Sentir dolor fuerte'] },
 ];
 export function genEntrenamiento8Round(){
   const recurso = 'Los <b>principios de entrenamiento</b> son los componentes que se ajustan al planificar cualquier rutina física: la <b>Frecuencia</b> (cuántas veces por semana se entrena), la <b>Intensidad</b> (qué tan exigente es el esfuerzo, por ejemplo si aún se puede conversar mientras se hace ejercicio), el <b>Tiempo</b> de duración y de recuperación (cuánto dura la sesión y el descanso entre ejercicios), la <b>Progresión</b> (aumentar la carga de forma gradual, nunca de golpe), y el <b>Tipo</b> de ejercicio (resistencia, fuerza o flexibilidad, cada uno desarrollando una capacidad física distinta). Respetar los tiempos de recuperación es tan importante como entrenar, porque el cuerpo necesita descanso para adaptarse y evitar lesiones.';
@@ -599,7 +599,7 @@ export function genEntrenamiento8Round(){
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }

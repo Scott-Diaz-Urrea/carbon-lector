@@ -3087,3 +3087,59 @@ sesión).
     correcta), overlay de Carboncito mostrando "Se dice Book en inglés."
     con capitalización correcta, sin errores de consola. Próximo paso del
     mismo pedido: `edfisica.js` (115 alternativas).
+- **`edfisica.js` en oración normal (2026-08-01, quinto archivo del rollout tras
+  `historia.js`/`ciencias.js`/`lenguaje.js`/`ingles.js`):** mismo pedido, mismo
+  criterio ("procede"). El conteo real fue de 203 cadenas ALL-CAPS convertidas
+  (más que la estimación original de 115) repartidas en 8 bancos: `MOVIMIENTOS_ITEMS`
+  (label/tipo, NT-1° básico), `COMPONENTES_FISICOS_BANK` y `INTENSIDAD_ACTIVIDAD_BANK`/
+  `INTENSIDAD_ACTIVIDAD6_BANK` (4°-6° básico), `ESTRATEGIA_DEPORTIVA_BANK` (7°),
+  `SISTEMAS_JUEGO_8_BANK`/`ENTRENAMIENTO_8_BANK` (8°), y el literal `'VERDADERO'`/
+  `'FALSO'` reutilizado como opciones en prácticamente todos los módulos verdadero/
+  falso del archivo (1°-6° básico). Sin diccionario de excepciones: el pre-escaneo
+  (`grep -c "''"`, `\{\s*[A-Z]+\s*:`, ternarios ALL-CAPS mid-oración) no encontró
+  ningún nombre propio de 2+ palabras ni ninguno de los 3 bugs estructurales ya
+  documentados — todo el contenido ALL-CAPS de este archivo son frases descriptivas
+  de táctica deportiva/categorías de movimiento, sin países/personas/lugares
+  embebidos.
+  - **Caso interesante resuelto automáticamente por ser función pura de la cadena:**
+    los valores `'BAJA'`/`'MODERADA'`/`'ALTA'` (intensidad) y `'LOCOMOCIÓN'`/
+    `'MANIPULACIÓN'`/`'ESTABILIDAD'` (tipo de movimiento) aparecen dos veces cada
+    uno en el código — una vez dentro del banco de contenido (`item.intensidad`/
+    `item.tipo`) y otra vez en un array literal usado para calcular las 2-3
+    alternativas restantes (`const todos = ['BAJA','MODERADA','ALTA']`,
+    `shuffle(['LOCOMOCIÓN','MANIPULACIÓN','ESTABILIDAD'])`). Como la conversión del
+    script es una función pura del contenido exacto de la cadena (mismo texto →
+    mismo resultado, sin importar dónde aparezca), ambas copias de cada valor se
+    convirtieron de forma idéntica y consistente sin necesitar ningún manejo
+    especial — `correctValue` (del banco) y las opciones (del array literal) siguen
+    calzando exactamente después de la conversión. Se verificó explícitamente con
+    el fuzz test que ningún generador de intensidad/tipo de movimiento quedó con
+    `correctValue not in options`. El literal `'INTENSIDAD '` (usado para construir
+    la etiqueta visible `label:'INTENSIDAD '+i`) también es una cadena ALL-CAPS
+    independiente que el script detectó y convirtió a `'Intensidad '` — el
+    resultado final (`'Intensidad Baja'`, `'Intensidad Alta'`) es exactamente el
+    formato deseado, sin ningún ajuste manual.
+  - **3 usos de `.toLowerCase()` corregidos** (de los 7 totales en el archivo) por
+    calzar con el patrón ya establecido "la respuesta citada como entidad" (2 con
+    la variante "Esto es un ejemplo de: X" en `genEstrategiasTacticas7Round`/
+    `genSistemasJuego8Round`, 1 con "La respuesta correcta es: X" en
+    `genEntrenamiento8Round`) — se quitó `.toLowerCase()` en los 3, ya que
+    `item.correcta` ahora viene en oración normal y forzarlo a minúscula rompería
+    la mayúscula inicial de la respuesta citada. Los otros 4 usos (`genMovimientoRound`,
+    `genCondicionFisica4Round`, `genVidaPostura5Round`, `genVidaPostura6Round`) son
+    complementos mid-oración genuinos ("es un movimiento de `<b>`+tipo+`</b>`", "tiene
+    una intensidad `<b>`+intensidad+`</b>`") y se dejaron intactos, mismo criterio ya
+    usado en archivos anteriores.
+  - Verificado: los 17 generadores pasan fuzz de 300 iteraciones cada uno (sin
+    `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue` siempre
+    presente en las opciones — incluyendo verificación específica de que los
+    generadores con `todos`/intensidad no quedaron rotos tras la conversión, sin
+    apóstrofes en `speakText`). Grep dedicado confirmó 0 cadenas de 2+ letras en
+    mayúscula sostenida remanentes. `MC_KEYS.length === Object.keys(MC_GAMES).length
+    === 324` (regresión de wiring intacta). Probado visualmente en el navegador:
+    módulo "Cuerpo en Movimiento" (1° básico) con alternativas "Manipulación"/
+    "Estabilidad"/"Locomoción" en oración normal, una ronda jugada completa
+    (respuesta incorrecta muestra el overlay de Carboncito con "Saltar es un
+    movimiento de locomoción." — capitalización correcta, mid-oración en
+    minúscula), sin errores de consola. Próximo paso del mismo pedido:
+    `artes.js` (94 alternativas).

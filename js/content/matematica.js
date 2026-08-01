@@ -4,14 +4,14 @@ import { shapeSVG, solid3DSVG, fraccionSVG, fraccionBarraSVG, anguloSVG, pieChar
 export const COUNT_EMOJIS = ['🍎','🍓','🐝','⚽','🎈','🐟','🌟','🚗','🐶','🍌'];
 
 export const SHAPES = [
-  { id:'circulo', label:'CÍRCULO' },
-  { id:'cuadrado', label:'CUADRADO' },
-  { id:'triangulo', label:'TRIÁNGULO' },
-  { id:'rectangulo', label:'RECTÁNGULO' },
-  { id:'rombo', label:'ROMBO' },
-  { id:'ovalo', label:'ÓVALO' },
-  { id:'pentagono', label:'PENTÁGONO' },
-  { id:'hexagono', label:'HEXÁGONO' },
+  { id:'circulo', label:'Círculo' },
+  { id:'cuadrado', label:'Cuadrado' },
+  { id:'triangulo', label:'Triángulo' },
+  { id:'rectangulo', label:'Rectángulo' },
+  { id:'rombo', label:'Rombo' },
+  { id:'ovalo', label:'Óvalo' },
+  { id:'pentagono', label:'Pentágono' },
+  { id:'hexagono', label:'Hexágono' },
 ];
 
 /* Artículo correcto ("un"/"una") para figuras y cuerpos geométricos de este
@@ -141,16 +141,16 @@ export function genSaltaRound(){
    paralelepípedos, esferas, conos). Medición -> OA17 (calendario), OA18 (hora
    en reloj digital), OA19 (longitud con cm/m). */
 const OBJETOS_POS_POOL = [
-  {emoji:'🐶',label:'PERRO'},{emoji:'🐱',label:'GATO'},{emoji:'🌳',label:'ÁRBOL'},
-  {emoji:'🏠',label:'CASA'},{emoji:'⚽',label:'PELOTA'},{emoji:'🚗',label:'AUTO'},
-  {emoji:'🌸',label:'FLOR'},{emoji:'📚',label:'LIBRO'},
+  {emoji:'🐶',label:'Perro'},{emoji:'🐱',label:'Gato'},{emoji:'🌳',label:'Árbol'},
+  {emoji:'🏠',label:'Casa'},{emoji:'⚽',label:'Pelota'},{emoji:'🚗',label:'Auto'},
+  {emoji:'🌸',label:'Flor'},{emoji:'📚',label:'Libro'},
 ];
 const FIGURAS_2D_G2 = SHAPES.filter(function(s){ return ['circulo','cuadrado','triangulo','rectangulo'].indexOf(s.id)!==-1; });
 const SOLIDOS_3D_G2 = [
-  { id:'cubo', label:'CUBO' },
-  { id:'paralelepipedo', label:'PARALELEPÍPEDO' },
-  { id:'esfera', label:'ESFERA' },
-  { id:'cono', label:'CONO' },
+  { id:'cubo', label:'Cubo' },
+  { id:'paralelepipedo', label:'Paralelepípedo' },
+  { id:'esfera', label:'Esfera' },
+  { id:'cono', label:'Cono' },
 ];
 const CALENDARIO_HECHOS = [
   { pregunta:'¿Cuántos días tiene una semana?', correcta:7, min:1, max:12, spread:4 },
@@ -314,17 +314,17 @@ const OBJETOS_PRECIO = [
   { emoji:'🍎', label:'una manzana', precio:200 },
 ];
 const CUADRICULA_POOL = [
-  {emoji:'🐶',label:'PERRO'},{emoji:'🐱',label:'GATO'},{emoji:'🌳',label:'ÁRBOL'},{emoji:'🏠',label:'CASA'},{emoji:'⚽',label:'PELOTA'},{emoji:'🌸',label:'FLOR'},
+  {emoji:'🐶',label:'Perro'},{emoji:'🐱',label:'Gato'},{emoji:'🌳',label:'Árbol'},{emoji:'🏠',label:'Casa'},{emoji:'⚽',label:'Pelota'},{emoji:'🌸',label:'Flor'},
 ];
 const SOLIDOS_3D_G3 = [
-  { id:'cubo', label:'CUBO', caras:6 },
-  { id:'paralelepipedo', label:'PARALELEPÍPEDO', caras:6 },
-  { id:'esfera', label:'ESFERA', caras:0 },
-  { id:'cono', label:'CONO', caras:1 },
-  { id:'cilindro', label:'CILINDRO', caras:2 },
-  { id:'piramide', label:'PIRÁMIDE', caras:5 },
+  { id:'cubo', label:'Cubo', caras:6 },
+  { id:'paralelepipedo', label:'Paralelepípedo', caras:6 },
+  { id:'esfera', label:'Esfera', caras:0 },
+  { id:'cono', label:'Cono', caras:1 },
+  { id:'cilindro', label:'Cilindro', caras:2 },
+  { id:'piramide', label:'Pirámide', caras:5 },
 ];
-const ANGULOS_POOL = ['RECTO','AGUDO','OBTUSO'];
+const ANGULOS_POOL = ['Recto','Agudo','Obtuso'];
 const PERIMETRO_FIGURAS = [
   { lados:[3,3,3,3], label:'un cuadrado de lado 3' },
   { lados:[4,2,4,2], label:'un rectángulo de 4 por 2' },
@@ -340,10 +340,10 @@ const PESO_OBJETOS = [
   { emoji:'🍬', label:'un dulce', gramos:5 },
 ];
 const DATOS_ENCUESTA = [
-  { pregunta:'¿Cuál es tu fruta favorita?', categorias:[{label:'MANZANA',valor:8},{label:'PLÁTANO',valor:5},{label:'UVA',valor:3}] },
-  { pregunta:'¿Cuál es tu color favorito?', categorias:[{label:'AZUL',valor:9},{label:'ROJO',valor:6},{label:'VERDE',valor:4}] },
-  { pregunta:'¿Cuál es tu mascota favorita?', categorias:[{label:'PERRO',valor:10},{label:'GATO',valor:7},{label:'PEZ',valor:2}] },
-  { pregunta:'¿Cuál es tu deporte favorito?', categorias:[{label:'FÚTBOL',valor:12},{label:'NATACIÓN',valor:5},{label:'TENIS',valor:3}] },
+  { pregunta:'¿Cuál es tu fruta favorita?', categorias:[{label:'Manzana',valor:8},{label:'Plátano',valor:5},{label:'Uva',valor:3}] },
+  { pregunta:'¿Cuál es tu color favorito?', categorias:[{label:'Azul',valor:9},{label:'Rojo',valor:6},{label:'Verde',valor:4}] },
+  { pregunta:'¿Cuál es tu mascota favorita?', categorias:[{label:'Perro',valor:10},{label:'Gato',valor:7},{label:'Pez',valor:2}] },
+  { pregunta:'¿Cuál es tu deporte favorito?', categorias:[{label:'Fútbol',valor:12},{label:'Natación',valor:5},{label:'Tenis',valor:3}] },
 ];
 
 function barChartHTML(categorias){
@@ -399,8 +399,8 @@ export function genNumeros3Round(){
   }
   const n = randInt(0,1000);
   const digitos = String(n).length;
-  const opts = shuffle(['1 DÍGITO','2 DÍGITOS','3 DÍGITOS','4 DÍGITOS']).map(function(o){ return {label:o, value:o}; });
-  const correct = digitos+' DÍGITO'+(digitos>1?'S':'');
+  const opts = shuffle(['1 dígito','2 dígitos','3 dígitos','4 dígitos']).map(function(o){ return {label:o, value:o}; });
+  const correct = digitos+' dígito'+(digitos>1?'s':'');
   return {
     promptHTML: '<p class="prompt-count" style="font-size:40px;">'+n+'</p><p class="prompt-hint">¿Cuántos dígitos tiene este número?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuántos dígitos tiene el '+n+'?', cols:2, panel:true,
@@ -666,25 +666,25 @@ const OBJETOS_PRECIO4 = [
   { emoji:'🎮', label:'un videojuego', precio:12000 },
 ];
 const SOLIDOS_VISTAS_BANK = [
-  { id:'cubo', label:'CUBO', frente:'UN CUADRADO', lado:'UN CUADRADO', arriba:'UN CUADRADO' },
-  { id:'cono', label:'CONO', frente:'UN TRIÁNGULO', lado:'UN TRIÁNGULO', arriba:'UN CÍRCULO' },
-  { id:'cilindro', label:'CILINDRO', frente:'UN RECTÁNGULO', lado:'UN RECTÁNGULO', arriba:'UN CÍRCULO' },
-  { id:'esfera', label:'ESFERA', frente:'UN CÍRCULO', lado:'UN CÍRCULO', arriba:'UN CÍRCULO' },
-  { id:'piramide', label:'PIRÁMIDE', frente:'UN TRIÁNGULO', lado:'UN TRIÁNGULO', arriba:'UN CUADRADO' },
+  { id:'cubo', label:'Cubo', frente:'Un cuadrado', lado:'Un cuadrado', arriba:'Un cuadrado' },
+  { id:'cono', label:'Cono', frente:'Un triángulo', lado:'Un triángulo', arriba:'Un círculo' },
+  { id:'cilindro', label:'Cilindro', frente:'Un rectángulo', lado:'Un rectángulo', arriba:'Un círculo' },
+  { id:'esfera', label:'Esfera', frente:'Un círculo', lado:'Un círculo', arriba:'Un círculo' },
+  { id:'piramide', label:'Pirámide', frente:'Un triángulo', lado:'Un triángulo', arriba:'Un cuadrado' },
 ];
 const SIMETRIA_BANK = [
-  { id:'circulo', label:'CÍRCULO', simetrico:true },
-  { id:'cuadrado', label:'CUADRADO', simetrico:true },
-  { id:'triangulo', label:'TRIÁNGULO (EQUILÁTERO)', simetrico:true },
-  { id:'ovalo', label:'ÓVALO', simetrico:true },
-  { id:'rombo', label:'ROMBO', simetrico:true },
+  { id:'circulo', label:'Círculo', simetrico:true },
+  { id:'cuadrado', label:'Cuadrado', simetrico:true },
+  { id:'triangulo', label:'Triángulo (equilátero)', simetrico:true },
+  { id:'ovalo', label:'Óvalo', simetrico:true },
+  { id:'rombo', label:'Rombo', simetrico:true },
   /* Único caso "NO simétrico" del banco (bug encontrado en la auditoría):
      sin él, las 5 figuras de arriba son simétricas, así que la respuesta
      correcta de este módulo era SIEMPRE "SÍ TIENE LÍNEA DE SIMETRÍA" — la
      opción "NO" nunca podía ser la correcta. Un paralelogramo inclinado
      (no rectángulo, no rombo) es la figura simple más clara sin ninguna
      línea de simetría real. */
-  { id:'paralelogramo', label:'PARALELOGRAMO', simetrico:false },
+  { id:'paralelogramo', label:'Paralelogramo', simetrico:false },
 ];
 const OBJETOS_LONGITUD4 = [
   { emoji:'✏️', label:'El lápiz', cm:15 },
@@ -935,9 +935,9 @@ export function genGeometria4Round(){
     const item = pick(SOLIDOS_VISTAS_BANK);
     const vista = pick(['frente','lado','arriba']);
     const correct = item[vista];
-    const distract = shuffle(['UN CUADRADO','UN CÍRCULO','UN TRIÁNGULO','UN RECTÁNGULO'].filter(function(v){ return v!==correct; })).slice(0,3);
+    const distract = shuffle(['Un cuadrado','Un círculo','Un triángulo','Un rectángulo'].filter(function(v){ return v!==correct; })).slice(0,3);
     const opts = shuffle([correct].concat(distract)).map(function(v){ return {label:v, value:v}; });
-    const vistaLabel = vista==='frente'?'DE FRENTE':vista==='lado'?'DE LADO':'DESDE ARRIBA';
+    const vistaLabel = vista==='frente'?'de frente':vista==='lado'?'de lado':'desde arriba';
     const art = articuloFigura(item.id);
     const participio = art==='una' ? 'vista' : 'visto';
     return {
@@ -949,7 +949,7 @@ export function genGeometria4Round(){
   }
   if(roll<0.75){
     const item = pick(SIMETRIA_BANK);
-    const opts = shuffle([{label:'SÍ TIENE LÍNEA DE SIMETRÍA', value:true},{label:'NO TIENE LÍNEA DE SIMETRÍA', value:false}]);
+    const opts = shuffle([{label:'Sí tiene línea de simetría', value:true},{label:'No tiene línea de simetría', value:false}]);
     const art = articuloFigura(item.id);
     const dibujo = item.id==='paralelogramo' ? paralelogramoSVG(100) : shapeSVG(item.id,100);
     return {
@@ -962,9 +962,9 @@ export function genGeometria4Round(){
   const tipoA = pick(ANGULOS_POOL);
   let tipoB = pick(ANGULOS_POOL);
   while(tipoB===tipoA) tipoB = pick(ANGULOS_POOL);
-  const gradosMap = {RECTO:90, AGUDO:45, OBTUSO:130};
+  const gradosMap = {Recto:90, Agudo:45, Obtuso:130};
   const mayor = gradosMap[tipoA]>gradosMap[tipoB] ? 'A' : 'B';
-  const opts = shuffle([{label:'ÁNGULO A', value:'A'},{label:'ÁNGULO B', value:'B'}]);
+  const opts = shuffle([{label:'Ángulo A', value:'A'},{label:'Ángulo B', value:'B'}]);
   return {
     promptHTML: '<div class="compare-row"><div class="compare-col"><span>Ángulo A</span>'+anguloSVG(tipoA,90)+'</div><div class="compare-col"><span>Ángulo B</span>'+anguloSVG(tipoB,90)+'</div></div><p class="prompt-hint">¿Cuál ángulo es mayor?</p>',
     options: opts, correctValue: mayor, speakText: '¿Cuál ángulo es mayor?', cols:2, panel:true,
@@ -1027,7 +1027,7 @@ export function genMedicion4Round(){
   if(roll<0.8){
     const largo = randInt(3,10), ancho = randInt(2,8);
     const area = largo*ancho;
-    const opts = uniqueDistractors(area, 4, 100, 6, 4).map(function(v){ return {label:v+' UNIDADES CUADRADAS', value:v}; });
+    const opts = uniqueDistractors(area, 4, 100, 6, 4).map(function(v){ return {label:v+' unidades cuadradas', value:v}; });
     return {
       promptHTML: '<p class="prompt-hint">Un rectángulo mide '+largo+' unidades de largo y '+ancho+' unidades de ancho. ¿Cuál es su área?</p>',
       options: opts, correctValue: area, speakText: '¿Cuál es el área del rectángulo?', cols:2,
@@ -1037,7 +1037,7 @@ export function genMedicion4Round(){
   }
   const l = randInt(2,5), a = randInt(2,4), h = randInt(2,4);
   const vol = l*a*h;
-  const opts = uniqueDistractors(vol, 4, 150, 8, 4).map(function(v){ return {label:v+' CUBOS', value:v}; });
+  const opts = uniqueDistractors(vol, 4, 150, 8, 4).map(function(v){ return {label:v+' cubos', value:v}; });
   return {
     promptHTML: '<p class="prompt-hint">Una caja se llena con cubos pequeños: '+l+' de largo, '+a+' de ancho y '+h+' de alto. ¿Cuántos cubos caben en total?</p>',
     options: opts, correctValue: vol, speakText: '¿Cuántos cubos caben en la caja?', cols:2,
@@ -1047,10 +1047,10 @@ export function genMedicion4Round(){
 }
 
 const EXPERIMENTOS_ALEATORIOS_BANK = [
-  { pregunta:'Si lanzas una moneda al aire, ¿cuáles son los resultados posibles?', correcta:'CARA O SELLO', opts:['SOLO CARA','SOLO SELLO','NINGUNO DE LOS DOS'] },
+  { pregunta:'Si lanzas una moneda al aire, ¿cuáles son los resultados posibles?', correcta:'Cara o sello', opts:['Solo cara','Solo sello','Ninguno de los dos'] },
   { pregunta:'Si lanzas un dado normal de 6 caras, ¿cuál es el mayor número que puede salir?', correcta:'6', opts:['4','8','10'] },
-  { pregunta:'Si tienes una bolsa con 3 bolitas rojas y 1 azul, ¿de qué color es más probable sacar una bolita?', correcta:'ROJA', opts:['AZUL','VERDE','IGUAL DE PROBABLE'] },
-  { pregunta:'Si lanzas una moneda 10 veces, ¿es seguro que salgan exactamente 5 caras y 5 sellos?', correcta:'NO, ES SOLO UNA POSIBILIDAD, NO UNA CERTEZA', opts:['SÍ, SIEMPRE SERÁ EXACTO','SOLO SALDRÁN CARAS','SOLO SALDRÁN SELLOS'] },
+  { pregunta:'Si tienes una bolsa con 3 bolitas rojas y 1 azul, ¿de qué color es más probable sacar una bolita?', correcta:'Roja', opts:['Azul','Verde','Igual de probable'] },
+  { pregunta:'Si lanzas una moneda 10 veces, ¿es seguro que salgan exactamente 5 caras y 5 sellos?', correcta:'No, es solo una posibilidad, no una certeza', opts:['Sí, siempre será exacto','Solo saldrán caras','Solo saldrán sellos'] },
 ];
 
 export function genDatos4Round(){
@@ -1073,7 +1073,7 @@ export function genDatos4Round(){
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
-      explain: 'La respuesta correcta es <b>'+item.correcta.toLowerCase()+'</b>.',
+      explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
       recurso: recurso,
     };
   }
@@ -1085,7 +1085,7 @@ export function genDatos4Round(){
   const distract = item.categorias.filter(function(c){ return c.label!==correct; }).map(function(c){ return c.label; });
   const opts = shuffle([correct].concat(distract)).map(function(c){ return {label:c, value:c}; });
   return {
-    promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuál opción tuvo '+(askMax?'MÁS':'MENOS')+' votos?</p>',
+    promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuál opción tuvo '+(askMax?'más':'menos')+' votos?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuál opción tuvo '+(askMax?'más':'menos')+' votos?', cols:4, kind:'word',
     explain: '<b>'+correct+'</b> tuvo la '+(askMax?'mayor':'menor')+' cantidad de votos.',
     recurso: recurso,
@@ -1253,8 +1253,8 @@ export function genFracciones5Round(){
   if(roll<0.25){
     const den = pick([3,4,5,6,7,8]);
     const num = randInt(1,den-1);
-    const correct = 'FRACCIÓN PROPIA';
-    const opts = shuffle([{label:'FRACCIÓN PROPIA', value:'FRACCIÓN PROPIA'},{label:'FRACCIÓN IMPROPIA', value:'FRACCIÓN IMPROPIA'}]);
+    const correct = 'Fracción propia';
+    const opts = shuffle([{label:'Fracción propia', value:'Fracción propia'},{label:'Fracción impropia', value:'Fracción impropia'}]);
     return {
       promptHTML: '<div class="shape-display">'+fraccionSVG(num,den,110)+'</div><p class="prompt-hint">La fracción es '+num+'/'+den+'. ¿Es una fracción propia (numerador menor que el denominador) o impropia?</p>',
       options: opts, correctValue: correct, speakText: '¿Es '+num+'/'+den+' una fracción propia o impropia?', cols:2, kind:'word',
@@ -1264,8 +1264,8 @@ export function genFracciones5Round(){
   if(roll<0.5){
     const den = pick([3,4,5,6]);
     const num = randInt(den+1,den*2);
-    const correct = 'FRACCIÓN IMPROPIA';
-    const opts = shuffle([{label:'FRACCIÓN PROPIA', value:'FRACCIÓN PROPIA'},{label:'FRACCIÓN IMPROPIA', value:'FRACCIÓN IMPROPIA'}]);
+    const correct = 'Fracción impropia';
+    const opts = shuffle([{label:'Fracción propia', value:'Fracción propia'},{label:'Fracción impropia', value:'Fracción impropia'}]);
     return {
       promptHTML: '<p class="prompt-count" style="font-size:32px;">'+num+'/'+den+'</p><p class="prompt-hint">¿Es una fracción propia (numerador menor que el denominador) o impropia (numerador igual o mayor)?</p>',
       options: opts, correctValue: correct, speakText: '¿Es '+num+'/'+den+' una fracción propia o impropia?', cols:2, kind:'word',
@@ -1385,20 +1385,20 @@ export function genPatrones5Round(){
 }
 
 const PARALELISMO_BANK = [
-  { id:'cuadrado', label:'CUADRADO', paralelo:true }, { id:'rectangulo', label:'RECTÁNGULO', paralelo:true },
-  { id:'rombo', label:'ROMBO', paralelo:true }, { id:'hexagono', label:'HEXÁGONO', paralelo:true },
-  { id:'triangulo', label:'TRIÁNGULO', paralelo:false }, { id:'pentagono', label:'PENTÁGONO', paralelo:false },
+  { id:'cuadrado', label:'Cuadrado', paralelo:true }, { id:'rectangulo', label:'Rectángulo', paralelo:true },
+  { id:'rombo', label:'Rombo', paralelo:true }, { id:'hexagono', label:'Hexágono', paralelo:true },
+  { id:'triangulo', label:'Triángulo', paralelo:false }, { id:'pentagono', label:'Pentágono', paralelo:false },
 ];
 const TRANSFORMACIONES_BANK = [
-  { desc:'Deslizar una figura hacia la derecha, sin girarla ni voltearla', tipo:'TRASLACIÓN' },
-  { desc:'Mover una figura hacia arriba, manteniendo su misma forma y orientación', tipo:'TRASLACIÓN' },
-  { desc:'Deslizar una figura hacia abajo en línea recta', tipo:'TRASLACIÓN' },
-  { desc:'Voltear una figura como si la reflejara un espejo', tipo:'REFLEXIÓN' },
-  { desc:'Voltear una figura de izquierda a derecha, como su imagen en un espejo', tipo:'REFLEXIÓN' },
-  { desc:'Voltear una figura de arriba hacia abajo, como su reflejo en el agua', tipo:'REFLEXIÓN' },
-  { desc:'Girar una figura alrededor de un punto fijo, como las agujas de un reloj', tipo:'ROTACIÓN' },
-  { desc:'Girar una figura 90 grados sobre un punto central', tipo:'ROTACIÓN' },
-  { desc:'Dar vuelta una figura como una rueda que gira sobre su eje', tipo:'ROTACIÓN' },
+  { desc:'Deslizar una figura hacia la derecha, sin girarla ni voltearla', tipo:'Traslación' },
+  { desc:'Mover una figura hacia arriba, manteniendo su misma forma y orientación', tipo:'Traslación' },
+  { desc:'Deslizar una figura hacia abajo en línea recta', tipo:'Traslación' },
+  { desc:'Voltear una figura como si la reflejara un espejo', tipo:'Reflexión' },
+  { desc:'Voltear una figura de izquierda a derecha, como su imagen en un espejo', tipo:'Reflexión' },
+  { desc:'Voltear una figura de arriba hacia abajo, como su reflejo en el agua', tipo:'Reflexión' },
+  { desc:'Girar una figura alrededor de un punto fijo, como las agujas de un reloj', tipo:'Rotación' },
+  { desc:'Girar una figura 90 grados sobre un punto central', tipo:'Rotación' },
+  { desc:'Dar vuelta una figura como una rueda que gira sobre su eje', tipo:'Rotación' },
 ];
 export function genGeometria5Round(){
   const recurso = 'El <b>plano cartesiano</b> ubica puntos con dos números (x, y): el primero indica cuánto moverse hacia la derecha, el segundo cuánto moverse hacia arriba, siempre partiendo del punto (0,0). Dos lados son <b>paralelos</b> cuando nunca se juntan por más que se extiendan, como los rieles de un tren. Las <b>transformaciones geométricas</b> cambian la posición de una figura sin cambiar su forma ni su tamaño: la <b>traslación</b> la desliza en línea recta, la <b>reflexión</b> la voltea como en un espejo, y la <b>rotación</b> la gira alrededor de un punto fijo.';
@@ -1415,7 +1415,7 @@ export function genGeometria5Round(){
   }
   if(roll<0.67){
     const item = pick(PARALELISMO_BANK);
-    const opts = shuffle([{label:'SÍ TIENE LADOS PARALELOS', value:true},{label:'NO TIENE LADOS PARALELOS', value:false}]);
+    const opts = shuffle([{label:'Sí tiene lados paralelos', value:true},{label:'No tiene lados paralelos', value:false}]);
     const art = articuloFigura(item.id);
     return {
       promptHTML: '<div class="shape-display">'+shapeSVG(item.id,100)+'</div><p class="prompt-hint">¿Esta figura tiene al menos un par de lados paralelos?</p>',
@@ -1424,7 +1424,7 @@ export function genGeometria5Round(){
     };
   }
   const item = pick(TRANSFORMACIONES_BANK);
-  const todos = ['TRASLACIÓN','REFLEXIÓN','ROTACIÓN'];
+  const todos = ['Traslación','Reflexión','Rotación'];
   const distract = todos.filter(function(t){ return t!==item.tipo; });
   const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
   return {
@@ -1442,9 +1442,9 @@ const OBJETOS_LONGITUD5 = [
   { emoji:'🖊️', label:'El lápiz', cm:14 },
 ];
 const CONVERSION_LONGITUD_BANK = [
-  { valor:2, de:'KM', a:'M', resultado:2000 }, { valor:5, de:'M', a:'CM', resultado:500 },
-  { valor:3, de:'CM', a:'MM', resultado:30 }, { valor:1, de:'KM', a:'M', resultado:1000 },
-  { valor:4, de:'M', a:'CM', resultado:400 }, { valor:7, de:'CM', a:'MM', resultado:70 },
+  { valor:2, de:'km', a:'m', resultado:2000 }, { valor:5, de:'m', a:'cm', resultado:500 },
+  { valor:3, de:'cm', a:'mm', resultado:30 }, { valor:1, de:'km', a:'m', resultado:1000 },
+  { valor:4, de:'m', a:'cm', resultado:400 }, { valor:7, de:'cm', a:'mm', resultado:70 },
 ];
 export function genMedicion5Round(){
   const recurso = 'Las unidades de longitud (km, m, cm, mm) se convierten multiplicando o dividiendo por 10, 100 o 1000 según la distancia entre ellas: 1 km = 1000 m, 1 m = 100 cm, 1 cm = 10 mm. El <b>perímetro</b> de un rectángulo es la suma de sus 4 lados: 2×(largo+ancho). El <b>área</b> mide cuánta superficie cubre una figura: en un triángulo es (base × altura) ÷ 2, en un paralelogramo es base × altura, y en un trapecio es (base mayor + base menor) × altura ÷ 2 — en los tres casos la altura es la distancia perpendicular (en ángulo recto) entre la base y el vértice o lado opuesto.';
@@ -1503,7 +1503,7 @@ export function genMedicion5Round(){
   if(tipo==='TRIÁNGULO'){ area = Math.round(base*altura/2); formula = '(base × altura) ÷ 2 = ('+base+' × '+altura+') ÷ 2'; }
   else if(tipo==='PARALELOGRAMO'){ area = base*altura; formula = 'base × altura = '+base+' × '+altura; }
   else { const base2 = base+randInt(1,4); area = Math.round((base+base2)*altura/2); formula = '(base mayor + base menor) × altura ÷ 2 = ('+base2+' + '+base+') × '+altura+' ÷ 2'; }
-  const opts = uniqueDistractors(area, 2, 200, 6, 4).map(function(v){ return {label:v+' UNIDADES CUADRADAS', value:v}; });
+  const opts = uniqueDistractors(area, 2, 200, 6, 4).map(function(v){ return {label:v+' unidades cuadradas', value:v}; });
   return {
     promptHTML: '<p class="prompt-hint">Un '+tipo.toLowerCase()+' tiene base '+base+' y altura '+altura+'. ¿Cuál es su área?</p>',
     options: opts, correctValue: area, speakText: '¿Cuál es el área de este '+tipo.toLowerCase()+'?', cols:2,
@@ -1512,19 +1512,19 @@ export function genMedicion5Round(){
 }
 
 const PROBABILIDAD_CUALITATIVA_BANK = [
-  { escenario:'Sacar una bolita roja de una bolsa que solo tiene bolitas rojas', nivel:'SEGURO' },
-  { escenario:'Que mañana salga el sol', nivel:'SEGURO' },
-  { escenario:'Sacar un 6 al lanzar un dado normal de 6 caras', nivel:'POSIBLE' },
-  { escenario:'Sacar una bolita azul de una bolsa con 9 rojas y 1 azul', nivel:'POCO POSIBLE' },
-  { escenario:'Que un perro hable español', nivel:'IMPOSIBLE' },
-  { escenario:'Que llueva algún día de invierno en el sur de Chile', nivel:'POSIBLE' },
-  { escenario:'Sacar una carta de corazones de una baraja normal', nivel:'POSIBLE' },
-  { escenario:'Que una moneda caiga sin mostrar cara ni sello', nivel:'IMPOSIBLE' },
+  { escenario:'Sacar una bolita roja de una bolsa que solo tiene bolitas rojas', nivel:'Seguro' },
+  { escenario:'Que mañana salga el sol', nivel:'Seguro' },
+  { escenario:'Sacar un 6 al lanzar un dado normal de 6 caras', nivel:'Posible' },
+  { escenario:'Sacar una bolita azul de una bolsa con 9 rojas y 1 azul', nivel:'Poco posible' },
+  { escenario:'Que un perro hable español', nivel:'Imposible' },
+  { escenario:'Que llueva algún día de invierno en el sur de Chile', nivel:'Posible' },
+  { escenario:'Sacar una carta de corazones de una baraja normal', nivel:'Posible' },
+  { escenario:'Que una moneda caiga sin mostrar cara ni sello', nivel:'Imposible' },
 ];
 const COMPARAR_PROBABILIDAD_BANK = [
-  { descripcionA:'Bolsa A: 8 bolitas rojas y 2 azules', descripcionB:'Bolsa B: 3 bolitas rojas y 7 azules', preguntaColor:'ROJA', masProbable:'A' },
-  { descripcionA:'Bolsa A: 1 bolita verde y 9 amarillas', descripcionB:'Bolsa B: 6 bolitas verdes y 4 amarillas', preguntaColor:'VERDE', masProbable:'B' },
-  { descripcionA:'Bolsa A: 5 bolitas negras y 5 blancas', descripcionB:'Bolsa B: 9 bolitas negras y 1 blanca', preguntaColor:'NEGRA', masProbable:'B' },
+  { descripcionA:'Bolsa A: 8 bolitas rojas y 2 azules', descripcionB:'Bolsa B: 3 bolitas rojas y 7 azules', preguntaColor:'Roja', masProbable:'A' },
+  { descripcionA:'Bolsa A: 1 bolita verde y 9 amarillas', descripcionB:'Bolsa B: 6 bolitas verdes y 4 amarillas', preguntaColor:'Verde', masProbable:'B' },
+  { descripcionA:'Bolsa A: 5 bolitas negras y 5 blancas', descripcionB:'Bolsa B: 9 bolitas negras y 1 blanca', preguntaColor:'Negra', masProbable:'B' },
 ];
 export function genDatos5Round(){
   const recurso = 'El <b>promedio</b> (o media) de un conjunto de datos se calcula sumando todos los valores y dividiendo por la cantidad de datos que hay — resume "qué tan grande, en general" es un conjunto de números con un solo valor. La <b>probabilidad cualitativa</b> describe qué tan posible es un evento sin necesidad de calcular un número exacto: puede ser seguro, posible, poco posible o imposible; para comparar dos probabilidades basta con mirar qué proporción de casos favorables tiene cada opción, sin calcular la fracción exacta. Un <b>diagrama de tallo y hojas</b> es una forma de ordenar números de dos cifras: el "tallo" muestra la decena y las "hojas" muestran las unidades que le corresponden.';
@@ -1542,7 +1542,7 @@ export function genDatos5Round(){
   }
   if(roll<0.4){
     const item = pick(PROBABILIDAD_CUALITATIVA_BANK);
-    const todos = ['SEGURO','POSIBLE','POCO POSIBLE','IMPOSIBLE'];
+    const todos = ['Seguro','Posible','Poco posible','Imposible'];
     const distract = todos.filter(function(n){ return n!==item.nivel; });
     const opts = shuffle([item.nivel].concat(distract)).map(function(n){ return {label:n, value:n}; });
     return {
@@ -1553,7 +1553,7 @@ export function genDatos5Round(){
   }
   if(roll<0.6){
     const item = pick(COMPARAR_PROBABILIDAD_BANK);
-    const opts = shuffle([{label:'BOLSA A', value:'A'},{label:'BOLSA B', value:'B'}]);
+    const opts = shuffle([{label:'Bolsa A', value:'A'},{label:'Bolsa B', value:'B'}]);
     return {
       promptHTML: '<p class="prompt-sentence">'+item.descripcionA+'</p><p class="prompt-sentence">'+item.descripcionB+'</p><p class="prompt-hint">¿De cuál bolsa es más probable sacar una bolita '+item.preguntaColor.toLowerCase()+'?</p>',
       options: opts, correctValue: item.masProbable, speakText: '¿De cuál bolsa es más probable sacar una bolita '+item.preguntaColor.toLowerCase()+'?', cols:2, panel:true,
@@ -1579,7 +1579,7 @@ export function genDatos5Round(){
   const opts = uniqueDistractors(correct, tallo*10, tallo*10+9, 2, 4).map(function(v){ return {label:String(v), value:v}; });
   const tabla = '<table class="stem-leaf"><tr><th>Tallo</th><th>Hojas</th></tr><tr><td>'+tallo+'</td><td>'+hojas.join(' ')+'</td></tr></table>';
   return {
-    promptHTML: tabla+'<p class="prompt-hint">Este diagrama de tallo y hojas representa los números '+valores.join(', ')+'. ¿Cuál es el valor '+(preguntaMax?'MÁS ALTO':'MÁS BAJO')+'?</p>',
+    promptHTML: tabla+'<p class="prompt-hint">Este diagrama de tallo y hojas representa los números '+valores.join(', ')+'. ¿Cuál es el valor '+(preguntaMax?'más alto':'más bajo')+'?</p>',
     options: opts, correctValue: correct, speakText: '¿Cuál es el valor '+(preguntaMax?'más alto':'más bajo')+'?', cols:4,
     explain: 'El valor '+(preguntaMax?'más alto':'más bajo')+' es <b>'+correct+'</b>.', recurso: recurso,
   };
@@ -1663,7 +1663,7 @@ export function genMultiplosFactores6Round(){
   }
   const n = randInt(2,50);
   const correct = isPrime(n) ? 'PRIMO' : 'COMPUESTO';
-  const opts = shuffle([{label:'NÚMERO PRIMO', value:'PRIMO'},{label:'NÚMERO COMPUESTO', value:'COMPUESTO'}]);
+  const opts = shuffle([{label:'Número primo', value:'PRIMO'},{label:'Número compuesto', value:'COMPUESTO'}]);
   return {
     promptHTML: '<p class="prompt-count" style="font-size:36px;">'+n+'</p><p class="prompt-hint">¿Es un número primo o compuesto?</p>',
     options: opts, correctValue: correct, speakText: '¿Es '+n+' un número primo o compuesto?', cols:2, panel:true,
@@ -1858,12 +1858,12 @@ export function genPatronesEcuaciones6Round(){
 }
 
 const TESELADO_TRANSFORMACIONES_BANK = [
-  { desc:'En un mosaico, una figura se repite deslizándose siempre en la misma dirección, sin girar ni voltearse', tipo:'TRASLACIÓN' },
-  { desc:'En un mosaico, cada figura se repite desplazada hacia el lado, manteniendo siempre la misma orientación', tipo:'TRASLACIÓN' },
-  { desc:'En un mosaico, cada figura aparece como el reflejo de la anterior, como si hubiera un espejo entre ellas', tipo:'REFLEXIÓN' },
-  { desc:'En un mosaico, las figuras se alternan volteadas, una mirando hacia un lado y la siguiente hacia el lado opuesto', tipo:'REFLEXIÓN' },
-  { desc:'En un mosaico, cada figura aparece girada un cierto ángulo respecto a la anterior, alrededor de un punto fijo', tipo:'ROTACIÓN' },
-  { desc:'En un mosaico, las figuras giran en círculo alrededor de un punto central, como las aspas de un molino', tipo:'ROTACIÓN' },
+  { desc:'En un mosaico, una figura se repite deslizándose siempre en la misma dirección, sin girar ni voltearse', tipo:'Traslación' },
+  { desc:'En un mosaico, cada figura se repite desplazada hacia el lado, manteniendo siempre la misma orientación', tipo:'Traslación' },
+  { desc:'En un mosaico, cada figura aparece como el reflejo de la anterior, como si hubiera un espejo entre ellas', tipo:'Reflexión' },
+  { desc:'En un mosaico, las figuras se alternan volteadas, una mirando hacia un lado y la siguiente hacia el lado opuesto', tipo:'Reflexión' },
+  { desc:'En un mosaico, cada figura aparece girada un cierto ángulo respecto a la anterior, alrededor de un punto fijo', tipo:'Rotación' },
+  { desc:'En un mosaico, las figuras giran en círculo alrededor de un punto central, como las aspas de un molino', tipo:'Rotación' },
 ];
 /* Los 3 lados de un triángulo real deben cumplir la desigualdad triangular
    (la suma de dos lados cualesquiera debe superar siempre al tercero) o el
@@ -1876,11 +1876,11 @@ const TESELADO_TRANSFORMACIONES_BANK = [
    cumplan la desigualdad triangular (o que no correspondan realmente al
    tipo pedido), hasta obtener una válida. */
 const TRIANGULO_LADOS_BANK_GEN = function(){
-  const tipo = pick(['EQUILÁTERO','ISÓSCELES','ESCALENO']);
+  const tipo = pick(['Equilátero','Isósceles','Escaleno']);
   let a,b,c;
-  if(tipo==='EQUILÁTERO'){
+  if(tipo==='Equilátero'){
     a = randInt(3,10); b = a; c = a;
-  }else if(tipo==='ISÓSCELES'){
+  }else if(tipo==='Isósceles'){
     do{
       a = randInt(3,10); b = a; c = randInt(2,12);
     }while(c===a || a+b<=c);
@@ -1895,16 +1895,16 @@ export function genTriangulosTeselados6Round(){
   const recurso = 'Los triángulos se clasifican según sus lados: <b>equilátero</b> (los 3 lados iguales), <b>isósceles</b> (exactamente 2 lados iguales) y <b>escaleno</b> (los 3 lados distintos). Un <b>teselado</b> (o mosaico) es un patrón que cubre una superficie repitiendo una figura sin dejar espacios ni superponerse, y esa repetición se logra con transformaciones geométricas: <b>traslación</b> (deslizar la figura), <b>reflexión</b> (voltearla como en un espejo) o <b>rotación</b> (girarla alrededor de un punto).';
   if(Math.random()<0.5){
     const t = TRIANGULO_LADOS_BANK_GEN();
-    const distract = shuffle(['EQUILÁTERO','ISÓSCELES','ESCALENO'].filter(function(x){ return x!==t.tipo; }));
+    const distract = shuffle(['Equilátero','Isósceles','Escaleno'].filter(function(x){ return x!==t.tipo; }));
     const opts = shuffle([t.tipo].concat(distract)).map(function(x){ return {label:x, value:x}; });
     return {
       promptHTML: '<p class="prompt-hint">Un triángulo tiene lados de '+t.a+', '+t.b+' y '+t.c+' unidades. ¿Qué tipo de triángulo es, según sus lados?</p>',
       options: opts, correctValue: t.tipo, speakText: '¿Qué tipo de triángulo es según sus lados?', cols:4, kind:'word',
-      explain: t.tipo==='EQUILÁTERO' ? 'Los 3 lados son iguales, así que es <b>equilátero</b>.' : t.tipo==='ISÓSCELES' ? 'Exactamente 2 lados son iguales, así que es <b>isósceles</b>.' : 'Los 3 lados son distintos, así que es <b>escaleno</b>.', recurso: recurso,
+      explain: t.tipo==='Equilátero' ? 'Los 3 lados son iguales, así que es <b>equilátero</b>.' : t.tipo==='Isósceles' ? 'Exactamente 2 lados son iguales, así que es <b>isósceles</b>.' : 'Los 3 lados son distintos, así que es <b>escaleno</b>.', recurso: recurso,
     };
   }
   const item = pick(TESELADO_TRANSFORMACIONES_BANK);
-  const todos = ['TRASLACIÓN','REFLEXIÓN','ROTACIÓN'];
+  const todos = ['Traslación','Reflexión','Rotación'];
   const distract = todos.filter(function(t){ return t!==item.tipo; });
   const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
   return {
@@ -1915,18 +1915,18 @@ export function genTriangulosTeselados6Round(){
 }
 
 const ANGULO_GRADOS_BANK = [
-  {grados:30,tipo:'AGUDO'},{grados:45,tipo:'AGUDO'},{grados:60,tipo:'AGUDO'},{grados:70,tipo:'AGUDO'},
-  {grados:90,tipo:'RECTO'},
-  {grados:100,tipo:'OBTUSO'},{grados:120,tipo:'OBTUSO'},{grados:150,tipo:'OBTUSO'},{grados:170,tipo:'OBTUSO'},
-  {grados:180,tipo:'EXTENDIDO'},
-  {grados:360,tipo:'COMPLETO'},
+  {grados:30,tipo:'Agudo'},{grados:45,tipo:'Agudo'},{grados:60,tipo:'Agudo'},{grados:70,tipo:'Agudo'},
+  {grados:90,tipo:'Recto'},
+  {grados:100,tipo:'Obtuso'},{grados:120,tipo:'Obtuso'},{grados:150,tipo:'Obtuso'},{grados:170,tipo:'Obtuso'},
+  {grados:180,tipo:'Extendido'},
+  {grados:360,tipo:'Completo'},
 ];
 export function genAngulos6Round(){
   const recurso = 'Los ángulos se clasifican según su medida: <b>agudo</b> (menos de 90°), <b>recto</b> (exactamente 90°), <b>obtuso</b> (entre 90° y 180°), <b>extendido</b> (180°, una línea recta) y <b>completo</b> (360°, una vuelta entera). Dos ángulos son <b>complementarios</b> si suman 90°, y sus versiones opuestas por el vértice (cuando se cruzan dos rectas) o correspondientes (entre paralelas cortadas por una transversal) siempre miden lo mismo. Además, los ángulos interiores de un triángulo siempre suman 180°, y los de un cuadrilátero siempre suman 360° — reglas fijas que permiten calcular un ángulo desconocido sin necesidad de medirlo.';
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(ANGULO_GRADOS_BANK);
-    const todos = ['AGUDO','RECTO','OBTUSO','EXTENDIDO','COMPLETO'];
+    const todos = ['Agudo','Recto','Obtuso','Extendido','Completo'];
     const distract = shuffle(todos.filter(function(t){ return t!==item.tipo; })).slice(0,3);
     const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
     return {
@@ -2040,12 +2040,12 @@ function pieChartHTML(categorias){
 }
 
 const DATOS_DOBLE_BANK = [
-  { pregunta:'Se encuestó la mascota favorita de 6°A y 6°B.', serieA:'6°A', serieB:'6°B', categorias:[{label:'PERRO',a:12,b:8},{label:'GATO',a:6,b:10},{label:'PEZ',a:3,b:4}] },
-  { pregunta:'Se encuestó el deporte favorito de niñas y niños de 6° básico.', serieA:'NIÑAS', serieB:'NIÑOS', categorias:[{label:'FÚTBOL',a:5,b:14},{label:'NATACIÓN',a:10,b:6},{label:'VOLEIBOL',a:9,b:4}] },
+  { pregunta:'Se encuestó la mascota favorita de 6°A y 6°B.', serieA:'6°A', serieB:'6°B', categorias:[{label:'Perro',a:12,b:8},{label:'Gato',a:6,b:10},{label:'Pez',a:3,b:4}] },
+  { pregunta:'Se encuestó el deporte favorito de niñas y niños de 6° básico.', serieA:'Niñas', serieB:'Niños', categorias:[{label:'Fútbol',a:5,b:14},{label:'Natación',a:10,b:6},{label:'Voleibol',a:9,b:4}] },
 ];
 const DATOS_CIRCULAR_BANK = [
-  { pregunta:'Encuesta: ¿cómo llegan los estudiantes al colegio?', categorias:[{label:'EN BUS',valor:40,color:'#FF6B6B'},{label:'EN AUTO',valor:30,color:'#12A594'},{label:'CAMINANDO',valor:20,color:'#FFB627'},{label:'EN BICICLETA',valor:10,color:'#7C6FF0'}] },
-  { pregunta:'Encuesta: ¿cuál es el postre favorito del curso?', categorias:[{label:'HELADO',valor:35,color:'#FF6B6B'},{label:'TORTA',valor:25,color:'#12A594'},{label:'FRUTA',valor:25,color:'#FFB627'},{label:'GALLETAS',valor:15,color:'#7C6FF0'}] },
+  { pregunta:'Encuesta: ¿cómo llegan los estudiantes al colegio?', categorias:[{label:'En bus',valor:40,color:'#FF6B6B'},{label:'En auto',valor:30,color:'#12A594'},{label:'Caminando',valor:20,color:'#FFB627'},{label:'En bicicleta',valor:10,color:'#7C6FF0'}] },
+  { pregunta:'Encuesta: ¿cuál es el postre favorito del curso?', categorias:[{label:'Helado',valor:35,color:'#FF6B6B'},{label:'Torta',valor:25,color:'#12A594'},{label:'Fruta',valor:25,color:'#FFB627'},{label:'Galletas',valor:15,color:'#7C6FF0'}] },
 ];
 const CONJETURAS_BANK = [
   { afirmacion:'Mientras más veces lances una moneda, la proporción de caras se acerca más al 50%', v:true },
@@ -2071,16 +2071,16 @@ export function genDatos6Round(){
       promA = gA.reduce(function(a,b){return a+b;},0)/gA.length;
       promB = gB.reduce(function(a,b){return a+b;},0)/gB.length;
     }while(promA===promB);
-    const opts = shuffle([{label:'GRUPO A', value:'A'},{label:'GRUPO B', value:'B'}]);
+    const opts = shuffle([{label:'Grupo A', value:'A'},{label:'Grupo B', value:'B'}]);
     return {
       promptHTML: '<p class="prompt-sentence">Grupo A: '+gA.join(', ')+'</p><p class="prompt-sentence">Grupo B: '+gB.join(', ')+'</p><p class="prompt-hint">¿Cuál grupo tiene mayor promedio?</p>',
       options: opts, correctValue: promA>promB?'A':'B', speakText: '¿Cuál grupo tiene mayor promedio?', cols:2, panel:true,
-      explain: 'El grupo con mayor promedio es el <b>'+(promA>promB?'GRUPO A':'GRUPO B')+'</b>.', recurso: recurso,
+      explain: 'El grupo con mayor promedio es el <b>'+(promA>promB?'Grupo A':'Grupo B')+'</b>.', recurso: recurso,
     };
   }
   if(roll<0.6){
     const item = pick(CONJETURAS_BANK);
-    const opts = shuffle([{label:'VERDADERO', value:true},{label:'FALSO', value:false}]);
+    const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
     return {
       promptHTML: '<p class="prompt-hint">'+item.afirmacion+'</p>',
       options: opts, correctValue: item.v, speakText: item.afirmacion, cols:2, panel:true,
@@ -2106,7 +2106,7 @@ export function genDatos6Round(){
   const distract = item.categorias.filter(function(c){ return c.label!==target.label; }).map(function(c){ return c.label; });
   const opts = shuffle([target.label].concat(distract)).map(function(c){ return {label:c, value:c}; });
   return {
-    promptHTML: pieChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuál opción fue la '+(askMax?'MÁS':'MENOS')+' elegida?</p>',
+    promptHTML: pieChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuál opción fue la '+(askMax?'más':'menos')+' elegida?</p>',
     options: opts, correctValue: target.label, speakText: '¿Cuál opción fue la '+(askMax?'más':'menos')+' elegida?', cols:2, kind:'word',
     explain: '<b>'+target.label+'</b> fue la opción '+(askMax?'más':'menos')+' elegida en esta encuesta.', recurso: recurso,
   };
@@ -2284,7 +2284,7 @@ export function genProporcionesEcuaciones7Round(){
   const recurso = 'En una <b>proporción directa</b>, cuando una cantidad aumenta, la otra también aumenta en la misma proporción (a más horas trabajadas, más pago). En una <b>proporción inversa</b>, cuando una cantidad aumenta, la otra disminuye (a más velocidad, menos tiempo de viaje). Para resolver una <b>ecuación</b> como ax+b=c, se despeja la incógnita aplicando operaciones inversas en orden contrario: primero se resta b a ambos lados, y luego se divide por a.';
   if(Math.random()<0.5){
     const item = pick(PROPORCION_BANK);
-    const opts = shuffle([{label:'PROPORCIÓN DIRECTA', value:'DIRECTA'},{label:'PROPORCIÓN INVERSA', value:'INVERSA'}]);
+    const opts = shuffle([{label:'Proporción directa', value:'DIRECTA'},{label:'Proporción inversa', value:'INVERSA'}]);
     return {
       promptHTML: '<p class="prompt-sentence">'+item.contexto+'.</p><p class="prompt-hint">¿Es una proporción directa o inversa?</p>',
       options: opts, correctValue: item.tipo, speakText: '¿Es una proporción directa o inversa?', cols:2, panel:true,
@@ -2306,8 +2306,8 @@ export function genProporcionesEcuaciones7Round(){
 }
 
 const POLIGONO_ANGULOS_BANK = [
-  { lados:3, nombre:'TRIÁNGULO' }, { lados:4, nombre:'CUADRILÁTERO' },
-  { lados:5, nombre:'PENTÁGONO' }, { lados:6, nombre:'HEXÁGONO' }, { lados:8, nombre:'OCTÓGONO' },
+  { lados:3, nombre:'Triángulo' }, { lados:4, nombre:'Cuadrilátero' },
+  { lados:5, nombre:'Pentágono' }, { lados:6, nombre:'Hexágono' }, { lados:8, nombre:'Octógono' },
 ];
 export function genGeometria7Round(){
   const recurso = 'La suma de los <b>ángulos interiores</b> de un polígono se calcula con la fórmula (n-2)×180°, donde n es el número de lados. En un círculo, el <b>diámetro</b> es siempre el doble del <b>radio</b> (el radio es la distancia del centro al borde, el diámetro atraviesa el círculo entero pasando por el centro). En el <b>plano cartesiano</b>, cuando un punto se desplaza según un vector (dx, dy), su nueva posición se obtiene sumando dx a la primera coordenada y dy a la segunda.';
@@ -2375,7 +2375,7 @@ export function genEstadisticaMuestreo7Round(){
     };
   }
   const item = pick(DATOS_ENCUESTA);
-  const opts = shuffle([{label:'TABLA DE FRECUENCIAS', value:'TABLA'},{label:'GRÁFICO DE BARRAS', value:'GRAFICO'}]);
+  const opts = shuffle([{label:'Tabla de frecuencias', value:'TABLA'},{label:'Gráfico de barras', value:'GRAFICO'}]);
   const preguntaTabla = Math.random()<0.5;
   return {
     promptHTML: '<p class="prompt-hint">Si quieres mostrar visualmente, de un vistazo, qué categoría fue la más popular en una encuesta, ¿qué representación es más útil: una tabla de frecuencias o un gráfico de barras?</p>',
@@ -2406,7 +2406,7 @@ export function genProbabilidades7Round(){
   const teorica = pick([0.5, 0.25, 0.75]);
   const lanzamientos = pick([20,40,50,100]);
   const experimental = Math.round(teorica*lanzamientos + (randInt(-3,3)));
-  const opts = shuffle([{label:'SÍ, ES ESPERABLE QUE HAYA UNA PEQUEÑA DIFERENCIA', value:true},{label:'NO, SIEMPRE DEBEN SER EXACTAMENTE IGUALES', value:false}]);
+  const opts = shuffle([{label:'Sí, es esperable que haya una pequeña diferencia', value:true},{label:'No, siempre deben ser exactamente iguales', value:false}]);
   return {
     promptHTML: '<p class="prompt-hint">La probabilidad teórica de un evento es '+(teorica*100)+'%. Al repetir el experimento '+lanzamientos+' veces, ocurrió '+experimental+' veces (en vez de exactamente '+Math.round(teorica*lanzamientos)+'). ¿Es normal que exista esta pequeña diferencia entre la frecuencia experimental y la probabilidad teórica?</p>',
     options: opts, correctValue: true, speakText: '¿Es normal que exista esta diferencia?', cols:2, panel:true,
@@ -2691,10 +2691,10 @@ export function genGeometria8Round(){
     };
   }
   const opts = shuffle([
-    {label:'ÁREA DE LA BASE (π×r²) MULTIPLICADA POR LA ALTURA', value:'ok'},
-    {label:'PERÍMETRO DE LA BASE MÁS LA ALTURA', value:'m1'},
-    {label:'SOLO EL ÁREA DE LA BASE, SIN LA ALTURA', value:'m2'},
-    {label:'EL DIÁMETRO MULTIPLICADO POR LA ALTURA', value:'m3'},
+    {label:'Área de la base (π×r²) multiplicada por la altura', value:'ok'},
+    {label:'Perímetro de la base más la altura', value:'m1'},
+    {label:'Solo el área de la base, sin la altura', value:'m2'},
+    {label:'El diámetro multiplicado por la altura', value:'m3'},
   ]);
   return {
     promptHTML: '<p class="prompt-hint">¿Cómo se calcula el volumen de un cilindro?</p>',
@@ -2705,16 +2705,16 @@ export function genGeometria8Round(){
 }
 
 const TRANSFORMACION_8_BANK = [
-  { desc:'El punto (2, 3) se mueve al punto (5, 3): se desplazó 3 unidades a la derecha, sin girar ni invertirse', correcta:'TRASLACIÓN', opts:['ROTACIÓN','REFLEXIÓN','NINGÚN MOVIMIENTO'] },
-  { desc:'Una figura gira 90° en torno al origen del plano cartesiano, manteniendo su forma y tamaño', correcta:'ROTACIÓN', opts:['TRASLACIÓN','REFLEXIÓN','AMPLIACIÓN'] },
-  { desc:'El punto (4, 1) pasa al punto (-4, 1): la figura se invirtió respecto al eje vertical, como en un espejo', correcta:'REFLEXIÓN', opts:['TRASLACIÓN','ROTACIÓN','REDUCCIÓN'] },
-  { desc:'Toda la figura se mueve según el vector (0, -4): baja 4 unidades sin cambiar su orientación', correcta:'TRASLACIÓN', opts:['ROTACIÓN','REFLEXIÓN','SIMETRÍA CENTRAL'] },
-  { desc:'Una figura da media vuelta (180°) alrededor de un punto fijo, quedando "de cabeza" pero del mismo tamaño', correcta:'ROTACIÓN', opts:['TRASLACIÓN','REFLEXIÓN','AMPLIACIÓN'] },
-  { desc:'El punto (3, 5) pasa al punto (3, -5): la figura se invirtió respecto al eje horizontal', correcta:'REFLEXIÓN', opts:['TRASLACIÓN','ROTACIÓN','NINGÚN MOVIMIENTO'] },
-  { desc:'Un mosaico se construye repitiendo la misma figura desplazada una y otra vez en la misma dirección, sin girarla', correcta:'TRASLACIÓN', opts:['ROTACIÓN','REFLEXIÓN','REDUCCIÓN'] },
-  { desc:'Las aspas de un molino repiten la misma forma girada en torno al centro, cada cierta cantidad de grados', correcta:'ROTACIÓN', opts:['TRASLACIÓN','REFLEXIÓN','AMPLIACIÓN'] },
-  { desc:'El diseño de una mariposa: su lado izquierdo es la imagen especular exacta de su lado derecho', correcta:'REFLEXIÓN', opts:['TRASLACIÓN','ROTACIÓN','NINGUNA TRANSFORMACIÓN'] },
-  { desc:'Al componer dos reflexiones seguidas sobre ejes paralelos, la figura termina simplemente desplazada, sin invertirse', correcta:'TRASLACIÓN', opts:['ROTACIÓN','REFLEXIÓN','REDUCCIÓN'] },
+  { desc:'El punto (2, 3) se mueve al punto (5, 3): se desplazó 3 unidades a la derecha, sin girar ni invertirse', correcta:'Traslación', opts:['Rotación','Reflexión','Ningún movimiento'] },
+  { desc:'Una figura gira 90° en torno al origen del plano cartesiano, manteniendo su forma y tamaño', correcta:'Rotación', opts:['Traslación','Reflexión','Ampliación'] },
+  { desc:'El punto (4, 1) pasa al punto (-4, 1): la figura se invirtió respecto al eje vertical, como en un espejo', correcta:'Reflexión', opts:['Traslación','Rotación','Reducción'] },
+  { desc:'Toda la figura se mueve según el vector (0, -4): baja 4 unidades sin cambiar su orientación', correcta:'Traslación', opts:['Rotación','Reflexión','Simetría central'] },
+  { desc:'Una figura da media vuelta (180°) alrededor de un punto fijo, quedando "de cabeza" pero del mismo tamaño', correcta:'Rotación', opts:['Traslación','Reflexión','Ampliación'] },
+  { desc:'El punto (3, 5) pasa al punto (3, -5): la figura se invirtió respecto al eje horizontal', correcta:'Reflexión', opts:['Traslación','Rotación','Ningún movimiento'] },
+  { desc:'Un mosaico se construye repitiendo la misma figura desplazada una y otra vez en la misma dirección, sin girarla', correcta:'Traslación', opts:['Rotación','Reflexión','Reducción'] },
+  { desc:'Las aspas de un molino repiten la misma forma girada en torno al centro, cada cierta cantidad de grados', correcta:'Rotación', opts:['Traslación','Reflexión','Ampliación'] },
+  { desc:'El diseño de una mariposa: su lado izquierdo es la imagen especular exacta de su lado derecho', correcta:'Reflexión', opts:['Traslación','Rotación','Ninguna transformación'] },
+  { desc:'Al componer dos reflexiones seguidas sobre ejes paralelos, la figura termina simplemente desplazada, sin invertirse', correcta:'Traslación', opts:['Rotación','Reflexión','Reducción'] },
 ];
 export function genTransformaciones8Round(){
   const recurso = 'Las <b>transformaciones geométricas</b> son movimientos que se le aplican a una figura sin cambiar su tamaño ni su forma. Hay tres tipos principales: la <b>traslación</b> desplaza la figura en línea recta hacia una dirección, sin girarla ni voltearla (como deslizar una pieza sobre una mesa); la <b>rotación</b> gira la figura en torno a un punto fijo, un cierto número de grados (como las aspas de un molino); y la <b>reflexión</b> voltea la figura como si se reflejara en un espejo, invirtiendo su orientación respecto a una línea (el eje de reflexión). Estas transformaciones se usan para crear patrones y mosaicos, y para describir con precisión cómo se mueve un punto en el plano cartesiano.';
@@ -2770,17 +2770,17 @@ export function genEstadisticaCombinatoria8Round(){
     };
   }
   const enganosos = [
-    { desc:'Un gráfico de barras comienza su eje vertical en 90 en vez de 0, haciendo que una diferencia pequeña entre dos barras se vea enorme', pregunta:'¿Por qué este gráfico puede engañar al lector?', correcta:'PORQUE CORTAR EL EJE EXAGERA VISUALMENTE UNA DIFERENCIA QUE ES PEQUEÑA', opts:['PORQUE LOS GRÁFICOS DE BARRAS SIEMPRE MIENTEN','PORQUE EL COLOR DE LAS BARRAS ES INCORRECTO','NO HAY NINGÚN PROBLEMA CON ESE GRÁFICO'] },
-    { desc:'Una publicidad muestra un gráfico donde su producto aparece con una barra el doble de ancha (no más alta) que la del competidor', pregunta:'¿Qué problema tiene esta presentación?', correcta:'EL ANCHO DE LA BARRA NO REPRESENTA EL VALOR: SOLO LA ALTURA DEBERÍA COMPARARSE', opts:['LAS BARRAS ANCHAS SON SIEMPRE MÁS PRECISAS','NO HAY NINGÚN PROBLEMA','EL COMPETIDOR DEBERÍA TENER LA BARRA MÁS ANCHA'] },
-    { desc:'Un titular dice "las ventas se dispararon" pero el gráfico muestra un aumento de solo 1% en un eje muy ampliado', pregunta:'¿Qué conviene hacer como lector crítico frente a este gráfico?', correcta:'REVISAR LA ESCALA DEL EJE Y LOS VALORES REALES ANTES DE ACEPTAR LA CONCLUSIÓN DEL TITULAR', opts:['CREER EL TITULAR SIN MIRAR EL GRÁFICO','IGNORAR SIEMPRE TODOS LOS GRÁFICOS','ASUMIR QUE EL 1% ES UNA CIFRA ENORME'] },
-    { desc:'Dos diarios muestran los mismos datos de temperatura: uno usa un eje de 0 a 40 grados y el otro un eje de 28 a 32 grados', pregunta:'¿Por qué los dos gráficos se ven tan distintos si los datos son los mismos?', correcta:'PORQUE LA ESCALA DEL EJE CAMBIA LA IMPRESIÓN VISUAL, AUNQUE LOS DATOS SEAN IGUALES', opts:['PORQUE UNO DE LOS DIARIOS INVENTÓ LOS DATOS','PORQUE LA TEMPERATURA CAMBIÓ ENTRE UNA IMPRESIÓN Y OTRA','ES IMPOSIBLE QUE SE VEAN DISTINTOS'] },
+    { desc:'Un gráfico de barras comienza su eje vertical en 90 en vez de 0, haciendo que una diferencia pequeña entre dos barras se vea enorme', pregunta:'¿Por qué este gráfico puede engañar al lector?', correcta:'Porque cortar el eje exagera visualmente una diferencia que es pequeña', opts:['Porque los gráficos de barras siempre mienten','Porque el color de las barras es incorrecto','No hay ningún problema con ese gráfico'] },
+    { desc:'Una publicidad muestra un gráfico donde su producto aparece con una barra el doble de ancha (no más alta) que la del competidor', pregunta:'¿Qué problema tiene esta presentación?', correcta:'El ancho de la barra no representa el valor: solo la altura debería compararse', opts:['Las barras anchas son siempre más precisas','No hay ningún problema','El competidor debería tener la barra más ancha'] },
+    { desc:'Un titular dice "las ventas se dispararon" pero el gráfico muestra un aumento de solo 1% en un eje muy ampliado', pregunta:'¿Qué conviene hacer como lector crítico frente a este gráfico?', correcta:'Revisar la escala del eje y los valores reales antes de aceptar la conclusión del titular', opts:['Creer el titular sin mirar el gráfico','Ignorar siempre todos los gráficos','Asumir que el 1% es una cifra enorme'] },
+    { desc:'Dos diarios muestran los mismos datos de temperatura: uno usa un eje de 0 a 40 grados y el otro un eje de 28 a 32 grados', pregunta:'¿Por qué los dos gráficos se ven tan distintos si los datos son los mismos?', correcta:'Porque la escala del eje cambia la impresión visual, aunque los datos sean iguales', opts:['Porque uno de los diarios inventó los datos','Porque la temperatura cambió entre una impresión y otra','Es imposible que se vean distintos'] },
   ];
   const item = pick(enganosos);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
-    explain: 'La respuesta correcta es: '+item.correcta.toLowerCase()+'.',
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
     recurso: recurso,
   };
 }

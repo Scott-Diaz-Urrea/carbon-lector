@@ -3387,3 +3387,120 @@ sesión).
     protegido) con las 4 alternativas en oración normal y el texto/hechos
     intactos. Sin errores de consola en ningún caso. Próximo paso del mismo
     pedido: `matematica.js` (27 alternativas) — último archivo del rollout.
+- **`matematica.js` en oración normal (2026-08-01, décimo y ÚLTIMO archivo del
+  rollout, tras `historia.js`/`ciencias.js`/`lenguaje.js`/`ingles.js`/
+  `edfisica.js`/`artes.js`/`musica.js`/`tecnologia.js`/`orientacion.js`):**
+  mismo pedido, mismo criterio ("procede"). Con esto el rollout de armonía
+  visual de alternativas queda **completo en las 10 asignaturas de la app**.
+  El conteo real fue de ~252 cadenas ALL-CAPS (mucho más que la estimación
+  original de 27, subestimada igual que `musica.js`/`lenguaje.js` en su
+  momento), repartidas en decenas de bancos a lo largo de 1°-8° básico —
+  convertido a mano vía `Edit` en vez de script de PowerShell, dado el
+  volumen manejable y para evitar por completo el riesgo de los bugs de
+  metodología ya documentados.
+  - **El archivo más complejo del rollout por sus dependencias internas.**
+    A diferencia de los archivos anteriores (donde cada alternativa era
+    independiente), `matematica.js` reutiliza el mismo valor ALL-CAPS en
+    varios lugares dentro de una misma función: como valor de banco, como
+    entrada de un array `todos`/distractor usado con `.filter()`, y como
+    `label`/`value` de la opción mostrada — los tres deben convertirse
+    *consistentemente* dentro del generador, o la comparación `item.tipo===
+    '...'`/el `.filter()` se rompe silenciosamente. Se resolvió generador
+    por generador, verificando cada conjunto cerrado de categorías (p. ej.
+    `['TRASLACIÓN','REFLEXIÓN','ROTACIÓN']`) y actualizando el banco, el
+    array de distractores y las comparaciones `===`/ternarios en el mismo
+    paso.
+  - **Bug real de shared-helper por case-sensitividad, igual a
+    `colorSwatchSVG`/`lineTypeSVG` de `artes.js`:** `anguloSVG(tipo, size)`
+    (`js/svg.js`) comparaba `tipo==='RECTO'`/`'AGUDO'` con `===` exacto.
+    `ANGULOS_POOL = ['RECTO','AGUDO','OBTUSO']` (usado en Geometría III/IV,
+    3°-4° básico) se pasa directo como `tipo` a `anguloSVG()` — de haberse
+    convertido el pool a `['Recto','Agudo','Obtuso']` sin tocar el helper,
+    **todo ángulo se habría dibujado como obtuso (el valor de respaldo)**,
+    sin ningún error de consola que lo delatara (mismo patrón silencioso que
+    el bug de `colorSwatchSVG`). Corregido normalizando el `tipo` a
+    mayúscula al inicio de `anguloSVG()` (`tipo = String(tipo||'').
+    toUpperCase();`), para que funcione sin importar el case que reciba.
+    Verificado en el navegador vía `anguloSVG('Recto',100)` extrayendo las
+    coordenadas del SVG resultante: ángulo de 90° exacto (antes del fix
+    habría dado 130°, el ángulo obtuso de respaldo).
+  - **Bug real de bare ALL-CAPS object key** (bug class #1, ya documentado en
+    archivos anteriores): `const gradosMap = {RECTO:90, AGUDO:45,
+    OBTUSO:130};` en `genGeometria4Round` — nunca tocado por el regex de
+    cadenas entre comillas (son identificadores de clave, no strings).
+    Corregido a `{Recto:90, Agudo:45, Obtuso:130}`, consistente con el nuevo
+    `ANGULOS_POOL`.
+  - **Distinción clave aplicada en todo el archivo: cuándo convertir SOLO el
+    `label` de una opción vs. cuándo convertir el valor de origen completo.**
+    Cuando `label` y `value` ya eran distintos en el código original (p. ej.
+    `{label:'PROPORCIÓN DIRECTA', value:'DIRECTA'}`, `{label:'NÚMERO PRIMO',
+    value:'PRIMO'}`, `{label:'TABLA DE FRECUENCIAS', value:'TABLA'}`), el
+    `value` es un token interno que nunca se muestra al niño — se dejó
+    intacto y solo se convirtió el `label` visible. Cuando `label===value`
+    (la misma variable se usa para ambos, p. ej. `{label:t, value:t}` con
+    `t` viniendo de un array de categorías), se convirtió el **banco de
+    origen completo** (la constante, el array `todos` de distractores, y
+    cualquier comparación `===`/ternario que dependa de ese valor) para que
+    la opción mostrada y el token interno seguido de coincidir. Aplicó a:
+    `TRANSFORMACIONES_BANK`/`todos` (5° básico), `PROBABILIDAD_CUALITATIVA_
+    BANK`/`todos`, `TESELADO_TRANSFORMACIONES_BANK`/`todos`,
+    `TRIANGULO_LADOS_BANK_GEN` (con su propio distractor array y ternario de
+    `explain`), `ANGULO_GRADOS_BANK`/`todos`, `TRANSFORMACION_8_BANK`
+    (6°-8° básico), y `FRACCIÓN PROPIA`/`FRACCIÓN IMPROPIA` en
+    `genFracciones5Round` (encontrado en una segunda pasada de verificación:
+    el `label` se mostraba directo en ALL-CAPS sin ningún `.toLowerCase()`
+    en ningún lado, a diferencia de la mayoría de los casos similares del
+    archivo).
+  - **"Unidades" de medida ALL-CAPS bajadas a minúscula (no a oración),
+    siguiendo la convención ya establecida en el resto del archivo** (cm, m,
+    kg ya aparecían en minúscula en otros bancos): `' UNIDADES CUADRADAS'`→
+    `' unidades cuadradas'`, `' CUBOS'`→`' cubos'` (sufijos concatenados tras
+    un número, no oraciones), las opciones de dígitos `'1 DÍGITO'`/
+    `'2 DÍGITOS'`→`'1 dígito'`/`'2 dígitos'`, y `CONVERSION_LONGITUD_BANK`
+    (`de`/`a`: `'KM'/'M'/'CM'/'MM'`→`'km'/'m'/'cm'/'mm'`, abreviaturas de
+    unidad SI, no texto en mayúscula sostenida).
+  - **Ternarios de énfasis ALL-CAPS mid-oración (bug class #3), cosméticos
+    en su mayoría porque ya se consumían vía `.toLowerCase()` en el punto de
+    uso, mostrando su fuente ya en minúscula por consistencia:** `vista===
+    'frente'?'DE FRENTE':...`→`'de frente'` (siempre lowercased antes de
+    mostrarse, sin efecto funcional); `(askMax?'MÁS':'MENOS')`,
+    `(preguntaMax?'MÁS ALTO':'MÁS BAJO')` en `genDatos4Round`/`genDatos5Round`/
+    `genDatos6Round` — estos SÍ se insertaban directo en el HTML sin pasar
+    por `.toLowerCase()`, así que si tenían efecto visual real y se
+    corrigieron a minúscula.
+  - **Clasificación de los 2 únicos `.toLowerCase()` removidos de 36
+    totales:** ambos coinciden exactamente con el patrón "La respuesta
+    correcta es: X" ya establecido en todo el rollout —
+    `genExperimentosAleatorios` (dentro de `genDatos4Round`) y el banco
+    `enganosos` de `genEstadisticaCombinatoria8Round`. Los 34 restantes son
+    embeds mid-oración o clasificaciones de categoría ("Esto es una X",
+    "Esta figura es un X", "Es un ángulo X") y se dejaron intactos, mismo
+    criterio del resto del rollout.
+  - Verificado: los 60 generadores del archivo pasan fuzz de 300 iteraciones
+    cada uno (sin `THROW`, sin `undefined`, sin opciones duplicadas,
+    `correctValue` siempre presente, sin apóstrofes en `speakText`). Grep
+    dedicado confirmó que las únicas cadenas ALL-CAPS remanentes son tokens
+    internos nunca mostrados en pantalla (verificado caso por caso: `kind`/
+    `cifraPos`/`tipo` de variables usadas solo vía `.toLowerCase()`, y
+    `value` de opciones donde `label` ya está en oración normal). `MC_KEYS.
+    length === Object.keys(MC_GAMES).length === 324` (regresión de wiring
+    intacta). Probado visualmente en el navegador: módulo "Formas" (1°
+    básico) con alternativas "Círculo"/"Rombo"/"Óvalo"/"Cuadrado"; módulo
+    "Geometría III" (3° básico) con el módulo de ángulos mostrando "Obtuso"/
+    "Recto"/"Agudo" en oración normal y el SVG del ángulo recto renderizando
+    exactamente 90° (confirmando que el fix de `anguloSVG` funciona); módulo
+    "Triángulos y Teselados" (6° básico) con una ronda de transformación
+    ("Rotación"/"Traslación"/"Reflexión") y una ronda de clasificación de
+    triángulo por lados ("Isósceles"/"Equilátero"/"Escaleno"), ambas en
+    oración normal, avanzando correctamente tras responder. Sin errores de
+    consola en ningún caso.
+
+**Con esto, el rollout completo de MAYÚSCULAS→oración normal queda terminado
+en las 10 asignaturas de la app** (historia, ciencias, lenguaje, inglés,
+educación física, artes, música, tecnología, orientación, matemática) —
+iniciado el 2026-07-26 con `historia.js` y completado el 2026-08-01 con
+`matematica.js`. Cualquier archivo nuevo de contenido que se agregue de aquí
+en adelante (Educación Media, EPJA, o expansión de Estudio para Pruebas)
+debe escribirse directamente en oración normal desde el principio — este
+rollout no necesita repetirse si el patrón se sigue por defecto en contenido
+nuevo.

@@ -297,6 +297,44 @@ js/
                               `<canvas>` oculto según el dibujo activo, en vez
                               de asumir 300×300 fijo — necesario porque
                               Carboncito ya no comparte el viewBox del resto.
+                              **Bug real encontrado tras el rehecho, reportado
+                              por el usuario ("sigo teniendo problemas con los
+                              dibujos") — varios números de guía quedaban
+                              tapados por un elemento decorativo dibujado
+                              DESPUÉS en el mismo lugar:** en Carboncito, el
+                              hocico (dibujado después) tapaba el número de la
+                              cabeza, la nariz tapaba el número del hocico, y
+                              la lengua/placa del collar tapaban el número del
+                              cuerpo — los 3 números eran invisibles en la
+                              práctica, no solo "difíciles de ver". En Auto,
+                              el tapacubos (círculo oscuro fijo) se dibujaba
+                              exactamente encima del centro de cada rueda,
+                              tapando su número por completo. En Casa, las
+                              líneas cruzadas de las ventanas (parteluz) caían
+                              justo sobre el número, dejándolo parcialmente
+                              cubierto. Ninguno de estos casos aparece en un
+                              fuzz-test de datos (no hay ningún dato incorrecto
+                              involucrado) — solo se detecta mirando el SVG
+                              renderizado de verdad, que es como el usuario lo
+                              encontró. Corregido de dos formas: (1) se agregó
+                              un parámetro opcional `labelPos:{x,y}` a
+                              `circleRegion()`/`ellipseRegion()` para mover la
+                              etiqueta del número lejos de su centro geométrico
+                              por defecto cuando ese centro coincide con un
+                              elemento fijo dibujado después (cabeza, hocico,
+                              cuerpo, ruedas); (2) se eliminó por completo el
+                              parteluz de las ventanas de Casa (ya no hacía
+                              falta para que se reconocieran como ventanas).
+                              **Lección para arte nuevo con números de guía:**
+                              cuando un elemento fijo (ojos, nariz, tapacubos,
+                              parteluz) se dibuja EN EL MISMO LUGAR que el
+                              centro de una región numerada, el número
+                              desaparece visualmente aunque el dato/atributo
+                              siga estando bien en el DOM — verificar siempre
+                              con captura de pantalla real después de agregar
+                              cualquier detalle decorativo sobre una región ya
+                              numerada, no asumir que "está en el DOM" equivale
+                              a "se ve".
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

@@ -60,16 +60,21 @@ function colorForNum(n){
    siempre caiga sobre la forma, no sobre el texto). `fontSize` es opcional
    (permite compensar el tamaño del número en dibujos con un viewBox más
    chico que el estándar de 300×300, como Carboncito). */
-function circleRegion(cx, cy, r, num, fontSize){
+function circleRegion(cx, cy, r, num, fontSize, labelPos){
   const style = fontSize ? ' style="font-size:'+fontSize+'px"' : '';
+  const lx = labelPos ? labelPos.x : cx;
+  const ly = labelPos ? labelPos.y : cy;
   return '<circle data-num="'+num+'" cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#ffffff" stroke="#333" stroke-width="2.5"/>'+
-    '<text class="colorear-num" x="'+cx+'" y="'+cy+'"'+style+'>'+num+'</text>';
+    '<text class="colorear-num" x="'+lx+'" y="'+ly+'"'+style+'>'+num+'</text>';
 }
-function ellipseRegion(cx, cy, rx, ry, num, rotate, fontSize){
+function ellipseRegion(cx, cy, rx, ry, num, rotate, fontSize, labelPos){
   const t = rotate ? ' transform="rotate('+rotate+' '+cx+' '+cy+')"' : '';
   const style = fontSize ? ' style="font-size:'+fontSize+'px"' : '';
+  const lx = labelPos ? labelPos.x : cx;
+  const ly = labelPos ? labelPos.y : cy;
+  const labelTransform = labelPos ? '' : t;
   return '<ellipse data-num="'+num+'" cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="#ffffff" stroke="#333" stroke-width="2.5"'+t+'/>'+
-    '<text class="colorear-num" x="'+cx+'" y="'+cy+'"'+t+style+'>'+num+'</text>';
+    '<text class="colorear-num" x="'+lx+'" y="'+ly+'"'+labelTransform+style+'>'+num+'</text>';
 }
 function rectRegion(x, y, w, h, num, rx, fontSize){
   const style = fontSize ? ' style="font-size:'+fontSize+'px"' : '';
@@ -124,17 +129,17 @@ const DIBUJOS_COLOREAR = [
       const fs = 11;
       return '<ellipse cx="100" cy="178" rx="38" ry="8" fill="#1D3557" opacity="0.13"/>'+
         pathRegion('M146 116 q24 -8 22 14 q-2 16 -20 11 q-9 -2 -7 -13 q2 -8 5 -12 Z', 5, null, null, fs)+
-        ellipseRegion(100,138,50,40,8,0,fs)+
+        ellipseRegion(100,138,50,40,8,0,fs,{x:100,y:163})+
         circleRegion(78,172,12,6,fs)+circleRegion(122,172,12,6,fs)+
         '<path d="M64 118 q36 20 72 0" stroke="#FF6B6B" stroke-width="8" fill="none" stroke-linecap="round"/>'+
         '<circle cx="100" cy="130" r="6.5" fill="#FFD23F" stroke="#F0932B" stroke-width="1.5"/>'+
         pathRegion('M58 70 q-24 6 -15 36 q7 19 25 10 Z', 5, 46, 92, fs)+
         pathRegion('M142 70 q24 6 15 36 q-7 19 -25 10 Z', 5, 154, 92, fs)+
-        circleRegion(100,88,46,8,fs)+
+        circleRegion(100,88,46,8,fs,{x:66,y:65})+
         '<path d="M72 59 q28 -14 56 0" stroke="#5C5450" stroke-width="3" fill="none" stroke-linecap="round"/>'+
         '<path d="M76 69 q24 -10 48 0" stroke="#5C5450" stroke-width="2.6" fill="none" stroke-linecap="round"/>'+
         '<path d="M80 78 q20 -6 40 0" stroke="#5C5450" stroke-width="2.2" fill="none" stroke-linecap="round"/>'+
-        ellipseRegion(100,107,28,20,2,0,fs)+
+        ellipseRegion(100,107,28,20,2,0,fs,{x:80,y:116})+
         '<path d="M77 100 q-5 8 2 15" stroke="#3A3532" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.55"/>'+
         '<path d="M123 100 q5 8 -2 15" stroke="#3A3532" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.55"/>'+
         '<ellipse cx="100" cy="101" rx="9.5" ry="7.5" fill="#131110"/>'+
@@ -158,7 +163,7 @@ const DIBUJOS_COLOREAR = [
         pathRegion('M92 150 L112 108 L148 108 L148 150 Z', 3, 122, 132)+
         pathRegion('M154 150 L154 108 L188 108 Q210 118 224 150 Z', 3, 185, 132)+
         '<line x1="150" y1="108" x2="150" y2="150" stroke="#333" stroke-width="3"/>'+
-        circleRegion(95,208,30,5)+circleRegion(225,208,30,5)+
+        circleRegion(95,208,30,5,null,{x:95,y:189})+circleRegion(225,208,30,5,null,{x:225,y:189})+
         '<circle cx="95" cy="208" r="11" fill="#1D2B3A"/>'+
         '<circle cx="225" cy="208" r="11" fill="#1D2B3A"/>'+
         circleRegion(280,168,9,1)+
@@ -176,11 +181,7 @@ const DIBUJOS_COLOREAR = [
         rectRegion(196,85,16,32,5)+
         pathRegion('M150,197 L150,225 Q150,242 168,242 L172,242 Q190,242 190,225 L190,197 Z', 8, 170, 225)+
         rectRegion(92,165,32,32,3,6)+
-        rectRegion(176,165,32,32,3,6)+
-        '<line x1="108" y1="165" x2="108" y2="197" stroke="#333" stroke-width="2"/>'+
-        '<line x1="92" y1="181" x2="124" y2="181" stroke="#333" stroke-width="2"/>'+
-        '<line x1="192" y1="165" x2="192" y2="197" stroke="#333" stroke-width="2"/>'+
-        '<line x1="176" y1="181" x2="208" y2="181" stroke="#333" stroke-width="2"/>';
+        rectRegion(176,165,32,32,3,6);
     },
   },
   {

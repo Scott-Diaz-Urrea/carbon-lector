@@ -164,6 +164,24 @@ import {
 import {
   genHistoriaEconomiaMundialEpjaN3Round, genTrabajoChileEpjaN3Round, genDemocraciaDerechosEpjaN3Round,
 } from './content/epja/estudiosSocialesNivel3.js';
+import {
+  genComprensionEpjaM1Round, genVocabularioContextoEpjaM1Round, genTextosExpositivosEpjaM1Round, genHechosOpinionesEpjaM1Round,
+} from './content/epja/lenguajeMedia1.js';
+import {
+  genNumerosRacionalesEpjaM1Round, genPotenciasIrracionalesEpjaM1Round, genProporcionalidadEpjaM1Round,
+  genAlgebraEpjaM1Round, genFuncionesEcuacionesEpjaM1Round, genGeometriaSemejanzaEpjaM1Round,
+  genTransformacionesMedicionEpjaM1Round, genEstadisticaProbabilidadEpjaM1Round,
+} from './content/epja/matematicaMedia1.js';
+import {
+  genCelulaMetabolismoEpjaM1Round, genSistemasNutricionEpjaM1Round, genEcosistemasBiodiversidadEpjaM1Round,
+  genMovimientoOndasOpticaEpjaM1Round, genEnergiaCalorEpjaM1Round, genDisolucionesReaccionesEpjaM1Round,
+} from './content/epja/cienciasMedia1.js';
+import {
+  genColoniaIndependenciaEpjaM1Round, genSigloXIXTerritorioEpjaM1Round, genSigloXXDemocraciaEpjaM1Round, genCiudadaniaDerechosEpjaM1Round,
+} from './content/epja/estudiosSocialesMedia1.js';
+import {
+  genGramaticaContextoEpjaM1Round, genVocabularioFuncionalEpjaM1Round, genComprensionInglesEpjaM1Round,
+} from './content/epja/inglesMedia1.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
@@ -264,7 +282,12 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'comprensionEpjaN3','vocabularioContextoEpjaN3','tiposTextoEpjaN3','hechosOpinionesEpjaN3',
   'numerosEnterosEpjaN3','potenciasNotacionEpjaN3','razonesProporcionesEpjaN3','pitagorasCircunferenciaEpjaN3','angulosTriangulosEpjaN3','estadisticaEpjaN3',
   'modeloCineticoEpjaN3','atomosReaccionesEpjaN3','energiaTransformacionesEpjaN3','origenVidaGeneticaEpjaN3','reproduccionSexualidadEpjaN3','sistemaInmuneEnfermedadesEpjaN3',
-  'historiaEconomiaMundialEpjaN3','trabajoChileEpjaN3','democraciaDerechosEpjaN3'];
+  'historiaEconomiaMundialEpjaN3','trabajoChileEpjaN3','democraciaDerechosEpjaN3',
+  'comprensionEpjaM1','vocabularioContextoEpjaM1','textosExpositivosEpjaM1','hechosOpinionesEpjaM1',
+  'numerosRacionalesEpjaM1','potenciasIrracionalesEpjaM1','proporcionalidadEpjaM1','algebraEpjaM1','funcionesEcuacionesEpjaM1','geometriaSemejanzaEpjaM1','transformacionesMedicionEpjaM1','estadisticaProbabilidadEpjaM1',
+  'celulaMetabolismoEpjaM1','sistemasNutricionEpjaM1','ecosistemasBiodiversidadEpjaM1','movimientoOndasOpticaEpjaM1','energiaCalorEpjaM1','disolucionesReaccionesEpjaM1',
+  'coloniaIndependenciaEpjaM1','sigloXIXTerritorioEpjaM1','sigloXXDemocraciaEpjaM1','ciudadaniaDerechosEpjaM1',
+  'gramaticaContextoEpjaM1','vocabularioFuncionalEpjaM1','comprensionInglesEpjaM1'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -638,6 +661,31 @@ export const MC_GAMES = {
   historiaEconomiaMundialEpjaN3: { title:'Historia y Economía Mundial S.XX', gen: genHistoriaEconomiaMundialEpjaN3Round, rounds:8 },
   trabajoChileEpjaN3:         { title:'El Trabajo en Chile',         gen: genTrabajoChileEpjaN3Round,         rounds:8  },
   democraciaDerechosEpjaN3:   { title:'Democracia, DD.HH. y Estado', gen: genDemocraciaDerechosEpjaN3Round,   rounds:8  },
+  comprensionEpjaM1:          { title:'Comprensión de Lectura',      gen: genComprensionEpjaM1Round,          rounds:10 },
+  vocabularioContextoEpjaM1:  { title:'Vocabulario en Contexto',     gen: genVocabularioContextoEpjaM1Round,  rounds:10 },
+  textosExpositivosEpjaM1:    { title:'Textos Expositivos y Discurso', gen: genTextosExpositivosEpjaM1Round,  rounds:8  },
+  hechosOpinionesEpjaM1:      { title:'Hechos, Opiniones y Argumentación', gen: genHechosOpinionesEpjaM1Round, rounds:8  },
+  numerosRacionalesEpjaM1:    { title:'Números Enteros y Racionales', gen: genNumerosRacionalesEpjaM1Round,    rounds:8  },
+  potenciasIrracionalesEpjaM1:{ title:'Potencias e Irracionales',    gen: genPotenciasIrracionalesEpjaM1Round,rounds:8  },
+  proporcionalidadEpjaM1:     { title:'Proporcionalidad y Porcentajes', gen: genProporcionalidadEpjaM1Round,  rounds:8  },
+  algebraEpjaM1:              { title:'Álgebra',                     gen: genAlgebraEpjaM1Round,              rounds:8  },
+  funcionesEcuacionesEpjaM1:  { title:'Funciones y Ecuaciones',      gen: genFuncionesEcuacionesEpjaM1Round,  rounds:8  },
+  geometriaSemejanzaEpjaM1:   { title:'Geometría: Ángulos y Semejanza', gen: genGeometriaSemejanzaEpjaM1Round, rounds:8  },
+  transformacionesMedicionEpjaM1: { title:'Transformaciones y Medición', gen: genTransformacionesMedicionEpjaM1Round, rounds:8 },
+  estadisticaProbabilidadEpjaM1: { title:'Estadística y Probabilidad', gen: genEstadisticaProbabilidadEpjaM1Round, rounds:8 },
+  celulaMetabolismoEpjaM1:    { title:'La Célula y su Metabolismo',  gen: genCelulaMetabolismoEpjaM1Round,    rounds:8  },
+  sistemasNutricionEpjaM1:    { title:'Sistemas de Nutrición y Salud', gen: genSistemasNutricionEpjaM1Round,  rounds:8  },
+  ecosistemasBiodiversidadEpjaM1: { title:'Ecosistemas y Biodiversidad', gen: genEcosistemasBiodiversidadEpjaM1Round, rounds:8 },
+  movimientoOndasOpticaEpjaM1: { title:'Movimiento, Ondas y Óptica', gen: genMovimientoOndasOpticaEpjaM1Round, rounds:8 },
+  energiaCalorEpjaM1:         { title:'Energía, Trabajo y Calor',    gen: genEnergiaCalorEpjaM1Round,         rounds:8  },
+  disolucionesReaccionesEpjaM1: { title:'Disoluciones y Reacciones Químicas', gen: genDisolucionesReaccionesEpjaM1Round, rounds:8 },
+  coloniaIndependenciaEpjaM1: { title:'Colonia e Independencia',     gen: genColoniaIndependenciaEpjaM1Round, rounds:8  },
+  sigloXIXTerritorioEpjaM1:   { title:'Chile en el Siglo XIX',       gen: genSigloXIXTerritorioEpjaM1Round,   rounds:8  },
+  sigloXXDemocraciaEpjaM1:    { title:'Chile en el Siglo XX: Hacia la Democracia', gen: genSigloXXDemocraciaEpjaM1Round, rounds:8 },
+  ciudadaniaDerechosEpjaM1:   { title:'Ciudadanía, Derechos y Participación', gen: genCiudadaniaDerechosEpjaM1Round, rounds:8 },
+  gramaticaContextoEpjaM1:    { title:'Gramática en Contexto',       gen: genGramaticaContextoEpjaM1Round,    rounds:10 },
+  vocabularioFuncionalEpjaM1: { title:'Vocabulario y Textos Funcionales', gen: genVocabularioFuncionalEpjaM1Round, rounds:8 },
+  comprensionInglesEpjaM1:    { title:'Comprensión de Lectura (Inglés)', gen: genComprensionInglesEpjaM1Round, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

@@ -32,6 +32,7 @@ export function render(){
   else if(scr === 'matematicaEpjaMap') body = renderMatematicaEpjaMap();
   else if(scr === 'cienciasEpjaMap') body = renderCienciasEpjaMap();
   else if(scr === 'estudiosSocialesEpjaMap') body = renderEstudiosSocialesEpjaMap();
+  else if(scr === 'inglesEpjaMap') body = renderInglesEpjaMap();
   else if(scr === 'estudioPruebasMap') body = renderEstudioPruebasMap();
   else if(scr === 'quimicaDiagnosticaMap') body = renderQuimicaDiagnosticaMap();
   else if(scr === 'microbiologiaClinicaMap') body = renderMicrobiologiaClinicaMap();
@@ -112,7 +113,7 @@ function renderEtapaMap(){
       '</button>'+
       '<button class="subject-card" onclick="goTo(\'epjaMap\')">'+
         '<span class="subject-icon">🌙</span>'+
-        '<span class="subject-info"><b>Educación para Adultos</b><small>EPJA · Nivel 1 Básica disponible</small></span>'+
+        '<span class="subject-info"><b>Educación para Adultos</b><small>EPJA · Básica y 1° Medio disponibles</small></span>'+
       '</button>'+
       '<button class="subject-card" onclick="goTo(\'estudioPruebasMap\')">'+
         '<span class="subject-icon">🎓</span>'+
@@ -277,6 +278,9 @@ function renderCienciasEpjaMap(){
 }
 function renderEstudiosSocialesEpjaMap(){
   return renderEpjaSubjectMapFor('estudiosSocialesEpjaMap','Estudios Sociales','🌎');
+}
+function renderInglesEpjaMap(){
+  return renderEpjaSubjectMapFor('inglesEpjaMap','Inglés','🔤');
 }
 
 function renderEstudioPruebasMap(){

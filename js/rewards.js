@@ -387,6 +387,19 @@ export const MODULE_TITLES = {
   historiaEconomiaMundialEpjaN3:'Historiador del Mundo',
   trabajoChileEpjaN3:'Experto en el Trabajo Chileno',
   democraciaDerechosEpjaN3:'Defensor de la Democracia',
+  comprensionEpjaM1:'Lector de Nivel Medio', vocabularioContextoEpjaM1:'Maestro del Vocabulario',
+  textosExpositivosEpjaM1:'Experto en Textos Expositivos', hechosOpinionesEpjaM1:'Pensador Crítico',
+  numerosRacionalesEpjaM1:'As de los Números', potenciasIrracionalesEpjaM1:'Maestro de Potencias',
+  proporcionalidadEpjaM1:'Experto en Proporciones', algebraEpjaM1:'Algebrista',
+  funcionesEcuacionesEpjaM1:'Resuelve Ecuaciones', geometriaSemejanzaEpjaM1:'Geómetra',
+  transformacionesMedicionEpjaM1:'Maestro de Medidas', estadisticaProbabilidadEpjaM1:'Estadístico',
+  celulaMetabolismoEpjaM1:'Biólogo Celular', sistemasNutricionEpjaM1:'Experto en Nutrición',
+  ecosistemasBiodiversidadEpjaM1:'Guardián del Ecosistema', movimientoOndasOpticaEpjaM1:'Físico del Movimiento',
+  energiaCalorEpjaM1:'Maestro de la Energía', disolucionesReaccionesEpjaM1:'Químico Experto',
+  coloniaIndependenciaEpjaM1:'Historiador de la Independencia', sigloXIXTerritorioEpjaM1:'Historiador del Siglo XIX',
+  sigloXXDemocraciaEpjaM1:'Defensor de la Democracia', ciudadaniaDerechosEpjaM1:'Ciudadano Informado',
+  gramaticaContextoEpjaM1:'Gramático del Inglés', vocabularioFuncionalEpjaM1:'Vocabulario Funcional',
+  comprensionInglesEpjaM1:'Lector en Inglés',
 };
 
 export function spawnConfetti(container){

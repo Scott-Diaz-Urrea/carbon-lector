@@ -211,6 +211,50 @@ js/
                               HTML por comillas (la restricción documentada de
                               speakText en mcEngine.js, resuelta aquí por diseño).
                               CSS propio en styles.css (familia .dicc-*).
+    colorearNumeros.js         "Colorear por Números" — segunda herramienta de consulta
+                              transversal (NO es un juego: sin rondas/estrellas/XP,
+                              mismo criterio que diccionario.js), pedido explícito del
+                              usuario (2026-08-02, con capturas de láminas reales de
+                              "colorear por números") para poder pintar un dibujo y
+                              descargarlo. Pantalla única `colorearNumeros` con dos
+                              vistas internas (selector de dibujo / lienzo de color),
+                              alternadas con un estado de módulo simple
+                              (`currentDrawingId`/`currentColorNum`, efímero — no vive
+                              en state.js/persistence.js a propósito, mismo criterio
+                              que el estado interno de games/traza.js). Los 4 dibujos
+                              (Carboncito, Auto, Casa, Pez) son SVG 100% propio armado
+                              con formas geométricas simples (círculos/elipses/rects/
+                              polígonos superpuestos, vía los helpers `circleRegion()`/
+                              `ellipseRegion()`/`rectRegion()`/`polyRegion()`) — una
+                              adaptación honesta del estilo "lámina de colorear" real
+                              (regiones tipo rompecabezas que encajan entre sí) al
+                              mismo criterio de "cero dependencias, todo arte a mano"
+                              que ya rige mascotSVG()/shapeSVG()/etc., en vez de usar
+                              imágenes externas. Cada región tiene un `data-num`
+                              (1-8) y una `<text>` con el número como GUÍA — no se
+                              valida el color elegido contra ninguna "respuesta
+                              correcta": es una actividad de creación libre, mismo
+                              espíritu sin-error que escribenombre.js/caligrafia.js.
+                              Tocar una región la rellena con el color de la paleta
+                              activa (delegación de eventos sobre el `<svg>`, un solo
+                              listener en `initColorearNumeros()`); "Borrar todo"
+                              vuelve todas las regiones a blanco. Como la app no tiene
+                              backend (GitHub Pages es hosting estático), "Guardar"
+                              serializa el `<svg>` a un Blob, lo dibuja en un
+                              `<canvas>` oculto vía `Image`, y descarga un PNG con
+                              `canvas.toBlob()` + un `<a download>` temporal — sin
+                              ninguna librería externa, y sin galería interna (se le
+                              preguntó al usuario explícitamente vía
+                              `AskUserQuestion`: descargar como PNG vs. galería en
+                              localStorage vs. ambas — eligió solo descarga). **Bug
+                              real encontrado y corregido al probar en el navegador:**
+                              `pickColorNum()` llamaba a `render()` al cambiar de
+                              color, lo que reconstruye el `<svg>` completo desde
+                              `build()` y borraba todo lo ya coloreado — corregido
+                              para que cambiar de color solo actualice qué swatch se
+                              ve activo (vía `classList`), sin tocar el `<svg>`. CSS
+                              propio en styles.css (familia `.colorear-*`/
+                              `.drawing-thumb`/`.palette-swatch`).
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

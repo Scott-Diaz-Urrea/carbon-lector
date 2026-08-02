@@ -136,7 +136,18 @@ export const state = {
            implementaciondifusionm2:0,
            contrastemediosm2:0,
            escenariostecnologicosm2:0,
-           riesgosredesapoyom2:0, bienestarrelacionesm2:0, proyeccionacademicam2:0 },
+           riesgosredesapoyom2:0, bienestarrelacionesm2:0, proyeccionacademicam2:0,
+           numeroscomplejospg3:0, estadisticadispersionpg3:0, funcionesexplogpg3:0, geometriacircunferenciapg3:0,
+           matfinancierapg4:0, binomialnormalpg4:0, funcionespotenciatrigpg4:0, rectascircunferenciaspg4:0,
+           interpretacionliterariapg3:0, analisiscriticopg3:0,
+           comparacionobraspg4:0, evaluacioncriticapg4:0,
+           democraciaciudadaniapg3:0, sistemajudicialddhhpg3:0, estadomercadoterritoriopg3:0,
+           institucionalidaddemocraticapg4:0, modelosdesarrollopg4:0, libertadigualdadpg4:0, mediosciudadaniadigitalpg4:0,
+           quefilosofiapg3:0, ontologiapg3:0, epistemologiapg3:0, logicaargumentacionpg3:0,
+           eticateoriaspg4:0, argumentosfalaciaspg4:0, filosofiacontemporaneapg4:0,
+           ambientesostenibilidadpg:0, bienestarsaludpg:0, seguridadautocuidadopg:0, tecnologiasociedadpg:0,
+           vocabgramaticapg3:0, comprensionlecturapg3:0,
+           vocabavanzadopg4:0, comprensionlecturaavanzadapg4:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];
@@ -159,7 +170,7 @@ export function epjaNivelLabel(id){
   const n = EPJA_NIVELES.filter(function(x){ return x.id===id; })[0];
   return n ? n.label : '';
 }
-export function selectMedioGrade(id){ state.currentMedioGrade = id; saveProgress(); goTo('medioSubjectMap'); }
+export function selectMedioGrade(id){ state.currentMedioGrade = id; saveProgress(); goTo(id<=2 ? 'medioSubjectMap' : 'planMedioMap'); }
 export function medioGradeLabel(id){
   const g = MEDIO_GRADES.filter(function(x){ return x.id===id; })[0];
   return g ? g.label : '';

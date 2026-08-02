@@ -12,20 +12,34 @@ export const GRADE_POS = [
   {x:22,y:92},{x:68,y:80},{x:24,y:68},{x:70,y:56},{x:24,y:44},{x:70,y:32},{x:24,y:20},{x:70,y:8}
 ];
 
-/* Educación Media (Decreto 614/2013 para 1°-2° medio, mismo decreto que
-   7°-8° básico — 3°-4° medio usa un decreto distinto, con un Plan de
-   Formación General + Plan Diferenciado, y todavía no está construido).
-   Igual que Básica, se organiza año→asignatura con las mismas 10
-   asignaturas — pero usa su propio estado/navegación (`currentMedioGrade`,
-   `MEDIO_SUBJECT_DEFS`) en vez de reutilizar `GRADES`/`SUBJECT_DEFS`, para
-   no mezclar los años 1-2 de Media con los años 1-8 de Básica bajo la misma
-   clave numérica. 1° y 2° medio ya tienen contenido jugable. */
+/* Educación Media. 1°-2° medio usa el Decreto 614/2013 (mismo decreto que
+   7°-8° básico) y se organiza año→asignatura con las mismas 10 asignaturas
+   — usa su propio estado/navegación (`currentMedioGrade`, `MEDIO_SUBJECT_DEFS`)
+   en vez de reutilizar `GRADES`/`SUBJECT_DEFS`, para no mezclar los años 1-2
+   de Media con los años 1-8 de Básica bajo la misma clave numérica.
+   3°-4° medio también usa el Decreto 614/2013, pero con una estructura
+   curricular distinta: un Plan de Formación General (6 asignaturas: Lengua y
+   Literatura, Matemática, Ciencias para la Ciudadanía, Educación Ciudadana,
+   Filosofía, Inglés — Religión quedó fuera por el mismo motivo que en Básica,
+   ver CLAUDE.md) + un Plan Diferenciado electivo (5 asignaturas científicas:
+   Biología Celular y Molecular, Biología de los Ecosistemas, Ciencias de la
+   Salud, Física, Química — todavía sin construir). Por eso `selectMedioGrade()`
+   (state.js) navega a una pantalla distinta según el año: 1°/2° van directo a
+   `medioSubjectMap` (10 asignaturas ya conocidas); 3°/4° van a `planMedioMap`,
+   una pantalla intermedia nueva para elegir entre Plan General y Plan
+   Diferenciado (ver `PLAN_GENERAL_SUBJECT_DEFS` en gradeContent.js) — mismo
+   `state.currentMedioGrade` reutilizado para los 4 años, sin necesidad de una
+   variable de estado nueva. 1°, 2°, 3° y 4° medio ya son islas abiertas; del
+   Plan General de 3°-4° medio, solo el Plan General tiene contenido jugable
+   por ahora (el Plan Diferenciado muestra "🚧 en preparación"). */
 export const MEDIO_GRADES = [
   { id:1, label:'1° Medio', open:true },
   { id:2, label:'2° Medio', open:true },
+  { id:3, label:'3° Medio', open:true },
+  { id:4, label:'4° Medio', open:true },
 ];
 export const MEDIO_GRADE_POS = [
-  {x:30,y:70},{x:70,y:30}
+  {x:26,y:88},{x:70,y:64},{x:26,y:38},{x:70,y:12}
 ];
 
 /* Educación Parvularia (Decreto 481/2017) no se organiza por "año" como Básica,

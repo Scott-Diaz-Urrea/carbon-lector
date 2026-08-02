@@ -33,6 +33,12 @@ import { MATEMATICA_EPJA_M1_MODULES, MATEMATICA_EPJA_M1_POS } from './content/ep
 import { CIENCIAS_EPJA_M1_MODULES, CIENCIAS_EPJA_M1_POS } from './content/epja/cienciasMedia1.js';
 import { ESTUDIOS_SOCIALES_EPJA_M1_MODULES, ESTUDIOS_SOCIALES_EPJA_M1_POS } from './content/epja/estudiosSocialesMedia1.js';
 import { INGLES_EPJA_M1_MODULES, INGLES_EPJA_M1_POS } from './content/epja/inglesMedia1.js';
+import { MATE_PG_MODULES_M3, MATE_PG_POS_M3, MATE_PG_MODULES_M4, MATE_PG_POS_M4 } from './content/medio34/matematica.js';
+import { LENGUA_LIT_MODULES_M3, LENGUA_LIT_POS_M3, LENGUA_LIT_MODULES_M4, LENGUA_LIT_POS_M4 } from './content/medio34/lenguaLiteratura.js';
+import { EDUCACION_CIUDADANA_MODULES_M3, EDUCACION_CIUDADANA_POS_M3, EDUCACION_CIUDADANA_MODULES_M4, EDUCACION_CIUDADANA_POS_M4 } from './content/medio34/educacionCiudadana.js';
+import { FILOSOFIA_MODULES_M3, FILOSOFIA_POS_M3, FILOSOFIA_MODULES_M4, FILOSOFIA_POS_M4 } from './content/medio34/filosofia.js';
+import { CIENCIAS_CIUDADANIA_MODULES, CIENCIAS_CIUDADANIA_POS } from './content/medio34/cienciasCiudadania.js';
+import { INGLES_MODULES_M3 as INGLES_PG_MODULES_M3, INGLES_POS_M3 as INGLES_PG_POS_M3, INGLES_MODULES_M4 as INGLES_PG_MODULES_M4, INGLES_POS_M4 as INGLES_PG_POS_M4 } from './content/medio34/ingles.js';
 import { LENGUAJE_EPJA_M2_MODULES, LENGUAJE_EPJA_M2_POS } from './content/epja/lenguajeMedia2.js';
 import { MATEMATICA_EPJA_M2_MODULES, MATEMATICA_EPJA_M2_POS } from './content/epja/matematicaMedia2.js';
 import { CIENCIAS_EPJA_M2_MODULES, CIENCIAS_EPJA_M2_POS } from './content/epja/cienciasMedia2.js';
@@ -179,6 +185,37 @@ export const MEDIO_SUBJECT_DEFS = [
   { icon:'🧭', label:'Orientación', screen:'orientacionMedioMap', byGrade: ORIENTACION_BY_GRADE_MEDIO },
   { icon:'⚙️', label:'Tecnología', screen:'tecnologiaMedioMap', byGrade: TECNOLOGIA_BY_GRADE_MEDIO },
   { icon:'🔤', label:'Inglés', screen:'inglesMedioMap', byGrade: INGLES_BY_GRADE_MEDIO },
+];
+
+/* ---------------- 3°-4° medio, Plan de Formación General ----------------
+   Tercer patrón de navegación de Educación Media (ver content/grades.js): en vez
+   de "año→10 asignaturas idénticas" (1°-2° medio) se usa "año→Plan General o Plan
+   Diferenciado→asignaturas propias de ese plan". `PLAN_GENERAL_SUBJECT_DEFS` sigue
+   el mismo shape que `MEDIO_SUBJECT_DEFS`/`SUBJECT_DEFS` (icon/label/screen/byGrade),
+   pero sus 6 asignaturas son propias de este plan (no existen en 1°-2° medio ni en
+   Básica). "Ciencias para la Ciudadanía" es la única cuyo currículum oficial NO se
+   organiza por año (los códigos de OA son literalmente "...-3y4-OAC-01/02/03" — un
+   solo conjunto de OA para ambos años, verificado en curriculumnacional.cl antes de
+   asumirlo) — por eso su entrada usa el mismo objeto `CIENCIAS_CIUDADANIA_BY_GRADE`
+   para las claves 3 y 4, en vez de dos módulos distintos como las otras 5
+   asignaturas. El Plan Diferenciado Científico (Biología Celular y Molecular,
+   Biología de los Ecosistemas, Ciencias de la Salud, Física, Química) queda para
+   una sesión futura — la pantalla planMedioMap (render.js) ya está lista para
+   agregarlo con el mismo patrón cuando se construya. */
+export const LENGUA_LIT_BY_GRADE_PG = { 3: { modules: LENGUA_LIT_MODULES_M3, pos: LENGUA_LIT_POS_M3, height: 420 }, 4: { modules: LENGUA_LIT_MODULES_M4, pos: LENGUA_LIT_POS_M4, height: 420 } };
+export const MATE_BY_GRADE_PG = { 3: { modules: MATE_PG_MODULES_M3, pos: MATE_PG_POS_M3, height: 420 }, 4: { modules: MATE_PG_MODULES_M4, pos: MATE_PG_POS_M4, height: 420 } };
+export const CIENCIAS_CIUDADANIA_BY_GRADE_PG = { 3: { modules: CIENCIAS_CIUDADANIA_MODULES, pos: CIENCIAS_CIUDADANIA_POS, height: 420 }, 4: { modules: CIENCIAS_CIUDADANIA_MODULES, pos: CIENCIAS_CIUDADANIA_POS, height: 420 } };
+export const EDUCACION_CIUDADANA_BY_GRADE_PG = { 3: { modules: EDUCACION_CIUDADANA_MODULES_M3, pos: EDUCACION_CIUDADANA_POS_M3, height: 420 }, 4: { modules: EDUCACION_CIUDADANA_MODULES_M4, pos: EDUCACION_CIUDADANA_POS_M4, height: 420 } };
+export const FILOSOFIA_BY_GRADE_PG = { 3: { modules: FILOSOFIA_MODULES_M3, pos: FILOSOFIA_POS_M3, height: 420 }, 4: { modules: FILOSOFIA_MODULES_M4, pos: FILOSOFIA_POS_M4, height: 300 } };
+export const INGLES_BY_GRADE_PG = { 3: { modules: INGLES_PG_MODULES_M3, pos: INGLES_PG_POS_M3, height: 260 }, 4: { modules: INGLES_PG_MODULES_M4, pos: INGLES_PG_POS_M4, height: 260 } };
+
+export const PLAN_GENERAL_SUBJECT_DEFS = [
+  { icon:'📖', label:'Lengua y Literatura', screen:'lenguaLiteraturaPlanMap', byGrade: LENGUA_LIT_BY_GRADE_PG },
+  { icon:'🔢', label:'Matemática', screen:'matematicaPlanMap', byGrade: MATE_BY_GRADE_PG },
+  { icon:'🔬', label:'Ciencias para la Ciudadanía', screen:'cienciasCiudadaniaPlanMap', byGrade: CIENCIAS_CIUDADANIA_BY_GRADE_PG },
+  { icon:'🏛️', label:'Educación Ciudadana', screen:'educacionCiudadanaPlanMap', byGrade: EDUCACION_CIUDADANA_BY_GRADE_PG },
+  { icon:'🦉', label:'Filosofía', screen:'filosofiaPlanMap', byGrade: FILOSOFIA_BY_GRADE_PG },
+  { icon:'🔤', label:'Inglés', screen:'inglesPlanMap', byGrade: INGLES_BY_GRADE_PG },
 ];
 
 /* ---------------- Educación Parvularia (por nivel, no por año) ---------------- */

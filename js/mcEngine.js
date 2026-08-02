@@ -221,6 +221,12 @@ import {
 import {
   genGramaticaContextoEpjaM2Round, genVocabularioTecnicoEpjaM2Round, genComprensionInglesEpjaM2Round,
 } from './content/epja/inglesMedia2.js';
+import { genNumerosComplejosPG3Round, genEstadisticaDispersionPG3Round, genFuncionesExpLogPG3Round, genGeometriaCircunferenciaPG3Round, genMatematicaFinancieraPG4Round, genBinomialNormalPG4Round, genFuncionesPotenciaTrigPG4Round, genRectasCircunferenciasPG4Round } from './content/medio34/matematica.js';
+import { genInterpretacionLiterariaPG3Round, genAnalisisCriticoPG3Round, genComparacionObrasPG4Round, genEvaluacionCriticaPG4Round } from './content/medio34/lenguaLiteratura.js';
+import { genDemocraciaCiudadaniaPG3Round, genSistemaJudicialDdhhPG3Round, genEstadoMercadoTerritorioPG3Round, genInstitucionalidadDemocraticaPG4Round, genModelosDesarrolloPG4Round, genLibertadIgualdadPG4Round, genMediosCiudadaniaDigitalPG4Round } from './content/medio34/educacionCiudadana.js';
+import { genQueFilosofiaPG3Round, genOntologiaPG3Round, genEpistemologiaPG3Round, genLogicaArgumentacionPG3Round, genEticaTeoriasPG4Round, genArgumentosFalaciasPG4Round, genFilosofiaContemporaneaPG4Round } from './content/medio34/filosofia.js';
+import { genAmbienteSostenibilidadPGRound, genBienestarSaludPGRound, genSeguridadAutocuidadoPGRound, genTecnologiaSociedadPGRound } from './content/medio34/cienciasCiudadania.js';
+import { genVocabularioGramaticaPG3Round, genComprensionLecturaPG3Round, genVocabularioAvanzadoPG4Round, genComprensionLecturaAvanzadaPG4Round } from './content/medio34/ingles.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
@@ -351,7 +357,18 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'implementaciondifusionm2',
   'contrastemediosm2',
   'escenariostecnologicosm2',
-  'riesgosredesapoyom2','bienestarrelacionesm2','proyeccionacademicam2'];
+  'riesgosredesapoyom2','bienestarrelacionesm2','proyeccionacademicam2',
+  'numeroscomplejospg3','estadisticadispersionpg3','funcionesexplogpg3','geometriacircunferenciapg3',
+  'matfinancierapg4','binomialnormalpg4','funcionespotenciatrigpg4','rectascircunferenciaspg4',
+  'interpretacionliterariapg3','analisiscriticopg3',
+  'comparacionobraspg4','evaluacioncriticapg4',
+  'democraciaciudadaniapg3','sistemajudicialddhhpg3','estadomercadoterritoriopg3',
+  'institucionalidaddemocraticapg4','modelosdesarrollopg4','libertadigualdadpg4','mediosciudadaniadigitalpg4',
+  'quefilosofiapg3','ontologiapg3','epistemologiapg3','logicaargumentacionpg3',
+  'eticateoriaspg4','argumentosfalaciaspg4','filosofiacontemporaneapg4',
+  'ambientesostenibilidadpg','bienestarsaludpg','seguridadautocuidadopg','tecnologiasociedadpg',
+  'vocabgramaticapg3','comprensionlecturapg3',
+  'vocabavanzadopg4','comprensionlecturaavanzadapg4'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -855,6 +872,40 @@ export const MC_GAMES = {
   riesgosredesapoyom2: { title:'Riesgos y Redes de Apoyo', gen: genRiesgosRedesApoyoM2Round, rounds:8 },
   bienestarrelacionesm2: { title:'Bienestar, Relaciones y Conflictos II', gen: genBienestarRelacionesM2Round, rounds:8 },
   proyeccionacademicam2: { title:'Proyección Académica y Laboral', gen: genProyeccionAcademicaM2Round, rounds:8 },
+  numeroscomplejospg3: { title:'Números Complejos', gen: genNumerosComplejosPG3Round, rounds:8 },
+  estadisticadispersionpg3: { title:'Estadística: Dispersión y Prob. Condicional', gen: genEstadisticaDispersionPG3Round, rounds:8 },
+  funcionesexplogpg3: { title:'Funciones Exponencial y Logarítmica', gen: genFuncionesExpLogPG3Round, rounds:8 },
+  geometriacircunferenciapg3: { title:'Geometría de la Circunferencia', gen: genGeometriaCircunferenciaPG3Round, rounds:8 },
+  matfinancierapg4: { title:'Matemática Financiera', gen: genMatematicaFinancieraPG4Round, rounds:8 },
+  binomialnormalpg4: { title:'Modelos Binomial y Normal', gen: genBinomialNormalPG4Round, rounds:8 },
+  funcionespotenciatrigpg4: { title:'Funciones Potencia y Trigonométricas', gen: genFuncionesPotenciaTrigPG4Round, rounds:8 },
+  rectascircunferenciaspg4: { title:'Rectas y Circunferencias en el Plano', gen: genRectasCircunferenciasPG4Round, rounds:8 },
+  interpretacionliterariapg3: { title:'Interpretación Literaria', gen: genInterpretacionLiterariaPG3Round, rounds:8 },
+  analisiscriticopg3: { title:'Análisis Crítico de Textos y Medios Digitales', gen: genAnalisisCriticoPG3Round, rounds:8 },
+  comparacionobraspg4: { title:'Comparación de Obras Literarias', gen: genComparacionObrasPG4Round, rounds:8 },
+  evaluacioncriticapg4: { title:'Evaluación Crítica de Textos', gen: genEvaluacionCriticaPG4Round, rounds:8 },
+  democraciaciudadaniapg3: { title:'Democracia y Ciudadanía', gen: genDemocraciaCiudadaniaPG3Round, rounds:8 },
+  sistemajudicialddhhpg3: { title:'Sistema Judicial y Derechos Humanos', gen: genSistemaJudicialDdhhPG3Round, rounds:8 },
+  estadomercadoterritoriopg3: { title:'Estado, Mercado y Territorio', gen: genEstadoMercadoTerritorioPG3Round, rounds:8 },
+  institucionalidaddemocraticapg4: { title:'Institucionalidad Democrática', gen: genInstitucionalidadDemocraticaPG4Round, rounds:8 },
+  modelosdesarrollopg4: { title:'Modelos de Desarrollo y Derechos Laborales', gen: genModelosDesarrolloPG4Round, rounds:8 },
+  libertadigualdadpg4: { title:'Libertad, Igualdad y Desafíos Sociales', gen: genLibertadIgualdadPG4Round, rounds:8 },
+  mediosciudadaniadigitalpg4: { title:'Medios de Comunicación y Ciudadanía Digital', gen: genMediosCiudadaniaDigitalPG4Round, rounds:8 },
+  quefilosofiapg3: { title:'¿Qué es la Filosofía?', gen: genQueFilosofiaPG3Round, rounds:8 },
+  ontologiapg3: { title:'Ontología: El Ser y la Realidad', gen: genOntologiaPG3Round, rounds:8 },
+  epistemologiapg3: { title:'Epistemología: Conocimiento y Verdad', gen: genEpistemologiaPG3Round, rounds:8 },
+  logicaargumentacionpg3: { title:'Lógica y Argumentación', gen: genLogicaArgumentacionPG3Round, rounds:8 },
+  eticateoriaspg4: { title:'Ética: Teorías y Conceptos', gen: genEticaTeoriasPG4Round, rounds:8 },
+  argumentosfalaciaspg4: { title:'Argumentos y Falacias', gen: genArgumentosFalaciasPG4Round, rounds:8 },
+  filosofiacontemporaneapg4: { title:'Filosofía y Problemas Contemporáneos', gen: genFilosofiaContemporaneaPG4Round, rounds:8 },
+  ambientesostenibilidadpg: { title:'Ambiente y Sostenibilidad', gen: genAmbienteSostenibilidadPGRound, rounds:8 },
+  bienestarsaludpg: { title:'Bienestar y Salud', gen: genBienestarSaludPGRound, rounds:8 },
+  seguridadautocuidadopg: { title:'Seguridad, Prevención y Autocuidado', gen: genSeguridadAutocuidadoPGRound, rounds:8 },
+  tecnologiasociedadpg: { title:'Tecnología y Sociedad', gen: genTecnologiaSociedadPGRound, rounds:8 },
+  vocabgramaticapg3: { title:'Vocabulario y Gramática en Contexto', gen: genVocabularioGramaticaPG3Round, rounds:8 },
+  comprensionlecturapg3: { title:'Comprensión de Lectura', gen: genComprensionLecturaPG3Round, rounds:8 },
+  vocabavanzadopg4: { title:'Vocabulario y Gramática Avanzada', gen: genVocabularioAvanzadoPG4Round, rounds:8 },
+  comprensionlecturaavanzadapg4: { title:'Comprensión de Lectura Avanzada', gen: genComprensionLecturaAvanzadaPG4Round, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

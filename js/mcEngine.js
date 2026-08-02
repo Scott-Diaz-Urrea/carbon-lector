@@ -635,7 +635,7 @@ export const MC_GAMES = {
   microbacilos: { title:'Bacilos Gram Positivos', gen: genBacilos7Round, rounds:7 },
   microentero: { title:'Enterobacterales', gen: genEntero7Round, rounds:8 },
   microbgnnf: { title:'Bacilos Gram Negativos No Fermentadores', gen: genBgnnf7Round, rounds:7 },
-  microvibrio: { title:'Vibrionaceae, Campylobacter y Helicobacter', gen: genVibrio7Round, rounds:7 },
+  microvibrio: { title:'Vibrio, Campylobacter y Helicobacter', gen: genVibrio7Round, rounds:7 },
   comprensionEpjaN1:          { title:'Comprensión de Lectura',      gen: genComprensionEpjaN1Round,          rounds:8  },
   sinonimosAntonimosEpjaN1:   { title:'Sinónimos y Antónimos',       gen: genSinonimosAntonimosEpjaN1Round,   rounds:10 },
   tiposTextoEpjaN1:           { title:'Tipos de Textos',             gen: genTiposTextoEpjaN1Round,           rounds:8  },

@@ -79,36 +79,43 @@ const LETRAS_NT_BANK = [
 ];
 
 export function genSilabasNTRound(){
+  const recurso = 'Una <b>sílaba</b> es cada uno de los "golpes de voz" que se necesitan para decir una palabra en voz alta — por ejemplo, "SOL" se dice en un solo golpe (1 sílaba), pero "GA-TO" se dice en dos golpes (2 sílabas). Una forma fácil de contar sílabas es aplaudir o dar palmadas mientras se dice la palabra despacio: cada palmada corresponde a una sílaba. Esta habilidad se llama "conciencia silábica" y es uno de los pasos más importantes antes de aprender a leer y escribir, porque ayuda a los niños a notar que las palabras están hechas de partes más pequeñas de sonido, y a separar esas partes al momento de escribir (por ejemplo, para saber dónde cortar una palabra al final de una línea).';
   const item = pick(SILABAS_NT_BANK);
   const opts = uniqueDistractors(item.silabas,1,5,3,4).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-word">'+item.word+'</p><p class="prompt-hint">¿Cuántas sílabas tiene esta palabra?</p>',
     options: opts, correctValue: item.silabas, speakText: item.word, cols:4,
     explain: '<b>'+item.word+'</b> tiene <b>'+item.silabas+'</b> sílaba'+(item.silabas>1?'s':'')+'.',
+    recurso: recurso,
   };
 }
 
 export function genEscucharNTRound(){
+  const recurso = '<b>Escuchar y comprender</b> es entender un mensaje que otra persona dice en voz alta, prestando atención a las pistas que da para descubrir de qué está hablando — como en una adivinanza, donde hay que unir varias pistas ("tengo alas de colores", "vuelo de flor en flor") para llegar a una sola respuesta correcta. Esta habilidad requiere concentración, memoria (recordar todas las pistas mientras se escuchan) y razonamiento (pensar qué animal u objeto cumple con TODAS las pistas a la vez, no solo con una). Comprender lo que se escucha es la base de la comunicación oral: sin esta habilidad sería imposible seguir instrucciones, disfrutar un cuento contado en voz alta o participar en una conversación.';
   const item = pick(RIDDLES_NT_BANK);
   const opts = shuffle([item.correct].concat(item.opts)).map(function(e){ return {label:e, value:e}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.text+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, cols:4,
     explain: 'La respuesta es correcta porque '+item.reason+'.',
+    recurso: recurso,
   };
 }
 
 export function genVocabNTRound(){
+  const recurso = 'Dos palabras que <b>significan casi lo mismo</b> se llaman <b>sinónimos</b> — por ejemplo, "contento" y "feliz" describen la misma emoción, solo que con una palabra distinta. Conocer sinónimos ayuda a tener un vocabulario más rico: en vez de repetir siempre la misma palabra, se pueden usar distintas palabras que dicen lo mismo, lo que hace que hablar y escribir sea más variado e interesante. Para saber si dos palabras son sinónimas, hay que preguntarse si se podrían intercambiar en una oración sin que cambie mucho el sentido — por ejemplo, "el perro está contento" y "el perro está feliz" significan prácticamente lo mismo. Aprender sinónimos también ayuda a entender palabras nuevas: si no se conoce una palabra, a veces se puede adivinar su significado pensando en un sinónimo que sí se conoce.';
   const item = pick(VOCAB_SINONIMOS_BANK);
   const opts = shuffle([item.sinonimo].concat(item.distract)).map(function(w){ return {label:w, value:w}; });
   return {
     promptHTML: '<p class="prompt-word">'+item.palabra+'</p><p class="prompt-hint">¿Cuál palabra significa lo mismo?</p>',
     options: opts, correctValue: item.sinonimo, speakText: item.palabra, cols:4, kind:'word',
     explain: '<b>'+item.sinonimo+'</b> significa lo mismo que <b>'+item.palabra+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genLetrasNTRound(){
+  const recurso = 'Cada <b>letra</b> del abecedario representa uno o más <b>sonidos</b> — a esto se le llama "conciencia fonológica": darse cuenta de que las palabras habladas están hechas de sonidos individuales, y que cada sonido se puede escribir con una letra. Para descubrir con qué letra empieza una palabra, hay que decir la palabra despacio y prestar atención al primer sonido que se escucha (por ejemplo, "mano" empieza con el sonido "mmm", que se escribe con la letra M). Esta habilidad es uno de los pilares más importantes antes de aprender a leer y escribir de verdad: une el sonido que se escucha con el símbolo (la letra) que se ve escrito, que es exactamente lo que se necesita para decodificar palabras al leer.';
   const item = pick(LETRAS_NT_BANK);
   const distractPool = LETRAS_NT_BANK.filter(function(w){ return w.inicial!==item.inicial; })
     .map(function(w){ return w.inicial; })
@@ -119,5 +126,6 @@ export function genLetrasNTRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-word"><span class="blank">_</span>'+item.word.slice(1)+'</p><p class="prompt-hint">¿Qué letra falta?</p>',
     options: opts, correctValue: item.inicial, speakText: item.word, cols:4,
     explain: 'La palabra es <b>'+item.word+'</b>, empieza con la letra <b>'+item.inicial+'</b>.',
+    recurso: recurso,
   };
 }

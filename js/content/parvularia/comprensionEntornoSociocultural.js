@@ -82,41 +82,49 @@ const SEGURIDAD_PREV_BANK = [
 ];
 
 export function genRolesComunidadNTRound(){
+  const recurso = 'En una <b>comunidad</b>, cada persona cumple un <b>rol</b> o trabajo distinto que ayuda a que todos puedan vivir bien: el bombero apaga incendios, la doctora cuida la salud, la profesora enseña, el policía cuida el orden y la seguridad, el agricultor cultiva los alimentos, y así muchos oficios más. Ningún rol es más importante que otro — todos se necesitan entre sí para que la comunidad funcione: por ejemplo, el agricultor cultiva el trigo que el panadero usa para hacer el pan que todos comemos. Reconocer los distintos roles de la comunidad ayuda a entender cómo las personas trabajamos juntas, cada una aportando algo distinto, para que la vida en sociedad sea posible.';
   const item = pick(ROLES_BANK);
   const opts = shuffle([item.correcto].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcto, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta es '+item.correcto+'.',
+    recurso: recurso,
   };
 }
 
 export function genObjetosTecNTRound(){
+  const recurso = 'Los <b>objetos tecnológicos</b> son herramientas creadas por las personas para hacer la vida diaria más fácil: el teléfono sirve para comunicarnos, la ampolleta para iluminar, el auto para transportarnos de un lugar a otro, y el computador para buscar información. Cada objeto tecnológico fue diseñado con un propósito específico, y aunque muchos de ellos parezcan simples o cotidianos, todos resuelven una necesidad real de las personas. Antes de que existieran estos objetos, las mismas tareas (comunicarse, cocinar, iluminar, transportarse) se hacían de formas mucho más difíciles o lentas. Reconocer para qué sirve cada objeto tecnológico ayuda a entender cómo la tecnología ha ido cambiando y facilitando la forma en que vivimos.';
   const item = pick(OBJETOS_TEC_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Para qué sirve '+item.obj+'?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Para qué sirve '+item.obj+'?', cols:2, panel:true,
     explain: item.obj.charAt(0).toUpperCase()+item.obj.slice(1)+' sirve para '+item.correcta.toLowerCase()+'.',
+    recurso: recurso,
   };
 }
 
 export function genInstitucionesNTRound(){
+  const recurso = 'Una <b>institución</b> es un lugar que ofrece un servicio importante a toda la comunidad: el hospital atiende a quienes están enfermos, la escuela enseña, la biblioteca presta libros, la municipalidad organiza la comuna, el correo envía cartas y paquetes, el banco guarda el dinero, y el supermercado vende los alimentos que las familias necesitan. Cada institución cumple una función distinta, y saber a cuál acudir según lo que se necesita (por ejemplo, ir al hospital si alguien se siente mal, no a la biblioteca) ayuda a orientarse en la propia comunidad y a entender los distintos servicios que existen para ayudar a las personas.';
   const item = pick(INSTITUCIONES_BANK);
   const opts = shuffle([item.correcto].concat(item.opts)).map(function(e){ return {label:e, value:e}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcto, speakText: item.pregunta, cols:4,
     explain: 'La respuesta correcta es <b>'+item.label+'</b> '+item.correcto+'.',
+    recurso: recurso,
   };
 }
 
 export function genSeguridadPrevNTRound(){
+  const recurso = 'La <b>seguridad y prevención</b> son las acciones que ayudan a evitar accidentes y a mantenernos a salvo en distintas situaciones: usar casco al andar en bicicleta, mirar a ambos lados antes de cruzar la calle, respetar el color rojo del semáforo, agacharse y cubrirse junto a un adulto durante un sismo, y no aceptar dulces ni acompañar a personas desconocidas. Frente a cualquier situación de riesgo o emergencia, la regla más importante es siempre buscar y avisar a un adulto de confianza, en vez de intentar resolver la situación solo. Aprender estas normas de seguridad desde pequeño ayuda a reaccionar de forma correcta ante un peligro y a prevenir accidentes antes de que ocurran.';
   const item = pick(SEGURIDAD_PREV_BANK);
   const opts = shuffle([item.correcto].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcto, speakText: item.pregunta, cols:2, panel:true,
     explain: 'Lo correcto es "'+item.correcto+'".',
+    recurso: recurso,
   };
 }

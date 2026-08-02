@@ -96,6 +96,7 @@ const MOVIMIENTOS_BANK = [
 ];
 
 export function genUbicacionEspacialNTRound(){
+  const recurso = 'Las palabras de <b>ubicación espacial</b> (adelante, atrás, al lado, entre) describen dónde está algo comparándolo con otra cosa o persona — nunca tienen sentido "solas": decir que alguien va "adelante" solo se entiende si sabemos adelante de quién o qué. "Al lado" describe cercanía con un solo punto de referencia, mientras que "entre" necesita DOS referencias, una a cada lado (como un gato durmiendo entre dos cojines). Aprender estas palabras ayuda a describir el espacio que nos rodea con precisión, a seguir instrucciones ("ponte al lado de tu compañero") y a orientarse durante juegos y actividades cotidianas — es además la base para entender más adelante conceptos de geometría, como las coordenadas en un plano.';
   const item = pick(ESCENAS_ESPACIAL_NT);
   const distract = shuffle(ESPACIAL_OPTS_POOL.filter(function(p){ return p!==item.correct; })).slice(0,3);
   const opts = shuffle([item.correct].concat(distract)).map(function(p){ return {label:p, value:p}; });
@@ -103,10 +104,12 @@ export function genUbicacionEspacialNTRound(){
     promptHTML: sceneRefsHTML(item.emoji, item.refs)+'<p class="prompt-hint">'+item.texto.replace('___','<span class="blank">___</span>')+'</p>',
     options: opts, correctValue: item.correct, speakText: item.pregunta, cols:4, kind:'word',
     explain: item.texto.replace('___', item.correct),
+    recurso: recurso,
   };
 }
 
 export function genAntesDespuesNTRound(){
+  const recurso = 'Las palabras de <b>ubicación temporal</b> (día/noche, hoy/mañana/ayer, antes/durante/después) sirven para ubicar cuándo ocurre algo en el tiempo, igual que las palabras espaciales ubican dónde ocurre algo en el espacio. "Hoy" es el día en que estamos, "mañana" es el día que viene, y "ayer" es el día que ya pasó; "antes" describe lo que ocurre primero, "durante" lo que ocurre mientras pasa otra cosa, y "después" lo que ocurre al final. Entender estas palabras ayuda a organizar y anticipar la secuencia de una rutina (por ejemplo, saber que nos lavamos las manos ANTES de comer, no después), y es un paso necesario antes de aprender a usar un calendario o un reloj, que organizan el tiempo de forma más precisa todavía.';
   const item = pick(ESCENAS_TEMPORAL_NT);
   /* Algunas categorías temporales tienen doble sentido en español (MAÑANA
      significa tanto "el día siguiente" como "la mañana del día"; ANTES
@@ -123,10 +126,12 @@ export function genAntesDespuesNTRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto.replace('___','<span class="blank">___</span>')+'</p>',
     options: opts, correctValue: item.correct, speakText: item.pregunta, cols:4, kind:'word',
     explain: item.texto.replace('___', item.correct),
+    recurso: recurso,
   };
 }
 
 export function genMovimientoNTRound(){
+  const recurso = 'El cuerpo puede moverse de muchas formas distintas: saltar, correr, caminar, nadar, bailar, trepar, reptar y girar son solo algunos ejemplos de <b>acciones motrices</b>. Cada una de estas acciones usa el cuerpo de una manera distinta y sirve para cosas diferentes — reptar (arrastrarse pegado al suelo) es distinto de caminar (dar pasos de pie), y trepar (subir agarrándose con manos y pies) es distinto de nadar (moverse en el agua). Reconocer y nombrar estas acciones ayuda a entender mejor el propio cuerpo y sus posibilidades de movimiento, y es parte importante del desarrollo motor: cuantas más acciones distintas practica un niño, más fuerte, coordinado y seguro se vuelve su cuerpo.';
   const item = pick(MOVIMIENTOS_BANK);
   const distract = shuffle(MOVIMIENTOS_BANK.filter(function(m){ return m.accion!==item.accion; })).slice(0,3).map(function(m){ return m.accion; });
   const opts = shuffle([item.accion].concat(distract)).map(function(a){ return {label:a, value:a}; });
@@ -134,5 +139,6 @@ export function genMovimientoNTRound(){
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué acción es esta?</p>',
     options: opts, correctValue: item.accion, speakText: '¿Qué acción es esta?', cols:4, kind:'word',
     explain: 'Esta acción es <b>'+item.accion.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }

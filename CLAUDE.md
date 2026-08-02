@@ -189,12 +189,13 @@ js/
                               (`diccionarioEs`/`diccionarioEn` en render.js, ambas
                               renderizadas por `renderDiccionarioScreen(lang)` +
                               `initDiccionario()`). Contenido 100% curado dentro del
-                              archivo (213 palabras ES con tipo/definición/ejemplo,
-                              214 pares EN con traducción/ejemplo — ampliados
-                              2026-08-01 desde 108/84 a pedido explícito del usuario,
-                              cubriendo animales, familia, oficios, geografía/naturaleza
-                              de Chile, tiempo, adjetivos y verbos de uso frecuente que
-                              antes no estaban) — deliberadamente
+                              archivo (372 palabras ES con tipo/definición/ejemplo,
+                              586 pares EN con traducción/ejemplo — ampliados en dos
+                              rondas, 2026-08-01 y 2026-08-02, desde 108/84 originales,
+                              a pedido explícito del usuario, cubriendo animales,
+                              familia, oficios, geografía/naturaleza de Chile, cuerpo
+                              humano, tiempo, hogar, escuela, y adjetivos/verbos de uso
+                              frecuente que antes no estaban) — deliberadamente
                               SIN API externa: una API de diccionario no garantiza
                               contenido apto para niños, requiere conexión y rompería
                               la regla de cero dependencias. Buscador con

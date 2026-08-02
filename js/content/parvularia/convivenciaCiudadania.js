@@ -67,31 +67,37 @@ const RIESGO_BANK = [
 ];
 
 export function genResolucionNTRound(){
+  const recurso = 'La <b>resolución pacífica de conflictos</b> significa solucionar un desacuerdo hablando con calma, en vez de usar la fuerza, los gritos o los golpes. Cuando dos personas quieren lo mismo al mismo tiempo (un juguete, un juego, un turno), lo mejor es conversar para llegar a un acuerdo — puede ser turnarse, compartir, o buscar otra alternativa que funcione para ambos. Aprender a resolver conflictos así, desde pequeño, ayuda a mantener buenas relaciones con los demás y evita que un problema pequeño se convierta en uno más grande. Esta habilidad se usa toda la vida: en el jardín, en la escuela, en el trabajo y en la familia siempre van a existir desacuerdos, y saber resolverlos con calma y respeto es una de las habilidades sociales más importantes que existen.';
   const item = pick(CONFLICTO_BANK);
   const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta.toLowerCase()+'" — así se resuelve el problema sin lastimar a nadie.',
+    recurso: recurso,
   };
 }
 
 export function genNormasNTRound(){
+  const recurso = 'Las <b>normas de convivencia</b> son acuerdos que ayudan a que un grupo de personas viva y trabaje bien junto, respetándose entre todos — por ejemplo, guardar los juguetes al terminar, escuchar cuando alguien habla, hacer fila para esperar el turno, o pedir las cosas por favor. Estas normas no son reglas arbitrarias: cada una existe por una razón concreta, generalmente para que todos puedan estar cómodos, seguros y ser tratados con respeto. Seguir normas de convivencia en el jardín o la sala de clases prepara para vivir en sociedad más adelante, donde también existen normas (como las leyes de tránsito o las reglas de un lugar de trabajo) que ayudan a que todos puedan convivir en armonía.';
   const item = pick(NORMAS_BANK);
   const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una norma correcta de convivencia?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una norma correcta de convivencia?', cols:2, panel:true,
     explain: '"'+item.correcta+'" ayuda a que todos estén bien en la sala.',
+    recurso: recurso,
   };
 }
 
 export function genSeguridadNTRound(){
+  const recurso = 'Reconocer situaciones <b>peligrosas</b> es una parte importante del autocuidado: hay acciones cotidianas (tocar un enchufe, cruzar la calle sin mirar, jugar con fósforos, correr cerca de una piscina) que pueden causar un accidente o una lesión, y aprender a identificarlas ayuda a evitarlas. No se trata de tener miedo de todo, sino de saber distinguir qué actividades son seguras (jugar en el patio, leer un cuento, armar un rompecabezas) de las que requieren mucho cuidado o la ayuda de un adulto. Frente a cualquier situación de riesgo, lo más importante es siempre pedir ayuda a un adulto de confianza en vez de intentar resolverla solo — esta es una de las reglas de seguridad más importantes para niños de cualquier edad.';
   const item = pick(RIESGO_BANK);
   const opts = shuffle([item.correcta].concat(item.seguras)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones puede ser peligrosa?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones puede ser peligrosa?', cols:2, panel:true,
     explain: '"'+item.correcta+'" puede lastimarte — siempre pide ayuda a un adulto para esas cosas.',
+    recurso: recurso,
   };
 }

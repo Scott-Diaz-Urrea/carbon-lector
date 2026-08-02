@@ -93,36 +93,43 @@ const AMBIENTE_BANK = [
 ];
 
 export function genAguaSolNTRound(){
+  const recurso = 'El <b>agua</b> y el <b>sol</b> son dos elementos naturales que todos los seres vivos necesitan para vivir. El agua es esencial para las personas, los animales y las plantas: sin ella, ningún ser vivo podría sobrevivir mucho tiempo. El sol nos da luz durante el día y también calor — ese calor puede hacer que las cosas mojadas se sequen (como la ropa tendida) o que las cosas frías se derritan (como un helado). Las plantas necesitan tanto agua como la luz del sol para poder crecer sanas, en un proceso que se llama fotosíntesis. Observar cómo el agua y el sol afectan las cosas que nos rodean es una de las primeras formas de explorar y entender el mundo natural.';
   const item = pick(AGUA_SOL_BANK);
   const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta es "'+item.correcta+'".',
+    recurso: recurso,
   };
 }
 
 export function genMaterialesNaturalNTRound(){
+  const recurso = 'Los objetos que nos rodean tienen distintas <b>propiedades</b> que podemos descubrir usando los sentidos: el tacto (¿es suave o áspero?, ¿es rígido o blando?), la vista (¿es transparente u opaco?, ¿brilla?) y la temperatura (¿está frío o caliente?). Por ejemplo, el vidrio es transparente porque podemos ver a través de él, la piedra es rígida porque no se dobla, y el algodón es suave al tacto. Explorar estas propiedades con distintos materiales de la naturaleza (piedras, agua, arena, hielo) ayuda a describir el mundo con más precisión y es el primer paso hacia el pensamiento científico: observar con atención antes de sacar conclusiones sobre cómo son las cosas.';
   const item = pick(MATERIALES_NT_BANK);
   const opts = shuffle([item.prop].concat(item.opts)).map(function(p){ return {label:p, value:p}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Cómo es '+item.objeto+'?</p>',
     options: opts, correctValue: item.prop, speakText: '¿Cómo es '+item.objeto+'?', cols:4, kind:'word',
     explain: item.objeto.charAt(0).toUpperCase()+item.objeto.slice(1)+' es <b>'+item.prop.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genAnimalesPlantasNTRound(){
+  const recurso = 'Los <b>animales</b> y las <b>plantas</b> son seres vivos con características muy distintas entre sí. Los animales se pueden clasificar según dónde viven (agua o tierra), qué comen (algunos comen solo plantas, otros comen otros animales), cómo nacen (algunos salen de un huevo, otros nacen directamente), y qué cubre su cuerpo (plumas, pelo, escamas o caparazón). Las plantas, en cambio, no se mueven de su lugar y se adaptan al ambiente donde crecen — por ejemplo, el cactus tiene una forma especial que le permite guardar agua y sobrevivir en el desierto, donde llueve muy poco. Observar estas diferencias ayuda a entender que cada ser vivo tiene características que le permiten vivir bien en su propio ambiente.';
   const item = pick(ANIMALES_PLANTAS_BANK);
   const opts = shuffle([item.correcto].concat(item.opts)).map(function(e){ return {label:e, value:e}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcto, speakText: item.pregunta, cols:4,
     explain: 'La respuesta correcta es <b>'+item.label+'</b> '+item.correcto+'.',
+    recurso: recurso,
   };
 }
 
 export function genCiclosNTRound(){
+  const recurso = 'Un <b>ciclo de vida</b> es la secuencia de etapas por las que pasa un ser vivo desde que nace hasta que se convierte en adulto, y siempre ocurre en el mismo orden — nunca al revés. Por ejemplo, una mariposa pasa por huevo, oruga, crisálida y finalmente mariposa; una planta pasa por semilla, brote y árbol; y un ser humano pasa por bebé, niño y adulto. Cada etapa se ve distinta a las demás y prepara al ser vivo para la etapa que viene después. Entender el orden de un ciclo de vida ayuda a comprender cómo crecen y cambian los seres vivos con el tiempo, y es una de las primeras nociones de biología que se aprenden en la primera infancia.';
   const ciclo = pick(CICLOS);
   let a = pick(ciclo), b = pick(ciclo);
   while(b.label === a.label) b = pick(ciclo);
@@ -136,15 +143,18 @@ export function genCiclosNTRound(){
     promptHTML: '<p class="prompt-count" style="font-size:26px;">'+cicloDisplay+'</p><p class="prompt-hint">'+(askBefore ? '¿Qué viene ANTES en este ciclo de vida?' : '¿Qué viene DESPUÉS en este ciclo de vida?')+'</p>',
     options: opts, correctValue: correct, speakText: askBefore ? '¿Qué viene antes?' : '¿Qué viene después?', cols:2, panel:true,
     explain: earlier.label+' viene antes que '+later.label+' en este ciclo de vida.',
+    recurso: recurso,
   };
 }
 
 export function genAmbienteNTRound(){
+  const recurso = '<b>Cuidar el ambiente</b> significa hacer cosas cotidianas que ayudan a proteger la naturaleza y no desperdiciar los recursos naturales, como el agua, el papel y la electricidad. Algunas acciones simples que cualquier niño puede practicar son: cerrar la llave del agua mientras se enjabona las manos, apagar la luz al salir de una sala, separar la basura para reciclar, y reutilizar bolsas o envases en vez de botarlos después de un solo uso. Estas pequeñas acciones, repetidas todos los días por muchas personas, hacen una diferencia real para cuidar el planeta y sus recursos, que no son infinitos. Aprender a cuidar el ambiente desde pequeño ayuda a formar hábitos que duran toda la vida.';
   const item = pick(AMBIENTE_BANK);
   const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones ayuda a cuidar el ambiente?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones ayuda a cuidar el ambiente?', cols:2, panel:true,
     explain: '"'+item.correcta+'" ayuda a cuidar nuestro planeta.',
+    recurso: recurso,
   };
 }

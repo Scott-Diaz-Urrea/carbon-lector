@@ -86,6 +86,7 @@ const SELLO_ALIMENTOS = ['🍬', bebidaDulceSVG(30), '🍰','🍟','🍭','🧁'
 const SIN_SELLO_ALIMENTOS = ['🍎','🥦','🥕','🍇','🍊','🥒','🍌','🥬'];
 
 export function genEmocionesNTRound(){
+  const recurso = 'Las <b>emociones</b> (feliz, triste, enojado, miedo) son reacciones naturales que sentimos frente a lo que nos pasa en el día a día — no son buenas ni malas, todas son normales y todas las personas las sienten. Cada situación suele venir acompañada de una emoción esperable: algo agradable como un regalo suele traer alegría, algo que se pierde o se rompe suele traer tristeza, algo injusto suele traer enojo, y algo que asusta suele traer miedo. Reconocer qué emoción corresponde a cada situación es el primer paso para aprender a manejarlas: antes de poder calmarse o pedir ayuda, hay que saber nombrar lo que se está sintiendo. Esta habilidad se llama "conciencia emocional" y es la base de la inteligencia emocional que se sigue desarrollando durante toda la vida.';
   const item = pick(EMOCIONES_ESCENAS);
   const opts = shuffle(EMOCIONES_POOL.map(function(e){ return {label:e.emoji+' '+e.label, value:e.id}; }));
   const correctLabel = EMOCIONES_POOL.filter(function(e){ return e.id===item.emocion; })[0].label;
@@ -93,20 +94,24 @@ export function genEmocionesNTRound(){
     promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Cómo se siente?</p>',
     options: opts, correctValue: item.emocion, speakText: item.texto+' ¿Cómo se siente?', cols:2, panel:true,
     explain: 'Cuando pasa eso, lo más común es sentirse <b>'+correctLabel.toLowerCase()+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genAutocuidadoNTRound(){
+  const recurso = 'El <b>autocuidado</b> son todas las acciones que hacemos todos los días para mantenernos sanos, limpios y protegidos: lavarse los dientes, bañarse, peinarse, y elegir la ropa adecuada según el clima (abrigo cuando hace frío, gorro cuando hay mucho sol). Cada objeto de cuidado personal cumple una función específica, y saber para qué sirve cada uno ayuda a usarlo en el momento correcto — por ejemplo, el cepillo de dientes se usa después de comer, no para peinarse. Aprender estos hábitos desde pequeño ayuda a prevenir enfermedades, a sentirse cómodo con el clima, y a ir ganando independencia: hacer estas tareas por uno mismo, sin que un adulto tenga que recordarlo siempre, es parte de crecer y ser más autónomo.';
   const item = pick(AUTOCUIDADO_BANK);
   const opts = shuffle([item.correct].concat(item.opts)).map(function(id){ return {label:ICONOS[id].visual, value:id}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correct, speakText: item.pregunta, cols:4,
     explain: 'La respuesta correcta es <b>'+ICONOS[item.correct].label+'</b>.',
+    recurso: recurso,
   };
 }
 
 export function genAlimentosNTRound(){
+  const recurso = 'En Chile, los alimentos envasados que tienen demasiada azúcar, sal, grasas saturadas o calorías llevan un <b>sello negro de advertencia</b> en su envase, con la forma de un octógono (como una señal PARE) y un mensaje como "ALTO EN AZÚCARES". Este sello existe para que las personas puedan elegir mejor lo que comen, avisando de un vistazo que ese producto conviene comer solo de vez en cuando, no todos los días. Las frutas, verduras y otros alimentos naturales (sin procesar) no llevan estos sellos porque no tienen ingredientes agregados en exceso — son la base de una alimentación saludable. Aprender a reconocer los alimentos con sello ayuda a tomar decisiones más sanas al elegir qué comer.';
   const askConSello = Math.random() < 0.5;
   const correctPool = askConSello ? SELLO_ALIMENTOS : SIN_SELLO_ALIMENTOS;
   const distractPool = askConSello ? SIN_SELLO_ALIMENTOS : SELLO_ALIMENTOS;
@@ -122,5 +127,6 @@ export function genAlimentosNTRound(){
     explain: askConSello
       ? 'Los dulces, bebidas y comida chatarra suelen tener sellos negros de advertencia por su alto contenido de azúcar, sodio o grasas.'
       : 'Las frutas y verduras naturales no necesitan sellos de advertencia porque no son alimentos procesados.',
+    recurso: recurso,
   };
 }

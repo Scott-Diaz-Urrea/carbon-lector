@@ -709,6 +709,52 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
       real en ambos, sin errores de consola). Con esto, toda Educación
       Básica (1° a 8°) tiene el botón Recurso. Próximo paso: Educación
       Parvularia (los 8 núcleos de NT).
+    - **Educación Parvularia — ✅ completo (2026-08-02):** pedido explícito
+      del usuario de retomar el rollout tras un paréntesis largo (bug de
+      mobile en iPhone, dos rondas de expansión del diccionario, y todo
+      EPJA construido de por medio) — el mismo plan documentado arriba,
+      ahora aplicado al último tramo pendiente. Se agregó `recurso` (por
+      generador, mismo criterio que 1°-8° básico) a los 34 módulos de
+      opción múltiple de los 8 núcleos de NT: Pensamiento Matemático
+      (Patrones, Clasificar, ¿Dónde está?, Más/Menos/Igual, Antes y
+      Después, Contar hasta 20, Sumar y Quitar, Formas y Cuerpos, Medir —
+      9), Lenguaje Verbal (Sílabas y Sonidos, Escuchar y Comprender,
+      Vocabulario en Contexto, Letras y Sonidos — 4; Escribe tu Nombre y
+      Caligrafía no aplican, son trazado libre sin motor MC), Lenguajes
+      Artísticos (Aprecia y Compara, Compara Formas, Líneas y Diseño — 3),
+      Identidad y Autonomía (Reconoce Emociones, Autocuidado y Hábitos,
+      Alimentos y Sellos — 3), Convivencia y Ciudadanía (Resolución
+      Pacífica, Normas de Convivencia, Seguridad y Cuidado — 3),
+      Corporalidad y Movimiento (Ubicación Espacial, ¿Cuándo Ocurre?,
+      Movimientos del Cuerpo — 3), Exploración del Entorno Natural (Agua y
+      Sol, Materiales de la Naturaleza, Animales y Plantas, Ciclos de
+      Crecimiento, Cuidado del Ambiente — 5), Comprensión del Entorno
+      Sociocultural (Roles de mi Comunidad, Objetos Tecnológicos,
+      Instituciones de mi Comunidad, Seguridad y Prevención — 4). En
+      Lenguajes Artísticos, los 3 módulos comparten un mismo helper interno
+      (`genCompareRound()`) — se le agregó un parámetro `recurso` que cada
+      uno de los 3 exports (`genApreciarNTRound`/`genCompararFormasNTRound`/
+      `genLineasDisenoNTRound`) pasa con su propio texto (colorido/formas/
+      diseño, respectivamente), en vez de duplicar la lógica de armado de
+      ronda 3 veces — mismo patrón de "declarar `recurso` y reutilizarlo"
+      ya usado en generadores "dispatcher" de Básica, aplicado aquí a un
+      helper compartido entre módulos en vez de a ramas de un solo
+      generador. Verificado: los 34 generadores pasan fuzz de 200
+      iteraciones cada uno (recurso siempre presente y con largo mínimo,
+      sin `undefined`, `correctValue` siempre en las opciones) vía import
+      dinámico de `mcEngine.js` en el navegador (`MC_GAMES` no se expone en
+      `window`, a diferencia de las funciones de navegación) y prueba
+      visual en dos núcleos distintos (Pensamiento Matemático → "Patrones"
+      y Convivencia y Ciudadanía → "Resolución Pacífica", uno en layout de
+      grilla y otro en panel de una columna): botón Recurso visible en
+      ambos, modal abre con el texto real, sin errores de consola. Con
+      esto, **toda la app (Parvularia + Educación Básica 1°-8° + Estudio
+      para Pruebas) tiene el botón Recurso** — el rollout grado por grado
+      queda 100% completo. Próximo paso posible: Educación Media regular
+      (no EPJA), pendiente de que el usuario confirme la lista real de
+      asignaturas y el decreto curricular vigente (ver sección "Educación
+      Media" más abajo) — EPJA ya está construida por separado y no forma
+      parte de este rollout de `recurso`.
 - **Optimización de espacio en las alternativas y responsive (2026-07-27):**
   mismo pedido de UX/EdTech de arriba. `.option-btn`/`.option-btn.panel` pasaron de
   tamaño de fuente fijo (24-30px) a `clamp()` fluido, con menos padding y sin el

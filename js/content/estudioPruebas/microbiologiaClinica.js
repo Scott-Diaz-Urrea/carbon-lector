@@ -37,7 +37,7 @@ export const MICROBIOLOGIA_CLINICA_MODULES = [
   { id:'microbacilos', label:'Bacilos Gram Positivos', open:true, key:'microbacilos' },
   { id:'microentero', label:'Enterobacterales', open:true, key:'microentero' },
   { id:'microbgnnf', label:'Bacilos Gram Negativos No Fermentadores', open:true, key:'microbgnnf' },
-  { id:'microvibrio', label:'Vibrionaceae, Campylobacter y Helicobacter', open:true, key:'microvibrio' },
+  { id:'microvibrio', label:'Vibrio, Campylobacter y Helicobacter', open:true, key:'microvibrio' },
 ];
 export const MICROBIOLOGIA_CLINICA_POS = [
   {x:20,y:92},{x:64,y:84},{x:22,y:76},{x:66,y:68},

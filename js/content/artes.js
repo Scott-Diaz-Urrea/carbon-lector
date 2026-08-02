@@ -561,3 +561,38 @@ export function genDifusionM1Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 2° Medio (Decreto 614/2013, mismo decreto que 1° medio) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/artes-visuales/2-medio
+   — AR2M OA06 (implementar propuestas de difusión hacia la comunidad, en el
+   contexto escolar o local — texto muy similar al de 1° medio, así que este
+   módulo se enfoca en la IMPLEMENTACIÓN concreta: pasos de ejecución, difusión
+   previa, y evaluación posterior, en vez de repetir el diseño de montaje/
+   espacio/público ya cubierto en "Arte, Espacios y Difusión" de 1° medio).
+   Fuera: OA01-03 (crear proyectos visuales propios), OA04-05 (apreciación/
+   evaluación subjetiva de obras). */
+export const ARTES_MODULES_M2 = [
+  {id:'implementaciondifusionm2', label:'Implementar la Difusión de Arte', open:true, key:'implementaciondifusionm2'},
+];
+export const ARTES_POS_M2 = [{x:48,y:50}];
+const IMPLEMENTACION_DIFUSION_M2_BANK = [
+  { pregunta:'Antes de inaugurar una muestra de arte en el colegio, ¿qué paso de implementación es clave para que la comunidad se entere y asista?', correcta:'Difundir la invitación con anticipación, usando afiches, redes sociales u otros canales', opts:['No avisar a nadie hasta el mismo día del evento','Solo avisarle al director del colegio','Cancelar cualquier tipo de invitación'] },
+  { pregunta:'Durante la inauguración de una exposición escolar, ¿qué acción ayuda a que la comunidad se involucre más allá de solo mirar las obras?', correcta:'Organizar una breve presentación o recorrido guiado por los propios estudiantes autores', opts:['Prohibir que los autores hablen de sus obras','Cerrar la sala apenas comienza el evento','No permitir que nadie haga preguntas'] },
+  { pregunta:'Después de implementar una propuesta de difusión artística en la comunidad local, ¿qué es útil hacer para mejorar futuras muestras?', correcta:'Recoger comentarios y opiniones del público que asistió', opts:['Ignorar por completo cualquier comentario recibido','No volver a organizar ninguna actividad similar','Eliminar todas las obras expuestas de inmediato'] },
+  { pregunta:'Un curso quiere implementar la difusión de su arte en la feria costumbrista de su localidad. ¿Qué deben coordinar primero con los organizadores del evento?', correcta:'El espacio disponible, el horario y los permisos necesarios para exhibir', opts:['Nada, pueden instalarse donde quieran sin avisar','Solo el color de la pintura que usarán','Ignorar cualquier norma del evento local'] },
+  { pregunta:'¿Qué rol cumple la evaluación posterior a la implementación de una muestra de arte en la comunidad?', correcta:'Permite saber qué funcionó bien y qué se podría mejorar en la próxima propuesta de difusión', opts:['No cumple ningún rol relevante','Sirve únicamente para criticar a los autores','Reemplaza la necesidad de planificar futuras muestras'] },
+  { pregunta:'¿Por qué es útil definir con anticipación quién estará a cargo de cada tarea al implementar una muestra de arte (montaje, difusión, recepción del público)?', correcta:'Para que el día del evento cada responsabilidad esté cubierta y nada quede sin resolver a último minuto', opts:['No es necesario definir responsabilidades, cualquiera puede improvisar','Porque solo una persona puede participar en toda la organización','Porque repartir tareas siempre genera más conflictos'] },
+  { pregunta:'Un curso implementa su muestra de arte también en formato digital, publicando fotos y videos en redes sociales del colegio. ¿Qué ventaja tiene sumar este canal a la difusión presencial?', correcta:'Permite llegar a personas que no pudieron asistir presencialmente a la muestra', opts:['No aporta ninguna ventaja adicional','Reemplaza por completo la necesidad de una muestra presencial','Solo sirve para mostrarlo a los propios autores'] },
+  { pregunta:'Al implementar una muestra de arte en un espacio público (como una plaza), ¿qué aspecto de seguridad es importante coordinar previamente?', correcta:'Que el montaje no bloquee el paso de las personas ni represente un riesgo para el público', opts:['Ningún aspecto de seguridad es relevante en un espacio público','Que el montaje bloquee por completo el paso de peatones','Evitar cualquier tipo de supervisión durante el evento'] },
+];
+export function genImplementacionDifusionM2Round(){
+  const recurso = 'Implementar una <b>propuesta de difusión de arte</b> hacia la comunidad va más allá de diseñar el montaje: incluye pasos concretos de ejecución, como difundir la invitación con anticipación (afiches, redes sociales), coordinar el espacio, horario y permisos con quien organice el lugar (el colegio, una feria local, un centro cultural), y pensar actividades que involucren al público durante la inauguración, como un recorrido guiado por los propios autores. Después de implementada la muestra, recoger comentarios del público que asistió ayuda a evaluar qué funcionó bien y qué se puede mejorar en la siguiente propuesta de difusión — cerrando así el ciclo completo de crear, exhibir y aprender de la experiencia.';
+  const item = pick(IMPLEMENTACION_DIFUSION_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

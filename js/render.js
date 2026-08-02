@@ -121,7 +121,7 @@ function renderEtapaMap(){
       '</button>'+
       '<button class="subject-card" onclick="goTo(\'medioGradeMap\')">'+
         '<span class="subject-icon">🎓</span>'+
-        '<span class="subject-info"><b>Educación Media</b><small>1° Medio disponible</small></span>'+
+        '<span class="subject-info"><b>Educación Media</b><small>1° y 2° Medio disponibles</small></span>'+
       '</button>'+
       '<button class="subject-card" onclick="goTo(\'epjaMap\')">'+
         '<span class="subject-icon">🌙</span>'+

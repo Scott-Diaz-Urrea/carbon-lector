@@ -3047,3 +3047,283 @@ export function genEstadisticaProbabilidadM1Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 2° Medio (Decreto 614/2013, mismo decreto que 1° medio) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/matematica/2-medio — OA01-12.
+   Cubiertos: OA01 (números reales, raíces), OA02 (potencias/raíces/logaritmos),
+   OA03-04 (función cuadrática, fusionados: comprensión + resolución de ecuaciones),
+   OA05 (función inversa), OA06 (interés compuesto/crecimiento porcentual constante),
+   OA07 (área y volumen de la esfera), OA08-09 (razones trigonométricas + vectores,
+   fusionados por ser el mismo bloque conceptual de triángulo rectángulo), y
+   OA10-12 (variables aleatorias, combinatoria y el rol social de la probabilidad,
+   fusionados en un solo módulo de Estadística y Probabilidad, mismo criterio que
+   el módulo homónimo de 1° medio). Ningún OA de Matemática 2° medio queda fuera. */
+export const MATE_MODULES_M2 = [
+  {id:'numerosrealesm2', label:'Números Reales y Raíces', open:true, key:'numerosrealesm2'},
+  {id:'potenciaslogaritmosm2', label:'Potencias, Raíces y Logaritmos', open:true, key:'potenciaslogaritmosm2'},
+  {id:'funcioncuadraticam2', label:'Función Cuadrática', open:true, key:'funcioncuadraticam2'},
+  {id:'funcioninversam2', label:'Función Inversa', open:true, key:'funcioninversam2'},
+  {id:'interescompuestom2', label:'Interés Compuesto', open:true, key:'interescompuestom2'},
+  {id:'esferam2', label:'Área y Volumen de la Esfera', open:true, key:'esferam2'},
+  {id:'trigonometriam2', label:'Trigonometría y Vectores', open:true, key:'trigonometriam2'},
+  {id:'estadisticaprobabilidadm2', label:'Variables Aleatorias y Probabilidad', open:true, key:'estadisticaprobabilidadm2'},
+];
+export const MATE_POS_M2 = [
+  {x:24,y:92},{x:68,y:80},{x:24,y:68},{x:68,y:56},{x:24,y:44},{x:68,y:32},{x:24,y:20},{x:68,y:8}
+];
+
+export function genNumerosRealesM2Round(){
+  const recurso = 'Los <b>números reales</b> incluyen tanto a los racionales (fracciones, enteros, decimales exactos) como a los <b>irracionales</b> (números como √2 o π, que no se pueden escribir como fracción exacta). Al <b>combinar raíces con números racionales</b>, se puede sumar o restar raíces del mismo radicando igual que términos semejantes: por ejemplo, 3√5 + 2√5 = 5√5 (se suman los coeficientes, la raíz queda igual), pero 3√5 + 2√3 NO se puede simplificar porque los radicandos son distintos. Para <b>estimar</b> el valor de una raíz no exacta, conviene ubicarla entre las raíces exactas más cercanas: por ejemplo, √50 está entre √49=7 y √64=8, así que √50 es un número entre 7 y 8.';
+  const roll = Math.random();
+  if(roll<0.5){
+    const radicandos = [2,3,5,6,7];
+    const b = pick(radicandos);
+    const c1 = randInt(2,6), c2 = randInt(2,6);
+    const suma = c1+c2;
+    const correct = suma+'√'+b;
+    const distractCandidates = [(suma+1)+'√'+b, (suma-1)+'√'+b, c1+'√'+(b+1)];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+    while(finales.length<3){ const c = (suma+randInt(2,4))+'√'+b; if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Cuánto es '+c1+'√'+b+' + '+c2+'√'+b+'?</p>',
+      options: opts, correctValue: correct, speakText: '¿Cuánto es '+c1+' raíz de '+b+' más '+c2+' raíz de '+b+'?', cols:4,
+      explain: 'Como las dos raíces tienen el mismo radicando ('+b+'), se suman los coeficientes: '+c1+'+'+c2+' = <b>'+correct+'</b>.',
+      recurso: recurso,
+    };
+  }
+  const n = pick([50,20,45,75,90,10]);
+  let low = 1;
+  while((low+1)*(low+1) <= n) low++;
+  const high = low+1;
+  const correct = low+' y '+high;
+  const distractCandidates = [(low-1)+' y '+low, high+' y '+(high+1), low+' y '+(high+1)];
+  const finales = [];
+  for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+  const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Entre qué dos números enteros consecutivos se encuentra √'+n+'?</p>',
+    options: opts, correctValue: correct, speakText: '¿Entre qué dos números enteros consecutivos se encuentra la raíz de '+n+'?', cols:4,
+    explain: low+'² = '+(low*low)+' y '+high+'² = '+(high*high)+', y como '+(low*low)+' < '+n+' < '+(high*high)+', la raíz de '+n+' está entre <b>'+correct+'</b>.',
+    recurso: recurso,
+  };
+}
+
+export function genPotenciasLogaritmosM2Round(){
+  const recurso = 'Una <b>potencia</b>, una <b>raíz</b> y un <b>logaritmo</b> expresan la misma relación entre tres números, solo que despejando uno distinto cada vez: si 2³ = 8, entonces la raíz cúbica de 8 es 2, y el logaritmo en base 2 de 8 es 3 (log₂8 = 3, que se lee "¿a qué exponente hay que elevar 2 para obtener 8?"). En general, si <b>a</b> elevado a <b>b</b> es igual a <b>c</b> (aᵇ=c), entonces log_a(c) = b. Esta equivalencia permite pasar de una forma a otra según lo que sea más fácil de calcular en cada problema — los logaritmos son especialmente útiles para "deshacer" exponentes muy grandes.';
+  const casos = [[2,3,8],[2,4,16],[2,5,32],[3,2,9],[3,3,27],[3,4,81],[5,2,25],[4,2,16],[10,2,100],[10,3,1000]];
+  const caso = pick(casos);
+  const base = caso[0], exp = caso[1], resultado = caso[2];
+  const roll = Math.random();
+  if(roll<0.5){
+    const correct = 'log<sub>'+base+'</sub>('+resultado+') = '+exp;
+    const distractCandidates = ['log<sub>'+base+'</sub>('+resultado+') = '+(exp+1), 'log<sub>'+exp+'</sub>('+resultado+') = '+base, 'log<sub>'+resultado+'</sub>('+base+') = '+exp];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+    const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">Si '+base+'<sup>'+exp+'</sup> = '+resultado+', ¿cuál es la forma logarítmica equivalente?</p>',
+      options: opts, correctValue: correct, speakText: 'Si '+base+' elevado a '+exp+' es '+resultado+', ¿cuál es la forma logarítmica equivalente?', cols:2, panel:true,
+      explain: 'Como '+base+'<sup>'+exp+'</sup> = '+resultado+', entonces <b>'+correct+'</b> (el logaritmo "despeja" el exponente).',
+      recurso: recurso,
+    };
+  }
+  const distractCandidates = [exp+1, exp-1, base];
+  const finales = [];
+  for(const d of distractCandidates){ if(d>0 && d!==exp && finales.indexOf(d)===-1) finales.push(d); }
+  while(finales.length<3){ const c = exp+randInt(2,4); if(c!==exp && finales.indexOf(c)===-1) finales.push(c); }
+  const opts = shuffle([exp].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuánto es log<sub>'+base+'</sub>('+resultado+')?</p>',
+    options: opts, correctValue: exp, speakText: '¿Cuánto es el logaritmo en base '+base+' de '+resultado+'?', cols:4,
+    explain: 'log<sub>'+base+'</sub>('+resultado+') pregunta "¿a qué exponente hay que elevar '+base+' para obtener '+resultado+'?" — como '+base+'<sup>'+exp+'</sup>='+resultado+', la respuesta es <b>'+exp+'</b>.',
+    recurso: recurso,
+  };
+}
+
+export function genFuncionCuadraticaM2Round(){
+  const recurso = 'Una <b>función cuadrática</b> tiene la forma f(x) = ax² + bx + c (con a distinto de 0), y su gráfico es siempre una <b>parábola</b>. El <b>vértice</b> de la parábola (su punto más alto o más bajo) tiene coordenada x = -b/(2a). Para <b>resolver una ecuación cuadrática</b> (encontrar los valores de x donde f(x)=0), una forma útil es factorizarla como (x-r1)(x-r2) = 0, donde r1 y r2 son las dos soluciones — esto funciona porque un producto es cero solo si alguno de sus factores es cero. También se puede usar la fórmula general, pero factorizar es más rápido cuando las soluciones son números enteros simples.';
+  const roll = Math.random();
+  if(roll<0.5){
+    const r1 = randInt(-6,6) || 1, r2 = randInt(-6,6) || 2;
+    const b = -(r1+r2), c = r1*r2;
+    const bStr = b===0 ? '' : (b>0 ? ' + '+b+'x' : ' - '+Math.abs(b)+'x');
+    const cStr = c===0 ? '' : (c>0 ? ' + '+c : ' - '+Math.abs(c));
+    const correct = 'x = '+r1+' o x = '+r2;
+    const distractCandidates = ['x = '+(r1+1)+' o x = '+r2, 'x = '+r1+' o x = '+(r2+1), 'x = '+(-r1)+' o x = '+(-r2)];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+    const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Cuáles son las soluciones de la ecuación x²'+bStr+cStr+' = 0, si se puede factorizar como (x-('+r1+'))(x-('+r2+')) = 0?</p>',
+      options: opts, correctValue: correct, speakText: '¿Cuáles son las soluciones de esta ecuación cuadrática factorizada?', cols:2, panel:true,
+      explain: 'Si (x-('+r1+'))(x-('+r2+')) = 0, entonces alguno de los dos factores debe ser cero: <b>'+correct+'</b>.',
+      recurso: recurso,
+    };
+  }
+  const a = pick([1,2,3]);
+  const b = randInt(-8,8);
+  const c = randInt(-10,10);
+  const xVal = randInt(-4,4);
+  const fx = a*xVal*xVal + b*xVal + c;
+  const distractCandidates = [fx+2, fx-2, a*xVal+b*xVal+c];
+  const finales = [];
+  for(const d of distractCandidates){ if(d!==fx && finales.indexOf(d)===-1) finales.push(d); }
+  while(finales.length<3){ const d = fx+randInt(2,5); if(d!==fx && finales.indexOf(d)===-1) finales.push(d); }
+  const opts = shuffle([fx].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+  const bStr = b>=0 ? ' + '+b+'x' : ' - '+Math.abs(b)+'x';
+  const cStr = c>=0 ? ' + '+c : ' - '+Math.abs(c);
+  return {
+    promptHTML: '<p class="prompt-hint">Si f(x) = '+a+'x²'+bStr+cStr+', ¿cuánto es f('+xVal+')?</p>',
+    options: opts, correctValue: fx, speakText: 'Si f de x es '+a+' equis al cuadrado más '+b+' equis más '+c+', ¿cuánto es f de '+xVal+'?', cols:4,
+    explain: 'f('+xVal+') = '+a+'×('+xVal+')² '+bStr+cStr+' = <b>'+fx+'</b>.',
+    recurso: recurso,
+  };
+}
+
+export function genFuncionInversaM2Round(){
+  const recurso = 'La <b>función inversa</b> de f(x), escrita f⁻¹(x), "deshace" lo que hace la función original: si f transforma un valor de entrada en una salida, f⁻¹ transforma esa salida de vuelta al valor de entrada original. Para encontrar la inversa de una función lineal f(x) = ax + b, se despeja x en términos de y: si y = ax + b, entonces x = (y-b)/a, así que f⁻¹(x) = (x-b)/a. Una forma de verificar que dos funciones son inversas entre sí es comprobar que f(f⁻¹(x)) = x para cualquier valor de x — es como aplicar una operación y luego su operación contraria, volviendo al punto de partida.';
+  const a = pick([2,3,4,5,-2,-3]);
+  const b = randInt(-6,6);
+  const bStr = b>=0 ? ' + '+b : ' - '+Math.abs(b);
+  const invBStr = b===0 ? '' : (b>0 ? ' - '+b : ' + '+Math.abs(b));
+  const correct = 'f⁻¹(x) = (x'+invBStr+') / '+a;
+  const distractCandidates = ['f⁻¹(x) = (x'+bStr+') / '+a, 'f⁻¹(x) = '+a+'x'+bStr, 'f⁻¹(x) = (x'+invBStr+') × '+a];
+  const finales = [];
+  for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+  const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-hint">Si f(x) = '+a+'x'+bStr+', ¿cuál es su función inversa f⁻¹(x)?</p>',
+    options: opts, correctValue: correct, speakText: '¿Cuál es la función inversa de f de x igual '+a+' equis'+bStr+'?', cols:2, panel:true,
+    explain: 'Si y = '+a+'x'+bStr+', despejando x se obtiene x = (y'+invBStr+')/'+a+', así que <b>'+correct+'</b>.',
+    recurso: recurso,
+  };
+}
+
+export function genInteresCompuestoM2Round(){
+  const recurso = 'Un <b>crecimiento porcentual constante</b> (como el interés compuesto) significa que, en cada período, la cantidad aumenta un mismo porcentaje sobre el valor YA acumulado (no sobre el valor original) — por eso crece cada vez más rápido con el tiempo. La fórmula es: valor final = valor inicial × (1 + tasa)^(número de períodos), donde la tasa se expresa como decimal (por ejemplo, 10% = 0,1). Esto es distinto del <b>interés simple</b>, donde el porcentaje siempre se calcula sobre el monto original, generando un crecimiento más lento (una línea recta en vez de una curva).';
+  const inicial = pick([1000,2000,5000,10000,100000,200000]);
+  const tasaPct = pick([5,10,20,25]);
+  const periodos = pick([2,3]);
+  const tasa = tasaPct/100;
+  let valor = inicial;
+  for(let i=0;i<periodos;i++){ valor = Math.round(valor*(1+tasa)); }
+  const simpleValor = Math.round(inicial*(1+tasa*periodos));
+  const distractCandidates = [simpleValor, Math.round(inicial*(1+tasa)), valor+Math.round(inicial*0.02)];
+  const finales = [];
+  for(const d of distractCandidates){ if(d!==valor && finales.indexOf(d)===-1) finales.push(d); }
+  while(finales.length<3){ const d = valor+randInt(50,300); if(d!==valor && finales.indexOf(d)===-1) finales.push(d); }
+  const opts = shuffle([valor].concat(finales.slice(0,3))).map(function(v){ return {label:'$'+v.toLocaleString('es-CL'), value:v}; });
+  return {
+    promptHTML: '<p class="prompt-hint">Si inviertes $'+inicial.toLocaleString('es-CL')+' a un interés compuesto del '+tasaPct+'% anual, ¿cuánto tendrás después de '+periodos+' años?</p>',
+    options: opts, correctValue: valor, speakText: 'Si inviertes '+inicial+' pesos a un interés compuesto del '+tasaPct+' por ciento anual, ¿cuánto tendrás después de '+periodos+' años?', cols:4,
+    explain: 'Cada año se multiplica por (1 + '+tasa+'): '+inicial.toLocaleString('es-CL')+' → '+(periodos===2?'':'...→')+' <b>$'+valor.toLocaleString('es-CL')+'</b> (el interés se calcula sobre el monto ya acumulado, no sobre el inicial).',
+    recurso: recurso,
+  };
+}
+
+export function genEsferaM2Round(){
+  const recurso = 'Una <b>esfera</b> es el conjunto de todos los puntos que están a la misma distancia (el radio) de un punto central. Su <b>área de superficie</b> se calcula con la fórmula 4πr² (cuatro veces pi por el radio al cuadrado), y su <b>volumen</b> con la fórmula (4/3)πr³ (cuatro tercios de pi por el radio al cubo). Ambas fórmulas dependen solo del radio: si el radio se duplica, el área se multiplica por 4 (porque depende de r²) pero el volumen se multiplica por 8 (porque depende de r³) — el volumen crece mucho más rápido que la superficie a medida que la esfera se agranda.';
+  const r = pick([2,3,4,5,6]);
+  const roll = Math.random();
+  if(roll<0.5){
+    const area = 4*r*r;
+    const distractCandidates = [2*r*r, r*r, 4*r];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==area && finales.indexOf(d)===-1) finales.push(d); }
+    const opts = shuffle([area].concat(finales.slice(0,3))).map(function(v){ return {label:v+'π cm²', value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿Cuál es el área de superficie de una esfera de radio '+r+' cm? (deja el resultado en términos de π)</p>',
+      options: opts, correctValue: area, speakText: '¿Cuál es el área de superficie de una esfera de radio '+r+' centímetros, en términos de pi?', cols:4,
+      explain: 'Área = 4πr² = 4π×'+r+'² = 4π×'+(r*r)+' = <b>'+area+'π cm²</b>.',
+      recurso: recurso,
+    };
+  }
+  const volNum = 4*r*r*r;
+  const volLabel = (volNum%3===0) ? (volNum/3)+'π cm³' : volNum+'/3 π cm³';
+  const distractCandidates2 = [(4*r*r)+'π cm³', (2*r*r*r)+'/3 π cm³', (volNum+3)%3===0 ? ((volNum+3)/3)+'π cm³' : (volNum+3)+'/3 π cm³'];
+  const finales2 = [];
+  for(const d of distractCandidates2){ if(d!==volLabel && finales2.indexOf(d)===-1) finales2.push(d); }
+  const opts2 = shuffle([volLabel].concat(finales2.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál es el volumen de una esfera de radio '+r+' cm? (deja el resultado en términos de π)</p>',
+    options: opts2, correctValue: volLabel, speakText: '¿Cuál es el volumen de una esfera de radio '+r+' centímetros, en términos de pi?', cols:4,
+    explain: 'Volumen = (4/3)πr³ = (4/3)π×'+r+'³ = (4×'+(r*r*r)+'/3)π = <b>'+volLabel+'</b>.',
+    recurso: recurso,
+  };
+}
+
+const TRIANGULOS_PITAGORICOS_M2 = [[3,4,5],[6,8,10],[5,12,13],[9,12,15],[8,15,17],[7,24,25]];
+export function genTrigonometriaM2Round(){
+  const recurso = 'En un <b>triángulo rectángulo</b>, las razones trigonométricas relacionan un ángulo agudo con los lados del triángulo: <b>seno</b> = cateto opuesto / hipotenusa, <b>coseno</b> = cateto adyacente / hipotenusa, y <b>tangente</b> = cateto opuesto / cateto adyacente (una forma fácil de recordarlo es "SOH-CAH-TOA"). Estas razones también sirven para <b>descomponer un vector</b> (una magnitud con dirección, como una fuerza o una velocidad) en sus componentes horizontal y vertical: si un vector tiene magnitud V y forma un ángulo θ con la horizontal, su componente horizontal es V×cos(θ) y su componente vertical es V×sen(θ).';
+  const t = pick(TRIANGULOS_PITAGORICOS_M2);
+  const opuesto = t[0], adyacente = t[1], hipotenusa = t[2];
+  const roll = Math.random();
+  const razonNombre = pick(['seno','coseno','tangente']);
+  let correct, formula;
+  if(razonNombre==='seno'){ correct = opuesto+'/'+hipotenusa; formula = 'cateto opuesto / hipotenusa'; }
+  else if(razonNombre==='coseno'){ correct = adyacente+'/'+hipotenusa; formula = 'cateto adyacente / hipotenusa'; }
+  else { correct = opuesto+'/'+adyacente; formula = 'cateto opuesto / cateto adyacente'; }
+  const distractCandidates = [opuesto+'/'+hipotenusa, adyacente+'/'+hipotenusa, opuesto+'/'+adyacente, hipotenusa+'/'+opuesto];
+  const finales = [];
+  for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+  const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-hint">En un triángulo rectángulo con cateto opuesto = '+opuesto+', cateto adyacente = '+adyacente+' e hipotenusa = '+hipotenusa+', ¿cuánto es el '+razonNombre+' del ángulo?</p>',
+    options: opts, correctValue: correct, speakText: '¿Cuánto es el '+razonNombre+' de ese ángulo, con cateto opuesto '+opuesto+', cateto adyacente '+adyacente+' e hipotenusa '+hipotenusa+'?', cols:4,
+    explain: 'El '+razonNombre+' es '+formula+' = '+ (razonNombre==='seno'?opuesto+'/'+hipotenusa:razonNombre==='coseno'?adyacente+'/'+hipotenusa:opuesto+'/'+adyacente) +' = <b>'+correct+'</b>.',
+    recurso: recurso,
+  };
+}
+
+export function genEstadisticaProbabilidadM2Round(){
+  const recurso = 'Una <b>variable aleatoria</b> asigna un número a cada resultado posible de un experimento al azar (por ejemplo, "número de caras al lanzar 2 monedas" puede ser 0, 1 o 2). A cada valor se le puede calcular su <b>probabilidad</b>, y el conjunto de todas esas probabilidades forma una distribución. La <b>combinatoria</b> permite contar cuántos resultados distintos son posibles sin tener que listarlos todos: las <b>permutaciones</b> cuentan formas de ordenar elementos (n! = n×(n-1)×...×1), útil para calcular probabilidades cuando el orden importa. Entender probabilidad también ayuda a leer noticias con sentido crítico: una probabilidad o "riesgo relativo" alto puede sonar alarmante, pero si el riesgo original (absoluto) era muy bajo, el aumento real puede ser pequeño.';
+  const roll = Math.random();
+  if(roll<0.4){
+    const casos = [
+      {desc:'lanzar 2 monedas y contar el número de caras', valores:[0,1,2], probs:['1/4','2/4','1/4'], pregunta:'P(X = 1)', correctIdx:1},
+      {desc:'lanzar 1 dado y ver si el resultado es par (X=1) o impar (X=0)', valores:[0,1], probs:['3/6','3/6'], pregunta:'P(X = 1)', correctIdx:1},
+    ];
+    const caso = pick(casos);
+    const correct = caso.probs[caso.correctIdx];
+    const distractCandidates = caso.probs.filter(function(p,i){ return i!==caso.correctIdx; }).concat(['1/2','1/3']);
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+    const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">Al '+caso.desc+', se define la variable aleatoria X. ¿Cuál es '+caso.pregunta+'?</p>',
+      options: opts, correctValue: correct, speakText: 'Al '+caso.desc+', ¿cuál es la probabilidad de que X sea igual a '+caso.valores[caso.correctIdx]+'?', cols:4,
+      explain: 'Contando todos los resultados posibles del experimento, la probabilidad de ese valor es <b>'+correct+'</b>.',
+      recurso: recurso,
+    };
+  }
+  if(roll<0.75){
+    const n = pick([3,4,5]);
+    let fact = 1;
+    for(let i=2;i<=n;i++) fact *= i;
+    const distractCandidates = [fact-2, n*n, fact+n];
+    const finales = [];
+    for(const d of distractCandidates){ if(d>0 && d!==fact && finales.indexOf(d)===-1) finales.push(d); }
+    while(finales.length<3){ const d = fact+randInt(2,6); if(d!==fact && finales.indexOf(d)===-1) finales.push(d); }
+    const opts = shuffle([fact].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">¿De cuántas formas distintas se pueden ordenar '+n+' libros diferentes en una repisa?</p>',
+      options: opts, correctValue: fact, speakText: '¿De cuántas formas distintas se pueden ordenar '+n+' libros diferentes en una repisa?', cols:4,
+      explain: 'Se calcula '+n+'! (factorial de '+n+') = '+Array.from({length:n},function(_,i){return n-i;}).join('×')+' = <b>'+fact+'</b> formas distintas.',
+      recurso: recurso,
+    };
+  }
+  const opts = shuffle([
+    {label:'El riesgo absoluto original, no solo el porcentaje de aumento', value:'ok'},
+    {label:'Solo el titular de la noticia', value:'m1'},
+    {label:'Nada más, el porcentaje ya lo dice todo', value:'m2'},
+    {label:'La opinión de una sola persona sobre el tema', value:'m3'},
+  ]);
+  return {
+    promptHTML: '<p class="prompt-hint">Una noticia dice: "Este hábito duplica el riesgo de un problema poco común". Para interpretar esta información correctamente, ¿qué es importante conocer además del porcentaje de aumento?</p>',
+    options: opts, correctValue: 'ok', speakText: '¿Qué es importante conocer, además del porcentaje de aumento, para interpretar correctamente una noticia sobre riesgo?', cols:2, panel:true,
+    explain: 'Duplicar un riesgo muy bajo (por ejemplo, de 1% a 2%) sigue siendo un riesgo bajo — por eso hay que conocer el <b>riesgo absoluto original</b>, no solo el porcentaje de aumento (riesgo relativo).',
+    recurso: recurso,
+  };
+}

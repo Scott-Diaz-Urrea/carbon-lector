@@ -1714,3 +1714,208 @@ export function genOrtografiaM1Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 2° Medio (Decreto 614/2013, mismo decreto que 1° medio) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/lengua-literatura/2-medio — OA01-24.
+   Cubiertos: OA03 (narrativa: personajes, estereotipos, intertextualidad), OA04
+   (poesía: actitud del hablante, estructura del soneto), OA05-06 (texto dramático +
+   Siglo de Oro, fusionados), OA07 (cuento latinoamericano moderno/contemporáneo),
+   OA09-10 (textos argumentativos + medios de comunicación, fusionados) y OA18
+   (ortografía y puntuación — reglas de coma/dos puntos/punto y coma, distintas de
+   las de 1° medio). Fuera: OA01-02,11 (lectura personal/reflexión, actitudinal),
+   OA08 (interpretación personal con hipótesis propia), OA12-17 (producción
+   escrita), OA19-23 (comunicación oral, desempeño real), OA24 (investigación,
+   proceso propio). */
+export const LENGUAJE_MODULES_M2 = [
+  {id:'narrativam2', label:'Narrativa: Personajes y Estereotipos', open:true, key:'narrativam2'},
+  {id:'poesiam2', label:'Poesía: Hablante y Soneto', open:true, key:'poesiam2'},
+  {id:'teatrosigloorom2', label:'Teatro y Siglo de Oro', open:true, key:'teatrosigloorom2'},
+  {id:'cuentolatinoamericanom2', label:'Cuento Latinoamericano', open:true, key:'cuentolatinoamericanom2'},
+  {id:'argumentativomediosm2', label:'Textos Argumentativos y Medios', open:true, key:'argumentativomediosm2'},
+  {id:'ortografiam2', label:'Ortografía y Puntuación', open:true, key:'ortografiam2'},
+];
+export const LENGUAJE_POS_M2 = [
+  {x:24,y:92},{x:68,y:76},{x:24,y:60},{x:68,y:44},{x:24,y:28},{x:68,y:12}
+];
+
+const NARRATIVA_M2_PERSONAJE_BANK = [
+  { texto:'A lo largo de la novela, el protagonista pasa de ser un joven cobarde y egoísta a convertirse en alguien valiente y generoso tras enfrentar la pérdida de su hermano.', correcta:'Personaje redondo (complejo, evoluciona a lo largo de la historia)', opts:['Personaje plano (estereotipado, no cambia)','Narrador omnisciente','Antagonista secundario'] },
+  { texto:'El villano de la historia es "malo" en cada escena, sin ninguna motivación explicada ni ningún cambio: siempre actúa igual, del principio al fin.', correcta:'Personaje plano (estereotipado, no cambia)', opts:['Personaje redondo (complejo, evoluciona)','Narrador testigo','Protagonista'] },
+  { texto:'En muchas películas, "el nerd" siempre usa lentes gruesos, es torpe socialmente y es experto en tecnología, sin ningún otro rasgo que lo distinga.', correcta:'Estereotipo (personaje reducido a un solo rasgo fijo)', opts:['Personaje redondo','Antihéroe','Narrador protagonista'] },
+  { texto:'Un cuento actual incluye, como guiño, el nombre de un personaje de otra novela famosa, invitando al lector a relacionar ambas historias.', correcta:'Intertextualidad (relación entre dos obras distintas)', opts:['Estereotipo','Personaje plano','Narrador omnisciente'] },
+  { texto:'Al final del relato, la protagonista —que empezó desconfiando de todos— aprende a confiar en sus nuevos vecinos gracias a la ayuda que recibió de ellos.', correcta:'Personaje redondo (complejo, evoluciona a lo largo de la historia)', opts:['Personaje plano (estereotipado, no cambia)','Narrador testigo','Estereotipo'] },
+  { texto:'"La madrastra malvada" de un cuento siempre trata mal a la protagonista sin ninguna razón explicada, exactamente igual en cada escena en la que aparece.', correcta:'Estereotipo (personaje reducido a un solo rasgo fijo)', opts:['Personaje redondo','Intertextualidad','Antagonista complejo'] },
+  { texto:'Un autor incluye, en medio de su novela, una escena que imita casi exactamente el estilo de un clásico literario muy conocido.', correcta:'Intertextualidad (relación entre dos obras distintas)', opts:['Estereotipo','Personaje plano','Conflicto narrativo'] },
+  { texto:'El detective de la serie siempre resuelve el caso solo, es frío con todos, y nunca muestra ninguna emoción distinta a lo largo de toda la temporada.', correcta:'Personaje plano (estereotipado, no cambia)', opts:['Personaje redondo (complejo, evoluciona)','Intertextualidad','Narrador protagonista'] },
+  { texto:'Con el paso de los capítulos, el antagonista revela sus propias razones y el lector empieza a comprenderlo, aunque sus acciones sigan siendo cuestionables.', correcta:'Personaje redondo (complejo, evoluciona a lo largo de la historia)', opts:['Estereotipo','Personaje plano (no cambia)','Narrador omnisciente'] },
+  { texto:'En una novela de ciencia ficción, "el científico loco" siempre tiene el pelo desordenado, habla solo, y busca el poder absoluto, sin ningún otro matiz.', correcta:'Estereotipo (personaje reducido a un solo rasgo fijo)', opts:['Personaje redondo','Intertextualidad','Protagonista'] },
+];
+export function genNarrativaM2Round(){
+  const recurso = 'Un <b>personaje redondo</b> (o complejo) tiene varias dimensiones y puede cambiar o sorprender a lo largo de la historia, mientras que un <b>personaje plano</b> se mantiene igual del principio al fin, con pocos rasgos. Un <b>estereotipo</b> es un tipo de personaje plano llevado al extremo: se reduce a un solo rasgo fijo y reconocible (como "el nerd" o "el villano malvado sin motivos"), sin más profundidad. La <b>intertextualidad</b> ocurre cuando una obra literaria hace referencia, cita o dialoga con otra obra distinta — un guiño que el lector puede reconocer si conoce ambos textos, y que enriquece la interpretación al conectar dos historias entre sí.';
+  const item = pick(NARRATIVA_M2_PERSONAJE_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué concepto narrativo se ilustra aquí?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'Esto ilustra: <b>'+item.correcta+'</b>.',
+    recurso: recurso,
+  };
+}
+
+const POESIA_M2_HABLANTE_BANK = [
+  { verso:'"El mar se extiende hasta el horizonte, gris y silencioso bajo el cielo de invierno."', correcta:'Actitud enunciativa (el hablante describe algo, sin dirigirse a nadie)', opts:['Actitud apostrófica (se dirige a un tú)','Actitud carmínica (expresa sus sentimientos)','Rima consonante'] },
+  { verso:'"Tú, que fuiste mi refugio en la tormenta, ¿por qué te alejas ahora que más te necesito?"', correcta:'Actitud apostrófica (el hablante se dirige directamente a un "tú")', opts:['Actitud enunciativa (describe algo)','Actitud carmínica (expresa sentimientos propios)','Estructura del soneto'] },
+  { verso:'"Siento que mi pecho se quiebra de tristeza cada vez que recuerdo aquellos días felices."', correcta:'Actitud carmínica (el hablante expresa sus propios sentimientos)', opts:['Actitud enunciativa (describe algo externo)','Actitud apostrófica (se dirige a un tú)','Anáfora'] },
+  { verso:'"La ciudad despierta lentamente, con sus calles vacías y sus luces que se apagan una a una."', correcta:'Actitud enunciativa (el hablante describe algo, sin dirigirse a nadie)', opts:['Actitud apostrófica (se dirige a un tú)','Actitud carmínica (expresa sus sentimientos)','Hipérbole'] },
+  { verso:'"Oh, viento, que recorres estos valles, llévate contigo mi tristeza esta noche."', correcta:'Actitud apostrófica (el hablante se dirige directamente a un "tú")', opts:['Actitud enunciativa (describe algo)','Actitud carmínica (expresa sentimientos propios)','Símbolo'] },
+  { verso:'"No puedo dejar de pensar en ti; mi alegría depende por completo de tu presencia."', correcta:'Actitud carmínica (el hablante expresa sus propios sentimientos)', opts:['Actitud enunciativa (describe algo externo)','Actitud apostrófica (se dirige a un tú)','Estructura del soneto'] },
+  { verso:'"Las montañas se alzan silenciosas al fondo del valle, cubiertas de nieve desde hace semanas."', correcta:'Actitud enunciativa (el hablante describe algo, sin dirigirse a nadie)', opts:['Actitud apostrófica (se dirige a un tú)','Actitud carmínica (expresa sus sentimientos)','Metáfora'] },
+  { verso:'"Tú, estrella lejana, guía mis pasos en esta noche donde todo parece perdido."', correcta:'Actitud apostrófica (el hablante se dirige directamente a un "tú")', opts:['Actitud enunciativa (describe algo)','Actitud carmínica (expresa sentimientos propios)','Anáfora'] },
+];
+const SONETO_M2_BANK = [
+  { pregunta:'¿Cuántos versos tiene un soneto clásico?', correcta:'14 versos', opts:['8 versos','10 versos','16 versos'] },
+  { pregunta:'¿Cómo se organizan las estrofas de un soneto clásico?', correcta:'Dos cuartetos (4 versos) y dos tercetos (3 versos)', opts:['Cuatro estrofas de 4 versos cada una','Un solo bloque continuo sin estrofas','Dos estrofas de 7 versos cada una'] },
+  { pregunta:'¿Cuántos versos tiene, en total, un cuarteto dentro de un soneto?', correcta:'4 versos', opts:['3 versos','7 versos','2 versos'] },
+  { pregunta:'¿En qué período literario se popularizó especialmente el soneto en español?', correcta:'El Siglo de Oro español', opts:['El siglo XX latinoamericano','La Edad Media temprana','El período de entreguerras'] },
+];
+export function genPoesiaM2Round(){
+  const recurso = 'La <b>actitud del hablante lírico</b> describe la postura desde la que se expresa un poema: en la <b>actitud enunciativa</b>, el hablante describe o narra algo de forma más objetiva, sin dirigirse a nadie en particular; en la <b>actitud apostrófica</b>, el hablante se dirige directamente a un "tú" (una persona, un objeto o una idea personificada); y en la <b>actitud carmínica</b> (o de la canción), el hablante expresa directamente sus propios sentimientos e interioridad. El <b>soneto</b> es una forma poética clásica de 14 versos, organizados en dos cuartetos (estrofas de 4 versos) seguidos de dos tercetos (estrofas de 3 versos) — una estructura muy usada durante el Siglo de Oro español.';
+  if(Math.random()<0.6){
+    const item = pick(POESIA_M2_HABLANTE_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.verso+'</p><p class="prompt-hint">¿Qué actitud del hablante lírico predomina en este verso?</p>',
+      options: opts, correctValue: item.correcta, speakText: item.verso, cols:2, panel:true,
+      explain: 'Este verso presenta una: <b>'+item.correcta+'</b>.',
+      recurso: recurso,
+    };
+  }
+  const item = pick(SONETO_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const SIGLO_ORO_BANK = [
+  { pregunta:'¿Qué obra de Miguel de Cervantes es considerada la primera novela moderna y una de las más importantes del Siglo de Oro español?', correcta:'Don Quijote de la Mancha', opts:['La Celestina','El Cid Campeador','La Divina Comedia'] },
+  { pregunta:'¿Qué dramaturgo español creó la "comedia nueva", una fórmula teatral con mezcla de lo trágico y lo cómico, muy popular en el Siglo de Oro?', correcta:'Lope de Vega', opts:['Miguel de Cervantes','William Shakespeare','Federico García Lorca'] },
+  { pregunta:'¿En qué siglos se sitúa aproximadamente el Siglo de Oro español?', correcta:'Entre los siglos XVI y XVII', opts:['Entre los siglos XII y XIII','Entre los siglos XIX y XX','Entre los siglos VIII y IX'] },
+  { pregunta:'¿Qué característica es típica del teatro del Siglo de Oro español (la "comedia nueva")?', correcta:'Mezclar elementos trágicos y cómicos en una misma obra, rompiendo con las reglas clásicas', opts:['Seguir estrictamente la separación entre tragedia y comedia','Prohibir cualquier tema relacionado con el honor','Evitar por completo los personajes nobles'] },
+  { pregunta:'¿Qué tema era muy frecuente en las obras teatrales del Siglo de Oro español?', correcta:'El honor y la fama personal o familiar', opts:['Los viajes espaciales','La tecnología futurista','La vida en otros planetas'] },
+  { pregunta:'¿Por qué se considera a "Don Quijote de la Mancha" una obra fundacional de la novela moderna?', correcta:'Porque combina aventura, parodia y una profunda reflexión sobre la realidad y la ficción', opts:['Porque fue el primer libro impreso en español','Porque no tiene ningún personaje principal','Porque está escrito completamente en verso'] },
+  { pregunta:'¿Qué buscaba principalmente Lope de Vega al crear la "comedia nueva"?', correcta:'Entretener a un público amplio, rompiendo las reglas clásicas de unidad de tiempo, lugar y acción', opts:['Seguir estrictamente las reglas del teatro griego clásico','Escribir solamente para la corte real, sin público general','Eliminar cualquier tipo de diálogo entre personajes'] },
+];
+const TEATRO_M2_BANK = [
+  { texto:'La escena transcurre en un castillo en ruinas, con niebla y sonidos de truenos que anticipan una tragedia.', correcta:'Ambiente o atmósfera dramática', opts:['Conflicto dramático','Estereotipo','Intertextualidad'] },
+  { texto:'Una corona rota que aparece en escena representa, sin necesidad de palabras, la caída del poder del protagonista.', correcta:'Símbolo escénico', opts:['Acotación técnica','Estereotipo','Diálogo directo'] },
+  { texto:'La luz tenue de unas velas y el sonido de una guitarra lejana crean una sensación de nostalgia en toda la escena.', correcta:'Ambiente o atmósfera dramática', opts:['Conflicto dramático','Intertextualidad','Estereotipo'] },
+  { texto:'Un espejo roto que un personaje observa fijamente representa, sin decir nada, su identidad fracturada.', correcta:'Símbolo escénico', opts:['Acotación técnica','Diálogo directo','Estereotipo'] },
+  { texto:'Colores oscuros en el vestuario y una iluminación fría transmiten desde el inicio un clima de tensión y peligro.', correcta:'Ambiente o atmósfera dramática', opts:['Conflicto dramático','Estereotipo','Intertextualidad'] },
+];
+export function genTeatroSigloOroM2Round(){
+  const recurso = 'El <b>texto dramático</b> se puede analizar considerando su ambiente o atmósfera (el clima emocional que transmite la escena, muchas veces a través de la iluminación, el sonido o el espacio), y sus símbolos escénicos (objetos que representan una idea sin necesidad de palabras, como una corona rota que simboliza la caída del poder). El <b>Siglo de Oro español</b> (aproximadamente siglos XVI-XVII) fue un período de enorme producción literaria: Miguel de Cervantes escribió "Don Quijote de la Mancha", considerada la primera novela moderna, y Lope de Vega creó la "comedia nueva", una fórmula teatral que mezclaba libremente lo trágico y lo cómico, rompiendo con las reglas clásicas grecorromanas.';
+  if(Math.random()<0.5){
+    const item = pick(SIGLO_ORO_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
+      recurso: recurso,
+    };
+  }
+  const item = pick(TEATRO_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué elemento del texto dramático se ilustra aquí?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'Esto ilustra: <b>'+item.correcta+'</b>.',
+    recurso: recurso,
+  };
+}
+
+const CUENTO_LATAM_BANK = [
+  { pregunta:'En muchos cuentos latinoamericanos del "realismo mágico" (como los de Gabriel García Márquez), ¿cómo se presentan los elementos fantásticos?', correcta:'Como parte normal y cotidiana de la realidad, sin sorprender a los personajes', opts:['Siempre como sueños que luego se explican racionalmente','Como efectos especiales de una película','Nunca aparecen elementos fantásticos en este género'] },
+  { pregunta:'En el cuento fantástico latinoamericano (como en varios relatos de Julio Cortázar o Jorge Luis Borges), ¿qué suele generar la irrupción de lo extraño en la realidad cotidiana?', correcta:'Incertidumbre o inquietud en el lector, al no saber si lo extraño tiene una explicación racional', opts:['Siempre una explicación científica clara al final','Ninguna reacción, ya que se explica todo de inmediato','Un final feliz garantizado en cada relato'] },
+  { pregunta:'¿Qué caracterizó al "Boom latinoamericano" de literatura (décadas de 1960-1970)?', correcta:'La proyección internacional de autores latinoamericanos con propuestas narrativas innovadoras', opts:['El fin de la publicación de literatura latinoamericana','Una prohibición de temas políticos en la narrativa','Solo la traducción de literatura europea al español'] },
+  { pregunta:'¿Qué elemento suele estar presente en los cuentos latinoamericanos contemporáneos ambientados en zonas rurales o pequeños pueblos?', correcta:'Tradiciones, creencias populares y un fuerte sentido de comunidad e identidad local', opts:['Rechazo total a cualquier tradición cultural','Ambientes exclusivamente urbanos y tecnológicos','Ausencia completa de personajes secundarios'] },
+  { pregunta:'En un cuento de realismo mágico, un personaje asegura haber visto llover flores amarillas sobre el pueblo, y nadie a su alrededor se sorprende ni lo cuestiona. ¿Qué recurso se observa?', correcta:'Realismo mágico: lo fantástico se presenta como parte normal de la realidad cotidiana', opts:['Cuento fantástico clásico con final explicado','Un texto puramente informativo, sin ficción','Ciencia ficción con explicación tecnológica'] },
+  { pregunta:'En un relato fantástico, el protagonista empieza a notar que los objetos de su casa cambian de lugar solos, sin que el cuento aclare nunca si es real o imaginado. ¿Qué efecto busca esto en el lector?', correcta:'Generar incertidumbre, dejando abierta la duda entre una explicación racional o sobrenatural', opts:['Confirmar de inmediato que todo fue un sueño','Explicar el fenómeno con una fórmula científica precisa','Eliminar cualquier tensión narrativa del relato'] },
+  { pregunta:'¿Qué significó para la literatura latinoamericana que autores del "Boom" fueran traducidos y leídos en muchos países del mundo?', correcta:'Que la narrativa latinoamericana ganó reconocimiento y una influencia literaria a nivel internacional', opts:['Que la literatura latinoamericana dejó de escribirse en español','Que ningún autor latinoamericano fue leído antes de esa época','Que se prohibió la publicación de nuevos autores'] },
+  { pregunta:'Un cuento ambientado en un pueblo andino incluye creencias sobre espíritus de la naturaleza que los personajes respetan como parte real de su vida diaria. ¿Qué refleja esto?', correcta:'La fuerte identidad cultural y las creencias populares propias de comunidades latinoamericanas', opts:['Un error de coherencia dentro del relato','Una crítica a cualquier tipo de tradición cultural','Un género exclusivamente de ciencia ficción'] },
+];
+export function genCuentoLatinoamericanoM2Round(){
+  const recurso = 'El <b>cuento latinoamericano moderno y contemporáneo</b> desarrolló corrientes propias muy influyentes: el <b>realismo mágico</b> (asociado a Gabriel García Márquez) presenta elementos fantásticos como si fueran parte normal de la vida cotidiana, sin que los personajes se sorprendan; mientras que el <b>cuento fantástico</b> (como el de Julio Cortázar o Jorge Luis Borges) irrumpe con lo extraño en un mundo aparentemente realista, generando incertidumbre en el lector sobre si existe o no una explicación racional. El <b>"Boom latinoamericano"</b> (1960-1970) fue el momento en que varios autores del continente alcanzaron proyección internacional gracias a propuestas narrativas innovadoras. Muchos de estos cuentos, además, retratan con fuerza las tradiciones, creencias populares e identidad de comunidades y pueblos latinoamericanos.';
+  const item = pick(CUENTO_LATAM_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const ARGUMENTATIVO_M2_BANK = [
+  { texto:'"Mi vecino dice que deberíamos reciclar más, pero él ni siquiera separa su propia basura, así que su opinión no vale nada."', pregunta:'¿Qué falla lógica (falacia) se comete en este argumento?', correcta:'Ataque a la persona (ad hominem): se descalifica al emisor en vez de responder a su idea', opts:['Generalización apresurada','Falsa dicotomía','Apelación a la autoridad'] },
+  { texto:'"O apoyas totalmente este proyecto, o eres alguien a quien no le importa el futuro de la ciudad."', pregunta:'¿Qué falla lógica (falacia) se comete en este argumento?', correcta:'Falsa dicotomía: se presentan solo dos opciones extremas, ignorando posiciones intermedias', opts:['Ataque a la persona','Generalización apresurada','Causa falsa'] },
+  { texto:'"Probé ese restaurante una vez y la comida estaba fría, así que todos los restaurantes de esa cadena deben ser malos."', pregunta:'¿Qué falla lógica (falacia) se comete en este argumento?', correcta:'Generalización apresurada: se concluye algo general a partir de un solo caso', opts:['Ataque a la persona','Falsa dicotomía','Apelación a la autoridad'] },
+  { texto:'"Este producto debe ser bueno porque lo recomienda un actor famoso, aunque no tenga ninguna relación con el tema."', pregunta:'¿Qué falla lógica (falacia) se comete en este argumento?', correcta:'Apelación a la autoridad indebida: se usa la fama de alguien sin relación real con el tema como prueba', opts:['Ataque a la persona','Falsa dicotomía','Generalización apresurada'] },
+  { texto:'"Desde que se instaló el nuevo semáforo, han chocado más autos en la esquina, así que el semáforo debe ser la causa de los choques."', pregunta:'¿Qué falla lógica (falacia) se comete en este argumento?', correcta:'Causa falsa: se asume una relación causa-efecto solo porque dos hechos ocurrieron al mismo tiempo', opts:['Ataque a la persona','Falsa dicotomía','Apelación a la autoridad'] },
+  { texto:'"Si no estás de acuerdo con este plan, entonces claramente quieres que el proyecto fracase por completo."', pregunta:'¿Qué falla lógica (falacia) se comete en este argumento?', correcta:'Falsa dicotomía: se presentan solo dos opciones extremas, ignorando posiciones intermedias', opts:['Generalización apresurada','Causa falsa','Apelación a la autoridad'] },
+  { texto:'"Mi profesor de historia nunca ha hecho ejercicio en su vida, así que no tiene ningún derecho a hablar sobre hábitos saludables."', pregunta:'¿Qué falla lógica (falacia) se comete en este argumento?', correcta:'Ataque a la persona (ad hominem): se descalifica al emisor en vez de responder a su idea', opts:['Generalización apresurada','Falsa dicotomía','Causa falsa'] },
+];
+const MEDIOS_M2_BANK = [
+  { texto:'Un reportaje sobre un nuevo parque usa tomas aéreas amplias, música alegre y testimonios de familias sonrientes para transmitir una sensación de bienestar.', pregunta:'¿Qué estrategia persuasiva está usando este reportaje?', correcta:'Usar recursos audiovisuales y emocionales para generar una impresión positiva en la audiencia', opts:['Presentar únicamente datos estadísticos verificables sin ningún comentario','Citar exclusivamente fuentes académicas independientes','No usar ningún recurso audiovisual ni testimonial'] },
+  { texto:'Una noticia sobre un mismo hecho se titula de forma muy distinta en dos medios: uno dice "Protesta pacífica exige mejoras" y otro dice "Disturbios generan caos en el centro".', pregunta:'¿Qué muestra esta comparación sobre los medios de comunicación?', correcta:'Que el mismo hecho puede presentarse con distintos enfoques según el propósito o postura del medio', opts:['Que uno de los dos medios necesariamente miente','Que las noticias siempre son objetivas por definición','Que los titulares nunca influyen en cómo se interpreta un hecho'] },
+  { texto:'Un aviso publicitario muestra solo a personas muy felices usando un producto, sin mencionar ninguna limitación o efecto secundario posible.', pregunta:'¿Qué estrategia persuasiva se observa en este aviso?', correcta:'Mostrar solo los aspectos positivos, omitiendo información que podría generar dudas', opts:['Presentar toda la información de forma equilibrada','Citar estudios científicos independientes sobre el producto','Comparar objetivamente el producto con la competencia'] },
+  { texto:'Un canal de noticias repite constantemente una misma imagen impactante durante todo el día para hablar de un incidente menor.', pregunta:'¿Qué efecto busca esta repetición constante de la misma imagen?', correcta:'Aumentar la sensación de gravedad o urgencia del hecho en la audiencia', opts:['Disminuir por completo el interés del público','Demostrar que el hecho no tiene ninguna importancia','Informar de manera neutral, sin generar ningún efecto'] },
+];
+export function genArgumentativoMediosM2Round(){
+  const recurso = 'Un <b>texto argumentativo</b> defiende una tesis usando argumentos y evidencias, pero a veces incurre en <b>falacias</b> (fallas del razonamiento) que debilitan el argumento aunque suenen convincentes: el <b>ataque a la persona</b> (ad hominem) descalifica al emisor en vez de responder a su idea; la <b>falsa dicotomía</b> presenta solo dos opciones extremas cuando en realidad existen más posibilidades; y la <b>generalización apresurada</b> concluye algo general a partir de muy pocos casos. Al analizar <b>medios de comunicación</b>, es importante notar que un mismo hecho puede presentarse con enfoques distintos según el propósito del medio, usando recursos lingüísticos, visuales y sonoros (música, imágenes, testimonios) para generar un efecto emocional específico en la audiencia — reconocer estas estrategias ayuda a formar una opinión propia informada, en vez de dejarse llevar solo por el efecto persuasivo.';
+  if(Math.random()<0.6){
+    const item = pick(ARGUMENTATIVO_M2_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
+      recurso: recurso,
+    };
+  }
+  const item = pick(MEDIOS_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const ORTOGRAFIA_M2_BANK = [
+  { incorrecta:'Quería ir a la fiesta pero, no tenía permiso.', correcta:'Quería ir a la fiesta, pero no tenía permiso.', regla:'La coma va ANTES de conectores adversativos como "pero", "sin embargo" o "aunque", no después.' },
+  { incorrecta:'Estudió mucho, sin embargo no aprobó el examen.', correcta:'Estudió mucho; sin embargo, no aprobó el examen.', regla:'Antes de "sin embargo" (cuando une dos oraciones completas) se usa punto y coma, y después de "sin embargo" va una coma.' },
+  { incorrecta:'Necesitamos tres cosas, harina, huevos y leche.', correcta:'Necesitamos tres cosas: harina, huevos y leche.', regla:'Los dos puntos (no la coma) se usan para presentar una enumeración anunciada antes.' },
+  { incorrecta:'El profesor dijo, "mañana habrá una prueba sorpresa".', correcta:'El profesor dijo: "Mañana habrá una prueba sorpresa".', regla:'Los dos puntos (no la coma) se usan para introducir una cita textual.' },
+  { incorrecta:'Llovió toda la noche por eso las calles amanecieron inundadas.', correcta:'Llovió toda la noche; por eso, las calles amanecieron inundadas.', regla:'El punto y coma puede separar dos oraciones relacionadas cuando la segunda empieza con un conector como "por eso" o "en consecuencia".' },
+  { incorrecta:'Trajo lápices, cuadernos gomas y reglas para la clase de arte.', correcta:'Trajo lápices, cuadernos, gomas y reglas para la clase de arte.', regla:'En una enumeración, cada elemento debe separarse con coma, incluyendo antes del último elemento (salvo que ya lleve una conjunción como "y").' },
+  { incorrecta:'Aunque llovía mucho decidimos salir igual a caminar.', correcta:'Aunque llovía mucho, decidimos salir igual a caminar.', regla:'Cuando una oración subordinada (que empieza con "aunque") va al inicio, se separa con una coma de la oración principal.' },
+  { incorrecta:'Los invitados eran, Camila Tomás y Sofía.', correcta:'Los invitados eran: Camila, Tomás y Sofía.', regla:'Los dos puntos (no la coma) introducen la enumeración anunciada, y luego cada nombre se separa con coma.' },
+  { incorrecta:'María, mi vecina de toda la vida se cambió de casa este mes.', correcta:'María, mi vecina de toda la vida, se cambió de casa este mes.', regla:'Una aclaración o aposición (como "mi vecina de toda la vida") va encerrada entre comas por ambos lados.' },
+];
+export function genOrtografiaM2Round(){
+  const recurso = 'Algunas reglas de puntuación avanzada son claves para escribir con claridad: la <b>coma antes de conectores adversativos</b> ("pero", "aunque", "sin embargo") separa la idea que se contrasta ("quería ir, pero no pude"). Los <b>dos puntos</b> se usan para presentar una enumeración ya anunciada ("necesito tres cosas: harina, huevos y leche") o para introducir una cita textual (después de un verbo como "dijo"). El <b>punto y coma</b> se usa para separar dos oraciones relacionadas entre sí, especialmente cuando la segunda empieza con un conector como "sin embargo" o "por eso" — es una pausa intermedia, más fuerte que la coma pero más débil que el punto seguido.';
+  const item = pick(ORTOGRAFIA_M2_BANK);
+  const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál oración está bien puntuada?</p>',
+    options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien puntuada?', cols:2, panel:true,
+    explain: item.regla,
+    recurso: recurso,
+  };
+}

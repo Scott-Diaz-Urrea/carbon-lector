@@ -473,3 +473,44 @@ export function genMusicaIdentidadM1Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 2° Medio (Decreto 614/2013, mismo decreto que 1° medio) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/musica/2-medio — MU2M
+   OA02+07. Cubiertos: OA02 (contrastar músicas por lenguaje musical,
+   procedimientos compositivos, contexto y propósito expresivo) y OA07 (rol de
+   los medios de registro y transmisión —partituras, grabación, radio,
+   streaming— en la evolución de la música en distintos períodos históricos).
+   Fuera: OA01 (ya cubierto por "Música e Identidad Cultural" de 1° medio),
+   OA03-05 (desempeño con audio real: cantar/tocar/improvisar), OA06
+   (autoevaluación personal). */
+export const MUSICA_MODULES_M2 = [
+  {id:'contrastemediosm2', label:'Contraste Musical y Medios de Registro', open:true, key:'contrastemediosm2'},
+];
+export const MUSICA_POS_M2 = [{x:48,y:50}];
+const CONTRASTE_MUSICAL_M2_BANK = [
+  { pregunta:'Al comparar dos canciones de un mismo género pero de épocas distintas, ¿qué elemento del lenguaje musical se puede contrastar?', correcta:'El tempo, la instrumentación o la textura musical usada en cada una', opts:['El nombre del intérprete únicamente, sin ningún elemento musical','El color de la portada del disco','La cantidad de minutos exactos que dura cada canción'] },
+  { pregunta:'¿Qué significa comparar dos obras musicales según su "propósito expresivo"?', correcta:'Analizar qué sentimiento o mensaje buscaba transmitir cada obra a su audiencia', opts:['Comparar únicamente el precio de cada disco','Contar cuántas personas asistieron a cada concierto','Medir solo la duración de cada canción'] },
+  { pregunta:'Dos compositores usan "procedimientos compositivos" distintos para una misma melodía: uno la repite igual varias veces, y otro la varía cada vez que aparece. ¿Qué se está contrastando?', correcta:'El procedimiento compositivo (reiteración vs. variación)', opts:['El instrumento usado únicamente','El país de origen del compositor','La duración total de la obra'] },
+  { pregunta:'¿Por qué es útil contrastar el CONTEXTO en que se compusieron dos obras musicales similares?', correcta:'Porque el contexto histórico y social puede explicar por qué cada obra suena o se usa de forma distinta', opts:['El contexto nunca influye en cómo suena una obra','Solo importa el contexto si la obra es reciente','El contexto es información irrelevante para la música'] },
+  { pregunta:'Dos canciones de amor de distintas décadas usan instrumentos muy diferentes (una guitarra acústica, otra sintetizadores electrónicos). ¿Qué elemento del lenguaje musical se está contrastando?', correcta:'El tempo, la instrumentación o la textura musical usada en cada una', opts:['El título de cada canción únicamente','La cantidad de estrofas exactas de cada canción','El color de la portada del álbum'] },
+  { pregunta:'Una canción de cuna busca tranquilizar a un bebé, mientras que un himno busca inspirar unidad a una multitud. ¿Qué se está comparando entre ambas obras?', correcta:'Analizar qué sentimiento o mensaje buscaba transmitir cada obra a su audiencia', opts:['Solo la cantidad de personas que las escuchan','Únicamente el precio de cada partitura','El nombre del compositor exclusivamente'] },
+];
+const MEDIOS_REGISTRO_M2_BANK = [
+  { pregunta:'Antes de la invención de la grabación de sonido, ¿cómo se transmitía y conservaba principalmente la música?', correcta:'A través de la partitura escrita y de la transmisión oral entre músicos', opts:['A través de videos digitales','Mediante streaming de audio','No existía ninguna forma de conservar la música'] },
+  { pregunta:'¿Qué cambio importante trajo la invención de la grabación de sonido (disco, cinta) para la música?', correcta:'Permitió escuchar una misma interpretación musical repetidas veces, sin necesidad de un músico presente en vivo', opts:['Hizo desaparecer por completo la música en vivo','No tuvo ningún efecto en cómo se escuchaba música','Eliminó la necesidad de componer nueva música'] },
+  { pregunta:'¿Qué rol cumplió la radio en la difusión de la música durante el siglo XX?', correcta:'Permitió que la música llegara a una audiencia masiva de forma simultánea, sin necesidad de comprar un disco', opts:['No tuvo ningún rol en la difusión musical','Solo transmitía noticias, nunca música','Reemplazó por completo los conciertos en vivo'] },
+  { pregunta:'¿Qué cambio reciente en los medios de registro y transmisión ha transformado cómo las personas acceden a la música hoy?', correcta:'El streaming digital, que permite escuchar casi cualquier canción al instante desde un dispositivo', opts:['El regreso exclusivo al disco de vinilo como único medio','La desaparición completa de la música grabada','Ningún medio nuevo ha aparecido en los últimos años'] },
+  { pregunta:'¿Qué ventaja ofreció la partitura escrita, antes de que existiera la grabación de sonido, para la transmisión de la música?', correcta:'Permitió conservar y transmitir una obra musical con precisión a través del tiempo y la distancia, sin depender solo de la memoria', opts:['No ofrecía ninguna ventaja real','Solo servía para dibujar, sin relación con la música','Reemplazaba por completo la necesidad de tocar un instrumento'] },
+  { pregunta:'¿Cómo cambió la forma de descubrir música nueva con la llegada de las plataformas de streaming, en comparación con la radio?', correcta:'Permitió a cada persona elegir y descubrir música según sus propios gustos, en vez de depender de la programación de una emisora', opts:['No cambió nada respecto a la radio','Eliminó por completo la posibilidad de escuchar música nueva','Hizo que solo se pudiera escuchar un género musical'] },
+];
+export function genContrasteMediosM2Round(){
+  const recurso = '<b>Contrastar dos obras musicales</b> con características similares implica compararlas en varios niveles: el <b>lenguaje musical</b> (tempo, instrumentación, textura), los <b>procedimientos compositivos</b> (por ejemplo, si una melodía se repite igual —reiteración— o se transforma cada vez —variación—), el <b>contexto</b> histórico y social en que fueron creadas, y su <b>propósito expresivo</b> (qué sentimiento o mensaje buscaban transmitir). Por otro lado, los <b>medios de registro y transmisión</b> de la música han cambiado profundamente su historia: antes de la grabación de sonido, la música se conservaba mediante partituras escritas y transmisión oral; la invención del disco permitió repetir una misma interpretación; la radio la llevó a audiencias masivas; y hoy el streaming digital permite acceder a casi cualquier canción al instante, transformando por completo la forma en que las personas descubren y escuchan música.';
+  const item = pick(Math.random()<0.5 ? CONTRASTE_MUSICAL_M2_BANK : MEDIOS_REGISTRO_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

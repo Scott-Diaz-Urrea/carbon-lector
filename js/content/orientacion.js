@@ -1119,3 +1119,97 @@ export function genResolucionConflictosM1Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 2° Medio (Decreto 614/2013, mismo decreto que 1° medio) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/orientacion/2-medio —
+   OR2M OA01-10. Cubiertos: OA03 (evaluar riesgos e identificar REDES DE APOYO
+   —ángulo nuevo respecto a 1° medio, que solo cubrió factores de riesgo),
+   OA04-06 (bienestar/relaciones constructivas/resolución de conflictos, con
+   escenarios enteramente nuevos ya que el texto es casi idéntico al de 1°
+   medio) y OA09 (contrastar trayectorias académicas y laborales posibles,
+   OA genuinamente nuevo que ningún año anterior había cubierto). Fuera: OA01
+   (alternativas de proyecto de vida, subjetivo), OA02 (sexualidad y vínculos
+   afectivos, requiere acompañamiento real de un adulto — mismo criterio de
+   siempre), OA07-08 (ya cubiertos por Formación Ciudadana en historia.js) y
+   OA10 (diseñar un proyecto de vida propio, subjetivo). */
+export const ORIENTACION_MODULES_M2 = [
+  {id:'riesgosredesapoyom2', label:'Riesgos y Redes de Apoyo', open:true, key:'riesgosredesapoyom2'},
+  {id:'bienestarrelacionesm2', label:'Bienestar, Relaciones y Conflictos II', open:true, key:'bienestarrelacionesm2'},
+  {id:'proyeccionacademicam2', label:'Proyección Académica y Laboral', open:true, key:'proyeccionacademicam2'},
+];
+export const ORIENTACION_POS_M2 = [{x:24,y:85},{x:68,y:50},{x:24,y:15}];
+
+const RIESGOS_REDES_M2_BANK = [
+  { situacion:'Un compañero te cuenta, en confianza, que ha estado usando alcohol para "manejar el estrés" de las pruebas y que últimamente lo hace cada vez más seguido.', correcta:'Escucharlo con respeto y ayudarlo a buscar apoyo en un adulto de confianza, un profesor o un profesional de la salud', malas:['Guardar el secreto para siempre sin decírselo a nadie','Juzgarlo y alejarte de inmediato sin ninguna palabra','Decirle que no es un problema real'] },
+  { situacion:'Sientes que una situación de violencia en tu entorno cercano te sobrepasa y no sabes bien qué hacer.', correcta:'Buscar ayuda en una red de apoyo: un adulto de confianza, un profesor, o instituciones como Carabineros o de salud', malas:['Enfrentar la situación completamente solo, sin pedir ayuda a nadie','Ignorar la situación esperando que se resuelva sola','Contárselo únicamente a desconocidos en internet'] },
+  { situacion:'Notas que un amigo tiene conductas de riesgo cada vez más frecuentes, pero se enoja cada vez que alguien le menciona el tema.', correcta:'Insistir con respeto y, si es necesario, buscar apoyo de un adulto responsable que pueda intervenir de mejor forma', malas:['Dejar de ser su amigo sin explicarle por qué','No decir nada nunca más sobre el tema','Compartir la situación públicamente en redes sociales'] },
+  { situacion:'No sabes bien a quién acudir si tú mismo estás pasando por una situación de riesgo (por ejemplo, presión de un grupo para consumir algo dañino).', correcta:'Recordar que existen redes de apoyo disponibles: familia, profesores, orientadores del colegio, o servicios de salud', malas:['Pensar que nadie puede ayudarte en esa situación','Resolverlo completamente solo, sin pedir ayuda a nadie','Evitar cualquier tipo de ayuda por vergüenza'] },
+  { situacion:'Un amigo te cuenta que últimamente conduce su moto a exceso de velocidad "para sentir adrenalina", incluso de noche y sin casco.', correcta:'Expresarle tu preocupación con respeto y sugerirle que hable con un adulto de confianza sobre el riesgo real que corre', malas:['Acompañarlo para que no se sienta juzgado, sin decir nada','Grabarlo para subirlo a redes sociales','Ignorar el tema porque "es su decisión y no tu problema"'] },
+  { situacion:'Sospechas que un compañero de curso está siendo víctima de violencia en su casa, aunque él no lo ha dicho abiertamente.', correcta:'Buscar apoyo en un adulto responsable del colegio (profesor, orientador) para que se active una red de apoyo adecuada', malas:['Confrontar directamente a la familia del compañero por tu cuenta','No decir nada porque "no es información confirmada"','Compartir tu sospecha con el resto del curso'] },
+  { situacion:'Te enteras de que en una fiesta del curso circulará una sustancia desconocida y varios compañeros insisten en que "todos van a probar".', correcta:'Decidir con seguridad no participar y, si la situación te sobrepasa, avisar a un adulto de confianza', malas:['Participar para no quedar excluido del grupo','Guardarte la información sin decírsela a ningún adulto','Pensar que no existe ningún riesgo real en la situación'] },
+  { situacion:'Un compañero de curso empieza a faltar seguido a clases y, cuando asiste, se ve visiblemente agotado y distinto a como era antes.', correcta:'Acercarte con respeto para preguntarle cómo está, y comentarle la situación a un profesor u orientador si te preocupa', malas:['Ignorarlo porque "no es asunto tuyo"','Comentar la situación con otros compañeros a sus espaldas','Asumir sin hablar con nadie que no tiene ningún problema'] },
+];
+export function genRiesgosRedesApoyoM2Round(){
+  const recurso = 'Evaluar una <b>situación de riesgo</b> (consumo de sustancias, conductas riesgosas, violencia) implica reconocer que estas situaciones pueden afectar a cualquier persona, y que buscar ayuda no es una señal de debilidad. Las <b>redes de apoyo</b> son los recursos disponibles para enfrentar estas situaciones: la familia, los profesores u orientadores del colegio, instituciones de salud, y organismos comunitarios o de seguridad. Reconocer y saber a quién acudir —tanto si la situación de riesgo te afecta a ti como a alguien cercano— es una habilidad clave para actuar a tiempo, en vez de enfrentar solo un problema que puede requerir ayuda especializada.';
+  const item = pick(RIESGOS_REDES_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
+    explain: 'Lo mejor es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const BIENESTAR_M2_BANK = [
+  { situacion:'Tienes una semana muy cargada de pruebas y sientes que el estrés está afectando tu descanso y tu ánimo.', correcta:'Organizar tu tiempo, mantener hábitos de sueño y alimentación saludables, y dedicar algún momento a actividades que disfrutes', malas:['Dejar de dormir por completo para estudiar más horas','Ignorar por completo el estrés hasta que desaparezca solo','Aislarte completamente de tus amigos y familia'] },
+  { situacion:'Notas que llevas semanas sin hacer ninguna actividad física ni de tiempo libre que disfrutes, solo estudiando.', correcta:'Incorporar de forma autónoma momentos de actividad física y de ocio en tu semana, sin que nadie te lo pida', malas:['Seguir exactamente igual, sin ningún cambio','Pensar que el tiempo libre no es importante para el bienestar','Reemplazar el estudio completamente por ocio, sin ningún equilibrio'] },
+  { situacion:'Te das cuenta de que pasas varias horas al día usando el teléfono sin darte cuenta, y eso te deja con menos tiempo para dormir.', correcta:'Establecer límites propios de uso del teléfono, priorizando el descanso y otras actividades', malas:['Seguir usándolo igual, ya que "no afecta en nada"','Dejar el teléfono encendido toda la noche sin ningún límite','Culpar al teléfono sin hacer ningún cambio propio'] },
+  { situacion:'Sientes que llevas mucho tiempo sin cuidar tu alimentación, comiendo rápido y sin variedad por falta de tiempo.', correcta:'Organizar con anticipación comidas más equilibradas, aunque el tiempo sea limitado', malas:['Aceptar que la mala alimentación es inevitable, sin buscar ningún cambio','Dejar de comer para ahorrar tiempo','Comer solo un tipo de alimento todos los días'] },
+];
+const RELACIONES_M2_BANK = [
+  { situacion:'En un grupo de estudio, uno de los integrantes suele burlarse del acento de un compañero que viene de otra región del país.', correcta:'Señalar con respeto que ese comentario es una forma de discriminación y no debería repetirse', malas:['Reírte también para no quedar excluido del grupo','Ignorarlo porque "no es tan grave"','Dejar de hablarle al compañero afectado para evitar el conflicto'] },
+  { situacion:'En una conversación grupal por redes sociales, alguien empieza a excluir deliberadamente a una persona de las decisiones del curso.', correcta:'Promover que todas las personas del grupo sean incluidas y tratadas con la misma dignidad, dentro y fuera de internet', malas:['Sumarte a la exclusión para no generar conflicto','No decir nada, ya que ocurre "solo en internet"','Compartir la conversación públicamente para burlarte'] },
+  { situacion:'Un nuevo estudiante llega al curso con una discapacidad física, y algunos compañeros no saben cómo tratarlo y lo evitan.', correcta:'Acercarte con naturalidad y tratarlo con la misma igualdad y dignidad que a cualquier otro compañero', malas:['Evitarlo también, por no saber cómo actuar','Hablar de él en tercera persona, como si no estuviera presente','Tratarlo de forma exageradamente distinta al resto del curso'] },
+  { situacion:'En un chat grupal, alguien comparte sin permiso una foto vergonzosa de otro compañero para que todos se rían.', correcta:'No reenviar la foto, y hacerle ver a quien la compartió que eso afecta la dignidad de la persona involucrada', malas:['Reenviarla también a otros grupos para que más gente la vea','Reírte del contenido sin decir nada más','Guardar la foto para usarla después'] },
+];
+const CONFLICTOS_M2_BANK = [
+  { situacion:'Dos compañeros de un proyecto grupal no logran ponerse de acuerdo en cómo repartir el trabajo, y la tensión afecta a todo el grupo.', correcta:'Buscar una conversación donde ambas partes propongan ideas y lleguen a un acuerdo que beneficie a todo el grupo', malas:['Que una sola persona decida todo sin escuchar a la otra','Ignorar el conflicto hasta que el proyecto se atrase por completo','Elegir un bando y dejar de hablarle al otro compañero'] },
+  { situacion:'Un desacuerdo entre dos amigos escala rápidamente porque ambos insisten en que "el otro está completamente equivocado".', correcta:'Buscar puntos en común entre ambas posturas y proponer una solución que ambos consideren justa', malas:['Insistir en que uno de los dos "gane" completamente la discusión','Evitar la conversación para siempre, sin resolver nada','Pedirle a otras personas que tomen partido por uno de los dos'] },
+  { situacion:'Dos integrantes de un equipo deportivo discuten fuerte porque uno cree que el otro no está esforzándose lo suficiente en los entrenamientos.', correcta:'Conversar directamente y con calma sobre las expectativas de cada uno, buscando un acuerdo que funcione para el equipo', malas:['Quejarse con el resto del equipo sin hablar directamente con la persona','Dejar de entrenar juntos sin resolver el conflicto','Humillar públicamente al compañero frente al equipo'] },
+];
+export function genBienestarRelacionesM2Round(){
+  const recurso = 'Promover el propio <b>bienestar</b> de forma autónoma implica organizar el tiempo para equilibrar estudio, descanso, alimentación y momentos de ocio, sin esperar a que alguien más lo recuerde. Construir <b>relaciones constructivas</b> —tanto presenciales como en internet— se basa en la igualdad, la dignidad y la no discriminación: señalar con respeto un comentario discriminatorio, o incluir a todas las personas de un grupo, son formas concretas de aplicar estos valores. Y al enfrentar un <b>conflicto</b>, buscar acuerdos que beneficien a ambas partes involucradas —en vez de que una "gane" por completo— genera soluciones más duraderas y relaciones más sanas a largo plazo.';
+  const roll = Math.random();
+  const bank = roll<0.34 ? BIENESTAR_M2_BANK : (roll<0.67 ? RELACIONES_M2_BANK : CONFLICTOS_M2_BANK);
+  const item = pick(bank);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
+    explain: 'Lo mejor es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const PROYECCION_ACADEMICA_M2_BANK = [
+  { pregunta:'Al contrastar distintas trayectorias académicas o laborales posibles después del colegio, ¿qué es lo más importante a considerar?', correcta:'Las propias habilidades, intereses y motivaciones, además de la información real sobre cada camino', opts:['Elegir únicamente lo que otras personas esperan, sin considerar los propios intereses','Elegir al azar, sin ninguna información previa','Descartar cualquier camino que tome más de un año'] },
+  { pregunta:'¿Por qué es útil informarse sobre varias alternativas (educación técnica, universitaria, o ingreso directo al mundo laboral) antes de decidir un camino?', correcta:'Porque permite comparar de forma realista qué opción se ajusta mejor a las propias capacidades e intereses', opts:['Porque solo existe un camino válido después del colegio','Porque no es necesario informarse antes de decidir nada','Porque todas las alternativas son exactamente iguales en todo sentido'] },
+  { pregunta:'¿Qué significa que una trayectoria académica o laboral se "contraste" en vez de solo elegirse por impulso?', correcta:'Comparar sus ventajas, desafíos y qué tan bien se ajusta a las propias capacidades e intereses reales', opts:['Elegir la opción más popular entre los amigos, sin ningún análisis propio','Elegir la primera opción que aparezca, sin comparar nada más','Evitar pensar en el futuro hasta el último momento posible'] },
+  { pregunta:'¿Qué recurso es útil para conocer mejor las propias habilidades e intereses antes de proyectar un camino académico o laboral?', correcta:'La autoevaluación honesta y la orientación de profesionales o adultos de confianza', opts:['Ignorar por completo las propias habilidades e intereses','Copiar exactamente la decisión de un amigo cercano','Decidir sin ninguna reflexión previa'] },
+  { pregunta:'¿Por qué puede ser útil hablar con personas que ya siguen distintas trayectorias académicas o laborales antes de decidir un camino propio?', correcta:'Porque su experiencia real puede aportar información valiosa sobre las ventajas y desafíos de cada alternativa', opts:['Porque hay que copiar exactamente lo que ellos hicieron','Porque su opinión es la única que debería importar','Porque no aporta ninguna información útil'] },
+  { pregunta:'¿Qué significa que una decisión sobre el futuro académico o laboral "puede seguir ajustándose con el tiempo"?', correcta:'Que no es necesario tener una decisión perfecta o definitiva desde el principio, ya que se puede reevaluar más adelante', opts:['Que la primera decisión tomada es imposible de cambiar nunca','Que no vale la pena reflexionar porque todo cambiará igual','Que da lo mismo qué camino se elija al principio'] },
+  { pregunta:'¿Qué riesgo existe al elegir una trayectoria académica o laboral solo por presión de otras personas, sin considerar los propios intereses?', correcta:'Que la persona termine insatisfecha con un camino que no se ajusta a sus propias capacidades o motivaciones', opts:['Ningún riesgo real, siempre resulta bien','Que automáticamente se convierta en la mejor decisión posible','Que sea obligatoriamente la opción más exitosa'] },
+  { pregunta:'¿Por qué la educación técnica y la educación universitaria pueden considerarse caminos igualmente válidos, según las capacidades e intereses de cada persona?', correcta:'Porque ambas ofrecen formación y oportunidades laborales reales, y la mejor opción depende del proyecto personal de cada quien', opts:['Porque la educación técnica no ofrece ninguna oportunidad laboral real','Porque solo la educación universitaria tiene algún valor', 'Porque ambas son exactamente idénticas en duración y contenido'] },
+];
+export function genProyeccionAcademicaM2Round(){
+  const recurso = 'Contrastar distintas <b>trayectorias académicas y laborales</b> posibles (educación técnica, universitaria, o ingreso directo al mundo del trabajo) significa comparar de forma realista sus ventajas, desafíos y qué tan bien se ajustan a las propias habilidades, intereses y motivaciones — en vez de elegir por impulso, por presión externa, o copiando la decisión de otra persona. Informarse con datos reales sobre cada alternativa, y apoyarse en una autoevaluación honesta junto con la orientación de profesionales o adultos de confianza, permite tomar una decisión más consciente sobre el propio futuro, sabiendo que ese camino puede seguir ajustándose con el tiempo.';
+  const item = pick(PROYECCION_ACADEMICA_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

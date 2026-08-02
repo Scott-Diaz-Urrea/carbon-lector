@@ -2296,3 +2296,244 @@ export function genCompuestosEstequiometriaM1Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 2° Medio (Decreto 614/2013, mismo decreto que 1° medio) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/ciencias-naturales/2-medio
+   — OA01-18 (Biología OA01-08, Física OA09-14, Química OA15-18). Ningún OA de
+   2° medio queda fuera del motor de opción múltiple: los 18 son explicativos,
+   observables o de evidencia científica. OA03-05 (sexualidad, fecundación y
+   desarrollo prenatal, regulación de la fertilidad) profundizan, con el mismo
+   tono clínico/factual/preventivo ya establecido en genSexualidadReproduccion7Round
+   más arriba (nunca gráfico, siempre remitiendo a un profesional de la salud
+   ante dudas personales) — mismo criterio ya resuelto con el usuario para este
+   tipo de contenido, sin necesidad de replantearlo. */
+export const CIENCIAS_MODULES_M2 = [
+  {id:'nerviosohormonalm2', label:'Sistema Nervioso y Regulación Hormonal', open:true, key:'nerviosohormonalm2'},
+  {id:'sexualidadreproducccionm2', label:'Sexualidad y Reproducción Humana II', open:true, key:'sexualidadreproducccionm2'},
+  {id:'geneticaherenciam2', label:'Genética y Herencia', open:true, key:'geneticaherenciam2'},
+  {id:'manipulaciongeneticam2', label:'Manipulación Genética', open:true, key:'manipulaciongeneticam2'},
+  {id:'movimientofuerzasm2', label:'Movimiento y Fuerzas', open:true, key:'movimientofuerzasm2'},
+  {id:'energiachoquesm2', label:'Energía Mecánica y Choques', open:true, key:'energiachoquesm2'},
+  {id:'universogravitacionm2', label:'Universo y Gravitación', open:true, key:'universogravitacionm2'},
+  {id:'disolucionesorganicam2', label:'Disoluciones y Química Orgánica', open:true, key:'disolucionesorganicam2'},
+];
+export const CIENCIAS_POS_M2 = [
+  {x:24,y:94},{x:68,y:84},{x:24,y:74},{x:68,y:64},{x:24,y:54},{x:68,y:44},{x:24,y:34},{x:68,y:24}
+];
+
+const SISTEMA_NERVIOSO_M2_BANK = [
+  { pregunta:'¿Cómo coordina el sistema nervioso las acciones del cuerpo frente a un estímulo del ambiente?', correcta:'Recibiendo información sensorial, procesándola en el cerebro y enviando una respuesta a través de los nervios', opts:['Solo a través del torrente sanguíneo, sin participación del cerebro','El sistema nervioso no participa en esto, solo los músculos','Únicamente mediante hormonas, sin señales eléctricas'] },
+  { pregunta:'¿Qué tan rápido suelen ser las respuestas del sistema nervioso, comparadas con las del sistema hormonal?', correcta:'Mucho más rápidas: usan señales eléctricas casi instantáneas', opts:['Mucho más lentas que las hormonales','Exactamente iguales de rápidas en todos los casos','El sistema nervioso nunca genera respuestas rápidas'] },
+  { pregunta:'¿Qué ejemplo ilustra mejor una respuesta rápida coordinada por el sistema nervioso?', correcta:'Retirar la mano de inmediato al tocar algo muy caliente', opts:['Crecer varios centímetros durante la pubertad','Sentir hambre varias horas después de comer','Que el cuerpo produzca más glóbulos rojos en altura'] },
+  { pregunta:'¿Qué parte del sistema nervioso procesa la información sensorial antes de generar una respuesta?', correcta:'El cerebro (y en general, el sistema nervioso central)', opts:['Únicamente la piel','Los huesos del cuerpo','El estómago'] },
+];
+const REGULACION_HORMONAL_M2_BANK = [
+  { pregunta:'¿Qué hormonas regulan principalmente el nivel de glucosa en la sangre?', correcta:'La insulina (baja la glucosa) y el glucagón (la sube)', opts:['La testosterona y el estrógeno','La adrenalina únicamente','La melatonina y la serotonina'] },
+  { pregunta:'¿Qué hormonas son responsables de que aparezcan los caracteres sexuales secundarios durante la pubertad?', correcta:'Los estrógenos (en mujeres) y la testosterona (en hombres)', opts:['La insulina y el glucagón','La melatonina únicamente','La adrenalina y la noradrenalina'] },
+  { pregunta:'¿Por qué se dice que el sistema hormonal actúa de forma más lenta pero más duradera que el sistema nervioso?', correcta:'Porque las hormonas viajan por la sangre y sus efectos pueden mantenerse por horas o días', opts:['Porque las hormonas viajan más rápido que los impulsos nerviosos','Porque las hormonas no producen ningún efecto en el cuerpo','Porque el sistema hormonal no usa la sangre para transportarse'] },
+  { pregunta:'¿Qué ocurre cuando el nivel de glucosa en la sangre baja demasiado?', correcta:'El páncreas libera glucagón para elevar nuevamente el nivel de glucosa', opts:['El cuerpo deja de producir cualquier hormona','Se libera testosterona para compensar','No ocurre ningún ajuste hormonal'] },
+  { pregunta:'¿Por qué los cambios físicos de la pubertad son progresivos y no ocurren todos de golpe?', correcta:'Porque dependen de la acción gradual de hormonas que se liberan durante un período prolongado', opts:['Porque ocurren en un solo día exacto','Porque no tienen relación con ninguna hormona','Porque dependen únicamente de la alimentación'] },
+];
+export function genNerviosoHormonalM2Round(){
+  const recurso = 'El <b>sistema nervioso</b> coordina las acciones del cuerpo mediante señales eléctricas: recibe información de los sentidos, la procesa en el cerebro y envía una respuesta rápida a través de los nervios — por eso reaccionamos casi al instante frente a un estímulo (como retirar la mano de algo caliente). El <b>sistema hormonal (endocrino)</b> complementa esta coordinación mediante hormonas que viajan por la sangre: actúa más lento, pero sus efectos duran más tiempo. Dos ejemplos clave son la regulación de la <b>glucosa</b> en la sangre (insulina y glucagón trabajan en equilibrio) y la regulación de los <b>caracteres sexuales secundarios</b> durante la pubertad (estrógenos y testosterona), que producen cambios físicos progresivos en el cuerpo.';
+  const item = pick(Math.random()<0.5 ? SISTEMA_NERVIOSO_M2_BANK : REGULACION_HORMONAL_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const SEXUALIDAD_DIMENSIONES_M2_BANK = [
+  { pregunta:'Además de la dimensión biológica, ¿qué otras dimensiones abarca la sexualidad humana?', correcta:'También la dimensión social, afectiva y psicológica de cada persona', opts:['La sexualidad humana es únicamente un proceso biológico','Solo una dimensión legal, sin ningún componente personal','Únicamente una dimensión cultural, sin base biológica'] },
+  { pregunta:'¿Por qué se dice que la sexualidad es un aspecto fundamental del desarrollo de una persona a lo largo de toda su vida?', correcta:'Porque influye en la identidad, las relaciones afectivas y el bienestar general, no solo en la reproducción', opts:['Porque solo importa durante la adolescencia','Porque no tiene ninguna relación con la identidad personal','Porque se limita exclusivamente a la etapa adulta'] },
+];
+const FECUNDACION_PRENATAL_M2_BANK = [
+  { pregunta:'¿Qué ocurre inmediatamente después de la fecundación de un óvulo por un espermatozoide?', correcta:'Se forma el cigoto, la primera célula del nuevo organismo', opts:['El óvulo se destruye de inmediato','No ocurre ningún cambio celular','Se forman directamente dos personas distintas'] },
+  { pregunta:'¿Qué es la implantación, en el desarrollo prenatal?', correcta:'El proceso en que el embrión se adhiere a la pared del útero para continuar su desarrollo', opts:['La primera respiración del bebé al nacer','La formación de los primeros dientes','Un examen médico de rutina'] },
+  { pregunta:'¿Por qué es importante el cuidado prenatal (alimentación adecuada, evitar alcohol y tabaco) durante el embarazo?', correcta:'Porque el desarrollo del embrión y del feto es muy sensible a la nutrición y sustancias que recibe a través de la madre', opts:['Porque no influye en absoluto en el desarrollo del bebé','Solo importa durante el último mes de embarazo','El cuidado prenatal no tiene respaldo científico'] },
+  { pregunta:'¿Qué se entiende por "responsabilidad parental" durante el desarrollo prenatal?', correcta:'El compromiso de ambos progenitores con el cuidado, la salud y el bienestar del futuro hijo o hija', opts:['Una obligación que recae en un solo progenitor sin ninguna excepción','Un trámite legal sin relación con el cuidado real','Algo que solo aplica después del nacimiento, nunca antes'] },
+];
+const REGULACION_FERTILIDAD_M2_BANK = [
+  { pregunta:'¿Qué busca la "paternidad y maternidad responsable" al planificar un embarazo?', correcta:'Tomar la decisión de tener hijos considerando la capacidad real de cuidarlos y darles bienestar', opts:['Tener hijos sin ninguna planificación previa','Evitar por completo la posibilidad de tener hijos alguna vez','Delegar toda la decisión a otra persona'] },
+  { pregunta:'¿Qué tienen en común los distintos métodos de regulación de la fertilidad (naturales, de barrera, hormonales)?', correcta:'Todos buscan planificar cuándo tener o no tener un embarazo', opts:['Todos curan infecciones de transmisión sexual','Todos son exactamente igual de efectivos en todos los casos','Ninguno tiene relación con la planificación familiar'] },
+  { pregunta:'¿Por qué es recomendable que la elección de un método de regulación de la fertilidad se haga junto a un profesional de la salud?', correcta:'Para recibir información adecuada a la salud y necesidades específicas de cada persona', opts:['Porque la ley obliga a consultar sin ninguna razón médica','No es necesario, cualquier método funciona igual para todos','Porque los profesionales de salud deciden en lugar del paciente'] },
+];
+export function genSexualidadReproduccionM2Round(){
+  const recurso = 'La <b>sexualidad humana</b> es un aspecto fundamental de las personas que va más allá de lo biológico: incluye dimensiones social, afectiva y psicológica que influyen en la identidad y las relaciones a lo largo de toda la vida. En el <b>desarrollo prenatal</b>, la fecundación forma el cigoto, que tras varias divisiones se implanta en el útero y continúa desarrollándose como embrión y luego feto — un proceso sensible a la nutrición y a sustancias como el alcohol o el tabaco, por lo que el cuidado prenatal y la responsabilidad de ambos progenitores son claves para la salud del futuro hijo o hija. La <b>regulación de la fertilidad</b> (métodos naturales, de barrera u hormonales) permite planificar cuándo tener un embarazo, en el marco de una <b>paternidad y maternidad responsable</b>: la decisión de tener hijos considerando la capacidad real de cuidarlos. Ante cualquier duda personal sobre estos temas, siempre es recomendable conversar con un adulto de confianza o consultar a un profesional de la salud.';
+  const roll = Math.random();
+  const bank = roll<0.34 ? SEXUALIDAD_DIMENSIONES_M2_BANK : (roll<0.67 ? FECUNDACION_PRENATAL_M2_BANK : REGULACION_FERTILIDAD_M2_BANK);
+  const item = pick(bank);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const GENETICA_HERENCIA_M2_BANK = [
+  { pregunta:'¿Qué función cumple el material genético (ADN) que se transmite de generación en generación?', correcta:'Contiene la información hereditaria que determina las características de un organismo', opts:['No cumple ninguna función real','Solo almacena energía para la célula','Sirve únicamente para dar forma a la célula'] },
+  { pregunta:'¿Cuál es la principal diferencia entre mitosis y meiosis?', correcta:'La mitosis produce células idénticas para crecimiento/reparación; la meiosis produce células reproductivas con la mitad de los cromosomas', opts:['Son exactamente el mismo proceso con otro nombre','La meiosis solo ocurre en plantas, nunca en animales','La mitosis reduce a la mitad el número de cromosomas'] },
+  { pregunta:'¿Qué puede ocurrir si hay una anomalía durante la separación de los cromosomas en la meiosis?', correcta:'Puede producirse una célula reproductiva con un número anormal de cromosomas', opts:['Nunca ocurre ninguna anomalía en este proceso','La célula reproductiva se duplica exactamente sin ningún cambio','El ADN desaparece por completo'] },
+  { pregunta:'¿En qué se basa una explicación científica sobre los procesos de herencia genética?', correcta:'En evidencia observable, como patrones de herencia en árboles genealógicos o resultados de experimentos', opts:['Únicamente en opiniones personales sin ninguna evidencia','En la tradición oral, sin ningún respaldo experimental','La herencia genética no se puede explicar científicamente'] },
+  { pregunta:'¿Por qué la mitosis es fundamental para el crecimiento de un organismo?', correcta:'Porque genera nuevas células idénticas que permiten aumentar el tamaño y reparar tejidos dañados', opts:['Porque reduce el número de células del organismo','Porque solo ocurre una vez en toda la vida de una persona','Porque produce células reproductivas exclusivamente'] },
+  { pregunta:'¿Por qué la meiosis reduce el número de cromosomas a la mitad en los gametos?', correcta:'Para que, al unirse un óvulo y un espermatozoide, se recupere el número completo de cromosomas de la especie', opts:['Para que el hijo tenga menos cromosomas que sus padres','Porque los gametos no necesitan ningún cromosoma','Para eliminar por completo el material genético'] },
+  { pregunta:'¿Qué evidencia real permitió a los científicos construir el árbol genealógico de una familia con una enfermedad hereditaria?', correcta:'El registro y análisis de qué familiares presentaban o no la característica a lo largo de varias generaciones', opts:['Una opinión sin ningún respaldo de un solo familiar','Un sueño relatado por un miembro de la familia','Ninguna evidencia, solo la tradición oral'] },
+  { pregunta:'¿Qué tipo de células del cuerpo humano se producen mediante mitosis?', correcta:'Las células somáticas (de la piel, músculos, órganos), usadas para crecimiento y reparación', opts:['Únicamente los óvulos y espermatozoides','Solamente las células del sistema inmune','Ningún tipo de célula se produce por mitosis'] },
+  { pregunta:'¿Por qué los hijos de una misma pareja pueden tener combinaciones de características distintas entre sí?', correcta:'Porque durante la meiosis se generan combinaciones distintas de material genético en cada gameto', opts:['Porque cada hijo recibe exactamente el mismo material genético','Porque la herencia genética no tiene ningún patrón real','Porque el ADN cambia completamente en cada generación'] },
+];
+export function genGeneticaHerenciaM2Round(){
+  const recurso = 'El <b>material genético (ADN)</b> se transmite de padres a hijos y contiene la información hereditaria que determina muchas características de un organismo. La <b>mitosis</b> es el proceso de división celular que produce dos células idénticas a la original, usado para el crecimiento y la reparación de tejidos; la <b>meiosis</b>, en cambio, produce células reproductivas (gametos) con la mitad de los cromosomas de la célula original, de modo que al unirse óvulo y espermatozoide se recupera el número completo. Si ocurre una <b>anomalía</b> durante la separación de los cromosomas en la meiosis, puede formarse una célula reproductiva con un número anormal de cromosomas. Las explicaciones científicas sobre la herencia genética se construyen a partir de <b>evidencia</b> real, como patrones observados en árboles genealógicos o resultados de experimentos controlados, no de opiniones sin respaldo.';
+  const item = pick(GENETICA_HERENCIA_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const MANIPULACION_GENETICA_M2_BANK = [
+  { pregunta:'¿Qué es la manipulación genética?', correcta:'Un conjunto de técnicas que permiten modificar el material genético de un organismo con un propósito específico', opts:['Un tipo de enfermedad hereditaria','Un proceso que ocurre solo de forma natural, sin intervención humana','Una teoría sin ninguna aplicación real'] },
+  { pregunta:'¿Cuál es un ejemplo real de aplicación de la manipulación genética?', correcta:'La producción de insulina humana mediante bacterias modificadas genéticamente', opts:['La fabricación de aspirinas de forma tradicional','La construcción de puentes y edificios','La generación de electricidad a partir de agua'] },
+  { pregunta:'¿Por qué la manipulación genética genera debates éticos y sociales?', correcta:'Porque plantea preguntas sobre los límites de su uso, la seguridad y el impacto a largo plazo en la sociedad y el ambiente', opts:['Porque no genera ningún tipo de debate en la sociedad','Porque es una tecnología que nadie usa en la actualidad','Porque no tiene ninguna aplicación posible en medicina o agricultura'] },
+  { pregunta:'¿Qué aplicación de la manipulación genética se usa en la agricultura?', correcta:'Desarrollar cultivos modificados genéticamente con mayor resistencia a plagas o sequías', opts:['Eliminar por completo la necesidad de sembrar cultivos','Prohibir cualquier tipo de cultivo en el mundo','Fabricar maquinaria agrícola sin ninguna relación genética'] },
+  { pregunta:'¿Qué controles suelen exigir los países antes de autorizar una nueva técnica de manipulación genética?', correcta:'Evaluaciones de seguridad, regulación y supervisión de organismos oficiales', opts:['Ningún control, cualquier técnica se aplica libremente','Solo la opinión de una sola persona sin ningún respaldo','Un sorteo aleatorio entre laboratorios'] },
+  { pregunta:'¿Qué diferencia existe entre usar la manipulación genética para producir un medicamento y usarla para modificar características humanas de forma hereditaria?', correcta:'La segunda plantea debates éticos mucho más profundos, ya que afectaría a futuras generaciones', opts:['No existe ninguna diferencia entre ambos usos','La primera es ilegal en todos los países del mundo','La segunda no genera ningún tipo de debate'] },
+  { pregunta:'¿Qué beneficio puede tener la manipulación genética en la investigación de enfermedades?', correcta:'Permite estudiar el funcionamiento de un gen específico para entender mejor una enfermedad y buscar tratamientos', opts:['No tiene ninguna utilidad en la investigación médica','Elimina por completo la necesidad de investigar enfermedades','Solo sirve para fines decorativos'] },
+  { pregunta:'¿Por qué es importante que la sociedad participe en el debate sobre los límites de la manipulación genética, y no solo los científicos?', correcta:'Porque sus consecuencias pueden afectar a toda la sociedad, no solo al ámbito científico', opts:['Porque la sociedad no tiene ningún derecho a opinar sobre ciencia','Porque los científicos siempre deciden solos, sin ninguna consulta','Porque este tema no afecta a nadie fuera de un laboratorio'] },
+];
+export function genManipulacionGeneticaM2Round(){
+  const recurso = 'La <b>manipulación genética</b> reúne técnicas que permiten modificar el material genético de organismos con fines específicos, como producir medicamentos (por ejemplo, insulina humana fabricada por bacterias modificadas), mejorar cultivos agrícolas o investigar enfermedades. Estas aplicaciones han traído beneficios importantes, pero también generan <b>debates éticos y sociales</b>: preguntas sobre hasta dónde debería llegar esta tecnología, qué controles de seguridad son necesarios, y qué impacto puede tener a largo plazo en la salud humana, la biodiversidad y el ambiente. Por eso, muchos países regulan estrictamente su uso y evaluación antes de aplicarla.';
+  const item = pick(MANIPULACION_GENETICA_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+export function genMovimientoFuerzasM2Round(){
+  const recurso = 'El <b>movimiento rectilíneo uniforme (MRU)</b> ocurre cuando un objeto se mueve en línea recta a velocidad constante (distancia = velocidad × tiempo); el <b>movimiento rectilíneo uniformemente acelerado (MRUA)</b> ocurre cuando la velocidad cambia a un ritmo constante (aceleración), como al soltar un objeto en caída libre. Una <b>fuerza neta</b> (la suma de todas las fuerzas que actúan sobre un objeto) puede cambiar el estado de movimiento de ese objeto: si la fuerza neta es cero, el objeto mantiene su velocidad (o sigue en reposo); si no es cero, el objeto acelera en la dirección de esa fuerza — esta es la base de las leyes del movimiento de Newton.';
+  const roll = Math.random();
+  if(roll<0.5){
+    const v = pick([4,5,6,8,10,12]);
+    const t = pick([2,3,4,5]);
+    const d = v*t;
+    const distractCandidates = [v+t, v*t+t, v*(t+1)];
+    const finales = [];
+    for(const c of distractCandidates){ if(c!==d && finales.indexOf(c)===-1) finales.push(c); }
+    while(finales.length<3){ const c = d+randInt(2,10); if(c!==d && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([d].concat(finales.slice(0,3))).map(function(v2){ return {label:v2+' m', value:v2}; });
+    return {
+      promptHTML: '<p class="prompt-hint">Un auto se mueve en línea recta a velocidad constante de '+v+' m/s durante '+t+' segundos. ¿Qué distancia recorre?</p>',
+      options: opts, correctValue: d, speakText: 'Un auto se mueve a velocidad constante de '+v+' metros por segundo durante '+t+' segundos, ¿qué distancia recorre?', cols:4,
+      explain: 'En movimiento rectilíneo uniforme: distancia = velocidad × tiempo = '+v+' × '+t+' = <b>'+d+' m</b>.',
+      recurso: recurso,
+    };
+  }
+  const opts = shuffle([
+    {label:'El objeto mantiene su velocidad (o sigue en reposo si estaba quieto)', value:'ok'},
+    {label:'El objeto se detiene siempre de inmediato', value:'m1'},
+    {label:'El objeto siempre acelera, sin importar la fuerza neta', value:'m2'},
+    {label:'El objeto cambia de dirección espontáneamente', value:'m3'},
+  ]);
+  return {
+    promptHTML: '<p class="prompt-hint">Si la fuerza neta sobre un objeto es igual a CERO, ¿qué le ocurre a su movimiento?</p>',
+    options: opts, correctValue: 'ok', speakText: 'Si la fuerza neta sobre un objeto es cero, ¿qué le ocurre a su movimiento?', cols:2, panel:true,
+    explain: 'Si la fuerza neta es cero, el objeto <b>mantiene su velocidad</b> (o permanece en reposo) — solo una fuerza neta distinta de cero puede acelerarlo.',
+    recurso: recurso,
+  };
+}
+
+export function genEnergiaChoquesM2Round(){
+  const recurso = 'La <b>energía mecánica</b> de un objeto es la suma de su energía cinética (por su movimiento) y su energía potencial (por su posición, como la altura); en ausencia de fricción, esta energía total se conserva, transformándose de una forma a otra. El <b>trabajo</b> se realiza cuando una fuerza mueve un objeto una cierta distancia, y la <b>potencia</b> mide qué tan rápido se realiza ese trabajo. En un <b>choque</b> (colisión), la <b>cantidad de movimiento total (momentum)</b> del sistema se conserva: la suma de los momentos antes del choque es igual a la suma después del choque, aunque la energía cinética se pueda perder en forma de calor o sonido.';
+  const roll = Math.random();
+  if(roll<0.5){
+    const m = pick([1,2,3,4]);
+    const h = pick([5,10,15,20]);
+    const g = 10;
+    const ep = m*g*h;
+    const distractCandidates = [m*h, g*h, m*g+h];
+    const finales = [];
+    for(const c of distractCandidates){ if(c!==ep && finales.indexOf(c)===-1) finales.push(c); }
+    while(finales.length<3){ const c = ep+randInt(10,50); if(c!==ep && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([ep].concat(finales.slice(0,3))).map(function(v){ return {label:v+' J', value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">Un objeto de '+m+' kg está a '+h+' m de altura (usa g=10 m/s²). ¿Cuál es su energía potencial gravitatoria?</p>',
+      options: opts, correctValue: ep, speakText: 'Un objeto de '+m+' kilos está a '+h+' metros de altura, con gravedad de 10, ¿cuál es su energía potencial?', cols:4,
+      explain: 'Energía potencial = masa × gravedad × altura = '+m+' × 10 × '+h+' = <b>'+ep+' J</b>.',
+      recurso: recurso,
+    };
+  }
+  const opts = shuffle([
+    {label:'La cantidad de movimiento (momentum) total del sistema', value:'ok'},
+    {label:'Siempre la energía cinética total, sin ninguna excepción', value:'m1'},
+    {label:'La velocidad individual de cada objeto por separado', value:'m2'},
+    {label:'Nada se conserva durante un choque', value:'m3'},
+  ]);
+  return {
+    promptHTML: '<p class="prompt-hint">En un choque entre dos objetos, ¿qué magnitud se conserva siempre (antes y después del choque)?</p>',
+    options: opts, correctValue: 'ok', speakText: 'En un choque entre dos objetos, ¿qué magnitud se conserva siempre?', cols:2, panel:true,
+    explain: 'En todo choque se conserva la <b>cantidad de movimiento (momentum) total</b> del sistema, aunque parte de la energía cinética pueda transformarse en calor o sonido.',
+    recurso: recurso,
+  };
+}
+
+const UNIVERSO_MODELOS_M2_BANK = [
+  { pregunta:'¿Qué proponía el modelo geocéntrico del universo?', correcta:'Que la Tierra estaba en el centro del universo y todo giraba alrededor de ella', opts:['Que el Sol estaba en el centro del sistema solar','Que no existía ningún centro en el universo','Que la Luna era el centro del universo'] },
+  { pregunta:'¿Qué propone el modelo heliocéntrico, que reemplazó al geocéntrico?', correcta:'Que el Sol está en el centro del sistema solar y los planetas giran a su alrededor', opts:['Que la Tierra está en el centro de todo el universo','Que cada planeta tiene su propio centro independiente','Que el universo no tiene ningún tipo de orden'] },
+  { pregunta:'¿Qué propone la teoría del Big Bang sobre el origen del universo?', correcta:'Que el universo se originó a partir de una expansión extremadamente rápida desde un estado inicial muy denso y caliente', opts:['Que el universo siempre existió exactamente igual, sin ningún origen','Que el universo fue creado por la explosión de una estrella específica','Que el universo se está contrayendo continuamente desde su origen'] },
+  { pregunta:'¿Por qué el modelo geocéntrico terminó siendo reemplazado por el heliocéntrico?', correcta:'Porque nuevas observaciones astronómicas explicaban mejor el movimiento de los planetas con el Sol en el centro', opts:['Porque un gobierno lo prohibió sin ninguna evidencia científica','Porque nunca hubo ninguna observación astronómica al respecto','Porque el modelo geocéntrico nunca existió realmente'] },
+  { pregunta:'¿Qué evidencia respalda hoy en día la teoría del Big Bang como origen del universo?', correcta:'La observación de que el universo se sigue expandiendo y la radiación de fondo detectada en el espacio', opts:['Ninguna evidencia real, es solo una idea sin respaldo','Fotografías directas del momento exacto del origen','La opinión de una sola persona, sin ningún dato'] },
+];
+const GRAVITACION_M2_BANK = [
+  { pregunta:'¿Qué establecen las leyes de Kepler sobre el movimiento de los planetas?', correcta:'Que los planetas se mueven en órbitas elípticas alrededor del Sol, con velocidades que varían según su distancia a este', opts:['Que todos los planetas se mueven en círculos perfectos a velocidad constante','Que los planetas no siguen ningún patrón predecible','Que los planetas se mueven en línea recta alejándose del Sol'] },
+  { pregunta:'¿Qué establece la teoría de la gravitación universal de Newton?', correcta:'Que todos los objetos con masa se atraen entre sí con una fuerza proporcional a sus masas e inversamente proporcional al cuadrado de la distancia', opts:['Que solo los objetos muy grandes ejercen gravedad','Que la gravedad no depende de la distancia entre los objetos','Que la gravedad es una fuerza exclusiva de la Tierra'] },
+  { pregunta:'Según la ley de gravitación universal, ¿qué ocurre con la fuerza de atracción entre dos objetos si la distancia entre ellos se duplica?', correcta:'La fuerza de atracción disminuye considerablemente (con el cuadrado de la distancia)', opts:['La fuerza de atracción se mantiene exactamente igual','La fuerza de atracción se duplica','La gravedad desaparece por completo'] },
+  { pregunta:'¿Por qué los planetas más cercanos al Sol se mueven más rápido en su órbita, según las leyes de Kepler?', correcta:'Porque la fuerza gravitacional del Sol es más intensa a menor distancia, acelerando su movimiento', opts:['Porque son planetas más pequeños que los lejanos','Porque tienen menos masa que los planetas lejanos','Porque no existe ninguna relación entre distancia y velocidad'] },
+];
+export function genUniversoGravitacionM2Round(){
+  const recurso = 'El conocimiento sobre el universo evolucionó desde el <b>modelo geocéntrico</b> (la Tierra en el centro) hacia el <b>modelo heliocéntrico</b> (el Sol en el centro del sistema solar), y actualmente se sostiene con evidencia que el universo se originó según la <b>teoría del Big Bang</b>, una expansión extremadamente rápida desde un estado inicial muy denso y caliente. Las <b>leyes de Kepler</b> describen que los planetas se mueven en órbitas elípticas (no círculos perfectos) alrededor del Sol, con velocidad variable según su distancia. La <b>teoría de la gravitación universal de Newton</b> explica por qué ocurre esto: todo objeto con masa atrae a otro objeto con masa, con una fuerza que depende de ambas masas y de la distancia entre ellos (a mayor distancia, mucho menor la fuerza).';
+  const item = pick(Math.random()<0.5 ? UNIVERSO_MODELOS_M2_BANK : GRAVITACION_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const DISOLUCIONES_M2_BANK = [
+  { pregunta:'¿Qué es una disolución (o solución) en química?', correcta:'Una mezcla homogénea de un soluto disuelto en un solvente', opts:['Una mezcla en la que se pueden ver claramente las partículas de cada componente por separado','Un compuesto químico puro, sin ninguna mezcla','Un cambio de estado de la materia, sin ninguna mezcla'] },
+  { pregunta:'¿Qué son las "propiedades coligativas" de una disolución?', correcta:'Propiedades que dependen de la cantidad de partículas de soluto disueltas, no de su naturaleza química', opts:['Propiedades que dependen únicamente del color del soluto','Propiedades que nunca cambian sin importar la concentración','Propiedades exclusivas de las disoluciones sólidas'] },
+  { pregunta:'¿Cuál es un ejemplo cotidiano de una propiedad coligativa en acción?', correcta:'Agregar sal al agua eleva su punto de ebullición y baja su punto de congelación', opts:['El agua siempre hierve a la misma temperatura sin importar qué se le agregue','La sal no tiene ningún efecto en las propiedades del agua','El color del agua cambia según la temperatura, sin relación con solutos'] },
+  { pregunta:'¿Por qué se le agrega sal a las calles o caminos en países donde nieva mucho?', correcta:'Porque baja el punto de congelación del agua, ayudando a que el hielo se derrita a temperaturas más bajas', opts:['Porque la sal cambia el color de la nieve','Porque la sal no tiene ningún efecto sobre el hielo','Porque hace que el agua se congele más rápido'] },
+  { pregunta:'¿Qué determina principalmente el tamaño del cambio en el punto de ebullición o congelación de una disolución?', correcta:'La cantidad de partículas de soluto disueltas en el solvente', opts:['El color del soluto','El precio del soluto','La forma del recipiente que contiene la disolución'] },
+];
+const QUIMICA_ORGANICA_M2_BANK = [
+  { pregunta:'¿Por qué el átomo de carbono es la base de las moléculas orgánicas (biomoléculas e hidrocarburos)?', correcta:'Porque puede formar hasta cuatro enlaces estables, permitiendo cadenas y estructuras muy diversas', opts:['Porque el carbono no puede formar ningún enlace estable','Porque el carbono solo existe en forma gaseosa','Porque el carbono es el elemento más abundante del universo'] },
+  { pregunta:'¿Qué son los "hidrocarburos"?', correcta:'Compuestos orgánicos formados únicamente por átomos de carbono e hidrógeno', opts:['Compuestos formados solo por oxígeno e hidrógeno','Minerales que no contienen carbono','Un tipo de metal muy reactivo'] },
+  { pregunta:'¿Qué es la "isomería" en química orgánica?', correcta:'El fenómeno en que dos compuestos tienen la misma fórmula molecular pero distinta estructura o disposición espacial', opts:['El fenómeno en que dos compuestos son exactamente idénticos en todo sentido','Un tipo de reacción que solo ocurre con metales','La ausencia total de carbono en una molécula'] },
+  { pregunta:'¿Por qué dos isómeros con la misma fórmula molecular pueden tener propiedades físicas o químicas distintas?', correcta:'Porque su estructura o la disposición espacial de sus átomos es diferente, aunque su fórmula sea igual', opts:['Los isómeros siempre tienen exactamente las mismas propiedades','Porque tienen distinta cantidad de átomos, a pesar de la fórmula','Porque uno de los dos no contiene realmente carbono'] },
+  { pregunta:'¿Qué tipo de moléculas biológicas (biomoléculas) se construyen principalmente a partir de cadenas de carbono?', correcta:'Proteínas, carbohidratos, lípidos y ácidos nucleicos, entre otras', opts:['Únicamente los metales del cuerpo','Solamente el agua del organismo','Solo las sales minerales del cuerpo'] },
+];
+export function genDisolucionesOrganicaM2Round(){
+  const recurso = 'Una <b>disolución</b> es una mezcla homogénea donde un soluto queda disuelto en un solvente. Sus <b>propiedades coligativas</b> (como el aumento del punto de ebullición o la disminución del punto de congelación) dependen de la CANTIDAD de partículas de soluto disueltas, no de qué sustancia sea — por eso agregar sal al agua la hace hervir a una temperatura más alta y congelarse a una más baja, algo aprovechado en la industria y en el hogar (por ejemplo, para evitar que las calles se congelen en invierno). En química orgánica, el átomo de <b>carbono</b> es la base de las biomoléculas e hidrocarburos porque puede formar hasta cuatro enlaces estables, generando cadenas y anillos muy diversos. La <b>isomería</b> ocurre cuando dos compuestos comparten la misma fórmula molecular pero tienen una estructura o disposición espacial distinta, lo que puede darles propiedades muy diferentes entre sí.';
+  const item = pick(Math.random()<0.5 ? DISOLUCIONES_M2_BANK : QUIMICA_ORGANICA_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

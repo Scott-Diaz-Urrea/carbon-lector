@@ -126,7 +126,17 @@ export const state = {
            evoluciontecnologicam1:0,
            difusionm1:0,
            musicaidentidadm1:0,
-           prevencionriesgosm1:0, bienestarvidam1:0, relacionesredesm1:0, resolucionconflictosm1:0 },
+           prevencionriesgosm1:0, bienestarvidam1:0, relacionesredesm1:0, resolucionconflictosm1:0,
+           numerosrealesm2:0, potenciaslogaritmosm2:0, funcioncuadraticam2:0, funcioninversam2:0, interescompuestom2:0, esferam2:0, trigonometriam2:0, estadisticaprobabilidadm2:0,
+           narrativam2:0, poesiam2:0, teatrosigloorom2:0, cuentolatinoamericanom2:0, argumentativomediosm2:0, ortografiam2:0,
+           nerviosohormonalm2:0, sexualidadreproducccionm2:0, geneticaherenciam2:0, manipulaciongeneticam2:0, movimientofuerzasm2:0, energiachoquesm2:0, universogravitacionm2:0, disolucionesorganicam2:0,
+           entreguerrasm2:0, crisisliberalismom2:0, segundaguerram2:0, republicachilem2:0, guerrafriam2:0, movilizacionchilem2:0, dictaduratransicionm2:0, formacionciudadanam2:0,
+           gramaticacontextom2:0, vocabulariocontextom2:0, comprensionlecturam2:0,
+           tacticasdisenom2:0, entrenamientocaloricom2:0,
+           implementaciondifusionm2:0,
+           contrastemediosm2:0,
+           escenariostecnologicosm2:0,
+           riesgosredesapoyom2:0, bienestarrelacionesm2:0, proyeccionacademicam2:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

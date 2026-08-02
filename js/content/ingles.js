@@ -394,3 +394,92 @@ export function genComprensionLecturaM1Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 2° Medio (Decreto 614/2013, mismo decreto que 1° medio) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/ingles/2-medio — IN2M OA01-16.
+   Cubiertos: OA08 (funciones del lenguaje: sugerencias, situaciones hipotéticas,
+   cantidad), OA10 (palabras derivadas y textos no literarios) y OA11 (textos
+   literarios: tema, personajes, entorno, trama, conflicto). Fuera: OA01-07
+   (comprensión y producción oral, depende de audio real), OA09,12 (estrategias
+   de lectura como proceso propio), OA13-16 (producción escrita). */
+export const INGLES_MODULES_M2 = [
+  {id:'gramaticacontextom2', label:'Gramática en Contexto', open:true, key:'gramaticacontextom2'},
+  {id:'vocabulariocontextom2', label:'Palabras Derivadas', open:true, key:'vocabulariocontextom2'},
+  {id:'comprensionlecturam2', label:'Comprensión de Lectura', open:true, key:'comprensionlecturam2'},
+];
+export const INGLES_POS_M2 = [{x:24,y:78},{x:70,y:50},{x:24,y:22}];
+
+const SUGERENCIAS_M2_BANK = [
+  { spanish:'Deberías estudiar más para el examen (sugerencia).', english:'You should study more for the exam', opts:['You studied more for the exam','You are studying more for the exam','You will never study for the exam'] },
+  { spanish:'¿Por qué no le pides ayuda a tu profesor? (sugerencia).', english:'Why don’t you ask your teacher for help', opts:['You never ask your teacher for help','You asked your teacher for help yesterday','You are asking your teacher right now'] },
+  { spanish:'Podrías intentar hacerlo de otra forma (sugerencia).', english:'You could try doing it another way', opts:['You did it another way already','You will never try another way','You are trying another way right now'] },
+];
+const HIPOTETICAS_M2_BANK = [
+  { spanish:'Si yo fuera tú, hablaría con ella (situación hipotética).', english:'If I were you, I would talk to her', opts:['If I am you, I talk to her','If I was you, I am talking to her','If I were you, I talked to her yesterday'] },
+  { spanish:'Si tuviera más tiempo, viajaría por el mundo (situación hipotética).', english:'If I had more time, I would travel the world', opts:['If I have more time, I travel the world','If I had more time, I am traveling the world','If I have more time, I will travel the world'] },
+  { spanish:'Si él estudiara más, aprobaría el examen (situación hipotética).', english:'If he studied more, he would pass the exam', opts:['If he studies more, he passes the exam','If he studied more, he passes the exam','If he studies more, he will pass the exam'] },
+];
+const CANTIDAD_M2_BANK = [
+  { spanish:'Tengo muchos amigos en el colegio (cantidad, sustantivo contable).', english:'I have a lot of friends at school', opts:['I have a lot of friend at school','I have much friends at school','I have a little friends at school'] },
+  { spanish:'Solo queda un poco de agua en la botella (cantidad, sustantivo incontable).', english:'There is only a little water left in the bottle', opts:['There is only a few water left in the bottle','There is only a little waters left in the bottle','There is only much water left in the bottle'] },
+  { spanish:'Ella tiene varios libros sobre ese tema (cantidad).', english:'She has several books about that topic', opts:['She has much books about that topic','She has a little books about that topic','She has any books about that topic'] },
+];
+export function genGramaticaContextoM2Round(){
+  const recurso = 'En inglés, para hacer <b>sugerencias</b> se usan expresiones como "you should" (deberías), "you could" (podrías) o "why don’t you...?" (¿por qué no...?). Para hablar de <b>situaciones hipotéticas</b> (que no son reales o son poco probables), se usa la estructura "if + pasado simple, + would + verbo": "If I were you, I would talk to her" (si yo fuera tú, hablaría con ella) — nótese que con "if I" se usa "were" en vez de "was" en este tipo de oración. Para expresar <b>cantidad</b>, "a lot of" funciona con sustantivos contables e incontables, "a few" se usa con contables (few friends), y "a little" se usa con incontables (little water) — usar la palabra de cantidad correcta según el tipo de sustantivo es clave para sonar natural en inglés.';
+  const bank = pick([SUGERENCIAS_M2_BANK, HIPOTETICAS_M2_BANK, CANTIDAD_M2_BANK]);
+  const item = pick(bank);
+  const opts = shuffle([item.english].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">How do you say this in English?</p>',
+    options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, panel:true,
+    explain: 'Se dice <b>'+item.english+'</b> en inglés.',
+    recurso: recurso,
+  };
+}
+
+const PALABRAS_DERIVADAS_BANK = [
+  { spanish:'La palabra que significa "el estado de estar feliz" (a partir de "happy")', english:'Happiness', opts:['Happily','Unhappy','Happier'] },
+  { spanish:'La palabra que significa "lleno de utilidad" (a partir de "use")', english:'Useful', opts:['Useless','User','Using'] },
+  { spanish:'La palabra que significa "sin ninguna utilidad" (a partir de "use")', english:'Useless', opts:['Useful','User','Used'] },
+  { spanish:'La palabra que describe a alguien "sin trabajo" (a partir de "employ")', english:'Unemployed', opts:['Employment','Employer','Employable'] },
+  { spanish:'La palabra que significa "el acto de decidir" (a partir de "decide")', english:'Decision', opts:['Decisive','Undecided','Deciding'] },
+  { spanish:'La palabra que describe algo "que se puede comer" (a partir de "eat")', english:'Edible', opts:['Eating','Eater','Uneaten'] },
+  { spanish:'La palabra que significa "sin ningún cuidado" (a partir de "care")', english:'Careless', opts:['Careful','Caring','Cared'] },
+  { spanish:'La palabra que significa "lleno de cuidado" (a partir de "care")', english:'Careful', opts:['Careless','Caring','Uncared'] },
+  { spanish:'La palabra que significa "la persona que enseña" (a partir de "teach")', english:'Teacher', opts:['Teaching','Taught','Teachable'] },
+  { spanish:'La palabra que describe algo "imposible de hacer" (a partir de "possible")', english:'Impossible', opts:['Possibly','Possibility','Possibleness'] },
+];
+export function genVocabularioContextoM2Round(){
+  const recurso = 'Las <b>palabras derivadas</b> se forman agregando un prefijo o un sufijo a una palabra base, cambiando su significado o su función gramatical: agregar "-ness" a un adjetivo lo convierte en sustantivo ("happy" → "happiness"), agregar "-ful" a un sustantivo lo convierte en adjetivo con sentido positivo ("use" → "useful"), y agregar "-less" al mismo sustantivo le da el sentido contrario ("use" → "useless"). El prefijo "un-" suele invertir el significado de una palabra ("employed" → "unemployed"). Reconocer estos patrones ayuda a deducir el significado de palabras nuevas sin necesidad de memorizarlas todas por separado.';
+  const item = pick(PALABRAS_DERIVADAS_BANK);
+  const opts = shuffle([item.english].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">Which word matches this description?</p>',
+    options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, kind:'word',
+    explain: 'Se dice <b>'+item.english+'</b> en inglés.',
+    recurso: recurso,
+  };
+}
+
+const COMPRENSION_LECTURA_M2_BANK = [
+  { text:'Marina had always been afraid of the ocean, but when her little brother was pulled by a wave, she swam out without thinking twice and brought him back to shore.', question:'What is the central conflict in this story?', correct:'Marina must overcome her fear of the ocean to save her brother', opts:['Marina wants to learn how to swim for the first time','Marina is competing in a swimming competition','Marina dislikes her little brother'] },
+  { text:'The setting of the novel is a small fishing village on a foggy coast, where the sound of the sea is always present in every scene.', question:'What is the setting of this novel?', correct:'A small fishing village on a foggy coast', opts:['A busy city downtown','A desert with no water nearby','A spaceship traveling through space'] },
+  { text:'This guide explains that regular exercise improves not only physical health but also mood and sleep quality, according to several studies.', question:'What is the purpose of this text?', correct:'To inform readers about the benefits of regular exercise', opts:['To sell a specific exercise product','To tell an entertaining fictional story','To criticize people who do not exercise'] },
+  { text:'Throughout the story, the theme of friendship overcoming distance is explored, as two childhood friends stay close despite living on different continents.', question:'What is the main theme of this story?', correct:'Friendship overcoming distance', opts:['The dangers of travel','The importance of money','A mystery that is never solved'] },
+  { text:'A short article compares two cities, listing population, average temperature, and main industries, without giving any personal opinion about either one.', question:'What kind of text is this?', correct:'A non-literary, informative text comparing data about two cities', opts:['A poem about two cities','A personal diary entry','A fictional story about a trip'] },
+  { text:'Daniel had never spoken in front of a large group before, but when his best friend got sick right before the school presentation, he had to step up and speak for both of them.', question:'What is the central conflict in this story?', correct:'Daniel must overcome his fear of public speaking to help his friend', opts:['Daniel wants to skip the school presentation entirely','Daniel is arguing with his best friend','Daniel is planning a trip to another country'] },
+  { text:'The story takes place aboard an old sailing ship crossing a stormy ocean, with waves crashing against the deck throughout most of the chapters.', question:'What is the setting of this story?', correct:'Aboard an old sailing ship crossing a stormy ocean', opts:['Inside a quiet library','On top of a mountain in summer','In a modern shopping mall'] },
+  { text:'This brochure explains the steps to properly recycle different types of household waste, including paper, plastic, and glass.', question:'What is the purpose of this text?', correct:'To inform readers about how to recycle household waste correctly', opts:['To tell a fictional story about a family','To sell a specific brand of trash bags','To criticize people who do not recycle'] },
+  { text:'Throughout the novel, the theme of courage in the face of change is explored, as the main character must adapt to a completely new school and city.', question:'What is the main theme of this story?', correct:'Courage in the face of change', opts:['The history of a specific city','The rules of a sport','A recipe for a traditional dish'] },
+];
+export function genComprensionLecturaM2Round(){
+  const recurso = 'Al leer un texto en inglés a este nivel, conviene distinguir varios elementos: en textos <b>literarios</b>, el conflicto central (el problema que enfrenta un personaje), el entorno o ambientación (dónde y cuándo ocurre la historia), y el tema principal (la idea general que la historia explora, como la amistad o la superación del miedo). En textos <b>no literarios</b>, es clave identificar el propósito del texto (informar, convencer, entretener) y sus ideas principales, generalmente presentadas de forma más directa y sin opiniones personales. Reconocer si un texto es literario o no literario ayuda a saber qué tipo de información buscar en él.';
+  const item = pick(COMPRENSION_LECTURA_M2_BANK);
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    options: opts, correctValue: item.correct, speakText: item.text, speakLang:'en', cols:2, kind:'word',
+    explain: 'The answer is <b>'+item.correct+'</b>.',
+    recurso: recurso,
+  };
+}

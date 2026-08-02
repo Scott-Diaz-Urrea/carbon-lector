@@ -19,10 +19,10 @@ export const GRADE_POS = [
    asignaturas — pero usa su propio estado/navegación (`currentMedioGrade`,
    `MEDIO_SUBJECT_DEFS`) en vez de reutilizar `GRADES`/`SUBJECT_DEFS`, para
    no mezclar los años 1-2 de Media con los años 1-8 de Básica bajo la misma
-   clave numérica. Solo 1° medio tiene contenido jugable por ahora. */
+   clave numérica. 1° y 2° medio ya tienen contenido jugable. */
 export const MEDIO_GRADES = [
   { id:1, label:'1° Medio', open:true },
-  { id:2, label:'2° Medio', open:false },
+  { id:2, label:'2° Medio', open:true },
 ];
 export const MEDIO_GRADE_POS = [
   {x:30,y:70},{x:70,y:30}

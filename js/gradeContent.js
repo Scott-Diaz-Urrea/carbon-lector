@@ -39,6 +39,11 @@ import { EDUCACION_CIUDADANA_MODULES_M3, EDUCACION_CIUDADANA_POS_M3, EDUCACION_C
 import { FILOSOFIA_MODULES_M3, FILOSOFIA_POS_M3, FILOSOFIA_MODULES_M4, FILOSOFIA_POS_M4 } from './content/medio34/filosofia.js';
 import { CIENCIAS_CIUDADANIA_MODULES, CIENCIAS_CIUDADANIA_POS } from './content/medio34/cienciasCiudadania.js';
 import { INGLES_MODULES_M3 as INGLES_PG_MODULES_M3, INGLES_POS_M3 as INGLES_PG_POS_M3, INGLES_MODULES_M4 as INGLES_PG_MODULES_M4, INGLES_POS_M4 as INGLES_PG_POS_M4 } from './content/medio34/ingles.js';
+import { BIOLOGIA_CELULAR_MOLECULAR_MODULES, BIOLOGIA_CELULAR_MOLECULAR_POS } from './content/medio34/biologiaCelularMolecular.js';
+import { BIOLOGIA_ECOSISTEMAS_MODULES, BIOLOGIA_ECOSISTEMAS_POS } from './content/medio34/biologiaEcosistemas.js';
+import { CIENCIAS_SALUD_MODULES, CIENCIAS_SALUD_POS } from './content/medio34/cienciasSalud.js';
+import { FISICA_MODULES as FISICA_PD_MODULES, FISICA_POS as FISICA_PD_POS } from './content/medio34/fisica.js';
+import { QUIMICA_MODULES, QUIMICA_POS } from './content/medio34/quimica.js';
 import { LENGUAJE_EPJA_M2_MODULES, LENGUAJE_EPJA_M2_POS } from './content/epja/lenguajeMedia2.js';
 import { MATEMATICA_EPJA_M2_MODULES, MATEMATICA_EPJA_M2_POS } from './content/epja/matematicaMedia2.js';
 import { CIENCIAS_EPJA_M2_MODULES, CIENCIAS_EPJA_M2_POS } from './content/epja/cienciasMedia2.js';
@@ -216,6 +221,30 @@ export const PLAN_GENERAL_SUBJECT_DEFS = [
   { icon:'🏛️', label:'Educación Ciudadana', screen:'educacionCiudadanaPlanMap', byGrade: EDUCACION_CIUDADANA_BY_GRADE_PG },
   { icon:'🦉', label:'Filosofía', screen:'filosofiaPlanMap', byGrade: FILOSOFIA_BY_GRADE_PG },
   { icon:'🔤', label:'Inglés', screen:'inglesPlanMap', byGrade: INGLES_BY_GRADE_PG },
+];
+
+/* ---------------- 3°-4° medio, Plan Diferenciado Científico ----------------
+   Las 5 asignaturas electivas del área Ciencias del Plan Diferenciado
+   Humanista-Científico (ver content/grades.js y la sección "Plan de Formación
+   General" de arriba para la arquitectura de navegación completa: planMedioMap
+   → planDiferenciadoMap → estas 5 asignaturas → módulos). Igual que "Ciencias
+   para la Ciudadanía" del Plan General, las 5 asignaturas de este Plan
+   Diferenciado tienen OA compartidos entre 3° y 4° medio (verificado en
+   curriculumnacional.cl antes de construir cada una — ver el comentario inicial
+   de cada archivo en content/medio34/ para el código de OA exacto), así que
+   cada `_BY_GRADE_PD` apunta al mismo objeto de módulos para las claves 3 y 4. */
+export const BIOLOGIA_CELULAR_MOLECULAR_BY_GRADE_PD = { 3: { modules: BIOLOGIA_CELULAR_MOLECULAR_MODULES, pos: BIOLOGIA_CELULAR_MOLECULAR_POS, height: 420 }, 4: { modules: BIOLOGIA_CELULAR_MOLECULAR_MODULES, pos: BIOLOGIA_CELULAR_MOLECULAR_POS, height: 420 } };
+export const BIOLOGIA_ECOSISTEMAS_BY_GRADE_PD = { 3: { modules: BIOLOGIA_ECOSISTEMAS_MODULES, pos: BIOLOGIA_ECOSISTEMAS_POS, height: 420 }, 4: { modules: BIOLOGIA_ECOSISTEMAS_MODULES, pos: BIOLOGIA_ECOSISTEMAS_POS, height: 420 } };
+export const CIENCIAS_SALUD_BY_GRADE_PD = { 3: { modules: CIENCIAS_SALUD_MODULES, pos: CIENCIAS_SALUD_POS, height: 420 }, 4: { modules: CIENCIAS_SALUD_MODULES, pos: CIENCIAS_SALUD_POS, height: 420 } };
+export const FISICA_BY_GRADE_PD = { 3: { modules: FISICA_PD_MODULES, pos: FISICA_PD_POS, height: 420 }, 4: { modules: FISICA_PD_MODULES, pos: FISICA_PD_POS, height: 420 } };
+export const QUIMICA_BY_GRADE_PD = { 3: { modules: QUIMICA_MODULES, pos: QUIMICA_POS, height: 520 }, 4: { modules: QUIMICA_MODULES, pos: QUIMICA_POS, height: 520 } };
+
+export const PLAN_DIFERENCIADO_SUBJECT_DEFS = [
+  { icon:'🧬', label:'Biología Celular y Molecular', screen:'biologiaCelularMolecularPlanMap', byGrade: BIOLOGIA_CELULAR_MOLECULAR_BY_GRADE_PD },
+  { icon:'🌎', label:'Biología de los Ecosistemas', screen:'biologiaEcosistemasPlanMap', byGrade: BIOLOGIA_ECOSISTEMAS_BY_GRADE_PD },
+  { icon:'⚕️', label:'Ciencias de la Salud', screen:'cienciasSaludPlanMap', byGrade: CIENCIAS_SALUD_BY_GRADE_PD },
+  { icon:'⚛️', label:'Física', screen:'fisicaPlanMap', byGrade: FISICA_BY_GRADE_PD },
+  { icon:'🧪', label:'Química', screen:'quimicaPlanMap', byGrade: QUIMICA_BY_GRADE_PD },
 ];
 
 /* ---------------- Educación Parvularia (por nivel, no por año) ---------------- */

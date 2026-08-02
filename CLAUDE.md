@@ -2346,7 +2346,7 @@ Verificado tras las 3 correcciones: `genCasosHepatico7Round`, `genLcr7Round` y
 apóstrofes en `speakText`) y los 312 módulos de toda la app pasan la
 verificación de regresión.
 
-### Educación Media — ✅ 1°-2° medio completos (81 módulos) + 3°-4° medio: Plan General completo (34 módulos)
+### Educación Media — ✅ completa: 1°-2° medio (81 módulos) + 3°-4° medio: Plan General (34 módulos) + Plan Diferenciado Científico (25 módulos)
 Pedido explícito del usuario (2026-08-02) de comenzar esta etapa tras completar
 el rollout de `recurso` en Parvularia. Antes de construir, se investigó con
 Claude (WebSearch/WebFetch, sin asumir continuidad con Básica) la estructura
@@ -2370,9 +2370,9 @@ curricular real de Educación Media:
   y resultó tener 6 asignaturas, no 7 — Religión se excluyó por el mismo
   motivo que en Básica (sin documento curricular único, solo variantes por
   credo; ver el detalle completo y la decisión vía `AskUserQuestion` más
-  abajo, en "Plan de Formación General"). El **Plan General ya está
-  completo** (34 módulos); el **Plan Diferenciado Científico sigue sin
-  construir**.
+  abajo, en "Plan de Formación General"). El **Plan General** (34 módulos)
+  y el **Plan Diferenciado Científico** (25 módulos) ya están completos —
+  ver "Plan Diferenciado Científico" más abajo para el detalle.
 
 **Arquitectura de navegación (nueva, paralela a Básica — no reutiliza
 `GRADES`/`SUBJECT_DEFS`/`state.currentGrade`):** dado que 1°-2° medio es
@@ -2878,12 +2878,132 @@ Diferenciado Científico queda para una sesión futura (ver más abajo).
   medio (por diseño). Sin errores de consola en ningún caso.
 
 Con esto, **el Plan de Formación General de 3°-4° medio queda 100%
-completo** (34 módulos, las 6 asignaturas del plan). Próximo paso posible:
-Plan Diferenciado Científico de 3°-4° medio (5 asignaturas: Biología
-Celular y Molecular, Biología de los Ecosistemas, Ciencias de la Salud,
-Física, Química — la pantalla `planMedioMap` ya tiene la tarjeta lista,
-solo falta construir `PLAN_DIFERENCIADO_SUBJECT_DEFS` con el mismo patrón
-ya usado aquí para `PLAN_GENERAL_SUBJECT_DEFS`).
+completo** (34 módulos, las 6 asignaturas del plan).
+
+**3°-4° medio — Plan Diferenciado Científico ✅ completo (2026-08-02), 25
+módulos, las 5 asignaturas del plan:** pedido del usuario ("continua con
+los PR") de seguir con el último tramo pendiente de Educación Media,
+usando el mismo patrón de investigación/construcción/verificación ya
+aplicado al Plan General. Fuente real: Decreto 614/2013, Plan de
+Formación Diferenciada Humanista-Científico, área Ciencias
+(curriculumnacional.cl/curriculum/3o-4o-medio/<asignatura>/3-medio-hc y
+4-medio-hc). **Las 5 asignaturas tienen sus OA compartidos entre 3° y 4°
+medio** (códigos literalmente "CN-BCMO-3y4-OAC-01", "CN-BECO-3y4-OAC-01",
+etc. — verificado leyendo el contenido real de ambas páginas de cada
+asignatura antes de asumirlo, mismo criterio que confirmó esto mismo para
+"Ciencias para la Ciudadanía" en el Plan General), así que cada asignatura
+tiene un solo archivo de contenido (sin sufijo de año) cuyo `byGrade[3]` y
+`byGrade[4]` apuntan al mismo objeto de módulos — esto redujo el trabajo a
+la mitad de lo que habría sido si cada asignatura tuviera contenido
+separado por año, y explica por qué el Plan Diferenciado (25 módulos) es
+más chico que el Plan General (34 módulos) pese a tener una asignatura
+menos.
+
+- **Arquitectura:** se activó la tarjeta "Plan Diferenciado Científico" de
+  `planMedioMap` (antes mostraba un toast "🚧 en preparación") para que
+  navegue a una pantalla nueva, `planDiferenciadoMap` — mismo patrón que
+  `planGeneralMap`, iterando sobre `PLAN_DIFERENCIADO_SUBJECT_DEFS`
+  (`gradeContent.js`) en vez de `PLAN_GENERAL_SUBJECT_DEFS`. Las 5
+  asignaturas nuevas tienen su propio helper
+  `renderPlanDiferenciadoSubjectMapFor()` (mismo patrón que
+  `renderPlanGeneralSubjectMapFor()`) y 5 pantallas de mapa de módulos
+  (`biologiaCelularMolecularPlanMap`, `biologiaEcosistemasPlanMap`,
+  `cienciasSaludPlanMap`, `fisicaPlanMap`, `quimicaPlanMap`). No hizo falta
+  ningún cambio a `selectMedioGrade()`/`planMedioMap` en sí — ya estaban
+  preparados desde la construcción del Plan General para este momento.
+- **Contenido en `content/medio34/` (5 archivos nuevos):**
+  `biologiaCelularMolecular.js`, `biologiaEcosistemas.js`,
+  `cienciasSalud.js`, `fisica.js`, `quimica.js` — mismo patrón de archivo
+  que el resto de `content/medio34/`, con sufijo `PD` ("Plan
+  Diferenciado") en las claves de `state.stars`/`MC_GAMES`. En todas las 5
+  asignaturas, los OA de investigación/valoración personal (historia del
+  desarrollo científico, "valorar la integración de conocimientos con
+  otras ciencias") quedaron fuera del motor de opción múltiple por ser
+  actitudinales o de proceso propio, sin una única respuesta correcta —
+  documentado caso a caso en el comentario inicial de cada archivo. Mismo
+  formato `genDefRound(banco, recurso)` ya usado en Educación
+  Ciudadana/Filosofía del Plan General para la mayoría de los módulos
+  (definición de conceptos con 3 distractores del mismo banco), con **una
+  excepción dinámica**: "Movimiento bajo Fuerzas Centrales" (Física) es un
+  generador cuantitativo que aplica la ley del inverso del cuadrado de la
+  Ley de Gravitación Universal (si la distancia se multiplica/divide por
+  k, la fuerza cambia en un factor de 1/k² o k²), con k y la dirección
+  (aumenta/disminuye) elegidos al azar en cada ronda.
+  - **Biología Celular y Molecular** (5): Estructura y Organización
+    Celular, Dogma Central de la Biología Molecular, Regulación Génica y
+    Cáncer, Estructura y Función de Proteínas, Biotecnología y sus
+    Aplicaciones.
+  - **Biología de los Ecosistemas** (4): Biodiversidad/Evolución/
+    Intervención Humana, Servicios Ecosistémicos y Dinámica de
+    Poblaciones, Cambio Climático y Resiliencia de Ecosistemas, Ciencia y
+    Tecnología frente al Cambio Climático.
+  - **Ciencias de la Salud** (5): Salud Pública: Problemas Complejos
+    (incluye "enfermedad de transmisión sexual" como una de varias
+    categorías de problemas de salud pública -junto a consumo de drogas,
+    desequilibrios alimentarios, enfermedades laborales-, tratada con el
+    mismo criterio clínico/factual/preventivo y en un marco de
+    epidemiología poblacional -no de educación sexual individual- ya
+    establecido en el resto de la app, sin necesidad de replantear la
+    política al usuario), Genoma y Ambiente en la Salud, Estilos de Vida y
+    Salud Integral, Calidad Ambiental y Salud Humana, Tecnología Médica y
+    Calidad de Vida.
+  - **Física** (5): Cambio Climático: Física del Fenómeno (deliberadamente
+    con un ángulo distinto —balance energético, efecto invernadero,
+    albedo— al de "Ambiente y Sostenibilidad" del Plan General o "Química
+    del Cambio Climático" de esta misma asignatura Diferenciado, que
+    abordan el mismo fenómeno desde la sostenibilidad y la química
+    respectivamente), Origen y Evolución del Universo, Movimiento bajo
+    Fuerzas Centrales (el único módulo dinámico/cuantitativo del Plan
+    Diferenciado), Física Moderna: Relatividad y Cuántica, Fluidos/
+    Electromagnetismo y Termodinámica.
+  - **Química** (6): Nanoquímica y Polímeros, Ácido-Base/Redox y
+    Polimerización, Termodinámica y Cinética Química, Química del Cambio
+    Climático: Ciclos y Equilibrios (ángulo de ciclos biogeoquímicos/
+    acidificación oceánica, distinto del ángulo de física del fenómeno de
+    la asignatura Física), Contaminantes Químicos y sus Efectos,
+    Tecnologías Químicas para el Clima.
+- **Bug real de bank-size encontrado por la simulación de no-repetición:**
+  "Movimiento bajo Fuerzas Centrales" (el único generador dinámico) solo
+  variaba un factor k entre 4 valores posibles ({2,3,4,5}), dando apenas 4
+  combinaciones únicas para `rounds:8` — 200/200 sesiones simuladas con
+  repetición garantizada. Corregido ampliando el pool de k a 6 valores
+  ({2,3,4,5,6,7}) y agregando una segunda dimensión real (si la distancia
+  aumenta o disminuye, cambiando si la respuesta es una fracción o un
+  entero), llegando a 12 combinaciones únicas posibles — más que suficiente
+  margen sobre `rounds:8`.
+- **Alturas de mapa de nodos calculadas, no copiadas por defecto:** a
+  diferencia de sesiones anteriores donde se reutilizó un valor de
+  `height` ya usado en otro archivo sin verificar, esta vez se calculó el
+  espaciado vertical real entre nodos del mismo lado del zigzag (Δy% ×
+  height/100) para cada dataset nuevo antes de fijar su altura, apuntando
+  a un margen ≥150px (el alto real de un nodo, documentado en la auditoría
+  de mapas de 2026-07-26) — evitando tanto el solapamiento como una altura
+  excesiva con espacio vacío de sobra. Verificado después con
+  `getBoundingClientRect()` en las 5 pantallas nuevas: 0 solapamientos.
+- Verificado: los 25 generadores nuevos pasan fuzz de 300 iteraciones cada
+  uno (sin `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue`
+  siempre presente, `recurso` siempre presente con largo ≥20) y simulación
+  de 200 sesiones completas cada uno sin ningún repetido (tras el fix de
+  "Movimiento bajo Fuerzas Centrales"). `MC_KEYS.length ===
+  Object.keys(MC_GAMES).length === 560` (535 previos + 25 nuevos, sin
+  claves huérfanas) y los 560 módulos de toda la app pasan un fuzz de
+  regresión de 40 iteraciones sin ningún hallazgo. Probado visualmente en
+  el navegador: navegación completa `etapaMap` → `medioGradeMap` →
+  `planMedioMap` de 4° medio (ambas tarjetas activas: Plan General y Plan
+  Diferenciado Científico) → `planDiferenciadoMap` (5 materias con conteo
+  de estrellas correcto: 0/15, 0/12, 0/15, 0/15, 0/18) → los 5 mapas de
+  módulos (4 a 6 nodos cada uno, sin solapamiento verificado con
+  `getBoundingClientRect()`) → una partida completa en "Movimiento bajo
+  Fuerzas Centrales" (resolvió correctamente una pregunta de "distancia ×4
+  → fuerza ×1/16" y otra de "distancia ÷6 → fuerza ×36", modal de Recurso
+  abriendo con el texto real) → confirmación del tono clínico/factual de
+  "Salud Pública: Problemas Complejos". Sin errores de consola en ningún
+  caso.
+
+Con esto, **Educación Media queda 100% completa**: 1°-2° medio (81
+módulos) + 3°-4° medio con su Plan General (34 módulos) y su Plan
+Diferenciado Científico (25 módulos) — 140 módulos en total para esta
+etapa.
 
 ### EPJA (Educación para Personas Jóvenes y Adultas) — ✅ completo (los 5 niveles: Nivel 1/2/3 Básica, Nivel 1/2 Media)
 Pedido explícito del usuario (2026-08-01, "procede con epja") de empezar a

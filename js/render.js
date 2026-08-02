@@ -15,7 +15,7 @@ import {
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
   TECNOLOGIA_BY_GRADE, INGLES_BY_GRADE, SUBJECT_DEFS, NUCLEO_DEFS,
   ESTUDIO_PRUEBAS_SUBMODULOS, EPJA_SUBJECT_DEFS, MEDIO_SUBJECT_DEFS,
-  PLAN_GENERAL_SUBJECT_DEFS,
+  PLAN_GENERAL_SUBJECT_DEFS, PLAN_DIFERENCIADO_SUBJECT_DEFS,
 } from './gradeContent.js';
 
 export function render(){
@@ -47,6 +47,12 @@ export function render(){
   else if(scr === 'educacionCiudadanaPlanMap') body = renderEducacionCiudadanaPlanMap();
   else if(scr === 'filosofiaPlanMap') body = renderFilosofiaPlanMap();
   else if(scr === 'inglesPlanMap') body = renderInglesPlanMap();
+  else if(scr === 'planDiferenciadoMap') body = renderPlanDiferenciadoMap();
+  else if(scr === 'biologiaCelularMolecularPlanMap') body = renderBiologiaCelularMolecularPlanMap();
+  else if(scr === 'biologiaEcosistemasPlanMap') body = renderBiologiaEcosistemasPlanMap();
+  else if(scr === 'cienciasSaludPlanMap') body = renderCienciasSaludPlanMap();
+  else if(scr === 'fisicaPlanMap') body = renderFisicaPlanMap();
+  else if(scr === 'quimicaPlanMap') body = renderQuimicaPlanMap();
   else if(scr === 'nucleoMap') body = renderNucleoMap();
   else if(scr === 'epjaMap') body = renderEpjaMap();
   else if(scr === 'epjaSubjectMap') body = renderEpjaSubjectMap();
@@ -220,9 +226,9 @@ function renderPlanMedioMap(){
         '<span class="subject-icon">📗</span>'+
         '<span class="subject-info"><b>Plan de Formación General</b><small>Lengua, Matemática, Ciencias para la Ciudadanía, Educación Ciudadana, Filosofía, Inglés</small></span>'+
       '</button>'+
-      '<button class="subject-card locked" onclick="showToast(\'🚧 Plan Diferenciado en preparación\')">'+
+      '<button class="subject-card" onclick="goTo(\'planDiferenciadoMap\')">'+
         '<span class="subject-icon">🧪</span>'+
-        '<span class="subject-info"><b>Plan Diferenciado Científico</b><small>Próximamente</small></span>'+
+        '<span class="subject-info"><b>Plan Diferenciado Científico</b><small>Biología Celular y Molecular, Biología de los Ecosistemas, Ciencias de la Salud, Física, Química</small></span>'+
       '</button>'+
     '</div>'+
   '</div>';
@@ -273,6 +279,50 @@ function renderFilosofiaPlanMap(){
 }
 function renderInglesPlanMap(){
   return renderPlanGeneralSubjectMapFor('inglesPlanMap','Inglés','🔤');
+}
+function renderPlanDiferenciadoMap(){
+  const g = state.currentMedioGrade;
+  const cards = PLAN_DIFERENCIADO_SUBJECT_DEFS.map(function(sd){
+    const data = sd.byGrade[g];
+    if(!data){
+      return '<button class="subject-card locked" onclick="showToast(\'🚧 Materia en preparación\')">'+
+        '<span class="subject-icon">'+sd.icon+'</span>'+
+        '<span class="subject-info"><b>'+sd.label+'</b><small>Próximamente</small></span>'+
+      '</button>';
+    }
+    const keys = data.modules.filter(function(m){ return m.key; }).map(function(m){ return m.key; });
+    const stars = subjectStars(keys);
+    const sub = data.modules.map(function(m){ return m.label; }).join(' · ');
+    return '<button class="subject-card" onclick="goTo(\''+sd.screen+'\')">'+
+      '<span class="subject-icon">'+sd.icon+'</span>'+
+      '<span class="subject-info"><b>'+sd.label+'</b><small>'+sub+'</small></span>'+
+      '<span class="subject-stars">⭐ '+stars+'/'+(keys.length*3)+'</span>'+
+    '</button>';
+  }).join('');
+  return '<div class="screen">'+
+    '<p class="section-title">Plan Diferenciado Científico</p>'+
+    '<p class="section-sub">'+medioGradeLabel(g)+' · Elige una materia para empezar a jugar.</p>'+
+    '<div class="subject-list">'+cards+'</div>'+
+  '</div>';
+}
+function renderPlanDiferenciadoSubjectMapFor(screenName, title, badgeIcon){
+  const data = PLAN_DIFERENCIADO_SUBJECT_DEFS.filter(function(sd){ return sd.screen===screenName; })[0].byGrade[state.currentMedioGrade];
+  return renderModuleMap(title, badgeIcon+' Alineado a '+title+' · '+medioGradeLabel(state.currentMedioGrade), data.modules, data.pos, data.height);
+}
+function renderBiologiaCelularMolecularPlanMap(){
+  return renderPlanDiferenciadoSubjectMapFor('biologiaCelularMolecularPlanMap','Biología Celular y Molecular','🧬');
+}
+function renderBiologiaEcosistemasPlanMap(){
+  return renderPlanDiferenciadoSubjectMapFor('biologiaEcosistemasPlanMap','Biología de los Ecosistemas','🌎');
+}
+function renderCienciasSaludPlanMap(){
+  return renderPlanDiferenciadoSubjectMapFor('cienciasSaludPlanMap','Ciencias de la Salud','⚕️');
+}
+function renderFisicaPlanMap(){
+  return renderPlanDiferenciadoSubjectMapFor('fisicaPlanMap','Física','⚛️');
+}
+function renderQuimicaPlanMap(){
+  return renderPlanDiferenciadoSubjectMapFor('quimicaPlanMap','Química','🧪');
 }
 function renderMedioSubjectMap(){
   const g = state.currentMedioGrade;

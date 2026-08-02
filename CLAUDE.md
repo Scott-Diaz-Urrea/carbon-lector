@@ -2257,7 +2257,7 @@ Antes de construir, definir con el usuario su lista real de asignaturas
 etc. — no asumir que es igual a Básica) y confirmar su decreto curricular
 vigente en curriculumnacional.cl.
 
-### EPJA (Educación para Personas Jóvenes y Adultas) — Nivel 1, 2 y 3 Básica ✅ completos, 2 niveles restantes 🔒
+### EPJA (Educación para Personas Jóvenes y Adultas) — Nivel 1, 2, 3 Básica y Nivel 1 Media ✅ completos, Nivel 2 Media restante 🔒
 Pedido explícito del usuario (2026-08-01, "procede con epja") de empezar a
 construir esta etapa, dejando el orden y el punto de partida a criterio de
 Claude ("dejar que yo decida el orden", confirmado vía `AskUserQuestion`).
@@ -2555,11 +2555,141 @@ para Nivel 1/2).
   confirmando visualmente el tono clínico/factual). Probado también en
   375px (mobile), sin errores de consola en ningún caso.
 
-**Próximo paso del mismo pedido:** Educación Media EPJA (Niveles 1-2,
-Formación General + partes de Diferenciada/Instrumental con sentido para
-trivia — quedan fuera las especialidades técnico-profesionales y de
-oficios, producción práctica de un oficio específico). Educación Media
-regular (no EPJA) sigue sin construir — ver sección de arriba.
+**Nivel 1 Media — ✅ completo (2026-08-01), 25 módulos, 5 asignaturas
+(Lenguaje y Comunicación, Matemática, Ciencias Naturales, Estudios
+Sociales, Inglés):** continuación directa del mismo pedido ("procede") tras
+completar Nivel 3 Básica. Nivel 1 Media es el primer nivel de EPJA
+construido con 5 subsectores en vez de 4 — agrega **Idioma Extranjero
+Inglés**, primera vez que EPJA incluye esta asignatura (Nivel 1/2/3 Básica
+no la tienen porque el temario de Básica no la lista). Fuente real: "Temario
+Primer Nivel de Educación Media — Proceso de exámenes de Validación de
+Estudios Adultos (mayores de 18 años)", **Decreto Supremo N°257 de 2009**
+(epja.mineduc.cl/wp-content/uploads/sites/43/2026/02/
+Temario-nivel-1-de-media-2026_1er-semestre-vf.pdf, extraído vía WebFetch +
+`pdftotext -layout`, mismo mecanismo ya usado para Nivel 2/3 Básica) —
+confirma que Educación Media EPJA sigue con el decreto anterior, igual que
+Nivel 2/3 Básica, y que la transición a las nuevas Bases EPJA 2024 sigue sin
+alcanzar Media.
+- **Lenguaje y Comunicación** (4 módulos, `content/epja/lenguajeMedia1.js`):
+  Comprensión de Lectura (información explícita, inferencia de sentido
+  global, aspectos físicos Y psicológicos de personajes — un nivel de
+  exigencia mayor que Básica), Vocabulario en Contexto (sentido de palabra/
+  expresión, sinónimos), Textos Expositivos y Discurso (estructura
+  introducción/desarrollo/conclusión, formas del discurso -descripción/
+  definición/caracterización-, función de recursos no verbales), y Hechos,
+  Opiniones y Argumentación (distinguir, fundamentar con información del
+  texto, fundamentar el tipo de mundo literario -realista/fantástico-,
+  ángulo nuevo que ningún nivel de Básica había cubierto). Cubre el eje
+  completo del temario (no incluye producción escrita).
+- **Matemática** (8 módulos, `content/epja/matematicaMedia1.js`, el más denso
+  de EPJA hasta ahora): Números Enteros y Racionales, Potencias e
+  Irracionales (potencias de exponente entero, propiedades de multiplicación/
+  división de igual base, aproximación de irracionales entre enteros
+  consecutivos), Proporcionalidad y Porcentajes (razón, directa/inversa/
+  porcentual), Álgebra (traducir lenguaje algebraico, reducir términos
+  semejantes, productos notables), Funciones y Ecuaciones (lineal vs. afín,
+  ecuaciones de primer grado, evaluar una función), Geometría: Ángulos y
+  Semejanza (clasificar ángulos, posición de rectas, escala),
+  Transformaciones y Medición (traslación/reflexión/rotación, perímetro/
+  área/volumen), y Estadística y Probabilidad (media/moda/mediana,
+  probabilidad de Laplace). A diferencia de Nivel 2/3 Básica (mezcla de
+  bancos estáticos y generadores dinámicos), este archivo prioriza
+  **generación dinámica** en casi todos los módulos (valores al azar
+  calculados en cada ronda, siguiendo la convención ya establecida del
+  proyecto de preferir contenido dinámico sobre bancos estáticos) — solo los
+  conceptos puramente clasificatorios (proporcionalidad directa/inversa,
+  transformaciones isométricas, Teorema de Thales) usan un banco curado de
+  escenarios. Cubre el eje completo del temario.
+- **Ciencias Naturales** (6 módulos, `content/epja/cienciasMedia1.js`): La
+  Célula y su Metabolismo, Sistemas de Nutrición y Salud (biológicas);
+  Movimiento, Ondas y Óptica, Energía, Trabajo y Calor (físicas); y
+  Disoluciones y Reacciones Químicas (agrupa concentración/ácido-base/redox/
+  velocidad de reacción/combustión en un solo módulo, ya que el temario los
+  presenta como un bloque temático relacionado); más Ecosistemas y
+  Biodiversidad (biológicas). Cubre las 3 áreas completas del temario
+  (Biológicas, Físicas, Químicas).
+- **Estudios Sociales** (4 módulos, `content/epja/estudiosSocialesMedia1.js`):
+  Colonia e Independencia, Chile en el Siglo XIX (consolidación territorial:
+  Guerra del Pacífico, Araucanía, Antártica, transición económica del
+  salitre a la crisis de 1929), Chile en el Siglo XX: Hacia la Democracia, y
+  Ciudadanía, Derechos y Participación. El módulo del Siglo XX incluye el
+  objetivo del temario "Explica el proceso de quiebre de la democracia... la
+  transición a la democracia" — un texto más detallado que el de Nivel 2
+  Básica (que solo pedía "ubicar temporalmente" el período). Se aplicó el
+  MISMO criterio ya establecido en `historia.js`
+  (`SIGLOXX_DEMOCRATIZACION_BANK`, 6° básico) y en
+  `estudiosSocialesNivel2.js`: solo hechos cronológicos indiscutibles y
+  transformaciones ampliamente documentadas de forma neutral (cambio del
+  modelo económico, fecha del golpe de 1973, del plebiscito de 1988, del
+  retorno a un gobierno electo en 1990), sin ningún juicio de valor, causa,
+  consecuencia ni interpretación multiperspectiva — no fue necesario
+  replantear esta política al usuario, ya estaba resuelta y documentada
+  para este mismo período histórico en sesiones anteriores.
+- **Inglés** (3 módulos, `content/epja/inglesMedia1.js`, **primera vez que
+  EPJA incluye esta asignatura**): Gramática en Contexto (los elementos
+  morfosintácticos que lista el temario -verbo "to be", there is/are,
+  comparativos/superlativos, imperativos, wh-questions, adverbios de
+  frecuencia, preposiciones de lugar, cuantificadores how much/how many-,
+  siempre dentro de una oración completa, nunca como regla aislada),
+  Vocabulario y Textos Funcionales (vocabulario de los textos tipo que lista
+  el temario: manuales, catálogos, herramientas, recetas, folletos —
+  contextos de trabajo/procesos productivos en vez de escolares), y
+  Comprensión de Lectura (las 3 habilidades del temario: identificar,
+  inferir/interpretar, reflexionar, con textos instructivos/narrativos/
+  descriptivos). Mismo mecanismo ya usado desde 5° básico en
+  `content/ingles.js`: `speakLang:'en'` en cada ronda para que `speak()`
+  busque una voz en inglés; `recurso` siempre en español (explicación
+  pedagógica, no el contenido del ítem en sí).
+- **Bugs de bank-size encontrados por la simulación de no-repetición (no
+  proactivamente esta vez):** `textosExpositivosEpjaM1` (Lenguaje),
+  `celulaMetabolismoEpjaM1` y `sistemasNutricionEpjaM1` (Ciencias), y
+  `movimientoOndasOpticaEpjaM1` (Ciencias) tenían exactamente 7 ítems para
+  `rounds:8` — 200/200 sesiones simuladas con repetición garantizada en los
+  4. Corregidos ampliando cada banco con contenido real dentro del mismo eje
+  ya citado (nunca inventando un objetivo nuevo) hasta llegar a 9 ítems cada
+  uno (margen de 1). **Lección técnica reforzada durante la verificación:**
+  tras editar los archivos de contenido tras el primer fuzz-test, una
+  segunda corrida del mismo test en la misma pestaña del navegador siguió
+  reportando el bug ya corregido — causa: el registro de módulos ES cachea
+  cada especificador de import por URL exacta dentro de la misma página,
+  así que reimportar `mcEngine.js` con un query string nuevo (`?v=...`)
+  crea un módulo nuevo para `mcEngine.js` en sí, pero sus imports internos
+  de los archivos de contenido (sin query string) siguen resolviendo al
+  registro ya cacheado de una carga anterior. Se resolvió con una recarga
+  completa de la página (`navigate` de nuevo a la misma URL) antes de
+  repetir la verificación — lección para sesiones futuras: si se edita un
+  archivo de contenido a mitad de una sesión de fuzz-testing en el
+  navegador, recargar la página completa antes de re-verificar, no solo
+  reimportar con un query string distinto.
+- **Corrección de contenido menor encontrada de paso:** el subtítulo de la
+  tarjeta "Educación para Adultos" en `etapaMap` (`render.js`) decía
+  literalmente "EPJA · Nivel 1 Básica disponible", un texto que quedó
+  desactualizado desde que se agregaron Nivel 2 y 3 Básica en sesiones
+  anteriores sin nunca haberlo actualizado. Corregido a "EPJA · Básica y 1°
+  Medio disponibles".
+- Verificado: los 25 generadores nuevos pasan fuzz de 300 iteraciones cada
+  uno (sin `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue`
+  siempre presente en las opciones, sin apóstrofes en `speakText`, `recurso`
+  y `explain` siempre presentes) y simulación de 200 sesiones completas cada
+  uno sin ningún repetido (tras el fix de los 4 bancos). `MC_KEYS.length ===
+  Object.keys(MC_GAMES).length === 396` (371 previos + 25 nuevos, sin claves
+  huérfanas). Probado visualmente en el navegador: navegación completa
+  `etapaMap` → `epjaMap` (Nivel 1 Media ya desbloqueado) → `epjaSubjectMap`
+  (5 asignaturas, con su conteo de estrellas correcto: 0/12, 0/24, 0/18,
+  0/12, 0/9) → mapa de módulos de las 5 asignaturas (sin solapamiento de
+  nodos, ancho de etiqueta siempre ≤170px en los 5 mapas, de 3 a 8 nodos
+  cada uno) → una partida jugada en "Números Enteros y Racionales"
+  (Matemática, resolvió correctamente "-15 − (3) + 6 = -12", modal de
+  Recurso abriendo con el texto real, avance correcto y subida de nivel tras
+  responder bien) y una ronda en "Gramática en Contexto" (Inglés,
+  `speakLang:'en'` confirmado). Probado también en 375px (mobile), sin
+  errores de consola en ningún caso.
+
+**Próximo paso del mismo pedido:** Nivel 2 Media EPJA (3°-4° medio
+equivalente), el último nivel de EPJA que falta por construir — investigar
+primero su temario real y decreto vigente antes de asumir que replica el de
+Nivel 1 Media. Educación Media regular (no EPJA) sigue sin construir — ver
+sección de arriba.
 
 ## Próximos pasos sugeridos (en orden)
 

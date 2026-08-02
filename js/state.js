@@ -105,7 +105,12 @@ export const state = {
            comprensionEpjaN3:0, vocabularioContextoEpjaN3:0, tiposTextoEpjaN3:0, hechosOpinionesEpjaN3:0,
            numerosEnterosEpjaN3:0, potenciasNotacionEpjaN3:0, razonesProporcionesEpjaN3:0, pitagorasCircunferenciaEpjaN3:0, angulosTriangulosEpjaN3:0, estadisticaEpjaN3:0,
            modeloCineticoEpjaN3:0, atomosReaccionesEpjaN3:0, energiaTransformacionesEpjaN3:0, origenVidaGeneticaEpjaN3:0, reproduccionSexualidadEpjaN3:0, sistemaInmuneEnfermedadesEpjaN3:0,
-           historiaEconomiaMundialEpjaN3:0, trabajoChileEpjaN3:0, democraciaDerechosEpjaN3:0 },
+           historiaEconomiaMundialEpjaN3:0, trabajoChileEpjaN3:0, democraciaDerechosEpjaN3:0,
+           comprensionEpjaM1:0, vocabularioContextoEpjaM1:0, textosExpositivosEpjaM1:0, hechosOpinionesEpjaM1:0,
+           numerosRacionalesEpjaM1:0, potenciasIrracionalesEpjaM1:0, proporcionalidadEpjaM1:0, algebraEpjaM1:0, funcionesEcuacionesEpjaM1:0, geometriaSemejanzaEpjaM1:0, transformacionesMedicionEpjaM1:0, estadisticaProbabilidadEpjaM1:0,
+           celulaMetabolismoEpjaM1:0, sistemasNutricionEpjaM1:0, ecosistemasBiodiversidadEpjaM1:0, movimientoOndasOpticaEpjaM1:0, energiaCalorEpjaM1:0, disolucionesReaccionesEpjaM1:0,
+           coloniaIndependenciaEpjaM1:0, sigloXIXTerritorioEpjaM1:0, sigloXXDemocraciaEpjaM1:0, ciudadaniaDerechosEpjaM1:0,
+           gramaticaContextoEpjaM1:0, vocabularioFuncionalEpjaM1:0, comprensionInglesEpjaM1:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

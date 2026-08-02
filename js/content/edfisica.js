@@ -684,3 +684,63 @@ export function genVidaActivaSeguridadM1Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 2° Medio (Decreto 614/2013, mismo decreto que 1° medio) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2-medio/educacion-fisica-salud/2-medio
+   — EF2M OA01-05. Cubiertos: OA02 (diseñar estrategias/tácticas específicas,
+   con escenarios nuevos de DISEÑO en vez de solo modificar/evaluar como en 1°
+   medio) y OA03 (plan de entrenamiento personal, con el ángulo de gasto
+   calórico que el módulo de 1° medio no ejercitó explícitamente — texto casi
+   idéntico al de 1° medio, mismo criterio de años anteriores: escenarios
+   nuevos en vez de duplicar el módulo). Fuera: OA01 (habilidades motrices
+   específicas por deporte, práctica física real) y OA04-05 (participar/
+   liderar actividades físicas en la comunidad, acción real). */
+export const EDFISICA_MODULES_M2 = [
+  {id:'tacticasdisenom2', label:'Diseño de Estrategias y Tácticas', open:true, key:'tacticasdisenom2'},
+  {id:'entrenamientocaloricom2', label:'Entrenamiento y Gasto Calórico', open:true, key:'entrenamientocaloricom2'},
+];
+export const EDFISICA_POS_M2 = [{x:30,y:70},{x:70,y:30}];
+
+const TACTICAS_DISENO_M2_BANK = [
+  { desc:'Antes de un partido de básquetbol, el equipo diseña un juego de ataque específico para aprovechar que un jugador rival es más bajo bajo el aro', correcta:'Diseñar una táctica ofensiva a partir de una debilidad detectada en el rival', opts:['Copiar la táctica del equipo campeón sin ningún análisis propio','No planificar nada antes del partido','Elegir una táctica al azar sin ningún fundamento'] },
+  { desc:'En vóleibol, el equipo diseña una rotación de jugadores específica para que su mejor rematador quede siempre cerca de la red en los momentos clave', correcta:'Diseñar una estrategia de posicionamiento según las fortalezas propias del equipo', opts:['Ubicar a los jugadores completamente al azar','Ignorar las fortalezas de cada jugador','Cambiar de deporte en medio del partido'] },
+  { desc:'Un equipo de fútbol diseña, antes del partido, una jugada de tiro libre específica ensayada durante la semana de entrenamiento', correcta:'Diseñar una jugada específica y practicarla previamente para un momento del juego', opts:['Improvisar cualquier jugada sin ninguna preparación previa','No practicar ninguna jugada durante la semana','Evitar cualquier tiro libre durante el partido'] },
+  { desc:'En un partido de handball, el cuerpo técnico diseña una defensa especial para anular al mejor lanzador del equipo rival', correcta:'Diseñar una táctica defensiva enfocada en neutralizar una amenaza específica del rival', opts:['Defender exactamente igual sin importar quién ataque','No analizar nunca las fortalezas del rival','Retirar a todos los defensas de la cancha'] },
+  { desc:'Un equipo de tenis de mesa diseña, antes del torneo, una estrategia de saque específica para aprovechar la mano menos hábil de su rival', correcta:'Diseñar una táctica ofensiva a partir de una debilidad detectada en el rival', opts:['Sacar siempre exactamente de la misma forma, sin ningún plan','No preparar ningún saque especial antes del torneo','Cambiar de deporte a mitad del torneo'] },
+  { desc:'En un equipo de rugby, el entrenador diseña una formación de scrum específica según la altura y peso de sus propios jugadores', correcta:'Diseñar una estrategia de posicionamiento según las fortalezas propias del equipo', opts:['Formar el scrum al azar en cada jugada','Ignorar las características físicas de los jugadores','Retirar a todo el equipo de la cancha'] },
+  { desc:'Antes de una final de atletismo por equipos, los entrenadores diseñan el orden de corredores según quién rinde mejor en cada tramo de la posta', correcta:'Diseñar una jugada específica y practicarla previamente para un momento del juego', opts:['Elegir el orden de corredores al azar el día de la carrera','No practicar ningún cambio de posta previamente','Correr sin ningún orden planificado'] },
+  { desc:'Un equipo de fútbol sala diseña una presión alta específica para forzar errores en la salida de balón del equipo rival', correcta:'Diseñar una táctica defensiva enfocada en neutralizar una amenaza específica del rival', opts:['Defender siempre replegado sin ningún plan de presión','No analizar cómo sale con el balón el equipo rival','Retirar a todos los jugadores de la cancha'] },
+];
+export function genTacticasDisenoM2Round(){
+  const recurso = 'Diseñar una <b>estrategia o táctica deportiva</b> (a diferencia de solo modificarla durante el partido) implica planificar con anticipación, basándose en un análisis de las fortalezas propias del equipo y las debilidades del rival: por ejemplo, diseñar una jugada de ataque específica para aprovechar que un rival es más bajo, o una rotación de jugadores que ubique al mejor rematador en el momento justo. Este diseño se practica y ensaya antes del partido, y luego se aplica y se evalúa durante el juego real, ajustándolo si es necesario — diseñar, aplicar y evaluar forman un ciclo completo de trabajo táctico.';
+  const item = pick(TACTICAS_DISENO_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué principio táctico se aplica aquí?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
+    explain: 'Esto es un ejemplo de: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const ENTRENAMIENTO_CALORICO_M2_BANK = [
+  { pregunta:'¿Qué relación debe existir entre el gasto calórico de un plan de entrenamiento y la ingesta de alimentos, para mantener un peso saludable?', correcta:'Un equilibrio entre las calorías consumidas y las calorías gastadas mediante la actividad física', opts:['No existe ninguna relación entre ambos factores','Siempre hay que consumir muchas más calorías que las gastadas','Siempre hay que consumir muchas menos calorías, sin importar el gasto'] },
+  { pregunta:'Si el objetivo de un plan de entrenamiento personal es mejorar la resistencia cardiovascular, ¿qué duración y frecuencia son razonables como punto de partida?', correcta:'Sesiones de al menos 20-30 minutos, varias veces por semana', opts:['Una sola sesión de un minuto al mes','Sesiones de 10 horas seguidas cada día','No es necesario definir duración ni frecuencia'] },
+  { pregunta:'¿Por qué es importante registrar el progreso (por ejemplo, tiempos o repeticiones) a lo largo de un plan de entrenamiento personal?', correcta:'Para evaluar si el plan está funcionando y ajustar la intensidad o progresión si es necesario', opts:['No sirve para nada llevar un registro','Porque es obligatorio por ley','Para competir contra otras personas exclusivamente'] },
+  { pregunta:'¿Qué error común se debe evitar al diseñar un plan de entrenamiento personal en cuanto al gasto calórico?', correcta:'Aumentar el gasto calórico de forma brusca sin dar tiempo al cuerpo para adaptarse', opts:['Aumentar el gasto calórico de forma gradual y progresiva','Registrar el progreso semanalmente','Combinar distintos tipos de ejercicio'] },
+  { pregunta:'¿Por qué el gasto calórico de un plan de entrenamiento debería considerar el objetivo personal de cada persona (por ejemplo, resistencia o fuerza)?', correcta:'Porque distintos objetivos requieren distintos tipos e intensidades de ejercicio, y por lo tanto distinto gasto calórico', opts:['Porque el gasto calórico es siempre exactamente igual sin importar el objetivo','Porque el objetivo personal no influye nunca en el plan de entrenamiento','Porque solo importa el tiempo total, sin importar el tipo de ejercicio'] },
+  { pregunta:'¿Qué rol cumple la variedad de ejercicios (combinar resistencia, fuerza y flexibilidad) dentro de un plan de entrenamiento con enfoque en el gasto calórico?', correcta:'Ayuda a desarrollar distintas capacidades físicas a la vez, evitando el estancamiento y sobrecargas', opts:['No aporta ningún beneficio adicional al plan','Solo sirve para hacer el entrenamiento más aburrido','Aumenta el riesgo de lesión sin ningún beneficio'] },
+  { pregunta:'¿Qué debería considerar una persona que quiere aumentar su masa muscular al planificar su gasto calórico?', correcta:'Asegurar un consumo de calorías y proteínas suficiente para acompañar el entrenamiento de fuerza', opts:['Reducir al mínimo posible el consumo de todos los alimentos','Evitar por completo cualquier tipo de proteína','Entrenar sin ningún tipo de descanso entre sesiones'] },
+  { pregunta:'¿Por qué no es recomendable guiarse únicamente por el gasto calórico de una app o reloj deportivo, sin escuchar las señales del propio cuerpo?', correcta:'Porque esas estimaciones no son exactas y el cuerpo puede necesitar ajustes según el cansancio o la recuperación real', opts:['Porque esas apps y relojes siempre son 100% exactos','Porque el cuerpo nunca necesita ningún tipo de descanso','Porque el gasto calórico no tiene relación con el entrenamiento'] },
+];
+export function genEntrenamientoCaloricoM2Round(){
+  const recurso = 'Al diseñar un <b>plan de entrenamiento personal</b>, además de desarrollar resistencia cardiovascular, fuerza, velocidad y flexibilidad, es importante considerar el <b>gasto calórico</b>: buscar un equilibrio entre las calorías que se consumen con la alimentación y las que se gastan con la actividad física, según el objetivo de cada persona. También hay que definir una duración y frecuencia razonables (por ejemplo, sesiones de 20-30 minutos varias veces por semana para resistencia), aumentar la exigencia de forma gradual (progresión) para evitar lesiones, y registrar el propio progreso para poder evaluar si el plan está funcionando y ajustarlo cuando sea necesario.';
+  const item = pick(ENTRENAMIENTO_CALORICO_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

@@ -1456,3 +1456,215 @@ export function genEconomiaCiudadaniaM1Round(){
   };
 }
 
+/* ---------------- 2° Medio (Decreto 614/2013, mismo decreto que 1° medio) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/historia-geografia-ciencias-sociales/2-medio
+   — OA01-25 (Historia OA01-21, Formación Ciudadana OA22-25). Ningún OA queda
+   fuera del motor de opción múltiple. OA15-16 (interpretaciones historiográficas
+   del golpe de 1973 y violaciones a los DD.HH. durante la dictadura) se tratan
+   con el MISMO criterio ya usado en 6° básico (SIGLOXX_DEMOCRATIZACION_BANK) y
+   en EPJA Nivel 2 Básica/Nivel 1 Media: solo hechos cronológicos indiscutibles
+   y documentados por fuentes oficiales (Informe Rettig), sin comparar posturas
+   historiográficas ni narrar detalles de violaciones específicas — decisión
+   confirmada explícitamente con el usuario vía AskUserQuestion antes de
+   escribir este módulo, dado que el texto literal de estos OA pide un nivel
+   más profundo (comparar interpretaciones, explicar el desarrollo de las
+   violaciones) que el criterio ya aplicado en el resto de la app. */
+export const HISTORIA_MODULES_M2 = [
+  {id:'entreguerrasm2', label:'Entreguerras y Vanguardias', open:true, key:'entreguerrasm2'},
+  {id:'crisisliberalismom2', label:'Crisis del Liberalismo', open:true, key:'crisisliberalismom2'},
+  {id:'segundaguerram2', label:'Segunda Guerra Mundial', open:true, key:'segundaguerram2'},
+  {id:'republicachilem2', label:'República de Chile: Crisis y Reconstrucción', open:true, key:'republicachilem2'},
+  {id:'guerrafriam2', label:'Guerra Fría', open:true, key:'guerrafriam2'},
+  {id:'movilizacionchilem2', label:'Chile: Movilización y Crisis', open:true, key:'movilizacionchilem2'},
+  {id:'dictaduratransicionm2', label:'Dictadura, Modelo Económico y Transición', open:true, key:'dictaduratransicionm2'},
+  {id:'formacionciudadanam2', label:'Formación Ciudadana', open:true, key:'formacionciudadanam2'},
+];
+export const HISTORIA_POS_M2 = [
+  {x:24,y:94},{x:68,y:84},{x:24,y:74},{x:68,y:64},{x:24,y:54},{x:68,y:44},{x:24,y:34},{x:68,y:24}
+];
+
+const ENTREGUERRAS_M2_BANK = [
+  { pregunta:'¿Qué caracterizó a las vanguardias artísticas del período de entreguerras (surrealismo, cubismo, entre otras)?', correcta:'La ruptura con las formas artísticas tradicionales y la experimentación con nuevas técnicas y perspectivas', opts:['El apego estricto a las reglas del arte clásico grecorromano','El rechazo total a cualquier forma de expresión artística','La prohibición de exponer obras en museos'] },
+  { pregunta:'¿Qué es la "cultura de masas" que se desarrolló en este período?', correcta:'Formas de entretenimiento y consumo cultural (cine, radio, deportes) dirigidas y accesibles a una gran cantidad de personas', opts:['Un tipo de arte exclusivo para una minoría muy reducida','La desaparición completa de los medios de comunicación','Una forma de gobierno autoritario'] },
+  { pregunta:'¿Qué nuevos medios de comunicación impulsaron el desarrollo de la cultura de masas en la primera mitad del siglo XX?', correcta:'La radio y el cine, entre otros', opts:['Internet y los teléfonos celulares','La imprenta, inventada en ese mismo período','Las redes sociales digitales'] },
+  { pregunta:'¿Qué buscaba el surrealismo, una de las vanguardias artísticas del período de entreguerras?', correcta:'Explorar el mundo de los sueños, lo irracional y el subconsciente en el arte', opts:['Representar la realidad de forma exacta y fotográfica','Seguir estrictamente las reglas del arte renacentista','Prohibir cualquier forma de pintura abstracta'] },
+  { pregunta:'¿Qué característica definía al cubismo como vanguardia artística?', correcta:'Representar objetos y figuras descomponiéndolos en formas geométricas desde múltiples perspectivas a la vez', opts:['Pintar siempre paisajes naturales de forma realista','Usar exclusivamente blanco y negro en todas las obras','Copiar fielmente obras de siglos anteriores'] },
+  { pregunta:'¿Qué papel cumplió el cine como parte de la cultura de masas del período de entreguerras?', correcta:'Se convirtió en una forma de entretenimiento accesible para grandes audiencias, difundiendo modas e ideas', opts:['Fue un medio exclusivo, disponible solo para unas pocas personas','No tuvo ninguna influencia sobre la sociedad de la época','Desapareció por completo durante este período'] },
+  { pregunta:'¿Por qué se dice que las vanguardias artísticas de entreguerras "rompieron" con la tradición?', correcta:'Porque experimentaron con nuevas formas, técnicas y temas, alejándose de las reglas del arte académico clásico', opts:['Porque dejaron de producir cualquier tipo de obra de arte','Porque solo repitieron exactamente el estilo del Renacimiento','Porque se prohibió la creación artística en esa época'] },
+  { pregunta:'¿Qué tipo de deportes y espectáculos masivos ganaron enorme popularidad como parte de la cultura de masas de entreguerras?', correcta:'Eventos deportivos y espectáculos de entretenimiento seguidos por audiencias multitudinarias', opts:['Actividades reservadas exclusivamente a la nobleza','Prácticas que desaparecieron por completo en esa época','Torneos que nadie podía presenciar públicamente'] },
+  { pregunta:'¿Qué efecto tuvo la radio en la vida cotidiana de las familias durante el período de entreguerras?', correcta:'Permitió llevar noticias, música y entretenimiento directamente a los hogares de forma masiva', opts:['No tuvo ningún efecto en la vida cotidiana de las personas','Solo estaba disponible en oficinas de gobierno','Reemplazó por completo la necesidad de periódicos y libros'] },
+];
+export function genEntreguerrasM2Round(){
+  const recurso = 'El período de <b>entreguerras</b> (entre la Primera y la Segunda Guerra Mundial) trajo una intensa transformación cultural: las <b>vanguardias artísticas</b> (como el surrealismo o el cubismo) rompieron con las formas tradicionales del arte, experimentando con nuevas técnicas y perspectivas para representar la realidad de formas antes impensadas. Al mismo tiempo, se expandió la <b>cultura de masas</b>: gracias a nuevos medios como la radio y el cine, el entretenimiento y el consumo cultural llegaron a una cantidad de personas mucho mayor que antes, transformando la manera en que la sociedad compartía ideas, modas y formas de diversión.';
+  const item = pick(ENTREGUERRAS_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const CRISIS_LIBERALISMO_M2_BANK = [
+  { pregunta:'¿Qué fue la crisis de 1929 (la "Gran Depresión")?', correcta:'Una grave crisis económica mundial, originada en Estados Unidos, que provocó desempleo masivo y quiebra de empresas', opts:['Un período de crecimiento económico sostenido a nivel mundial','Un conflicto armado entre países europeos','Una epidemia sanitaria mundial'] },
+  { pregunta:'¿Qué tipo de régimen político surgió en varios países europeos tras la crisis de los Estados liberales (como en Italia y Alemania)?', correcta:'Regímenes totalitarios, con un control absoluto del Estado sobre la sociedad', opts:['Monarquías parlamentarias más democráticas que antes','Repúblicas federales con mayor descentralización','Gobiernos exclusivamente religiosos'] },
+  { pregunta:'¿Qué es el "Estado de bienestar" que surgió como respuesta a la crisis del liberalismo clásico en algunos países?', correcta:'Un modelo en que el Estado interviene activamente para garantizar servicios sociales (salud, educación, seguridad social)', opts:['Un modelo donde el Estado no interviene en absoluto en la economía','Un sistema sin ningún tipo de impuestos','Un régimen exclusivamente militar'] },
+  { pregunta:'¿Qué efecto tuvo la crisis de 1929 sobre el desempleo a nivel mundial?', correcta:'Provocó un aumento masivo del desempleo en muchos países', opts:['Eliminó por completo el desempleo en todo el mundo','No tuvo ningún efecto sobre el empleo','Solo afectó a un país, sin ninguna repercusión internacional'] },
+  { pregunta:'¿Qué caracteriza a un régimen totalitario, como los que surgieron en algunos países europeos tras la crisis del liberalismo?', correcta:'Un control absoluto del Estado sobre casi todos los aspectos de la vida social, sin libertades individuales reales', opts:['Un sistema con múltiples partidos políticos compitiendo libremente','Un gobierno que no interviene en absoluto en la sociedad','Una monarquía puramente simbólica sin poder real'] },
+  { pregunta:'¿Qué buscaba principalmente el Estado de bienestar frente a los problemas sociales que dejó la crisis económica?', correcta:'Reducir la desigualdad y proteger a la población mediante políticas públicas de salud, educación y seguridad social', opts:['Eliminar por completo cualquier servicio público','Aumentar la desigualdad social de forma deliberada','Prohibir cualquier tipo de educación pública'] },
+  { pregunta:'¿Por qué se dice que la crisis de 1929 tuvo un alcance mundial y no solo nacional?', correcta:'Porque las economías de distintos países estaban interconectadas por el comercio internacional, y la crisis se propagó entre ellas', opts:['Porque cada país vivió la crisis de forma completamente aislada','Porque solo afectó a un continente sin ninguna conexión con otros','Porque no existía ningún tipo de comercio internacional en esa época'] },
+  { pregunta:'¿Qué llevó a muchas personas a apoyar regímenes totalitarios tras la crisis económica de 1929?', correcta:'La promesa de orden, estabilidad económica y empleo frente a la incertidumbre y el desempleo masivo', opts:['El deseo generalizado de eliminar cualquier forma de gobierno','La ausencia total de problemas económicos previos','Una decisión tomada sin ninguna relación con la crisis'] },
+  { pregunta:'¿Qué diferencia principal existe entre un Estado liberal clásico y un Estado de bienestar?', correcta:'El Estado de bienestar interviene activamente para garantizar servicios sociales, mientras el liberal clásico deja esas funciones principalmente al mercado', opts:['No existe ninguna diferencia real entre ambos modelos','El Estado liberal clásico siempre garantiza más servicios sociales','El Estado de bienestar elimina por completo cualquier tipo de mercado'] },
+];
+export function genCrisisLiberalismoM2Round(){
+  const recurso = 'A comienzos del siglo XX, los <b>Estados liberales</b> (basados en el libre mercado con poca intervención estatal) entraron en crisis, agravada por la <b>crisis de 1929</b> (la Gran Depresión): una crisis económica mundial que provocó desempleo masivo y la quiebra de numerosas empresas. Como respuesta, surgieron distintos modelos políticos: en algunos países aparecieron <b>regímenes totalitarios</b> (con un control absoluto del Estado sobre la sociedad, sin libertades individuales), mientras que en otros se desarrolló el <b>Estado de bienestar</b>, un modelo en que el Estado interviene activamente en la economía para garantizar servicios sociales como salud, educación y seguridad social a toda la población.';
+  const item = pick(CRISIS_LIBERALISMO_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const SEGUNDA_GUERRA_M2_BANK = [
+  { pregunta:'¿Qué caracterizó a la Segunda Guerra Mundial en términos de confrontación ideológica?', correcta:'Un enfrentamiento entre potencias con proyectos políticos e ideológicos muy distintos, con enorme cantidad de víctimas civiles', opts:['Un conflicto exclusivamente entre ejércitos, sin ninguna víctima civil','Una guerra sin ninguna base ideológica de por medio','Un conflicto que no involucró a ningún país fuera de Europa'] },
+  { pregunta:'¿Qué fue el Holocausto durante la Segunda Guerra Mundial?', correcta:'El genocidio sistemático de millones de personas, principalmente judíos, perpetrado por la Alemania nazi', opts:['Un tratado de paz firmado al final de la guerra','Una alianza militar entre países aliados','Un programa de ayuda humanitaria internacional'] },
+  { pregunta:'¿Qué demostró el uso de armas atómicas al final de la Segunda Guerra Mundial (Hiroshima y Nagasaki)?', correcta:'La enorme capacidad destructiva de esta nueva tecnología militar', opts:['Que las armas atómicas no tenían ningún efecto real','Que la guerra había terminado varios años antes','Que ningún país había desarrollado tecnología nuclear'] },
+  { pregunta:'¿Por qué se dice que la Segunda Guerra Mundial tuvo un componente ideológico muy marcado?', correcta:'Porque enfrentó proyectos políticos muy distintos, como el fascismo, el nazismo y las democracias aliadas', opts:['Porque fue un conflicto sin ninguna diferencia de ideas entre los bandos','Porque no participó ningún gobierno en el conflicto','Porque solo involucró disputas territoriales, sin ninguna ideología'] },
+  { pregunta:'¿Qué distingue al Holocausto de otros hechos de la Segunda Guerra Mundial?', correcta:'Fue un genocidio sistemático y planificado, dirigido principalmente contra la población judía de Europa', opts:['Fue un acuerdo comercial entre países en guerra','Fue una campaña de ayuda humanitaria durante el conflicto','Fue un tratado de paz firmado antes de terminar la guerra'] },
+];
+const CONSECUENCIAS_GUERRA_M2_BANK = [
+  { pregunta:'¿Qué nuevas potencias emergieron como las más influyentes tras la Segunda Guerra Mundial?', correcta:'Estados Unidos y la Unión Soviética', opts:['Alemania y Japón','Francia y España','Italia y Portugal'] },
+  { pregunta:'¿Qué proceso, iniciado tras la Segunda Guerra Mundial, llevó a que muchas colonias en África y Asia se independizaran?', correcta:'La descolonización', opts:['La reconquista colonial','La unificación imperial','La expansión territorial europea'] },
+  { pregunta:'¿Qué organización internacional se creó tras la Segunda Guerra Mundial para promover la paz y la cooperación entre países?', correcta:'La Organización de las Naciones Unidas (ONU)', opts:['La Unión Europea','La OTAN, creada en ese mismo momento','El Fondo Monetario Internacional únicamente'] },
+  { pregunta:'¿Qué documento internacional, adoptado tras la Segunda Guerra Mundial, estableció derechos básicos que deben respetarse en todos los países?', correcta:'La Declaración Universal de los Derechos Humanos', opts:['El Tratado de Versalles','La Carta Magna inglesa','El Código de Napoleón'] },
+  { pregunta:'¿Por qué la creación de la ONU tras la Segunda Guerra Mundial fue considerada un hito importante?', correcta:'Porque buscaba dar a los países un espacio de diálogo y cooperación para evitar nuevos conflictos globales', opts:['Porque eliminó por completo cualquier posibilidad de conflicto futuro','Porque reemplazó a todos los gobiernos nacionales del mundo','Porque solo tenía funciones deportivas internacionales'] },
+];
+export function genSegundaGuerraM2Round(){
+  const recurso = 'La <b>Segunda Guerra Mundial</b> (1939-1945) fue un enfrentamiento entre potencias con proyectos ideológicos muy distintos, marcado por un altísimo número de víctimas civiles y por el <b>Holocausto</b>: el genocidio sistemático de millones de personas, principalmente judías, perpetrado por la Alemania nazi. El uso de <b>armas atómicas</b> sobre Hiroshima y Nagasaki demostró la enorme capacidad destructiva de esta nueva tecnología militar. Entre las <b>consecuencias</b> de la guerra están la emergencia de Estados Unidos y la Unión Soviética como las potencias más influyentes, el inicio de la <b>descolonización</b> de territorios en África y Asia, y la creación de instituciones internacionales como la <b>ONU</b> y la <b>Declaración Universal de los Derechos Humanos</b>, pensadas para promover la paz y evitar que atrocidades similares volvieran a ocurrir.';
+  const item = pick(Math.random()<0.5 ? SEGUNDA_GUERRA_M2_BANK : CONSECUENCIAS_GUERRA_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const REPUBLICA_CHILE_M2_BANK = [
+  { pregunta:'¿Qué solucionó la nueva Constitución de 1925 en Chile, tras la crisis del período parlamentario?', correcta:'Fortaleció al poder presidencial, terminando con el predominio absoluto del Congreso propio del parlamentarismo', opts:['Estableció una monarquía en Chile','Eliminó por completo la existencia del Congreso','Suspendió las elecciones de forma indefinida'] },
+  { pregunta:'¿Qué transformaciones vivió Chile tras la crisis de 1929?', correcta:'Un proceso de industrialización impulsado por el Estado y la expansión de servicios sociales', opts:['El abandono total de cualquier actividad económica','La eliminación completa del comercio internacional','El regreso a una economía exclusivamente agrícola colonial'] },
+  { pregunta:'¿Qué rol cumplió la CORFO (Corporación de Fomento de la Producción), creada en 1939 en Chile?', correcta:'Impulsar la industrialización del país mediante inversión y planificación estatal', opts:['Administrar exclusivamente el sistema educativo','Regular el tránsito vehicular en las ciudades','Organizar torneos deportivos nacionales'] },
+  { pregunta:'¿Qué avances sociales se relacionan con la ampliación de la participación política a mediados del siglo XX en Chile?', correcta:'La incorporación del voto femenino y la mayor organización de sindicatos y partidos populares', opts:['La eliminación total del derecho a voto','El fin de cualquier forma de organización sindical','La prohibición de partidos políticos'] },
+  { pregunta:'¿Qué papel cumplió la cultura de masas (radio, cine) en el proceso de democratización social de mediados del siglo XX en Chile?', correcta:'Ayudó a difundir información y a que más sectores sociales participaran de la vida pública y cultural', opts:['No tuvo ninguna relación con la vida pública del país','Solo estuvo disponible para una minoría muy reducida de la población','Prohibió la participación de nuevos sectores sociales'] },
+  { pregunta:'¿Por qué la Constitución de 1925 marcó un cambio importante en el sistema político chileno?', correcta:'Porque reemplazó el sistema parlamentario por uno con un poder presidencial fortalecido', opts:['Porque estableció que Chile pasara a ser una monarquía','Porque eliminó por completo las elecciones presidenciales','Porque devolvió todo el poder al Congreso'] },
+  { pregunta:'¿En qué año se otorgó el derecho a voto en elecciones presidenciales a las mujeres en Chile?', correcta:'En 1949', opts:['En 1810','En 1990','En 1925'] },
+  { pregunta:'¿Qué buscaba la industrialización impulsada por el Estado chileno tras la crisis de 1929?', correcta:'Reducir la dependencia de las exportaciones de materias primas, desarrollando industria nacional', opts:['Aumentar exclusivamente las exportaciones agrícolas','Eliminar cualquier tipo de producción nacional','Depender aún más de un solo producto de exportación'] },
+];
+export function genRepublicaChileM2Round(){
+  const recurso = 'Tras la crisis del período parlamentario, la <b>Constitución de 1925</b> fortaleció el poder presidencial en Chile, terminando con el predominio casi absoluto que tenía el Congreso durante el parlamentarismo. Después de la crisis de 1929, el país impulsó un proceso de <b>industrialización</b> liderado por el Estado, con instituciones como la <b>CORFO</b> (creada en 1939) planificando e invirtiendo en nuevas industrias, junto con la expansión de servicios sociales. A mediados del siglo XX, la participación política se amplió con avances como el <b>voto femenino</b> y una mayor organización de sindicatos y partidos populares, mientras la <b>cultura de masas</b> (radio, cine) ayudaba a que más sectores sociales tomaran parte de la vida pública y cultural del país.';
+  const item = pick(REPUBLICA_CHILE_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const GUERRA_FRIA_M2_BANK = [
+  { pregunta:'¿Qué fue la Guerra Fría?', correcta:'Un largo período de confrontación ideológica, política y militar entre Estados Unidos (capitalismo) y la Unión Soviética (comunismo), sin un enfrentamiento militar directo entre ambos', opts:['Una guerra formal declarada entre Estados Unidos y la Unión Soviética','Un período sin ningún tipo de tensión internacional','Un conflicto exclusivamente comercial sin componente político'] },
+  { pregunta:'¿En qué ámbitos se manifestó principalmente la confrontación de la Guerra Fría, además del político?', correcta:'En la cultura, la ciencia y la tecnología (por ejemplo, la carrera espacial)', opts:['Únicamente en el deporte olímpico','Solo en la moda y la gastronomía','Exclusivamente en la arquitectura de edificios'] },
+  { pregunta:'¿Qué transformación vivieron muchas sociedades occidentales durante la Guerra Fría, en términos económicos y de consumo?', correcta:'Un fuerte crecimiento económico y la expansión de una sociedad de consumo masivo', opts:['Un estancamiento económico total en todos los países occidentales','La desaparición completa del comercio internacional','El fin de cualquier tipo de desarrollo tecnológico'] },
+  { pregunta:'¿Qué caracterizó a varios procesos de movilización social y política en América Latina durante la Guerra Fría?', correcta:'Tensiones entre proyectos revolucionarios, la influencia de Estados Unidos, y la llegada de golpes de Estado en distintos países', opts:['La ausencia total de conflictos políticos en la región','Una estabilidad política absoluta en todos los países','El fin completo de cualquier intervención extranjera en la región'] },
+  { pregunta:'¿Qué llevó al fin de la Guerra Fría hacia comienzos de la década de 1990?', correcta:'El colapso de la Unión Soviética y el reordenamiento geopolítico mundial que le siguió', opts:['Una guerra directa entre Estados Unidos y la Unión Soviética','La disolución de las Naciones Unidas','La reunificación de todos los países bajo un solo gobierno'] },
+  { pregunta:'¿Por qué se le llama "Guerra Fría" a este período, si no hubo un enfrentamiento militar directo entre las dos superpotencias?', correcta:'Porque la confrontación se dio mediante otros medios (ideológicos, tecnológicos, económicos) en vez de una guerra declarada entre ambas', opts:['Porque el conflicto ocurrió únicamente en zonas de clima muy frío','Porque no existió ninguna tensión real entre ambos países','Porque fue un conflicto exclusivamente deportivo'] },
+  { pregunta:'¿Qué fue la "carrera espacial" durante la Guerra Fría?', correcta:'La competencia entre Estados Unidos y la Unión Soviética por lograr avances tecnológicos y científicos en la exploración espacial', opts:['Una competencia deportiva de atletismo entre ambos países','Un tratado de desarme nuclear firmado en los años 60','Una alianza militar conjunta entre ambas potencias'] },
+  { pregunta:'¿Qué caracterizó a la "sociedad de consumo" que se expandió en Occidente durante la Guerra Fría?', correcta:'Un aumento del acceso a bienes y servicios de consumo masivo, impulsado por el crecimiento económico', opts:['Una escasez generalizada de productos de consumo','La prohibición de comprar bienes importados','El fin completo del comercio y la producción industrial'] },
+];
+export function genGuerraFriaM2Round(){
+  const recurso = 'La <b>Guerra Fría</b> fue un largo período (desde fines de la Segunda Guerra Mundial hasta comienzos de los años 90) de confrontación ideológica, política y militar entre Estados Unidos (capitalismo) y la Unión Soviética (comunismo), sin que ambos países se enfrentaran directamente en una guerra formal — la tensión se manifestó en cambio en la cultura, la ciencia y la tecnología (como la carrera espacial). Muchas sociedades occidentales vivieron un fuerte crecimiento económico y la expansión de una <b>sociedad de consumo</b> masivo. En <b>América Latina</b>, este período trajo tensiones entre proyectos revolucionarios, la influencia de Estados Unidos, y la llegada de golpes de Estado en distintos países de la región. La Guerra Fría terminó con el <b>colapso de la Unión Soviética</b> hacia comienzos de la década de 1990, lo que reordenó por completo el mapa geopolítico mundial y dio paso al auge del neoliberalismo económico.';
+  const item = pick(GUERRA_FRIA_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const MOVILIZACION_CHILE_M2_BANK = [
+  { pregunta:'¿Qué proceso demográfico caracterizó a Chile a mediados del siglo XX, generando segregación en las nuevas ciudades?', correcta:'La migración masiva desde zonas rurales hacia las ciudades', opts:['La migración masiva desde las ciudades hacia el campo','La desaparición completa de las zonas urbanas','Un descenso general de la población total del país'] },
+  { pregunta:'¿Qué caracterizó a Chile como escenario de movilización social y política durante la década de 1960?', correcta:'Una fuerte demanda de reformas sociales y distintos proyectos políticos que competían por implementarlas', opts:['Una calma política total, sin ningún tipo de demanda social','La ausencia completa de participación ciudadana','El fin de cualquier tipo de organización sindical'] },
+  { pregunta:'¿Qué proyectos políticos protagonizaron la escena chilena de los años 60 y comienzos de los 70?', correcta:'La Democracia Cristiana (Reforma en Libertad) y la Unidad Popular (vía chilena al socialismo), entre otros', opts:['Solo un partido único sin ninguna competencia electoral','Ningún proyecto político relevante durante esos años','Un régimen monárquico restaurado'] },
+  { pregunta:'¿Qué factores caracterizaron la crisis de comienzos de los años 70 en Chile, previa al quiebre institucional de 1973?', correcta:'Una fuerte polarización política, el debilitamiento de las instituciones y una creciente desestabilización económica', opts:['Una estabilidad política y económica total, sin ningún conflicto','El fin completo de cualquier participación política','Un acuerdo unánime entre todos los sectores políticos'] },
+  { pregunta:'¿Qué problema urbano se generó en Chile a raíz de la migración masiva del campo a la ciudad?', correcta:'La formación de poblaciones periféricas con acceso limitado a servicios básicos y segregación social', opts:['Un aumento de la población rural, sin ningún efecto urbano','La desaparición completa de las ciudades chilenas','Ningún cambio relevante en la organización de las ciudades'] },
+  { pregunta:'¿Qué buscaba la "Reforma en Libertad", el proyecto impulsado por la Democracia Cristiana en los años 60?', correcta:'Impulsar reformas sociales y económicas (como la reforma agraria) dentro del marco institucional existente', opts:['Eliminar por completo las elecciones democráticas','Mantener exactamente igual la estructura económica del país','Prohibir cualquier tipo de reforma social'] },
+  { pregunta:'¿Qué buscaba el proyecto de la Unidad Popular, liderado por Salvador Allende, a comienzos de los años 70?', correcta:'Avanzar hacia el socialismo a través de una vía chilena, dentro del sistema democrático e institucional', opts:['Restaurar una monarquía en Chile','Eliminar por completo cualquier tipo de reforma económica','Anular las elecciones democráticas del país'] },
+  { pregunta:'¿Qué papel cumplieron los sindicatos y organizaciones sociales en la movilización chilena de los años 60 y comienzos de los 70?', correcta:'Impulsaron demandas de mejores condiciones laborales y mayor participación política de sectores populares', opts:['No tuvieron ninguna participación en la vida política del país','Se dedicaron únicamente a actividades recreativas, sin ningún rol político','Fueron prohibidos por completo durante esa época'] },
+];
+export function genMovilizacionChileM2Round(){
+  const recurso = 'A mediados del siglo XX, Chile vivió una intensa <b>migración desde el campo hacia las ciudades</b>, lo que generó un crecimiento urbano acelerado y problemas de segregación en las nuevas poblaciones. Durante la década de 1960, el país fue escenario de una fuerte <b>movilización social y política</b>, con distintos proyectos compitiendo por implementar reformas: la Democracia Cristiana impulsó la "Reforma en Libertad" y la Unidad Popular propuso la "vía chilena al socialismo", entre otros proyectos. Hacia comienzos de la década de 1970, el país entró en una etapa de <b>crisis</b> marcada por una fuerte polarización política, el debilitamiento de las instituciones democráticas y una creciente desestabilización económica, un contexto que antecedió al quiebre institucional de 1973.';
+  const item = pick(MOVILIZACION_CHILE_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const QUIEBRE_1973_M2_BANK = [
+  { pregunta:'¿En qué fecha ocurrió el golpe de Estado que derrocó al gobierno de Salvador Allende en Chile?', correcta:'El 11 de septiembre de 1973', opts:['El 11 de marzo de 1990','El 5 de octubre de 1988','El 11 de septiembre de 1990'] },
+  { pregunta:'¿Cómo se organizó el nuevo gobierno tras el golpe de Estado de 1973?', correcta:'Una Junta Militar asumió el gobierno y el país quedó bajo un régimen militar', opts:['Se mantuvo exactamente el mismo gobierno anterior sin cambios','Se convocó de inmediato a nuevas elecciones libres','Se restauró la monarquía española en Chile'] },
+  { pregunta:'¿Qué organismos oficiales chilenos han documentado, con posterioridad al régimen militar, violaciones a los derechos humanos ocurridas durante ese período?', correcta:'Comisiones oficiales como la Comisión Rettig y la Comisión Valech', opts:['Ningún organismo oficial ha investigado nunca este período','Solo organizaciones extranjeras sin ninguna comisión chilena','Un tribunal internacional creado exclusivamente para Chile en 1973'] },
+  { pregunta:'¿En qué fecha se realizó el plebiscito que dio inicio al fin del régimen militar en Chile?', correcta:'El 5 de octubre de 1988', opts:['El 11 de septiembre de 1973','El 11 de marzo de 1990','El 11 de septiembre de 1990'] },
+  { pregunta:'¿Qué ocurrió el 11 de marzo de 1990 en Chile?', correcta:'Asumió Patricio Aylwin como presidente, iniciando el retorno a un gobierno democráticamente electo', opts:['Ocurrió el golpe de Estado de 1973','Se realizó el plebiscito de 1988','Se promulgó la Constitución de 1925'] },
+];
+const MODELO_ECONOMICO_M2_BANK = [
+  { pregunta:'¿Qué modelo económico se implementó en Chile durante el régimen militar (1973-1990)?', correcta:'Un modelo neoliberal, con privatizaciones y apertura al mercado internacional', opts:['Un modelo de economía completamente planificada por el Estado, sin mercado','El regreso a una economía exclusivamente agrícola de subsistencia','La eliminación total del comercio con otros países'] },
+  { pregunta:'¿Qué estableció la Constitución de 1980 en Chile?', correcta:'Un nuevo marco institucional que organizó los poderes del Estado, vigente (con reformas posteriores) hasta la actualidad', opts:['La restauración de la Constitución de 1833','La eliminación completa de cualquier tipo de Constitución','Un sistema de gobierno monárquico'] },
+  { pregunta:'¿Qué factores contribuyeron a que, hacia la década de 1980, se fortaleciera un proceso de recuperación democrática en Chile?', correcta:'Una crisis económica, la creciente movilización social, y la mediación de distintas instituciones', opts:['Ningún factor relevante, el proceso ocurrió sin ninguna causa','Una intervención militar extranjera directa','El fin espontáneo de cualquier tipo de organización social'] },
+  { pregunta:'¿Qué caracterizó a la sociedad chilena en las décadas posteriores a la recuperación democrática, en términos de estructura social e infraestructura?', correcta:'Importantes cambios en la estructura social, la infraestructura del país, y el acceso a la educación, junto con demandas de sectores históricamente postergados', opts:['Ningún cambio social relevante desde 1990 hasta la actualidad','La desaparición completa de cualquier desigualdad social','El fin de cualquier tipo de demanda o reivindicación social'] },
+];
+export function genDictaduraTransicionM2Round(){
+  const recurso = 'El <b>11 de septiembre de 1973</b> un golpe de Estado derrocó al gobierno de Salvador Allende, y una Junta Militar asumió el gobierno del país, dando inicio a un régimen militar. Con posterioridad, comisiones oficiales como la <b>Comisión Rettig</b> y la <b>Comisión Valech</b> documentaron violaciones a los derechos humanos ocurridas durante ese período. Durante el régimen militar (1973-1990) se implementó un <b>modelo económico neoliberal</b> (privatizaciones y apertura al mercado internacional) y se promulgó la <b>Constitución de 1980</b>, que organizó los poderes del Estado. Una crisis económica y una creciente movilización social contribuyeron al proceso de recuperación democrática: el <b>5 de octubre de 1988</b> se realizó un plebiscito, y el <b>11 de marzo de 1990</b> asumió Patricio Aylwin como presidente, retornando el país a un gobierno democráticamente electo. Las décadas posteriores trajeron importantes cambios en la estructura social, la infraestructura y el acceso a la educación del país.';
+  const item = pick(Math.random()<0.6 ? QUIEBRE_1973_M2_BANK : MODELO_ECONOMICO_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const FORMACION_CIUDADANA_M2_BANK = [
+  { pregunta:'¿Qué característica clave tienen los derechos humanos, según los principios que los definen?', correcta:'Son universales: corresponden a todas las personas, sin ninguna excepción o distinción', opts:['Solo aplican a ciudadanos de un país específico','Pueden ser eliminados por una ley cualquiera sin ningún límite','Solo protegen a un grupo reducido de personas'] },
+  { pregunta:'¿Qué mecanismos existen, a nivel nacional e internacional, para proteger los derechos humanos?', correcta:'Instituciones como tribunales, defensorías y organismos internacionales de derechos humanos', opts:['No existe ningún mecanismo de protección en ningún país','Solo mecanismos informales sin ningún respaldo legal','Únicamente acuerdos verbales sin ningún efecto real'] },
+  { pregunta:'¿Qué elementos son parte fundamental del "Estado de derecho"?', correcta:'Un marco constitucional, la separación de poderes y la igualdad de todas las personas ante la ley', opts:['El poder absoluto de una sola persona sin ningún límite legal','La ausencia total de leyes escritas','Un sistema sin ningún tipo de tribunales'] },
+  { pregunta:'¿Cuál es uno de los principales desafíos pendientes en Chile relacionados con el desarrollo sostenible y la equidad social?', correcta:'Reducir la pobreza y las desigualdades, avanzando hacia un desarrollo más sostenible', opts:['Chile ya no tiene ningún desafío pendiente en estas áreas','Aumentar deliberadamente la desigualdad social','Eliminar por completo cualquier política social'] },
+  { pregunta:'¿Qué representa la creciente diversidad cultural en las sociedades actuales, en el contexto de la globalización?', correcta:'Una oportunidad para el intercambio cultural, que también exige prevenir la discriminación', opts:['Un problema que debe eliminarse por completo','Algo que no tiene ninguna relación con la globalización','Una amenaza que debe prohibirse por ley'] },
+  { pregunta:'¿Por qué se dice que los derechos humanos son "inalienables"?', correcta:'Porque no se le pueden quitar a una persona, sin importar las circunstancias', opts:['Porque se pueden vender o transferir libremente','Porque dependen únicamente de la nacionalidad de la persona','Porque solo aplican durante un período limitado de tiempo'] },
+  { pregunta:'¿Qué rol cumple la separación de poderes (ejecutivo, legislativo, judicial) dentro del Estado de derecho?', correcta:'Evitar que una sola persona o institución concentre todo el poder del Estado', opts:['Permitir que un solo poder controle completamente a los otros dos','Eliminar por completo la necesidad de un poder judicial','Concentrar todo el poder en el poder ejecutivo'] },
+  { pregunta:'¿Por qué la reducción de la pobreza sigue siendo un desafío pendiente en muchos países, incluido Chile?', correcta:'Porque, a pesar de avances económicos, persisten desigualdades en el acceso a oportunidades y recursos', opts:['Porque la pobreza ya fue completamente erradicada en todo el mundo','Porque no existe ninguna forma de medir la pobreza','Porque no tiene ninguna relación con las políticas públicas'] },
+];
+export function genFormacionCiudadanaM2Round(){
+  const recurso = 'Los <b>derechos humanos</b> son universales: corresponden a todas las personas, sin ninguna excepción, y existen instituciones nacionales e internacionales (tribunales, defensorías, organismos internacionales) para protegerlos. El <b>Estado de derecho</b> se basa en un marco constitucional, la separación de poderes y la igualdad de todas las personas ante la ley — principios que buscan evitar el abuso de poder. Entre los <b>desafíos pendientes</b> del país está reducir la pobreza y las desigualdades, avanzando hacia un desarrollo más sostenible. Además, la creciente <b>diversidad cultural</b> propia de la globalización representa una oportunidad de intercambio entre culturas, que a la vez exige trabajar activamente para prevenir la discriminación y promover el respeto entre todas las personas.';
+  const item = pick(FORMACION_CIUDADANA_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+

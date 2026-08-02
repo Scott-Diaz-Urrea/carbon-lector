@@ -2302,7 +2302,7 @@ Verificado tras las 3 correcciones: `genCasosHepatico7Round`, `genLcr7Round` y
 apóstrofes en `speakText`) y los 312 módulos de toda la app pasan la
 verificación de regresión.
 
-### Educación Media — 🔧 en construcción (1° medio ✅ completo, 40 módulos)
+### Educación Media — ✅ 1° y 2° medio completos (81 módulos)
 Pedido explícito del usuario (2026-08-02) de comenzar esta etapa tras completar
 el rollout de `recurso` en Parvularia. Antes de construir, se investigó con
 Claude (WebSearch/WebFetch, sin asumir continuidad con Básica) la estructura
@@ -2473,10 +2473,184 @@ correcta) → una ronda en "Ideas Republicanas y Liberales" (Historia, estilo
 panel). Probado también en 375px (mobile), sin errores de consola en ningún
 caso.
 
-Próximo paso posible: 2° medio (mismas 10 asignaturas, mismo Decreto
-614/2013 — repetir el mismo proceso), y más adelante 3°-4° medio (requiere
-diseñar la estructura Plan General + Diferenciado, un patrón nuevo que no
-existe todavía en la app).
+**2° Medio — ✅ completo (2026-08-02), 41 módulos, las 10 asignaturas**
+(curriculumnacional.cl/curriculum/7o-basico-2o-medio/<asignatura>/2-medio,
+Decreto 614/2013 — mismo decreto que 1° medio, confirmado antes de construir).
+Tres URLs de asignatura tienen un slug distinto al que usa 1° medio y al
+patrón `<asignatura>-y-<asignatura>` esperado — verificado con WebSearch
+antes de reintentar el fetch: Lengua y Literatura vive en
+`.../lengua-literatura/2-medio` (no `lengua-y-literatura`), Historia en
+`.../historia-geografia-ciencias-sociales/2-medio` (no
+`historia-geografia-y-ciencias-sociales`), y Educación Física en
+`.../educacion-fisica-salud/2-medio` (no `educacion-fisica-y-salud`) — los
+3 fetches directos con el patrón "y" dieron 404 antes de encontrar el slug
+real.
+
+- **Matemática** (8): Números Reales y Raíces (MA2M OA01), Potencias/Raíces
+  y Logaritmos (OA02), Función Cuadrática (OA03-04, resolución por
+  factorización con dos raíces enteras elegidas al azar para que siempre dé
+  limpio), Función Inversa (OA05), Interés Compuesto (OA06), Área y Volumen
+  de la Esfera (OA07, resultado siempre en términos de π para evitar
+  ambigüedad de redondeo), Trigonometría y Vectores (OA08-09, razones sobre
+  ternas pitagóricas reales para que los catetos/hipotenusa den siempre
+  valores enteros), Variables Aleatorias y Probabilidad (OA10-12, incluye
+  el rol social de la probabilidad/interpretación de riesgo relativo vs.
+  absoluto en medios). Ningún OA de Matemática 2° medio queda fuera.
+- **Lenguaje** (6): Narrativa: Personajes y Estereotipos (OA03, ángulo
+  nuevo respecto a conflicto/narrador de 1° medio: personaje redondo/plano,
+  estereotipo, intertextualidad), Poesía: Hablante y Soneto (OA04, actitud
+  enunciativa/apostrófica/carmínica y estructura del soneto — ángulo nuevo
+  respecto a símbolo/metáfora/anáfora de 1° medio), Teatro y Siglo de Oro
+  (OA05-06, fusionados: ambiente/símbolo escénico + Cervantes/Lope de Vega/
+  comedia nueva), Cuento Latinoamericano (OA07: realismo mágico, cuento
+  fantástico, Boom latinoamericano), Textos Argumentativos y Medios
+  (OA09-10, fusionados: falacias lógicas + estrategias persuasivas en
+  medios), Ortografía y Puntuación (OA18: coma antes de conectores
+  adversativos, dos puntos para enumeración/cita, punto y coma — reglas
+  distintas de las de 1° medio). Fuera: OA01-02,11 (lectura personal/
+  reflexión, actitudinal), OA08 (interpretación con hipótesis propia),
+  OA12-17 (producción escrita), OA19-23 (comunicación oral), OA24
+  (investigación, proceso propio).
+- **Ciencias Naturales** (8): Sistema Nervioso y Regulación Hormonal
+  (OA01-02), **Sexualidad y Reproducción Humana II** (OA03-05: dimensiones
+  de la sexualidad, fecundación/desarrollo prenatal/responsabilidad
+  parental, regulación de la fertilidad y paternidad/maternidad responsable
+  — mismo tono clínico/factual/preventivo ya establecido en
+  `genSexualidadReproduccion7Round` de 7° básico, nunca gráfico, siempre
+  remitiendo a un profesional de la salud ante dudas personales; aplicado
+  aquí sin necesidad de replantear la política al usuario porque el
+  criterio ya estaba resuelto y documentado), Genética y Herencia (OA06-07),
+  Manipulación Genética (OA08), Movimiento y Fuerzas (OA09-10), Energía
+  Mecánica y Choques (OA11-12), Universo y Gravitación (OA13-14),
+  Disoluciones y Química Orgánica (OA15-18). Ningún OA de Ciencias 2° medio
+  queda fuera.
+- **Historia, Geografía y Cs. Sociales** (8): Entreguerras y Vanguardias
+  (OA01), Crisis del Liberalismo (OA02), Segunda Guerra Mundial (OA03-04),
+  República de Chile: Crisis y Reconstrucción (OA05-07), Guerra Fría
+  (OA08-11), Chile: Movilización y Crisis (OA12-14), **Dictadura, Modelo
+  Económico y Transición** (OA15-21) y Formación Ciudadana (OA22-25).
+  HI2M OA15-16 piden explícitamente "comparar interpretaciones
+  historiográficas" sobre el golpe de 1973 y "explicar el desarrollo de las
+  violaciones sistemáticas a los DD.HH." — un nivel más profundo que el
+  criterio ya usado en 6° básico. **Se le preguntó al usuario explícitamente
+  vía `AskUserQuestion`** qué enfoque usar (mismo criterio de 6° básico /
+  profundizar según pide el OA / excluir estos 2 OA), y confirmó mantener
+  el mismo criterio ya establecido: solo hechos cronológicos indiscutibles
+  y documentados por fuentes oficiales (fecha del golpe de 1973, comisiones
+  oficiales Rettig/Valech que documentaron violaciones a los DD.HH., modelo
+  económico neoliberal, Constitución de 1980, plebiscito de 1988, retorno a
+  la democracia el 11 de marzo de 1990), sin comparar posturas
+  historiográficas ni narrar detalles de violaciones específicas. Ningún OA
+  de Historia 2° medio queda fuera del motor de opción múltiple.
+- **Inglés** (3): Gramática en Contexto (IN2M OA08: sugerencias con should/
+  could/why don't you, situaciones hipotéticas con "if I were", expresiones
+  de cantidad a lot of/a few/a little), Palabras Derivadas (OA10, ángulo de
+  formación de palabras con prefijos/sufijos -ness/-ful/-less/un- distinto
+  del vocabulario de personalidad de 1° medio), Comprensión de Lectura
+  (OA11: tema/personajes/entorno/conflicto en textos literarios + propósito/
+  idea principal en no literarios). Fuera: OA01-07 (oral, depende de audio
+  real), OA09,12 (estrategias de lectura, proceso propio), OA13-16
+  (producción escrita).
+- **Educación Física y Salud** (2): Diseño de Estrategias y Tácticas
+  (EF2M OA02, ángulo de DISEÑO desde cero en vez de solo modificar/evaluar
+  como en 1° medio, texto del OA casi idéntico), Entrenamiento y Gasto
+  Calórico (OA03, ángulo del gasto calórico/equilibrio calórico que el
+  módulo de 1° medio no ejercitó explícitamente). Fuera: OA01 (habilidades
+  motrices reales) y OA04-05 (participación/liderazgo comunitario real).
+- **Artes Visuales** (1): Implementar la Difusión de Arte (AR2M OA06,
+  ángulo de EJECUCIÓN concreta —difusión previa, coordinación de espacio/
+  horario/permisos, evaluación posterior— distinto del diseño de montaje/
+  espacio/público ya cubierto en "Arte, Espacios y Difusión" de 1° medio,
+  ya que el texto del OA es casi idéntico). Fuera: OA01-03 (crear proyectos
+  propios), OA04-05 (apreciación/evaluación subjetiva).
+- **Música** (1): Contraste Musical y Medios de Registro (MU2M OA02:
+  contrastar dos obras por lenguaje musical/procedimientos compositivos/
+  contexto/propósito expresivo; OA07: rol de partitura/grabación/radio/
+  streaming en la evolución de la música). Fuera: OA01 (ya cubierto por
+  "Música e Identidad Cultural" de 1° medio), OA03-05 (desempeño con audio
+  real), OA06 (autoevaluación).
+- **Orientación** (3): Riesgos y Redes de Apoyo (OR2M OA03, ángulo nuevo
+  respecto a 1° medio: identificar redes de apoyo -familia, profesores,
+  instituciones de salud- en vez de solo factores de riesgo), Bienestar,
+  Relaciones y Conflictos II (OA04-06, fusionados con escenarios enteramente
+  nuevos ya que el texto es casi idéntico al de 1° medio), Proyección
+  Académica y Laboral (OA09, genuinamente nuevo: contrastar trayectorias
+  académicas/laborales posibles). Fuera: OA01 (proyecto de vida, subjetivo),
+  OA02 (sexualidad y vínculos afectivos, requiere acompañamiento real de un
+  adulto), OA07-08 (ya cubiertos por Formación Ciudadana en historia.js),
+  OA10 (diseñar un proyecto de vida propio, subjetivo).
+- **Tecnología** (1): Proyectar Escenarios Tecnológicos (TE2M OA05-06,
+  ángulo de PROYECCIÓN de escenarios futuros de impacto en vez de evaluar
+  innovaciones ya existentes como en 1° medio, mismo texto de OA casi
+  idéntico). Fuera: OA01-04 (identificar necesidades y proponer/comunicar
+  una solución tecnológica propia).
+
+**Bugs encontrados y corregidos durante la construcción y verificación:**
+- **23 de los 41 generadores nuevos tenían bancos con menos ítems únicos
+  que `rounds:8`** (repetición garantizada o casi garantizada), detectado
+  por la misma simulación de sesión ya usada en años anteriores (300
+  sesiones simuladas, retry de hasta 300 intentos por ronda, replicando la
+  lógica real de `roundSignature`/reintentos de `mcEngine.js`). Afectó a
+  módulos en los 8 archivos de contenido con generadores basados en bancos
+  fijos (no dinámicos): Lenguaje (los 6 módulos), Ciencias (5 de 8),
+  Historia (7 de 8), Inglés (2 de 3), Ed. Física (2 de 2), Artes (el único
+  módulo), Música (el único, pese a tener 4+4=8 ítems combinados — justo en
+  el límite, sin margen real), Tecnología (el único) y Orientación (3 de
+  3) — los generadores puramente dinámicos de Matemática y Ciencias
+  (cálculos con números al azar) no se vieron afectados. Corregido
+  ampliando cada banco con contenido real dentro del mismo OA/concepto ya
+  citado (nunca inventando un OA nuevo), apuntando a un margen de +2 a +4
+  ítems únicos sobre `rounds:8`. **Una primera ronda de ampliación dejó 5
+  bancos con exactamente 7 ítems únicos** (`geneticaherenciam2`,
+  `entreguerrasm2`, `crisisliberalismom2`, `riesgosredesapoyom2`,
+  `proyeccionacademicam2`) — un error de conteo manual al redactar los
+  ítems nuevos (se contaron mentalmente como 8 pero el archivo real tenía
+  7), detectado solo porque se volvió a correr la simulación completa
+  después de la primera ronda de fixes en vez de asumir que ya estaba
+  resuelto; se verificó el conteo real de cada banco con `grep -c` antes de
+  agregar el ítem final que faltaba. Lección reforzada: tras ampliar un
+  banco para resolver este bug, volver a correr la simulación completa (no
+  solo revisar visualmente cuántas líneas se agregaron) y, si algo sigue
+  fallando, contar el banco real con una herramienta antes de asumir dónde
+  está el error.
+- **Bug de sintaxis real introducido durante la escritura de
+  `genFuncionInversaM2Round`** (`matematica.js`): un primer intento de
+  construir `distractCandidates` dejó una coma suelta dentro de una cadena
+  concatenada (`'...'+a, no', ...`), un error de sintaxis JS que habría
+  roto la carga de todo el archivo. Detectado por revisión manual del
+  código inmediatamente después de escribirlo (antes de cualquier prueba en
+  el navegador), no por el fuzz-test — reforzando que revisar el diff
+  recién escrito sigue siendo necesario incluso cuando se sabe que habrá
+  fuzz-testing después.
+- Verificado tras las correcciones: los 41 generadores nuevos pasan fuzz
+  estructural (300 iteraciones cada uno: sin `THROW`, sin `undefined`, sin
+  opciones duplicadas, `correctValue` siempre presente en las opciones,
+  `recurso` siempre presente) y simulación de 300 sesiones completas cada
+  uno sin ningún repetido. `MC_KEYS.length === Object.keys(MC_GAMES).length
+  === 501` (460 previos + 41 nuevos, sin claves huérfanas en ninguna
+  dirección) y los 501 módulos de toda la app pasan un fuzz de regresión de
+  40 iteraciones sin ningún hallazgo. Probado visualmente en el navegador:
+  navegación completa `etapaMap` (tarjeta "Educación Media" con subtítulo
+  "1° y 2° Medio disponibles") → `medioGradeMap` (1° y 2° Medio ambos
+  abiertos) → `medioSubjectMap` de 2° medio (10 asignaturas con conteo de
+  estrellas correcto: 0/18, 0/24, 0/24, 0/24, 0/9, 0/3, 0/3, 0/6, 0/3, 0/9)
+  → mapa de módulos de Matemática (8 nodos, sin solapamiento) → una ronda
+  completa jugada en "Función Cuadrática" (ecuación cuadrática factorizada
+  con raíces enteras, avance correcto de 1/8 a 2/8, modal de Recurso
+  abriendo con el texto real) → overlay de Carboncito tras una respuesta
+  incorrecta con la explicación correcta. Probado también en 375px
+  (mobile): mapa de módulos de Historia sin solapamiento ni truncamiento de
+  títulos, y una ronda en "Dictadura, Modelo Económico y Transición"
+  confirmando visualmente el tono factual/restringido de esa sección. Sin
+  errores de consola en ningún caso.
+
+Con esto, **Educación Media queda con 1° y 2° medio 100% completos** (81
+módulos en total). Próximo paso posible: 3°-4° medio (requiere diseñar la
+estructura Plan General + Diferenciado, un patrón nuevo que no existe
+todavía en la app, con el alcance ya acordado en sesiones anteriores: Plan
+General completo -7 asignaturas- + Diferenciado Científico -5 asignaturas:
+Biología Celular y Molecular, Biología de los Ecosistemas, Ciencias de la
+Salud, Física, Química-).
 
 ### EPJA (Educación para Personas Jóvenes y Adultas) — ✅ completo (los 5 niveles: Nivel 1/2/3 Básica, Nivel 1/2 Media)
 Pedido explícito del usuario (2026-08-01, "procede con epja") de empezar a

@@ -426,6 +426,20 @@ export const MODULE_TITLES = {
   difusionm1:'Curador de Arte',
   musicaidentidadm1:'Guardián de la Identidad Musical',
   prevencionriesgosm1:'Protector Preventivo', bienestarvidam1:'Embajador del Bienestar', relacionesredesm1:'Ciudadano Digital', resolucionconflictosm1:'Mediador de Primero Medio',
+  numerosrealesm2:'Maestro de los Reales', potenciaslogaritmosm2:'Logarítmico', funcioncuadraticam2:'Resolutor Cuadrático II', funcioninversam2:'Invertidor de Funciones',
+  interescompuestom2:'Inversionista Compuesto', esferam2:'Geómetra de la Esfera', trigonometriam2:'Trigonómetra', estadisticaprobabilidadm2:'Estadístico de Segundo Medio',
+  narrativam2:'Analista de Personajes', poesiam2:'Poeta del Soneto', teatrosigloorom2:'Cervantino', cuentolatinoamericanom2:'Cronista Latinoamericano',
+  argumentativomediosm2:'Detective de Falacias', ortografiam2:'Ortógrafo de Segundo Medio',
+  nerviosohormonalm2:'Fisiólogo Hormonal', sexualidadreproducccionm2:'Educador en Salud II', geneticaherenciam2:'Genetista Junior', manipulaciongeneticam2:'Bioingeniero',
+  movimientofuerzasm2:'Físico del Movimiento', energiachoquesm2:'Físico de Colisiones', universogravitacionm2:'Astrónomo de Segundo Medio', disolucionesorganicam2:'Químico de Disoluciones',
+  entreguerrasm2:'Cronista de Entreguerras', crisisliberalismom2:'Analista del Liberalismo', segundaguerram2:'Historiador Mundial II', republicachilem2:'Reconstructor de la República',
+  guerrafriam2:'Analista de la Guerra Fría', movilizacionchilem2:'Cronista de la Movilización', dictaduratransicionm2:'Historiador de la Transición', formacionciudadanam2:'Ciudadano Informado II',
+  gramaticacontextom2:'Gramático Avanzado en Inglés', vocabulariocontextom2:'Maestro de Derivadas', comprensionlecturam2:'Lector de Segundo Medio',
+  tacticasdisenom2:'Diseñador Táctico', entrenamientocaloricom2:'Entrenador Calórico',
+  implementaciondifusionm2:'Gestor Cultural',
+  contrastemediosm2:'Musicólogo Comparativo',
+  escenariostecnologicosm2:'Futurólogo Tecnológico',
+  riesgosredesapoyom2:'Guardián de Redes de Apoyo', bienestarrelacionesm2:'Embajador de Bienestar II', proyeccionacademicam2:'Proyector de Futuro',
 };
 
 export function spawnConfetti(container){

@@ -346,3 +346,35 @@ export function genEvolucionTecnologicaM1Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 2° Medio (Decreto 614/2013, mismo decreto que 1° medio) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/tecnologia/2-medio —
+   TE2M OA05-06 (texto muy similar al de 1° medio; este módulo se enfoca en el
+   ángulo de PROYECTAR escenarios futuros de impacto, en vez de evaluar
+   innovaciones ya existentes como en 1° medio). Fuera: OA01-04 (identificar
+   necesidades y proponer/comunicar una solución tecnológica propia). */
+export const TECNOLOGIA_MODULES_M2 = [
+  {id:'escenariostecnologicosm2', label:'Proyectar Escenarios Tecnológicos', open:true, key:'escenariostecnologicosm2'},
+];
+export const TECNOLOGIA_POS_M2 = [{x:48,y:50}];
+const ESCENARIOS_TECNOLOGICOS_M2_BANK = [
+  { pregunta:'Si en el futuro más autos fueran completamente autónomos (sin conductor), ¿qué escenario POSITIVO podría proyectarse para la sociedad?', correcta:'Una posible reducción de accidentes causados por errores humanos al conducir', opts:['La desaparición inmediata y total de todos los caminos','Que nadie podrá trasladarse nunca más','Un aumento garantizado de accidentes en todos los casos'] },
+  { pregunta:'Si la automatización de tareas en fábricas sigue aumentando, ¿qué escenario NEGATIVO es importante proyectar y anticipar?', correcta:'La posible pérdida de empleos en tareas que hoy realizan personas', opts:['Que las fábricas dejarán de funcionar por completo','Que la automatización no afecta a ningún trabajador','Un aumento garantizado e ilimitado de empleos para todos'] },
+  { pregunta:'Al proyectar el impacto ambiental futuro de una tecnología nueva (como una fuente de energía), ¿qué es importante considerar?', correcta:'Tanto sus beneficios ambientales como sus posibles efectos secundarios no deseados', opts:['Solo sus beneficios, ignorando cualquier efecto secundario','Que ninguna tecnología nueva tiene ningún impacto ambiental','Que el impacto ambiental no se puede proyectar nunca'] },
+  { pregunta:'¿Por qué es útil, antes de que una tecnología se masifique, proyectar distintos escenarios de su posible impacto futuro?', correcta:'Para anticipar problemas y tomar decisiones o regulaciones a tiempo, en vez de reaccionar después', opts:['Porque proyectar escenarios futuros no tiene ninguna utilidad','Porque el futuro de la tecnología no se puede analizar de ninguna forma','Porque solo importa lo que ya ocurrió en el pasado'] },
+  { pregunta:'Si en el futuro se usara más inteligencia artificial para tomar decisiones médicas, ¿qué escenario debería proyectarse con cuidado?', correcta:'Que el sistema mantenga supervisión humana y no cometa errores sin que nadie los revise', opts:['Que la inteligencia artificial nunca podrá cometer un error','Que ya no hará falta ningún médico en el futuro, sin ninguna excepción','Que este escenario no requiere ningún análisis previo'] },
+  { pregunta:'Si en el futuro la mayoría de los pagos se hicieran solo con el teléfono o el reconocimiento facial, ¿qué escenario debería proyectarse con cuidado?', correcta:'Que las personas sin acceso a esa tecnología no queden excluidas del sistema de pagos', opts:['Que absolutamente todas las personas tendrán acceso garantizado sin ninguna excepción','Que el dinero en efectivo dejará de existir de un día para otro sin ningún problema','Que este escenario no necesita ningún tipo de análisis'] },
+  { pregunta:'Al proyectar el uso futuro de drones para entregas a domicilio, ¿qué escenario de seguridad es importante anticipar?', correcta:'Posibles accidentes o mal uso del espacio aéreo si no existe una regulación adecuada', opts:['Que los drones nunca podrán tener ningún problema técnico','Que no hace falta ninguna regulación para su uso','Que las entregas por drones no afectan en nada al espacio aéreo'] },
+  { pregunta:'Si el uso de realidad virtual en la educación se masificara en el futuro, ¿qué escenario POSITIVO podría proyectarse?', correcta:'Que los estudiantes puedan vivir experiencias de aprendizaje más inmersivas e interactivas', opts:['Que los colegios físicos desaparecerán de inmediato en todo el mundo','Que ningún estudiante podrá aprender nunca más sin esta tecnología','Que el aprendizaje empeorará siempre, sin ninguna excepción'] },
+];
+export function genEscenariosTecnologicosM2Round(){
+  const recurso = '<b>Proyectar escenarios</b> de impacto tecnológico significa imaginar, de forma fundamentada, qué podría ocurrir en el futuro si una tecnología actual se masifica o sigue evolucionando — considerando tanto posibles <b>impactos positivos</b> (por ejemplo, menos accidentes con autos autónomos) como posibles <b>impactos negativos</b> (como la pérdida de empleos por mayor automatización). Este ejercicio no busca predecir el futuro con certeza, sino <b>anticipar problemas</b> a tiempo —como la necesidad de supervisión humana sobre decisiones tomadas por inteligencia artificial— para poder tomar decisiones, regulaciones o precauciones antes de que la tecnología ya esté masificada y sea más difícil de corregir.';
+  const item = pick(ESCENARIOS_TECNOLOGICOS_M2_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

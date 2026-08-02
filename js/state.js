@@ -110,7 +110,12 @@ export const state = {
            numerosRacionalesEpjaM1:0, potenciasIrracionalesEpjaM1:0, proporcionalidadEpjaM1:0, algebraEpjaM1:0, funcionesEcuacionesEpjaM1:0, geometriaSemejanzaEpjaM1:0, transformacionesMedicionEpjaM1:0, estadisticaProbabilidadEpjaM1:0,
            celulaMetabolismoEpjaM1:0, sistemasNutricionEpjaM1:0, ecosistemasBiodiversidadEpjaM1:0, movimientoOndasOpticaEpjaM1:0, energiaCalorEpjaM1:0, disolucionesReaccionesEpjaM1:0,
            coloniaIndependenciaEpjaM1:0, sigloXIXTerritorioEpjaM1:0, sigloXXDemocraciaEpjaM1:0, ciudadaniaDerechosEpjaM1:0,
-           gramaticaContextoEpjaM1:0, vocabularioFuncionalEpjaM1:0, comprensionInglesEpjaM1:0 },
+           gramaticaContextoEpjaM1:0, vocabularioFuncionalEpjaM1:0, comprensionInglesEpjaM1:0,
+           comprensionEpjaM2:0, vocabularioContextoEpjaM2:0, textoArgumentativoEpjaM2:0, hechosOpinionesEpjaM2:0,
+           raicesCuadradasEpjaM2:0, funcionesExpLogEpjaM2:0, funcionCuadraticaEpjaM2:0, trigonometriaEpjaM2:0, estadisticaMuestrasEpjaM2:0, probabilidadEpjaM2:0,
+           homeostasisSistemasEpjaM2:0, sistemaInmuneGeneticaEpjaM2:0, fluidosPresionEpjaM2:0, electricidadMagnetismoEpjaM2:0, evolucionAtomoEpjaM2:0, enlacesRadiactividadEpjaM2:0, organicaPolimerosEpjaM2:0,
+           sigloXXBipolaridadEpjaM2:0, globalizacionEconomiaEpjaM2:0, problemasGlobalesEpjaM2:0, poblacionTerritorioEpjaM2:0,
+           gramaticaContextoEpjaM2:0, vocabularioTecnicoEpjaM2:0, comprensionInglesEpjaM2:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

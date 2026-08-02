@@ -182,6 +182,23 @@ import {
 import {
   genGramaticaContextoEpjaM1Round, genVocabularioFuncionalEpjaM1Round, genComprensionInglesEpjaM1Round,
 } from './content/epja/inglesMedia1.js';
+import {
+  genComprensionEpjaM2Round, genVocabularioContextoEpjaM2Round, genTextoArgumentativoEpjaM2Round, genHechosOpinionesEpjaM2Round,
+} from './content/epja/lenguajeMedia2.js';
+import {
+  genRaicesCuadradasEpjaM2Round, genFuncionesExpLogEpjaM2Round, genFuncionCuadraticaEpjaM2Round,
+  genTrigonometriaEpjaM2Round, genEstadisticaMuestrasEpjaM2Round, genProbabilidadEpjaM2Round,
+} from './content/epja/matematicaMedia2.js';
+import {
+  genHomeostasisSistemasEpjaM2Round, genSistemaInmuneGeneticaEpjaM2Round, genFluidosPresionEpjaM2Round,
+  genElectricidadMagnetismoEpjaM2Round, genEvolucionAtomoEpjaM2Round, genEnlacesRadiactividadEpjaM2Round, genOrganicaPolimerosEpjaM2Round,
+} from './content/epja/cienciasMedia2.js';
+import {
+  genSigloXXBipolaridadEpjaM2Round, genGlobalizacionEconomiaEpjaM2Round, genProblemasGlobalesEpjaM2Round, genPoblacionTerritorioEpjaM2Round,
+} from './content/epja/estudiosSocialesMedia2.js';
+import {
+  genGramaticaContextoEpjaM2Round, genVocabularioTecnicoEpjaM2Round, genComprensionInglesEpjaM2Round,
+} from './content/epja/inglesMedia2.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
@@ -287,7 +304,12 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'numerosRacionalesEpjaM1','potenciasIrracionalesEpjaM1','proporcionalidadEpjaM1','algebraEpjaM1','funcionesEcuacionesEpjaM1','geometriaSemejanzaEpjaM1','transformacionesMedicionEpjaM1','estadisticaProbabilidadEpjaM1',
   'celulaMetabolismoEpjaM1','sistemasNutricionEpjaM1','ecosistemasBiodiversidadEpjaM1','movimientoOndasOpticaEpjaM1','energiaCalorEpjaM1','disolucionesReaccionesEpjaM1',
   'coloniaIndependenciaEpjaM1','sigloXIXTerritorioEpjaM1','sigloXXDemocraciaEpjaM1','ciudadaniaDerechosEpjaM1',
-  'gramaticaContextoEpjaM1','vocabularioFuncionalEpjaM1','comprensionInglesEpjaM1'];
+  'gramaticaContextoEpjaM1','vocabularioFuncionalEpjaM1','comprensionInglesEpjaM1',
+  'comprensionEpjaM2','vocabularioContextoEpjaM2','textoArgumentativoEpjaM2','hechosOpinionesEpjaM2',
+  'raicesCuadradasEpjaM2','funcionesExpLogEpjaM2','funcionCuadraticaEpjaM2','trigonometriaEpjaM2','estadisticaMuestrasEpjaM2','probabilidadEpjaM2',
+  'homeostasisSistemasEpjaM2','sistemaInmuneGeneticaEpjaM2','fluidosPresionEpjaM2','electricidadMagnetismoEpjaM2','evolucionAtomoEpjaM2','enlacesRadiactividadEpjaM2','organicaPolimerosEpjaM2',
+  'sigloXXBipolaridadEpjaM2','globalizacionEconomiaEpjaM2','problemasGlobalesEpjaM2','poblacionTerritorioEpjaM2',
+  'gramaticaContextoEpjaM2','vocabularioTecnicoEpjaM2','comprensionInglesEpjaM2'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -686,6 +708,30 @@ export const MC_GAMES = {
   gramaticaContextoEpjaM1:    { title:'Gramática en Contexto',       gen: genGramaticaContextoEpjaM1Round,    rounds:10 },
   vocabularioFuncionalEpjaM1: { title:'Vocabulario y Textos Funcionales', gen: genVocabularioFuncionalEpjaM1Round, rounds:8 },
   comprensionInglesEpjaM1:    { title:'Comprensión de Lectura (Inglés)', gen: genComprensionInglesEpjaM1Round, rounds:8 },
+  comprensionEpjaM2:          { title:'Comprensión de Lectura',      gen: genComprensionEpjaM2Round,          rounds:10 },
+  vocabularioContextoEpjaM2:  { title:'Vocabulario en Contexto',     gen: genVocabularioContextoEpjaM2Round,  rounds:10 },
+  textoArgumentativoEpjaM2:   { title:'Texto Argumentativo',         gen: genTextoArgumentativoEpjaM2Round,   rounds:8  },
+  hechosOpinionesEpjaM2:      { title:'Hechos, Opiniones y Comunicación', gen: genHechosOpinionesEpjaM2Round, rounds:8  },
+  raicesCuadradasEpjaM2:      { title:'Raíces Cuadradas',            gen: genRaicesCuadradasEpjaM2Round,      rounds:8  },
+  funcionesExpLogEpjaM2:      { title:'Funciones Exponencial y Logarítmica', gen: genFuncionesExpLogEpjaM2Round, rounds:8 },
+  funcionCuadraticaEpjaM2:    { title:'Función Cuadrática y Ecuaciones', gen: genFuncionCuadraticaEpjaM2Round, rounds:8  },
+  trigonometriaEpjaM2:        { title:'Trigonometría',               gen: genTrigonometriaEpjaM2Round,        rounds:8  },
+  estadisticaMuestrasEpjaM2:  { title:'Estadística: Tablas y Muestras', gen: genEstadisticaMuestrasEpjaM2Round, rounds:8 },
+  probabilidadEpjaM2:         { title:'Probabilidad',                gen: genProbabilidadEpjaM2Round,         rounds:8  },
+  homeostasisSistemasEpjaM2:  { title:'Homeostasis y Sistemas del Cuerpo', gen: genHomeostasisSistemasEpjaM2Round, rounds:8 },
+  sistemaInmuneGeneticaEpjaM2: { title:'Sistema Inmune y Genética',  gen: genSistemaInmuneGeneticaEpjaM2Round, rounds:8 },
+  fluidosPresionEpjaM2:       { title:'Fluidos y Presión',           gen: genFluidosPresionEpjaM2Round,       rounds:8  },
+  electricidadMagnetismoEpjaM2: { title:'Electricidad y Magnetismo', gen: genElectricidadMagnetismoEpjaM2Round, rounds:8 },
+  evolucionAtomoEpjaM2:       { title:'Evolución y Modelos Atómicos', gen: genEvolucionAtomoEpjaM2Round,       rounds:8  },
+  enlacesRadiactividadEpjaM2: { title:'Enlaces Químicos y Radiactividad', gen: genEnlacesRadiactividadEpjaM2Round, rounds:8 },
+  organicaPolimerosEpjaM2:    { title:'Química Orgánica y Polímeros', gen: genOrganicaPolimerosEpjaM2Round,    rounds:8  },
+  sigloXXBipolaridadEpjaM2:   { title:'Siglo XX: Guerra y Bipolaridad', gen: genSigloXXBipolaridadEpjaM2Round, rounds:8 },
+  globalizacionEconomiaEpjaM2: { title:'Globalización y Economía Mundial', gen: genGlobalizacionEconomiaEpjaM2Round, rounds:8 },
+  problemasGlobalesEpjaM2:    { title:'Problemas Globales Contemporáneos', gen: genProblemasGlobalesEpjaM2Round, rounds:8 },
+  poblacionTerritorioEpjaM2:  { title:'Población y Territorio',      gen: genPoblacionTerritorioEpjaM2Round,  rounds:8  },
+  gramaticaContextoEpjaM2:    { title:'Gramática en Contexto',       gen: genGramaticaContextoEpjaM2Round,    rounds:10 },
+  vocabularioTecnicoEpjaM2:   { title:'Vocabulario y Textos Técnicos', gen: genVocabularioTecnicoEpjaM2Round,  rounds:8 },
+  comprensionInglesEpjaM2:    { title:'Comprensión de Lectura (Inglés)', gen: genComprensionInglesEpjaM2Round, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

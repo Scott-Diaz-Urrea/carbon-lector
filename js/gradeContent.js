@@ -33,6 +33,11 @@ import { MATEMATICA_EPJA_M1_MODULES, MATEMATICA_EPJA_M1_POS } from './content/ep
 import { CIENCIAS_EPJA_M1_MODULES, CIENCIAS_EPJA_M1_POS } from './content/epja/cienciasMedia1.js';
 import { ESTUDIOS_SOCIALES_EPJA_M1_MODULES, ESTUDIOS_SOCIALES_EPJA_M1_POS } from './content/epja/estudiosSocialesMedia1.js';
 import { INGLES_EPJA_M1_MODULES, INGLES_EPJA_M1_POS } from './content/epja/inglesMedia1.js';
+import { LENGUAJE_EPJA_M2_MODULES, LENGUAJE_EPJA_M2_POS } from './content/epja/lenguajeMedia2.js';
+import { MATEMATICA_EPJA_M2_MODULES, MATEMATICA_EPJA_M2_POS } from './content/epja/matematicaMedia2.js';
+import { CIENCIAS_EPJA_M2_MODULES, CIENCIAS_EPJA_M2_POS } from './content/epja/cienciasMedia2.js';
+import { ESTUDIOS_SOCIALES_EPJA_M2_MODULES, ESTUDIOS_SOCIALES_EPJA_M2_POS } from './content/epja/estudiosSocialesMedia2.js';
+import { INGLES_EPJA_M2_MODULES, INGLES_EPJA_M2_POS } from './content/epja/inglesMedia2.js';
 
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
@@ -180,25 +185,30 @@ export const LENGUAJE_EPJA_BY_NIVEL = {
   n2basica: { modules: LENGUAJE_EPJA_N2_MODULES, pos: LENGUAJE_EPJA_N2_POS, height: 360 },
   n3basica: { modules: LENGUAJE_EPJA_N3_MODULES, pos: LENGUAJE_EPJA_N3_POS, height: 360 },
   n1media: { modules: LENGUAJE_EPJA_M1_MODULES, pos: LENGUAJE_EPJA_M1_POS, height: 360 },
+  n2media: { modules: LENGUAJE_EPJA_M2_MODULES, pos: LENGUAJE_EPJA_M2_POS, height: 360 },
 };
 export const MATEMATICA_EPJA_BY_NIVEL = {
   n1basica: { modules: MATEMATICA_EPJA_N1_MODULES, pos: MATEMATICA_EPJA_N1_POS, height: 560 },
   n2basica: { modules: MATEMATICA_EPJA_N2_MODULES, pos: MATEMATICA_EPJA_N2_POS, height: 560 },
   n3basica: { modules: MATEMATICA_EPJA_N3_MODULES, pos: MATEMATICA_EPJA_N3_POS, height: 560 },
   n1media: { modules: MATEMATICA_EPJA_M1_MODULES, pos: MATEMATICA_EPJA_M1_POS, height: 760 },
+  n2media: { modules: MATEMATICA_EPJA_M2_MODULES, pos: MATEMATICA_EPJA_M2_POS, height: 560 },
 };
 export const CIENCIAS_EPJA_BY_NIVEL = {
   n2basica: { modules: CIENCIAS_EPJA_N2_MODULES, pos: CIENCIAS_EPJA_N2_POS, height: 460 },
   n3basica: { modules: CIENCIAS_EPJA_N3_MODULES, pos: CIENCIAS_EPJA_N3_POS, height: 560 },
   n1media: { modules: CIENCIAS_EPJA_M1_MODULES, pos: CIENCIAS_EPJA_M1_POS, height: 560 },
+  n2media: { modules: CIENCIAS_EPJA_M2_MODULES, pos: CIENCIAS_EPJA_M2_POS, height: 640 },
 };
 export const ESTUDIOS_SOCIALES_EPJA_BY_NIVEL = {
   n2basica: { modules: ESTUDIOS_SOCIALES_EPJA_N2_MODULES, pos: ESTUDIOS_SOCIALES_EPJA_N2_POS, height: 320 },
   n3basica: { modules: ESTUDIOS_SOCIALES_EPJA_N3_MODULES, pos: ESTUDIOS_SOCIALES_EPJA_N3_POS, height: 320 },
   n1media: { modules: ESTUDIOS_SOCIALES_EPJA_M1_MODULES, pos: ESTUDIOS_SOCIALES_EPJA_M1_POS, height: 360 },
+  n2media: { modules: ESTUDIOS_SOCIALES_EPJA_M2_MODULES, pos: ESTUDIOS_SOCIALES_EPJA_M2_POS, height: 360 },
 };
 export const INGLES_EPJA_BY_NIVEL = {
   n1media: { modules: INGLES_EPJA_M1_MODULES, pos: INGLES_EPJA_M1_POS, height: 320 },
+  n2media: { modules: INGLES_EPJA_M2_MODULES, pos: INGLES_EPJA_M2_POS, height: 320 },
 };
 
 /* Asignaturas de EPJA por nivel — a diferencia de SUBJECT_DEFS (Básica, 9-10

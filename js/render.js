@@ -113,7 +113,7 @@ function renderEtapaMap(){
       '</button>'+
       '<button class="subject-card" onclick="goTo(\'epjaMap\')">'+
         '<span class="subject-icon">🌙</span>'+
-        '<span class="subject-info"><b>Educación para Adultos</b><small>EPJA · Básica y 1° Medio disponibles</small></span>'+
+        '<span class="subject-info"><b>Educación para Adultos</b><small>EPJA · Todos los niveles disponibles</small></span>'+
       '</button>'+
       '<button class="subject-card" onclick="goTo(\'estudioPruebasMap\')">'+
         '<span class="subject-icon">🎓</span>'+

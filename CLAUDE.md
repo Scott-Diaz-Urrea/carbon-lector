@@ -2257,7 +2257,7 @@ Antes de construir, definir con el usuario su lista real de asignaturas
 etc. — no asumir que es igual a Básica) y confirmar su decreto curricular
 vigente en curriculumnacional.cl.
 
-### EPJA (Educación para Personas Jóvenes y Adultas) — Nivel 1, 2, 3 Básica y Nivel 1 Media ✅ completos, Nivel 2 Media restante 🔒
+### EPJA (Educación para Personas Jóvenes y Adultas) — ✅ completo (los 5 niveles: Nivel 1/2/3 Básica, Nivel 1/2 Media)
 Pedido explícito del usuario (2026-08-01, "procede con epja") de empezar a
 construir esta etapa, dejando el orden y el punto de partida a criterio de
 Claude ("dejar que yo decida el orden", confirmado vía `AskUserQuestion`).
@@ -2685,11 +2685,133 @@ alcanzar Media.
   `speakLang:'en'` confirmado). Probado también en 375px (mobile), sin
   errores de consola en ningún caso.
 
-**Próximo paso del mismo pedido:** Nivel 2 Media EPJA (3°-4° medio
-equivalente), el último nivel de EPJA que falta por construir — investigar
-primero su temario real y decreto vigente antes de asumir que replica el de
-Nivel 1 Media. Educación Media regular (no EPJA) sigue sin construir — ver
-sección de arriba.
+**Nivel 2 Media — ✅ completo (2026-08-01), 24 módulos, 5 asignaturas
+(Lenguaje y Comunicación, Matemática, Ciencias Naturales, Estudios Sociales,
+Inglés):** pedido implícito ("continua") de seguir el plan ya documentado en
+esta misma sección tras completar Nivel 1 Media — con esto **EPJA queda
+100% completo, los 5 niveles construidos**. Fuente real: "Temario Segundo
+Nivel de Educación Media", Decreto Supremo N°257 de 2009
+(epja.mineduc.cl/wp-content/uploads/sites/43/2026/02/
+Temario-nivel-2-de-media-2026_1er-y-2do-semestre-vf.pdf, encontrado vía
+WebSearch, extraído con `curl` + `pdftotext -layout`, mismo mecanismo ya
+usado en toda la etapa) — mismo decreto que Nivel 1 Media, confirmando que
+Educación Media EPJA completa sigue sin migrar a las nuevas Bases EPJA 2024.
+- **Lenguaje y Comunicación** (4 módulos, `content/epja/lenguajeMedia2.js`):
+  Comprensión de Lectura (información explícita, inferencia de sentido
+  global e información, tipo de texto, aspectos físicos y psicológicos de
+  personajes), Vocabulario en Contexto (sentido/significado de palabra o
+  expresión según contexto, sinónimos), Texto Argumentativo (estructura
+  tesis/argumentos/contraargumentos/conclusión, función de cada componente —
+  ángulo enteramente nuevo que ningún nivel EPJA anterior había cubierto), y
+  Hechos, Opiniones y Comunicación (distinguir hechos de opiniones, función
+  de recursos verbales/no verbales, relacionar el tema con la realidad
+  contemporánea). Ningún objetivo del eje queda fuera del motor de opción
+  múltiple.
+- **Educación Matemática** (6 módulos, `content/epja/matematicaMedia2.js`,
+  el eje más avanzado de todo EPJA hasta ahora): Raíces Cuadradas (raíz
+  cuadrada como proceso inverso de la potencia de exponente 2, propiedad de
+  la raíz de un producto, problemas de modelamiento), Funciones Exponencial
+  y Logarítmica (evaluar, clasificar), Función Cuadrática y Ecuaciones
+  (resolver una ecuación de segundo grado construida a partir de dos raíces
+  enteras elegidas al azar —garantiza que siempre factorice limpio, sin
+  soluciones irracionales ambiguas—, evaluar una función cuadrática),
+  Trigonometría (razones seno/coseno/tangente sobre ternas pitagóricas
+  reales para que los catetos/hipotenusa den siempre valores enteros,
+  problema de altura inaccesible), Estadística: Tablas y Muestras
+  (interpretar una tabla de frecuencia con datos agrupados en intervalos,
+  caracterizar una población a partir de una muestra representativa), y
+  Probabilidad (condicional, suma de mutuamente excluyentes, producto de
+  independientes — las 3 fracciones siempre simplificadas con un `gcd()`
+  local, mismo patrón ya usado en `matematicaMedia1.js`). Mismo criterio que
+  Nivel 1 Media: generadores mayormente dinámicos con valores elegidos a
+  propósito (cuadrados perfectos, ternas pitagóricas, raíces enteras) para
+  que el resultado sea siempre exacto y sin ambigüedad por redondeo. Cubre
+  el eje completo del temario.
+- **Ciencias Naturales** (7 módulos, `content/epja/cienciasMedia2.js`, un
+  módulo más que Nivel 1 Media dado que el temario de NM2 es más denso):
+  Homeostasis y Sistemas del Cuerpo, Sistema Inmune y Genética (Biológicas:
+  sistemas nervioso/endocrino/renal y su rol en la homeostasis, sistema
+  inmunológico, información genética y reproducción celular — cromosoma,
+  gen, ADN, mitosis, meiosis); Fluidos y Presión, Electricidad y Magnetismo
+  (Físicas: presión/presión hidrostática/empuje/presión atmosférica;
+  carga/campo/corriente/potencial/resistencia/circuitos y sus componentes
+  —conductores, aisladores, fusibles, conexión a tierra, interruptores—;
+  imanes/campo/inducción); y Evolución y Modelos Atómicos, Enlaces Químicos
+  y Radiactividad, Química Orgánica y Polímeros (Químicas: teorías de
+  evolución de las especies y modelos atómicos —el temario oficial agrupa
+  ambos bajo el mismo encabezado "Ciencias Químicas", agrupación preservada
+  tal como aparece en el documento fuente—, tipos de enlaces químicos,
+  fenómenos radiactivos y tabla periódica, moléculas orgánicas/grupos
+  funcionales/polímeros sintéticos y naturales). Ningún eje del temario
+  queda fuera.
+- **Estudios Sociales** (4 módulos, `content/epja/estudiosSocialesMedia2.js`):
+  Siglo XX: Guerra y Bipolaridad (Segunda Guerra Mundial, sistema bipolar y
+  Guerra Fría, descolonización, la ONU, caída de los socialismos reales y
+  sistema unipolar), Globalización y Economía Mundial (interconectividad
+  tecnológica, rol de medios/transporte, internacionalización de las
+  economías, tratados de libre comercio, conceptos básicos de economía,
+  características del empleo global, comparación de sistemas económicos:
+  esclavitud/economía feudal/socialismo/capitalismo de mercado), Problemas
+  Globales Contemporáneos (pobreza y hambre, deterioro medioambiental,
+  pandemias), y Población y Territorio (volumen/distribución poblacional,
+  migraciones, envejecimiento, asentamientos urbanos/rurales en Chile,
+  éxodo rural, problemas de expansión de ciudades latinoamericanas, relación
+  entre medio natural y actividades productivas). **A diferencia de Nivel 1
+  Media** (historia de Chile, que sí aplicó la política de contenido
+  sensible ya establecida para el período 1973-1990), el eje de NM2 es
+  historia UNIVERSAL y economía global del siglo XX/XXI — no fue necesario
+  aplicar esa política aquí porque el temario no pide analizar ese período
+  específico de la historia de Chile, sino procesos y conceptos de historia
+  mundial. Cubre el eje completo del temario.
+- **Idioma Extranjero Inglés** (3 módulos, `content/epja/inglesMedia2.js`):
+  Gramática en Contexto (presente perfecto, voz pasiva, verbos modales,
+  conectores avanzados como however/therefore/although — más avanzado que
+  el temario de Nivel 1 Media), Vocabulario y Textos Técnicos (adjetivos
+  técnicos —useful/valuable/wireless/feasible/time consuming/capable—,
+  vocabulario de textos de seguridad laboral e instrumentos), y Comprensión
+  de Lectura (las mismas 3 habilidades del temario —identificar, inferir e
+  interpretar, reflexionar— aplicadas a textos más complejos que NM1: una
+  noticia sobre nueva fábrica, un aviso de seguridad eléctrica, un reporte
+  de energías renovables). Mismo mecanismo `speakLang:'en'` + `recurso` en
+  español ya usado desde 5° básico.
+- **Lección aplicada proactivamente esta vez (no encontrada por el
+  fuzz-test, sino evitada desde la autoría):** todos los 24 bancos se
+  escribieron desde el principio con 9-12 ítems para `rounds:8-10` (margen
+  de al menos 1-2), en vez del patrón de escribir exactamente `rounds`
+  ítems y descubrir el bug de repetición recién en la simulación — la
+  lección ya reforzada varias veces a lo largo de todo EPJA. Único ajuste
+  necesario: `comprensionInglesEpjaM2` se escribió inicialmente con
+  exactamente 8 ítems para `rounds:8` (sin margen) — detectado por revisión
+  propia antes de fuzz-testear, no por el test, y corregido a 10 ítems
+  agregando 2 casos reales (una enfermera cuidadosa, un programa de
+  reciclaje) antes de dar el módulo por terminado.
+- Verificado: los 24 generadores pasan fuzz de 300 iteraciones cada uno (sin
+  `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue` siempre
+  presente en las opciones, sin apóstrofes en `speakText`, `recurso` y
+  `explain` siempre presentes) y simulación de 200 sesiones completas cada
+  uno sin ningún repetido — ningún banco necesitó ampliación posterior, a
+  diferencia de todos los niveles EPJA anteriores. `MC_KEYS.length ===
+  Object.keys(MC_GAMES).length === 420` (396 previos + 24 nuevos, sin claves
+  huérfanas). Probado visualmente en el navegador: navegación completa
+  `etapaMap` (subtítulo actualizado a "EPJA · Todos los niveles disponibles")
+  → `epjaMap` (Nivel 2 Media ya desbloqueado, los 5 niveles abiertos) →
+  `epjaSubjectMap` (5 asignaturas, con su conteo de estrellas correcto:
+  0/12, 0/18, 0/21, 0/12, 0/9) → mapa de módulos de las 5 asignaturas (sin
+  solapamiento de nodos, ancho de etiqueta siempre ≤170px, de 3 a 7 nodos
+  cada uno — el módulo de Ciencias con 7 nodos, uno más que el resto de
+  EPJA, no presentó problemas de layout) → una partida jugada en "Raíces
+  Cuadradas" (Matemática, resolvió correctamente raíz de 25 × raíz de 9 =
+  15, avance correcto de 1/8 a 2/8, modal de Recurso abriendo con el texto
+  real) y una ronda en "Gramática en Contexto" (Inglés, oración con hueco
+  "She ___ finished the safety training this week." y speakLang:'en'
+  confirmado). Sin errores de consola en ningún caso.
+
+**Con esto, EPJA queda 100% completo: los 5 niveles (Nivel 1/2/3 Básica,
+Nivel 1/2 Media) están construidos y jugables.** Próximo paso posible:
+Educación Media regular (no EPJA) sigue sin construir — requiere que el
+usuario confirme primero la lista real de asignaturas (probablemente
+distinta a Básica: Física/Química/Biología separadas, Filosofía, etc.) y el
+decreto curricular vigente, ver sección "### Educación Media" más abajo.
 
 ## Próximos pasos sugeridos (en orden)
 
@@ -2789,11 +2911,9 @@ para esta iniciativa).
 9. Ahora que toda Educación Básica está completa (1° a 8°), definir con
    el usuario el mismo patrón para Educación Media
    (probablemente asignaturas distintas: Física/Química/Biología
-   separadas, Filosofía, etc. — pedir la lista real antes de asumir) y
-   luego EPJA (currículum propio, organizado por niveles que agrupan
-   varios años en uno, no por año individual — revisar su decreto
-   específico antes de construir, no asumir que es igual a Básica/Media
-   regular).
+   separadas, Filosofía, etc. — pedir la lista real antes de asumir).
+   EPJA (currículum propio, organizado por niveles que agrupan varios
+   años en uno) ya está 100% completo — ver "### EPJA" arriba.
 10. ~~Evaluar agregar persistencia real (localStorage)~~ — ✅ hecho (`js/persistence.js`).
    Si más adelante se quiere progreso sincronizado entre dispositivos, ahí sí se
    necesitaría un backend real (Firebase/Supabase u otro) — GitHub Pages es hosting

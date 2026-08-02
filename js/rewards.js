@@ -400,6 +400,19 @@ export const MODULE_TITLES = {
   sigloXXDemocraciaEpjaM1:'Defensor de la Democracia', ciudadaniaDerechosEpjaM1:'Ciudadano Informado',
   gramaticaContextoEpjaM1:'Gramático del Inglés', vocabularioFuncionalEpjaM1:'Vocabulario Funcional',
   comprensionInglesEpjaM1:'Lector en Inglés',
+  comprensionEpjaM2:'Lector Experto', vocabularioContextoEpjaM2:'Maestro del Vocabulario',
+  textoArgumentativoEpjaM2:'Argumentador', hechosOpinionesEpjaM2:'Pensador Crítico',
+  raicesCuadradasEpjaM2:'Maestro de las Raíces', funcionesExpLogEpjaM2:'Explorador Exponencial',
+  funcionCuadraticaEpjaM2:'Resolutor Cuadrático', trigonometriaEpjaM2:'Maestro de la Trigonometría',
+  estadisticaMuestrasEpjaM2:'Analista de Datos', probabilidadEpjaM2:'Calculador de Probabilidades',
+  homeostasisSistemasEpjaM2:'Guardián del Equilibrio', sistemaInmuneGeneticaEpjaM2:'Genetista',
+  fluidosPresionEpjaM2:'Maestro de los Fluidos', electricidadMagnetismoEpjaM2:'Electricista Experto',
+  evolucionAtomoEpjaM2:'Explorador Atómico', enlacesRadiactividadEpjaM2:'Químico Nuclear',
+  organicaPolimerosEpjaM2:'Químico Orgánico',
+  sigloXXBipolaridadEpjaM2:'Historiador Mundial', globalizacionEconomiaEpjaM2:'Economista Global',
+  problemasGlobalesEpjaM2:'Ciudadano del Mundo', poblacionTerritorioEpjaM2:'Geógrafo Poblacional',
+  gramaticaContextoEpjaM2:'Gramático Avanzado', vocabularioTecnicoEpjaM2:'Vocabulario Técnico',
+  comprensionInglesEpjaM2:'Lector Avanzado en Inglés',
 };
 
 export function spawnConfetti(container){

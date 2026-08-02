@@ -12,6 +12,22 @@ export const GRADE_POS = [
   {x:22,y:92},{x:68,y:80},{x:24,y:68},{x:70,y:56},{x:24,y:44},{x:70,y:32},{x:24,y:20},{x:70,y:8}
 ];
 
+/* Educación Media (Decreto 614/2013 para 1°-2° medio, mismo decreto que
+   7°-8° básico — 3°-4° medio usa un decreto distinto, con un Plan de
+   Formación General + Plan Diferenciado, y todavía no está construido).
+   Igual que Básica, se organiza año→asignatura con las mismas 10
+   asignaturas — pero usa su propio estado/navegación (`currentMedioGrade`,
+   `MEDIO_SUBJECT_DEFS`) en vez de reutilizar `GRADES`/`SUBJECT_DEFS`, para
+   no mezclar los años 1-2 de Media con los años 1-8 de Básica bajo la misma
+   clave numérica. Solo 1° medio tiene contenido jugable por ahora. */
+export const MEDIO_GRADES = [
+  { id:1, label:'1° Medio', open:true },
+  { id:2, label:'2° Medio', open:false },
+];
+export const MEDIO_GRADE_POS = [
+  {x:30,y:70},{x:70,y:30}
+];
+
 /* Educación Parvularia (Decreto 481/2017) no se organiza por "año" como Básica,
    sino por nivel: Sala Cuna (0-2), Nivel Medio (2-4), Nivel de Transición (4-6).
    Solo NT tiene módulos jugables — Sala Cuna y Nivel Medio son edades donde un

@@ -1,7 +1,7 @@
-import { currentScreen, screenStack, state, gradeLabel, nivelLabel, epjaNivelLabel, level, totalStars, maxStars } from './state.js';
+import { currentScreen, screenStack, state, gradeLabel, nivelLabel, epjaNivelLabel, medioGradeLabel, level, totalStars, maxStars } from './state.js';
 import { backIconSVG, starSVG, lockIconSVG, starsRow, mascotSVG } from './svg.js';
 import { pathD } from './utils.js';
-import { GRADES, GRADE_POS, EPJA_NIVELES } from './content/grades.js';
+import { GRADES, GRADE_POS, EPJA_NIVELES, MEDIO_GRADES, MEDIO_GRADE_POS } from './content/grades.js';
 import { MC_KEYS, renderMCScreen, initMCGame } from './mcEngine.js';
 import { renderSilabasScreen, initSilabasGame } from './games/silabas.js';
 import { renderSecuenciaScreen, initSecuenciaGame } from './games/secuencia.js';
@@ -13,7 +13,7 @@ import {
   LENGUAJE_BY_GRADE, MATE_BY_GRADE, CIENCIAS_BY_GRADE, HISTORIA_BY_GRADE,
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
   TECNOLOGIA_BY_GRADE, INGLES_BY_GRADE, SUBJECT_DEFS, NUCLEO_DEFS,
-  ESTUDIO_PRUEBAS_SUBMODULOS, EPJA_SUBJECT_DEFS,
+  ESTUDIO_PRUEBAS_SUBMODULOS, EPJA_SUBJECT_DEFS, MEDIO_SUBJECT_DEFS,
 } from './gradeContent.js';
 
 export function render(){
@@ -25,6 +25,18 @@ export function render(){
   if(scr === 'home') body = renderHome();
   else if(scr === 'etapaMap') body = renderEtapaMap();
   else if(scr === 'gradeMap') body = renderGradeMap();
+  else if(scr === 'medioGradeMap') body = renderMedioGradeMap();
+  else if(scr === 'medioSubjectMap') body = renderMedioSubjectMap();
+  else if(scr === 'lenguajeMedioMap') body = renderLenguajeMedioMap();
+  else if(scr === 'matematicasMedioMap') body = renderMatematicasMedioMap();
+  else if(scr === 'cienciasMedioMap') body = renderCienciasMedioMap();
+  else if(scr === 'historiaMedioMap') body = renderHistoriaMedioMap();
+  else if(scr === 'artesMedioMap') body = renderArtesMedioMap();
+  else if(scr === 'musicaMedioMap') body = renderMusicaMedioMap();
+  else if(scr === 'edfisicaMedioMap') body = renderEdFisicaMedioMap();
+  else if(scr === 'orientacionMedioMap') body = renderOrientacionMedioMap();
+  else if(scr === 'tecnologiaMedioMap') body = renderTecnologiaMedioMap();
+  else if(scr === 'inglesMedioMap') body = renderInglesMedioMap();
   else if(scr === 'nucleoMap') body = renderNucleoMap();
   else if(scr === 'epjaMap') body = renderEpjaMap();
   else if(scr === 'epjaSubjectMap') body = renderEpjaSubjectMap();
@@ -107,9 +119,9 @@ function renderEtapaMap(){
         '<span class="subject-icon">📘</span>'+
         '<span class="subject-info"><b>Educación Básica</b><small>1° a 8° año</small></span>'+
       '</button>'+
-      '<button class="subject-card locked" onclick="showToast(\'🚧 Etapa en preparación\')">'+
+      '<button class="subject-card" onclick="goTo(\'medioGradeMap\')">'+
         '<span class="subject-icon">🎓</span>'+
-        '<span class="subject-info"><b>Educación Media</b><small>1° a 4° medio</small></span>'+
+        '<span class="subject-info"><b>Educación Media</b><small>1° Medio disponible</small></span>'+
       '</button>'+
       '<button class="subject-card" onclick="goTo(\'epjaMap\')">'+
         '<span class="subject-icon">🌙</span>'+
@@ -157,6 +169,55 @@ function renderGradeMap(){
       '</svg>'+
       nodes+
     '</div>'+
+  '</div>';
+}
+
+function renderMedioGradeMap(){
+  const nodes = MEDIO_GRADES.map(function(g,i){
+    const pos = MEDIO_GRADE_POS[i];
+    const cls = g.open ? 'open' : 'locked';
+    const inner = g.open ? g.id : lockIconSVG(24);
+    const clickAttr = g.open ? 'onclick="selectMedioGrade('+g.id+')"' : 'onclick="showToast(\'🚧 Este nivel está en preparación\')"';
+    return '<button class="node" style="left:'+pos.x+'%; top:'+(100-pos.y)+'%;" '+clickAttr+'>'+
+      '<div class="node-circle '+cls+'">'+inner+'</div>'+
+      '<div class="node-label '+(g.open?'':'locked')+'">'+g.label+'</div>'+
+    '</button>';
+  }).join('');
+  const svgPts = MEDIO_GRADE_POS.map(function(p){ return {x:p.x, y:100-p.y}; });
+  return '<div class="screen">'+
+    '<p class="section-title">Educación Media</p>'+
+    '<p class="section-sub">Cada isla junta el contenido de un año escolar completo.</p>'+
+    '<div class="map-wrap" style="height:420px;">'+
+      '<svg class="path-line" viewBox="0 0 100 100" preserveAspectRatio="none">'+
+        '<path d="'+pathD(svgPts)+'" fill="none" stroke="#CFE7E1" stroke-width="1.6" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/>'+
+      '</svg>'+
+      nodes+
+    '</div>'+
+  '</div>';
+}
+function renderMedioSubjectMap(){
+  const g = state.currentMedioGrade;
+  const cards = MEDIO_SUBJECT_DEFS.map(function(sd){
+    const data = sd.byGrade[g];
+    if(!data){
+      return '<button class="subject-card locked" onclick="showToast(\'🚧 Materia en preparación\')">'+
+        '<span class="subject-icon">'+sd.icon+'</span>'+
+        '<span class="subject-info"><b>'+sd.label+'</b><small>Próximamente</small></span>'+
+      '</button>';
+    }
+    const keys = data.modules.filter(function(m){ return m.key; }).map(function(m){ return m.key; });
+    const stars = subjectStars(keys);
+    const sub = data.modules.map(function(m){ return m.label; }).join(' · ');
+    return '<button class="subject-card" onclick="goTo(\''+sd.screen+'\')">'+
+      '<span class="subject-icon">'+sd.icon+'</span>'+
+      '<span class="subject-info"><b>'+sd.label+'</b><small>'+sub+'</small></span>'+
+      '<span class="subject-stars">⭐ '+stars+'/'+(keys.length*3)+'</span>'+
+    '</button>';
+  }).join('');
+  return '<div class="screen">'+
+    '<p class="section-title">'+medioGradeLabel(g)+'</p>'+
+    '<p class="section-sub">Elige una materia para empezar a jugar.</p>'+
+    '<div class="subject-list">'+cards+'</div>'+
   '</div>';
 }
 
@@ -425,4 +486,40 @@ function renderInglesMap(){
   const data = INGLES_BY_GRADE[state.currentGrade];
   if(!data) return renderComingSoonSubject('Inglés');
   return renderModuleMap('Inglés','🔤 Alineado a Inglés · '+gradeLabel(state.currentGrade), data.modules, data.pos, data.height);
+}
+
+function renderMedioSubjectMapFor(screenName, title, badgeIcon){
+  const data = MEDIO_SUBJECT_DEFS.filter(function(sd){ return sd.screen===screenName; })[0].byGrade[state.currentMedioGrade];
+  if(!data) return renderComingSoonSubject(title);
+  return renderModuleMap(title, badgeIcon+' Alineado a '+title+' · '+medioGradeLabel(state.currentMedioGrade), data.modules, data.pos, data.height);
+}
+function renderLenguajeMedioMap(){
+  return renderMedioSubjectMapFor('lenguajeMedioMap','Lenguaje','📖');
+}
+function renderMatematicasMedioMap(){
+  return renderMedioSubjectMapFor('matematicasMedioMap','Matemáticas','🔢');
+}
+function renderCienciasMedioMap(){
+  return renderMedioSubjectMapFor('cienciasMedioMap','Ciencias','🔬');
+}
+function renderHistoriaMedioMap(){
+  return renderMedioSubjectMapFor('historiaMedioMap','Historia','🗺️');
+}
+function renderArtesMedioMap(){
+  return renderMedioSubjectMapFor('artesMedioMap','Artes Visuales','🎨');
+}
+function renderMusicaMedioMap(){
+  return renderMedioSubjectMapFor('musicaMedioMap','Música','🎵');
+}
+function renderEdFisicaMedioMap(){
+  return renderMedioSubjectMapFor('edfisicaMedioMap','Educación Física','⚽');
+}
+function renderOrientacionMedioMap(){
+  return renderMedioSubjectMapFor('orientacionMedioMap','Orientación','🧭');
+}
+function renderTecnologiaMedioMap(){
+  return renderMedioSubjectMapFor('tecnologiaMedioMap','Tecnología','⚙️');
+}
+function renderInglesMedioMap(){
+  return renderMedioSubjectMapFor('inglesMedioMap','Inglés','🔤');
 }

@@ -8,6 +8,7 @@ import {
   genComprension6Round, genRecursosPoeticos6Round, genVocabulario6Round, genGramatica6Round, genOrtografia6Round,
   genComprension7Round, genRimaMetrica7Round, genPensamientoCritico7Round, genVocabularioGramatica7Round, genOrtografia7Round,
   genComprension8Round, genGenerosDramaticos8Round, genArgumentacionMedios8Round, genGramatica8Round, genOrtografia8Round,
+  genNarrativaM1Round, genPoesiaM1Round, genDramaRomanticismoM1Round, genArgumentativoMediosM1Round, genOrtografiaM1Round,
 } from './content/lenguaje.js';
 import {
   genCountRound, genAddRound, genCompareRound, genFormaRound, genSaltaRound, genMultiplicarRound,
@@ -25,6 +26,8 @@ import {
   genProporcionesEcuaciones7Round, genGeometria7Round, genEstadisticaMuestreo7Round, genProbabilidades7Round,
   genEnterosRacionales8Round, genPotenciasRaices8Round, genVariacionesPorcentuales8Round, genAlgebra8Round,
   genFunciones8Round, genGeometria8Round, genTransformaciones8Round, genEstadisticaCombinatoria8Round,
+  genNumerosPotenciasM1Round, genProductosNotablesM1Round, genSistemasEcuacionesM1Round, genFuncionesLinealesM1Round,
+  genGeometriaM1Round, genHomoteciaTalesM1Round, genEstadisticaProbabilidadM1Round,
 } from './content/matematica.js';
 import {
   genSeresVivosRound, genPlantasRound, genCuerpoRound, genMaterialesRound, genDiaNocheRound,
@@ -38,6 +41,8 @@ import {
   genSexualidadReproduccion7Round, genInmunologicoMicroorganismos7Round, genFuerzasPresion7Round,
   genGeologiaClima7Round, genMateriaGases7Round,
   genCelula8Round, genNutricionSistemas8Round, genElectricidad8Round, genCalor8Round, genAtomoTabla8Round,
+  genEvolucionM1Round, genEcosistemasPoblacionesM1Round, genCiclosImpactoM1Round, genOndasSonidoM1Round,
+  genLuzSentidosM1Round, genSistemaSolarM1Round, genReaccionesQuimicasM1Round, genCompuestosEstequiometriaM1Round,
 } from './content/ciencias.js';
 import {
   genCalendarioRound, genMiIdentidadRound, genSimbolosRound, genMapasRound, genComunidadRound,
@@ -50,6 +55,8 @@ import {
   genCiudadania7Round, genGeografiaMedioambiente7Round,
   genHumanismoRenacimiento8Round, genEstadoModerno8Round, genConquista8Round, genColonia8Round,
   genIlustracionRevoluciones8Round, genGeografiaRegional8Round,
+  genIdeasRepublicanasM1Round, genEstadoNacionM1Round, genImperialismoGuerraM1Round, genRepublicaChileM1Round,
+  genSalitreParlamentarismoM1Round, genGeografiaPueblosM1Round, genEconomiaCiudadaniaM1Round,
 } from './content/historia.js';
 import {
   genColoresRound, genLineasTexturasRound, genMaterialesArteRound, genLineasColores2Round,
@@ -59,6 +66,7 @@ import {
   genLenguajeVisual6Round,
   genEspaciosDifusion7Round,
   genMontajeDifusion8Round,
+  genDifusionM1Round,
 } from './content/artes.js';
 import {
   genSonidosRound, genInstrumentosRound, genTimbrePulso2Round,
@@ -68,6 +76,7 @@ import {
   genMelodiaVariaciones6Round,
   genProcedimientosCompositivos7Round,
   genArmonia8Round,
+  genMusicaIdentidadM1Round,
 } from './content/musica.js';
 import {
   genMovimientoRound, genVidaActivaRound, genSeguridadRound,
@@ -78,6 +87,7 @@ import {
   genVidaPostura6Round, genLiderazgo6Round,
   genEstrategiasTacticas7Round,
   genSistemasJuego8Round, genEntrenamiento8Round,
+  genEstrategiasTacticasM1Round, genEntrenamientoM1Round, genVidaActivaSeguridadM1Round,
 } from './content/edfisica.js';
 import {
   genEmocionesRound, genAutocuidadoRound, genConvivenciaRound,
@@ -88,9 +98,10 @@ import {
   genManejoEmocional6Round, genAutocuidadoDigital6Round, genPrevencion6Round, genBuenTrato6Round, genHabitosEstudio6Round,
   genPrevencionRiesgo7Round, genBienestarVida7Round, genRedesSociales7Round, genResolucionConflictos7Round, genAutonomiaAprendizaje7Round,
   genPrevencionRiesgo8Round, genBienestar8Round, genRelacionesInclusion8Round, genParticipacionDemocratica8Round, genGestionAprendizaje8Round,
+  genPrevencionRiesgosM1Round, genBienestarVidaM1Round, genRelacionesRedesM1Round, genResolucionConflictosM1Round,
 } from './content/orientacion.js';
-import { genHerramientasTecRound, genTecDigital2Round, genTecDigital3Round, genTecDigital4Round, genTecDigital5Round, genTecDigital6Round, genSolucionesTecnologicas7Round, genAnalisisSoluciones8Round } from './content/tecnologia.js';
-import { genVocabularioIngles5Round, genLecturaSimple5Round, genVocabularioIngles6Round, genLecturaSimple6Round, genVocabularioAvanzado7Round, genLecturaIntermedia7Round, genFuncionesIdioma8Round, genLecturaAvanzada8Round } from './content/ingles.js';
+import { genHerramientasTecRound, genTecDigital2Round, genTecDigital3Round, genTecDigital4Round, genTecDigital5Round, genTecDigital6Round, genSolucionesTecnologicas7Round, genAnalisisSoluciones8Round, genEvolucionTecnologicaM1Round } from './content/tecnologia.js';
+import { genVocabularioIngles5Round, genLecturaSimple5Round, genVocabularioIngles6Round, genLecturaSimple6Round, genVocabularioAvanzado7Round, genLecturaIntermedia7Round, genFuncionesIdioma8Round, genLecturaAvanzada8Round, genGramaticaContextoM1Round, genVocabularioContextoM1Round, genComprensionLecturaM1Round } from './content/ingles.js';
 import {
   genPatronesRound, genClasificarRound, genPosicionRound, genCuantificadoresRound,
   genSecuenciaTemporalRound, genContarVeinteRound, genSumarQuitarRound,
@@ -309,7 +320,17 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'raicesCuadradasEpjaM2','funcionesExpLogEpjaM2','funcionCuadraticaEpjaM2','trigonometriaEpjaM2','estadisticaMuestrasEpjaM2','probabilidadEpjaM2',
   'homeostasisSistemasEpjaM2','sistemaInmuneGeneticaEpjaM2','fluidosPresionEpjaM2','electricidadMagnetismoEpjaM2','evolucionAtomoEpjaM2','enlacesRadiactividadEpjaM2','organicaPolimerosEpjaM2',
   'sigloXXBipolaridadEpjaM2','globalizacionEconomiaEpjaM2','problemasGlobalesEpjaM2','poblacionTerritorioEpjaM2',
-  'gramaticaContextoEpjaM2','vocabularioTecnicoEpjaM2','comprensionInglesEpjaM2'];
+  'gramaticaContextoEpjaM2','vocabularioTecnicoEpjaM2','comprensionInglesEpjaM2',
+  'numerospotenciasm1','productosnotablesm1','sistemasecuacionesm1','funcioneslinealesm1','geometriam1','homoteciatalesm1','estadisticaprobabilidadm1',
+  'narrativam1','poesiam1','dramaromanticismom1','argumentativomediosm1','ortografiam1',
+  'ideasrepublicanasm1','estadonacionm1','imperialismoguerram1','republicachilem1','salitreparlamentarismom1','geografiapueblosm1','economiaciudadaniam1',
+  'evolucionm1','ecosistemaspoblacionesm1','ciclosimpactom1','ondassonidom1','luzsentidosm1','sistemasolarm1','reaccionesquimicasm1','compuestosestequiometriam1',
+  'gramaticacontextom1','vocabulariocontextom1','comprensionlecturam1',
+  'estrategiastacticasm1','entrenamientom1','vidaactivaseguridadm1',
+  'evoluciontecnologicam1',
+  'difusionm1',
+  'musicaidentidadm1',
+  'prevencionriesgosm1','bienestarvidam1','relacionesredesm1','resolucionconflictosm1'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -732,6 +753,46 @@ export const MC_GAMES = {
   gramaticaContextoEpjaM2:    { title:'Gramática en Contexto',       gen: genGramaticaContextoEpjaM2Round,    rounds:10 },
   vocabularioTecnicoEpjaM2:   { title:'Vocabulario y Textos Técnicos', gen: genVocabularioTecnicoEpjaM2Round,  rounds:8 },
   comprensionInglesEpjaM2:    { title:'Comprensión de Lectura (Inglés)', gen: genComprensionInglesEpjaM2Round, rounds:8 },
+  numerospotenciasm1: { title:'Números Racionales y Potencias', gen: genNumerosPotenciasM1Round, rounds:8 },
+  productosnotablesm1: { title:'Productos Notables', gen: genProductosNotablesM1Round, rounds:8 },
+  sistemasecuacionesm1: { title:'Sistemas de Ecuaciones', gen: genSistemasEcuacionesM1Round, rounds:8 },
+  funcioneslinealesm1: { title:'Funciones Lineales', gen: genFuncionesLinealesM1Round, rounds:8 },
+  geometriam1: { title:'Sector Circular y Cono', gen: genGeometriaM1Round, rounds:8 },
+  homoteciatalesm1: { title:'Homotecia, Tales y Semejanza', gen: genHomoteciaTalesM1Round, rounds:8 },
+  estadisticaprobabilidadm1: { title:'Estadística y Probabilidad', gen: genEstadisticaProbabilidadM1Round, rounds:8 },
+  narrativam1: { title:'Narrativa: Conflicto y Perspectiva', gen: genNarrativaM1Round, rounds:8 },
+  poesiam1: { title:'Poesía: Símbolo y Lenguaje Figurado', gen: genPoesiaM1Round, rounds:8 },
+  dramaromanticismom1: { title:'Texto Dramático y Romanticismo', gen: genDramaRomanticismoM1Round, rounds:8 },
+  argumentativomediosm1: { title:'Textos Argumentativos y de Medios', gen: genArgumentativoMediosM1Round, rounds:8 },
+  ortografiam1: { title:'Ortografía', gen: genOrtografiaM1Round, rounds:8 },
+  ideasrepublicanasm1: { title:'Ideas Republicanas y Liberales', gen: genIdeasRepublicanasM1Round, rounds:8 },
+  estadonacionm1: { title:'Estado-Nación e Industrialización', gen: genEstadoNacionM1Round, rounds:8 },
+  imperialismoguerram1: { title:'Imperialismo y Primera Guerra Mundial', gen: genImperialismoGuerraM1Round, rounds:8 },
+  republicachilem1: { title:'Formación de la República de Chile', gen: genRepublicaChileM1Round, rounds:8 },
+  salitreparlamentarismom1: { title:'Chile: Salitre y Parlamentarismo', gen: genSalitreParlamentarismoM1Round, rounds:8 },
+  geografiapueblosm1: { title:'Geografía y Pueblos Originarios', gen: genGeografiaPueblosM1Round, rounds:8 },
+  economiaciudadaniam1: { title:'Economía Personal y Ciudadanía', gen: genEconomiaCiudadaniaM1Round, rounds:8 },
+  evolucionm1: { title:'Evidencias de la Evolución', gen: genEvolucionM1Round, rounds:8 },
+  ecosistemaspoblacionesm1: { title:'Ecosistemas y Poblaciones', gen: genEcosistemasPoblacionesM1Round, rounds:8 },
+  ciclosimpactom1: { title:'Ciclos de Materia e Impacto Humano', gen: genCiclosImpactoM1Round, rounds:8 },
+  ondassonidom1: { title:'Ondas: Sonido y Sismología', gen: genOndasSonidoM1Round, rounds:8 },
+  luzsentidosm1: { title:'La Luz y los Sentidos', gen: genLuzSentidosM1Round, rounds:8 },
+  sistemasolarm1: { title:'Sistema Solar y Universo', gen: genSistemaSolarM1Round, rounds:8 },
+  reaccionesquimicasm1: { title:'Reacciones Químicas', gen: genReaccionesQuimicasM1Round, rounds:8 },
+  compuestosestequiometriam1: { title:'Compuestos y Estequiometría', gen: genCompuestosEstequiometriaM1Round, rounds:8 },
+  gramaticacontextom1: { title:'Gramática en Contexto', gen: genGramaticaContextoM1Round, rounds:8 },
+  vocabulariocontextom1: { title:'Vocabulario en Contexto', gen: genVocabularioContextoM1Round, rounds:8 },
+  comprensionlecturam1: { title:'Comprensión de Lectura', gen: genComprensionLecturaM1Round, rounds:8 },
+  estrategiastacticasm1: { title:'Estrategias y Tácticas', gen: genEstrategiasTacticasM1Round, rounds:8 },
+  entrenamientom1: { title:'Plan de Entrenamiento Personal', gen: genEntrenamientoM1Round, rounds:8 },
+  vidaactivaseguridadm1: { title:'Vida Activa y Primeros Auxilios', gen: genVidaActivaSeguridadM1Round, rounds:8 },
+  evoluciontecnologicam1: { title:'Evolución Tecnológica y Sociedad', gen: genEvolucionTecnologicaM1Round, rounds:8 },
+  difusionm1: { title:'Arte, Espacios y Difusión', gen: genDifusionM1Round, rounds:8 },
+  musicaidentidadm1: { title:'Música e Identidad Cultural', gen: genMusicaIdentidadM1Round, rounds:8 },
+  prevencionriesgosm1: { title:'Prevención de Riesgos', gen: genPrevencionRiesgosM1Round, rounds:8 },
+  bienestarvidam1: { title:'Bienestar y Vida Saludable', gen: genBienestarVidaM1Round, rounds:8 },
+  relacionesredesm1: { title:'Relaciones y Redes Sociales', gen: genRelacionesRedesM1Round, rounds:8 },
+  resolucionconflictosm1: { title:'Resolución de Conflictos', gen: genResolucionConflictosM1Round, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

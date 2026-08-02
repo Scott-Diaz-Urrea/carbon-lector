@@ -1007,3 +1007,115 @@ export function genGestionAprendizaje8Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 1° Medio (Decreto 614/2013, mismo decreto que 7°-8° básico) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/orientacion/1-medio —
+   OA01-10. Cubiertos: OA03 (evaluar situaciones de riesgo relacionadas con
+   consumo de sustancias y conductas riesgosas — mismo criterio ya
+   establecido en 7°-8° básico: solo factores de riesgo/protección, sin
+   ningún detalle de la dimensión sexual del OA02, que queda fuera), OA04
+   (vida saludable, autocuidado), OA05 (relaciones interpersonales
+   constructivas, presenciales y en redes sociales), OA06 (resolución de
+   conflictos en un marco de derechos). Fuera: OA01,09-10 (proyectos de
+   vida — vivencia personal subjetiva), OA02 (sexualidad y vínculos
+   afectivos — requiere acompañamiento real de un adulto, mismo criterio de
+   siempre), OA07-08 (participación e iniciativas comunitarias — ya
+   cubiertas por Formación Ciudadana en historia.js). */
+export const ORIENTACION_MODULES_M1 = [
+  {id:'prevencionriesgosm1', label:'Prevención de Riesgos', open:true, key:'prevencionriesgosm1'},
+  {id:'bienestarvidam1', label:'Bienestar y Vida Saludable', open:true, key:'bienestarvidam1'},
+  {id:'relacionesredesm1', label:'Relaciones y Redes Sociales', open:true, key:'relacionesredesm1'},
+  {id:'resolucionconflictosm1', label:'Resolución de Conflictos', open:true, key:'resolucionconflictosm1'},
+];
+export const ORIENTACION_POS_M1 = [{x:24,y:88},{x:68,y:64},{x:24,y:40},{x:68,y:16}];
+const PREVENCION_RIESGOS_M1_BANK = [
+  { situacion:'En una fiesta, varios compañeros insisten en que pruebes alcohol "solo por probar, total es una sola vez".', correcta:'Decir que no con seguridad y buscar el apoyo de un adulto de confianza si la presión continúa', malas:['Aceptar para que dejen de insistir','Burlarte de quienes sí deciden no beber','Irte del lugar sin avisar a nadie de tu entorno'] },
+  { situacion:'Un conocido ofrece "probar algo" en una salida, asegurando que no pasa nada porque lo hace seguido.', correcta:'Rechazarlo firmemente: que alguien lo haga seguido no significa que sea seguro', malas:['Probarlo una sola vez para no quedar mal','Guardar el secreto sin decírselo a nadie','Pensar que como otros lo hacen, no hay riesgo'] },
+  { situacion:'Sientes curiosidad por el vapeo porque varios compañeros lo hacen en el recreo.', correcta:'Informarte con fuentes confiables sobre sus riesgos reales antes de decidir', malas:['Probarlo porque "todos lo hacen"','Asumir que no tiene ningún riesgo por ser popular','Presionar a otros compañeros para que también lo prueben'] },
+  { situacion:'Un amigo te cuenta que empezó a fumar para sentirse parte de un grupo nuevo.', correcta:'Apoyarlo sin juzgar, y ayudarlo a buscar otras formas de integrarse que no impliquen riesgo', malas:['Dejar de hablarle por esa decisión','Sumarte tú también para acompañarlo','Ignorar el tema completamente'] },
+  { situacion:'En una reunión social te ofrecen manejar un vehículo aunque no te sientes en condiciones seguras.', correcta:'Negarte y buscar una alternativa de transporte segura', malas:['Manejar igual porque "es un trayecto corto"','Aceptar la presión del grupo','No decir nada y subirte de todos modos'] },
+  { situacion:'Un compañero comenta que consumir energéticas mezcladas con otras sustancias "le ayuda a rendir más en las pruebas".', correcta:'Explicarle que esa mezcla puede ser riesgosa y que el buen rendimiento se logra con hábitos de estudio y descanso', malas:['Pedirle que te consiga lo mismo','Copiar esa costumbre sin informarte','Decirle que siga haciéndolo sin cuestionarlo'] },
+  { situacion:'Notas que un amigo cercano ha cambiado su comportamiento y sospechas que puede estar en una situación de riesgo relacionada al consumo de sustancias.', correcta:'Conversarlo con cuidado y buscar la ayuda de un adulto de confianza o profesional si es necesario', malas:['Ignorarlo porque "es su problema"','Guardar el secreto sin buscar ayuda para él','Burlarte de la situación frente a otros'] },
+  { situacion:'En una junta familiar, un adulto mayor le ofrece a un adolescente probar alcohol "solo un poco, para celebrar".', correcta:'Rechazarlo con respeto, explicando que prefiere no consumir alcohol', malas:['Aceptar para no incomodar al adulto','Tomarlo a escondidas de los demás','Presionar a otros adolescentes para que también acepten'] },
+  { situacion:'Un compañero comparte en el curso información falsa sobre que cierta sustancia "no genera ningún riesgo si se consume poco".', correcta:'Buscar información de fuentes confiables antes de creer esa afirmación', malas:['Creer la afirmación sin verificarla','Compartir esa información falsa con más personas','Probar la sustancia para comprobarlo tú mismo'] },
+];
+export function genPrevencionRiesgosM1Round(){
+  const recurso = 'Frente a situaciones de riesgo relacionadas con el consumo de sustancias u otras conductas riesgosas, es clave reconocer los <b>factores de riesgo</b> (presión de grupo, curiosidad, creer que "solo por probar" no tiene consecuencias) y los <b>factores de protección</b> (información confiable, seguridad para decir que no, apoyo de adultos de confianza). Decir que no con firmeza —sin necesidad de justificarse frente a la presión de un grupo— es una habilidad que se puede entrenar, igual que reconocer cuándo un amigo podría estar en una situación de riesgo y saber a quién acudir para pedir ayuda. Informarse con fuentes confiables, en vez de dejarse llevar por lo que "todos hacen", es la base para tomar decisiones que cuiden la propia salud y bienestar.';
+  const item = pick(PREVENCION_RIESGOS_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
+    explain: 'Lo mejor es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const BIENESTAR_VIDA_M1_BANK = [
+  { label:'Dormir entre 8 y 10 horas es importante para la concentración y el ánimo en la adolescencia', v:true },
+  { label:'Alimentarse solo con comida rápida todos los días no tiene ningún efecto en la salud', v:false },
+  { label:'Hacer alguna actividad física regularmente ayuda al bienestar físico y emocional', v:true },
+  { label:'Pasar toda la noche despierto usando el teléfono no afecta el rendimiento del día siguiente', v:false },
+  { label:'Tomarse pausas durante el estudio ayuda a mantener la concentración por más tiempo', v:true },
+  { label:'Cuidar la postura al sentarse largos ratos frente a una pantalla previene dolores físicos', v:true },
+  { label:'Hidratarse durante el día es igual de importante que hacerlo solo cuando hay mucha sed', v:true },
+  { label:'Ignorar por completo el cansancio físico y seguir exigiéndose siempre es lo más saludable', v:false },
+  { label:'Organizar el tiempo entre estudio, descanso y actividades recreativas favorece el bienestar general', v:true },
+  { label:'Reconocer cuándo se necesita ayuda (médica, psicológica o de un adulto de confianza) es parte del autocuidado', v:true },
+];
+export function genBienestarVidaM1Round(){
+  const recurso = 'Llevar una <b>vida activa y saludable</b> en la adolescencia implica cuidar varios aspectos a la vez: dormir lo suficiente (entre 8 y 10 horas), alimentarse de forma equilibrada, mantenerse físicamente activo, hidratarse durante el día (no solo cuando ya hay mucha sed), y cuidar la postura al pasar largos ratos frente a una pantalla. También es clave organizar el tiempo entre estudio, descanso y actividades recreativas, tomar pausas durante el estudio para mantener la concentración, y reconocer cuándo se necesita pedir ayuda —médica, psicológica o de un adulto de confianza— como parte normal del autocuidado, no como una debilidad.';
+  const item = pick(BIENESTAR_VIDA_M1_BANK);
+  const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.label+'</p>',
+    options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
+    explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
+    recurso: recurso,
+  };
+}
+
+const RELACIONES_REDES_M1_BANK = [
+  { situacion:'Un amigo publica en redes sociales un comentario negativo sobre otro compañero del curso.', correcta:'No sumarte al comentario y, si es posible, conversarlo en privado con quien lo publicó', malas:['Compartir el comentario para que más gente lo vea','Sumar tú también críticas al compañero','Ignorarlo aunque esté afectando a alguien'] },
+  { situacion:'Alguien te pide que compartas una conversación privada de otra persona sin su consentimiento.', correcta:'Negarte: compartir conversaciones privadas sin permiso no es una relación de confianza sana', malas:['Compartirla igual porque "no es nada grave"','Compartirla solo con un grupo pequeño de amigos','Presionar a la otra persona para que te dé permiso'] },
+  { situacion:'Notas que un compañero recibe comentarios ofensivos de forma repetida en redes sociales por parte de otros estudiantes.', correcta:'Apoyar a la persona afectada y reportarlo a un adulto de confianza o a la plataforma', malas:['Ignorarlo porque "es problema de otros"','Sumarte a los comentarios para encajar','Reenviar los comentarios a más personas'] },
+  { situacion:'Una relación de amistad se ha vuelto controladora: uno de los dos exige saber todo lo que hace el otro en todo momento.', correcta:'Conversar abiertamente sobre esa dinámica, ya que una relación sana se basa en confianza, no en control', malas:['Aceptar el control para evitar un conflicto','Copiar esa forma de relacionarse con otras amistades','Ocultar cada vez más cosas en vez de conversarlo'] },
+  { situacion:'Un desconocido en redes sociales insiste en pedirte información personal, como tu dirección o tu colegio.', correcta:'No entregar esa información y comentarlo con un adulto de confianza', malas:['Entregar la información porque parece amable','Bloquear sin decírselo a nadie que confía en ti','Seguir conversando para no ser descortés'] },
+  { situacion:'Descubres que una imagen tuya fue compartida en un grupo sin tu autorización.', correcta:'Pedir que se elimine, y avisar a un adulto de confianza si la situación no se resuelve', malas:['No hacer nada porque "ya está compartida"','Compartir también algo privado de esa persona como venganza','Guardarte el problema sin contárselo a nadie'] },
+  { situacion:'Un grupo de amigos te presiona constantemente para revisar el teléfono de otra persona sin su permiso.', correcta:'Negarte, porque revisar el teléfono de alguien sin su consentimiento no respeta su privacidad', malas:['Hacerlo para no quedar excluido del grupo','Hacerlo solo una vez, "porque no pasa nada"','Pedirle a otra persona que lo haga por ti'] },
+  { situacion:'Un conocido en línea que nunca has visto en persona te pide encontrarte a solas en un lugar poco conocido.', correcta:'Rechazar la propuesta y comentarlo con un adulto de confianza', malas:['Aceptar sin decirle a nadie','Ir solo para no parecer desconfiado','Compartirle tu dirección exacta de inmediato'] },
+  { situacion:'Una amistad de años empieza a alejarse cada vez que compartes tiempo con otras personas, exigiendo exclusividad.', correcta:'Conversar sobre esa dinámica, ya que una amistad sana no exige exclusividad ni control', malas:['Dejar de hablar con cualquier otra persona para complacerla','Terminar la amistad sin conversarlo primero','Aceptar la exigencia sin cuestionarla'] },
+];
+export function genRelacionesRedesM1Round(){
+  const recurso = 'Las <b>relaciones interpersonales constructivas</b> —presenciales o en redes sociales— se basan en el respeto, la confianza y el consentimiento, nunca en el control o la presión. Compartir conversaciones privadas o imágenes de alguien sin su autorización, revisar el teléfono de otra persona sin permiso, o sumarse a comentarios ofensivos en redes, son formas de dañar esa confianza. Frente al <b>ciberacoso</b> (comentarios ofensivos repetidos en línea) o a desconocidos que piden información personal, lo adecuado es no participar, proteger la propia privacidad y la de otros, y buscar apoyo de un adulto de confianza cuando la situación lo requiere. Reconocer cuándo una relación se ha vuelto controladora —en vez de basarse en confianza mutua— también es parte de cuidar el propio bienestar.';
+  const item = pick(RELACIONES_REDES_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
+    explain: 'Lo mejor es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const RESOLUCION_CONFLICTOS_M1_BANK = [
+  { situacion:'Dos compañeros de un trabajo grupal no logran ponerse de acuerdo sobre cómo repartir las tareas.', correcta:'Conversar directamente, escuchar ambas posturas y buscar un acuerdo que respete a los dos', malas:['Que uno imponga su decisión sin escuchar al otro','Dejar el trabajo sin terminar por el conflicto','Pedirle a un tercero que decida sin consultarles'] },
+  { situacion:'Sientes que un compañero no está respetando un acuerdo tomado por el curso.', correcta:'Plantearlo con calma, explicando por qué crees que no se está respetando el acuerdo', malas:['Confrontarlo agresivamente frente a todo el curso','Ignorarlo aunque afecte al resto','Tomar represalias por tu cuenta sin conversarlo'] },
+  { situacion:'Un conflicto entre dos compañeros escala y ambos se dicen cosas hirientes frente al curso.', correcta:'Buscar la mediación de un adulto responsable para resolver el conflicto con calma', malas:['Sumarte a favor de uno de los dos','Grabar la discusión para compartirla después','Alentar a que sigan discutiendo'] },
+  { situacion:'Dos grupos del curso tienen visiones opuestas sobre cómo organizar una actividad, y la discusión se ha vuelto tensa.', correcta:'Buscar puntos en común entre ambas posturas y proponer una solución intermedia', malas:['Insistir en que un grupo tiene toda la razón','Dividir el curso definitivamente en dos bandos','Cancelar la actividad sin buscar ningún acuerdo'] },
+  { situacion:'Sientes que tus derechos no fueron respetados en una decisión tomada por un grupo del que formas parte.', correcta:'Expresarlo con respeto por los canales adecuados, argumentando por qué crees que tus derechos no fueron considerados', malas:['Quedarte callado para evitar cualquier conflicto','Reaccionar agresivamente sin explicar tu punto de vista','Abandonar el grupo sin decir nada'] },
+  { situacion:'Un conflicto entre compañeros se resolvió, pero uno de ellos sigue sintiendo resentimiento.', correcta:'Dar espacio para procesar la situación y estar disponible para conversarlo si la otra persona lo necesita', malas:['Exigir que "haga como si nada hubiera pasado" de inmediato','Ignorar que la relación sigue tensa','Presionarlo a que actúe como si el conflicto no le afectara'] },
+  { situacion:'Dos compañeros de curso tienen visiones políticas distintas y la conversación empieza a subir de tono.', correcta:'Escuchar el punto de vista del otro con respeto, aunque no se esté de acuerdo', malas:['Descalificar al otro por pensar distinto','Terminar la amistad por una diferencia de opinión','Imponer la propia opinión sin escuchar a la otra persona'] },
+  { situacion:'Un grupo de trabajo no logra ponerse de acuerdo sobre quién presentará el proyecto final frente al curso.', correcta:'Conversarlo y decidir en conjunto, considerando las fortalezas de cada integrante', malas:['Que el más insistente decida sin consultar al resto','Discutir hasta el último momento sin llegar a un acuerdo','Elegir al azar sin conversarlo con el grupo'] },
+];
+export function genResolucionConflictosM1Round(){
+  const recurso = 'Resolver un <b>conflicto</b> en un marco de respeto por los derechos de todas las personas involucradas requiere escuchar ambas posturas, buscar puntos en común y llegar a acuerdos que no ignoren a ninguna de las partes. Frente a un conflicto que escala o se vuelve difícil de manejar entre las partes involucradas, buscar la <b>mediación</b> de un adulto responsable es una estrategia válida, no una señal de debilidad. Es importante también reconocer que resolver un conflicto no siempre significa que las emociones desaparezcan de inmediato: a veces se necesita tiempo y espacio para procesar lo ocurrido, incluso después de llegar a un acuerdo. Expresar el propio punto de vista con respeto —en vez de callar o reaccionar de forma agresiva— es clave para resolver desacuerdos de forma sana.';
+  const item = pick(RESOLUCION_CONFLICTOS_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
+    explain: 'Lo mejor es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

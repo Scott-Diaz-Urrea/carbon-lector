@@ -436,3 +436,40 @@ export function genArmonia8Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 1° Medio (Decreto 614/2013, mismo decreto que 7°-8° básico) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/musica/1-medio —
+   OA01-07 + OAA. Cubierto: OA01 (apreciar manifestaciones y obras
+   musicales de Chile y el mundo, tradición oral/escrita/popular) y OA07
+   (evaluar la relevancia de la música en la construcción y preservación de
+   identidades — el ángulo de identidad cultural, distinto de "Música en la
+   Sociedad" de 3° básico, que cubrió situaciones cotidianas). Fuera: OA02
+   (comparar músicas según elementos del lenguaje musical — ya cubierto en
+   3°-7° básico con distintos ángulos), OA03-05 (cantar/tocar/interpretar/
+   improvisar — desempeño real con audio) y OA06 (autoevaluación). */
+export const MUSICA_MODULES_M1 = [
+  {id:'musicaidentidadm1', label:'Música e Identidad Cultural', open:true, key:'musicaidentidadm1'},
+];
+export const MUSICA_POS_M1 = [{x:48,y:50}];
+const MUSICA_IDENTIDAD_M1_BANK = [
+  { pregunta:'¿Qué representa la cueca dentro de las manifestaciones musicales de tradición popular en Chile?', correcta:'Es el baile y música reconocido como parte central de la identidad cultural chilena', opts:['Es un estilo musical originario de otro continente sin relación con Chile','No tiene ninguna relación con la cultura chilena','Es un género que ha desaparecido por completo'] },
+  { pregunta:'¿Qué función cumple la música indígena, como los cantos mapuche o aimara, en sus respectivas comunidades?', correcta:'Preserva y transmite la identidad, cosmovisión y tradiciones de esos pueblos a través del tiempo', opts:['No tiene ninguna función cultural','Solo se usa para el entretenimiento turístico','Reemplaza por completo el idioma de esos pueblos'] },
+  { pregunta:'¿Por qué se dice que la música es una forma de preservar la identidad de un país o pueblo?', correcta:'Porque transmite historia, valores y tradiciones de una generación a otra a través de canciones y ritmos propios', opts:['Porque la música nunca cambia con el tiempo','Porque la música no tiene relación con la cultura','Porque solo sirve para bailar sin ningún significado'] },
+  { pregunta:'¿Qué tradición musical se transmite principalmente de forma oral, de generación en generación, sin partituras escritas?', correcta:'La música folclórica tradicional, transmitida por la práctica y la escucha directa', opts:['La música únicamente compuesta con computadores','Solo la música clásica europea','Ninguna música se transmite de forma oral'] },
+  { pregunta:'¿Qué género musical popular latinoamericano, con raíces africanas y europeas, es reconocido internacionalmente como parte de la identidad de varios países de la región?', correcta:'La cumbia (entre otros géneros populares latinoamericanos con mezcla de raíces)', opts:['Un género que no existe en Latinoamérica','Un estilo exclusivamente asiático','Un género sin ninguna influencia cultural'] },
+  { pregunta:'¿Qué rol cumplen los festivales de música tradicional, como festivales folclóricos, para una comunidad?', correcta:'Mantienen viva la música tradicional y refuerzan el sentido de identidad y pertenencia de la comunidad', opts:['No tienen ninguna relación con la identidad cultural','Buscan eliminar la música tradicional','Solo sirven para vender entradas, sin ningún otro propósito'] },
+  { pregunta:'¿Por qué distintas regiones de un mismo país pueden tener música tradicional muy diferente entre sí?', correcta:'Porque cada región desarrolla su música según su propia historia, geografía y mezcla cultural', opts:['Porque está prohibido que toda una región comparta el mismo estilo','Porque la música siempre es idéntica en todo el país','Porque el clima elimina cualquier diferencia musical'] },
+  { pregunta:'¿Qué instrumentos son característicos de la música andina, presente en el norte de Chile y países vecinos?', correcta:'La quena y el charango, entre otros instrumentos de raíz indígena', opts:['El violín eléctrico y el sintetizador','Instrumentos que no existen en la región andina','Solo instrumentos de percusión electrónica'] },
+  { pregunta:'¿Qué ocurre culturalmente cuando una tradición musical local se mezcla con influencias de otros países o culturas?', correcta:'Puede surgir un género nuevo que refleja la identidad de ambas culturas combinadas', opts:['La tradición original desaparece por completo sin dejar ningún rastro','No puede ocurrir ninguna mezcla entre culturas distintas','El resultado siempre pierde todo significado cultural'] },
+];
+export function genMusicaIdentidadM1Round(){
+  const recurso = 'La música, en sus distintas tradiciones —oral, escrita y popular—, cumple un rol fundamental en la <b>construcción y preservación de la identidad</b> de un pueblo o país. Manifestaciones como la cueca en Chile, los cantos de pueblos originarios como el mapuche o el aimara, o géneros populares latinoamericanos con raíces mezcladas (africanas, europeas, indígenas), transmiten historia, valores y tradiciones de una generación a otra. Muchas de estas tradiciones se mantienen vivas gracias a la <b>transmisión oral</b> (de generación en generación, sin partituras escritas) y a instancias como los festivales folclóricos, que refuerzan el sentido de identidad y pertenencia de una comunidad. Distintas regiones de un mismo país suelen desarrollar tradiciones musicales propias, según su historia, geografía y mezcla cultural particular.';
+  const item = pick(MUSICA_IDENTIDAD_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

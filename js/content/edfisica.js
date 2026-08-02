@@ -603,3 +603,84 @@ export function genEntrenamiento8Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 1° Medio (Decreto 614/2013, mismo decreto que 7°-8° básico) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/educacion-fisica-salud/1-medio
+   — OA01-05 + OAA. Cubiertos: OA02 (modificar y evaluar estrategias y
+   tácticas), OA03 (plan de entrenamiento personal para una condición física
+   saludable), OA04 (actividades físicas alternativas, autocuidado, seguridad
+   y primeros auxilios). Fuera: OA01 (habilidades motrices específicas —
+   requiere práctica física real) y OA05 (participar y promover actividad
+   física en la comunidad — acción física/comunitaria real). */
+export const EDFISICA_MODULES_M1 = [
+  {id:'estrategiastacticasm1', label:'Estrategias y Tácticas', open:true, key:'estrategiastacticasm1'},
+  {id:'entrenamientom1', label:'Plan de Entrenamiento Personal', open:true, key:'entrenamientom1'},
+  {id:'vidaactivaseguridadm1', label:'Vida Activa y Primeros Auxilios', open:true, key:'vidaactivaseguridadm1'},
+];
+export const EDFISICA_POS_M1 = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
+const ESTRATEGIAS_TACTICAS_M1_BANK = [
+  { desc:'Un equipo de básquetbol pierde por mucho en el primer tiempo usando marca personal, así que en el segundo tiempo el entrenador cambia a una defensa zonal', correcta:'Modificar la táctica según cómo está resultando el partido', opts:['Repetir exactamente la misma táctica sin cambios','Abandonar el partido','Culpar solo a un jugador'] },
+  { desc:'Tras revisar en video cómo jugó el equipo, los jugadores identifican que perdieron muchos balones por pases apurados y deciden ser más pacientes', correcta:'Evaluar el propio desempeño para mejorar la táctica futura', opts:['Ignorar por completo el resultado del partido','Cambiar de deporte inmediatamente','Culpar solo al árbitro'] },
+  { desc:'En vóleibol, el equipo nota que el rival ataca casi siempre hacia la misma esquina y decide reforzar a un jugador extra en esa zona', correcta:'Aplicar una estrategia ajustada a un patrón observado en el rival', opts:['Ignorar cualquier patrón del rival','Cambiar todas las posiciones al azar','Detener el partido'] },
+  { desc:'Un equipo de fútbol que iba ganando cómodo decide, en los últimos minutos, jugar de forma más conservadora para proteger el resultado', correcta:'Modificar la estrategia según el momento y el marcador del partido', opts:['Jugar exactamente igual sin importar el marcador','Aumentar el riesgo sin ninguna razón','Retirar a todo el equipo de la cancha'] },
+  { desc:'Después de perder un torneo, el equipo se reúne para evaluar qué tácticas funcionaron y cuáles no, antes del próximo torneo', correcta:'Evaluar tácticas pasadas para planificar mejor las futuras', opts:['No analizar nunca los resultados anteriores','Culpar al clima por la derrota','Cambiar de equipo completo'] },
+  { desc:'En un partido de handball, el equipo prueba una táctica de ataque nueva; al no funcionar bien, vuelven a la táctica que ya conocían mejor', correcta:'Evaluar en el momento si una táctica funciona y ajustarla', opts:['Insistir en una táctica que claramente no funciona','Terminar el partido de inmediato','Cambiar de deporte a mitad del partido'] },
+  { desc:'Antes de la final, el equipo estudia los videos del próximo rival para anticipar sus jugadas más frecuentes', correcta:'Modificar la estrategia propia según un análisis previo del rival', opts:['Jugar sin ningún plan ni análisis previo','Copiar exactamente el uniforme del rival','Ignorar por completo al rival'] },
+  { desc:'Un equipo de fútbol que jugaba con línea de cuatro defensas cambia a línea de cinco al ver que el rival ataca con muchos jugadores por las bandas', correcta:'Modificar la formación táctica según cómo ataca el rival', opts:['Mantener la misma formación sin importar el rival','Retirar a todos los defensas de la cancha','Jugar sin ninguna formación definida'] },
+  { desc:'Después de un empate, el cuerpo técnico revisa qué jugadas de ataque funcionaron mejor para repetirlas en el próximo partido', correcta:'Evaluar jugadas específicas para mejorar la táctica futura', opts:['Olvidar por completo lo ocurrido en el partido','Cambiar a todos los jugadores del equipo','No analizar ninguna jugada del partido anterior'] },
+];
+export function genEstrategiasTacticasM1Round(){
+  const recurso = 'Una <b>estrategia o táctica deportiva</b> no es fija: los mejores equipos la <b>modifican</b> según cómo se va desarrollando el partido (por ejemplo, cambiando de defensa si la actual no está funcionando, o jugando más conservador si van ganando cómodos), y la <b>evalúan</b> después de cada partido o torneo para identificar qué funcionó y qué se puede mejorar. Esta evaluación puede basarse en el propio desempeño (revisar en qué se falló) o en el análisis del rival (identificar patrones de juego para anticiparse a ellos). Aplicar, modificar y evaluar tácticas de forma continua —no solo seguir un plan fijo sin revisarlo— es lo que distingue a un equipo que resuelve bien los problemas que surgen durante un partido.';
+  const item = pick(ESTRATEGIAS_TACTICAS_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué principio táctico se aplica aquí?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
+    explain: 'Esto es un ejemplo de: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const ENTRENAMIENTO_M1_BANK = [
+  { pregunta:'Un plan de entrenamiento personal incluye trote 3 veces por semana. ¿Qué capacidad física busca desarrollar principalmente?', correcta:'La resistencia cardiovascular', opts:['La fuerza muscular máxima','La flexibilidad','La velocidad de reacción'] },
+  { pregunta:'Un plan incluye ejercicios con el propio peso corporal (sentadillas, flexiones) tres veces por semana. ¿Qué capacidad física desarrolla principalmente?', correcta:'La fuerza muscular', opts:['La resistencia cardiovascular únicamente','La flexibilidad','El equilibrio estático'] },
+  { pregunta:'Un plan incluye estiramientos sostenidos al final de cada sesión. ¿Qué capacidad física busca mejorar?', correcta:'La flexibilidad', opts:['La velocidad máxima','La fuerza explosiva','La resistencia cardiovascular'] },
+  { pregunta:'Para mejorar la velocidad, ¿qué tipo de ejercicio conviene incluir en un plan de entrenamiento personal?', correcta:'Carreras cortas e intensas, con pausas de recuperación entre cada una', opts:['Solo caminatas muy lentas y prolongadas','Solo estiramientos sostenidos','Ningún ejercicio en particular'] },
+  { pregunta:'¿Por qué un buen plan de entrenamiento personal debe combinar resistencia, fuerza y flexibilidad?', correcta:'Porque una condición física saludable requiere desarrollar varias capacidades a la vez, no solo una', opts:['Porque solo importa la fuerza muscular','Porque la resistencia cardiovascular no aporta nada','Porque la flexibilidad no tiene ninguna utilidad'] },
+  { pregunta:'¿Qué debería hacer alguien que recién comienza un plan de entrenamiento personal, para evitar lesiones?', correcta:'Aumentar la exigencia de forma gradual (progresión), en vez de partir con el máximo esfuerzo', opts:['Entrenar al máximo desde el primer día','Saltarse siempre el descanso entre sesiones','Entrenar todos los días sin ninguna pausa'] },
+  { pregunta:'¿Qué señal indica que la intensidad de un plan de resistencia cardiovascular es adecuada (moderada)?', correcta:'Poder hablar con cierto esfuerzo mientras se realiza el ejercicio', opts:['No poder respirar en absoluto','No sentir ningún esfuerzo en ningún momento','Sentir un dolor muy fuerte'] },
+  { pregunta:'¿Por qué es importante planificar los días de descanso dentro de un plan de entrenamiento personal?', correcta:'Porque el cuerpo necesita tiempo para recuperarse y adaptarse al esfuerzo', opts:['Porque descansar siempre debilita el cuerpo','Porque entrenar sin parar da mejores resultados','No es necesario planificar descansos'] },
+];
+export function genEntrenamientoM1Round(){
+  const recurso = 'Un <b>plan de entrenamiento personal</b> para lograr una condición física saludable debe desarrollar varias capacidades físicas a la vez: la <b>resistencia cardiovascular</b> (por ejemplo, con trote o ciclismo), la <b>fuerza muscular</b> (con ejercicios que usan el propio peso corporal o pesas), la <b>velocidad</b> (con carreras cortas e intensas) y la <b>flexibilidad</b> (con estiramientos sostenidos). Para diseñar un buen plan, es clave aumentar la exigencia de forma gradual (progresión) en vez de partir con el máximo esfuerzo, mantener una intensidad adecuada (poder hablar con cierto esfuerzo durante un ejercicio de resistencia es una buena señal), y planificar días de descanso, ya que el cuerpo necesita tiempo para recuperarse y adaptarse a cada nueva exigencia.';
+  const item = pick(ENTRENAMIENTO_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const VIDA_ACTIVA_SEGURIDAD_M1_BANK = [
+  { pregunta:'Antes de salir a andar en bicicleta por una ruta nueva, ¿qué medida de autocuidado es más importante?', correcta:'Usar casco y avisar a alguien la ruta y el horario aproximado de regreso', opts:['Salir sin avisar a nadie','No usar casco para ir más rápido','Elegir la ruta más peligrosa disponible'] },
+  { pregunta:'Durante una caminata larga en la montaña, ¿qué acción de autocuidado es esencial?', correcta:'Hidratarse constantemente y llevar suficiente agua', opts:['Evitar tomar agua para no cargar peso','Caminar sin ningún descanso','Ignorar las señales de cansancio del cuerpo'] },
+  { pregunta:'Un compañero se tuerce el tobillo durante una actividad deportiva. ¿Qué primer auxilio básico corresponde aplicar mientras se pide ayuda?', correcta:'Aplicar frío en la zona y evitar que apoye el peso en ese pie', opts:['Hacerlo caminar normalmente de inmediato','Aplicar calor intenso en la zona','Ignorar la lesión y seguir jugando'] },
+  { pregunta:'¿Qué se recomienda hacer antes de practicar una nueva actividad física alternativa, como escalada o kayak?', correcta:'Informarse sobre los riesgos específicos y usar el equipo de seguridad adecuado', opts:['Practicarla sin ninguna información previa','Evitar cualquier equipo de seguridad','No preguntar nada a un instructor'] },
+  { pregunta:'Durante una actividad física en un día muy caluroso, ¿qué señal indica que se debe detener y buscar sombra?', correcta:'Mareos, dolor de cabeza fuerte o piel muy enrojecida', opts:['Sentirse levemente cansado, sin ningún otro síntoma','Tener hambre','Sentir alegría por hacer ejercicio'] },
+  { pregunta:'¿Qué medida de seguridad es clave al practicar natación en el mar o en un río?', correcta:'Conocer las corrientes del lugar y nunca nadar solo', opts:['Nadar siempre solo, sin avisar a nadie','Ignorar las banderas o señales de seguridad','Nadar de noche sin ninguna luz'] },
+  { pregunta:'¿Qué se debe hacer si, durante una actividad física, alguien presenta un corte con sangrado moderado?', correcta:'Presionar la herida con un paño limpio y buscar ayuda médica si no para', opts:['Ignorar la herida por completo','Aplicar hielo directamente sobre el corte abierto','Mover a la persona bruscamente'] },
+  { pregunta:'¿Por qué es importante variar entre distintas actividades físicas alternativas a lo largo del año?', correcta:'Porque desarrolla distintas capacidades y mantiene la motivación para mantenerse activo', opts:['Porque hacer siempre lo mismo es obligatorio','Porque variar de actividad es peligroso','No aporta ningún beneficio'] },
+];
+export function genVidaActivaSeguridadM1Round(){
+  const recurso = 'Practicar <b>actividades físicas alternativas</b> (como escalada, kayak o ciclismo de ruta) amplía las opciones para mantenerse activo, pero requiere <b>autocuidado</b>: informarse sobre los riesgos específicos de cada actividad, usar el equipo de seguridad adecuado (casco, protección), hidratarse constantemente, y avisar a alguien la ruta y el horario si se sale solo. Reconocer señales de alerta —como mareos, dolor de cabeza fuerte o enrojecimiento excesivo de la piel en un día caluroso— permite detenerse a tiempo antes de que ocurra un problema mayor. Ante un accidente menor durante la actividad física, algunos <b>primeros auxilios básicos</b> son aplicar frío en un esguince o torcedura, y presionar con un paño limpio una herida con sangrado, buscando siempre ayuda médica si la situación no mejora.';
+  const item = pick(VIDA_ACTIVA_SEGURIDAD_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

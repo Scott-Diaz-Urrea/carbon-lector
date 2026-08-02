@@ -526,3 +526,38 @@ export function genMontajeDifusion8Round(){
     explain: 'La respuesta correcta es: '+item.correcta+'.',    recurso: recurso,
   };
 }
+
+/* ---------------- 1° Medio (Decreto 614/2013, mismo decreto que 7°-8° básico) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/artes-visuales/1-medio
+   — OA01-06. Cubierto: OA06 (diseñar propuestas de difusión hacia la
+   comunidad, considerando manifestaciones a exponer, espacio, montaje,
+   público y aporte a la comunidad — continúa el mismo eje ya trabajado en
+   7°-8° básico, con escenarios nuevos). Fuera: OA01-03 (crear proyectos
+   visuales propios — producción práctica) y OA04-05 (juicios críticos
+   sobre obras — apreciación subjetiva). */
+export const ARTES_MODULES_M1 = [
+  {id:'difusionm1', label:'Arte, Espacios y Difusión', open:true, key:'difusionm1'},
+];
+export const ARTES_POS_M1 = [{x:48,y:50}];
+const DIFUSION_M1_BANK = [
+  { pregunta:'Un curso quiere exponer sus fotografías sobre el barrio en la biblioteca municipal. ¿Qué deberían considerar primero sobre el PÚBLICO?', correcta:'Quiénes visitan habitualmente la biblioteca, para pensar el recorrido y los textos según ese público', opts:['El color de las paredes de la biblioteca únicamente','Nada: el público no influye en la propuesta','Solo la cantidad de sillas disponibles'] },
+  { pregunta:'Un grupo de estudiantes de arte digital planea difundir su trabajo en un espacio virtual. ¿Qué ventaja tiene ese tipo de espacio?', correcta:'Permite que personas de cualquier lugar vean la muestra sin necesidad de trasladarse', opts:['Solo lo pueden ver los propios autores','Elimina cualquier posibilidad de difusión','Requiere que el público viaje obligatoriamente'] },
+  { pregunta:'Al diseñar el montaje de un mural comunitario en la plaza del barrio, ¿qué se debe considerar sobre el ESPACIO?', correcta:'Que el mural resista el clima y sea visible para quienes transitan por la plaza', opts:['Que solo se vea de noche','Que nadie pueda verlo nunca','El precio de la pintura únicamente'] },
+  { pregunta:'Un colectivo de arte quiere exponer esculturas en un pasaje peatonal del barrio. ¿Qué aporte a la comunidad podría generar esta propuesta?', correcta:'Embellecer el espacio público y generar un punto de encuentro para los vecinos', opts:['Bloquear completamente el paso de las personas','No genera ningún aporte a la comunidad','Aumentar la contaminación del sector'] },
+  { pregunta:'Al planificar la difusión de una muestra de pintura en la sala de un centro cultural, ¿qué elemento del montaje ayuda a que el público entienda cada obra?', correcta:'Fichas o cartelas junto a cada obra, con información como título y autor', opts:['Quitar toda la información de las obras','Ocultar el nombre del autor siempre','No incluir ningún dato sobre las obras'] },
+  { pregunta:'Un grupo decide difundir su arte mediante redes sociales además de una exposición presencial. ¿Qué combinación de manifestaciones visuales podría incluir en esa difusión digital?', correcta:'Fotografías de las obras, videos del proceso creativo, y textos explicativos', opts:['Únicamente el nombre del grupo, sin ninguna imagen','Solo un audio sin ninguna imagen','Nada relacionado con las obras expuestas'] },
+  { pregunta:'¿Por qué conviene pensar el "aporte a la comunidad" antes de diseñar una propuesta de difusión artística?', correcta:'Porque ayuda a que la muestra tenga un sentido más allá de solo exhibir obras, conectando con quienes viven cerca', opts:['Porque no tiene ninguna relación con el diseño de la muestra','Porque el aporte a la comunidad nunca se puede planificar','Porque solo importa el precio de la entrada'] },
+  { pregunta:'Un grupo de artistas quiere difundir arte urbano en una estación de metro concurrida. ¿Qué deben considerar sobre el espacio?', correcta:'Que muchas personas pasarán rápido frente a la obra, así que debe captar la atención en poco tiempo', opts:['Que nadie transita nunca por una estación de metro','Que el espacio no influye en cómo se percibe la obra','Que solo importa el tamaño de la obra'] },
+  { pregunta:'Una escuela organiza una feria de arte donde participan varios cursos con distintas técnicas. ¿Qué ayuda a organizar bien el montaje de esa muestra conjunta?', correcta:'Agrupar las obras por técnica o tema, facilitando el recorrido del público', opts:['Ubicar las obras sin ningún criterio de organización','No permitir que el público se acerque a las obras','Exhibir solo las obras de un curso'] },
+];
+export function genDifusionM1Round(){
+  const recurso = 'Diseñar una <b>propuesta de difusión</b> de trabajos y proyectos de arte hacia la comunidad requiere pensar varios elementos a la vez: qué manifestaciones visuales se van a exponer (pinturas, esculturas, fotografías, arte digital), en qué <b>espacio</b> (una sala cerrada, un mural al aire libre, una plataforma virtual —cada uno con sus propias exigencias de montaje, como resistir el clima o llegar a públicos de cualquier lugar), cómo será el <b>montaje</b> (iluminación, fichas informativas, distancia entre obras), quién es el <b>público</b> que probablemente visitará la muestra, y qué <b>aporte</b> puede generar esa propuesta en la comunidad —embellecer un espacio, crear un punto de encuentro, o acercar el arte a personas que normalmente no lo visitan—. Pensar estos elementos en conjunto, ya sea para una exposición presencial o digital, hace que la difusión tenga un propósito más claro.';
+  const item = pick(DIFUSION_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

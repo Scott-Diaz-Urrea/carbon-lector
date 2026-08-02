@@ -295,3 +295,102 @@ export function genLecturaAvanzada8Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- Contenido Inglés 1° Medio ----------------
+   Basado en OA del Decreto 614/2013 (curriculumnacional.cl/curriculum/
+   7o-basico-2o-medio/ingles/1-medio) — 3 ejes: Comunicación Oral (IN1M
+   OA01-08), Comprensión de Lectura (IN1M OA09-12), Expresión Escrita
+   (IN1M OA13-16).
+   Gramática en Contexto -> IN1M OA08 (funciones comunicativas nuevas
+   respecto a 7°-8°: hábitos pasados con "used to", adverbios de
+   frecuencia, predicciones simples con "will"). Vocabulario en Contexto
+   -> IN1M OA08 (vocabulario temático nuevo: adjetivos de personalidad).
+   Comprensión de Lectura -> IN1M OA09-11 (ideas generales, información
+   explícita, textos literarios y no literarios).
+   Quedan fuera: OA01-07 (comprensión y producción oral — dependen de
+   audio real), OA12 (estrategias de lectura como proceso propio) y
+   OA13-16 (expresión escrita — producción propia). Se evitan apóstrofes
+   en los textos en inglés, mismo criterio técnico que años anteriores. */
+export const INGLES_MODULES_M1 = [
+  {id:'gramaticacontextom1', label:'Gramática en Contexto', open:true, key:'gramaticacontextom1'},
+  {id:'vocabulariocontextom1', label:'Vocabulario en Contexto', open:true, key:'vocabulariocontextom1'},
+  {id:'comprensionlecturam1', label:'Comprensión de Lectura', open:true, key:'comprensionlecturam1'},
+];
+export const INGLES_POS_M1 = [{x:24,y:78},{x:70,y:50},{x:24,y:22}];
+
+const HABITOS_PASADOS_BANK = [
+  { spanish:'Antes yo jugaba fútbol todos los días (hábito pasado que ya no ocurre).', english:'I used to play soccer every day', opts:['I play soccer every day','I will play soccer every day','I am playing soccer now'] },
+  { spanish:'Ella solía vivir en el campo (hábito pasado que ya no ocurre).', english:'She used to live in the countryside', opts:['She lives in the countryside now','She will live in the countryside','She is living in the countryside'] },
+  { spanish:'Ellos solían caminar a la escuela juntos (hábito pasado que ya no ocurre).', english:'They used to walk to school together', opts:['They walk to school together now','They will walk to school together','They are walking to school'] },
+  { spanish:'Mi abuelo solía trabajar en el campo (hábito pasado que ya no ocurre).', english:'My grandfather used to work in the countryside', opts:['My grandfather works in the countryside now','My grandfather will work in the countryside','My grandfather is working right now'] },
+];
+const FRECUENCIA_BANK = [
+  { spanish:'Siempre desayuno antes de salir (frecuencia: 100%).', english:'I always have breakfast before leaving', opts:['I never have breakfast before leaving','I sometimes have breakfast before leaving','I rarely have breakfast before leaving'] },
+  { spanish:'Nunca llego tarde a clases (frecuencia: 0%).', english:'I never arrive late to class', opts:['I always arrive late to class','I usually arrive late to class','I sometimes arrive late to class'] },
+  { spanish:'A veces estudio en la biblioteca (frecuencia: ocasional).', english:'I sometimes study in the library', opts:['I always study in the library','I never study in the library','I usually study at the beach'] },
+  { spanish:'Normalmente ella camina al colegio (frecuencia: habitual).', english:'She usually walks to school', opts:['She never walks to school','She will walk to school once','She walked to school yesterday only'] },
+];
+const PREDICCIONES_BANK = [
+  { spanish:'Mañana probablemente hará frío (predicción simple).', english:'It will probably be cold tomorrow', opts:['It was cold yesterday','It is cold right now','It never gets cold'] },
+  { spanish:'Creo que ella ganará la competencia (predicción simple).', english:'I think she will win the competition', opts:['I think she won the competition','I think she is winning right now','I think she never competes'] },
+  { spanish:'El próximo año viajaremos a otro país (predicción simple).', english:'Next year we will travel to another country', opts:['Last year we traveled to another country','We are traveling right now','We never travel anywhere'] },
+  { spanish:'Creo que mañana lloverá mucho (predicción simple).', english:'I think it will rain a lot tomorrow', opts:['I think it rained a lot yesterday','I think it is raining right now','I think it never rains here'] },
+];
+export function genGramaticaContextoM1Round(){
+  const recurso = 'En inglés, <b>"used to" + verbo</b> se usa para describir un hábito o una situación del pasado que ya no ocurre en el presente ("I used to play soccer" = antes jugaba fútbol, pero ya no). Los <b>adverbios de frecuencia</b> (always, usually, sometimes, rarely, never) indican qué tan seguido ocurre algo, y suelen ir antes del verbo principal. Para hacer <b>predicciones simples</b> sobre el futuro, se usa "will" ("it will be cold tomorrow" = probablemente hará frío mañana), especialmente cuando se trata de una opinión o expectativa, no de un plan ya decidido. Estas tres estructuras permiten hablar con más precisión sobre el pasado, la frecuencia de una acción y el futuro.';
+  const bank = pick([HABITOS_PASADOS_BANK, FRECUENCIA_BANK, PREDICCIONES_BANK]);
+  const item = pick(bank);
+  const opts = shuffle([item.english].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">How do you say this in English?</p>',
+    options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, panel:true,
+    explain: 'Se dice <b>'+item.english+'</b> en inglés.',
+    recurso: recurso,
+  };
+}
+
+const PERSONALIDAD_BANK = [
+  { spanish:'Una persona que siempre dice la verdad', english:'Honest', opts:['Lazy','Shy','Rude'] },
+  { spanish:'Una persona que trabaja mucho y con esfuerzo', english:'Hardworking', opts:['Lazy','Shy','Curious'] },
+  { spanish:'Una persona que se pone nerviosa al hablar con desconocidos', english:'Shy', opts:['Friendly','Honest','Confident'] },
+  { spanish:'Una persona que trata bien y con simpatía a los demás', english:'Friendly', opts:['Rude','Shy','Lazy'] },
+  { spanish:'Una persona que quiere aprender y descubrir cosas nuevas', english:'Curious', opts:['Lazy','Rude','Dishonest'] },
+  { spanish:'Una persona que no le gusta esforzarse ni trabajar', english:'Lazy', opts:['Hardworking','Honest','Curious'] },
+  { spanish:'Una persona que confía en sus propias capacidades', english:'Confident', opts:['Shy','Lazy','Rude'] },
+  { spanish:'Una persona que trata mal o sin respeto a los demás', english:'Rude', opts:['Friendly','Honest','Confident'] },
+];
+export function genVocabularioContextoM1Round(){
+  const recurso = 'Los <b>adjetivos de personalidad</b> en inglés permiten describir cómo es una persona, más allá de su apariencia física: "honest" (honesto/a), "hardworking" (trabajador/a), "shy" (tímido/a), "friendly" (amable/simpático), "curious" (curioso/a), "lazy" (flojo/a), "confident" (seguro/a de sí mismo) y "rude" (grosero/a). Este vocabulario es muy útil para describir personajes de un texto, a compañeros, o a uno mismo, y es la base para escribir descripciones de personas más ricas y variadas en inglés.';
+  const item = pick(PERSONALIDAD_BANK);
+  const opts = shuffle([item.english].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">Which adjective describes this?</p>',
+    options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, kind:'word',
+    explain: 'Se dice <b>'+item.english+'</b> en inglés.',
+    recurso: recurso,
+  };
+}
+
+const COMPRENSION_LECTURA_M1_BANK = [
+  { text:'Renewable energy comes from natural sources that do not run out, such as the sun, the wind, and water. Many countries are now building more solar and wind farms to reduce pollution.', question:'What is the main idea of this text?', correct:'Renewable energy comes from natural sources and helps reduce pollution', opts:['Renewable energy is more expensive than oil','Solar farms do not exist yet','Countries have stopped using energy completely'] },
+  { text:'Camila was a shy girl who loved painting alone in her room. One day, her teacher asked her to show her paintings at the school fair. At first she was scared, but everyone loved her art.', question:'What kind of person was Camila at the beginning of the story?', correct:'Shy', opts:['Rude','Lazy','Confident from the start'] },
+  { text:'The old lighthouse stood on a rocky cliff by the sea. For fifty years, it guided ships safely to the harbor during storms.', question:'Where is the lighthouse located?', correct:'On a rocky cliff by the sea', opts:['In the middle of a city','Inside a harbor building','On top of a mountain'] },
+  { text:'A group of friends decided to clean the local beach every Saturday. After a few months, the beach was much cleaner, and more families started visiting it again.', question:'What was the result of the group cleaning the beach?', correct:'The beach became cleaner and more families visited', opts:['The beach closed permanently','Nobody visited the beach anymore','The friends stopped going to the beach'] },
+  { text:'In this story, a young inventor named Diego builds a small robot to help his grandfather in the garden. The robot waters the plants every morning.', question:'What does the robot do for the grandfather?', correct:'It waters the plants every morning', opts:['It cooks breakfast','It cleans the house','It drives the car'] },
+  { text:'Drinking enough water every day helps the body function properly. Doctors recommend drinking about eight glasses of water daily.', question:'What do doctors recommend, according to the text?', correct:'Drinking about eight glasses of water daily', opts:['Avoiding water completely','Drinking only juice','Drinking water once a week'] },
+  { text:'The novel takes place in a small mountain village, where a young shepherd named Mateo discovers an old, hidden path that leads to a forgotten town.', question:'What is the setting of this story?', correct:'A small mountain village', opts:['A large modern city','An underwater cave','A busy airport'] },
+  { text:'Elena was a curious girl who always asked her teacher many questions during science class.', question:'What personality trait describes Elena in this text?', correct:'Curious', opts:['Lazy','Rude','Dishonest'] },
+  { text:'A short guide explains that plastic bottles take hundreds of years to break down, so recycling them helps protect the environment.', question:'What is the main idea of this guide?', correct:'Recycling plastic bottles helps protect the environment', opts:['Plastic bottles disappear quickly','Recycling is not useful','Plastic bottles are dangerous to touch'] },
+  { text:'In the story, twin brothers named Luca and Marco decide to build a treehouse together during their summer vacation.', question:'What do Luca and Marco decide to build?', correct:'A treehouse', opts:['A boat','A garden','A bicycle'] },
+];
+export function genComprensionLecturaM1Round(){
+  const recurso = 'Comprender un texto en inglés a este nivel implica identificar varios elementos: la <b>idea principal</b> (de qué trata el texto en general), la <b>información explícita</b> (datos que el texto dice directamente), y en los textos literarios, el <b>entorno o ambientación</b> (dónde y cuándo ocurre la historia) y las <b>características de los personajes</b> (cómo son, qué hacen). Buscar palabras clave relacionadas con la pregunta, y fijarse en el contexto general de cada párrafo, ayuda a responder sin necesidad de traducir cada palabra del texto.';
+  const item = pick(COMPRENSION_LECTURA_M1_BANK);
+  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    options: opts, correctValue: item.correct, speakText: item.text, speakLang:'en', cols:2, kind:'word',
+    explain: 'The answer is <b>'+item.correct+'</b>.',
+    recurso: recurso,
+  };
+}

@@ -314,3 +314,35 @@ export function genAnalisisSoluciones8Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 1° Medio (Decreto 614/2013, mismo decreto que 7°-8° básico) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/tecnologia/1-medio —
+   OA01-06. Cubiertos: OA05-06 (cómo evolucionan los productos tecnológicos y
+   sus entornos, y los efectos positivos/negativos de esa evolución en la
+   sociedad). Fuera: OA01-04 (identificar oportunidades, desarrollar,
+   evaluar y comunicar un servicio propio — producción práctica). */
+export const TECNOLOGIA_MODULES_M1 = [
+  {id:'evoluciontecnologicam1', label:'Evolución Tecnológica y Sociedad', open:true, key:'evoluciontecnologicam1'},
+];
+export const TECNOLOGIA_POS_M1 = [{x:48,y:50}];
+const EVOLUCION_TECNOLOGICA_M1_BANK = [
+  { pregunta:'¿Qué factor explica que los teléfonos hayan evolucionado de solo hacer llamadas a ser computadores portátiles?', correcta:'El avance de otras tecnologías (como internet, cámaras y baterías) que se fueron integrando al mismo dispositivo', opts:['El azar, sin ninguna razón particular','La prohibición de fabricar teléfonos simples','Que las personas dejaron de necesitar comunicarse'] },
+  { pregunta:'¿Qué efecto positivo trajo la evolución de las plataformas de videollamada para la sociedad?', correcta:'Permitir comunicación y trabajo a distancia entre personas separadas geográficamente', opts:['Eliminar por completo la necesidad de comunicarse','Hacer imposible el contacto entre personas distintas','No generar ningún cambio en la forma de trabajar'] },
+  { pregunta:'¿Qué efecto negativo puede tener la evolución de las redes sociales sobre las personas, según muchos estudios?', correcta:'Un uso excesivo puede afectar el bienestar emocional y el descanso', opts:['No genera ningún efecto sobre el bienestar de las personas','Mejora automáticamente la salud mental de todos','Elimina por completo el estrés de todas las personas'] },
+  { pregunta:'¿Qué factor social influyó en que los autos eléctricos evolucionaran y se volvieran más comunes?', correcta:'La preocupación por el impacto ambiental de los combustibles fósiles', opts:['La prohibición total de fabricar autos','Que a nadie le interesa cuidar el medioambiente','Que los autos a bencina ya no existen'] },
+  { pregunta:'¿Qué evolución han tenido los medios de pago en los últimos años?', correcta:'Del dinero en efectivo a tarjetas y pagos digitales desde el teléfono', opts:['Ningún cambio: siempre se ha pagado igual','La desaparición completa del comercio','El regreso exclusivo al trueque'] },
+  { pregunta:'¿Qué efecto positivo trae la evolución de la tecnología médica, como los escáneres portátiles?', correcta:'Permitir diagnósticos más rápidos, incluso en zonas alejadas de un hospital', opts:['Hacer innecesarios a los médicos','Empeorar la calidad de los diagnósticos','No generar ningún cambio en la salud'] },
+  { pregunta:'¿Qué efecto negativo puede generar la rápida evolución y renovación de los productos tecnológicos?', correcta:'Un aumento de la basura electrónica, si los aparatos antiguos no se reciclan bien', opts:['Ningún residuo, porque los aparatos desaparecen solos','Una disminución automática de la contaminación','Que ya no se fabriquen aparatos nuevos'] },
+  { pregunta:'¿Qué factor de mercado influye en que las empresas sigan mejorando sus productos tecnológicos constantemente?', correcta:'La competencia por ofrecer mejores soluciones que las de otras empresas', opts:['La prohibición de vender productos nuevos','El desinterés total de las personas por la tecnología','Que ya no existan más empresas tecnológicas'] },
+];
+export function genEvolucionTecnologicaM1Round(){
+  const recurso = 'Los <b>productos y entornos tecnológicos evolucionan</b> constantemente, influidos por distintos factores: avances en otras tecnologías que se integran a un mismo producto (como internet y cámaras sumándose al teléfono), la competencia entre empresas por ofrecer mejores soluciones, y preocupaciones sociales o ambientales (como el impacto de los combustibles fósiles impulsando la evolución de los autos eléctricos). Esta evolución trae <b>efectos positivos</b>, como comunicarse a distancia o hacer diagnósticos médicos más rápidos, pero también <b>efectos negativos</b>, como el aumento de la basura electrónica cuando los aparatos antiguos no se reciclan, o el impacto en el bienestar emocional que puede generar el uso excesivo de ciertas tecnologías. Analizar ambos lados de la evolución tecnológica —no solo sus beneficios— permite tomar decisiones más informadas como usuario.';
+  const item = pick(EVOLUCION_TECNOLOGICA_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

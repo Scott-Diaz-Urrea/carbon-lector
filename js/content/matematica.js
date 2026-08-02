@@ -2784,3 +2784,266 @@ export function genEstadisticaCombinatoria8Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 1° Medio (Decreto 614/2013, mismo decreto que 7°-8° básico) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/matematica/1-medio — OA01-15.
+   Cubiertos: OA01-02 (racionales y potencias), OA03 (productos notables), OA04
+   (sistemas de ecuaciones), OA05 (funciones lineales), OA06-07 (sector circular
+   y cono), OA08-09,11 (homotecia, Tales, vectorial), OA10 (semejanza y escala,
+   fusionado con homotecia/Tales por ser el mismo bloque conceptual), OA12-13
+   (tablas de doble entrada y nube de puntos) y OA14-15 (reglas de probabilidad,
+   azar) fusionados en un solo módulo de Estadística y Probabilidad. */
+export const MATE_MODULES_M1 = [
+  {id:'numerospotenciasm1', label:'Números Racionales y Potencias', open:true, key:'numerospotenciasm1'},
+  {id:'productosnotablesm1', label:'Productos Notables', open:true, key:'productosnotablesm1'},
+  {id:'sistemasecuacionesm1', label:'Sistemas de Ecuaciones', open:true, key:'sistemasecuacionesm1'},
+  {id:'funcioneslinealesm1', label:'Funciones Lineales', open:true, key:'funcioneslinealesm1'},
+  {id:'geometriam1', label:'Sector Circular y Cono', open:true, key:'geometriam1'},
+  {id:'homoteciatalesm1', label:'Homotecia, Tales y Semejanza', open:true, key:'homoteciatalesm1'},
+  {id:'estadisticaprobabilidadm1', label:'Estadística y Probabilidad', open:true, key:'estadisticaprobabilidadm1'},
+];
+export const MATE_POS_M1 = [
+  {x:24,y:92},{x:68,y:80},{x:24,y:68},{x:68,y:56},{x:24,y:44},{x:68,y:32},{x:24,y:20}
+];
+function gcdM1(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=b; b=a%b; a=t; } return a||1; }
+
+export function genNumerosPotenciasM1Round(){
+  const recurso = 'Los <b>números racionales</b> son todos los que se pueden escribir como una fracción (incluyendo los enteros y los decimales exactos): al sumar o restar fracciones con distinto denominador, primero hay que buscar un denominador común (por ejemplo, multiplicando los dos denominadores) para poder combinar los numeradores. Una <b>potencia de base racional y exponente entero</b> sigue reglas precisas: si el exponente es positivo, se multiplica la base por sí misma esa cantidad de veces; si es 0, el resultado siempre es 1; y si es negativo, equivale al recíproco (1 dividido) de la potencia con exponente positivo — por ejemplo, 2⁻³ = 1/2³ = 1/8. Estas reglas permiten transformar multiplicaciones y divisiones de potencias sin tener que calcular números enormes.';
+  if(Math.random()<0.5){
+    const pares = [[2,3],[2,5],[3,4],[3,5],[4,5],[5,6],[2,7],[3,7]];
+    const par = pick(pares);
+    const d1 = par[0], d2 = par[1];
+    const n1 = randInt(1,d1-1), n2 = randInt(1,d2-1);
+    const commonDen = d1*d2;
+    const numSum = n1*d2 + n2*d1;
+    const g = gcdM1(numSum, commonDen);
+    const rn = numSum/g, rd = commonDen/g;
+    const correct = rd===1 ? String(rn) : rn+'/'+rd;
+    const cand = new Set();
+    if(g>1) cand.add(numSum+'/'+commonDen);
+    const restaNum = Math.abs(n1*d2 - n2*d1);
+    const gr = gcdM1(restaNum||1, commonDen);
+    cand.add((restaNum/gr)+'/'+(commonDen/gr));
+    cand.add((n1+n2)+'/'+(d1+d2));
+    cand.add((numSum+1)+'/'+commonDen);
+    const finales = shuffle([...cand].filter(function(v){ return v!==correct; })).slice(0,3);
+    while(finales.length<3){ finales.push((numSum+finales.length+2)+'/'+commonDen); }
+    const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:v, value:v}; });
+    return {
+      promptHTML: '<p class="prompt-word">'+n1+'/'+d1+' + '+n2+'/'+d2+'</p><p class="prompt-hint">¿Cuánto da esta suma de fracciones?</p>',
+      options: opts, correctValue: correct, speakText: n1+' '+d1+'avos más '+n2+' '+d2+'avos, ¿cuánto es?', cols:4,
+      explain: 'Con denominador común '+commonDen+': ('+n1+'×'+d2+' + '+n2+'×'+d1+')/'+commonDen+' = '+numSum+'/'+commonDen+' = <b>'+correct+'</b>.',
+      recurso: recurso,
+    };
+  }
+  function potStr(b,e){ if(e===0) return '1'; if(e>0) return String(Math.pow(b,e)); return '1/'+Math.pow(b,-e); }
+  const base = pick([2,3,4,5,10]);
+  const exp = pick([-3,-2,-1,0,1,2,3]);
+  const correct = potStr(base,exp);
+  const pool = [-3,-2,-1,0,1,2,3,4].filter(function(e){ return e!==exp; }).map(function(e){ return potStr(base,e); });
+  const finales = shuffle([...new Set(pool)].filter(function(v){ return v!==correct; })).slice(0,3);
+  const opts = shuffle([correct].concat(finales)).map(function(v){ return {label:v, value:v}; });
+  return {
+    promptHTML: '<p class="prompt-word">'+base+'<sup>'+exp+'</sup></p><p class="prompt-hint">¿Cuánto vale '+base+' elevado a '+exp+'?</p>',
+    options: opts, correctValue: correct, speakText: base+' elevado a '+exp+', ¿cuánto vale?', cols:4,
+    explain: exp===0 ? 'Cualquier número (distinto de 0) elevado a 0 es <b>1</b>.' : (exp>0 ? base+' multiplicado por sí mismo '+exp+' veces da <b>'+correct+'</b>.' : 'Exponente negativo = recíproco: '+base+(-exp)+' = '+potStr(base,-exp)+', y su recíproco es <b>'+correct+'</b>.'),
+    recurso: recurso,
+  };
+}
+
+export function genProductosNotablesM1Round(){
+  const recurso = 'Los <b>productos notables</b> son multiplicaciones algebraicas que siguen un patrón fijo, así que se pueden resolver directamente sin multiplicar término por término. El más común es el <b>cuadrado de binomio</b>: (a + b)² = a² + 2ab + b² (el cuadrado del primer término, más el doble producto de ambos, más el cuadrado del segundo). Si el binomio es una resta, (a − b)² = a² − 2ab + b². Otro patrón es la <b>suma por su diferencia</b>: (a + b)(a − b) = a² − b² (el cuadrado del primero menos el cuadrado del segundo, sin término del medio). Reconocer estos patrones ahorra tiempo y es la base para "completar el cuadrado" y factorizar expresiones algebraicas más adelante.';
+  const roll = Math.random();
+  const a = randInt(2,7), b = randInt(1,6);
+  if(roll<0.4){
+    const correct = (a*a)+' + '+(2*a*b)+'x + '+(b*b)+'x²';
+    const opts = shuffle([
+      {label:correct, value:'ok'},
+      {label:(a*a)+' + '+(a*b)+'x + '+(b*b)+'x²', value:'m1'},
+      {label:(a*a)+' + '+(2*a*b)+'x − '+(b*b)+'x²', value:'m2'},
+      {label:(a*a)+' + '+(b*b)+'x²', value:'m3'},
+    ]);
+    return {
+      promptHTML: '<p class="prompt-word">('+a+' + '+b+'x)²</p><p class="prompt-hint">¿Cuál es el resultado de este cuadrado de binomio?</p>',
+      options: opts, correctValue: 'ok', speakText: 'El cuadrado de '+a+' más '+b+' equis, ¿cuál es su desarrollo?', cols:2, panel:true,
+      explain: '(a+b)² = a² + 2ab + b²: '+a+'² + 2×'+a+'×'+b+'x + '+b+'²x² = <b>'+correct+'</b>.',
+      recurso: recurso,
+    };
+  }
+  if(roll<0.7){
+    const correct = (a*a)+' − '+(2*a*b)+'x + '+(b*b)+'x²';
+    const opts = shuffle([
+      {label:correct, value:'ok'},
+      {label:(a*a)+' + '+(2*a*b)+'x + '+(b*b)+'x²', value:'m1'},
+      {label:(a*a)+' − '+(b*b)+'x²', value:'m2'},
+      {label:(a*a)+' − '+(a*b)+'x + '+(b*b)+'x²', value:'m3'},
+    ]);
+    return {
+      promptHTML: '<p class="prompt-word">('+a+' − '+b+'x)²</p><p class="prompt-hint">¿Cuál es el resultado de este cuadrado de binomio?</p>',
+      options: opts, correctValue: 'ok', speakText: 'El cuadrado de '+a+' menos '+b+' equis, ¿cuál es su desarrollo?', cols:2, panel:true,
+      explain: '(a−b)² = a² − 2ab + b²: '+a+'² − 2×'+a+'×'+b+'x + '+b+'²x² = <b>'+correct+'</b>.',
+      recurso: recurso,
+    };
+  }
+  const correct = (a*a)+' − '+(b*b)+'x²';
+  const opts = shuffle([
+    {label:correct, value:'ok'},
+    {label:(a*a)+' + '+(b*b)+'x²', value:'m1'},
+    {label:(a*a)+' − '+(2*a*b)+'x − '+(b*b)+'x²', value:'m2'},
+    {label:(a*a)+' + '+(2*a*b)+'x + '+(b*b)+'x²', value:'m3'},
+  ]);
+  return {
+    promptHTML: '<p class="prompt-word">('+a+' + '+b+'x)('+a+' − '+b+'x)</p><p class="prompt-hint">¿Cuál es el resultado de esta suma por su diferencia?</p>',
+    options: opts, correctValue: 'ok', speakText: a+' más '+b+' equis, por '+a+' menos '+b+' equis, ¿cuál es el resultado?', cols:2, panel:true,
+    explain: 'Suma por su diferencia: a² − b² = '+a+'² − '+b+'²x² = <b>'+correct+'</b>, sin término del medio.',
+    recurso: recurso,
+  };
+}
+
+export function genSistemasEcuacionesM1Round(){
+  const recurso = 'Un <b>sistema de ecuaciones lineales 2x2</b> son dos ecuaciones con las mismas dos incógnitas (x e y) que se cumplen al mismo tiempo. Para resolverlo, un método simple es la <b>reducción</b>: si se suman o restan las dos ecuaciones (multiplicándolas por un número si hace falta) de manera que una de las incógnitas se cancele, queda una sola ecuación con una sola incógnita, fácil de despejar. Una vez encontrado el valor de esa incógnita, se reemplaza en cualquiera de las ecuaciones originales para encontrar la otra. Estos sistemas sirven para resolver problemas de la vida diaria donde hay dos cantidades desconocidas relacionadas entre sí, como el precio de dos productos distintos comprados en cantidades diferentes.';
+  const x = randInt(2,8), y = randInt(2,8);
+  const a1 = randInt(1,4), b1 = randInt(1,4);
+  const a2 = randInt(1,4), b2 = randInt(1,4);
+  const c1 = a1*x + b1*y;
+  const c2 = a2*x - b2*y;
+  const opts = shuffle([
+    {label:'x = '+x+', y = '+y, value:'ok'},
+    {label:'x = '+y+', y = '+x, value:'m1'},
+    {label:'x = '+(x+1)+', y = '+y, value:'m2'},
+    {label:'x = '+x+', y = '+(y+1), value:'m3'},
+  ]);
+  return {
+    promptHTML: '<p class="prompt-word">'+a1+'x + '+b1+'y = '+c1+'<br>'+a2+'x − '+b2+'y = '+c2+'</p><p class="prompt-hint">¿Cuál es la solución de este sistema de ecuaciones?</p>',
+    options: opts, correctValue: 'ok', speakText: '¿Cuál es la solución del sistema de dos ecuaciones?', cols:2, panel:true,
+    explain: 'Reemplazando x = '+x+' e y = '+y+' en ambas ecuaciones se cumplen las dos igualdades: <b>x = '+x+', y = '+y+'</b>.',
+    recurso: recurso,
+  };
+}
+
+export function genFuncionesLinealesM1Round(){
+  const recurso = 'Una <b>relación lineal</b> entre dos variables (x e y) se puede escribir de la forma ax + by = c, y su gráfico siempre es una línea recta. Para graficarla, basta con encontrar al menos dos puntos (x, y) que cumplan la ecuación —dando valores a x y despejando y— y unirlos con una recta. La <b>pendiente</b> de esa recta indica qué tan inclinada está: mientras más grande, más empinada sube (o baja, si es negativa). Leer un gráfico lineal al revés también es útil: dado un punto marcado en la recta, se puede saber qué valores de x e y representa, y comprobar si cumple la ecuación original.';
+  const a = randInt(1,4), b = randInt(1,3);
+  const x = randInt(0,6);
+  const y = a*x + b;
+  const opts = shuffle([
+    {label:'('+x+', '+y+')', value:'ok'},
+    {label:'('+y+', '+x+')', value:'m1'},
+    {label:'('+x+', '+(y+1)+')', value:'m2'},
+    {label:'('+(x+1)+', '+y+')', value:'m3'},
+  ]);
+  return {
+    promptHTML: '<p class="prompt-word">y = '+a+'x + '+b+'</p><p class="prompt-hint">¿Qué punto (x, y) pertenece a esta recta cuando x = '+x+'?</p>',
+    options: opts, correctValue: 'ok', speakText: 'En la recta i griega igual a '+a+' equis más '+b+', ¿qué punto corresponde cuando equis vale '+x+'?', cols:4,
+    explain: 'Reemplazando x = '+x+': y = '+a+'×'+x+' + '+b+' = <b>'+y+'</b>, entonces el punto es ('+x+', '+y+').',
+    recurso: recurso,
+  };
+}
+
+const ANGULOS_SECTOR = [60,90,120,180];
+export function genGeometriaM1Round(){
+  const recurso = 'El <b>sector circular</b> es la porción de un círculo delimitada por dos radios y el arco entre ellos (como una porción de pizza); su área es proporcional al ángulo central: se calcula como (ángulo/360°) × π × radio². El <b>cono</b> es un cuerpo geométrico con una base circular que se estrecha hasta un punto (el vértice); su volumen se calcula igual que el de un cilindro pero dividido en 3: (1/3) × π × radio² × altura, porque un cono cabe exactamente 3 veces dentro de un cilindro de la misma base y altura. Estas fórmulas se usan para calcular la cantidad de material necesario para fabricar objetos con esas formas, como conos de helado o gorros de fiesta.';
+  if(Math.random()<0.5){
+    const r = randInt(3,10);
+    const angulo = pick(ANGULOS_SECTOR);
+    const correct = Math.round((angulo/360)*Math.PI*r*r*10)/10;
+    const distractCandidates = [Math.round(Math.PI*r*r*10)/10, Math.round((angulo/360)*2*Math.PI*r*10)/10, Math.round((angulo/180)*Math.PI*r*r*10)/10];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+    while(finales.length<3){ const c = Math.round((correct+randInt(1,5))*10)/10; if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v+' cm²', value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">Un sector circular tiene radio '+r+' cm y ángulo central de '+angulo+'°. ¿Cuál es su área aproximada? (usa π ≈ 3,14)</p>',
+      options: opts, correctValue: correct, speakText: 'Un sector circular de radio '+r+' centímetros y ángulo central de '+angulo+' grados, ¿cuál es su área?', cols:4,
+      explain: 'Área = (ángulo/360°) × π × radio² = ('+angulo+'/360) × 3,14 × '+r+'² ≈ <b>'+correct+' cm²</b>.',
+      recurso: recurso,
+    };
+  }
+  const r = randInt(2,6), h = randInt(3,9);
+  const correct = Math.round((1/3)*Math.PI*r*r*h*10)/10;
+  const distractCandidates = [Math.round(Math.PI*r*r*h*10)/10, Math.round((1/2)*Math.PI*r*r*h*10)/10, Math.round((1/3)*Math.PI*r*h*10)/10];
+  const finales = [];
+  for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+  while(finales.length<3){ const c = Math.round((correct+randInt(2,8))*10)/10; if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+  const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v+' cm³', value:v}; });
+  return {
+    promptHTML: '<p class="prompt-hint">Un cono tiene radio '+r+' cm y altura '+h+' cm. ¿Cuál es su volumen aproximado? (usa π ≈ 3,14)</p>',
+    options: opts, correctValue: correct, speakText: 'Un cono de radio '+r+' centímetros y altura '+h+' centímetros, ¿cuál es su volumen?', cols:4,
+    explain: 'Volumen del cono = (1/3) × π × radio² × altura = (1/3) × 3,14 × '+r+'² × '+h+' ≈ <b>'+correct+' cm³</b>.',
+    recurso: recurso,
+  };
+}
+
+const HOMOTECIA_BANK = [
+  { desc:'Una fotografía se amplía al doble de su tamaño manteniendo exactamente las mismas proporciones y forma', correcta:'Homotecia', opts:['Rotación','Reflexión','Traslación'] },
+  { desc:'Una maqueta a escala 1:100 representa un edificio real, con todas sus medidas reducidas proporcionalmente', correcta:'Semejanza y escala', opts:['Congruencia','Simetría','Perímetro'] },
+  { desc:'Dos triángulos tienen exactamente los mismos ángulos, pero uno mide el doble que el otro en todos sus lados', correcta:'Triángulos semejantes', opts:['Triángulos congruentes','Triángulos rectángulos','Triángulos irregulares'] },
+  { desc:'Un rayo de luz pasa por el vértice de dos triángulos formados por líneas paralelas cortadas por dos transversales', correcta:'Teorema de Tales', opts:['Teorema de Pitágoras','Ley de los senos','Regla de tres inversa'] },
+  { desc:'Un mapa indica "escala 1:50.000": cada centímetro dibujado equivale a 50.000 centímetros reales', correcta:'Escala', opts:['Homotecia negativa','Congruencia','Rotación'] },
+  { desc:'Un dibujo técnico se reduce a la mitad de su tamaño desde un punto fijo llamado centro de homotecia', correcta:'Homotecia', opts:['Simetría axial','Traslación','Congruencia'] },
+  { desc:'Dos rectángulos tienen sus lados correspondientes en la misma proporción (2:3), aunque de distinto tamaño', correcta:'Semejanza y escala', opts:['Congruencia','Perímetro igual','Área igual'] },
+  { desc:'Una sombra proyectada por el sol permite calcular la altura de un árbol comparándola con la sombra de una persona de altura conocida', correcta:'Teorema de Tales', opts:['Teorema de Pitágoras','Homotecia inversa','Área de un triángulo'] },
+  { desc:'Un vector se multiplica por un número (escalar) mayor que 1, agrandando su longitud sin cambiar su dirección', correcta:'Homotecia vectorial', opts:['Suma de vectores','Producto punto','Vector nulo'] },
+  { desc:'Un plano de una casa a escala 1:75 mantiene la proporción exacta entre todas las habitaciones reales', correcta:'Escala', opts:['Homotecia negativa','Simetría central','Congruencia'] },
+];
+export function genHomoteciaTalesM1Round(){
+  const recurso = 'La <b>homotecia</b> es una transformación que agranda o reduce una figura desde un punto fijo (el centro de homotecia), manteniendo siempre la misma forma y las mismas proporciones — es la base de por qué una fotografía ampliada o un dibujo técnico reducido no se ven "deformados". El <b>Teorema de Tales</b> usa esta misma idea de proporcionalidad: cuando rectas paralelas cortan dos transversales, los segmentos que se forman quedan en la misma proporción, lo que permite calcular medidas indirectas (como la altura de un árbol usando su sombra). La <b>semejanza y la escala</b> aplican el mismo concepto a mapas, planos y maquetas: todas las medidas se reducen o amplían por el mismo factor, así que la forma se conserva aunque el tamaño cambie. Vectorialmente, la homotecia equivale a multiplicar un vector por un número (escalar): si el escalar es mayor que 1, el vector se alarga; si es menor que 1, se acorta.';
+  const item = pick(HOMOTECIA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué concepto geométrico describe mejor esta situación?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
+    explain: 'Esto describe: <b>'+item.correcta+'</b>.',
+    recurso: recurso,
+  };
+}
+
+export function genEstadisticaProbabilidadM1Round(){
+  const recurso = 'Para comparar dos poblaciones según dos características distintas (por ejemplo, edad y estatura), se puede usar una <b>tabla de doble entrada</b> (que cruza ambas variables) o una <b>nube de puntos</b> (un gráfico donde cada punto representa un caso, ubicado según sus dos valores) — esto permite ver de un vistazo si existe alguna relación entre las dos variables. En probabilidad, la <b>regla aditiva</b> se usa para eventos que no pueden ocurrir al mismo tiempo (se suman sus probabilidades individuales), y la <b>regla multiplicativa</b> se usa para eventos independientes que ocurren uno después del otro (se multiplican sus probabilidades). Combinando ambas reglas se pueden calcular probabilidades de situaciones más complejas, como sacar una carta roja O un as, o sacar dos veces seguidas el mismo resultado en un dado.';
+  const roll = Math.random();
+  if(roll<0.35){
+    const total = pick([20,24,30,36,40]);
+    const favorablesA = randInt(4,Math.floor(total/3));
+    const favorablesB = randInt(2,Math.floor(total/4));
+    const correct = Math.round(((favorablesA+favorablesB)/total)*100)/100;
+    const distractCandidates = [Math.round((favorablesA/total)*favorablesB/total*100)/100, Math.round((favorablesA/total)*100)/100, Math.round(((favorablesA+favorablesB)/(total*2))*100)/100];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+    while(finales.length<3){ const c = Math.round((correct+randInt(1,3)*0.05)*100)/100; if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">En una bolsa con '+total+' fichas, '+favorablesA+' son rojas y '+favorablesB+' son azules (el resto son de otro color). Si estos dos eventos no pueden ocurrir juntos, ¿cuál es la probabilidad de sacar una ficha roja O azul?</p>',
+      options: opts, correctValue: correct, speakText: '¿Cuál es la probabilidad de sacar una ficha roja o azul, si son eventos que no pueden ocurrir juntos?', cols:4,
+      explain: 'Regla aditiva (eventos que no pueden ocurrir juntos): P(roja) + P(azul) = '+favorablesA+'/'+total+' + '+favorablesB+'/'+total+' = <b>'+correct+'</b>.',
+      recurso: recurso,
+    };
+  }
+  if(roll<0.7){
+    const pA = pick([0.5,0.25,0.2,0.1]);
+    const pB = pick([0.5,0.25,0.2,0.1]);
+    const correct = Math.round(pA*pB*1000)/1000;
+    const distractCandidates = [Math.round((pA+pB)*1000)/1000, pA, pB];
+    const finales = [];
+    for(const d of distractCandidates){ if(d!==correct && finales.indexOf(d)===-1) finales.push(d); }
+    while(finales.length<3){ const c = Math.round((correct+randInt(1,3)*0.02)*1000)/1000; if(c!==correct && finales.indexOf(c)===-1) finales.push(c); }
+    const opts = shuffle([correct].concat(finales.slice(0,3))).map(function(v){ return {label:v, value:v}; });
+    return {
+      promptHTML: '<p class="prompt-hint">La probabilidad de que ocurra un evento A es '+pA+' y la de un evento B (independiente) es '+pB+'. ¿Cuál es la probabilidad de que ocurran los DOS eventos, uno después del otro?</p>',
+      options: opts, correctValue: correct, speakText: 'Si dos eventos independientes tienen probabilidades '+pA+' y '+pB+', ¿cuál es la probabilidad de que ocurran los dos?', cols:4,
+      explain: 'Regla multiplicativa (eventos independientes): P(A) × P(B) = '+pA+' × '+pB+' = <b>'+correct+'</b>.',
+      recurso: recurso,
+    };
+  }
+  const opts = shuffle([
+    {label:'Una tabla de doble entrada o una nube de puntos', value:'ok'},
+    {label:'Solo un gráfico de barras simple', value:'m1'},
+    {label:'Solo un promedio general', value:'m2'},
+    {label:'Un diagrama circular únicamente', value:'m3'},
+  ]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Qué herramienta sirve para registrar y comparar dos características distintas de una misma población de datos?</p>',
+    options: opts, correctValue: 'ok', speakText: '¿Qué herramienta sirve para comparar dos características distintas de los mismos datos?', cols:2, panel:true,
+    explain: 'Una tabla de doble entrada organiza los datos cruzando dos variables, y una nube de puntos los grafica para ver si existe relación entre ellas.',
+    recurso: recurso,
+  };
+}

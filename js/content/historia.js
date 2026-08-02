@@ -1272,3 +1272,187 @@ export function genGeografiaRegional8Round(){
   };
 }
 
+/* ---------------- 1° Medio (Decreto 614/2013, mismo decreto que 7°-8° básico) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/historia-geografia-ciencias-sociales/1-medio
+   — OA01-25. Cubiertos: OA01-02 (ideas republicanas/liberales, cultura burguesa),
+   OA03-05 (Estado-nación, progreso/positivismo, industrialización), OA06-07
+   (imperialismo, Primera Guerra Mundial), OA08-09 (formación y consolidación
+   de la República de Chile), OA10-11,16-17 (inserción industrial de Chile,
+   prensa/nación, orden parlamentario, riqueza salitrera), OA12-15,24
+   (geografía: exploración/ocupación territorial, Araucanía, Guerra del
+   Pacífico, y convivencia/conflicto con pueblos indígenas — mismo criterio
+   ya establecido en 6°/8° básico: solo hechos verificables, sin juicio de
+   valor), OA19-23,25 (economía personal y formación ciudadana). Ningún OA
+   queda fuera del motor de opción múltiple este año. */
+export const HISTORIA_MODULES_M1 = [
+  {id:'ideasrepublicanasm1', label:'Ideas Republicanas y Liberales', open:true, key:'ideasrepublicanasm1'},
+  {id:'estadonacionm1', label:'Estado-Nación e Industrialización', open:true, key:'estadonacionm1'},
+  {id:'imperialismoguerram1', label:'Imperialismo y Primera Guerra Mundial', open:true, key:'imperialismoguerram1'},
+  {id:'republicachilem1', label:'Formación de la República de Chile', open:true, key:'republicachilem1'},
+  {id:'salitreparlamentarismom1', label:'Chile: Salitre y Parlamentarismo', open:true, key:'salitreparlamentarismom1'},
+  {id:'geografiapueblosm1', label:'Geografía y Pueblos Originarios', open:true, key:'geografiapueblosm1'},
+  {id:'economiaciudadaniam1', label:'Economía Personal y Ciudadanía', open:true, key:'economiaciudadaniam1'},
+];
+export const HISTORIA_POS_M1 = [
+  {x:24,y:92},{x:68,y:80},{x:24,y:68},{x:68,y:56},{x:24,y:44},{x:68,y:32},{x:24,y:20}
+];
+const IDEAS_REPUBLICANAS_M1_BANK = [
+  { pregunta:'¿Qué proponían las ideas republicanas y liberales del siglo XIX?', correcta:'Gobiernos basados en constituciones, división de poderes y libertades individuales', opts:['El regreso a las monarquías absolutas','La eliminación de toda ley escrita','Un solo gobernante elegido por sorteo eterno'] },
+  { pregunta:'¿Qué defendía el liberalismo económico del siglo XIX?', correcta:'El libre comercio, con menos intervención del Estado en la economía', opts:['Que el Estado controlara todo el comercio','La prohibición total del comercio internacional','El regreso al trueque sin dinero'] },
+  { pregunta:'¿Qué buscaba el movimiento abolicionista del siglo XIX?', correcta:'Terminar con la esclavitud en distintos países', opts:['Ampliar la esclavitud a más territorios','Prohibir el trabajo asalariado','Eliminar los parlamentos'] },
+  { pregunta:'¿Qué modelo familiar y de roles de género predominó en la cultura burguesa del siglo XIX?', correcta:'Un modelo con roles diferenciados: el hombre en el trabajo remunerado, la mujer a cargo del hogar', opts:['La igualdad total de roles entre hombres y mujeres','La ausencia total de familia','Roles idénticos para todas las edades'] },
+  { pregunta:'¿Qué valoraba especialmente la ética laboral de la burguesía del siglo XIX?', correcta:'El esfuerzo personal, el ahorro y el éxito obtenido con trabajo propio', opts:['El ocio permanente sin trabajar','El azar como única fuente de riqueza','El rechazo a cualquier forma de comercio'] },
+  { pregunta:'¿Qué significa el "parlamentarismo" como modelo de representatividad política?', correcta:'Un sistema donde el parlamento (Congreso) tiene un rol central en el gobierno', opts:['Un sistema sin ningún tipo de elecciones','El gobierno de un solo rey absoluto','La ausencia total de leyes'] },
+  { pregunta:'¿Qué es el "constitucionalismo" que se difundió en el siglo XIX?', correcta:'La idea de que el poder del Estado debe estar limitado por una constitución escrita', opts:['La idea de que no debe existir ninguna ley','Un sistema sin ningún tipo de gobierno','El poder ilimitado de un solo gobernante'] },
+  { pregunta:'¿Con qué transformaciones económicas se relacionó la difusión del libre comercio en el siglo XIX?', correcta:'El crecimiento del comercio internacional y la especialización productiva de los países', opts:['El fin total del comercio entre países','El regreso a economías completamente cerradas','La desaparición del dinero'] },
+  { pregunta:'¿Qué buscaban las ideas republicanas en relación con la soberanía del poder?', correcta:'Que el poder resida en el pueblo o sus representantes, no en un monarca hereditario', opts:['Que el poder sea siempre hereditario','Que no exista ninguna forma de autoridad','Que el poder resida en un solo dios'] },
+];
+export function genIdeasRepublicanasM1Round(){
+  const recurso = 'Durante el siglo XIX, las <b>ideas republicanas y liberales</b> se difundieron por América y Europa, transformando profundamente la política: se defendía que el poder debía residir en el pueblo o sus representantes (no en un monarca hereditario), organizado mediante constituciones escritas que limitaran el poder del Estado y garantizaran libertades individuales. El <b>parlamentarismo</b> le dio un rol central al Congreso en el gobierno, mientras el <b>liberalismo económico</b> promovía el libre comercio con menos intervención estatal. Estas ideas convivieron con el auge de una nueva <b>cultura burguesa</b>, con un modelo familiar de roles diferenciados (el hombre en el trabajo remunerado, la mujer a cargo del hogar) y una fuerte ética laboral que valoraba el esfuerzo y el ahorro personal. El movimiento <b>abolicionista</b>, por su parte, luchó durante este siglo para terminar con la esclavitud en distintos países.';
+  const item = pick(IDEAS_REPUBLICANAS_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const ESTADO_NACION_M1_BANK = [
+  { pregunta:'¿Qué es el "Estado-nación", concepto que reorganizó la geografía política del siglo XIX?', correcta:'Un territorio con fronteras definidas, gobierno propio y una población que comparte una identidad nacional', opts:['Un territorio sin ningún tipo de gobierno','Una alianza militar temporal entre países','Un imperio que gobierna sobre todo el continente'] },
+  { pregunta:'¿Qué idea de "progreso indefinido" se difundió en el siglo XIX?', correcta:'La creencia de que la humanidad avanzaría sin límites gracias a la ciencia y la tecnología', opts:['La idea de que el ser humano ya no podía mejorar','El rechazo total a cualquier avance científico','La creencia de que el pasado siempre fue mejor'] },
+  { pregunta:'¿Qué proponía el positivismo, corriente de pensamiento del siglo XIX?', correcta:'Que el conocimiento científico, basado en hechos observables, era la mejor guía para organizar la sociedad', opts:['Que la ciencia no servía para nada','Que solo la fe religiosa explicaba el mundo','Que el azar debía decidir todas las leyes'] },
+  { pregunta:'¿Qué caracterizó a la industrialización del siglo XIX?', correcta:'El uso de máquinas y fábricas para producir bienes a gran escala', opts:['La desaparición total de la producción','El regreso exclusivo al trabajo artesanal manual','La prohibición de las ciudades'] },
+  { pregunta:'¿Qué efecto tuvo la industrialización sobre la población y las ciudades?', correcta:'Un fuerte crecimiento urbano, con migración desde el campo hacia las ciudades industriales', opts:['El vaciamiento total de las ciudades','Ningún cambio en la distribución de la población','El regreso de la población a la vida nómada'] },
+  { pregunta:'¿Qué transformación territorial trajo la formación de los Estados-nación en América Latina y Europa?', correcta:'La definición de fronteras y la consolidación de gobiernos nacionales propios', opts:['La desaparición de todas las fronteras','La formación de un solo imperio mundial','El regreso a territorios sin ningún límite'] },
+  { pregunta:'¿En qué áreas se manifestó especialmente la fe en el "progreso indefinido"?', correcta:'En el desarrollo científico y tecnológico, visto como una mejora continua para la humanidad', opts:['Únicamente en el arte religioso','Solo en la agricultura tradicional','En ningún ámbito concreto'] },
+  { pregunta:'¿Qué consecuencia social trajo la industrialización en las nuevas ciudades fabriles?', correcta:'El surgimiento de una clase obrera que trabajaba largas jornadas en las fábricas', opts:['La desaparición total del trabajo asalariado','Un descanso permanente para todos los trabajadores','La eliminación de las fábricas'] },
+];
+export function genEstadoNacionM1Round(){
+  const recurso = 'El <b>Estado-nación</b> es un territorio con fronteras definidas, un gobierno propio y una población que comparte una identidad nacional; durante el siglo XIX, tanto América Latina como Europa reorganizaron su geografía política bajo este modelo. Al mismo tiempo, se difundió la idea del <b>progreso indefinido</b>: la creencia de que la humanidad avanzaría sin límites gracias a la ciencia y la tecnología, respaldada por el <b>positivismo</b>, una corriente que defendía el conocimiento científico basado en hechos observables como la mejor guía para organizar la sociedad. La <b>industrialización</b> transformó profundamente la economía, la población y el territorio: el uso de máquinas y fábricas para producir a gran escala provocó un fuerte crecimiento urbano, con migración masiva desde el campo hacia las nuevas ciudades industriales, y el surgimiento de una clase obrera.';
+  const item = pick(ESTADO_NACION_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const IMPERIALISMO_GUERRA_M1_BANK = [
+  { pregunta:'¿Qué fue el imperialismo europeo del siglo XIX?', correcta:'La expansión de potencias europeas para dominar territorios en África, Asia y otras regiones', opts:['El retiro total de Europa de otros continentes','Una alianza igualitaria entre todos los países del mundo','El fin del comercio internacional'] },
+  { pregunta:'¿Qué buscaban las potencias europeas al expandirse imperialmente?', correcta:'Materias primas, nuevos mercados y prestigio internacional', opts:['Solamente intercambiar cultura sin ningún interés económico','Regalar sus territorios a las colonias','Eliminar el comercio con esos territorios'] },
+  { pregunta:'¿Qué efecto tuvo el imperialismo en la reconfiguración del mundo?', correcta:'La expansión del capitalismo y nuevas relaciones de dependencia entre países dominantes y dominados', opts:['La igualdad económica automática entre todos los países','El fin de todo intercambio comercial mundial','El aislamiento total de todos los continentes'] },
+  { pregunta:'¿En qué año comenzó la Primera Guerra Mundial?', correcta:'1914', opts:['1900','1929','1939'] },
+  { pregunta:'¿Qué efecto tuvo la Primera Guerra Mundial sobre la sociedad civil?', correcta:'Millones de muertos y heridos, y una fuerte movilización de la población civil para sostener el esfuerzo bélico', opts:['Ningún efecto sobre la población civil','Una mejora inmediata en la calidad de vida','El fin de todas las fábricas de Europa'] },
+  { pregunta:'¿Qué cambio en el orden geopolítico mundial provocó el fin de la Primera Guerra Mundial?', correcta:'La caída de varios imperios y el redibujo de fronteras en Europa', opts:['El regreso exacto al mapa de antes de la guerra','La unificación de todo el mundo en un solo país','La desaparición de Europa del mapa'] },
+  { pregunta:'¿Qué rol cumplieron las colonias durante el imperialismo del siglo XIX?', correcta:'Proveer materias primas y ser mercados para los productos de las potencias europeas', opts:['Gobernar directamente sobre las potencias europeas','No tener ninguna relación económica con Europa','Producir exactamente los mismos bienes que Europa'] },
+  { pregunta:'¿Qué zonas del mundo fueron especialmente disputadas por las potencias imperialistas europeas?', correcta:'África y Asia, repartidas entre distintas potencias coloniales', opts:['La Antártica exclusivamente','El propio territorio europeo','Ningún territorio fue disputado'] },
+  { pregunta:'¿Qué alianzas militares contribuyeron a que un conflicto localizado escalara hasta convertirse en la Primera Guerra Mundial?', correcta:'Un sistema de alianzas entre potencias que arrastró a muchos países al conflicto', opts:['La ausencia total de alianzas entre países','Un acuerdo de paz que evitó cualquier conflicto','Ninguna alianza tuvo relación con el inicio de la guerra'] },
+  { pregunta:'¿Qué nuevas tecnologías bélicas se usaron por primera vez a gran escala durante la Primera Guerra Mundial?', correcta:'Ametralladoras, gases tóxicos y trincheras, entre otras', opts:['Únicamente arcos y flechas','Ninguna tecnología nueva','Solamente barcos de vela'] },
+];
+export function genImperialismoGuerraM1Round(){
+  const recurso = 'El <b>imperialismo</b> del siglo XIX fue la expansión de potencias europeas para dominar territorios en África, Asia y otras regiones, buscando materias primas, nuevos mercados y prestigio internacional — este proceso expandió el capitalismo a escala mundial y creó nuevas relaciones de dependencia entre países dominantes y dominados. Estas tensiones entre potencias, sumadas a rivalidades territoriales y militares, desembocaron en 1914 en la <b>Primera Guerra Mundial</b>, un conflicto que provocó millones de muertos y heridos, movilizó fuertemente a la sociedad civil para sostener el esfuerzo bélico, y terminó con la caída de varios imperios, redibujando por completo las fronteras y el orden geopolítico de Europa.';
+  const item = pick(IMPERIALISMO_GUERRA_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const REPUBLICA_CHILE_M1_BANK = [
+  { pregunta:'¿Cómo se caracterizó el proceso de formación de la República de Chile tras la independencia?', correcta:'Un período de enfrentamiento ideológico entre distintos proyectos políticos, hasta lograr estabilidad constitucional', opts:['Un proceso sin ningún conflicto político','El regreso inmediato a la monarquía española','La ausencia total de constituciones'] },
+  { pregunta:'¿Qué buscaban lograr las distintas facciones políticas chilenas de las primeras décadas republicanas?', correcta:'Definir qué forma de gobierno y qué constitución debía tener el nuevo país', opts:['Restaurar el dominio colonial español','Anexar Chile a otro imperio','Eliminar toda forma de gobierno'] },
+  { pregunta:'¿Qué aspecto ayudó a consolidar la república chilena tras su período inicial de inestabilidad?', correcta:'La defensa y organización del territorio, junto con un sistema electoral y debate político más estable', opts:['El abandono total del territorio nacional','La eliminación de todas las elecciones','El regreso a un gobierno sin ninguna ley'] },
+  { pregunta:'¿Qué elemento fue clave para la consolidación territorial de Chile durante el siglo XIX?', correcta:'La defensa y organización de las fronteras del país', opts:['El abandono de todo el territorio sur','La entrega del territorio a otro país','La eliminación de las fronteras nacionales'] },
+  { pregunta:'¿Qué caracterizó al debate político chileno durante la consolidación republicana?', correcta:'La confrontación de ideas entre distintos sectores políticos dentro de un marco institucional', opts:['La ausencia total de debate político','Un solo partido político sin ninguna oposición','La prohibición de cualquier discusión pública'] },
+  { pregunta:'¿Qué institución fue central en el sistema electoral chileno del siglo XIX?', correcta:'El Congreso, elegido mediante procesos electorales', opts:['Un consejo de ancianos sin elección','Un sorteo anual entre toda la población','La designación directa por otro país'] },
+  { pregunta:'¿Qué significó, en términos generales, la "estabilidad constitucional" que Chile fue logrando en el siglo XIX?', correcta:'Que el país logró organizarse bajo una constitución que ordenaba el ejercicio del poder de forma más permanente', opts:['Que Chile dejó de tener cualquier ley','Que se eliminaron todas las instituciones públicas','Que un solo gobernante tomó el poder para siempre'] },
+  { pregunta:'¿Qué tipo de conflictos enfrentaron los distintos proyectos políticos durante los primeros años de la República de Chile?', correcta:'Disputas sobre si el poder debía concentrarse en un gobierno central fuerte o repartirse entre las provincias', opts:['Ningún tipo de disputa política','Un acuerdo inmediato sobre todos los temas','Solo disputas sobre el nombre del país'] },
+  { pregunta:'¿Qué función cumplían las constituciones que se fueron probando en las primeras décadas republicanas de Chile?', correcta:'Establecer las reglas sobre cómo debía organizarse y ejercerse el poder del Estado', opts:['No tenían ninguna función real','Servían únicamente como documentos históricos sin aplicación','Reemplazaban por completo al gobierno'] },
+  { pregunta:'¿Qué mostró el hecho de que Chile probara distintas constituciones antes de lograr mayor estabilidad?', correcta:'Que organizar un nuevo país republicano fue un proceso gradual de prueba y ajuste institucional', opts:['Que Chile nunca tuvo ninguna constitución','Que el proceso fue instantáneo y sin ningún ajuste','Que las constituciones no tenían ninguna importancia'] },
+];
+export function genRepublicaChileM1Round(){
+  const recurso = 'La <b>formación de la República de Chile</b>, tras la independencia, no fue un proceso sin conflictos: distintas facciones políticas se enfrentaron ideológicamente para definir qué forma de gobierno y qué constitución debía tener el nuevo país, en un período de ensayos y crisis institucionales. Con el tiempo, Chile fue logrando mayor <b>estabilidad constitucional</b>, consolidando su territorio mediante la defensa y organización de sus fronteras, y desarrollando un sistema electoral y un debate político dentro de un marco institucional más permanente, con el Congreso como una institución central del sistema de gobierno. Este proceso de consolidación republicana fue gradual, y marcó las bases del sistema político chileno que se desarrollaría durante el resto del siglo XIX.';
+  const item = pick(REPUBLICA_CHILE_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const SALITRE_PARLAMENTARISMO_M1_BANK = [
+  { pregunta:'¿Cómo se insertó Chile en los procesos industriales mundiales del siglo XIX?', correcta:'Exportando recursos naturales, especialmente el salitre, a los mercados industriales de Europa', opts:['Fabricando maquinaria industrial para venderla a Europa','Cerrando todo su comercio con el exterior','Prohibiendo la exportación de minerales'] },
+  { pregunta:'¿Qué transformación generó la riqueza salitrera en las finanzas del Estado chileno?', correcta:'Un fuerte aumento de los ingresos fiscales, que permitieron mayor inversión pública', opts:['La quiebra total del Estado chileno','La eliminación de todo ingreso fiscal','Ningún cambio en las finanzas públicas'] },
+  { pregunta:'¿En qué se invirtieron muchos de los ingresos fiscales generados por el salitre?', correcta:'En obras públicas, educación e infraestructura del Estado', opts:['Únicamente en gastos militares extranjeros','En ningún proyecto público','En pagar deudas de otros países'] },
+  { pregunta:'¿Qué papel cumplieron la prensa, la historiografía y la educación en Chile durante este período?', correcta:'Expandieron y consolidaron la idea de una identidad nacional chilena compartida', opts:['No tuvieron ninguna influencia en la sociedad','Solo se dedicaron a temas extranjeros','Eliminaron cualquier idea de nación'] },
+  { pregunta:'¿Qué caracterizó al orden político liberal-parlamentario chileno de fines del siglo XIX?', correcta:'Un rol fuerte del Congreso en el gobierno, con reformas constitucionales que limitaron el poder presidencial', opts:['Un poder absoluto del presidente sin ningún límite','La eliminación total del Congreso','El regreso a un gobierno colonial'] },
+  { pregunta:'¿Qué proceso institucional acompañó al orden parlamentario chileno de este período?', correcta:'Un proceso de secularización, separando gradualmente al Estado de la Iglesia en ciertas materias', opts:['La unión total del Estado con una sola religión','La eliminación de todas las instituciones del Estado','El fin de cualquier reforma constitucional'] },
+  { pregunta:'¿Qué es la "cuestión social" que emergió en Chile con el cambio de siglo?', correcta:'Las difíciles condiciones de vida y trabajo de los obreros urbanos y mineros, que generaron nuevas demandas', opts:['Un debate exclusivamente sobre moda','La abundancia total de recursos para todos','La ausencia de cualquier problema social'] },
+  { pregunta:'¿Qué nuevas demandas surgieron de los trabajadores durante el período salitrero?', correcta:'Mejores condiciones laborales, salarios y derechos sociales', opts:['La eliminación total del trabajo asalariado','El regreso al trabajo esclavo','Ninguna demanda concreta'] },
+];
+export function genSalitreParlamentarismoM1Round(){
+  const recurso = 'Durante la segunda mitad del siglo XIX, Chile se insertó en los procesos industriales mundiales exportando recursos naturales, especialmente el <b>salitre</b>, que generó un fuerte aumento de los ingresos fiscales del Estado, invertidos en obras públicas, educación e infraestructura. En este período, la prensa, la historiografía y la educación ayudaron a expandir y consolidar una <b>identidad nacional</b> chilena compartida. Políticamente, se desarrolló un <b>orden liberal-parlamentario</b>, con un Congreso que ganó un rol central en el gobierno mediante reformas constitucionales que limitaron el poder presidencial, junto con un proceso de secularización que fue separando gradualmente al Estado de la Iglesia en ciertas materias. Sin embargo, la riqueza salitrera convivió con la llamada <b>"cuestión social"</b>: las difíciles condiciones de vida y trabajo de obreros urbanos y mineros, que generaron nuevas demandas por mejores salarios y derechos laborales.';
+  const item = pick(SALITRE_PARLAMENTARISMO_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const GEOGRAFIA_PUEBLOS_M1_BANK = [
+  { pregunta:'¿Con qué propósito el Estado chileno impulsó exploraciones hacia el sur y otras zonas del territorio en el siglo XIX?', correcta:'Caracterizar la población, desarrollar recursos y delimitar las fronteras del país', opts:['Abandonar esos territorios definitivamente','Regalar el territorio a otro país','Eliminar cualquier forma de gobierno en esas zonas'] },
+  { pregunta:'¿Qué caracterizó la ocupación de Valdivia, Llanquihue, Chiloé y Magallanes en el siglo XIX?', correcta:'Una fuerte inmigración europea (especialmente alemana) que se sumó a la población local', opts:['La expulsión total de toda la población','La prohibición de vivir en esas zonas','El abandono completo del sur de Chile'] },
+  { pregunta:'¿Qué efecto tuvo la ocupación de la Araucanía en la sociedad mapuche del siglo XIX?', correcta:'Afectó profundamente su organización territorial y su forma de vida tradicional', opts:['Ningún efecto sobre la sociedad mapuche','Una expansión del territorio mapuche','El fortalecimiento total de su autonomía previa'] },
+  { pregunta:'¿Qué conflicto internacional del siglo XIX se relacionó con la riqueza del salitre?', correcta:'La Guerra del Pacífico (1879-1883)', opts:['La Guerra de Arauco','La Primera Guerra Mundial','La Guerra Fría'] },
+  { pregunta:'¿Qué territorios pasaron a formar parte de Chile como consecuencia de la Guerra del Pacífico?', correcta:'Territorios ricos en salitre en el norte, tras el conflicto con Perú y Bolivia', opts:['Territorios en el sur de Argentina','La isla de Pascua','Territorios en el extremo austral'] },
+  { pregunta:'¿Qué pueblos indígenas han mantenido relaciones de conflicto y convivencia con el Estado chileno, tanto en el pasado como en el presente?', correcta:'Entre otros, aymara, colla, rapa nui, mapuche, quechua, atacameño, kawéskar, yagán y diaguita', opts:['Únicamente pueblos de otros continentes','Ningún pueblo indígena habita el territorio chileno','Solo pueblos que ya no existen en la actualidad'] },
+  { pregunta:'¿Por qué es importante reflexionar sobre la diversidad cultural de los pueblos originarios de Chile?', correcta:'Porque forman parte activa de la identidad y la historia del país, en el pasado y en el presente', opts:['Porque no tienen ninguna relación con la historia de Chile','Porque su cultura desapareció por completo','Porque solo importan para el turismo'] },
+  { pregunta:'¿Qué buscaba el Estado chileno al delimitar sus fronteras durante el siglo XIX?', correcta:'Asegurar el control efectivo de su territorio y sus recursos', opts:['Eliminar cualquier límite territorial','Ceder todo el territorio a los países vecinos','No tener ninguna frontera definida'] },
+];
+export function genGeografiaPueblosM1Round(){
+  const recurso = 'Durante el siglo XIX, el Estado chileno impulsó <b>exploraciones territoriales</b> para caracterizar su población, desarrollar recursos y delimitar sus fronteras. La ocupación de zonas como Valdivia, Llanquihue, Chiloé y Magallanes trajo una fuerte <b>inmigración europea</b>, mientras la ocupación de la <b>Araucanía</b> afectó profundamente la organización territorial y la forma de vida tradicional de la sociedad mapuche. La <b>Guerra del Pacífico</b> (1879-1883), motivada en parte por la riqueza del salitre, incorporó al territorio nacional zonas del norte ricas en ese recurso. Chile es un país donde conviven distintos <b>pueblos originarios</b> —aymara, colla, rapa nui, mapuche, quechua, atacameño, kawéskar, yagán y diaguita, entre otros—, con quienes el Estado ha mantenido relaciones de conflicto y convivencia tanto en el pasado como en el presente; reflexionar sobre esta diversidad cultural es reconocer que estos pueblos forman parte activa de la identidad y la historia del país.';
+  const item = pick(GEOGRAFIA_PUEBLOS_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const ECONOMIA_CIUDADANIA_M1_BANK = [
+  { pregunta:'¿Qué explica el problema económico básico de la "escasez"?', correcta:'Que los recursos son limitados, pero las necesidades y deseos de las personas son prácticamente ilimitados', opts:['Que siempre hay recursos infinitos para todos','Que las personas no necesitan nada','Que el dinero nunca se acaba'] },
+  { pregunta:'¿Qué determina el precio de un producto en el mercado?', correcta:'La relación entre la oferta (cuánto se produce) y la demanda (cuánto se quiere comprar)', opts:['Únicamente el color del producto','Un sorteo aleatorio cada semana','El clima del país exclusivamente'] },
+  { pregunta:'¿Qué es un "préstamo" como instrumento financiero?', correcta:'Dinero que una entidad presta y que debe devolverse, generalmente con intereses', opts:['Dinero regalado sin ninguna condición','Un impuesto que se paga una sola vez','Un tipo de acción bursátil'] },
+  { pregunta:'¿Qué representa una "acción" en el mercado bursátil?', correcta:'Una parte de la propiedad de una empresa, que se puede comprar o vender', opts:['Un préstamo bancario sin intereses','Un tipo de moneda extranjera','Un impuesto municipal'] },
+  { pregunta:'¿Qué es el "ahorro" en términos financieros personales?', correcta:'Guardar una parte del ingreso para usarla en el futuro, en vez de gastarla toda de inmediato', opts:['Gastar todo el dinero disponible de inmediato','Pedir siempre dinero prestado','Regalar el dinero a otras personas'] },
+  { pregunta:'¿Qué debería considerar un consumidor informado antes de comprar un producto o servicio?', correcta:'Sus derechos como consumidor, la calidad, el precio y su propia capacidad de pago', opts:['Únicamente el color del envase','Nada: cualquier compra es igual de conveniente','Solo la opinión de un desconocido en la calle'] },
+  { pregunta:'¿Por qué es importante la responsabilidad financiera al usar instrumentos como el crédito?', correcta:'Porque un mal uso del crédito puede generar deudas difíciles de pagar', opts:['Porque el crédito siempre es gratuito','Porque nunca hay que devolver lo prestado','Porque no tiene ninguna consecuencia'] },
+  { pregunta:'¿Qué tipo de respuestas políticas han dado distintas posturas ideológicas frente a problemas sociales como la pobreza?', correcta:'Desde mayor intervención del Estado hasta mayor confianza en el libre mercado, entre otras posturas', opts:['Todas las posturas políticas proponen exactamente lo mismo','Ninguna postura política se ha ocupado nunca de este tema','Solo existe una única respuesta posible y correcta'] },
+  { pregunta:'¿Qué relación existe entre la industrialización histórica y el desarrollo sostenible actual?', correcta:'La industrialización generó un fuerte impacto ambiental que hoy se busca equilibrar con el desarrollo sostenible', opts:['No existe ninguna relación entre ambos procesos','La industrialización eliminó por completo el medioambiente','El desarrollo sostenible es un proceso sin ninguna relación con la economía'] },
+];
+export function genEconomiaCiudadaniaM1Round(){
+  const recurso = 'La <b>escasez</b> es el problema económico básico: los recursos son limitados, pero las necesidades y deseos de las personas son prácticamente ilimitados. El <b>mercado</b> resuelve en parte este problema mediante el precio, que surge de la relación entre oferta y demanda. Entre los <b>instrumentos financieros</b> más comunes están el préstamo (dinero prestado que debe devolverse con intereses), el ahorro (guardar parte del ingreso para el futuro) y las acciones (una parte de la propiedad de una empresa que se compra o vende en la bolsa) — usarlos con responsabilidad es clave para evitar deudas difíciles de pagar. Frente a problemas sociales como la pobreza, distintas <b>posturas políticas</b> han propuesto respuestas diferentes, desde mayor intervención del Estado hasta mayor confianza en el libre mercado. Además, el impacto ambiental generado por la industrialización histórica es hoy uno de los grandes desafíos que el <b>desarrollo sostenible</b> busca equilibrar.';
+  const item = pick(ECONOMIA_CIUDADANIA_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+

@@ -3,7 +3,7 @@
    el HTML generado dinámicamente invoca vía onclick="..." —
    los módulos ES no las hacen globales por su cuenta.
    ========================================================= */
-import { goTo, goBack, selectGrade, selectNivel, selectEpjaNivel, showToast } from './state.js';
+import { goTo, goBack, selectGrade, selectNivel, selectEpjaNivel, selectMedioGrade, showToast } from './state.js';
 import { speak } from './audio.js';
 import { answerMC, showMCRecurso } from './mcEngine.js';
 import { tapSyllable } from './games/silabas.js';
@@ -20,6 +20,7 @@ window.goBack = goBack;
 window.selectGrade = selectGrade;
 window.selectNivel = selectNivel;
 window.selectEpjaNivel = selectEpjaNivel;
+window.selectMedioGrade = selectMedioGrade;
 window.showToast = showToast;
 window.speak = speak;
 window.answerMC = answerMC;

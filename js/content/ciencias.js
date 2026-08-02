@@ -2096,3 +2096,203 @@ export function genAtomoTabla8Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 1° Medio (Decreto 614/2013, mismo decreto que 7°-8° básico) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/ciencias-naturales/1-medio
+   — OA01-20 (Biología OA01-08, Física OA09-16, Química OA17-20). Ningún OA
+   queda fuera del motor de opción múltiple este año: los 20 son observables,
+   explicativos o de evidencia científica, sin componente de producción
+   práctica ni de vivencia personal. */
+export const CIENCIAS_MODULES_M1 = [
+  {id:'evolucionm1', label:'Evidencias de la Evolución', open:true, key:'evolucionm1'},
+  {id:'ecosistemaspoblacionesm1', label:'Ecosistemas y Poblaciones', open:true, key:'ecosistemaspoblacionesm1'},
+  {id:'ciclosimpactom1', label:'Ciclos de Materia e Impacto Humano', open:true, key:'ciclosimpactom1'},
+  {id:'ondassonidom1', label:'Ondas: Sonido y Sismología', open:true, key:'ondassonidom1'},
+  {id:'luzsentidosm1', label:'La Luz y los Sentidos', open:true, key:'luzsentidosm1'},
+  {id:'sistemasolarm1', label:'Sistema Solar y Universo', open:true, key:'sistemasolarm1'},
+  {id:'reaccionesquimicasm1', label:'Reacciones Químicas', open:true, key:'reaccionesquimicasm1'},
+  {id:'compuestosestequiometriam1', label:'Compuestos y Estequiometría', open:true, key:'compuestosestequiometriam1'},
+];
+export const CIENCIAS_POS_M1 = [
+  {x:24,y:94},{x:68,y:84},{x:24,y:74},{x:68,y:64},{x:24,y:54},{x:68,y:44},{x:24,y:34},{x:68,y:24}
+];
+const EVOLUCION_M1_BANK = [
+  { pregunta:'¿Cómo se forman los fósiles?', correcta:'A partir de restos de animales o plantas que quedan atrapados y se conservan en rocas sedimentarias', opts:['A partir de rocas volcánicas recién formadas','Únicamente en el fondo de los volcanes activos','A partir de organismos vivos actuales'] },
+  { pregunta:'¿Cómo se ordenan los fósiles según su antigüedad dentro de las rocas?', correcta:'Según su ubicación en los estratos: los más profundos suelen ser más antiguos', opts:['Según su color, sin relación con la profundidad','Al azar, sin ningún patrón','Siempre en el mismo estrato, sin importar la edad'] },
+  { pregunta:'¿Qué evidencia aporta el registro fósil para entender la evolución de las especies?', correcta:'Muestra cambios graduales en los organismos a lo largo de largos períodos de tiempo', opts:['Demuestra que todas las especies aparecieron al mismo tiempo','No aporta ninguna evidencia útil','Solo muestra organismos que nunca cambiaron'] },
+  { pregunta:'¿Qué son las "estructuras homólogas", evidencia de un antepasado común entre especies?', correcta:'Estructuras con un origen y diseño similar en distintas especies, aunque cumplan funciones distintas (como el brazo humano y el ala de un murciélago)', opts:['Estructuras que se ven idénticas pero no tienen ningún origen común','Órganos que solo existen en una especie','Estructuras que cambian de función cada generación'] },
+  { pregunta:'¿Qué evidencia aportan las secuencias de ADN para estudiar la evolución?', correcta:'Mientras más parecidas son las secuencias de ADN entre dos especies, más cercano es su parentesco evolutivo', opts:['El ADN no aporta ninguna información sobre evolución','Todas las especies tienen exactamente el mismo ADN','El ADN solo sirve para identificar personas'] },
+  { pregunta:'¿Qué propusieron Darwin y Wallace sobre cómo cambian las especies con el tiempo?', correcta:'La selección natural: los individuos mejor adaptados a su ambiente tienen más probabilidad de sobrevivir y reproducirse', opts:['Que todas las especies fueron creadas exactamente iguales para siempre','Que el ambiente nunca influye en la supervivencia','Que solo el azar determina qué especies existen'] },
+  { pregunta:'¿En qué se basa la clasificación taxonómica de los seres vivos?', correcta:'En criterios que organizan a los organismos en grupos y subgrupos según su parentesco evolutivo', opts:['Únicamente en el tamaño de cada organismo','En el color de cada especie, sin ningún otro criterio','En el orden alfabético de sus nombres'] },
+  { pregunta:'¿Qué información puede dar la embriología sobre el parentesco evolutivo entre especies?', correcta:'Especies emparentadas pueden mostrar etapas embrionarias muy similares entre sí', opts:['El desarrollo embrionario nunca se parece entre especies distintas','La embriología no tiene relación con la evolución','Todos los embriones son exactamente iguales entre todas las especies'] },
+  { pregunta:'¿Qué relación de parentesco busca establecer la clasificación en grupos y subgrupos taxonómicos?', correcta:'Relaciones de parentesco ancestral entre los distintos organismos', opts:['Ninguna relación real entre los organismos','Solo relaciones basadas en el hábitat actual','Relaciones basadas exclusivamente en el tamaño'] },
+];
+export function genEvolucionM1Round(){
+  const recurso = 'La evolución de las especies se sostiene en varias líneas de evidencia científica. Los <b>fósiles</b> se forman cuando restos de animales o plantas quedan atrapados y se conservan en rocas sedimentarias, ubicándose en distintos estratos según su antigüedad (los más profundos suelen ser más antiguos) — el registro fósil muestra cambios graduales en los organismos a través del tiempo. Otras evidencias incluyen las <b>estructuras homólogas</b> (un origen y diseño similar en distintas especies, aunque cumplan funciones distintas, como el brazo humano y el ala de un murciélago), la <b>embriología</b> (especies emparentadas pueden mostrar etapas embrionarias parecidas) y las <b>secuencias de ADN</b> (mientras más se parecen, más cercano es el parentesco evolutivo). <b>Darwin y Wallace</b> propusieron el mecanismo central de este proceso: la <b>selección natural</b>, donde los individuos mejor adaptados a su ambiente tienen más probabilidades de sobrevivir y reproducirse. Toda esta evidencia se organiza mediante la <b>clasificación taxonómica</b>, que agrupa a los organismos en grupos y subgrupos según su parentesco ancestral.';
+  const item = pick(EVOLUCION_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const ECOSISTEMAS_POBLACIONES_M1_BANK = [
+  { pregunta:'¿Qué niveles de organización existen dentro de un ecosistema, de lo más simple a lo más complejo?', correcta:'Individuo, población, comunidad y ecosistema', opts:['Célula, órgano, sistema y organismo, únicamente','Átomo, molécula y célula, únicamente','País, continente y planeta'] },
+  { pregunta:'¿Qué tipo de interacción biológica es la que existe entre un león y la gacela que caza?', correcta:'Depredación', opts:['Mutualismo','Comensalismo','Competencia'] },
+  { pregunta:'¿Qué tipo de interacción biológica beneficia a ambas especies involucradas, como una abeja y una flor?', correcta:'Mutualismo', opts:['Depredación','Parasitismo','Competencia'] },
+  { pregunta:'¿Qué ecosistema chileno se caracteriza por su extrema aridez y biodiversidad adaptada a la falta de agua?', correcta:'El desierto de Atacama', opts:['El bosque valdiviano','La estepa patagónica','El humedal del Yali'] },
+  { pregunta:'¿Qué factor puede reducir drásticamente el tamaño de una población animal?', correcta:'Enfermedades, escasez de recursos alimentarios, o sequías prolongadas', opts:['Un exceso indefinido de recursos sin ningún límite','La ausencia total de depredadores para siempre','El clima perfecto sin ninguna variación'] },
+  { pregunta:'¿Qué consecuencia ecosistémica puede tener la disminución brusca de una población clave, como un depredador tope?', correcta:'Puede alterar el equilibrio de todo el ecosistema, afectando a otras especies relacionadas', opts:['No genera ningún efecto en el resto del ecosistema','Siempre mejora automáticamente a todas las demás especies','Elimina por completo la necesidad de recursos alimentarios'] },
+  { pregunta:'¿Qué tipo de interacción es la que existe entre dos especies que buscan el mismo recurso limitado, como el agua?', correcta:'Competencia', opts:['Mutualismo','Depredación','Comensalismo'] },
+  { pregunta:'¿Qué ecosistema chileno se ubica en el extremo sur y se caracteriza por bosques siempreverdes y alta humedad?', correcta:'El bosque valdiviano', opts:['El desierto de Atacama','La estepa patagónica','El altiplano'] },
+  { pregunta:'¿Qué factor puede predecirse al analizar cómo cambian los recursos alimentarios disponibles para una población?', correcta:'Cómo variará el tamaño de esa población en el futuro', opts:['El color de las nuevas crías de esa especie','El clima de otro continente','El nombre científico de la especie'] },
+];
+export function genEcosistemasPoblacionesM1Round(){
+  const recurso = 'Un <b>ecosistema</b> se organiza en niveles: el individuo, la población (individuos de la misma especie en un lugar), la comunidad (distintas poblaciones que interactúan) y el ecosistema completo (comunidad más el ambiente físico). Dentro de un ecosistema existen distintos tipos de <b>interacciones biológicas</b>: la depredación (una especie caza a otra), el mutualismo (ambas especies se benefician, como una abeja y una flor), y la competencia (dos especies buscan el mismo recurso limitado). Chile tiene ecosistemas muy diversos, como el desierto de Atacama (extrema aridez) o el bosque valdiviano (siempreverde y húmedo). El <b>tamaño de una población</b> puede verse afectado por factores como enfermedades, escasez de recursos alimentarios o sequías prolongadas, y estos cambios pueden alterar el equilibrio de todo el ecosistema, afectando a otras especies relacionadas.';
+  const item = pick(ECOSISTEMAS_POBLACIONES_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const CICLOS_IMPACTO_M1_BANK = [
+  { pregunta:'¿Qué son los "ciclos biogeoquímicos", como el ciclo del agua, del carbono o del nitrógeno?', correcta:'Procesos por los cuales elementos y compuestos se reciclan continuamente entre los seres vivos y el ambiente', opts:['Procesos que ocurren solo una vez y luego desaparecen','Ciclos que afectan únicamente a las rocas, sin relación con los seres vivos','Un fenómeno exclusivo de los océanos'] },
+  { pregunta:'¿Qué rol cumple la fotosíntesis en el flujo de energía del ecosistema?', correcta:'Captura la energía del sol y la transforma en energía química (alimento), la base de casi todas las cadenas alimentarias', opts:['Libera energía sin producir ningún alimento','No tiene relación con el flujo de energía del ecosistema','Consume energía sin generar ningún beneficio'] },
+  { pregunta:'¿Qué rol cumple la respiración celular en el ciclo de la materia y la energía?', correcta:'Libera la energía almacenada en el alimento, y devuelve dióxido de carbono al ambiente', opts:['Solo ocurre en las plantas, nunca en los animales','No libera ningún tipo de energía','Elimina completamente el dióxido de carbono del planeta'] },
+  { pregunta:'¿Qué es la "bioacumulación" de un contaminante a lo largo de una cadena alimentaria?', correcta:'El aumento de la concentración de un contaminante en los organismos a medida que se sube de nivel trófico', opts:['La eliminación total de contaminantes en los niveles altos','Un proceso que solo afecta a las plantas','La disminución constante del contaminante en cada nivel'] },
+  { pregunta:'¿Qué acción humana puede alterar significativamente el equilibrio de un ecosistema?', correcta:'La contaminación, la deforestación o la sobreexplotación de recursos naturales', opts:['Plantar árboles nativos en una zona degradada','Reducir el consumo de agua en el hogar','Reciclar los residuos domésticos'] },
+  { pregunta:'¿Qué busca lograr el "desarrollo sustentable" frente al impacto humano en los ecosistemas?', correcta:'Satisfacer las necesidades actuales sin comprometer los recursos de las futuras generaciones', opts:['Usar todos los recursos disponibles sin ninguna restricción','Detener por completo cualquier actividad humana','Ignorar el estado de los ecosistemas'] },
+  { pregunta:'¿Qué fenómeno natural también puede afectar la disponibilidad de recursos en un ecosistema, sin intervención humana?', correcta:'Sequías, erupciones volcánicas u otros fenómenos naturales', opts:['Solamente la actividad humana afecta a los ecosistemas','Ningún fenómeno natural afecta jamás a un ecosistema','Solo el ser humano puede alterar los recursos disponibles'] },
+  { pregunta:'¿Qué elemento circula entre la atmósfera, los seres vivos y el suelo en el ciclo del carbono?', correcta:'El dióxido de carbono y otros compuestos de carbono', opts:['Únicamente el oxígeno puro','El nitrógeno gaseoso exclusivamente','El vapor de agua únicamente'] },
+];
+export function genCiclosImpactoM1Round(){
+  const recurso = 'Los <b>ciclos biogeoquímicos</b> (como el ciclo del agua, del carbono o del nitrógeno) son procesos por los cuales elementos y compuestos se reciclan continuamente entre los seres vivos y el ambiente. Dentro de este flujo, la <b>fotosíntesis</b> captura la energía del sol y la transforma en energía química (alimento), mientras la <b>respiración celular</b> libera esa energía y devuelve dióxido de carbono al ambiente — juntas, son la base del flujo de energía en casi todas las cadenas alimentarias. Cuando un contaminante entra a este flujo, puede sufrir <b>bioacumulación</b>: su concentración aumenta en los organismos a medida que se sube de nivel trófico. Acciones humanas como la contaminación, la deforestación o la sobreexplotación de recursos pueden alterar seriamente el equilibrio de un ecosistema, por eso el <b>desarrollo sustentable</b> busca satisfacer las necesidades actuales sin comprometer los recursos de las futuras generaciones.';
+  const item = pick(CICLOS_IMPACTO_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const ONDAS_SONIDO_M1_BANK = [
+  { pregunta:'¿Qué es la "reflexión" de una onda?', correcta:'Cuando la onda rebota al chocar con una superficie, cambiando de dirección', opts:['Cuando la onda desaparece por completo','Cuando la onda cambia de velocidad al pasar de un medio a otro','Cuando la onda pierde toda su energía de inmediato'] },
+  { pregunta:'¿Qué es la "refracción" de una onda?', correcta:'Cuando la onda cambia de dirección y de velocidad al pasar de un medio a otro', opts:['Cuando la onda rebota sin cambiar de medio','Cuando la onda se detiene completamente','Cuando la onda se transforma en materia'] },
+  { pregunta:'¿Qué es el "eco", un fenómeno del sonido explicado por el modelo ondulatorio?', correcta:'La reflexión del sonido en una superficie, que hace que se escuche repetido tras un retraso', opts:['Un sonido que nunca se puede escuchar','Un tipo de luz reflejada','La ausencia total de sonido en un lugar'] },
+  { pregunta:'¿Qué es la "resonancia" del sonido?', correcta:'Cuando un objeto vibra con mayor intensidad al recibir ondas sonoras de una frecuencia igual a la suya', opts:['Cuando dos sonidos se cancelan por completo','Un sonido que solo ocurre bajo el agua','La ausencia de vibración en cualquier objeto'] },
+  { pregunta:'¿Qué es el "efecto Doppler" aplicado al sonido, como el de una ambulancia que se acerca y se aleja?', correcta:'El cambio percibido en la frecuencia (el tono) de un sonido según si la fuente se acerca o se aleja', opts:['Un sonido que siempre suena igual sin importar el movimiento','La desaparición total del sonido al moverse','Un fenómeno que solo ocurre con la luz'] },
+  { pregunta:'¿Qué es una onda sísmica, en términos del modelo ondulatorio?', correcta:'Energía que se propaga a través de la Tierra tras liberarse en un terremoto', opts:['Un tipo de onda que solo existe en el mar','Una onda que jamás se puede medir','Un fenómeno exclusivamente relacionado con el sonido de los animales'] },
+  { pregunta:'¿Qué parámetro mide la magnitud de un terremoto, relacionado con la energía liberada?', correcta:'La escala de magnitud (como la escala de Richter o momento sísmico)', opts:['La temperatura del ambiente','El color del cielo en ese momento','La cantidad de lluvia caída ese día'] },
+  { pregunta:'¿Qué consecuencias puede tener la propagación de la energía sísmica sobre el territorio y la sociedad?', correcta:'Daños en construcciones e infraestructura, y riesgos para la población si no existe prevención adecuada', opts:['Ningún efecto sobre el territorio ni la sociedad','Solo afecta a los océanos, nunca a las ciudades','Mejora automáticamente la infraestructura existente'] },
+];
+export function genOndasSonidoM1Round(){
+  const recurso = 'Las <b>ondas</b> transmiten energía sin transportar materia, y pueden sufrir reflexión (rebotan al chocar con una superficie), refracción (cambian de dirección y velocidad al pasar de un medio a otro) o absorción (pierden energía en el medio). El <b>sonido</b>, que es una onda, explica fenómenos como el eco (reflexión del sonido que se escucha repetido), la resonancia (un objeto vibra con más fuerza al recibir ondas de su misma frecuencia) y el efecto Doppler (el cambio de tono percibido cuando la fuente de sonido se acerca o se aleja, como una ambulancia). Las <b>ondas sísmicas</b> son energía que se propaga a través de la Tierra tras liberarse en un terremoto; su magnitud se mide con escalas específicas, y su propagación puede causar daños importantes en construcciones e infraestructura, por lo que la prevención sísmica es clave en países como Chile.';
+  const item = pick(ONDAS_SONIDO_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const LUZ_SENTIDOS_M1_BANK = [
+  { pregunta:'¿Qué modelo explica mejor el comportamiento de la luz, combinando dos naturalezas?', correcta:'El modelo corpuscular-ondulatorio (la luz se comporta como partícula y como onda)', opts:['El modelo exclusivamente de partículas sólidas','Un modelo que niega cualquier propiedad de la luz','El modelo que dice que la luz no se propaga nunca'] },
+  { pregunta:'¿Qué es la "interferencia" de la luz?', correcta:'Cuando dos o más ondas de luz se superponen, sumándose o cancelándose entre sí', opts:['Cuando la luz se detiene completamente','Cuando la luz cambia de color sin ninguna razón','Un fenómeno que solo ocurre con el sonido'] },
+  { pregunta:'¿Cómo se forman las imágenes que vemos gracias a la luz reflejada?', correcta:'Los rayos de luz rebotan en los objetos y llegan a nuestros ojos, permitiendo formar una imagen', opts:['Los objetos emiten sonido en vez de luz','Las imágenes se forman sin ninguna luz involucrada','Solo se pueden ver objetos que producen su propia luz'] },
+  { pregunta:'¿Qué estructura del ojo humano recibe la luz y la convierte en señales que el cerebro puede interpretar?', correcta:'La retina', opts:['El párpado','La ceja','El iris únicamente'] },
+  { pregunta:'¿Qué estructura del oído humano recibe las ondas sonoras y las transforma en señales nerviosas?', correcta:'El oído interno (la cóclea)', opts:['El pabellón auricular únicamente','El lóbulo de la oreja','El cabello del oído'] },
+  { pregunta:'¿Qué limita el "espectro" de sonidos que el oído humano puede percibir?', correcta:'El oído humano solo percibe un rango limitado de frecuencias, y hay sonidos (como los ultrasonidos) que no puede oír', opts:['El oído humano puede escuchar absolutamente todas las frecuencias existentes','El oído humano no tiene ningún límite de percepción','Solo los animales pueden escuchar sonidos'] },
+  { pregunta:'¿Qué tecnología corrige limitaciones visuales, como la miopía o la hipermetropía?', correcta:'Lentes ópticos (anteojos o lentes de contacto)', opts:['Únicamente cirugías sin ningún otro método','Ninguna tecnología puede corregir la visión','Solo remedios naturales sin base científica'] },
+  { pregunta:'¿Qué tecnología ayuda a personas con limitaciones auditivas a percibir mejor el sonido?', correcta:'Audífonos o implantes cocleares', opts:['Únicamente el uso de lentes ópticos','Ninguna tecnología existe para este propósito','Solo aparatos para medir la temperatura'] },
+];
+export function genLuzSentidosM1Round(){
+  const recurso = 'La <b>luz</b> se explica mediante un modelo corpuscular-ondulatorio (se comporta como partícula y como onda a la vez), y presenta fenómenos como la reflexión, la refracción y la <b>interferencia</b> (cuando dos o más ondas de luz se superponen, sumándose o cancelándose). Vemos los objetos porque la luz rebota en ellos y llega a nuestros ojos, donde la <b>retina</b> recibe esa luz y la convierte en señales que el cerebro interpreta como imágenes. De forma similar, el <b>oído</b> recibe ondas sonoras a través del oído interno (la cóclea), que las transforma en señales nerviosas — aunque el oído humano solo percibe un rango limitado de frecuencias (por ejemplo, no puede oír ultrasonidos). Cuando estos sentidos tienen limitaciones, existen tecnologías correctivas: lentes ópticos para problemas de visión (como miopía o hipermetropía), y audífonos o implantes cocleares para problemas de audición.';
+  const item = pick(LUZ_SENTIDOS_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const SISTEMA_SOLAR_M1_BANK = [
+  { pregunta:'¿Qué provoca las fases de la Luna que vemos desde la Tierra?', correcta:'La posición relativa de la Luna, la Tierra y el Sol, que hace variar cuánta parte iluminada de la Luna vemos', opts:['Un cambio real en la forma física de la Luna','Que la Luna se apaga y se enciende cada noche','Nubes que tapan distintas partes de la Luna'] },
+  { pregunta:'¿Qué causa un eclipse solar?', correcta:'La Luna se ubica entre el Sol y la Tierra, bloqueando parcial o totalmente la luz solar', opts:['La Tierra se ubica entre el Sol y la Luna','El Sol desaparece momentáneamente','Un cambio en la órbita de otro planeta'] },
+  { pregunta:'¿Qué causa un eclipse lunar?', correcta:'La Tierra se ubica entre el Sol y la Luna, proyectando su sombra sobre la Luna', opts:['La Luna se ubica entre el Sol y la Tierra','El Sol se apaga temporalmente','Un cambio en la rotación de la Luna'] },
+  { pregunta:'¿Qué provoca las estaciones del año en la Tierra?', correcta:'La inclinación del eje terrestre combinada con su traslación alrededor del Sol', opts:['La distancia entre la Tierra y la Luna','La rotación de otros planetas del sistema solar','Un cambio en el tamaño del Sol cada cierto tiempo'] },
+  { pregunta:'¿Qué diferencia principal existe entre un asteroide y un cometa?', correcta:'El cometa está compuesto principalmente de hielo y polvo, y desarrolla una "cola" al acercarse al Sol; el asteroide es rocoso y no desarrolla cola', opts:['No existe ninguna diferencia entre ambos','El asteroide siempre es más grande que cualquier planeta','El cometa nunca se mueve, a diferencia del asteroide'] },
+  { pregunta:'¿Qué es una "nebulosa" en el universo?', correcta:'Una nube de gas y polvo en el espacio, donde pueden formarse nuevas estrellas', opts:['Un tipo de planeta rocoso','Una estrella que ya se apagó por completo','Un satélite artificial'] },
+  { pregunta:'¿Qué es una "galaxia"?', correcta:'Un enorme conjunto de estrellas, gas, polvo y sistemas planetarios unidos por la gravedad', opts:['Un solo planeta muy grande','Una nube pequeña de polvo espacial','Un tipo de cometa gigante'] },
+  { pregunta:'¿Qué condiciones son importantes para que un lugar en la Tierra permita una buena investigación astronómica?', correcta:'Cielos despejados, baja contaminación lumínica y poca humedad', opts:['Mucha lluvia y nubosidad constante','Ciudades muy iluminadas cerca del observatorio','Cualquier condición climática es igual de útil'] },
+  { pregunta:'¿Por qué el norte de Chile es reconocido mundialmente por sus observatorios astronómicos?', correcta:'Por sus cielos despejados casi todo el año, la altura y la baja contaminación lumínica del desierto de Atacama', opts:['Porque tiene el clima más lluvioso del planeta','Porque está cerca del océano únicamente','Por el tamaño de sus ciudades'] },
+];
+export function genSistemaSolarM1Round(){
+  const recurso = 'Los movimientos de la Tierra y la Luna explican varios fenómenos astronómicos: las <b>fases de la Luna</b> dependen de la posición relativa entre Luna, Tierra y Sol (cuánta parte iluminada de la Luna alcanzamos a ver); un <b>eclipse solar</b> ocurre cuando la Luna se ubica entre el Sol y la Tierra, bloqueando su luz; un <b>eclipse lunar</b> ocurre cuando es la Tierra la que se ubica entre el Sol y la Luna; y las <b>estaciones del año</b> se deben a la inclinación del eje terrestre combinada con su traslación alrededor del Sol. Más allá del sistema solar, el universo contiene estructuras como cometas (hielo y polvo, con "cola" visible), asteroides (rocosos, sin cola), nebulosas (nubes de gas y polvo donde nacen estrellas) y galaxias (enormes conjuntos de estrellas unidos por gravedad). Chile es reconocido mundialmente por su <b>investigación astronómica</b>, gracias a los cielos despejados, la altura y la baja contaminación lumínica del desierto de Atacama, condiciones ideales para instalar observatorios.';
+  const item = pick(SISTEMA_SOLAR_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const REACCIONES_QUIMICAS_M1_BANK = [
+  { pregunta:'¿Qué tipo de proceso es la fermentación, como la que transforma el jugo de uva en vino?', correcta:'Una reacción química, donde microorganismos transforman sustancias en otras nuevas', opts:['Un simple cambio de temperatura sin ninguna reacción','Un cambio de estado físico, sin transformación química','Un proceso que no involucra ninguna sustancia nueva'] },
+  { pregunta:'¿Qué tipo de proceso ocurre en la combustión provocada por un motor o un calefactor?', correcta:'Una reacción química donde un combustible reacciona con oxígeno, liberando energía', opts:['Un cambio de estado físico exclusivamente','Un proceso donde no se forma ninguna sustancia nueva','Un fenómeno puramente mecánico sin ninguna química involucrada'] },
+  { pregunta:'¿Qué tipo de proceso es la oxidación de un metal, como el óxido que aparece en un clavo de fierro?', correcta:'Una reacción química entre el metal y el oxígeno del ambiente', opts:['Un simple cambio de color sin ninguna reacción química','Un proceso que ocurre solo en el espacio, nunca en la Tierra','Un cambio de estado físico del metal'] },
+  { pregunta:'¿Qué tienen en común la fermentación, la combustión y la oxidación de metales?', correcta:'Las tres son reacciones químicas: forman sustancias nuevas distintas a las originales', opts:['Ninguna de las tres es una reacción química','Las tres ocurren únicamente a temperaturas muy bajas','Ninguna de las tres libera ni consume energía'] },
+  { pregunta:'¿Qué establece la ley de conservación de la masa en una reacción química?', correcta:'La masa total de los reactantes es igual a la masa total de los productos formados', opts:['La masa siempre desaparece por completo en una reacción química','La masa de los productos siempre es mayor que la de los reactantes, sin excepción','La masa nunca se puede medir en una reacción química'] },
+  { pregunta:'¿Qué ocurre con los átomos durante una reacción química, según el modelo de conservación atómica?', correcta:'Los átomos se reorganizan para formar nuevas sustancias, pero no desaparecen ni se crean nuevos átomos', opts:['Los átomos desaparecen por completo durante la reacción','Se crean átomos completamente nuevos de la nada','Los átomos dejan de existir físicamente'] },
+  { pregunta:'¿Por qué la masa total se conserva aunque una reacción química libere gases que no vemos, como en la combustión?', correcta:'Porque esos gases también tienen masa, aunque sean invisibles a simple vista', opts:['Porque los gases no tienen ninguna masa','Porque la masa realmente desaparece en esos casos','Porque la ley de conservación de la masa no aplica a los gases'] },
+  { pregunta:'¿Qué evidencia observable indica que ocurrió una reacción química, y no solo un cambio físico?', correcta:'La formación de una sustancia nueva, un cambio de color, liberación de gas, o desprendimiento de calor', opts:['Que el objeto simplemente cambió de forma','Que el objeto se movió de lugar','Ningún cambio observable indica una reacción química'] },
+  { pregunta:'¿Por qué la fermentación se considera diferente de simplemente dejar reposar un líquido sin ningún cambio?', correcta:'Porque microorganismos transforman químicamente las sustancias originales en otras nuevas, como alcohol o ácido', opts:['Porque el líquido solo cambia de temperatura','Porque no ocurre ningún cambio real','Porque es exactamente lo mismo que dejarlo reposar'] },
+];
+export function genReaccionesQuimicasM1Round(){
+  const recurso = 'La <b>fermentación</b> (como la que transforma el jugo de uva en vino), la <b>combustión</b> (provocada por un motor o un calefactor) y la <b>oxidación de metales</b> (como el óxido en un clavo de fierro) son ejemplos de <b>reacciones químicas</b>: procesos donde las sustancias originales se transforman en sustancias nuevas, distintas a las de partida. En toda reacción química se cumple la <b>ley de conservación de la masa</b>: la masa total de los reactantes (lo que había antes de la reacción) es igual a la masa total de los productos (lo que queda después) — esto ocurre porque los átomos involucrados se reorganizan para formar nuevas sustancias, pero no desaparecen ni se crean átomos nuevos de la nada. Incluso cuando una reacción libera gases invisibles (como en la combustión), esos gases también tienen masa, por lo que la masa total sigue conservándose.';
+  const item = pick(REACCIONES_QUIMICAS_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const COMPUESTOS_ESTEQUIOMETRIA_M1_BANK = [
+  { pregunta:'¿Qué fuerza mantiene unidas a las partículas para formar un compuesto binario, como la sal (cloruro de sodio)?', correcta:'Fuerzas eléctricas de atracción entre partículas con cargas opuestas', opts:['La gravedad exclusivamente','Ninguna fuerza: se unen al azar','Fuerzas magnéticas provenientes del núcleo terrestre'] },
+  { pregunta:'¿Qué es un "compuesto binario", como el agua (H₂O)?', correcta:'Un compuesto formado por la combinación de solo dos elementos químicos distintos', opts:['Un compuesto formado por un solo elemento','Un compuesto formado por exactamente diez elementos','Cualquier sustancia que contenga carbono'] },
+  { pregunta:'¿Qué es un "compuesto ternario", como el bicarbonato de sodio?', correcta:'Un compuesto formado por la combinación de tres elementos químicos distintos', opts:['Un compuesto formado por un solo elemento','Un compuesto formado por exactamente dos elementos','Cualquier sustancia líquida'] },
+  { pregunta:'¿Para qué sirve la nomenclatura inorgánica al nombrar compuestos químicos?', correcta:'Para identificar de forma clara y estandarizada qué elementos forman un compuesto y en qué proporción', opts:['Únicamente para decorar los libros de química','No tiene ninguna utilidad práctica','Para calcular la temperatura de una sustancia'] },
+  { pregunta:'¿Qué estudia la "estequiometría" en una reacción química?', correcta:'Las relaciones cuantitativas (cantidades) entre los reactantes y los productos de una reacción', opts:['Únicamente el color de las sustancias involucradas','El tiempo que tarda en enfriarse una sustancia','La forma física de los recipientes usados'] },
+  { pregunta:'¿Para qué se usa la estequiometría en la industria química, por ejemplo al fabricar un medicamento?', correcta:'Para calcular exactamente cuánta cantidad de cada reactante se necesita para obtener la cantidad deseada de producto', opts:['Para elegir el color del envase del producto final','Para decidir el precio de venta del producto','Para calcular solamente el peso del envase'] },
+  { pregunta:'¿Qué información entrega la fórmula química de un compuesto, como la del agua (H₂O)?', correcta:'Qué elementos lo componen y en qué proporción (2 átomos de hidrógeno por 1 de oxígeno)', opts:['Únicamente el color del compuesto','El precio de mercado del compuesto','La temperatura ambiente del lugar donde se formó'] },
+  { pregunta:'¿Por qué se dice que la nomenclatura química es un "lenguaje universal" entre científicos de distintos países?', correcta:'Porque permite identificar el mismo compuesto sin importar el idioma que hable cada científico', opts:['Porque todos los científicos hablan el mismo idioma natural','Porque solo se usa en un país específico','Porque no tiene ninguna función real'] },
+  { pregunta:'¿Qué error podría ocurrir en la fabricación de un medicamento si no se aplican correctamente los cálculos estequiométricos?', correcta:'Que la dosis del producto final resulte incorrecta, ya sea insuficiente o excesiva', opts:['Ningún error es posible una vez elegidos los reactantes','El medicamento cambiaría de color únicamente','El precio de venta subiría automáticamente'] },
+];
+export function genCompuestosEstequiometriaM1Round(){
+  const recurso = 'Los <b>compuestos binarios</b> (formados por dos elementos, como el agua H₂O) y los <b>compuestos ternarios</b> (formados por tres elementos, como el bicarbonato de sodio) se forman gracias a fuerzas eléctricas de atracción entre partículas con cargas opuestas. La <b>nomenclatura inorgánica</b> es el sistema de reglas que permite nombrar estos compuestos de forma clara y estandarizada, identificando qué elementos los componen y en qué proporción. La <b>estequiometría</b> estudia las relaciones cuantitativas entre los reactantes y los productos de una reacción química: permite calcular exactamente cuánta cantidad de cada sustancia se necesita para obtener la cantidad deseada de producto final, algo esencial en la industria química, por ejemplo al fabricar un medicamento con dosis exactas.';
+  const item = pick(COMPUESTOS_ESTEQUIOMETRIA_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}

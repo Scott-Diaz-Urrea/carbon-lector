@@ -2302,11 +2302,181 @@ Verificado tras las 3 correcciones: `genCasosHepatico7Round`, `genLcr7Round` y
 apóstrofes en `speakText`) y los 312 módulos de toda la app pasan la
 verificación de regresión.
 
-### Educación Media — 🔒 sin construir
-Antes de construir, definir con el usuario su lista real de asignaturas
-(probablemente distintas: Física/Química/Biología separadas, Filosofía,
-etc. — no asumir que es igual a Básica) y confirmar su decreto curricular
-vigente en curriculumnacional.cl.
+### Educación Media — 🔧 en construcción (1° medio ✅ completo, 40 módulos)
+Pedido explícito del usuario (2026-08-02) de comenzar esta etapa tras completar
+el rollout de `recurso` en Parvularia. Antes de construir, se investigó con
+Claude (WebSearch/WebFetch, sin asumir continuidad con Básica) la estructura
+curricular real de Educación Media:
+
+- **1°-2° medio**: mismo **Decreto 614/2013** que ya rige 7°-8° básico, con las
+  mismas 10 asignaturas (Lengua y Literatura, Matemática, Ciencias Naturales,
+  Historia/Geografía y Cs. Sociales, Inglés, Artes Visuales, Música, Educación
+  Física y Salud, Orientación, Tecnología) — estructuralmente idéntico a Básica
+  (año → asignatura), solo continúa la numeración de años.
+- **3°-4° medio**: currículum distinto (Bases Curriculares 3°-4° medio,
+  `curriculumnacional.cl/614/articles-91414_bases.pdf`), organizado como
+  **Plan de Formación General** (obligatorio: Ciencias para la Ciudadanía,
+  Educación Ciudadana, Filosofía, Inglés, Lengua y Literatura, Matemática,
+  Religión) + **Plan Diferenciado** (electivo, ~25 ramos en 6 áreas) — un
+  modelo que no encaja en el patrón año→asignatura y queda **sin construir**
+  todavía. Alcance acordado con el usuario para cuando se aborde: Plan General
+  completo (7 asignaturas) + Diferenciado Científico (5: Biología Celular y
+  Molecular, Biología de los Ecosistemas, Ciencias de la Salud, Física,
+  Química), dejando fuera por ahora los electivos de Artes/Ed. Física/Cs.
+  Sociales/Filosofía/Matemática/Lenguaje diferenciados.
+
+**Arquitectura de navegación (nueva, paralela a Básica — no reutiliza
+`GRADES`/`SUBJECT_DEFS`/`state.currentGrade`):** dado que 1°-2° medio es
+año→asignatura igual que Básica, se evaluó reutilizar directamente `GRADES`/
+`SUBJECT_DEFS` extendiendo los años a 9-10, pero se descartó: (1) "Educación
+Media" necesita ser su propia tarjeta en `etapaMap`, separada de "Educación
+Básica", y (2) tratar la numeración de Media (1°, 2°) como continuación de la
+de Básica (…7°, 8°) habría hecho ambigua la etiqueta de año en cualquier lugar
+que lea `state.currentGrade` directamente. Se optó por un tercer par paralelo,
+mismo criterio que ya separó Parvularia (`PARVULARIA_NIVELES`/`NUCLEO_DEFS`/
+`byNivel`) y EPJA (`EPJA_NIVELES`/`EPJA_SUBJECT_DEFS`/`byNivel`) de Básica:
+- `content/grades.js`: `MEDIO_GRADES`/`MEDIO_GRADE_POS` (mismo shape que
+  `GRADES`/`GRADE_POS`, con `open:true/false` para ir desbloqueando años).
+- `state.js`: `state.currentMedioGrade` + `selectMedioGrade(id)`/
+  `medioGradeLabel(id)`, paralelos a `selectGrade`/`gradeLabel`.
+- `gradeContent.js`: `<NOMBRE>_BY_GRADE_MEDIO` (uno por asignatura, indexado
+  por año igual que `<NOMBRE>_BY_GRADE`) + `MEDIO_SUBJECT_DEFS` (mismo shape
+  que `SUBJECT_DEFS`, con `screen` terminado en "MedioMap" en vez de "Map"
+  para no chocar con las pantallas de Básica).
+  Contenido: **el archivo de asignatura sigue siendo el mismo** que Básica
+  (`content/matematica.js`, `content/historia.js`, etc. — no se crearon
+  `content/medio/*.js` como en EPJA) porque 1°-2° medio comparte exactamente
+  las mismas 10 asignaturas y el mismo patrón de archivo "un archivo por
+  asignatura con todos los años dentro"; solo se agregó un bloque nuevo por
+  archivo con sufijo `_M1` en vez de `_G<n>` (`MATE_MODULES_M1`/`MATE_POS_M1`,
+  generadores `genXxxM1Round`, claves de `state.stars`/`MC_GAMES` en minúscula
+  con sufijo `m1`, ej. `numerospotenciasm1`) — mismo criterio de nombrado que
+  ya usa Básica (`_G2`.._G8`), reemplazando el número de grado por "M1".
+- `render.js`: `renderMedioGradeMap()`/`renderMedioSubjectMap()` (mirror de
+  `renderGradeMap()`/`renderSubjectMap()`) + `renderMedioSubjectMapFor()`
+  (mirror de `renderEpjaSubjectMapFor()`) + 10 `render<Asignatura>MedioMap()`
+  de una línea. `renderEtapaMap()`: la tarjeta "Educación Media" pasó de
+  `locked` (🚧) a activa, con subtítulo "1° Medio disponible".
+- `main.js`: `window.selectMedioGrade = selectMedioGrade`.
+- Jerarquía de pantallas: `etapaMap` → `medioGradeMap` (islas "1° Medio"/
+  "2° Medio", solo 1° abierto) → `medioSubjectMap` (10 tarjetas de
+  asignatura, lee `state.currentMedioGrade`) → `<asignatura>MedioMap` →
+  módulo individual — misma jerarquía de 4 niveles que Básica, con nombres de
+  pantalla distintos para no colisionar.
+
+**1° Medio — ✅ completo, 40 módulos, las 10 asignaturas** (curriculumnacional.cl/
+curriculum/7o-basico-2o-medio/<asignatura>/1-medio, Decreto 614/2013, verificado
+asignatura por asignatura antes de escribir contenido):
+- **Matemática** (7): Números Racionales y Potencias (OA01-02), Productos
+  Notables (OA03), Sistemas de Ecuaciones (OA04), Funciones Lineales (OA05),
+  Sector Circular y Cono (OA06-07), Homotecia, Tales y Semejanza (OA08-11,
+  fusionados por ser el mismo bloque conceptual de proporcionalidad), y
+  Estadística y Probabilidad (OA12-15, tablas de doble entrada/nube de puntos
+  fusionadas con las reglas de probabilidad en un solo módulo). Ningún OA de
+  Matemática 1° medio queda fuera.
+- **Lenguaje** (5): Narrativa: Conflicto y Perspectiva (OA03), Poesía: Símbolo
+  y Lenguaje Figurado (OA04), Texto Dramático y Romanticismo (OA05-07),
+  Textos Argumentativos y de Medios (OA09-10), Ortografía (pares de palabras
+  que se confunden: sino/si no, haber/a ver, adonde/a dónde, aparte/a parte —
+  OA18). Fuera: OA01-02,08 (actitudinal/subjetivo), OA11 (ya cubierto de
+  forma transversal), OA12-17 (producción escrita), OA19-23 (comunicación
+  oral, desempeño o audio), OA24 (investigación, proceso propio).
+- **Historia, Geografía y Cs. Sociales** (7): Ideas Republicanas y Liberales
+  (OA01-02), Estado-Nación e Industrialización (OA03-05), Imperialismo y
+  Primera Guerra Mundial (OA06-07), Formación de la República de Chile
+  (OA08-09), Chile: Salitre y Parlamentarismo (OA10-11,16-17), Geografía y
+  Pueblos Originarios (OA12-15,24 — incluye la convivencia/conflicto con
+  pueblos indígenas de forma factual, mismo criterio ya establecido en 6°/8°
+  básico), Economía Personal y Ciudadanía (OA19-23,25). Ningún OA de Historia
+  1° medio queda fuera.
+- **Ciencias Naturales** (8): Evidencias de la Evolución (OA01-03),
+  Ecosistemas y Poblaciones (OA04-05), Ciclos de Materia e Impacto Humano
+  (OA06-08), Ondas: Sonido y Sismología (OA09-10,13), La Luz y los Sentidos
+  (OA11-12), Sistema Solar y Universo (OA14-16), Reacciones Químicas
+  (OA17-18), Compuestos y Estequiometría (OA19-20). Ningún OA de Ciencias 1°
+  medio queda fuera.
+- **Inglés** (3): Gramática en Contexto (used to/hábitos pasados, adverbios
+  de frecuencia, predicciones con will), Vocabulario en Contexto (adjetivos
+  de personalidad), Comprensión de Lectura (ideas generales, información
+  explícita, entorno y personajes en textos literarios/no literarios) —
+  IN1M OA08-11. Fuera: OA01-07 (oral, depende de audio real), OA12 (proceso
+  de lectura), OA13-16 (producción escrita).
+- **Educación Física y Salud** (3): Estrategias y Tácticas (OA02, modificar y
+  evaluar tácticas — no solo aplicarlas, a diferencia de 7°/8° básico),
+  Plan de Entrenamiento Personal (OA03), Vida Activa y Primeros Auxilios
+  (OA04). Fuera: OA01 (habilidades motrices reales) y OA05 (participación
+  comunitaria real).
+- **Orientación** (4): Prevención de Riesgos (OA03, mismo criterio ya
+  establecido en 7°-8° básico: solo factores de riesgo/protección, sin
+  detalle de sexualidad), Bienestar y Vida Saludable (OA04), Relaciones y
+  Redes Sociales (OA05), Resolución de Conflictos (OA06). Fuera: OA01,09-10
+  (proyecto de vida, subjetivo), OA02 (sexualidad y vínculos afectivos,
+  requiere acompañamiento real de un adulto), OA07-08 (ya cubierta por
+  Formación Ciudadana en historia.js).
+- **Artes Visuales** (1): Arte, Espacios y Difusión (OA06, continúa el mismo
+  eje de "Espacios de Difusión"/"Montaje y Difusión" de 7°-8° básico con
+  escenarios nuevos). Fuera: OA01-03 (producción propia), OA04-05
+  (apreciación subjetiva).
+- **Música** (1): Música e Identidad Cultural (OA01,07 — apreciar
+  manifestaciones musicales de Chile y el mundo, y su rol en la construcción
+  de identidades, un ángulo nuevo respecto a "Música en la Sociedad" de 3°
+  básico). Fuera: OA02 (ya cubierto en 3°-7° básico), OA03-05 (desempeño con
+  audio), OA06 (autoevaluación).
+- **Tecnología** (1): Evolución Tecnológica y Sociedad (OA05-06). Fuera:
+  OA01-04 (diseñar/desarrollar/evaluar/comunicar un servicio propio —
+  producción práctica).
+
+**Bugs encontrados y corregidos durante la verificación:**
+- **Colisión de nombres de constante**: `MEDIOS_BANK` (el banco nuevo de
+  "Textos Argumentativos y de Medios") ya existía en `lenguaje.js` desde el
+  módulo `argumentacionmedios8` de 8° básico — un `SyntaxError: Identifier
+  'MEDIOS_BANK' has already been declared` detenía la carga de **toda la
+  app** (no solo del módulo nuevo), detectado recién al fuzz-testear vía
+  import dinámico en el navegador. Renombrado a `MEDIOS_M1_BANK`. Lección
+  para archivos grandes con muchos años acumulados: al nombrar un banco
+  nuevo, grepear el nombre en el archivo completo antes de asumir que está
+  libre, no solo revisar visualmente el bloque del año que se está editando.
+- **12 módulos con banco ≤ `rounds:8`** (repetición garantizada en 200/200
+  sesiones simuladas): `argumentativomediosm1` (dos bancos de 3+3 ítems),
+  `imperialismoguerram1`, `republicachilem1`, `reaccionesquimicasm1`,
+  `compuestosestequiometriam1`, `comprensionlecturam1`,
+  `estrategiastacticasm1`, `difusionm1`, `musicaidentidadm1`,
+  `prevencionriesgosm1`, `relacionesredesm1`, `resolucionconflictosm1` (7
+  ítems cada uno, sin margen sobre `rounds:8`) — ampliados con contenido
+  real dentro del mismo OA ya citado hasta dejar margen de al menos +2.
+  Mismo patrón de bug ya documentado repetidas veces en años anteriores de
+  Básica y EPJA ("escribir bancos con margen real desde el principio, no
+  exactamente `rounds` ítems").
+- **Notación de exponente inconsistente**: el primer borrador de
+  `genNumerosPotenciasM1Round` armaba el exponente negativo a mano
+  (`base+'⁻'+'^'+Math.abs(exp)`, ej. "2⁻^1"), en vez de usar `<sup>` como ya
+  hace `genPotenciasRaices8Round` en el mismo archivo — corregido a
+  `base+'<sup>'+exp+'</sup>'` (ej. "2<sup>-1</sup>"), consistente con el
+  resto de `matematica.js`.
+
+Verificado: los 40 generadores nuevos pasan fuzz de 200 iteraciones cada uno
+(sin `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue`
+siempre presente, `recurso` siempre presente con largo ≥30) y simulación de
+200 sesiones completas cada uno sin ningún repetido (tras el fix de los 12
+bancos). `MC_KEYS.length === Object.keys(MC_GAMES).length === 460` (420
+previos + 40 nuevos, sin claves huérfanas) y los 460 módulos de toda la app
+pasan un fuzz de regresión de 40 iteraciones sin ningún hallazgo. Probado
+visualmente en el navegador: navegación completa `etapaMap` (tarjeta
+"Educación Media" ya desbloqueada, subtítulo "1° Medio disponible") →
+`medioGradeMap` (1° Medio abierto, 2° Medio bloqueado) → `medioSubjectMap`
+(10 asignaturas con conteo de estrellas correcto: 0/15, 0/21, 0/24, 0/21,
+0/3, 0/3, 0/9, 0/12, 0/3, 0/9) → mapa de módulos de Matemática (7 nodos, sin
+solapamiento) → una ronda jugada en "Números Racionales y Potencias"
+(pregunta de fracciones, botón Recurso abriendo el modal con el texto real,
+respuesta incorrecta mostrando el overlay de Carboncito con la explicación
+correcta) → una ronda en "Ideas Republicanas y Liberales" (Historia, estilo
+panel). Probado también en 375px (mobile), sin errores de consola en ningún
+caso.
+
+Próximo paso posible: 2° medio (mismas 10 asignaturas, mismo Decreto
+614/2013 — repetir el mismo proceso), y más adelante 3°-4° medio (requiere
+diseñar la estructura Plan General + Diferenciado, un patrón nuevo que no
+existe todavía en la app).
 
 ### EPJA (Educación para Personas Jóvenes y Adultas) — ✅ completo (los 5 niveles: Nivel 1/2/3 Básica, Nivel 1/2 Media)
 Pedido explícito del usuario (2026-08-01, "procede con epja") de empezar a

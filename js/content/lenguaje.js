@@ -1534,3 +1534,183 @@ export function genOrtografia8Round(){
     recurso: recurso,
   };
 }
+
+/* ---------------- 1° Medio (Decreto 614/2013) ----------------
+   curriculumnacional.cl/curriculum/7o-basico-2o-medio/lengua-literatura/1-medio
+   — OA01-24 + OAA. Cubiertos: OA03 (narrativa: conflicto y narrador), OA04
+   (poesía: símbolo y lenguaje figurado), OA05-07 (texto dramático, tragedia,
+   Romanticismo), OA09-10 (textos argumentativos y de medios), OA18
+   (ortografía: pares de palabras que se confunden). Fuera: OA01-02,08
+   (actitudinal/subjetivo), OA11 (ya cubierto de forma transversal por los
+   módulos de comprensión anteriores), OA12-17 (producción escrita),
+   OA19-23 (comunicación oral, desempeño o audio), OA24 (investigación,
+   proceso propio). */
+export const LENGUAJE_MODULES_M1 = [
+  {id:'narrativam1', label:'Narrativa: Conflicto y Perspectiva', open:true, key:'narrativam1'},
+  {id:'poesiam1', label:'Poesía: Símbolo y Lenguaje Figurado', open:true, key:'poesiam1'},
+  {id:'dramaromanticismom1', label:'Texto Dramático y Romanticismo', open:true, key:'dramaromanticismom1'},
+  {id:'argumentativomediosm1', label:'Textos Argumentativos y de Medios', open:true, key:'argumentativomediosm1'},
+  {id:'ortografiam1', label:'Ortografía', open:true, key:'ortografiam1'},
+];
+export const LENGUAJE_POS_M1 = [
+  {x:24,y:90},{x:68,y:72},{x:24,y:54},{x:68,y:36},{x:24,y:18}
+];
+const NARRATIVA_CONFLICTO_BANK = [
+  { texto:'Camila sueña con ser piloto, pero su familia insiste en que siga la tradición de administrar el negocio familiar.', correcta:'Individuo vs. la sociedad o la familia', opts:['Individuo vs. sí mismo','Individuo vs. la naturaleza','Individuo vs. otro individuo'] },
+  { texto:'El velero de Joaquín lucha contra una tormenta furiosa mientras intenta llegar a puerto antes del anochecer.', correcta:'Individuo vs. la naturaleza', opts:['Individuo vs. sí mismo','Individuo vs. otro individuo','Individuo vs. la sociedad'] },
+  { texto:'Tomás sabe que debería decir la verdad, pero teme que sus amigos dejen de hablarle si lo hace.', correcta:'Individuo vs. sí mismo', opts:['Individuo vs. la naturaleza','Individuo vs. otro individuo','Individuo vs. la sociedad'] },
+  { texto:'Dos hermanos se disputan quién heredará el taller de su padre, cada uno convencido de merecerlo más.', correcta:'Individuo vs. otro individuo', opts:['Individuo vs. sí mismo','Individuo vs. la naturaleza','Individuo vs. la sociedad'] },
+  { texto:'Valentina fue criada para casarse joven, pero quiere estudiar en la universidad, algo mal visto en su pueblo.', correcta:'Individuo vs. la sociedad o la familia', opts:['Individuo vs. sí mismo','Individuo vs. otro individuo','Individuo vs. la naturaleza'] },
+  { texto:'Un explorador debe cruzar un desierto sin agua, enfrentando el calor y la sed que ponen en riesgo su vida.', correcta:'Individuo vs. la naturaleza', opts:['Individuo vs. otro individuo','Individuo vs. sí mismo','Individuo vs. la sociedad'] },
+  { texto:'Diego duda entre aceptar el trabajo de sus sueños en otra ciudad o quedarse a cuidar a su madre enferma.', correcta:'Individuo vs. sí mismo', opts:['Individuo vs. otro individuo','Individuo vs. la naturaleza','Individuo vs. la sociedad'] },
+  { texto:'Dos vecinos compiten ferozmente por ganar el concurso anual del mejor jardín del barrio.', correcta:'Individuo vs. otro individuo', opts:['Individuo vs. la sociedad','Individuo vs. sí mismo','Individuo vs. la naturaleza'] },
+  { texto:'Un joven que se declara vegetariano es rechazado por su comunidad, que considera esa costumbre una falta de respeto a sus tradiciones.', correcta:'Individuo vs. la sociedad o la familia', opts:['Individuo vs. la naturaleza','Individuo vs. otro individuo','Individuo vs. sí mismo'] },
+];
+const NARRATIVA_NARRADOR_BANK = [
+  { texto:'"Yo caminaba por la playa cuando escuché un grito a lo lejos. Corrí sin pensar."', correcta:'Narrador protagonista (1ª persona)', opts:['Narrador testigo (1ª persona)','Narrador omnisciente (3ª persona)','Narrador de conocimiento relativo (3ª persona)'] },
+  { texto:'"Vi a mi amiga Laura alejarse esa tarde. Nunca supe bien qué pensaba en ese momento, aunque lo he imaginado muchas veces."', correcta:'Narrador testigo (1ª persona)', opts:['Narrador protagonista (1ª persona)','Narrador omnisciente (3ª persona)','Narrador de conocimiento relativo (3ª persona)'] },
+  { texto:'"Marcela sentía que el corazón se le apretaba, aunque no sabía todavía que su hermano ya había tomado la decisión de partir."', correcta:'Narrador omnisciente (3ª persona)', opts:['Narrador protagonista (1ª persona)','Narrador testigo (1ª persona)','Narrador de conocimiento relativo (3ª persona)'] },
+  { texto:'"Pedro entró a la sala con paso firme. Nadie podía saber, con solo mirarlo, qué escondía bajo esa calma."', correcta:'Narrador de conocimiento relativo (3ª persona)', opts:['Narrador omnisciente (3ª persona)','Narrador protagonista (1ª persona)','Narrador testigo (1ª persona)'] },
+  { texto:'"Yo fui quien encontró la carta escondida bajo el piso de la casa vieja, y desde entonces todo cambió para mí."', correcta:'Narrador protagonista (1ª persona)', opts:['Narrador testigo (1ª persona)','Narrador de conocimiento relativo (3ª persona)','Narrador omnisciente (3ª persona)'] },
+  { texto:'"Observé toda la escena desde la ventana de mi cuarto, sin que ninguno de los dos protagonistas notara mi presencia."', correcta:'Narrador testigo (1ª persona)', opts:['Narrador protagonista (1ª persona)','Narrador omnisciente (3ª persona)','Narrador de conocimiento relativo (3ª persona)'] },
+  { texto:'"Ambos personajes creían tener la razón, y ambos, en el fondo, sabían que estaban equivocados desde el principio."', correcta:'Narrador omnisciente (3ª persona)', opts:['Narrador de conocimiento relativo (3ª persona)','Narrador protagonista (1ª persona)','Narrador testigo (1ª persona)'] },
+  { texto:'"La mujer se detuvo frente a la puerta. Algo en su expresión dejaba entrever una duda, aunque nadie podía adivinar cuál."', correcta:'Narrador de conocimiento relativo (3ª persona)', opts:['Narrador omnisciente (3ª persona)','Narrador testigo (1ª persona)','Narrador protagonista (1ª persona)'] },
+];
+export function genNarrativaM1Round(){
+  const recurso = 'El <b>conflicto narrativo</b> es el problema central que mueve una historia; puede darse entre dos personajes (individuo vs. individuo), entre un personaje y la naturaleza, dentro de la propia mente de un personaje (individuo vs. sí mismo), o entre un personaje y las normas de su sociedad o familia. Identificar el tipo de conflicto ayuda a entender de qué trata realmente la historia. El <b>narrador</b>, por su parte, es la voz que cuenta los hechos, y puede adoptar distintas perspectivas: protagonista (cuenta su propia historia en 1ª persona), testigo (observa y cuenta lo que le pasa a otros, en 1ª persona), omnisciente (en 3ª persona, conoce los pensamientos de todos los personajes) o de conocimiento relativo (en 3ª persona, pero solo conoce lo que se puede observar desde afuera, sin acceso a los pensamientos internos).';
+  if(Math.random()<0.5){
+    const item = pick(NARRATIVA_CONFLICTO_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué tipo de conflicto narrativo se presenta?</p>',
+      options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+      explain: 'El conflicto de esta historia es: <b>'+item.correcta+'</b>.',
+      recurso: recurso,
+    };
+  }
+  const item = pick(NARRATIVA_NARRADOR_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué tipo de narrador presenta este fragmento?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+    explain: 'Este fragmento tiene un: <b>'+item.correcta+'</b>.',
+    recurso: recurso,
+  };
+}
+
+const POESIA_BANK = [
+  { verso:'"Eres la paloma blanca que sobrevuela mi pueblo en tiempos de guerra."', correcta:'Símbolo (la paloma representa la paz)', opts:['Hipérbole','Anáfora','Rima consonante'] },
+  { verso:'"Tus ojos son dos luceros que iluminan mi camino."', correcta:'Metáfora', opts:['Símbolo','Anáfora','Hipérbole'] },
+  { verso:'"Te llamé mil veces, te busqué mil veces, te esperé mil veces."', correcta:'Anáfora (repetición al inicio de cada verso)', opts:['Metáfora','Símbolo','Hipérbole'] },
+  { verso:'"Lloré un río de lágrimas toda la noche."', correcta:'Hipérbole (exageración)', opts:['Símbolo','Anáfora','Metáfora'] },
+  { verso:'"La rosa marchita en su florero recuerda que todo amor es pasajero."', correcta:'Símbolo (la rosa marchita representa lo efímero)', opts:['Anáfora','Hipérbole','Rima asonante'] },
+  { verso:'"El viento es un caballo desbocado galopando entre los cerros."', correcta:'Metáfora', opts:['Símbolo','Hipérbole','Anáfora'] },
+  { verso:'"Nunca más volveré, nunca más te veré, nunca más olvidaré."', correcta:'Anáfora (repetición al inicio de cada verso)', opts:['Hipérbole','Metáfora','Símbolo'] },
+  { verso:'"Te esperé una eternidad frente a esa puerta cerrada."', correcta:'Hipérbole (exageración)', opts:['Metáfora','Anáfora','Símbolo'] },
+  { verso:'"El cóndor que cruza libre la cordillera es el espíritu indomable de mi tierra."', correcta:'Símbolo (el cóndor representa la libertad)', opts:['Hipérbole','Anáfora','Metáfora'] },
+];
+export function genPoesiaM1Round(){
+  const recurso = 'En poesía, un <b>símbolo</b> es un objeto o imagen concreta que representa una idea abstracta más amplia (como una paloma blanca representando la paz, o una rosa marchita representando lo efímero del amor) — a diferencia de la metáfora, el símbolo suele tener un significado más fijo y reconocible culturalmente. La <b>metáfora</b> compara dos cosas distintas sin usar "como", afirmando que una ES la otra ("tus ojos son luceros"). La <b>anáfora</b> es la repetición de una palabra o frase al inicio de varios versos seguidos, y se usa para dar énfasis o ritmo. La <b>hipérbole</b> es una exageración deliberada para producir un efecto expresivo más fuerte ("lloré un río de lágrimas"). Reconocer estos recursos ayuda a entender qué efecto buscaba crear el poeta, más allá del significado literal de las palabras.';
+  const item = pick(POESIA_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.verso+'</p><p class="prompt-hint">¿Qué recurso literario predomina en este verso?</p>',
+    options: opts, correctValue: item.correcta, speakText: item.verso, cols:2, panel:true,
+    explain: 'Este verso usa: <b>'+item.correcta+'</b>.',
+    recurso: recurso,
+  };
+}
+
+const DRAMA_BANK = [
+  { texto:'Dos personajes discuten en escena mientras uno amenaza con revelar un secreto que arruinaría al otro.', correcta:'Conflicto dramático', opts:['Acotación escénica','Evolución del personaje','Coro griego'] },
+  { texto:'"(Entra por la puerta izquierda, con la luz tenue de una vela, mientras suena música lejana.)"', correcta:'Acotación escénica', opts:['Conflicto dramático','Diálogo','Monólogo interior'] },
+  { texto:'Al inicio de la obra, el protagonista es cobarde; al final, tras enfrentar sus miedos, actúa con valentía.', correcta:'Evolución del personaje', opts:['Acotación escénica','Conflicto dramático','Puesta en escena'] },
+  { texto:'El vestuario, la iluminación y la disposición de los actores en el escenario transmiten el ambiente opresivo de la obra.', correcta:'Puesta en escena', opts:['Conflicto dramático','Evolución del personaje','Diálogo'] },
+];
+const TRAGEDIA_ROMANTICISMO_BANK = [
+  { pregunta:'En la tragedia griega, ¿qué representa el "destino" (fatum) en la vida de los personajes?', correcta:'Una fuerza superior e inevitable que determina lo que le ocurrirá al héroe', opts:['Una decisión libre que el héroe siempre puede cambiar','Un castigo que solo afecta a los dioses','Una tradición sin ninguna consecuencia real'] },
+  { pregunta:'¿Qué es la "hybris" en la tragedia griega?', correcta:'El exceso de orgullo o soberbia del héroe frente a los dioses', opts:['Un tipo de vestuario usado por los actores','El coro que comenta la acción','Un final feliz inesperado'] },
+  { pregunta:'¿Qué busca provocar en el público la "catarsis" al final de una tragedia?', correcta:'Una liberación emocional a través de la compasión y el temor', opts:['Risa y diversión sin ninguna reflexión','Indiferencia total ante lo ocurrido','Confusión sobre el final de la historia'] },
+  { pregunta:'¿Cuál de estas características define mejor al Romanticismo como movimiento literario?', correcta:'Exaltar el sentimiento, la subjetividad y la naturaleza por sobre la razón', opts:['Seguir estrictamente las normas clásicas grecorromanas','Describir la realidad de forma fría y objetiva','Evitar cualquier expresión de emociones personales'] },
+  { pregunta:'¿Qué papel cumple la naturaleza en muchas obras románticas?', correcta:'Refleja o intensifica el estado de ánimo del protagonista', opts:['Es solo un decorado sin ningún significado','Representa siempre el progreso científico','Aparece únicamente como fuente de datos geográficos'] },
+  { pregunta:'¿Qué otro rasgo es típico del Romanticismo, además del sentimiento y la naturaleza?', correcta:'El interés por lo individual, lo nacional y lo popular de cada pueblo', opts:['El rechazo total a cualquier identidad nacional','La preferencia exclusiva por temas matemáticos','La eliminación de todo conflicto amoroso'] },
+];
+export function genDramaRomanticismoM1Round(){
+  const recurso = 'El <b>texto dramático</b> se construye principalmente con diálogo y se representa ante un público; sus elementos clave son el conflicto dramático (el problema central entre los personajes), la evolución del personaje (cómo cambia a lo largo de la obra) y la puesta en escena (vestuario, iluminación, y disposición de actores, indicada muchas veces mediante acotaciones entre paréntesis). La <b>tragedia griega</b> se basa en una cosmovisión donde el destino (fatum) es una fuerza superior e inevitable; el héroe suele caer por su propia hybris (exceso de orgullo), y el público experimenta catarsis (una liberación emocional) al presenciar su caída. El <b>Romanticismo</b> (siglo XIX) fue un movimiento literario que valoró el sentimiento y la subjetividad por sobre la razón, exaltó la naturaleza como reflejo del alma del protagonista, y mostró un fuerte interés por lo individual, lo nacional y lo popular de cada pueblo.';
+  if(Math.random()<0.5){
+    const item = pick(DRAMA_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué elemento del texto dramático se ilustra aquí?</p>',
+      options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
+      explain: 'Esto ilustra: <b>'+item.correcta+'</b>.',
+      recurso: recurso,
+    };
+  }
+  const item = pick(TRAGEDIA_ROMANTICISMO_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const ARGUMENTATIVO_BANK = [
+  { texto:'"La municipalidad debería prohibir los autos en el centro histórico. El aire ahí es irrespirable y los turistas se quejan constantemente."', pregunta:'¿Cuál es la tesis (idea principal que se defiende) de esta columna de opinión?', correcta:'Que se deberían prohibir los autos en el centro histórico', opts:['Que el aire del centro es irrespirable','Que los turistas se quejan mucho','Que la municipalidad no hace nada'] },
+  { texto:'"El nuevo parque tiene 3 hectáreas y fue inaugurado el sábado pasado." vs. "El nuevo parque es una maravilla que todos deberían visitar."', pregunta:'¿Cuál de estas dos frases es un HECHO y cuál es una OPINIÓN?', correcta:'La primera es un hecho (dato verificable); la segunda es una opinión (juicio de valor)', opts:['Ambas son hechos verificables','Ambas son opiniones personales','La primera es opinión y la segunda es hecho'] },
+  { texto:'Una columna de opinión afirma: "Es evidente que subir los impuestos arruinará a todas las familias del país."', pregunta:'¿Qué palabra de esta frase revela que se trata de una opinión y no de un hecho probado?', correcta:'"Evidente" (presenta como innegable algo que en realidad es discutible)', opts:['"Impuestos" (es un término técnico neutro)','"País" (es un sustantivo objetivo)','"Familias" (es un dato demográfico)'] },
+  { texto:'"El colegio debería tener más horas de arte. Sin duda, eso mejoraría la creatividad de todos los estudiantes."', pregunta:'¿Cuál es la tesis de esta columna de opinión?', correcta:'Que el colegio debería tener más horas de arte', opts:['Que la creatividad no se puede desarrollar','Que todos los estudiantes son creativos por naturaleza','Que el colegio ya tiene suficientes horas de arte'] },
+  { texto:'"El río mide 40 kilómetros de largo." vs. "El río es el paisaje más hermoso de la región."', pregunta:'¿Cuál de estas dos frases es un HECHO y cuál es una OPINIÓN?', correcta:'La primera es un hecho (dato medible); la segunda es una opinión (juicio estético)', opts:['Ambas son hechos verificables','Ambas son opiniones personales','La primera es opinión y la segunda es hecho'] },
+];
+const MEDIOS_M1_BANK = [
+  { texto:'Un aviso publicitario muestra a una persona feliz y exitosa usando cierto producto, sin dar ningún dato concreto sobre sus beneficios.', pregunta:'¿Qué estrategia de persuasión está usando este aviso?', correcta:'Apelar a la emoción y a la aspiración, en vez de a datos objetivos', opts:['Presentar estadísticas verificables','Citar estudios científicos independientes','Comparar precios con la competencia'] },
+  { texto:'Una noticia usa un titular alarmante y una imagen dramática, aunque el cuerpo de la noticia matiza mucho la gravedad del hecho.', pregunta:'¿Qué deberías hacer como lector crítico frente a esta noticia?', correcta:'Leer el cuerpo completo de la noticia, no quedarse solo con el titular y la imagen', opts:['Creer siempre el titular sin leer más','Compartir la noticia de inmediato sin verificarla','Ignorar cualquier noticia con imágenes'] },
+  { texto:'Un sitio web de dudosa reputación afirma algo sin citar ninguna fuente, mientras un medio reconocido cita a tres expertos distintos sobre el mismo tema.', pregunta:'¿Cuál de las dos fuentes es más confiable, y por qué?', correcta:'El medio reconocido, porque cita fuentes expertas verificables', opts:['El sitio web, porque es más directo','Ambas son igual de confiables','Ninguna de las dos es confiable nunca'] },
+  { texto:'Un reportaje de televisión usa música dramática y cámara lenta para mostrar un hecho cotidiano como si fuera algo excepcional.', pregunta:'¿Qué estrategia audiovisual está usando este reportaje para persuadir?', correcta:'Usar efectos de sonido e imagen para generar un impacto emocional mayor al del hecho real', opts:['Presentar únicamente datos estadísticos verificables','Citar fuentes académicas independientes','No usar ningún recurso audiovisual'] },
+  { texto:'Una publicación en redes sociales asegura algo alarmante sobre un producto, pero no incluye ningún enlace ni fuente verificable.', pregunta:'¿Qué debería hacer un lector crítico antes de compartir esta publicación?', correcta:'Buscar si existen fuentes confiables que respalden esa información antes de compartirla', opts:['Compartirla de inmediato porque suena importante','Ignorar siempre cualquier publicación en redes sociales','Asumir que es verdad porque tiene muchos "me gusta"'] },
+];
+export function genArgumentativoMediosM1Round(){
+  const recurso = 'En un <b>texto argumentativo</b> (como una columna de opinión), la <b>tesis</b> es la idea principal que el autor defiende, respaldada por argumentos. Es fundamental distinguir un <b>hecho</b> (algo verificable con datos o evidencia) de una <b>opinión</b> (un juicio de valor personal, que puede ser válido pero no es objetivamente comprobable) — palabras como "evidente", "obviamente" o "sin duda" a veces disfrazan una opinión como si fuera un hecho indiscutible. Los <b>textos de medios de comunicación</b> (noticias, publicidad, reportajes) usan distintas estrategias para persuadir: apelar a las emociones en vez de a datos objetivos, usar imágenes o titulares llamativos, o citar (o no citar) fuentes confiables. Un lector crítico siempre revisa la veracidad de la información, identifica quién habla y con qué propósito, antes de aceptar una idea como verdadera.';
+  if(Math.random()<0.5){
+    const item = pick(ARGUMENTATIVO_BANK);
+    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    return {
+      promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+      options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+      explain: 'La respuesta correcta es: '+item.correcta+'.',
+      recurso: recurso,
+    };
+  }
+  const item = pick(MEDIOS_M1_BANK);
+  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  return {
+    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+    options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
+    explain: 'La respuesta correcta es: '+item.correcta+'.',
+    recurso: recurso,
+  };
+}
+
+const ORTOGRAFIA_M1_BANK = [
+  { incorrecta:'No quiero ir a la fiesta, si no quedarme leyendo en casa.', correcta:'No quiero ir a la fiesta, sino quedarme leyendo en casa.', regla:'"Sino" (junto) contrapone dos ideas; "si no" (separado) es una condición negativa ("si no llueve, saldremos").' },
+  { incorrecta:'Si no llegas a tiempo, sino te esperamos.', correcta:'Si no llegas a tiempo, no te esperamos.', regla:'"Si no" (separado) introduce una condición negativa, no una contraposición.' },
+  { incorrecta:'Dejamos las maletas haber en la entrada de la casa.', correcta:'Dejamos las maletas a ver en la entrada de la casa.', regla:'"A ver" (separado) es "mirar" o "comprobar"; "haber" es el verbo (con h).' },
+  { incorrecta:'Debe a ver mucha gente en el concierto de esta noche.', correcta:'Debe haber mucha gente en el concierto de esta noche.', regla:'"Haber" es el verbo auxiliar; "a ver" se usa para mirar algo, no como verbo auxiliar.' },
+  { incorrecta:'Iremos adonde tú quieras, no importa el lugar que sea.', correcta:'Iremos adonde tú quieras, no importa el lugar que sea.', regla:'"Adonde" (junto) se usa cuando ya se conoce el lugar de destino mencionado antes.' },
+  { incorrecta:'¿A dónde vas tan apurada esta mañana?', correcta:'¿A dónde vas tan apurada esta mañana?', regla:'"A dónde" (separado y con tilde) se usa en preguntas directas sobre un destino.' },
+  { incorrecta:'Compró un auto a parte, distinto del que ya tenía en el taller.', correcta:'Compró un auto aparte, distinto del que ya tenía en el taller.', regla:'"Aparte" (junto) significa "además" o "por separado"; "a parte" (separado) se refiere a una parte de algo.' },
+  { incorrecta:'Solo revisamos aparte del informe, no el documento completo.', correcta:'Solo revisamos a parte del informe, no el documento completo.', regla:'"A parte" (separado) se refiere a una porción de algo, como "una parte del informe".' },
+];
+export function genOrtografiaM1Round(){
+  const recurso = 'Varios pares de palabras se confunden en la escritura porque suenan parecido pero tienen significados distintos: <b>sino/si no</b> — "sino" (junto) contrapone dos ideas ("no quiero esto, sino aquello"), mientras "si no" (separado) plantea una condición negativa ("si no estudias, repruebas"). <b>Haber/a ver</b> — "haber" es el verbo auxiliar ("debe haber gente"), mientras "a ver" significa "mirar o comprobar algo" ("vamos a ver qué pasa"). <b>Adonde/a dónde</b> — "adonde" (junto) se usa cuando el lugar ya se mencionó antes, mientras "a dónde" (separado, con tilde en preguntas) se usa para preguntar por un destino. <b>Aparte/a parte</b> — "aparte" (junto) significa "además" o "por separado", mientras "a parte" (separado) se refiere a una porción de algo. Distinguir estos pares evita errores de ortografía que pueden cambiar el sentido de una oración.';
+  const item = pick(ORTOGRAFIA_M1_BANK);
+  const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
+  return {
+    promptHTML: '<p class="prompt-hint">¿Cuál oración está bien escrita?</p>',
+    options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
+    explain: item.regla,
+    recurso: recurso,
+  };
+}

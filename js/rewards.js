@@ -413,6 +413,19 @@ export const MODULE_TITLES = {
   problemasGlobalesEpjaM2:'Ciudadano del Mundo', poblacionTerritorioEpjaM2:'Geógrafo Poblacional',
   gramaticaContextoEpjaM2:'Gramático Avanzado', vocabularioTecnicoEpjaM2:'Vocabulario Técnico',
   comprensionInglesEpjaM2:'Lector Avanzado en Inglés',
+  numerospotenciasm1:'Maestro de Racionales', productosnotablesm1:'Algebrista Notable', sistemasecuacionesm1:'Resolutor de Sistemas',
+  funcioneslinealesm1:'Trazador de Rectas', geometriam1:'Geómetra del Cono', homoteciatalesm1:'Discípulo de Tales', estadisticaprobabilidadm1:'Estadístico Junior',
+  narrativam1:'Analista Narrativo', poesiam1:'Poeta Simbólico', dramaromanticismom1:'Crítico Dramático', argumentativomediosm1:'Pensador Crítico de Medios', ortografiam1:'Ortógrafo de Primero Medio',
+  ideasrepublicanasm1:'Republicano Ilustrado', estadonacionm1:'Historiador Industrial', imperialismoguerram1:'Analista Mundial', republicachilem1:'Fundador de la República',
+  salitreparlamentarismom1:'Cronista del Salitre', geografiapueblosm1:'Guardián Territorial', economiaciudadaniam1:'Ciudadano Financiero',
+  evolucionm1:'Biólogo Evolutivo', ecosistemaspoblacionesm1:'Ecólogo de Poblaciones', ciclosimpactom1:'Guardián del Ecosistema', ondassonidom1:'Físico de Ondas',
+  luzsentidosm1:'Explorador de la Luz', sistemasolarm1:'Astrónomo de Primero Medio', reaccionesquimicasm1:'Químico de Reacciones', compuestosestequiometriam1:'Estequiómetra',
+  gramaticacontextom1:'Gramático en Inglés', vocabulariocontextom1:'Políglota en Formación', comprensionlecturam1:'Lector de Primero Medio',
+  estrategiastacticasm1:'Estratega Deportivo', entrenamientom1:'Entrenador Personal', vidaactivaseguridadm1:'Guardián de la Seguridad',
+  evoluciontecnologicam1:'Analista Tecnológico',
+  difusionm1:'Curador de Arte',
+  musicaidentidadm1:'Guardián de la Identidad Musical',
+  prevencionriesgosm1:'Protector Preventivo', bienestarvidam1:'Embajador del Bienestar', relacionesredesm1:'Ciudadano Digital', resolucionconflictosm1:'Mediador de Primero Medio',
 };
 
 export function spawnConfetti(container){

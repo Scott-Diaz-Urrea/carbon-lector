@@ -1,4 +1,4 @@
-import { GRADES, PARVULARIA_NIVELES, EPJA_NIVELES } from './content/grades.js';
+import { GRADES, PARVULARIA_NIVELES, EPJA_NIVELES, MEDIO_GRADES } from './content/grades.js';
 import { render } from './render.js';
 import { sfxLevelup } from './audio.js';
 import { saveProgress } from './persistence.js';
@@ -8,6 +8,7 @@ export const state = {
   currentGrade: 1,
   currentNivel: 'nt',
   currentEpjaNivel: 'n1basica',
+  currentMedioGrade: 1,
   userName: '',
   stars: { vocales:0, silabas:0, memorama:0, palabras:0, comprension:0, contar:0, sumar:0, comparar:0, formas:0,
            combinaciones:0, secuencia:0, salta:0, multiplicar:0,
@@ -115,7 +116,17 @@ export const state = {
            raicesCuadradasEpjaM2:0, funcionesExpLogEpjaM2:0, funcionCuadraticaEpjaM2:0, trigonometriaEpjaM2:0, estadisticaMuestrasEpjaM2:0, probabilidadEpjaM2:0,
            homeostasisSistemasEpjaM2:0, sistemaInmuneGeneticaEpjaM2:0, fluidosPresionEpjaM2:0, electricidadMagnetismoEpjaM2:0, evolucionAtomoEpjaM2:0, enlacesRadiactividadEpjaM2:0, organicaPolimerosEpjaM2:0,
            sigloXXBipolaridadEpjaM2:0, globalizacionEconomiaEpjaM2:0, problemasGlobalesEpjaM2:0, poblacionTerritorioEpjaM2:0,
-           gramaticaContextoEpjaM2:0, vocabularioTecnicoEpjaM2:0, comprensionInglesEpjaM2:0 },
+           gramaticaContextoEpjaM2:0, vocabularioTecnicoEpjaM2:0, comprensionInglesEpjaM2:0,
+           numerospotenciasm1:0, productosnotablesm1:0, sistemasecuacionesm1:0, funcioneslinealesm1:0, geometriam1:0, homoteciatalesm1:0, estadisticaprobabilidadm1:0,
+           narrativam1:0, poesiam1:0, dramaromanticismom1:0, argumentativomediosm1:0, ortografiam1:0,
+           ideasrepublicanasm1:0, estadonacionm1:0, imperialismoguerram1:0, republicachilem1:0, salitreparlamentarismom1:0, geografiapueblosm1:0, economiaciudadaniam1:0,
+           evolucionm1:0, ecosistemaspoblacionesm1:0, ciclosimpactom1:0, ondassonidom1:0, luzsentidosm1:0, sistemasolarm1:0, reaccionesquimicasm1:0, compuestosestequiometriam1:0,
+           gramaticacontextom1:0, vocabulariocontextom1:0, comprensionlecturam1:0,
+           estrategiastacticasm1:0, entrenamientom1:0, vidaactivaseguridadm1:0,
+           evoluciontecnologicam1:0,
+           difusionm1:0,
+           musicaidentidadm1:0,
+           prevencionriesgosm1:0, bienestarvidam1:0, relacionesredesm1:0, resolucionconflictosm1:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];
@@ -137,6 +148,11 @@ export function selectEpjaNivel(id){ state.currentEpjaNivel = id; saveProgress()
 export function epjaNivelLabel(id){
   const n = EPJA_NIVELES.filter(function(x){ return x.id===id; })[0];
   return n ? n.label : '';
+}
+export function selectMedioGrade(id){ state.currentMedioGrade = id; saveProgress(); goTo('medioSubjectMap'); }
+export function medioGradeLabel(id){
+  const g = MEDIO_GRADES.filter(function(x){ return x.id===id; })[0];
+  return g ? g.label : '';
 }
 
 export function level(){ return Math.floor(state.xp/100)+1; }

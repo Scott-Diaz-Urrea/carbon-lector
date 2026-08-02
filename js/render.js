@@ -9,6 +9,7 @@ import { renderMemoramaIntro } from './games/memorama.js';
 import { renderEscribeNombreScreen, initEscribeNombreGame } from './games/escribenombre.js';
 import { renderCaligrafiaScreen, initCaligrafiaGame } from './games/caligrafia.js';
 import { renderDiccionarioScreen, initDiccionario } from './games/diccionario.js';
+import { renderColorearNumerosScreen, initColorearNumeros } from './games/colorearNumeros.js';
 import {
   LENGUAJE_BY_GRADE, MATE_BY_GRADE, CIENCIAS_BY_GRADE, HISTORIA_BY_GRADE,
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
@@ -84,6 +85,7 @@ export function render(){
   else if(scr === 'caligrafia') body = renderCaligrafiaScreen();
   else if(scr === 'diccionarioEs') body = renderDiccionarioScreen('es');
   else if(scr === 'diccionarioEn') body = renderDiccionarioScreen('en');
+  else if(scr === 'colorearNumeros') body = renderColorearNumerosScreen();
 
   app.innerHTML =
     '<div class="topbar">'+
@@ -102,6 +104,7 @@ export function render(){
   else if(scr === 'escribenombre') initEscribeNombreGame();
   else if(scr === 'caligrafia') initCaligrafiaGame();
   else if(scr === 'diccionarioEs' || scr === 'diccionarioEn') initDiccionario();
+  else if(scr === 'colorearNumeros') initColorearNumeros();
 }
 
 function renderHome(){
@@ -151,6 +154,10 @@ function renderEtapaMap(){
       '<button class="subject-card" onclick="goTo(\'diccionarioEn\')">'+
         '<span class="subject-icon">🔤</span>'+
         '<span class="subject-info"><b>English Dictionary</b><small>Palabra, traducción y pronunciación</small></span>'+
+      '</button>'+
+      '<button class="subject-card" onclick="goTo(\'colorearNumeros\')">'+
+        '<span class="subject-icon">🎨</span>'+
+        '<span class="subject-info"><b>Colorear por Números</b><small>Pinta un dibujo y descárgalo</small></span>'+
       '</button>'+
     '</div>'+
   '</div>';

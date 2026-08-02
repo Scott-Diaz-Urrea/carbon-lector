@@ -941,6 +941,43 @@
   .dicc-ej{ margin: 6px 0 0; color: var(--ink-soft); font-size: .9rem; font-style: italic; }
   .dicc-empty{ text-align:center; color: var(--ink-soft); padding: 30px 0; }
 
+  /* ---------- Colorear por Números (herramienta de consulta) ---------- */
+  .drawing-picker{
+    display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:20px;
+  }
+  .drawing-thumb{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    width:130px; padding:20px 10px; background:#fff; border:none; border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm); cursor:pointer;
+  }
+  .drawing-thumb-icon{ font-size:40px; }
+  .drawing-thumb b{ font-family: var(--font-display); font-size:14px; color: var(--ink); }
+  .colorear-toolbar{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin: 14px 0; }
+  .colorear-tool-btn{
+    font-family: var(--font-body); font-weight:700; font-size:13px;
+    background:#fff; color: var(--ink); border:2px solid #E1EDEA; border-radius:14px;
+    padding:9px 14px; cursor:pointer;
+  }
+  .colorear-tool-btn.save{ background: var(--primary); color:#fff; border-color: var(--primary); }
+  .colorear-canvas-wrap{
+    max-width:420px; margin:0 auto; background:#fff; border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm); padding:10px;
+  }
+  #colorear-svg{ width:100%; height:auto; display:block; }
+  #colorear-svg [data-num]{ cursor:pointer; }
+  .colorear-num{
+    font-family: var(--font-display); font-weight:800; font-size:15px;
+    fill:#333; text-anchor:middle; dominant-baseline:middle; pointer-events:none;
+  }
+  .colorear-hint{ text-align:center; color: var(--ink-soft); font-weight:600; font-size:13px; margin:14px 0 8px; }
+  .colorear-palette{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; padding-bottom:20px; }
+  .palette-swatch{
+    width:42px; height:42px; border-radius:50%; border:3px solid transparent;
+    font-family: var(--font-display); font-weight:800; font-size:15px; color:#1D2B3A;
+    cursor:pointer; box-shadow: var(--shadow-sm);
+  }
+  .palette-swatch.active{ border-color: var(--ink); transform: scale(1.12); }
+
   /* ---------- Responsive: tablet / escritorio ----------
      El diseño es mobile-first a propósito (#app queda centrado con
      max-width:480px incluso en pantallas anchas), pero eso dejaba mucho

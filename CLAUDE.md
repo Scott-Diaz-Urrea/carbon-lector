@@ -335,6 +335,72 @@ js/
                               cualquier detalle decorativo sobre una región ya
                               numerada, no asumir que "está en el DOM" equivale
                               a "se ve".
+                              **Segunda ronda de este mismo bug, encontrada
+                              tras un segundo reporte del usuario ("sigo
+                              teniendo problemas con los dibujos... los
+                              números tienen que ser visibles"), esta vez con
+                              auditoría programática en vez de solo captura de
+                              pantalla:** en vez de confiar de nuevo en la
+                              inspección visual (que ya había dejado pasar
+                              este caso una vez), se escribió un chequeo
+                              geométrico en el navegador que compara, para
+                              cada `<text class="colorear-num">`, el conteo
+                              real de `[data-num]` contra el conteo real de
+                              etiquetas de texto en el DOM — reveló que
+                              Carboncito tenía **9 regiones pero solo 8
+                              etiquetas** (un desface invisible a cualquier
+                              captura de pantalla a simple vista, porque no es
+                              que un número estuviera tapado: directamente
+                              nunca se dibujó ninguno). La región sin número
+                              era el `pathRegion(..., 5, null, null, fs)` del
+                              "hombro/sombra de oreja" (una forma decorativa
+                              detrás de la oreja derecha, heredada tal cual de
+                              `mascotSVG()` para dar profundidad de capas al
+                              personaje) — alguien de la ronda anterior le
+                              había pasado `lx=null, ly=null` a propósito
+                              (`pathRegion()` omite el `<text>` por completo
+                              cuando `lx==null`), probablemente porque la
+                              mayor parte de esa forma queda tapada por la
+                              oreja/cuerpo dibujados después y no había un
+                              lugar obvio donde poner el número dentro del
+                              sliver visible. El resultado real: un blob
+                              blanco con borde, clickeable y coloreable, pero
+                              sin ningún número — exactamente lo que el
+                              usuario reportó. **Fix:** en vez de forzarle un
+                              número a una región que geométricamente casi no
+                              se ve, se sacó del sistema de colorear-por-número
+                              por completo — pasó de `pathRegion(...,
+                              5, null, null, fs)` (blanco, interactivo, `data-
+                              num="5"`) a un `<path>` fijo con relleno gris
+                              claro (`#EDE7E3`, tono de sombra de pelaje) y sin
+                              `data-num`, igual que los ojos/nariz/collar ya
+                              fijos del mismo dibujo — ya no es una región que
+                              prometa un número y no lo entregue. Verificado
+                              con el mismo chequeo geométrico (ahora
+                              reutilizable) sobre los 4 dibujos: **`data-num`
+                              count === etiquetas de texto count en los 4**
+                              (Carboncito 8=8, Auto 8=8, Casa 11=11, Pez
+                              9=9), y un segundo chequeo con
+                              `document.elementFromPoint()` en el centro de
+                              cada etiqueta confirmó que el elemento
+                              clickeable bajo cada número siempre tiene el
+                              mismo `data-num` que el texto que muestra (0
+                              discrepancias en los 4 dibujos) — es decir, cada
+                              número visible corresponde exactamente a la
+                              región que se pinta al tocarlo. Probado también
+                              que rellenar por clic sigue funcionando tras el
+                              cambio (el hombro de oreja ya no es clickeable,
+                              por diseño, igual que los ojos no lo son). Sin
+                              errores de consola. **Lección reforzada:** para
+                              esta clase de bug (número ausente o tapado), una
+                              sola captura de pantalla no es prueba suficiente
+                              de que "ya se revisó" — conviene además un
+                              chequeo programático de conteo (`[data-num]`
+                              vs. `text.colorear-num`) y de coincidencia
+                              (`elementFromPoint` en el centro de cada
+                              etiqueta debe devolver un elemento con el mismo
+                              `data-num`), reproducible cada vez que se toque
+                              el arte de este módulo.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

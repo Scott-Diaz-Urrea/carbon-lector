@@ -128,7 +128,7 @@ const DIBUJOS_COLOREAR = [
     build:function(){
       const fs = 11;
       return '<ellipse cx="100" cy="178" rx="38" ry="8" fill="#1D3557" opacity="0.13"/>'+
-        pathRegion('M146 116 q24 -8 22 14 q-2 16 -20 11 q-9 -2 -7 -13 q2 -8 5 -12 Z', 5, null, null, fs)+
+        '<path d="M146 116 q24 -8 22 14 q-2 16 -20 11 q-9 -2 -7 -13 q2 -8 5 -12 Z" fill="#EDE7E3" stroke="#333" stroke-width="2.5"/>'+
         ellipseRegion(100,138,50,40,8,0,fs,{x:100,y:163})+
         circleRegion(78,172,12,6,fs)+circleRegion(122,172,12,6,fs)+
         '<path d="M64 118 q36 20 72 0" stroke="#FF6B6B" stroke-width="8" fill="none" stroke-linecap="round"/>'+

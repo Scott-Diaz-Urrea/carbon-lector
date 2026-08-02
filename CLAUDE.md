@@ -255,6 +255,48 @@ js/
                               ve activo (vía `classList`), sin tocar el `<svg>`. CSS
                               propio en styles.css (familia `.colorear-*`/
                               `.drawing-thumb`/`.palette-swatch`).
+                              **Arte rehecho (2026-08-02, pedido explícito del
+                              usuario: "arregla los dibujos, están mal
+                              realizados"):** la primera versión de los 4 dibujos
+                              usaba solo formas geométricas puras (círculos/
+                              elipses/rectángulos) superpuestas sin ninguna
+                              curva, viéndose demasiado primitiva comparada con
+                              el resto del arte de la app. Se agregó un helper
+                              `pathRegion()` (mismo patrón que `circleRegion()`/
+                              `ellipseRegion()`/`rectRegion()`, pero para
+                              `<path>` con curvas bézier `Q`) y se rehicieron los
+                              4 dibujos con siluetas orgánicas: **Carboncito**
+                              reutiliza literalmente las coordenadas de
+                              `mascotSVG()` (js/svg.js) en su viewBox nativo
+                              "0 0 200 190" (cada dibujo ahora puede declarar su
+                              propio `viewBox`, no todos comparten "0 0 300
+                              300") — la garantía de calidad más alta posible,
+                              ya que es el arte ya aprobado de la mascota, solo
+                              con sus formas convertidas a regiones rellenables
+                              (blanco + borde) en vez de colores fijos; ojos,
+                              nariz, arrugas y collar quedan FIJOS (no
+                              rellenables) para no romper el reconocimiento
+                              facial, mismo criterio que `mascotSVG()`. **Auto**
+                              pasó de un rectángulo + trapezoide a una silueta
+                              de sedán real en un solo `<path>` (capó, parabrisas,
+                              techo, luneta trasera, paragolpes) con dos
+                              ventanas separadas por un pilar. **Casa** ganó un
+                              techo con alero (más ancho que el muro) y una
+                              puerta con arco (`<path>` en vez de `<rect>`) en
+                              vez de una puerta rectangular plana. **Pez** pasó
+                              de aletas triangulares filosas a aletas y cola
+                              curvas, y su cuerpo ovalado ahora es asimétrico
+                              (más redondeado hacia la cabeza, más afilado hacia
+                              la cola), como un pez real de dibujos animados. El
+                              helper `fontSize` opcional en los helpers de forma
+                              compensa el tamaño del número de guía cuando el
+                              viewBox de un dibujo es más chico que el estándar
+                              (Carboncito usa `fontSize:11` en vez del 15px por
+                              defecto). `saveColoringPNG()` ahora lee
+                              `svg.viewBox.baseVal` para dimensionar el
+                              `<canvas>` oculto según el dibujo activo, en vez
+                              de asumir 300×300 fijo — necesario porque
+                              Carboncito ya no comparte el viewBox del resto.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +
@@ -3004,6 +3046,23 @@ Con esto, **Educación Media queda 100% completa**: 1°-2° medio (81
 módulos) + 3°-4° medio con su Plan General (34 módulos) y su Plan
 Diferenciado Científico (25 módulos) — 140 módulos en total para esta
 etapa.
+
+**Auditoría de estilos de los 59 módulos nuevos (2026-08-02, pedido
+explícito del usuario, alcance confirmado vía `AskUserQuestion`: solo los
+módulos de esta sesión, no toda la app):** se verificó programáticamente
+en el navegador, para los 59 módulos del Plan General y el Plan
+Diferenciado Científico, que no hubiera desborde horizontal (`scrollWidth`
+vs. ancho de viewport), que las 4 alternativas siempre estuvieran
+presentes y sin corte de texto, y que `.prompt-card` renderizara — 0
+hallazgos en mobile (375px). Se revisó visualmente el caso más exigente
+(la alternativa más larga de los 59 módulos, 157 caracteres, en
+"Química del Cambio Climático: Ciclos y Equilibrios") en mobile y
+escritorio: el estilo `.option-btn.panel` ya establecido en la app
+(ancho de lectura limitado, alineado a la izquierda, acento de color)
+maneja bien ese largo de texto sin ajustes adicionales. También se
+confirmó que los títulos de módulo más largos de este lote (hasta 47
+caracteres) no se truncan en el mapa de nodos. No se encontró ningún
+problema de estilo que corregir en estos 59 módulos.
 
 ### EPJA (Educación para Personas Jóvenes y Adultas) — ✅ completo (los 5 niveles: Nivel 1/2/3 Básica, Nivel 1/2 Media)
 Pedido explícito del usuario (2026-08-01, "procede con epja") de empezar a

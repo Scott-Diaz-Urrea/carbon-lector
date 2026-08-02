@@ -147,7 +147,12 @@ export const state = {
            eticateoriaspg4:0, argumentosfalaciaspg4:0, filosofiacontemporaneapg4:0,
            ambientesostenibilidadpg:0, bienestarsaludpg:0, seguridadautocuidadopg:0, tecnologiasociedadpg:0,
            vocabgramaticapg3:0, comprensionlecturapg3:0,
-           vocabavanzadopg4:0, comprensionlecturaavanzadapg4:0 },
+           vocabavanzadopg4:0, comprensionlecturaavanzadapg4:0,
+           estructuracelularpd:0, dogmacentralpd:0, regulaciongenicapd:0, proteinaspd:0, biotecnologiapd:0,
+           biodiversidadevolucionpd:0, serviciosecosistemicospd:0, resilienciaclimaticapd:0, tecnologiaclimapd:0,
+           saludpublicapd:0, genomaambientepd:0, estilosvidasaludpd:0, calidadambientalsaludpd:0, tecnologiamedicapd:0,
+           fisicaclimapd:0, origenuniversopd:0, fuerzascentralespd:0, fisicamodernapd:0, fluidoselectromagnetismopd:0,
+           nanoquimicapolimerospd:0, acidobaseredoxpd:0, termodinamicacineticapd:0, quimicaclimapd:0, contaminantesquimicospd:0, tecnologiasquimicasclimapd:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

@@ -227,6 +227,11 @@ import { genDemocraciaCiudadaniaPG3Round, genSistemaJudicialDdhhPG3Round, genEst
 import { genQueFilosofiaPG3Round, genOntologiaPG3Round, genEpistemologiaPG3Round, genLogicaArgumentacionPG3Round, genEticaTeoriasPG4Round, genArgumentosFalaciasPG4Round, genFilosofiaContemporaneaPG4Round } from './content/medio34/filosofia.js';
 import { genAmbienteSostenibilidadPGRound, genBienestarSaludPGRound, genSeguridadAutocuidadoPGRound, genTecnologiaSociedadPGRound } from './content/medio34/cienciasCiudadania.js';
 import { genVocabularioGramaticaPG3Round, genComprensionLecturaPG3Round, genVocabularioAvanzadoPG4Round, genComprensionLecturaAvanzadaPG4Round } from './content/medio34/ingles.js';
+import { genEstructuraCelularPDRound, genDogmaCentralPDRound, genRegulacionGenicaPDRound, genProteinasPDRound, genBiotecnologiaPDRound } from './content/medio34/biologiaCelularMolecular.js';
+import { genBiodiversidadEvolucionPDRound, genServiciosEcosistemicosPDRound, genResilienciaClimaticaPDRound, genTecnologiaClimaPDRound } from './content/medio34/biologiaEcosistemas.js';
+import { genSaludPublicaPDRound, genGenomaAmbientePDRound, genEstilosVidaSaludPDRound, genCalidadAmbientalSaludPDRound, genTecnologiaMedicaPDRound } from './content/medio34/cienciasSalud.js';
+import { genFisicaClimaPDRound, genOrigenUniversoPDRound, genFuerzasCentralesPDRound, genFisicaModernaPDRound, genFluidosElectromagnetismoPDRound } from './content/medio34/fisica.js';
+import { genNanoquimicaPolimerosPDRound, genAcidoBaseRedoxPDRound, genTermodinamicaCineticaPDRound, genQuimicaClimaPDRound, genContaminantesQuimicosPDRound, genTecnologiasQuimicasClimaPDRound } from './content/medio34/quimica.js';
 import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
@@ -368,7 +373,12 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'eticateoriaspg4','argumentosfalaciaspg4','filosofiacontemporaneapg4',
   'ambientesostenibilidadpg','bienestarsaludpg','seguridadautocuidadopg','tecnologiasociedadpg',
   'vocabgramaticapg3','comprensionlecturapg3',
-  'vocabavanzadopg4','comprensionlecturaavanzadapg4'];
+  'vocabavanzadopg4','comprensionlecturaavanzadapg4',
+  'estructuracelularpd','dogmacentralpd','regulaciongenicapd','proteinaspd','biotecnologiapd',
+  'biodiversidadevolucionpd','serviciosecosistemicospd','resilienciaclimaticapd','tecnologiaclimapd',
+  'saludpublicapd','genomaambientepd','estilosvidasaludpd','calidadambientalsaludpd','tecnologiamedicapd',
+  'fisicaclimapd','origenuniversopd','fuerzascentralespd','fisicamodernapd','fluidoselectromagnetismopd',
+  'nanoquimicapolimerospd','acidobaseredoxpd','termodinamicacineticapd','quimicaclimapd','contaminantesquimicospd','tecnologiasquimicasclimapd'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -906,6 +916,31 @@ export const MC_GAMES = {
   comprensionlecturapg3: { title:'Comprensión de Lectura', gen: genComprensionLecturaPG3Round, rounds:8 },
   vocabavanzadopg4: { title:'Vocabulario y Gramática Avanzada', gen: genVocabularioAvanzadoPG4Round, rounds:8 },
   comprensionlecturaavanzadapg4: { title:'Comprensión de Lectura Avanzada', gen: genComprensionLecturaAvanzadaPG4Round, rounds:8 },
+  estructuracelularpd: { title:'Estructura y Organización Celular', gen: genEstructuraCelularPDRound, rounds:8 },
+  dogmacentralpd: { title:'Dogma Central de la Biología Molecular', gen: genDogmaCentralPDRound, rounds:8 },
+  regulaciongenicapd: { title:'Regulación Génica y Cáncer', gen: genRegulacionGenicaPDRound, rounds:8 },
+  proteinaspd: { title:'Estructura y Función de Proteínas', gen: genProteinasPDRound, rounds:8 },
+  biotecnologiapd: { title:'Biotecnología y sus Aplicaciones', gen: genBiotecnologiaPDRound, rounds:8 },
+  biodiversidadevolucionpd: { title:'Biodiversidad, Evolución e Intervención Humana', gen: genBiodiversidadEvolucionPDRound, rounds:8 },
+  serviciosecosistemicospd: { title:'Servicios Ecosistémicos y Dinámica de Poblaciones', gen: genServiciosEcosistemicosPDRound, rounds:8 },
+  resilienciaclimaticapd: { title:'Cambio Climático y Resiliencia de Ecosistemas', gen: genResilienciaClimaticaPDRound, rounds:8 },
+  tecnologiaclimapd: { title:'Ciencia y Tecnología frente al Cambio Climático', gen: genTecnologiaClimaPDRound, rounds:8 },
+  saludpublicapd: { title:'Salud Pública: Problemas Complejos', gen: genSaludPublicaPDRound, rounds:8 },
+  genomaambientepd: { title:'Genoma y Ambiente en la Salud', gen: genGenomaAmbientePDRound, rounds:8 },
+  estilosvidasaludpd: { title:'Estilos de Vida y Salud Integral', gen: genEstilosVidaSaludPDRound, rounds:8 },
+  calidadambientalsaludpd: { title:'Calidad Ambiental y Salud Humana', gen: genCalidadAmbientalSaludPDRound, rounds:8 },
+  tecnologiamedicapd: { title:'Tecnología Médica y Calidad de Vida', gen: genTecnologiaMedicaPDRound, rounds:8 },
+  fisicaclimapd: { title:'Cambio Climático: Física del Fenómeno', gen: genFisicaClimaPDRound, rounds:8 },
+  origenuniversopd: { title:'Origen y Evolución del Universo', gen: genOrigenUniversoPDRound, rounds:8 },
+  fuerzascentralespd: { title:'Movimiento bajo Fuerzas Centrales', gen: genFuerzasCentralesPDRound, rounds:8 },
+  fisicamodernapd: { title:'Física Moderna: Relatividad y Cuántica', gen: genFisicaModernaPDRound, rounds:8 },
+  fluidoselectromagnetismopd: { title:'Fluidos, Electromagnetismo y Termodinámica', gen: genFluidosElectromagnetismoPDRound, rounds:8 },
+  nanoquimicapolimerospd: { title:'Nanoquímica y Polímeros', gen: genNanoquimicaPolimerosPDRound, rounds:8 },
+  acidobaseredoxpd: { title:'Ácido-Base, Redox y Polimerización', gen: genAcidoBaseRedoxPDRound, rounds:8 },
+  termodinamicacineticapd: { title:'Termodinámica y Cinética Química', gen: genTermodinamicaCineticaPDRound, rounds:8 },
+  quimicaclimapd: { title:'Química del Cambio Climático: Ciclos y Equilibrios', gen: genQuimicaClimaPDRound, rounds:8 },
+  contaminantesquimicospd: { title:'Contaminantes Químicos y sus Efectos', gen: genContaminantesQuimicosPDRound, rounds:8 },
+  tecnologiasquimicasclimapd: { title:'Tecnologías Químicas para el Clima', gen: genTecnologiasQuimicasClimaPDRound, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

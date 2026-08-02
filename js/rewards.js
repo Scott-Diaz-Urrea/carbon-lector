@@ -451,6 +451,11 @@ export const MODULE_TITLES = {
   ambientesostenibilidadpg:'Guardián Sostenible', bienestarsaludpg:'Promotor del Bienestar', seguridadautocuidadopg:'Experto en Prevención', tecnologiasociedadpg:'Analista Tecnológico',
   vocabgramaticapg3:'Gramático en Inglés', comprensionlecturapg3:'Lector Crítico en Inglés',
   vocabavanzadopg4:'Gramático Avanzado', comprensionlecturaavanzadapg4:'Lector Avanzado en Inglés',
+  estructuracelularpd:'Explorador Celular', dogmacentralpd:'Guardián del Dogma Central', regulaciongenicapd:'Regulador Génico', proteinaspd:'Arquitecto de Proteínas', biotecnologiapd:'Biotecnólogo',
+  biodiversidadevolucionpd:'Guardián de la Biodiversidad', serviciosecosistemicospd:'Analista de Ecosistemas', resilienciaclimaticapd:'Centinela Climático', tecnologiaclimapd:'Innovador Ambiental',
+  saludpublicapd:'Analista de Salud Pública', genomaambientepd:'Genetista Ambiental', estilosvidasaludpd:'Promotor de Vida Saludable', calidadambientalsaludpd:'Guardián Ambiental', tecnologiamedicapd:'Innovador Médico',
+  fisicaclimapd:'Físico del Clima', origenuniversopd:'Explorador Cósmico', fuerzascentralespd:'Maestro de la Gravedad', fisicamodernapd:'Físico Cuántico', fluidoselectromagnetismopd:'Ingeniero de Fluidos y Circuitos',
+  nanoquimicapolimerospd:'Nanoquímico', acidobaseredoxpd:'Maestro del Redox', termodinamicacineticapd:'Cinético Térmico', quimicaclimapd:'Químico del Clima', contaminantesquimicospd:'Detective de Contaminantes', tecnologiasquimicasclimapd:'Tecnólogo Químico Verde',
 };
 
 export function spawnConfetti(container){

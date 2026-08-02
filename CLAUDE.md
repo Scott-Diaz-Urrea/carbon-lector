@@ -2302,7 +2302,7 @@ Verificado tras las 3 correcciones: `genCasosHepatico7Round`, `genLcr7Round` y
 apóstrofes en `speakText`) y los 312 módulos de toda la app pasan la
 verificación de regresión.
 
-### Educación Media — ✅ 1° y 2° medio completos (81 módulos)
+### Educación Media — ✅ 1°-2° medio completos (81 módulos) + 3°-4° medio: Plan General completo (34 módulos)
 Pedido explícito del usuario (2026-08-02) de comenzar esta etapa tras completar
 el rollout de `recurso` en Parvularia. Antes de construir, se investigó con
 Claude (WebSearch/WebFetch, sin asumir continuidad con Básica) la estructura
@@ -2315,15 +2315,20 @@ curricular real de Educación Media:
   (año → asignatura), solo continúa la numeración de años.
 - **3°-4° medio**: currículum distinto (Bases Curriculares 3°-4° medio,
   `curriculumnacional.cl/614/articles-91414_bases.pdf`), organizado como
-  **Plan de Formación General** (obligatorio: Ciencias para la Ciudadanía,
-  Educación Ciudadana, Filosofía, Inglés, Lengua y Literatura, Matemática,
-  Religión) + **Plan Diferenciado** (electivo, ~25 ramos en 6 áreas) — un
-  modelo que no encaja en el patrón año→asignatura y queda **sin construir**
-  todavía. Alcance acordado con el usuario para cuando se aborde: Plan General
-  completo (7 asignaturas) + Diferenciado Científico (5: Biología Celular y
-  Molecular, Biología de los Ecosistemas, Ciencias de la Salud, Física,
-  Química), dejando fuera por ahora los electivos de Artes/Ed. Física/Cs.
-  Sociales/Filosofía/Matemática/Lenguaje diferenciados.
+  **Plan de Formación General** + **Plan Diferenciado** (electivo, ~25 ramos
+  en 6 áreas) — un modelo que no encaja en el patrón año→asignatura. Alcance
+  acordado con el usuario para cuando se aborde: Plan General completo +
+  Diferenciado Científico (5: Biología Celular y Molecular, Biología de los
+  Ecosistemas, Ciencias de la Salud, Física, Química), dejando fuera por
+  ahora los electivos de Artes/Ed. Física/Cs. Sociales/Filosofía/Matemática/
+  Lenguaje diferenciados. **Actualización 2026-08-02, al construir esta
+  etapa:** el Plan General se investigó de nuevo antes de escribir contenido
+  y resultó tener 6 asignaturas, no 7 — Religión se excluyó por el mismo
+  motivo que en Básica (sin documento curricular único, solo variantes por
+  credo; ver el detalle completo y la decisión vía `AskUserQuestion` más
+  abajo, en "Plan de Formación General"). El **Plan General ya está
+  completo** (34 módulos); el **Plan Diferenciado Científico sigue sin
+  construir**.
 
 **Arquitectura de navegación (nueva, paralela a Básica — no reutiliza
 `GRADES`/`SUBJECT_DEFS`/`state.currentGrade`):** dado que 1°-2° medio es
@@ -2645,12 +2650,196 @@ real.
   errores de consola en ningún caso.
 
 Con esto, **Educación Media queda con 1° y 2° medio 100% completos** (81
-módulos en total). Próximo paso posible: 3°-4° medio (requiere diseñar la
-estructura Plan General + Diferenciado, un patrón nuevo que no existe
-todavía en la app, con el alcance ya acordado en sesiones anteriores: Plan
-General completo -7 asignaturas- + Diferenciado Científico -5 asignaturas:
-Biología Celular y Molecular, Biología de los Ecosistemas, Ciencias de la
-Salud, Física, Química-).
+módulos en total).
+
+**3°-4° medio — Plan de Formación General ✅ completo (2026-08-02), 34
+módulos, las 6 asignaturas del plan:** pedido explícito del usuario
+("procede") de continuar con 3°-4° medio tras completar 2° medio. A
+diferencia de 1°-2° medio (mismo Decreto 614/2013, pero año→10 asignaturas
+idénticas a Básica), 3°-4° medio tiene una estructura curricular
+completamente distinta, verificada en curriculumnacional.cl antes de
+construir nada: un **Plan de Formación General** (asignaturas obligatorias
+para todos los estudiantes) + un **Plan de Formación Diferenciada**
+electivo, organizado en 3 áreas (Humanista, Científica, Artística/Ed.
+Física). El alcance para esta etapa, ya acordado en sesiones anteriores,
+era Plan General completo + Plan Diferenciado Científico (Biología Celular
+y Molecular, Biología de los Ecosistemas, Ciencias de la Salud, Física,
+Química) — este PR construye **solo el Plan General**; el Plan
+Diferenciado Científico queda para una sesión futura (ver más abajo).
+
+- **Exclusión de Religión del Plan General, decidida en esta sesión (vía
+  `AskUserQuestion`):** el plan original (anotado en sesiones anteriores)
+  incluía Religión como 1 de 7 asignaturas del Plan General. Al investigar
+  el currículum real antes de construir, se confirmó que Religión en
+  3°-4° medio tiene el mismo problema ya documentado para excluirla de
+  Básica: Mineduc no publica un documento curricular único, sino OA
+  distintos por credo (existe un documento "Asignatura Religión Católica"
+  con OA completos, pero es confesional, no genérico — Decreto 924 de 1984
+  establece que la asignatura es electiva y depende del credo que cada
+  familia indique al matricularse). Se le presentó la disyuntiva al
+  usuario explícitamente (excluir / incluir solo la variante católica /
+  investigar más) y se optó por **excluir Religión, mismo criterio que
+  Básica** — el Plan General de esta app queda en **6 asignaturas**: Lengua
+  y Literatura, Matemática, Ciencias para la Ciudadanía, Educación
+  Ciudadana, Filosofía, Inglés.
+- **Arquitectura de navegación (cuarto patrón, ni año/asignatura de Básica
+  ni Plan General/Diferenciado de un solo plan): dentro de Educación Media,
+  1°-2° medio ya usaba año→10 asignaturas idénticas; 3°-4° medio necesita
+  año→Plan(General/Diferenciado)→asignaturas propias de ese plan.** En vez
+  de crear una jerarquía de pantallas completamente nueva y desconectada,
+  se extendió la ya existente: `MEDIO_GRADES`/`MEDIO_GRADE_POS`
+  (`content/grades.js`) pasaron de 2 a 4 islas (1°-4° medio, el mapa de
+  zigzag ahora usa las mismas 4 posiciones que `GRADE_POS` usa para pares de
+  años en Básica). `selectMedioGrade(id)` (`state.js`) ahora **bifurca
+  según el año** en vez de navegar siempre al mismo lugar: `id<=2` sigue
+  yendo a `medioSubjectMap` (las 10 materias ya conocidas de 1°-2° medio);
+  `id>=3` navega a una pantalla nueva, `planMedioMap` — dos tarjetas, "Plan
+  de Formación General" (activa) y "Plan Diferenciado Científico" (con
+  toast "🚧 en preparación", mismo patrón que cualquier tarjeta bloqueada
+  del resto de la app). El Plan General navega a `planGeneralMap`
+  (idéntico en estructura a `renderMedioSubjectMap()`, pero iterando sobre
+  `PLAN_GENERAL_SUBJECT_DEFS` en vez de `MEDIO_SUBJECT_DEFS`) y de ahí a 6
+  pantallas de mapa de módulos nuevas (`lenguaLiteraturaPlanMap`,
+  `matematicaPlanMap`, `cienciasCiudadaniaPlanMap`,
+  `educacionCiudadanaPlanMap`, `filosofiaPlanMap`, `inglesPlanMap`), cada
+  una un one-liner que usa el helper nuevo `renderPlanGeneralSubjectMapFor()`
+  (mismo patrón que `renderMedioSubjectMapFor()`/`renderEpjaSubjectMapFor()`
+  ya usados para los otros planes de navegación). No hizo falta ninguna
+  variable de estado nueva: `state.currentMedioGrade` ya servía para
+  cualquier año 1-4, reutilizado tal cual.
+- **Contenido en `content/medio34/` (carpeta nueva, un archivo por
+  asignatura, mismo patrón que `content/epja/`):** `matematica.js`,
+  `lenguaLiteratura.js`, `educacionCiudadana.js`, `filosofia.js`,
+  `cienciasCiudadania.js`, `ingles.js` — nombres de archivo distintos a los
+  ya usados en `content/` (que son de Básica/1°-2° medio) para no chocar,
+  aunque viven en su propia subcarpeta así que técnicamente no habría
+  colisión. Cada archivo exporta `_M3`/`_M4` (bancos + `genXxxRound` +
+  `MODULES`/`POS`), mismo patrón que `_G<n>` de Básica o `_M1`/`_M2` de
+  1°-2° medio, con sufijo `PG3`/`PG4` ("Plan General") en las claves de
+  `state.stars`/`MC_GAMES`.
+  - **"Ciencias para la Ciudadanía" es la única de las 6 asignaturas cuyo
+    currículum oficial NO se organiza por año**: sus códigos de OA son
+    literalmente `FG-CIAS-3y4-OAC-01/02/03` (y lo mismo para sus otras 3
+    áreas temáticas) — un solo conjunto de OA compartido entre 3° y 4°
+    medio, verificado leyendo el contenido real de cada página de
+    curriculumnacional.cl antes de asumirlo (no solo el código). Por eso
+    `content/medio34/cienciasCiudadania.js` exporta un solo
+    `CIENCIAS_CIUDADANIA_MODULES`/`_POS` (sin sufijo de año), y en
+    `gradeContent.js` tanto `byGrade[3]` como `byGrade[4]` apuntan al mismo
+    objeto — el contenido es idéntico para ambos años, fiel a como Mineduc
+    realmente organiza esta asignatura (no una simplificación de la app).
+  - **Lengua y Literatura** (2+2 módulos): los OA de 3°-4° medio son
+    mayormente de interpretación/producción de textos propios y diálogo
+    argumentativo oral — habilidades de desempeño sin una única respuesta
+    correcta. Se adaptó al motor de opción múltiple el aspecto SÍ evaluable:
+    3° medio - Interpretación Literaria (reconocer recursos literarios en
+    fragmentos ilustrativos **originales**, nunca poemas reales con
+    derechos de autor) y Análisis Crítico de Textos y Medios Digitales
+    (detectar intención persuasiva/sesgo en escenarios de medios); 4° medio
+    - Comparación de Obras Literarias (dos fragmentos originales
+    contrastantes sobre un mismo tema) y Evaluación Crítica de Textos
+    (detectar sesgo, conflicto de interés, descontextualización).
+  - **Matemática** (4+4 módulos, el eje más denso en OA por año — solo 4
+    cada uno, pero cada uno mucho más amplio que en Básica): 3° medio -
+    Números Complejos, Estadística (dispersión + probabilidad condicional),
+    Funciones Exponencial y Logarítmica, Geometría de la Circunferencia; 4°
+    medio - Matemática Financiera (interés simple/compuesto), Modelos
+    Binomial y Normal, Funciones Potencia y Trigonométricas, Rectas y
+    Circunferencias en el Plano. Mismo criterio que 1°-2° medio: generadores
+    dinámicos con valores elegidos a propósito (combos de interés compuesto
+    precomputados para dar un monto final exacto, ángulos múltiplos de 20°,
+    ternas de senos/cosenos exactos) para evitar ambigüedad por redondeo.
+  - **Educación Ciudadana** (3+4 módulos) y **Filosofía** (4+3 módulos, la
+    primera vez que esta asignatura existe en la app — no forma parte de
+    Básica ni de 1°-2° medio): ambas mezclan conceptos factuales
+    (instituciones, teorías, corrientes de pensamiento) con habilidades
+    reflexivas/participativas propias sin una única respuesta — se adaptó
+    el aspecto conceptual con un formato nuevo, reutilizado en las dos:
+    `genDefRound(bank, recurso)`, que pregunta "¿qué significa el concepto
+    X?" contra una definición correcta y 3 definiciones de otros conceptos
+    del mismo banco como distractores. En Filosofía, presentar corrientes
+    como posturas históricas con nombre propio (idealismo, empirismo,
+    utilitarismo...) evita convertir preguntas filosóficas abiertas en
+    preguntas con una sola "respuesta correcta" ilegítima: se pregunta qué
+    dice una corriente, no cuál corriente "tiene la razón".
+  - **Inglés** (2+2 módulos): mismo criterio que `content/ingles.js` desde
+    5° básico — comprensión (vocabulario/gramática en contexto + lectura),
+    dejando fuera comprensión/producción oral (audio real) y producción
+    escrita (proceso propio). 4° medio introduce estructuras más avanzadas
+    (voz pasiva, oraciones relativas, tercer condicional) y lecturas con
+    estructura argumentativa más compleja (debates con dos posturas). Mismo
+    mecanismo `speakLang:'en'` ya establecido.
+- **Bug real de arquitectura encontrado en la primera prueba en el
+  navegador (no por el fuzz-test estructural, que no lo detecta):**
+  `renderModuleMap()` navega usando `m.id` como nombre de pantalla
+  (`onclick="goTo('+m.id+')"`), y el dispatcher central de `render.js`
+  reconoce una pantalla de minijuego con `MC_KEYS.indexOf(scr) !== -1` — es
+  decir, **`id` y `key` de cada módulo deben ser exactamente la misma
+  cadena** (así es en los ~500 módulos ya existentes de toda la app, un
+  invariante nunca escrito explícitamente en ningún comentario). Los 34
+  módulos nuevos se escribieron inicialmente con `id` en formato
+  "camelCase con sufijo PG3/PG4" (ej. `id:'numerosComplejosPG3'`) distinto
+  de su `key` en minúsculas (`key:'numeroscomplejospg3'`) — al hacer clic
+  en un nodo del mapa, `goTo('numerosComplejosPG3')` navegaba a una
+  pantalla que el dispatcher no reconocía como minijuego (no calzaba con
+  ningún `MC_KEYS`), dejando el `#app` prácticamente vacío (solo el
+  topbar) sin ningún error en consola — el fuzz-test estructural (llamar
+  `gen()` directamente) nunca lo iba a encontrar, porque no pasa por
+  `renderModuleMap()`/el dispatcher. Corregido igualando `id` a `key` en
+  los 6 archivos de contenido (34 módulos). **Lección para contenido
+  futuro:** verificar SIEMPRE con una navegación real de clic en el
+  navegador (no solo fuzz-test de `gen()` en consola) antes de dar un
+  módulo nuevo por terminado, y mantener `id === key` como convención
+  explícita al escribir `MODULES`/`POS` de cualquier asignatura nueva.
+- **Bug de bank-size ya conocido, encontrado por la simulación de
+  no-repetición:** `comparacionobraspg4` (Lengua y Literatura 4° medio)
+  tenía exactamente 6 pares de fragmentos para `rounds:8` — 200/200
+  sesiones simuladas con repetición garantizada. Ampliado a 10 pares
+  (margen de 2) con contenido original nuevo dentro del mismo formato ya
+  usado (dos fragmentos contrastantes sobre un tema, con un eje declarado
+  -crítica/esperanzadora/nostálgica- para evitar ambigüedad).
+- **Bug real de colisión de opciones en `generaVarianza()`** (Matemática,
+  Estadística: Dispersión), encontrado por el fuzz-test estructural (10.7%
+  de rondas con opciones repetidas): uno de los 6 conjuntos de desviaciones
+  precomputados (`{devs:[-2,-2,2,2], varr:4}`) tiene un **rango numérico
+  (máximo - mínimo = 4) idéntico a su propia varianza (4)** — el código
+  agregaba el rango como distractor sin verificar que fuera distinto de la
+  respuesta correcta, produciendo dos copias del mismo valor entre las
+  opciones cuando ese conjunto era elegido al azar. Corregido agregando el
+  chequeo `if(rango!==correct)` antes de sumarlo como distractor, con un
+  fallback que genera un distractor numérico cercano si hacen falta más
+  alternativas — mismo patrón de guardia ya usado en otros generadores de
+  la app para evitar que un distractor "calculado" coincida por casualidad
+  con la respuesta correcta.
+- Verificado: los 34 generadores nuevos pasan fuzz de 300 iteraciones cada
+  uno (sin `THROW`, sin `undefined`, sin opciones duplicadas, `correctValue`
+  siempre presente en las opciones, `recurso` siempre presente con largo
+  ≥20) y simulación de 200 sesiones completas cada uno sin ningún repetido
+  (tras el fix de `comparacionobraspg4`). `MC_KEYS.length ===
+  Object.keys(MC_GAMES).length === 535` (501 previos + 34 nuevos, sin claves
+  huérfanas) y los 535 módulos de toda la app pasan un fuzz de regresión de
+  40 iteraciones sin ningún hallazgo. Probado visualmente en el navegador
+  (tras corregir el bug de `id`/`key`): navegación completa `etapaMap`
+  (subtítulo actualizado a "1° a 4° Medio disponibles") → `medioGradeMap`
+  (mapa de 4 islas, sin solapamiento) → `planMedioMap` de 3° medio (Plan
+  General activo, Plan Diferenciado con toast "🚧 en preparación") →
+  `planGeneralMap` (6 materias con conteo de estrellas correcto: 0/6, 0/12,
+  0/12, 0/9, 0/12, 0/6) → mapa de módulos de Matemática (4 nodos, sin
+  solapamiento) → una partida completa en "Números Complejos" (resolvió
+  correctamente una suma y una resta de complejos, modal de Recurso
+  abriendo con el texto real, overlay de Carboncito tras una respuesta
+  incorrecta) → "Vocabulario y Gramática Avanzada" (Inglés 4° medio,
+  oración con hueco y las 4 alternativas en inglés) → confirmación de que
+  "Ciencias para la Ciudadanía" muestra el mismo contenido para 3° y 4°
+  medio (por diseño). Sin errores de consola en ningún caso.
+
+Con esto, **el Plan de Formación General de 3°-4° medio queda 100%
+completo** (34 módulos, las 6 asignaturas del plan). Próximo paso posible:
+Plan Diferenciado Científico de 3°-4° medio (5 asignaturas: Biología
+Celular y Molecular, Biología de los Ecosistemas, Ciencias de la Salud,
+Física, Química — la pantalla `planMedioMap` ya tiene la tarjeta lista,
+solo falta construir `PLAN_DIFERENCIADO_SUBJECT_DEFS` con el mismo patrón
+ya usado aquí para `PLAN_GENERAL_SUBJECT_DEFS`).
 
 ### EPJA (Educación para Personas Jóvenes y Adultas) — ✅ completo (los 5 niveles: Nivel 1/2/3 Básica, Nivel 1/2 Media)
 Pedido explícito del usuario (2026-08-01, "procede con epja") de empezar a

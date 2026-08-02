@@ -440,6 +440,17 @@ export const MODULE_TITLES = {
   contrastemediosm2:'Musicólogo Comparativo',
   escenariostecnologicosm2:'Futurólogo Tecnológico',
   riesgosredesapoyom2:'Guardián de Redes de Apoyo', bienestarrelacionesm2:'Embajador de Bienestar II', proyeccionacademicam2:'Proyector de Futuro',
+  numeroscomplejospg3:'Maestro de lo Imaginario', estadisticadispersionpg3:'Analista de Dispersión', funcionesexplogpg3:'Domador de Exponentes', geometriacircunferenciapg3:'Geómetra del Círculo',
+  matfinancierapg4:'Estratega Financiero', binomialnormalpg4:'Modelador de Probabilidades', funcionespotenciatrigpg4:'Trigonómetra', rectascircunferenciaspg4:'Cartógrafo del Plano',
+  interpretacionliterariapg3:'Intérprete Literario', analisiscriticopg3:'Detective de Medios',
+  comparacionobraspg4:'Comparatista Literario', evaluacioncriticapg4:'Auditor de Textos',
+  democraciaciudadaniapg3:'Guardián de la Democracia', sistemajudicialddhhpg3:'Defensor de Derechos', estadomercadoterritoriopg3:'Analista de Territorio',
+  institucionalidaddemocraticapg4:'Arquitecto Institucional', modelosdesarrollopg4:'Estratega del Desarrollo', libertadigualdadpg4:'Voz de la Igualdad', mediosciudadaniadigitalpg4:'Ciudadano Digital',
+  quefilosofiapg3:'Aprendiz de Filósofo', ontologiapg3:'Explorador del Ser', epistemologiapg3:'Buscador de la Verdad', logicaargumentacionpg3:'Maestro de la Lógica',
+  eticateoriaspg4:'Ético en Formación', argumentosfalaciaspg4:'Cazador de Falacias', filosofiacontemporaneapg4:'Filósofo Contemporáneo',
+  ambientesostenibilidadpg:'Guardián Sostenible', bienestarsaludpg:'Promotor del Bienestar', seguridadautocuidadopg:'Experto en Prevención', tecnologiasociedadpg:'Analista Tecnológico',
+  vocabgramaticapg3:'Gramático en Inglés', comprensionlecturapg3:'Lector Crítico en Inglés',
+  vocabavanzadopg4:'Gramático Avanzado', comprensionlecturaavanzadapg4:'Lector Avanzado en Inglés',
 };
 
 export function spawnConfetti(container){

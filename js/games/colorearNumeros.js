@@ -12,29 +12,52 @@ import { render } from '../render.js';
    (confirmado con el usuario vía AskUserQuestion, en vez de una galería
    interna con localStorage).
 
-   Los 4 dibujos son arte SVG 100% propio, dibujado a mano con formas
-   geométricas simples (círculos, elipses, rectángulos, polígonos) — igual
-   que el resto de la app (mascotSVG, shapeSVG, etc.), nunca imágenes
-   externas. A diferencia de una lámina de colorear real (regiones
-   irregulares tipo rompecabezas que encajan una con otra), acá cada
-   "región" es una forma geométrica independiente superpuesta sobre las
-   demás — una adaptación honesta dado el mismo criterio de "cero
-   dependencias, todo SVG a mano" que ya rige el resto del arte de la app,
-   en vez de intentar replicar el estilo de una lámina escaneada real.
+   Dos mecanismos de dibujo conviven en este archivo, elegidos por dibujo:
+
+   1) SVG a mano (Carboncito, Auto, Casa, Pez, Playa Tropical): arte propio
+      con formas geométricas simples (círculos, elipses, rectángulos,
+      polígonos) — igual que el resto de la app (mascotSVG, shapeSVG, etc.),
+      nunca imágenes externas. Cada "región" es un elemento SVG con
+      `data-num`; tocarlo le cambia el atributo `fill`.
+
+   2) Imagen PNG real + relleno por inundación en `<canvas>` (Paisaje):
+      agregado 2026-08-03 tras varias rondas de arte SVG a mano que el
+      usuario reportó repetidamente como "horrible"/"deforme"/"no simétrico"
+      pese a múltiples correcciones — el usuario generó una lámina real en
+      una herramienta externa (Copilot Designer) y pidió usarla tal cual en
+      vez de seguir intentando igualar esa calidad a mano. La imagen
+      (`img/colorear/<archivo>.png`, línea negra sobre fondo transparente,
+      con los números ya dibujados) se compone sobre blanco en un
+      `<canvas>`; el clic dispara `floodFillCanvas()` (algoritmo de
+      relleno por inundación clásico, iterativo con pila explícita —sin
+      recursión, para no desbordar la pila con regiones grandes—, que
+      compara contra el color del píxel tocado con una tolerancia, no
+      contra "blanco" fijo, para poder recolorear una región ya pintada).
+      Un dibujo con la propiedad `image` en vez de `viewBox`+`build` usa
+      este mecanismo — ver la rama `d.image` en `coloringHTML()`,
+      `initColorearNumeros()`, `clearColoring()` y `saveColoringPNG()`.
 
    El número de cada región es solo una GUÍA (no se valida el color
    elegido contra un color "correcto") — mismo espíritu sin-respuesta-
    incorrecta que ya usan Escribe tu Nombre/Caligrafía (games/traza.js):
-   es una actividad de creación libre, no una prueba. Tocar una región con
-   un color de la paleta seleccionado la rellena; tocar "Borrar todo"
-   reinicia el dibujo; "Guardar" serializa el SVG a un `<canvas>` oculto
-   (vía Blob + Image, sin ninguna librería externa) y descarga un PNG.
+   es una actividad de creación libre, no una prueba. "Guardar" descarga
+   un PNG (desde el SVG serializado, o directamente desde el `<canvas>` si
+   ya es uno).
 
    Estado interno del módulo (no vive en state.js/persistence.js a
    propósito: es UI efímera de una herramienta de consulta, no progreso
    del niño que valga la pena persistir entre sesiones, mismo criterio que
    currentDrawingId/currentColorNum de traza.js). */
 
+/* Paleta ampliada de 8 a 16 colores (2026-08-03, pedido explícito del
+   usuario: "considerar una paleta de colores más amplia") — se agregaron 8
+   tonos nuevos (rosado, morado, turquesa, verde oscuro, azul oscuro,
+   amarillo claro, blanco/gris muy claro para nieve o brillos, y un café muy
+   oscuro para detalles) en vez de solo variar los 8 originales, para cubrir
+   casos que antes no tenían un color realista disponible (nieve/nubes muy
+   claras, sombras oscuras, follaje oscuro). `.colorear-palette` ya usaba
+   `flex-wrap`, así que 16 swatches simplemente arman una segunda fila sin
+   necesitar cambios de CSS aparte del propio contenido. */
 export const PALETTE_COLOREAR = [
   { n:1, color:'#FFD54F', name:'Amarillo' },
   { n:2, color:'#FF8A65', name:'Naranjo' },
@@ -44,6 +67,14 @@ export const PALETTE_COLOREAR = [
   { n:6, color:'#7986CB', name:'Azul' },
   { n:7, color:'#81C784', name:'Verde' },
   { n:8, color:'#A1887F', name:'Café' },
+  { n:9, color:'#F06292', name:'Rosado' },
+  { n:10, color:'#BA68C8', name:'Morado' },
+  { n:11, color:'#4DB6AC', name:'Turquesa' },
+  { n:12, color:'#558B2F', name:'Verde oscuro' },
+  { n:13, color:'#303F9F', name:'Azul oscuro' },
+  { n:14, color:'#FFF176', name:'Amarillo claro' },
+  { n:15, color:'#ECEFF1', name:'Blanco' },
+  { n:16, color:'#4E342E', name:'Café oscuro' },
 ];
 
 let currentDrawingId = null;
@@ -76,10 +107,12 @@ function ellipseRegion(cx, cy, rx, ry, num, rotate, fontSize, labelPos){
   return '<ellipse data-num="'+num+'" cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="#ffffff" stroke="#333" stroke-width="2.5"'+t+'/>'+
     '<text class="colorear-num" x="'+lx+'" y="'+ly+'"'+labelTransform+style+'>'+num+'</text>';
 }
-function rectRegion(x, y, w, h, num, rx, fontSize){
+function rectRegion(x, y, w, h, num, rx, fontSize, labelPos){
   const style = fontSize ? ' style="font-size:'+fontSize+'px"' : '';
+  const lx = labelPos ? labelPos.x : (x+w/2);
+  const ly = labelPos ? labelPos.y : (y+h/2);
   return '<rect data-num="'+num+'" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(rx||0)+'" fill="#ffffff" stroke="#333" stroke-width="2.5"/>'+
-    '<text class="colorear-num" x="'+(x+w/2)+'" y="'+(y+h/2)+'"'+style+'>'+num+'</text>';
+    '<text class="colorear-num" x="'+lx+'" y="'+ly+'"'+style+'>'+num+'</text>';
 }
 function polyRegion(points, num, lx, ly, fontSize){
   const style = fontSize ? ' style="font-size:'+fontSize+'px"' : '';
@@ -102,6 +135,26 @@ function sunDecor(cx, cy, r){
     rays += '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>';
   }
   return rays;
+}
+/* Nube esponjosa (varios lóbulos vía curvas Q), parametrizada por centro y
+   escala en vez de path hardcodeado — evita repetir a mano la misma
+   matemática de bezier dos veces para las 2 nubes del Paisaje. */
+function cloudRegion(cx, cy, scale, num, fontSize, labelPos){
+  const s = scale;
+  const d = 'M '+(cx-60*s)+' '+(cy+10*s)+
+    ' Q '+(cx-72*s)+' '+(cy-18*s)+' '+(cx-34*s)+' '+(cy-22*s)+
+    ' Q '+(cx-24*s)+' '+(cy-46*s)+' '+(cx+4*s)+' '+(cy-34*s)+
+    ' Q '+(cx+30*s)+' '+(cy-50*s)+' '+(cx+50*s)+' '+(cy-26*s)+
+    ' Q '+(cx+76*s)+' '+(cy-30*s)+' '+(cx+70*s)+' '+(cy-4*s)+
+    ' Q '+(cx+92*s)+' '+(cy+6*s)+' '+(cx+68*s)+' '+(cy+20*s)+
+    ' Q '+(cx+66*s)+' '+(cy+30*s)+' '+(cx+42*s)+' '+(cy+28*s)+
+    ' L '+(cx-38*s)+' '+(cy+28*s)+
+    ' Q '+(cx-68*s)+' '+(cy+30*s)+' '+(cx-60*s)+' '+(cy+10*s)+' Z';
+  const lx = labelPos ? labelPos.x : cx;
+  const ly = labelPos ? labelPos.y : cy;
+  const style = fontSize ? ' style="font-size:'+fontSize+'px"' : '';
+  return '<path data-num="'+num+'" d="'+d+'" fill="#ffffff" stroke="#333" stroke-width="2.5" stroke-linejoin="round"/>'+
+    '<text class="colorear-num" x="'+lx+'" y="'+ly+'"'+style+'>'+num+'</text>';
 }
 
 /* ---------------- Los 4 dibujos ----------------
@@ -200,16 +253,103 @@ const DIBUJOS_COLOREAR = [
         '<path d="M118 168 Q128 178 138 168" fill="none" stroke="#1D2B3A" stroke-width="3" stroke-linecap="round"/>';
     },
   },
+  /* ---------------- 5° dibujo: Paisaje (bosque y cerros) ----------------
+     Reescrito por completo 2026-08-03 (pedido explícito del usuario, tras
+     varias rondas de arte SVG a mano que seguían viéndose "horrible",
+     "deforme" o "no simétrico" pese a múltiples correcciones): en vez de
+     seguir dibujando geometría a mano, este dibujo ahora usa una lámina PNG
+     real generada por el usuario en una herramienta externa (Copilot
+     Designer) — `img/colorear/paisaje-bosque.png`, línea negra sobre fondo
+     transparente, con los números 1-14 ya dibujados como parte de la imagen.
+     El "relleno" ya no es una región SVG con `data-num`: es un verdadero
+     relleno por inundación (flood fill) sobre `<canvas>` — ver
+     `initRasterCanvas()`/`floodFillCanvas()` más abajo. `image` (en vez de
+     `viewBox`+`build`) es la señal que usa `coloringHTML()`/
+     `initColorearNumeros()`/`clearColoring()`/`saveColoringPNG()` para
+     decidir cuál de los dos mecanismos usar — los otros dibujos (Carboncito,
+     Auto, Casa, Pez, Playa) siguen siendo SVG a mano sin cambios. */
+  {
+    id:'paisaje', label:'Paisaje', icon:'🏞️', image:'img/colorear/paisaje-bosque.png',
+    /* Leyenda de color sugerido por número (2026-08-03, pedido explícito
+       del usuario: "los números, podrías colocarlos en los colores que
+       corresponde") — igual que la llave de colores al pie de la lámina de
+       referencia que compartió. Cada valor es el NÚMERO de
+       `PALETTE_COLOREAR` (no un hex suelto), para que la leyenda muestre
+       siempre un color que el niño puede elegir de verdad en la paleta de
+       abajo. Es solo una sugerencia visual — igual que el resto del módulo,
+       no se valida qué color eligió el niño contra esto. Verificado contra
+       el análisis real de componentes conexas de la imagen (no adivinado):
+       cielo=1 región propia, piso=1 región propia (comparten "verde" con
+       pasto/árboles/arbustos por ser todos vegetación, a propósito). */
+    colorGuide:{1:3, 2:1, 3:5, 4:5, 5:5, 6:8, 7:7, 8:6, 9:7, 10:7, 11:7, 12:7, 13:7, 14:7},
+  },
+  /* ---------------- 7° dibujo: Playa Tropical ----------------
+     Agregado 2026-08-03, pedido explícito del usuario con un prompt de
+     estilo muy detallado ("PROMPT MAESTRO"): libro para colorear infantil,
+     blanco y negro puro, sin sombras/degradados/texturas/3D, contornos
+     cerrados, números grandes centrados en cada elemento. A diferencia de
+     Paisaje (que usa rellenos fijos de color para ojos/troncos/sombras),
+     esta lámina NO usa ningún relleno fijo de color — todo elemento,
+     incluidos troncos y vela del barco, es una región numerada blanca. Los
+     14 elementos pedidos por el usuario, varios como conjunto de formas
+     repitiendo el mismo número (igual criterio que las 2 orejas de
+     Carboncito o las 3 nubes de Casa): palmeras = tronco + 3 hojas (mismo
+     número), castillo = cuerpo + 3 torres, barco = casco + vela, rocas = 2
+     piedras. Las hojas de palmera son elipses rotadas (mismo helper
+     `ellipseRegion` ya usado en el resto de la app, con su parámetro
+     `rotate`) en vez de un path a mano — mismo criterio de "usar geometría
+     confiable" ya aplicado en Paisaje tras varias rondas de formas
+     deformadas a mano. */
+  {
+    id:'playa', label:'Playa Tropical', icon:'🏖️', viewBox:'0 0 400 300',
+    build:function(){
+      return circleRegion(370,40,22,1)+sunDecor(370,40,22)+
+        cloudRegion(150,55,0.8,2)+
+        rectRegion(0,100,400,85,5)+
+        pathRegion('M0 190 Q50 172 100 190 Q150 172 200 190 Q250 172 300 190 Q350 172 400 190 L400 228 L0 228 Z', 6, 300, 210)+
+        rectRegion(0,228,400,72,7,0,null,{x:350,y:290})+
+        polyRegion('45,230 65,230 60,110 50,110', 3, 55, 175)+
+        ellipseRegion(43,103,18,9,3,-150,10)+
+        ellipseRegion(55,96,18,9,3,-90,10)+
+        ellipseRegion(67,103,18,9,3,-30,10)+
+        polyRegion('365,230 385,230 380,110 370,110', 4, 375, 175)+
+        ellipseRegion(363,103,14,9,4,-150,10)+
+        ellipseRegion(375,96,14,9,4,-90,10)+
+        ellipseRegion(387,103,14,9,4,-30,10)+
+        rectRegion(85,240,60,45,8)+
+        circleRegion(95,232,9,8)+
+        circleRegion(115,228,10,8)+
+        circleRegion(135,232,9,8)+
+        rectRegion(160,258,70,35,11,6)+
+        pathRegion('M245,285 Q240,265 253,260 Q257,250 265,258 Q271,248 277,258 Q283,250 287,260 Q297,265 290,285 Z', 9, 265, 273)+
+        pathRegion('M300 270 Q300 235 328 235 Q356 235 356 270 Z', 10, 328, 253)+
+        '<line x1="328" y1="268" x2="328" y2="295" stroke="#333" stroke-width="4"/>'+
+        ellipseRegion(190,220,20,14,14)+
+        ellipseRegion(212,230,14,10,14)+
+        polyRegion('258,25 280,33 302,25 296,37 280,43 264,37', 12, 280, 34)+
+        pathRegion('M255 150 Q250 165 260 165 L320 165 Q330 165 325 150 Z', 13, 270, 160)+
+        polyRegion('290,150 290,115 315,150', 13, 296, 135);
+    },
+  },
 ];
 
 function drawingById(id){
   return DIBUJOS_COLOREAR.filter(function(d){ return d.id===id; })[0];
 }
 
+/* Sin número visible en el botón (2026-08-03, corrige confusión real
+   reportada por el usuario con captura: "son distintos" — el número del
+   swatch de la paleta es solo un ID interno de la posición del color, sin
+   ninguna relación con los números de la Guía (que son los números de
+   REGIÓN dibujados en la lámina) ni con nada que el niño necesite leer;
+   mostrar dígitos 1-16 justo debajo de la Guía (números 1-14, de un
+   sistema totalmente distinto) hacía parecer que debían coincidir. Sin
+   número, el swatch es simplemente "un color para elegir" — aria-label
+   sigue llevando el nombre del color para accesibilidad. */
 function paletteHTML(){
   return PALETTE_COLOREAR.map(function(p){
     const active = p.n===currentColorNum ? ' active' : '';
-    return '<button class="palette-swatch'+active+'" data-num="'+p.n+'" style="background:'+p.color+'" onclick="pickColorNum('+p.n+')" aria-label="'+p.name+'">'+p.n+'</button>';
+    return '<button class="palette-swatch'+active+'" data-num="'+p.n+'" style="background:'+p.color+'" onclick="pickColorNum('+p.n+')" aria-label="'+p.name+'"></button>';
   }).join('');
 }
 
@@ -222,18 +362,215 @@ function pickerHTML(){
   return '<div class="drawing-picker">'+cards+'</div>';
 }
 
+/* Leyenda "número → color sugerido" (ver `colorGuide` en la definición del
+   dibujo) — de solo lectura, elegir el color sigue haciéndose desde la
+   paleta de abajo. v2 (2026-08-03, corrige un bug real de UX reportado por
+   el usuario: "hay 2 tandas de colores y no todos funcionan" — la v1 usaba
+   círculos con número, IDÉNTICOS en forma y tamaño a los swatches reales de
+   la paleta, apilados justo encima de ella; el usuario intentaba tocarlos
+   esperando que pintaran, y no hacían nada porque nunca fueron
+   interactivos. v2 usa cuadritos chicos (no círculos) con un rótulo
+   "Guía:" explícito, para que se vea inequívocamente distinta de la
+   paleta real, no una "primera tanda" de colores que debería funcionar
+   igual. */
+function legendHTML(d){
+  if(!d.colorGuide) return '';
+  const chips = Object.keys(d.colorGuide).sort(function(a,b){ return Number(a)-Number(b); }).map(function(num){
+    const p = PALETTE_COLOREAR.filter(function(x){ return x.n===d.colorGuide[num]; })[0];
+    const color = p ? p.color : '#fff';
+    return '<span class="colorear-legend-chip" style="background:'+color+'">'+num+'</span>';
+  }).join('');
+  return '<div class="colorear-legend"><b class="colorear-legend-label">Guía:</b>'+chips+'</div>';
+}
 function coloringHTML(){
   const d = drawingById(currentDrawingId);
+  const canvasHTML = d.image
+    ? '<canvas id="colorear-canvas"></canvas>'
+    : '<svg id="colorear-svg" viewBox="'+(d.viewBox||'0 0 300 300')+'">'+d.build()+'</svg>';
   return '<div class="colorear-toolbar">'+
       '<button class="colorear-tool-btn" onclick="backToDrawingPicker()">🔄 Cambiar dibujo</button>'+
       '<button class="colorear-tool-btn" onclick="clearColoring()">🧹 Borrar todo</button>'+
       '<button class="colorear-tool-btn save" onclick="saveColoringPNG()">💾 Guardar</button>'+
     '</div>'+
-    '<div class="colorear-canvas-wrap">'+
-      '<svg id="colorear-svg" viewBox="'+(d.viewBox||'0 0 300 300')+'">'+d.build()+'</svg>'+
-    '</div>'+
+    '<div class="colorear-canvas-wrap">'+canvasHTML+'</div>'+
     '<p class="colorear-hint">Elige un color y toca un número para pintarlo.</p>'+
+    legendHTML(d)+
     '<div class="colorear-palette">'+paletteHTML()+'</div>';
+}
+
+/* ---------------- Dibujo #2: imagen PNG real + flood fill en canvas ----------------
+   Ver comentario de cabecera del archivo. `canvas._sourceImg` guarda el
+   `<img>` ya cargado para poder redibujar el estado original en
+   `clearColoring()` sin volver a pedirlo por red. */
+function drawRasterBase(canvas, img){
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+}
+/* Horizonte sintético (2026-08-03, corrige un problema real medido en el
+   navegador, no una hipótesis: se muestreó la máscara de muro fila por fila
+   en la banda donde debería estar el piso y TODAS las filas tenían cortes
+   de 100 a 300px — la línea de "piso" del PNG real solo está dibujada como
+   una lomita suelta bajo cada árbol/arbusto, nunca como un horizonte
+   continuo de borde a borde, así que cielo y piso son literalmente la misma
+   región abierta en la imagen. En vez de inventar una curva a mano (la
+   lección ya aprendida varias veces hoy con el arte SVG: una curva a mano
+   nueva se ve "pegada"), se RASTREA la altura real de esas lomitas ya
+   dibujadas en la imagen (columna por columna, buscando el primer píxel
+   oscuro en la banda 42%-78% de alto) y se conectan con curvas suaves —
+   el resultado sigue el contorno que el propio dibujo ya insinúa, en vez de
+   agregar una forma nueva ajena al estilo. Se traza directamente sobre el
+   `<canvas>` (no sobre el `<img>` original) para que quede fijo en el
+   estado base y sobreviva a "Borrar todo" — ver `resetRasterCanvas()`. */
+function traceGroundPoints(ctx, w, h){
+  const data = ctx.getImageData(0, 0, w, h).data;
+  function isDark(x, y){
+    const i = (y*w + x) * 4;
+    return data[i+3]>40 && (data[i]+data[i+1]+data[i+2])/3 < 170;
+  }
+  const step = Math.max(8, Math.round(w/64));
+  const yMin = Math.floor(h*0.42), yMax = Math.floor(h*0.78);
+  const pts = [];
+  for(let x=0; x<w; x+=step){
+    let found = -1;
+    for(let y=yMin; y<=yMax; y++){ if(isDark(x,y)){ found=y; break; } }
+    pts.push([x, found]);
+  }
+  if(pts[pts.length-1][0] !== w-1) pts.push([w-1, -1]);
+  let lastKnown = null;
+  for(let i=0;i<pts.length;i++){
+    if(pts[i][1] === -1){
+      let j = i+1;
+      while(j<pts.length && pts[j][1]===-1) j++;
+      const prevY = lastKnown!=null ? lastKnown : (pts[j] ? pts[j][1] : Math.round((yMin+yMax)/2));
+      const nextY = j<pts.length ? pts[j][1] : prevY;
+      const span = j-i+1;
+      for(let k=i;k<j;k++){ pts[k][1] = Math.round(prevY + (nextY-prevY)*((k-i+1)/span)); }
+      i = j-1;
+    } else {
+      lastKnown = pts[i][1];
+    }
+  }
+  return pts.map(function(p, i){
+    const a = pts[Math.max(0,i-1)][1], b = p[1], c = pts[Math.min(pts.length-1,i+1)][1];
+    return [p[0], Math.round((a+b+c)/3)];
+  });
+}
+function drawSyntheticHorizon(canvas){
+  const ctx = canvas.getContext('2d');
+  const pts = traceGroundPoints(ctx, canvas.width, canvas.height);
+  ctx.save();
+  ctx.strokeStyle = '#222';
+  ctx.lineWidth = Math.max(3, Math.round(canvas.width/450));
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0], pts[0][1]);
+  for(let i=1;i<pts.length;i++){
+    const prev = pts[i-1], cur = pts[i];
+    ctx.quadraticCurveTo(prev[0], prev[1], (prev[0]+cur[0])/2, (prev[1]+cur[1])/2);
+  }
+  ctx.lineTo(pts[pts.length-1][0], pts[pts.length-1][1]);
+  ctx.stroke();
+  ctx.restore();
+}
+function resetRasterCanvas(canvas){
+  drawRasterBase(canvas, canvas._sourceImg);
+  drawSyntheticHorizon(canvas);
+  canvas._wallMask = buildWallMask(canvas);
+}
+function initRasterCanvas(src){
+  const canvas = document.getElementById('colorear-canvas');
+  if(!canvas) return;
+  const img = new Image();
+  img.onload = function(){
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    canvas._sourceImg = img;
+    resetRasterCanvas(canvas);
+  };
+  img.src = src;
+  canvas.addEventListener('click', function(e){
+    if(!canvas.width) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((e.clientX - rect.left) * (canvas.width / rect.width));
+    const y = Math.floor((e.clientY - rect.top) * (canvas.height / rect.height));
+    floodFillCanvas(canvas.getContext('2d'), x, y, hexToRgb(colorForNum(currentColorNum)), canvas._wallMask);
+  });
+}
+function hexToRgb(hex){
+  const v = parseInt(hex.slice(1), 16);
+  return [(v>>16)&255, (v>>8)&255, v&255];
+}
+/* Máscara de "muro" (2026-08-03, corrige un bug real encontrado al probar
+   en el navegador: el relleno se "escapó" del cielo al pasto, y del sol a
+   un árbol/laguna/arbustos — la lámina PNG real tiene micro-cortes de 1-2px
+   en algunos trazos donde dos líneas casi se tocan pero no del todo,
+   invisibles a simple vista). Se calcula sobre el `<canvas>` YA COMPUESTO
+   (imagen + horizonte sintético), no sobre el `<img>` original, para que el
+   horizonte trazado también cuente como muro. Cualquier píxel oscuro con
+   algo de opacidad se marca como muro, y ese muro se "dilata" 1px hacia sus
+   4 vecinos para sellar cortes microscópicos de antialiasing.
+   `floodFillCanvas()` nunca cruza un píxel marcado como muro, sin importar
+   qué tan parecido sea su color al color buscado — una segunda barrera
+   además de la tolerancia de color, no un reemplazo. */
+function buildWallMask(canvas){
+  const w = canvas.width, h = canvas.height;
+  const octx = canvas.getContext('2d');
+  const d = octx.getImageData(0, 0, w, h).data;
+  const raw = new Uint8Array(w*h);
+  for(let p=0;p<w*h;p++){
+    const i = p*4;
+    const lum = (d[i]+d[i+1]+d[i+2])/3;
+    if(d[i+3]>40 && lum<170) raw[p] = 1;
+  }
+  const mask = new Uint8Array(w*h);
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      const p = y*w+x;
+      if(raw[p] || (x>0&&raw[p-1]) || (x<w-1&&raw[p+1]) || (y>0&&raw[p-w]) || (y<h-1&&raw[p+w])){
+        mask[p] = 1;
+      }
+    }
+  }
+  return mask;
+}
+/* Relleno por inundación clásico (pila explícita, sin recursión — una
+   región grande podría desbordar la pila de llamadas si fuera recursivo).
+   Compara cada píxel contra el color del píxel TOCADO (no contra "blanco"
+   fijo): así una región ya pintada se puede recolorear con un color nuevo,
+   igual que en el mecanismo SVG. La tolerancia por canal deja pasar el
+   difuminado de antialiasing cerca del trazo sin cruzar la línea negra; el
+   `wallMask` (ver `buildWallMask()`) es la barrera dura que impide fugas
+   incluso si la tolerancia de color no bastara por sí sola. */
+function floodFillCanvas(ctx, startX, startY, fillColor, wallMask){
+  const canvas = ctx.canvas;
+  const w = canvas.width, h = canvas.height;
+  if(startX<0 || startY<0 || startX>=w || startY>=h) return;
+  if(wallMask && wallMask[startY*w+startX]) return;
+  const imgData = ctx.getImageData(0, 0, w, h);
+  const data = imgData.data;
+  const idx0 = (startY*w + startX) * 4;
+  const tR = data[idx0], tG = data[idx0+1], tB = data[idx0+2];
+  const fr = fillColor[0], fg = fillColor[1], fb = fillColor[2];
+  if(Math.abs(tR-fr)+Math.abs(tG-fg)+Math.abs(tB-fb) < 12) return;
+  const tol = 60;
+  const visited = new Uint8Array(w*h);
+  const stack = [startX, startY];
+  while(stack.length){
+    const y = stack.pop();
+    const x = stack.pop();
+    if(x<0 || y<0 || x>=w || y>=h) continue;
+    const vi = y*w + x;
+    if(visited[vi] || (wallMask && wallMask[vi])) continue;
+    const i = vi*4;
+    if(Math.abs(data[i]-tR)>tol || Math.abs(data[i+1]-tG)>tol || Math.abs(data[i+2]-tB)>tol) continue;
+    visited[vi] = 1;
+    data[i] = fr; data[i+1] = fg; data[i+2] = fb; data[i+3] = 255;
+    stack.push(x+1,y, x-1,y, x,y+1, x,y-1);
+  }
+  ctx.putImageData(imgData, 0, 0);
 }
 
 export function renderColorearNumerosScreen(){
@@ -245,6 +582,8 @@ export function renderColorearNumerosScreen(){
 }
 
 export function initColorearNumeros(){
+  const d = drawingById(currentDrawingId);
+  if(d && d.image){ initRasterCanvas(d.image); return; }
   const svg = document.getElementById('colorear-svg');
   if(!svg) return;
   svg.addEventListener('click', function(e){
@@ -275,11 +614,28 @@ export function pickColorNum(n){
   });
 }
 export function clearColoring(){
+  const canvas = document.getElementById('colorear-canvas');
+  if(canvas){
+    if(canvas._sourceImg && canvas._sourceImg.complete) resetRasterCanvas(canvas);
+    return;
+  }
   const svg = document.getElementById('colorear-svg');
   if(!svg) return;
   svg.querySelectorAll('[data-num]').forEach(function(el){ el.setAttribute('fill','#ffffff'); });
 }
 export function saveColoringPNG(){
+  const rasterCanvas = document.getElementById('colorear-canvas');
+  if(rasterCanvas){
+    rasterCanvas.toBlob(function(blob){
+      const link = document.createElement('a');
+      link.download = 'mi-dibujo-leo.png';
+      link.href = URL.createObjectURL(blob);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    });
+    return;
+  }
   const svg = document.getElementById('colorear-svg');
   if(!svg) return;
   const vb = svg.viewBox.baseVal;

@@ -401,6 +401,196 @@ js/
                               etiqueta debe devolver un elemento con el mismo
                               `data-num`), reproducible cada vez que se toque
                               el arte de este módulo.
+                              **Paisaje: de SVG a mano a imagen PNG real +
+                              flood fill (2026-08-03).** Tras el rehecho de
+                              arte de más arriba, el usuario pidió un 5°
+                              dibujo nuevo ("Paisaje", bosque y cerros) y,
+                              durante varias rondas de correcciones —montañas
+                              asimétricas, laguna con forma de nube en vez de
+                              agua, sendero con un quiebre antinatural,
+                              arbustos deformes—, repitió el mismo veredicto
+                              ("quedó horrible, peor que antes", "no es igual
+                              a lo que te estoy pidiendo") pese a múltiples
+                              intentos de mejora (curvas simétricas
+                              generadas por trigonometría en vez de a mano,
+                              sombras de ladera, festones decorativos). El
+                              usuario finalmente ofreció una salida distinta:
+                              generar la lámina en una herramienta externa
+                              (Copilot Designer) y que la app la usara tal
+                              cual, en vez de seguir intentando igualar esa
+                              calidad con SVG a mano. Se aceptó porque es
+                              honesto: hay un techo real de calidad
+                              alcanzable escribiendo coordenadas de curvas
+                              Bézier a mano, y ese techo ya se había
+                              alcanzado.
+                              **Mecanismo nuevo (convive con el SVG, no lo
+                              reemplaza):** un dibujo con la propiedad
+                              `image` (en vez de `viewBox`+`build`) usa un
+                              `<canvas>` real en vez de un `<svg>`. La imagen
+                              (`img/colorear/paisaje-bosque.png`, línea negra
+                              semi-transparente sobre fondo TRANSPARENTE —no
+                              negro; el fondo negro que se veía en una
+                              vista previa era solo un artefacto de
+                              renderizado del visor de imágenes, confirmado
+                              leyendo los valores RGBA reales del archivo
+                              antes de usarlo) se compone sobre blanco con
+                              `drawRasterBase()`. El clic dispara
+                              `floodFillCanvas()`: relleno por inundación
+                              clásico con pila explícita (nunca recursivo,
+                              para no desbordar la pila con una región
+                              grande), que compara cada píxel contra el
+                              color del píxel TOCADO (no contra "blanco"
+                              fijo) — así una región ya pintada se puede
+                              recolorear, igual que en el mecanismo SVG.
+                              **Bug real encontrado en la primera prueba
+                              (no hipotético — verificado pintando la lámina
+                              completa y viendo qué pasaba): el relleno se
+                              "escapaba"** del cielo hacia el pasto, y del
+                              sol hacia un árbol/la laguna/un arbusto. La
+                              lámina real tiene micro-cortes de 1-2px en
+                              algunos trazos donde dos líneas casi se tocan
+                              pero no del todo, invisibles a simple vista.
+                              Se corrigió con `buildWallMask()`: una máscara
+                              de "muro" (cualquier píxel oscuro con algo de
+                              opacidad) calculada UNA vez al cargar la
+                              imagen, dilatada 1px hacia sus 4 vecinos para
+                              sellar esos cortes — `floodFillCanvas()` nunca
+                              cruza un píxel de la máscara, sin importar
+                              cuán parecido sea su color al buscado (barrera
+                              dura, además de la tolerancia de color).
+                              **Segundo bug real, más grande: cielo y pasto
+                              resultaron ser LA MISMA región conectada** —
+                              no un simple corte de 1-2px. Se comprobó
+                              muestreando la máscara fila por fila en la
+                              banda donde debería estar el horizonte: TODAS
+                              las filas tenían cortes de 100 a 300px. La
+                              lámina real solo dibuja una "lomita" de piso
+                              suelta bajo cada árbol/arbusto, nunca un
+                              horizonte continuo de borde a borde. En vez de
+                              inventar una curva nueva a mano (la lección ya
+                              aprendida ese mismo día con el arte SVG: una
+                              curva inventada se nota "pegada"), se
+                              construyó `traceGroundPoints()`: RASTREA la
+                              altura real de esas lomitas ya dibujadas
+                              (columna por columna, primer píxel oscuro en
+                              la banda 42%-78% de alto de la imagen) y las
+                              conecta con curvas suaves — el horizonte
+                              resultante sigue el contorno que el propio
+                              dibujo ya insinuaba. `drawSyntheticHorizon()`
+                              lo traza directo sobre el `<canvas>` (no sobre
+                              el `<img>` original) para que sobreviva a
+                              "Borrar todo" vía `resetRasterCanvas()`
+                              (redibuja imagen + horizonte + recalcula la
+                              máscara, los tres pasos juntos siempre).
+                              **Verificación exhaustiva pedida explícitamente
+                              por el usuario ("revísalo bien, píntalo
+                              completo y analiza si están todas las
+                              divisiones"):** en vez de seguir probando con
+                              clics sueltos, se implementó un etiquetado de
+                              componentes conexas sobre la máscara completa
+                              (mismo algoritmo de flood fill, corrido sobre
+                              cada píxel de la imagen en vez de desde un solo
+                              clic) que encuentra TODAS las regiones
+                              separadas de una vez. Resultado real: 15 de 16
+                              regiones esperadas quedaron confirmadas como
+                              divisiones propias e independientes (cielo,
+                              piso, sol, 3 nubes, 4 montañas, 3 árboles, 2
+                              arbustos, laguna) — varias de las
+                              "fugas" sospechadas en clics manuales previos
+                              resultaron ser coordenadas de prueba mal
+                              apuntadas (el número "11" dibujado literalmente
+                              ENCIMA del centro geométrico de su árbol hace
+                              que un clic exacto al centroide caiga sobre un
+                              píxel de línea, no sobre la región). La única
+                              división real que NO se logró separar es el
+                              **sendero** ("6"): confirmado con 5 puntos
+                              distintos a lo largo de su curva visible que
+                              es la misma región que el pasto, porque en la
+                              lámina real el camino es una única línea
+                              decorativa (no dos bordes formando una cinta
+                              con interior propio) — un intento de rastrear
+                              esa línea automáticamente (mismo enfoque que el
+                              horizonte) resultó demasiado ruidoso para
+                              aislarla del número "6" y las matitas de pasto
+                              vecinas sin arriesgar una forma que se viera
+                              "pegada"; se dejó documentado como limitación
+                              conocida en vez de forzar un parche dudoso.
+                              **Paleta ampliada de 8 a 16 colores** (pedido
+                              explícito: "considerar una paleta de colores
+                              más amplia") con 8 tonos nuevos (rosado,
+                              morado, turquesa, verde oscuro, azul oscuro,
+                              amarillo claro, blanco, café oscuro) para
+                              cubrir casos sin color realista disponible
+                              antes (nieve, sombras oscuras, follaje oscuro).
+                              **Leyenda de color sugerido** (`colorGuide` en
+                              la definición del dibujo, pedido explícito:
+                              "los números, podrías colocarlos en los
+                              colores que corresponde", igual que la llave de
+                              colores al pie de la lámina de referencia que
+                              compartió el usuario) — mapea cada número de
+                              REGIÓN (1-14, los dibujados en la lámina) a un
+                              número de `PALETTE_COLOREAR`, nunca a un hex
+                              suelto, para que la leyenda siempre muestre un
+                              color que el niño puede elegir de verdad.
+                              **Dos bugs de UX reales encontrados por el
+                              usuario con capturas, no hipotéticos:** (1)
+                              "hay 2 tandas de colores y no todos funcionan"
+                              — la leyenda usaba círculos con número
+                              IDÉNTICOS en forma y tamaño a los swatches
+                              reales, apilados justo encima de la paleta; el
+                              usuario tocaba la leyenda esperando que
+                              pintara y no pasaba nada porque nunca fue
+                              interactiva. Primer intento de arreglo
+                              (cuadritos en vez de círculos + rótulo "Guía:")
+                              resultó insuficiente — el usuario reportó de
+                              nuevo, con otra captura, "son distintos": el
+                              verdadero problema de fondo era que la Guía
+                              (números 1-14, de REGIÓN) y la paleta
+                              (números 1-16, de SLOT de color) son dos
+                              sistemas de numeración distintos que se leían
+                              apiladas como si debieran coincidir número a
+                              número. (2) Fix real: quitarle el número al
+                              botón de la paleta por completo (`paletteHTML`)
+                              — el número de un swatch nunca significó nada
+                              que el niño necesitara leer, era solo un ID
+                              interno de posición; sin él, la paleta se lee
+                              inequívocamente como "colores para elegir", sin
+                              nada que competir visualmente con los números
+                              reales de la Guía. Verificado con clics físicos
+                              reales (no simulados por código) en ambos
+                              casos antes de darlos por resueltos.
+                              **6° dibujo, Playa Tropical:** agregado el
+                              mismo día a partir de un "prompt maestro" muy
+                              detallado que el usuario redactó (estilo libro
+                              para colorear infantil, blanco y negro puro,
+                              sin sombras/degradados/texturas/3D, contornos
+                              cerrados, números grandes centrados, 14
+                              elementos con ubicación aproximada) — sigue
+                              siendo SVG a mano (no tiene una lámina PNG
+                              real todavía), pero usa el mismo criterio ya
+                              establecido de "geometría confiable" (elipses
+                              rotadas para las hojas de palmera en vez de un
+                              path a mano) tras las rondas de formas
+                              deformadas de Paisaje. El usuario pidió
+                              pausarlo ("prefiero que continúe con el
+                              paisaje") antes de iterar sobre su calidad
+                              visual, así que queda tal cual, sin el mismo
+                              nivel de pulido/verificación que Paisaje.
+                              **Prompt maestro reutilizable:** a pedido del
+                              usuario, se le entregó un prompt estándar (ver
+                              conversación) para pedir a Copilot u otra
+                              herramienta nuevas láminas compatibles con el
+                              mecanismo de flood fill — insiste en líneas
+                              completamente cerradas y exportar PNG (nunca
+                              JPG, cuya compresión genera ruido que rompe el
+                              relleno automático), ya que la imagen no es
+                              solo ilustración: alimenta directamente
+                              `buildWallMask()`.
+                              Los helpers `birdMark`/`treeCanopy`/
+                              `treeTrunk`/`grassTuft` (construidos para la
+                              versión SVG anterior de Paisaje) se eliminaron
+                              por completo al quedar sin ningún llamador —
+                              ninguna otra lámina los usa.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

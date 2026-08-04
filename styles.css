@@ -965,11 +965,25 @@
   }
   #colorear-svg{ width:100%; height:auto; display:block; }
   #colorear-svg [data-num]{ cursor:pointer; }
+  #colorear-canvas{ width:100%; height:auto; display:block; cursor:pointer; touch-action:manipulation; }
   .colorear-num{
     font-family: var(--font-display); font-weight:800; font-size:15px;
     fill:#333; text-anchor:middle; dominant-baseline:middle; pointer-events:none;
   }
   .colorear-hint{ text-align:center; color: var(--ink-soft); font-weight:600; font-size:13px; margin:14px 0 8px; }
+  .colorear-legend{
+    display:flex; flex-wrap:wrap; align-items:center; gap:4px; justify-content:center;
+    padding:6px 14px 10px; margin:0 10px 8px; background:rgba(29,43,58,0.04); border-radius: var(--radius-md);
+  }
+  .colorear-legend-label{
+    font-family: var(--font-body); font-weight:700; font-size:11px; color: var(--ink-soft);
+    margin-right:2px; cursor:default;
+  }
+  .colorear-legend-chip{
+    width:18px; height:18px; border-radius:4px; border:1px solid rgba(29,43,58,0.2);
+    display:inline-flex; align-items:center; justify-content:center; cursor:default;
+    font-family: var(--font-body); font-weight:700; font-size:9px; color:#1D2B3A;
+  }
   .colorear-palette{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; padding-bottom:20px; }
   .palette-swatch{
     width:42px; height:42px; border-radius:50%; border:3px solid transparent;

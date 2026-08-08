@@ -775,6 +775,126 @@ js/
                               llamar a `render()` — mismo bug ya evitado
                               antes: reconstruir el `<canvas>` completo
                               borraría lo ya pintado.
+
+                              **Primer dibujo tipo "mandala" desde una lámina
+                              PNG del usuario (2026-08-08):** pedido
+                              explícito del usuario ("prestes especial
+                              enfoque... subiré láminas de mandala reales")
+                              de integrar `Gemini_Generated_Image_
+                              2gb3q42gb3q42gb3.png` (generada por el usuario
+                              con una IA de imágenes, en
+                              `C:\Development\aplicaciones web\
+                              Juego_Interactivo\imagenes\`, fuera del
+                              repositorio) — copiada a
+                              `img/colorear/mandala-flor.png` y agregada como
+                              un dibujo más (`id:'mandala'`) con el mismo
+                              mecanismo `image:` ya usado por Paisaje, sin
+                              ningún código nuevo de por medio. Antes de
+                              integrarla se verificó a fondo que el flood
+                              fill la soportara bien, porque un mandala es el
+                              caso más exigente posible para este mecanismo:
+                              1024×1024px con **cientos de piezas diminutas**
+                              (líneas muy finas, muchísimos compartimentos
+                              cerrados) en vez de las ~15 regiones grandes de
+                              los otros dibujos.
+                              - **Verificación de que no hay fugas**: se
+                                corrió un etiquetado de componentes conexas
+                                sobre la máscara de muro completa (mismo
+                                algoritmo de flood fill, aplicado una vez a
+                                toda la imagen) — resultado real: **1 sola
+                                región de fondo** (328 883px, limpia, sin
+                                fugas hacia el mandala) + **920 piezas
+                                internas de tamaño pintable** (5-2489px) +
+                                ~644 puntos decorativos de 1-4px (demasiado
+                                chicos para tocarlos a propósito, mismo
+                                criterio que los brillos de ojo ya fijos en
+                                Carboncito/Pez — no es un defecto, es el
+                                tamaño real de esos detalles en la lámina).
+                              - **Hallazgo real, no baked-in transparencia**:
+                                se midieron los píxeles de la imagen y
+                                resultó tener **alpha=255 en el 100% de la
+                                imagen** (sin transparencia real) — el
+                                patrón de cuadros gris/blanco que se ve
+                                "detrás" del mandala en cualquier visor
+                                (incluida la app) está literalmente
+                                dibujado como píxeles opacos dentro del PNG
+                                (una convención de algunos generadores de
+                                imágenes para representar "fondo
+                                transparente" cuando no exportan alpha real)
+                                — sin efecto en el flood fill (que rellena
+                                por similitud de color, no por alfa, y ese
+                                patrón de cuadros ya quedó confirmado como
+                                UNA sola región pintable de fondo), pero si
+                                el niño no pinta el fondo, el PNG exportado
+                                ("Guardar") conserva ese cuadriculado en vez
+                                de verse blanco liso — a tener en cuenta para
+                                mandalas futuros que el usuario suba, y una
+                                razón más para que el fondo sea una pieza
+                                pintable como cualquier otra (ya lo es).
+                              - **Bug real encontrado y corregido durante la
+                                verificación — no en el mecanismo de flood
+                                fill en sí (que resultó estar perfecto: una
+                                llamada directa al algoritmo, sin pasar por
+                                clic/coordenadas, rellenó exactamente el
+                                tamaño esperado en el 100% de los casos
+                                probados), sino en la conversión de un clic
+                                real a un píxel exacto:** `MouseEvent.
+                                clientX`/`clientY` se redondean a entero por
+                                especificación del navegador, y con el
+                                lienzo mostrado más chico que su resolución
+                                real (620-760px CSS para una imagen de
+                                1024px reales), cada píxel de pantalla
+                                equivale a más de un píxel real — así que un
+                                toque perfectamente intencional sobre una
+                                pieza real, con solo ±1px de margen de error
+                                (inevitable dado ese redondeo), a veces
+                                terminaba exactamente sobre el trazo en vez
+                                de dentro de la pieza, y `floodFillCanvas()`
+                                se detenía de inmediato sin pintar nada — ni
+                                error, ni fuga, simplemente "no pasó nada",
+                                que es exactamente lo que reportaría un niño
+                                tocando una pieza chica del mandala.
+                                Verificado con clics reales dirigidos a
+                                píxeles ya confirmados como pintables por el
+                                análisis de componentes conexas: 7 de 10
+                                fallaban en silencio por este motivo antes
+                                del fix. **Corregido con
+                                `nearestPaintablePixel()`**: si el píxel
+                                exacto que tocó el clic es parte del "muro",
+                                se busca en espiral (hasta 6px de radio,
+                                bastante más que el grosor de línea de
+                                cualquier lámina del módulo) el píxel
+                                pintable más cercano y se arranca el relleno
+                                ahí en vez de no hacer nada — no cambia el
+                                comportamiento de ningún clic que ya caía
+                                bien (la función retorna el mismo píxel de
+                                inmediato si no es muro), así que no afecta
+                                a los otros 5 dibujos, ya mucho más gruesos
+                                de línea. Verificado tras el fix: los mismos
+                                10 clics que antes fallaban en 7/10 ahora
+                                aciertan el tamaño exacto esperado en 10/10,
+                                y una regresión rápida de Carboncito/Paisaje
+                                confirmó que el resto de dibujos sigue
+                                funcionando igual. Probado visualmente en el
+                                navegador: 9 piezas grandes + el fondo
+                                pintados con 10 colores distintos, todas las
+                                fronteras nítidas, sin ningún color
+                                filtrándose a una pieza vecina.
+                              - **Cómo agregar más mandalas en el futuro**
+                                (el usuario ya avisó que subirá más): copiar
+                                el PNG nuevo a `img/colorear/`, agregar una
+                                entrada `{id, label, icon, image:'img/
+                                colorear/<archivo>.png'}` a
+                                `DIBUJOS_COLOREAR` — no hace falta ningún
+                                código nuevo. Eso sí, conviene repetir la
+                                misma verificación (componentes conexas +
+                                clics reales dirigidos) antes de darla por
+                                buena, ya que cada lámina nueva puede tener
+                                sus propias particularidades de línea/
+                                grosor; con `nearestPaintablePixel()` ya en
+                                su lugar, el riesgo de "clic que no hace
+                                nada" por líneas finas queda mitigado para
+                                cualquier lámina futura, no solo esta.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

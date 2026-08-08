@@ -326,7 +326,7 @@ function toolBtnHTML(tool, icon, label){
 }
 function coloringHintText(){
   if(currentTool==='pencil') return 'Dibuja libremente con el color elegido.';
-  if(currentTool==='eraser') return 'Toca o arrastra para borrar esa zona.';
+  if(currentTool==='eraser') return 'Toca o arrastra para borrar solo lo que pintaste, sin borrar el dibujo.';
   return 'Elige un color y toca cualquier parte del dibujo para pintarla.';
 }
 function coloringHTML(){
@@ -450,11 +450,33 @@ function autoFillBackgroundWhite(canvas){
     if(seed) floodFillCanvas(ctx, seed[0], seed[1], [255,255,255], wallMask);
   });
 }
+/* Guarda una copia "prístina" del lienzo (línea original + fondo ya
+   pre-pintado en blanco, ANTES de cualquier trazo del niño) en un
+   `<canvas>` aparte, nunca mostrado — es la referencia que usa el
+   borrador (ver `restoreFromBase()` más abajo) para devolver un punto a
+   su estado original en vez de pintarlo blanco liso. Se recaptura cada
+   vez que `resetRasterCanvas()` corre (carga de un dibujo nuevo Y "Borrar
+   todo"), nunca por un trazo de lápiz/balde — así el borrador siempre
+   revierte a "como estaba antes de que el niño tocara nada", incluida
+   cualquier línea original del dibujo (nunca la borra) y cualquier línea
+   nueva que el niño haya dibujado a lápiz (si el borrador pasa por
+   encima, sí la quita, porque no formaba parte del estado prístino). */
+function captureBaseSnapshot(canvas){
+  let base = canvas._baseCanvas;
+  if(!base){
+    base = document.createElement('canvas');
+    canvas._baseCanvas = base;
+  }
+  base.width = canvas.width;
+  base.height = canvas.height;
+  base.getContext('2d').drawImage(canvas, 0, 0);
+}
 function resetRasterCanvas(canvas){
   drawRasterBase(canvas, canvas._sourceImg);
   if(canvas._synthHorizon) drawSyntheticHorizon(canvas);
   canvas._wallMask = buildWallMask(canvas);
   autoFillBackgroundWhite(canvas);
+  captureBaseSnapshot(canvas);
 }
 /* Ancho CSS del `<canvas>` según el nivel de zoom — `.colorear-canvas-wrap`
    tiene `overflow:auto` (styles.css), así que un ancho >100% simplemente
@@ -516,6 +538,52 @@ function initRasterCanvas(src, synthHorizon){
     ctx.lineTo(x1, y1);
     ctx.stroke();
   }
+  /* Borrador real (2026-08-09, pedido explícito del usuario: "el borrador
+     borra el dibujo y [...] solo debería borrar la pintura sobre él"). En
+     vez de pintar blanco liso — lo que antes borraba también la línea
+     original del dibujo, ya que todo vive en un único canvas plano — esto
+     COPIA los píxeles de `canvas._baseCanvas` (el estado prístino, ver
+     `captureBaseSnapshot()`) de vuelta al lienzo real, solo dentro del
+     área tocada. Así un trazo de borrador siempre revela lo que había
+     ahí antes de que el niño tocara nada: la línea original si la había,
+     o blanco si no. Solo opera sobre el rectángulo delimitador del
+     segmento (nunca el lienzo completo) para que sea rápido en cada
+     `pointermove`. */
+  function eraseSegment(canvas, x0, y0, x1, y1, radius){
+    const base = canvas._baseCanvas;
+    if(!base) return;
+    const w = canvas.width, h = canvas.height;
+    const minX = Math.max(0, Math.floor(Math.min(x0,x1)-radius));
+    const maxX = Math.min(w, Math.ceil(Math.max(x0,x1)+radius)+1);
+    const minY = Math.max(0, Math.floor(Math.min(y0,y1)-radius));
+    const maxY = Math.min(h, Math.ceil(Math.max(y0,y1)+radius)+1);
+    const rw = maxX-minX, rh = maxY-minY;
+    if(rw<=0 || rh<=0) return;
+    const ctx = canvas.getContext('2d');
+    const bctx = base.getContext('2d');
+    const liveData = ctx.getImageData(minX, minY, rw, rh);
+    const baseData = bctx.getImageData(minX, minY, rw, rh);
+    const dx = x1-x0, dy = y1-y0;
+    const lenSq = (dx*dx + dy*dy) || 1;
+    const r2 = radius*radius;
+    for(let ly=0; ly<rh; ly++){
+      for(let lx=0; lx<rw; lx++){
+        const x = minX+lx, y = minY+ly;
+        let t = ((x-x0)*dx + (y-y0)*dy) / lenSq;
+        t = t<0 ? 0 : (t>1 ? 1 : t);
+        const px = x0 + t*dx, py = y0 + t*dy;
+        const ddx = x-px, ddy = y-py;
+        if(ddx*ddx + ddy*ddy <= r2){
+          const i = (ly*rw+lx)*4;
+          liveData.data[i] = baseData.data[i];
+          liveData.data[i+1] = baseData.data[i+1];
+          liveData.data[i+2] = baseData.data[i+2];
+          liveData.data[i+3] = baseData.data[i+3];
+        }
+      }
+    }
+    ctx.putImageData(liveData, minX, minY);
+  }
   canvas.addEventListener('pointerdown', function(e){
     if(!canvas.width) return;
     const xy = toCanvasXY(e);
@@ -528,16 +596,22 @@ function initRasterCanvas(src, synthHorizon){
     e.preventDefault();
     drawing = true;
     lastX = x; lastY = y;
-    const color = currentTool==='eraser' ? '#ffffff' : currentColorHex;
-    strokeDot(canvas.getContext('2d'), x, y, color, brushSize(canvas, currentTool));
+    if(currentTool==='eraser'){
+      eraseSegment(canvas, x, y, x, y, brushSize(canvas, currentTool)/2);
+    } else {
+      strokeDot(canvas.getContext('2d'), x, y, currentColorHex, brushSize(canvas, currentTool));
+    }
     if(canvas.setPointerCapture){ try{ canvas.setPointerCapture(e.pointerId); }catch(err){} }
   });
   canvas.addEventListener('pointermove', function(e){
     if(!drawing) return;
     e.preventDefault();
     const xy = toCanvasXY(e);
-    const color = currentTool==='eraser' ? '#ffffff' : currentColorHex;
-    strokeLine(canvas.getContext('2d'), lastX, lastY, xy[0], xy[1], color, brushSize(canvas, currentTool));
+    if(currentTool==='eraser'){
+      eraseSegment(canvas, lastX, lastY, xy[0], xy[1], brushSize(canvas, currentTool)/2);
+    } else {
+      strokeLine(canvas.getContext('2d'), lastX, lastY, xy[0], xy[1], currentColorHex, brushSize(canvas, currentTool));
+    }
     lastX = xy[0]; lastY = xy[1];
   });
   /* Al soltar, se reconstruye `_wallMask` desde el lienzo real: un trazo de

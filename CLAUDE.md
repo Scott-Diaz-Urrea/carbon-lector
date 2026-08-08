@@ -1069,6 +1069,116 @@ js/
                                 para una ronda futura: gotero (elegir color
                                 tocando una zona ya pintada) y texto sobre el
                                 dibujo.
+                              - **Bug real de "Borrador" corregido — borraba
+                                el dibujo, no solo la pintura (2026-08-09,
+                                pedido explícito del usuario: "el borrador
+                                borra el dibujo y [...] solo debería borrar
+                                la pintura sobre él").** El borrador de la
+                                ronda anterior pintaba blanco liso
+                                (`#ffffff`) sobre cualquier zona tocada —
+                                como todo vive en un único `<canvas>` plano,
+                                eso borraba por igual la pintura del niño Y
+                                cualquier línea original del dibujo que
+                                hubiera debajo, dejando un "agujero" blanco
+                                permanente en el arte. Se agregó
+                                `captureBaseSnapshot(canvas)`, llamada al
+                                final de `resetRasterCanvas()` (carga de un
+                                dibujo Y "Borrar todo"): copia el lienzo
+                                recién construido —línea original + fondo ya
+                                pre-pintado en blanco por
+                                `autoFillBackgroundWhite()`— a un
+                                `canvas._baseCanvas` aparte, nunca mostrado,
+                                que sirve de referencia "estado prístino".
+                                El borrador ahora usa `eraseSegment()`: en
+                                vez de pintar blanco, copia los píxeles del
+                                `_baseCanvas` de vuelta al lienzo real, solo
+                                dentro del rectángulo delimitador del
+                                segmento tocado (nunca el lienzo completo,
+                                para que sea rápido en cada `pointermove`) —
+                                para cada píxel calcula la distancia al
+                                segmento del trazo (mismo criterio que un
+                                pincel real) y solo restaura los que caen
+                                dentro del radio del borrador. Esto significa
+                                que borrar sobre una línea original la
+                                revela intacta (nunca la elimina), y borrar
+                                sobre pintura o un trazo de lápiz nuevo lo
+                                quita, revelando lo que había antes — el
+                                comportamiento que se espera de un borrador
+                                real. **Bug de metodología encontrado
+                                DURANTE la verificación, no en el código en
+                                sí:** las primeras pruebas en el navegador
+                                daban `afterErase:[255,255,255,255]` en vez
+                                del valor prístino esperado — parecía que el
+                                fix no funcionaba. La causa real: el
+                                navegador seguía ejecutando una copia
+                                cacheada del módulo ES de una carga de
+                                página anterior (confirmado pidiendo
+                                `fetch('/js/games/colorearNumeros.js',
+                                {cache:'no-store'})` y viendo que el archivo
+                                en el servidor sí tenía
+                                `captureBaseSnapshot`/`eraseSegment`, pero
+                                `canvas._baseCanvas` seguía `undefined` en la
+                                página activa) — un `navigate` con
+                                `force:true` a la misma URL no basta para
+                                invalidar el registro de módulos ES ya
+                                cargado en esa pestaña; hizo falta
+                                `location.reload()` para un ciclo real de
+                                descarga/recarga de página. Mismo tipo de
+                                problema ya documentado en el historial de
+                                EPJA ("recargar la página completa antes de
+                                re-verificar, no solo reimportar con un
+                                query string distinto") — reforzado aquí:
+                                ante un resultado de prueba que no calza con
+                                el código que se acaba de escribir, verificar
+                                primero que el navegador está corriendo el
+                                código nuevo (`fetch` directo al archivo, o
+                                `location.reload()`) antes de sospechar del
+                                código. Verificado tras el reload real: un
+                                píxel de línea genuinamente negro (`[1,1,1]`)
+                                pintado y luego borrado vuelve exactamente a
+                                `[1,1,1]` (no blanco); un píxel de fondo
+                                pintado y borrado vuelve a `[255,255,255]`;
+                                "Borrar todo" sigue recapturando el snapshot
+                                base correctamente; balde/lápiz sin
+                                regresión en Mandala. Sin errores de consola.
+                              - **"Auto de Carrera" — el bug de fuga
+                                reportado la sesión anterior NO era real,
+                                retractado tras una investigación más
+                                profunda (2026-08-09).** El usuario pidió
+                                "parcha la línea" del parabrisas; antes de
+                                tocar el PNG se re-verificó con el mismo
+                                rigor de siempre (BFS del camino más corto
+                                entre el fondo y el punto sospechoso,
+                                lectura de la máscara de muro como grilla
+                                ASCII con coordenadas reales, recorte a color
+                                a distintos niveles de zoom). Resultado: el
+                                punto de prueba original (700,360), usado la
+                                sesión anterior para representar "adentro del
+                                parabrisas", en realidad está en el cielo
+                                ABIERTO por encima de la línea del techo (un
+                                BFS trivial en línea recta desde la esquina
+                                del lienzo hasta ese punto no cruza ningún
+                                muro) — nunca estuvo "adentro" de nada. Se
+                                repitió la prueba con puntos verdaderamente
+                                dentro del parabrisas (confirmados
+                                visualmente en un recorte a color 3×), y los
+                                3 dieron el mismo componente correctamente
+                                aislado (19791px, separado del fondo de
+                                755237px) — se confirmó además con dos clics
+                                reales de colores distintos (verde en el
+                                parabrisas, azul en el fondo) que no se
+                                mezclan. La lección: un solo punto de prueba
+                                mal elegido puede parecer un bug real incluso
+                                pasando por el mismo protocolo de
+                                verificación ya establecido — cuando el
+                                resultado de un componente conexo se ve
+                                sospechoso (72% de fondo), conviene primero
+                                confirmar con un método independiente (BFS
+                                del camino, o un recorte a color a alto zoom
+                                para ver la línea real) que el punto de
+                                prueba está donde uno cree que está, antes de
+                                concluir que hay una fuga. No se modificó
+                                `auto-carrera.png`.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

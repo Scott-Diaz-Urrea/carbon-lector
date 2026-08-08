@@ -63,31 +63,48 @@ import { render } from '../render.js';
    propósito: es UI efímera de una herramienta de consulta, no progreso del
    niño que valga la pena persistir entre sesiones). */
 
-/* Paleta rediseñada (2026-08-08, pedido explícito del usuario: "paleta más
-   grande y visible... más moderna... incluir un selector de color visual
-   además de los predefinidos... mostrar claramente el color seleccionado").
-   Se mantienen los mismos 16 tonos curados (sin cambiar la selección de
-   colores en sí, ya ampliada en 2026-08-03) — lo que cambia es el tamaño/
-   diseño de cada swatch (ver styles.css) y que ahora conviven con un
-   selector de color nativo (`<input type="color">`, ver `paletteHTML()`)
-   para cualquier tono fuera de esta lista. */
+/* Paleta ampliada (2026-08-09, pedido explícito del usuario tras usar el
+   módulo: "en la gama de colores no es suficiente y hay problemas al
+   momento de seleccionar el color y en mobile influye negativamente la
+   experiencia"). De 16 a 27 tonos — se agregaron variantes claras/oscuras
+   de las familias de color que antes tenían un solo tono (rojo, naranjo,
+   rosado, morado, verde, celeste), tonos de piel (útiles para pintar
+   personajes/rostros en Héroe en la Ciudad, Playa Tropical, etc.) y un
+   negro/casi-negro para detalles — sin quitar ninguno de los 16 originales
+   (mismos valores hex, solo se insertaron nuevos entre medio). El problema
+   de selección/mobile no era la cantidad de colores en sí sino que la
+   paleta vivía al final de la pantalla, debajo del lienzo — para pintar
+   había que soltar el lienzo, bajar a buscar el color, y volver a subir;
+   ver `paletteHTML()`/`.colorear-palette-bar` (styles.css) para el
+   rediseño a barra fija siempre visible que resuelve eso. */
 export const PALETTE_COLOREAR = [
   { n:1, color:'#FFD54F', name:'Amarillo' },
-  { n:2, color:'#FF8A65', name:'Naranjo' },
-  { n:3, color:'#4FC3F7', name:'Celeste' },
-  { n:4, color:'#E57373', name:'Rojo' },
-  { n:5, color:'#90A4AE', name:'Gris' },
-  { n:6, color:'#7986CB', name:'Azul' },
-  { n:7, color:'#81C784', name:'Verde' },
-  { n:8, color:'#A1887F', name:'Café' },
-  { n:9, color:'#F06292', name:'Rosado' },
-  { n:10, color:'#BA68C8', name:'Morado' },
-  { n:11, color:'#4DB6AC', name:'Turquesa' },
-  { n:12, color:'#558B2F', name:'Verde oscuro' },
-  { n:13, color:'#303F9F', name:'Azul oscuro' },
-  { n:14, color:'#FFF176', name:'Amarillo claro' },
-  { n:15, color:'#ECEFF1', name:'Blanco' },
-  { n:16, color:'#4E342E', name:'Café oscuro' },
+  { n:2, color:'#FFF176', name:'Amarillo claro' },
+  { n:3, color:'#F9A825', name:'Dorado' },
+  { n:4, color:'#FF8A65', name:'Naranjo' },
+  { n:5, color:'#E65100', name:'Naranjo oscuro' },
+  { n:6, color:'#E57373', name:'Rojo' },
+  { n:7, color:'#C62828', name:'Rojo oscuro' },
+  { n:8, color:'#F06292', name:'Rosado' },
+  { n:9, color:'#F8BBD0', name:'Rosado pastel' },
+  { n:10, color:'#EC407A', name:'Fucsia' },
+  { n:11, color:'#BA68C8', name:'Morado' },
+  { n:12, color:'#6A1B9A', name:'Morado oscuro' },
+  { n:13, color:'#7986CB', name:'Azul' },
+  { n:14, color:'#303F9F', name:'Azul oscuro' },
+  { n:15, color:'#4FC3F7', name:'Celeste' },
+  { n:16, color:'#B3E5FC', name:'Celeste pastel' },
+  { n:17, color:'#4DB6AC', name:'Turquesa' },
+  { n:18, color:'#81C784', name:'Verde' },
+  { n:19, color:'#AED581', name:'Verde lima' },
+  { n:20, color:'#558B2F', name:'Verde oscuro' },
+  { n:21, color:'#A1887F', name:'Café' },
+  { n:22, color:'#4E342E', name:'Café oscuro' },
+  { n:23, color:'#FFE0B2', name:'Piel clara' },
+  { n:24, color:'#8D5524', name:'Piel oscura' },
+  { n:25, color:'#90A4AE', name:'Gris' },
+  { n:26, color:'#263238', name:'Negro' },
+  { n:27, color:'#ECEFF1', name:'Blanco' },
 ];
 
 let currentDrawingId = null;
@@ -282,26 +299,43 @@ function svgDataUrlFor(d){
   return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svgStr);
 }
 
-/* Sin número visible en el swatch (ya no hay ningún sistema de números con
-   el que pudiera confundirse — ver comentario de cabecera). El indicador
-   "Color elegido" de arriba es la única fuente de verdad sobre qué color
-   está activo, tanto si viene de la paleta como del selector personalizado. */
+/* Barra de paleta FIJA (2026-08-09, pedido explícito del usuario: "en la
+   gama de colores no es suficiente y hay problemas al momento de
+   seleccionar el color y en mobile influye negativamente la experiencia").
+   Antes la paleta vivía al final de la pantalla, debajo del lienzo — en
+   mobile eso significaba soltar el dibujo, deslizar hacia abajo para
+   elegir otro color, y volver a subir para seguir pintando, cada vez que
+   el niño quería cambiar de color (el problema real de "selección"/
+   "mobile" que reportó el usuario, no un bug puntual de un botón). Ahora
+   `.colorear-palette-bar` es `position:sticky; bottom` (mismo mecanismo ya
+   usado por `.topbar` arriba de la pantalla, solo que pegado abajo) — se
+   mantiene visible sobre el lienzo mientras se hace scroll, sin tapar el
+   resto de la pantalla cuando el contenido ya cabe entero (se comporta
+   como cualquier tarjeta normal en ese caso). Los swatches ahora van en
+   una fila con scroll horizontal propio (en vez de envolver en varias
+   filas) para que la barra no crezca en alto sin límite a medida que se
+   agregan más colores — con los 27 tonos actuales, caben ~6-7 visibles a
+   la vez en mobile y se desliza para ver el resto, igual que la paleta de
+   cualquier app de dibujo real. El swatch de "Color elegido" (sin texto,
+   para no ocupar más alto de barra del necesario — el `title`/`aria-label`
+   siguen describiéndolo para lectores de pantalla) queda FUERA de la zona
+   con scroll, así siempre se ve sin importar qué tan lejos se haya
+   deslizado la paleta. */
 function paletteHTML(){
   const swatches = PALETTE_COLOREAR.map(function(p){
     const active = p.n===currentColorNum ? ' active' : '';
     return '<button class="palette-swatch'+active+'" data-num="'+p.n+'" style="background:'+p.color+'" onclick="pickColorNum('+p.n+')" aria-label="Color '+p.name+'"></button>';
   }).join('');
   const pickerActive = currentColorNum==null ? ' active' : '';
-  return '<div class="colorear-current">'+
-      '<span class="colorear-current-swatch" style="background:'+currentColorHex+'"></span>'+
-      '<span>Color elegido</span>'+
-    '</div>'+
-    '<div class="colorear-palette">'+
-      swatches+
-      '<label class="palette-swatch palette-picker'+pickerActive+'" aria-label="Elegir otro color">'+
-        '<input type="color" value="'+currentColorHex+'" oninput="pickColorHex(this.value)" onchange="pickColorHex(this.value)">'+
-        '<span class="palette-picker-icon">🎨</span>'+
-      '</label>'+
+  return '<div class="colorear-palette-bar">'+
+      '<span class="colorear-current-swatch" style="background:'+currentColorHex+'" title="Color elegido" aria-label="Color elegido"></span>'+
+      '<div class="colorear-palette">'+
+        swatches+
+        '<label class="palette-swatch palette-picker'+pickerActive+'" aria-label="Elegir otro color">'+
+          '<input type="color" value="'+currentColorHex+'" oninput="pickColorHex(this.value)" onchange="pickColorHex(this.value)">'+
+          '<span class="palette-picker-icon">🎨</span>'+
+        '</label>'+
+      '</div>'+
     '</div>';
 }
 

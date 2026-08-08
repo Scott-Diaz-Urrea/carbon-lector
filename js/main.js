@@ -11,7 +11,7 @@ import { tapSecuencia } from './games/secuencia.js';
 import { initMemoryGame, flipCard } from './games/memorama.js';
 import { replayGame, showNameEntry, closeRecurso } from './rewards.js';
 import { diccSpeak } from './games/diccionario.js';
-import { selectColoringDrawing, backToDrawingPicker, pickColorNum, clearColoring, saveColoringPNG } from './games/colorearNumeros.js';
+import { selectColoringDrawing, backToDrawingPicker, pickColorNum, pickColorHex, clearColoring, saveColoringPNG } from './games/colorearNumeros.js';
 import { render } from './render.js';
 import { state } from './state.js';
 import { loadProgress } from './persistence.js';
@@ -36,6 +36,7 @@ window.diccSpeak = diccSpeak;
 window.selectColoringDrawing = selectColoringDrawing;
 window.backToDrawingPicker = backToDrawingPicker;
 window.pickColorNum = pickColorNum;
+window.pickColorHex = pickColorHex;
 window.clearColoring = clearColoring;
 window.saveColoringPNG = saveColoringPNG;
 

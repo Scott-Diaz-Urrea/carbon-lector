@@ -627,6 +627,154 @@ js/
                               con `width:100%` sin un wrapper con
                               `max-width` propio, así que crecen junto con
                               `#app` sin necesitar este mismo fix.
+                              **Reescritura completa a flood fill universal
+                              + eliminación de los números (2026-08-08),
+                              pedido explícito y detallado del usuario tras
+                              jugar el módulo:** la cola de Carboncito no se
+                              podía pintar, el fondo no se podía pintar,
+                              "algunas partes" quedaban bloqueadas, y pidió
+                              eliminar los números por completo y que "cada
+                              objeto pueda pintarse de forma independiente...
+                              como una app de colorear de verdad". Estos 3
+                              bugs compartían la misma causa de fondo: el
+                              mecanismo de los 4 dibujos SVG a mano
+                              (Carboncito/Auto/Casa/Pez, más Playa Tropical)
+                              dependía de asignar `data-num` a mano a cada
+                              región — cualquier forma a la que se le
+                              olvidara el atributo (o que lo perdiera por
+                              falta de espacio, como ya había pasado 3 veces
+                              antes con el hombro/sombra de oreja de
+                              Carboncito, el tapacubos del Auto y el ojo del
+                              Pez) quedaba invisible al clic. Investigando
+                              el caso concreto de "la cola": **Carboncito
+                              nunca tuvo una forma de cola en absoluto** —
+                              ni bloqueada ni con número perdido, literalmente
+                              no estaba dibujada (`mascotSVG()`, de donde
+                              este dibujo reutiliza sus coordenadas, tampoco
+                              tiene una).
+
+                              En vez de seguir parchando `data-num` región
+                              por región (la misma clase de bug ya corregida
+                              3 veces), **los 6 dibujos ahora comparten un
+                              solo mecanismo**: el relleno por inundación
+                              (flood fill) sobre `<canvas>` que ya existía
+                              para Paisaje, sin cambios de lógica
+                              (`floodFillCanvas()`/`buildWallMask()` quedan
+                              intactos). La idea clave: el flood fill no
+                              necesita que nadie declare qué regiones
+                              existen — cualquier área delimitada por una
+                              línea oscura cerrada es, automáticamente, su
+                              propio objeto pintable, sin ningún atributo
+                              que alguien tenga que recordar agregar. Esto
+                              resuelve los 3 problemas a la vez: el fondo
+                              nunca necesitó una forma propia (el flood fill
+                              simplemente se detiene en el borde del canvas
+                              o en la primera línea oscura, así que tocar
+                              "afuera" del dibujo ya pinta ese espacio); y
+                              cualquier parte —incluida una nueva— queda
+                              pintable por el simple hecho de estar
+                              cerrada, sin mantenimiento aparte. Los 4
+                              dibujos SVG a mano + Playa Tropical pasaron de
+                              `data-num`+texto a una función `build()` que
+                              arma línea negra pura (blanco + borde, sin
+                              colores fijos ni números) — se serializa a un
+                              `data:image/svg+xml`, se carga como `<img>` y
+                              se rasteriza en el mismo `<canvas>` que ya
+                              usaba la lámina PNG real de Paisaje
+                              (`svgDataUrlFor()` en `colorearNumeros.js`),
+                              así que `initColorearNumeros()`/
+                              `clearColoring()`/`saveColoringPNG()` quedan
+                              con un solo camino de código para los 6
+                              dibujos en vez de dos ramas paralelas. Los
+                              elementos que antes tenían un color fijo sin
+                              borde propio (ojos, pupilas, nariz, collar de
+                              Carboncito; tapacubos del Auto; ojo/pupila del
+                              Pez) pasaron a ser regiones blancas con su
+                              propio trazo, igual que cualquier otra — ahora
+                              también se pueden repintar. A Carboncito se le
+                              agregó una cola rizada nueva junto a la
+                              cadera. **Bug real encontrado durante la
+                              verificación (no hipotético): la cola, al
+                              superponerse con el óvalo del cuerpo, quedaba
+                              fusionada con el cuerpo en una sola región**
+                              porque el cuerpo se dibujaba DESPUÉS de la
+                              cola en el código, y su relleno blanco tapaba
+                              el trazo de la cola justo en la zona de
+                              superposición (borrando el "muro" que las
+                              debía separar) — se corrigió reordenando para
+                              que la cola se dibuje después del cuerpo, no
+                              antes, mismo criterio de "lo que se dibuja
+                              encima conserva su propio borde" que ya regía
+                              el resto del arte de la app.
+
+                              Los detalles puramente decorativos (arrugas,
+                              bigotes, rayos de sol, línea de parachoques)
+                              se dejaron como trazos sueltos sin relleno, a
+                              propósito: ninguna lámina de colorear real
+                              separa una arruga en su propia región, y están
+                              dibujados bien adentro de la silueta que los
+                              contiene para no generar un micro-hueco contra
+                              ese borde al rasterizar.
+
+                              **Verificación (2026-08-08):** en vez de solo
+                              mirar el resultado, se escribió un chequeo de
+                              componentes conexas sobre la máscara de muro
+                              de Carboncito (mismo algoritmo de flood fill,
+                              corrido una vez sobre toda la imagen) para
+                              confirmar cuántas regiones independientes
+                              existían de verdad, y luego se dispararon
+                              eventos de clic reales (`MouseEvent` sobre el
+                              `<canvas>`, con la misma conversión de
+                              coordenadas que usa el código real) sobre los
+                              15 objetos de Carboncito (cuerpo, hombro/
+                              sombra de oreja, cabeza, 2 orejas, 2 patas,
+                              collar, hocico, nariz, lengua, 2 ojos, 2
+                              pupilas) y la cola nueva — los 16 cambiaron de
+                              color de forma independiente, sin que pintar
+                              uno afectara a sus vecinos, y el fondo se
+                              mantuvo aislado de la cola en ambas
+                              direcciones. Se repitió una verificación más
+                              liviana (clic real + lectura de píxel antes/
+                              después) para Auto (10 puntos, incluida la
+                              independencia real entre el aro de la rueda y
+                              el tapacubos concéntrico), Casa (10 puntos),
+                              Pez (8 puntos) y Playa Tropical (10 puntos) —
+                              en los 4, cada punto probado cambió de color
+                              sin afectar a sus vecinos. Paisaje (la lámina
+                              PNG real, mecanismo sin cambios de lógica) se
+                              probó aparte para confirmar que quitar
+                              `colorGuide`/la leyenda no rompió nada: cielo
+                              y piso pintables como antes, uno con un color
+                              de la paleta y el otro con el selector de
+                              color personalizado nuevo. "Borrar todo" y
+                              "Guardar" (descarga PNG) se probaron después
+                              de la reescritura y siguen funcionando sin
+                              errores de consola en los 6 dibujos.
+
+                              **Paleta rediseñada** (mismo pedido: "paleta
+                              más grande y visible... más moderna...
+                              selector de color visual... mostrar
+                              claramente el color seleccionado"): los
+                              swatches subieron de 42px a 52px con un anillo
+                              de selección + marca de verificación en vez de
+                              solo agrandarse un poco, se agregó un
+                              indicador "Color elegido" (un círculo grande
+                              que siempre refleja el color activo, venga de
+                              un swatch fijo o del selector) arriba de la
+                              paleta, y un `<input type="color">` nativo
+                              estilizado como un swatch más (fondo con
+                              gradiente cónico tipo arcoíris + ícono 🎨) para
+                              cualquier tono fuera de los 16 predefinidos —
+                              probado en el navegador con clics reales:
+                              cambia el swatch activo, actualiza el
+                              indicador, y el color elegido se usa de
+                              verdad en el siguiente flood fill. Los 16
+                              colores curados de la paleta no cambiaron
+                              (ver `PALETTE_COLOREAR`). `pickColorNum()`/la
+                              función nueva `pickColorHex()` siguen sin
+                              llamar a `render()` — mismo bug ya evitado
+                              antes: reconstruir el `<canvas>` completo
+                              borraría lo ya pintado.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

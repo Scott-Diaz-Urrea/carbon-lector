@@ -252,6 +252,20 @@ const DIBUJOS_COLOREAR = [
      de quitarle el número/leyenda: `colorGuide` y su lógica de leyenda se
      eliminaron por completo del módulo (ver comentario de cabecera). */
   { id:'paisaje', label:'Paisaje', icon:'🏞️', image:'img/colorear/paisaje-bosque.png' },
+  /* ---------------- Mandala (lámina PNG real) ----------------
+     Agregado 2026-08-08, pedido explícito del usuario: subirá láminas de
+     mandala reales (PNG, línea negra sobre fondo — en este caso opaco, no
+     transparente, a diferencia de Paisaje) para que se puedan pintar por
+     completo, "cada pieza del png". Mismo mecanismo que Paisaje, sin
+     ningún cambio de código — el flood fill no distingue entre un dibujo
+     hecho a mano y uno con cientos de piezas diminutas, mientras la lámina
+     tenga líneas cerradas. Verificado antes de integrar (ver CLAUDE.md):
+     un análisis de componentes conexas sobre esta imagen real encontró 1
+     sola región de fondo (limpia, sin fugas hacia el mandala) y ~920
+     piezas internas de tamaño pintable, más un puñado de puntos
+     decorativos de 1-4px (demasiado chicos para tocarlos, equivalentes a
+     los brillos de ojo ya fijos en Carboncito/Pez). */
+  { id:'mandala', label:'Mandala', icon:'🌸', image:'img/colorear/mandala-flor.png' },
   /* ---------------- Playa Tropical ---------------- */
   {
     id:'playa', label:'Playa Tropical', icon:'🏖️', viewBox:'0 0 400 300',
@@ -440,8 +454,44 @@ function initRasterCanvas(src, synthHorizon){
     const rect = canvas.getBoundingClientRect();
     const x = Math.floor((e.clientX - rect.left) * (canvas.width / rect.width));
     const y = Math.floor((e.clientY - rect.top) * (canvas.height / rect.height));
-    floodFillCanvas(canvas.getContext('2d'), x, y, hexToRgb(currentColorHex), canvas._wallMask);
+    const seed = nearestPaintablePixel(x, y, canvas._wallMask, canvas.width, canvas.height);
+    if(!seed) return;
+    floodFillCanvas(canvas.getContext('2d'), seed[0], seed[1], hexToRgb(currentColorHex), canvas._wallMask);
   });
+}
+/* "Perdona" un clic que cae justo sobre el trazo (2026-08-08, encontrado al
+   integrar la primera lámina de mandala): en una imagen con líneas muy
+   finas y cientos de piezas diminutas, la conversión de un clic real a un
+   píxel exacto ya viene con un margen de error de ±1px (el navegador
+   redondea `clientX`/`clientY` a entero, y con el lienzo mostrado más chico
+   que su resolución real, cada píxel de pantalla equivale a más de un
+   píxel real de la imagen) — así que un toque perfectamente intencional,
+   apenas 1px más cerca del trazo de lo esperado, terminaba sin pintar nada
+   (`floodFillCanvas` se detiene de inmediato si el píxel tocado es parte
+   del "muro"). Verificado con clics reales dirigidos a píxeles ya
+   confirmados como pintables por un análisis de componentes conexas: la
+   mitad fallaban en silencio por este motivo, sin ningún error, solo "no
+   pasó nada" — exactamente lo que reportaría un niño tocando una pieza
+   chica del mandala. En vez de agrandar el lienzo (no elimina el problema,
+   solo lo reduce) se agrega esta búsqueda en espiral del píxel pintable
+   más cercano al punto tocado (hasta 6px de radio, más que suficiente para
+   el grosor de línea de cualquier lámina de este módulo) — si el clic cae
+   justo en el trazo, el relleno arranca desde la pieza vecina más cercana
+   en vez de no hacer nada. */
+function nearestPaintablePixel(x, y, wallMask, w, h){
+  if(x<0||y<0||x>=w||y>=h) return null;
+  if(!wallMask[y*w+x]) return [x, y];
+  for(let r=1; r<=6; r++){
+    for(let dy=-r; dy<=r; dy++){
+      for(let dx=-r; dx<=r; dx++){
+        if(Math.max(Math.abs(dx),Math.abs(dy))!==r) continue;
+        const nx=x+dx, ny=y+dy;
+        if(nx<0||ny<0||nx>=w||ny>=h) continue;
+        if(!wallMask[ny*w+nx]) return [nx, ny];
+      }
+    }
+  }
+  return null;
 }
 function hexToRgb(hex){
   const v = parseInt(hex.slice(1), 16);

@@ -432,10 +432,43 @@ function drawSyntheticHorizon(canvas){
   ctx.stroke();
   ctx.restore();
 }
+/* Pre-pinta el fondo en blanco ANTES de que el niño interactúe (2026-08-08,
+   pedido explícito del usuario). Motivo: algunas láminas (como el Mandala)
+   no tienen transparencia real — su fondo son píxeles opacos con un patrón
+   de cuadros gris/blanco "horneado" por el generador de IA que las creó
+   (ver el comentario de cabecera del archivo) — sin este paso, ese
+   cuadriculado se veía tal cual hasta que alguien tocaba el fondo a mano.
+   Se prueban 8 puntos a lo largo del borde del lienzo (las 4 esquinas + el
+   punto medio de cada lado) porque el fondo puede estar partido en más de
+   una región desconectada (p. ej. el cielo y el piso de Paisaje tocan
+   bordes opuestos, y no son la misma región pintable). Cada punto pasa por
+   el mismo "perdón de clic" (`nearestPaintablePixel`) y el mismo
+   `floodFillCanvas` que usa un clic real — es 100% equivalente a que el
+   niño tocara el fondo él mismo antes de empezar, solo que ya viene hecho.
+   Para dibujos que YA nacen blancos (los 5 de línea propia, y Paisaje con
+   su transparencia real) esto es un no-op casi instantáneo: el chequeo de
+   "el color bajo el punto ya es el buscado" de `floodFillCanvas` corta de
+   inmediato sin recorrer el lienzo. */
+function autoFillBackgroundWhite(canvas){
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const wallMask = canvas._wallMask;
+  const inset = 1;
+  const seeds = [
+    [inset, inset], [w-1-inset, inset], [inset, h-1-inset], [w-1-inset, h-1-inset],
+    [Math.floor(w/2), inset], [Math.floor(w/2), h-1-inset],
+    [inset, Math.floor(h/2)], [w-1-inset, Math.floor(h/2)],
+  ];
+  seeds.forEach(function(s){
+    const seed = nearestPaintablePixel(s[0], s[1], wallMask, w, h);
+    if(seed) floodFillCanvas(ctx, seed[0], seed[1], [255,255,255], wallMask);
+  });
+}
 function resetRasterCanvas(canvas){
   drawRasterBase(canvas, canvas._sourceImg);
   if(canvas._synthHorizon) drawSyntheticHorizon(canvas);
   canvas._wallMask = buildWallMask(canvas);
+  autoFillBackgroundWhite(canvas);
 }
 function initRasterCanvas(src, synthHorizon){
   const canvas = document.getElementById('colorear-canvas');

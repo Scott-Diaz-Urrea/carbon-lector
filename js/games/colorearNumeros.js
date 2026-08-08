@@ -93,6 +93,15 @@ export const PALETTE_COLOREAR = [
 let currentDrawingId = null;
 let currentColorNum = PALETTE_COLOREAR[0].n;
 let currentColorHex = PALETTE_COLOREAR[0].color;
+/* Herramientas nuevas (2026-08-08, pedido explícito del usuario, con
+   capturas de una barra de Paint clásica: lápiz/borrador/texto + lupa):
+   'bucket' (el comportamiento original, único que existía hasta ahora) |
+   'pencil' (trazo libre con el color elegido) | 'eraser' (trazo libre en
+   blanco). El texto sobre el dibujo y el gotero quedaron fuera de esta
+   ronda (el usuario priorizó lápiz/borrador/lupa). */
+let currentTool = 'bucket';
+const ZOOM_LEVELS = [1, 1.5, 2];
+let currentZoom = ZOOM_LEVELS[0];
 
 function colorForNum(n){
   const p = PALETTE_COLOREAR.filter(function(x){ return x.n===n; })[0];
@@ -149,102 +158,18 @@ function cloudShape(cx, cy, scale){
   return pathShape(d);
 }
 
-/* ---------------- Los 5 dibujos de línea (se rasterizan a canvas) ----------------
-   Mismas siluetas ya aprobadas en sesiones anteriores (curvas bézier para
-   las formas principales, igual técnica que `mascotSVG()`), pero ahora
-   TODO objeto queda como región blanca+borde (ver comentario de cabecera):
-   ojos, nariz, collar, tapacubos y la cola nueva de Carboncito ya no son
-   colores fijos sin borde — son regiones normales, iguales a cualquier
-   otra. Los detalles puramente decorativos (arrugas, bigotes de sonrisa,
-   rayos de sol, líneas de parachoques) siguen siendo trazos sueltos sin
-   relleno: no son "objetos" en el sentido de una lámina de colorear real
-   —ninguna lámina de colorear separa una arruga en su propia región—, y
-   están dibujados bien adentro de la silueta que los contiene para no
-   generar un micro-hueco contra el borde de esa silueta al rasterizar. */
+/* ---------------- Dibujos de línea propia (se rasterizan a canvas) ----------------
+   Playa Tropical es el único que queda de la primera generación de arte a
+   mano (curvas bézier, igual técnica que `mascotSVG()`) — Carboncito, Auto,
+   Casa y Pez se retiraron el 2026-08-08 (pedido explícito del usuario: usar
+   las láminas PNG reales nuevas, mucho más detalladas, "reemplaza los
+   dibujos actuales con las mejoras") y quedan documentadas solo en el
+   historial de git/CLAUDE.md, no en este archivo. TODO objeto de Playa
+   Tropical queda como región blanca+borde: los detalles puramente
+   decorativos (bigotes de ola, rayos de sol) siguen siendo trazos sueltos
+   sin relleno, dibujados bien adentro de la silueta que los contiene para
+   no generar un micro-hueco contra ese borde al rasterizar. */
 const DIBUJOS_COLOREAR = [
-  {
-    id:'carboncito', label:'Carboncito', icon:'🐶', viewBox:'0 0 200 190',
-    build:function(){
-      /* cola rizada nueva — no existía ninguna forma de cola en el dibujo
-         original, así que no es que estuviera "bloqueada": no estaba
-         dibujada. Se agrega asomando junto a la cadera derecha, como un
-         pug real. Se dibuja DESPUÉS del cuerpo (más abajo en esta misma
-         función) a propósito: su base se superpone con el óvalo del
-         cuerpo, y si se dibujara antes, el relleno del cuerpo taparía el
-         trazo de la cola justo en esa zona de superposición, fusionando
-         ambas regiones en una sola al rasterizar (el mismo bug ya
-         encontrado y documentado para el hombro/sombra de oreja y otras
-         partes de este dibujo en sesiones anteriores). */
-      return pathShape('M146 116 q24 -8 22 14 q-2 16 -20 11 q-9 -2 -7 -13 q2 -8 5 -12 Z')+
-        ellipseShape(100,138,50,40)+
-        pathShape('M144 148 Q170 142 168 164 Q166 182 144 174 Q154 166 154 156 Q154 148 144 148 Z')+
-        circleShape(78,172,12)+circleShape(122,172,12)+
-        '<path d="M64 118 q36 20 72 0" stroke="#FF6B6B" stroke-width="8" fill="none" stroke-linecap="round"/>'+
-        circleShape(100,130,6.5)+
-        pathShape('M58 70 q-24 6 -15 36 q7 19 25 10 Z')+
-        pathShape('M142 70 q24 6 15 36 q-7 19 -25 10 Z')+
-        circleShape(100,88,46)+
-        '<path d="M72 59 q28 -14 56 0" stroke="#5C5450" stroke-width="3" fill="none" stroke-linecap="round"/>'+
-        '<path d="M76 69 q24 -10 48 0" stroke="#5C5450" stroke-width="2.6" fill="none" stroke-linecap="round"/>'+
-        '<path d="M80 78 q20 -6 40 0" stroke="#5C5450" stroke-width="2.2" fill="none" stroke-linecap="round"/>'+
-        ellipseShape(100,107,28,20)+
-        '<path d="M77 100 q-5 8 2 15" stroke="#3A3532" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.55"/>'+
-        '<path d="M123 100 q5 8 -2 15" stroke="#3A3532" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.55"/>'+
-        ellipseShape(100,101,9.5,7.5)+
-        '<path d="M91 115 q9 9 18 0" stroke="#131110" stroke-width="2.5" fill="none" stroke-linecap="round"/>'+
-        pathShape('M104 115 q11 6 8 17 q-2 8 -11 6 q-6 -2 -5 -11 q1 -8 8 -12 Z')+
-        '<path d="M106 121 q3 4 2 8" stroke="#E8788F" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.55"/>'+
-        circleShape(79,83,12)+circleShape(121,83,12)+
-        circleShape(79,84,6.5)+circleShape(121,84,6.5)+
-        '<circle cx="82.5" cy="78.5" r="3.8" fill="#fff"/>'+
-        '<circle cx="124.5" cy="78.5" r="3.8" fill="#fff"/>';
-    },
-  },
-  {
-    id:'auto', label:'Auto', icon:'🚗',
-    build:function(){
-      return sunDecor(255,50,26)+circleShape(255,50,26)+
-        rectShape(0,235,300,65,7)+
-        pathShape('M30 205 L30 178 Q30 158 52 152 L85 152 Q98 112 130 100 L195 100 Q225 112 240 152 L268 152 Q290 158 290 178 L290 205 Z')+
-        pathShape('M92 150 L112 108 L148 108 L148 150 Z')+
-        pathShape('M154 150 L154 108 L188 108 Q210 118 224 150 Z')+
-        '<line x1="150" y1="108" x2="150" y2="150" stroke="#333" stroke-width="3"/>'+
-        circleShape(95,208,30)+circleShape(225,208,30)+
-        circleShape(95,208,11)+circleShape(225,208,11)+
-        circleShape(280,168,9)+
-        '<path d="M52 152 Q68 145 85 152" fill="none" stroke="#333" stroke-width="2"/>';
-    },
-  },
-  {
-    id:'casa', label:'Casa', icon:'🏠',
-    build:function(){
-      return circleShape(248,55,28)+sunDecor(248,55,28)+
-        ellipseShape(65,62,20,14)+ellipseShape(85,55,26,17)+ellipseShape(105,63,18,13)+
-        rectShape(0,242,300,58,7)+
-        polyShape('52,145 150,55 248,145')+
-        rectShape(75,145,150,97,1)+
-        rectShape(196,85,16,32,5)+
-        pathShape('M150,197 L150,225 Q150,242 168,242 L172,242 Q190,242 190,225 L190,197 Z')+
-        rectShape(92,165,32,32,6)+
-        rectShape(176,165,32,32,6);
-    },
-  },
-  {
-    id:'pez', label:'Pez', icon:'🐟',
-    build:function(){
-      return rectShape(0,258,300,42,8)+
-        ellipseShape(50,255,7,28,15)+ellipseShape(250,262,7,25,-10)+
-        circleShape(228,85,9)+circleShape(246,66,6)+
-        pathShape('M108 150 Q65 122 32 130 Q52 150 32 172 Q65 180 108 152 Z')+
-        pathShape('M158 108 Q172 68 208 62 Q198 92 178 108 Z')+
-        pathShape('M158 192 Q172 230 205 238 Q195 208 178 192 Z')+
-        pathShape('M100 150 Q98 96 172 92 Q252 90 262 150 Q252 210 172 208 Q98 204 100 150 Z')+
-        circleShape(222,140,11)+
-        circleShape(225,140,5)+
-        '<circle cx="223" cy="138" r="1.6" fill="#fff"/>'+
-        '<path d="M118 168 Q128 178 138 168" fill="none" stroke="#1D2B3A" stroke-width="3" stroke-linecap="round"/>';
-    },
-  },
   /* ---------------- Paisaje (bosque y cerros) ----------------
      Lámina PNG real (línea negra sobre fondo transparente) generada por el
      usuario en una herramienta externa — ver el comentario de cabecera del
@@ -266,6 +191,44 @@ const DIBUJOS_COLOREAR = [
      decorativos de 1-4px (demasiado chicos para tocarlos, equivalentes a
      los brillos de ojo ya fijos en Carboncito/Pez). */
   { id:'mandala', label:'Mandala', icon:'🌸', image:'img/colorear/mandala-flor.png' },
+  /* ---------------- Láminas nuevas, segunda ronda (2026-08-08) ----------------
+     Primera ronda: 7 PNG de `Juego_Interactivo\imagenes` (mismo origen que
+     el Mandala) integradas con el mismo mecanismo — pero ninguna de las 8
+     imágenes de esa carpeta original tenía transparencia real, todas
+     compartían el cuadriculado "horneado" como píxeles opacos (confirmado
+     muestreando el canal alfa con `System.Drawing.Bitmap.GetPixel`,
+     alfa=255 en el 100% de lo muestreado). El usuario pidió entonces un
+     prompt maestro para Gemini que exigiera "fondo blanco sólido, nunca
+     transparente" — con las láminas regeneradas (subidas a
+     `Juego_Interactivo\imagenes\png`) el problema desapareció: las 7
+     nuevas SÍ tienen blanco real en el borde (mismo muestreo de alfa,
+     pero además valor de color ≥250 en vez de solo alfa=255 — confirmado
+     antes de integrar). Pedido explícito del usuario ("no me gusta como
+     quedaron dado que tienen cuadrados y no corresponde... revisa y
+     reemplaza por las actuales"): se reemplazó el PNG de
+     `mandalaPetalos`/`heroeCiudad`/`playaCastillo` por su versión nueva
+     (mismo id/label, solo cambió el archivo), y se retiraron
+     `heroeVuelo`/`heroeEspacial`/`espacioAventura`/`dinosaurios` (seguían
+     con el cuadriculado horneado y el usuario no subió reemplazo para
+     esos 4 — en su lugar pidió explícitamente "paisajes y después autos").
+     Se agregaron 2 paisajes (montaña nevada, campo/pradera rural) y 2
+     autos (deportivo, antiguo/vintage) nuevos, generados con el mismo
+     prompt maestro. `heroe-vuelo.png`/`heroe-espacial.png`/
+     `espacio-aventura.png`/`dinosaurios.png` se eliminaron de
+     `img/colorear/` al no tener ninguna entrada que los referencie.
+     `auto-carrera.png` llegó como `.jfif` (JPEG) — convertido a PNG real
+     con `System.Drawing` antes de copiarlo al proyecto, ya que el motor
+     de flood fill nunca debe alimentarse de un JPEG con artefactos de
+     compresión (ver el "prompt maestro" — regla explícita de exportar
+     siempre PNG). Verificado antes de integrar cada una (ver CLAUDE.md
+     para el detalle completo de componentes conexas + clics reales). */
+  { id:'mandalaPetalos', label:'Mandala Pétalos', icon:'🌼', image:'img/colorear/mandala-petalos.png' },
+  { id:'heroeCiudad', label:'Héroe en la Ciudad', icon:'🦸', image:'img/colorear/heroe-ciudad.png' },
+  { id:'playaCastillo', label:'Playa y Castillo', icon:'🏰', image:'img/colorear/playa-castillo.png' },
+  { id:'paisajeMontana', label:'Montaña Nevada', icon:'🏔️', image:'img/colorear/paisaje-montana.png' },
+  { id:'paisajeCampo', label:'Campo y Molino', icon:'🌾', image:'img/colorear/paisaje-campo.png' },
+  { id:'autoCarrera', label:'Auto de Carrera', icon:'🏎️', image:'img/colorear/auto-carrera.png' },
+  { id:'autoVintage', label:'Auto Antiguo', icon:'🚙', image:'img/colorear/auto-vintage.png' },
   /* ---------------- Playa Tropical ---------------- */
   {
     id:'playa', label:'Playa Tropical', icon:'🏖️', viewBox:'0 0 400 300',
@@ -351,14 +314,37 @@ function pickerHTML(){
   return '<div class="drawing-picker">'+cards+'</div>';
 }
 
+/* Botón de herramienta con `data-tool` (no el texto/ícono) como fuente de
+   verdad para marcar cuál está activa — así `pickTool()` puede actualizar
+   la clase `.active` sin tener que volver a armar todo el HTML (mismo
+   criterio que `pickColorNum()`/`pickColorHex()`: nunca llamar a render()
+   desde una función que solo cambia una selección, para no reconstruir el
+   `<canvas>` y perder lo ya pintado). */
+function toolBtnHTML(tool, icon, label){
+  const active = currentTool===tool ? ' active' : '';
+  return '<button class="colorear-tool-btn tool-btn'+active+'" data-tool="'+tool+'" onclick="pickTool(\''+tool+'\')">'+icon+' '+label+'</button>';
+}
+function coloringHintText(){
+  if(currentTool==='pencil') return 'Dibuja libremente con el color elegido.';
+  if(currentTool==='eraser') return 'Toca o arrastra para borrar esa zona.';
+  return 'Elige un color y toca cualquier parte del dibujo para pintarla.';
+}
 function coloringHTML(){
   return '<div class="colorear-toolbar">'+
       '<button class="colorear-tool-btn" onclick="backToDrawingPicker()">🔄 Cambiar dibujo</button>'+
       '<button class="colorear-tool-btn" onclick="clearColoring()">🧹 Borrar todo</button>'+
       '<button class="colorear-tool-btn save" onclick="saveColoringPNG()">💾 Guardar</button>'+
     '</div>'+
+    '<div class="colorear-toolbar">'+
+      toolBtnHTML('bucket','🎨','Balde')+
+      toolBtnHTML('pencil','✏️','Lápiz')+
+      toolBtnHTML('eraser','🧽','Borrador')+
+      '<button class="colorear-tool-btn" onclick="zoomOut()">🔍−</button>'+
+      '<span class="colorear-zoom-label">'+Math.round(currentZoom*100)+'%</span>'+
+      '<button class="colorear-tool-btn" onclick="zoomIn()">🔍+</button>'+
+    '</div>'+
     '<div class="colorear-canvas-wrap"><canvas id="colorear-canvas"></canvas></div>'+
-    '<p class="colorear-hint">Elige un color y toca cualquier parte del dibujo para pintarla.</p>'+
+    '<p class="colorear-hint">'+coloringHintText()+'</p>'+
     paletteHTML();
 }
 
@@ -470,6 +456,25 @@ function resetRasterCanvas(canvas){
   canvas._wallMask = buildWallMask(canvas);
   autoFillBackgroundWhite(canvas);
 }
+/* Ancho CSS del `<canvas>` según el nivel de zoom — `.colorear-canvas-wrap`
+   tiene `overflow:auto` (styles.css), así que un ancho >100% simplemente
+   hace aparecer scroll dentro del wrapper en vez de desbordar la página.
+   El mapeo de clic/trazo a píxel real ya usa `getBoundingClientRect()`
+   contra `canvas.width/height`, así que sigue alineado sin importar el
+   ancho CSS mostrado — mismo mecanismo que ya validó el responsive de
+   tablet/escritorio (ver CLAUDE.md). */
+function applyZoom(canvas){
+  if(!canvas) return;
+  canvas.style.width = (currentZoom*100)+'%';
+  /* `.zoomed` solo se agrega cuando currentZoom>1 — a 100% el wrapper se
+     comporta exactamente igual que antes (sin max-height/scroll), así que
+     este cambio no afecta a nadie que nunca toque el botón de lupa. */
+  const wrap = canvas.parentElement;
+  if(wrap) wrap.classList.toggle('zoomed', currentZoom>1);
+}
+function brushSize(canvas, tool){
+  return tool==='eraser' ? Math.max(16, canvas.width*0.035) : Math.max(7, canvas.width*0.012);
+}
 function initRasterCanvas(src, synthHorizon){
   const canvas = document.getElementById('colorear-canvas');
   if(!canvas) return;
@@ -480,17 +485,75 @@ function initRasterCanvas(src, synthHorizon){
     canvas.height = img.naturalHeight;
     canvas._sourceImg = img;
     resetRasterCanvas(canvas);
+    applyZoom(canvas);
   };
   img.src = src;
-  canvas.addEventListener('click', function(e){
-    if(!canvas.width) return;
+  canvas.style.touchAction = currentTool==='bucket' ? 'manipulation' : 'none';
+  let drawing = false;
+  let lastX = 0, lastY = 0;
+  function toCanvasXY(e){
     const rect = canvas.getBoundingClientRect();
     const x = Math.floor((e.clientX - rect.left) * (canvas.width / rect.width));
     const y = Math.floor((e.clientY - rect.top) * (canvas.height / rect.height));
-    const seed = nearestPaintablePixel(x, y, canvas._wallMask, canvas.width, canvas.height);
-    if(!seed) return;
-    floodFillCanvas(canvas.getContext('2d'), seed[0], seed[1], hexToRgb(currentColorHex), canvas._wallMask);
+    return [x, y];
+  }
+  /* Un pointerdown único (sin arrastre) debe dejar al menos un punto
+     pintado — de ahí el círculo relleno antes de esperar el primer
+     pointermove, mismo criterio que cualquier app de dibujo real. */
+  function strokeDot(ctx, x, y, color, size){
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(x, y, size/2, 0, Math.PI*2);
+    ctx.fill();
+  }
+  function strokeLine(ctx, x0, y0, x1, y1, color, size){
+    ctx.strokeStyle = color;
+    ctx.lineWidth = size;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+  }
+  canvas.addEventListener('pointerdown', function(e){
+    if(!canvas.width) return;
+    const xy = toCanvasXY(e);
+    const x = xy[0], y = xy[1];
+    if(currentTool==='bucket'){
+      const seed = nearestPaintablePixel(x, y, canvas._wallMask, canvas.width, canvas.height);
+      if(seed) floodFillCanvas(canvas.getContext('2d'), seed[0], seed[1], hexToRgb(currentColorHex), canvas._wallMask);
+      return;
+    }
+    e.preventDefault();
+    drawing = true;
+    lastX = x; lastY = y;
+    const color = currentTool==='eraser' ? '#ffffff' : currentColorHex;
+    strokeDot(canvas.getContext('2d'), x, y, color, brushSize(canvas, currentTool));
+    if(canvas.setPointerCapture){ try{ canvas.setPointerCapture(e.pointerId); }catch(err){} }
   });
+  canvas.addEventListener('pointermove', function(e){
+    if(!drawing) return;
+    e.preventDefault();
+    const xy = toCanvasXY(e);
+    const color = currentTool==='eraser' ? '#ffffff' : currentColorHex;
+    strokeLine(canvas.getContext('2d'), lastX, lastY, xy[0], xy[1], color, brushSize(canvas, currentTool));
+    lastX = xy[0]; lastY = xy[1];
+  });
+  /* Al soltar, se reconstruye `_wallMask` desde el lienzo real: un trazo de
+     lápiz nuevo pasa a ser una línea/muro más para el balde, y un trazo de
+     borrador que tapó una línea original deja de serlo — el balde de aquí
+     en adelante respeta lo que el niño acaba de dibujar/borrar. Se hace al
+     soltar, no en cada `pointermove`, porque es un recorrido completo del
+     lienzo (mismo costo que ya se paga una vez por dibujo/clic de balde). */
+  function endStroke(){
+    if(!drawing) return;
+    drawing = false;
+    canvas._wallMask = buildWallMask(canvas);
+  }
+  canvas.addEventListener('pointerup', endStroke);
+  canvas.addEventListener('pointerleave', endStroke);
+  canvas.addEventListener('pointercancel', endStroke);
 }
 /* "Perdona" un clic que cae justo sobre el trazo (2026-08-08, encontrado al
    integrar la primera lámina de mandala): en una imagen con líneas muy
@@ -597,17 +660,44 @@ export function initColorearNumeros(){
 
 export function selectColoringDrawing(id){
   currentDrawingId = id;
+  currentTool = 'bucket';
+  currentZoom = ZOOM_LEVELS[0];
   render();
 }
 export function backToDrawingPicker(){
   currentDrawingId = null;
   render();
 }
-/* Ojo: ninguna de las dos funciones de abajo llama a render() — un render()
+/* Ojo: ninguna de las funciones de abajo llama a render() — un render()
    completo reconstruye el <canvas> desde cero, borrando lo ya pintado (bug
    real ya encontrado y corregido en la versión anterior del módulo).
-   Cambiar de color solo debe actualizar el indicador y qué swatch se ve
-   activo. */
+   Cambiar de color/herramienta/zoom solo debe actualizar el DOM puntual
+   correspondiente. */
+export function pickTool(tool){
+  currentTool = tool;
+  document.querySelectorAll('.tool-btn').forEach(function(btn){
+    btn.classList.toggle('active', btn.getAttribute('data-tool')===tool);
+  });
+  const hint = document.querySelector('.colorear-hint');
+  if(hint) hint.textContent = coloringHintText();
+  const canvas = document.getElementById('colorear-canvas');
+  if(canvas) canvas.style.touchAction = tool==='bucket' ? 'manipulation' : 'none';
+}
+export function zoomIn(){
+  const i = ZOOM_LEVELS.indexOf(currentZoom);
+  if(i < ZOOM_LEVELS.length-1) currentZoom = ZOOM_LEVELS[i+1];
+  refreshZoomUI();
+}
+export function zoomOut(){
+  const i = ZOOM_LEVELS.indexOf(currentZoom);
+  if(i > 0) currentZoom = ZOOM_LEVELS[i-1];
+  refreshZoomUI();
+}
+function refreshZoomUI(){
+  applyZoom(document.getElementById('colorear-canvas'));
+  const label = document.querySelector('.colorear-zoom-label');
+  if(label) label.textContent = Math.round(currentZoom*100)+'%';
+}
 export function pickColorNum(n){
   currentColorNum = n;
   currentColorHex = colorForNum(n);

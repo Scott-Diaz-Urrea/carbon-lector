@@ -931,6 +931,144 @@ js/
                                 el cuerpo (una región separada por el
                                 `wallMask`) queda intacto. Sin errores de
                                 consola en los 3 casos.
+                              - **Segunda ronda de láminas + reemplazo de
+                                las que salieron con cuadriculado
+                                (2026-08-08), pedido explícito del usuario:
+                                "procede con las imagenes... reemplaza los
+                                dibujos actuales con las mejoras" y luego
+                                "quiero mejor paisajes y despues autos".**
+                                Las primeras 7 imágenes que el usuario subió
+                                a `Juego_Interactivo\imagenes` (además del
+                                Mandala) tenían el mismo problema de fondo
+                                horneado ya descrito arriba — se integraron
+                                igual (mismo mecanismo, verificado con
+                                componentes conexas por imagen) pero el
+                                usuario las rechazó después ("no me gusta
+                                como quedaron dado que tienen cuadrados y no
+                                corresponde"). Se le entregó un prompt
+                                maestro para Gemini (ver conversación) que
+                                exige explícitamente "fondo blanco sólido,
+                                nunca transparente" en vez de dejar que el
+                                generador improvisara — las 7 láminas
+                                regeneradas en `Juego_Interactivo\imagenes\png`
+                                sí vinieron con blanco real (confirmado
+                                muestreando color, no solo alfa: ≥250 en R/G/B
+                                en el borde de las 7, no solo alfa=255).
+                                Reemplazo final en `DIBUJOS_COLOREAR`:
+                                `mandalaPetalos`/`heroeCiudad`/`playaCastillo`
+                                mantuvieron su `id`/`label` pero con el PNG
+                                nuevo; `heroeVuelo`/`heroeEspacial`/
+                                `espacioAventura`/`dinosaurios` se retiraron
+                                (seguían con cuadriculado y el usuario no
+                                subió reemplazo, además de redirigir el
+                                pedido a paisajes/autos) y sus PNG se
+                                borraron de `img/colorear/`; se agregaron
+                                `paisajeMontana`/`paisajeCampo`/`autoCarrera`/
+                                `autoVintage` nuevos. `auto-carrera.png`
+                                llegó como `.jfif` (JPEG) — convertido a PNG
+                                real con `System.Drawing` antes de copiarlo,
+                                ya que el flood fill nunca debe alimentarse
+                                de un JPEG con artefactos de compresión.
+                                **Bug real encontrado en `autoCarrera`, no
+                                corregido todavía:** un análisis de
+                                componentes conexas mostró una región de
+                                fondo sospechosamente grande (72%); clics
+                                dirigidos confirmaron que el parabrisas/techo
+                                del auto está conectado al fondo exterior a
+                                través de una micro-fuga en la línea, justo
+                                en la unión con el pilar A — pintar el fondo
+                                también pinta esa zona del parabrisas, y
+                                viceversa. Sospecha: la compresión JPEG del
+                                archivo original suavizó esa línea por debajo
+                                del umbral de luminancia de `buildWallMask()`.
+                                El resto del auto (puertas, capó, ruedas)
+                                está bien separado — se dejó así a propósito
+                                (pausado, sin parche) porque el usuario pasó
+                                a otro pedido antes de decidir si regenerar
+                                la lámina o parchear el hueco a mano.
+                                Verificado con el mismo protocolo de siempre
+                                (componentes conexas + `getImageData` en
+                                puntos dirigidos, sin capturas de pantalla
+                                como única prueba) en las 7 láminas de esta
+                                ronda antes de darlas por buenas.
+                              - **Barra de herramientas ampliada — lápiz,
+                                borrador y zoom (2026-08-08), pedido
+                                explícito del usuario con capturas de una
+                                barra de Paint clásica ("necesito que
+                                agreges estos controles, para que así tengan
+                                más opciones de pintar").** Se le presentó
+                                la lista completa de la captura (lápiz,
+                                borrador, texto, gotero, lupa) vía
+                                `AskUserQuestion` para priorizar, dado que
+                                convertir el módulo de "solo tocar para
+                                rellenar" a un editor tipo Paint es un
+                                cambio grande — el usuario eligió lápiz,
+                                borrador y lupa para esta ronda (gotero y
+                                texto sobre el dibujo quedan pendientes).
+                                Estado nuevo del módulo: `currentTool`
+                                (`'bucket'|'pencil'|'eraser'`, con
+                                `pickTool()` exportado) y `currentZoom`
+                                (`ZOOM_LEVELS=[1,1.5,2]`, con `zoomIn()`/
+                                `zoomOut()` exportados) — ambos se
+                                resetean a su valor por defecto en
+                                `selectColoringDrawing()` para no arrastrar
+                                estado de una lámina a otra. El único
+                                listener de `click` que existía en
+                                `initRasterCanvas()` se reemplazó por
+                                Pointer Events (`pointerdown`/`pointermove`/
+                                `pointerup`/`pointerleave`/`pointercancel`,
+                                mismo mecanismo ya usado en `traza.js` para
+                                unificar mouse/dedo/lápiz óptico): con
+                                `currentTool==='bucket'` el `pointerdown` se
+                                comporta exactamente igual que el `click`
+                                de antes (mismo `nearestPaintablePixel()` +
+                                `floodFillCanvas()`, sin cambios); con
+                                `'pencil'`/`'eraser'` arranca un trazo libre
+                                (círculo relleno en el punto inicial +
+                                línea continua en cada `pointermove`, grosor
+                                distinto para cada herramienta vía
+                                `brushSize()`) con el color elegido o blanco
+                                puro respectivamente. Al soltar el trazo
+                                (`pointerup`/`pointerleave`/`pointercancel`)
+                                se reconstruye `canvas._wallMask` desde el
+                                lienzo real — así una línea nueva dibujada a
+                                lápiz pasa a actuar como muro para el balde,
+                                y una línea original tapada con el borrador
+                                deja de serlo, sin necesitar ningún caso
+                                especial. Lupa: `applyZoom()` fija
+                                `canvas.style.width` a un porcentaje
+                                (100/150/200%) y agrega la clase `.zoomed` a
+                                `.colorear-canvas-wrap` solo cuando el zoom
+                                es mayor a 100% (`styles.css`,
+                                `max-height:65vh; overflow:auto`) — a 100%
+                                el wrapper se comporta exactamente igual que
+                                antes, así que ningún dibujo que nunca use
+                                la lupa se ve afectado. El mapeo de
+                                coordenadas de clic/trazo ya usaba
+                                `getBoundingClientRect()` contra
+                                `canvas.width/height` reales (mismo mecanismo
+                                que ya validó el responsive de tablet/
+                                escritorio), así que sigue alineado sin
+                                importar el ancho CSS mostrado. El emoji 🪣
+                                (balde) no se renderiza en Windows —mismo
+                                problema ya documentado para 🪥🦭🪮🪨🪟🪞🫘🪖🧋—
+                                así que el botón usa 🎨 en su lugar (ya
+                                confirmado compatible, es el mismo ícono del
+                                encabezado de este módulo). Verificado en el
+                                navegador (mobile 375px y desktop): balde
+                                sigue pintando igual que antes (sin
+                                regresión), lápiz dibuja una línea continua
+                                del color elegido, borrador vuelve una zona a
+                                blanco puro, "Borrar todo" restaura el
+                                dibujo original y reconstruye `_wallMask`
+                                después de haber dibujado con lápiz/borrador,
+                                "Guardar" sigue exportando sin errores, y la
+                                lupa activa scroll dentro del lienzo sin
+                                empujar el resto de la pantalla. Sin errores
+                                de consola en ningún caso probado. Pendiente
+                                para una ronda futura: gotero (elegir color
+                                tocando una zona ya pintada) y texto sobre el
+                                dibujo.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

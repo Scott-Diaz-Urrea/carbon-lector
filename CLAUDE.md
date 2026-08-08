@@ -895,6 +895,42 @@ js/
                                 su lugar, el riesgo de "clic que no hace
                                 nada" por líneas finas queda mitigado para
                                 cualquier lámina futura, no solo esta.
+                              - **Fondo pre-pintado en blanco automáticamente
+                                (2026-08-08), pedido explícito del usuario
+                                tras ver el cuadriculado del Mandala: "puedes
+                                comenzar pintando automáticamente el fondo
+                                blanco... antes de que el usuario comience a
+                                interactuar".** Se agregó
+                                `autoFillBackgroundWhite(canvas)`, llamada al
+                                final de `resetRasterCanvas()` (o sea, tanto
+                                al cargar un dibujo como al tocar "Borrar
+                                todo"). Prueba 8 puntos a lo largo del borde
+                                del lienzo (las 4 esquinas + el punto medio de
+                                cada lado, por si el fondo está partido en más
+                                de una región desconectada — p. ej. cielo/piso
+                                de Paisaje) y por cada uno corre exactamente
+                                el mismo camino que un clic real del niño
+                                (`nearestPaintablePixel()` +
+                                `floodFillCanvas()` con blanco), sin ningún
+                                código nuevo de relleno — es 100% equivalente
+                                a que alguien tocara el fondo antes de
+                                empezar, solo que ya viene hecho. Para los 5
+                                dibujos de línea propia y Paisaje (que ya
+                                nacían blancos) esto es un no-op casi
+                                instantáneo, por el mismo chequeo de "el color
+                                bajo el punto ya es el buscado" que ya tenía
+                                `floodFillCanvas()` — solo tiene efecto visible
+                                real en láminas con el cuadriculado horneado
+                                (el Mandala, y cualquier lámina futura del
+                                mismo estilo). Verificado en el navegador:
+                                Mandala carga con las 4 esquinas en blanco
+                                puro (antes mostraban el cuadriculado);
+                                Paisaje sin cambios (cielo/piso ya blancos
+                                antes y después); Carboncito sin regresión —
+                                un clic real en el fondo pinta solo el fondo,
+                                el cuerpo (una región separada por el
+                                `wallMask`) queda intacto. Sin errores de
+                                consola en los 3 casos.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

@@ -1179,6 +1179,96 @@ js/
                                 prueba está donde uno cree que está, antes de
                                 concluir que hay una fuga. No se modificó
                                 `auto-carrera.png`.
+                              - **Paleta ampliada a 27 tonos + rediseño a
+                                barra fija siempre visible (2026-08-09,
+                                pedido explícito del usuario tras usar el
+                                módulo: "en la gama de colores no es
+                                suficiente y hay problemas al momento de
+                                seleccion el color y en mobile influye
+                                negativamente la experiencia").**
+                                `PALETTE_COLOREAR` pasó de 16 a 27 tonos —
+                                se agregaron variantes claras/oscuras de
+                                las familias que antes tenían un solo tono
+                                (amarillo, naranjo, rojo, rosado, morado,
+                                celeste, verde) más 2 tonos de piel (útiles
+                                para pintar personajes: Héroe en la Ciudad,
+                                Playa Tropical) y un negro/casi-negro para
+                                detalles — los 16 originales se mantienen
+                                con el mismo hex, solo se insertaron tonos
+                                nuevos entre medio. Pero el problema de
+                                fondo no era solo "pocos colores": la
+                                paleta vivía al final de la pantalla,
+                                después del lienzo — en mobile, cambiar de
+                                color significaba soltar el dibujo,
+                                deslizar hacia abajo a buscar el color, y
+                                volver a subir para seguir pintando, cada
+                                vez. Con un lienzo que ya ocupa la mayor
+                                parte de una pantalla de celular, ese viaje
+                                de ida y vuelta es el "problema al momento
+                                de seleccionar el color" real que reportó
+                                el usuario, no un bug puntual de un botón.
+                                **Fix:** `paletteHTML()`
+                                (`colorearNumeros.js`) ahora arma
+                                `.colorear-palette-bar`
+                                (`position:sticky; bottom:10px`, mismo
+                                mecanismo que ya usa `.topbar` arriba de la
+                                pantalla, solo que pegado abajo) — se
+                                mantiene visible sobre el lienzo mientras
+                                se hace scroll, y en pantallas donde todo
+                                el contenido ya cabe (tablet/escritorio, o
+                                un dibujo chico) se comporta como una
+                                tarjeta normal al final de la pantalla, sin
+                                ningún comportamiento raro. Dentro de la
+                                barra, `.colorear-palette` pasó de
+                                `flex-wrap:wrap` (crecía en alto sin límite
+                                a medida que se agregaran más colores) a
+                                una fila con scroll horizontal propio
+                                (`overflow-x:auto` + `scroll-snap-type:x`)
+                                — con 27 tonos, la barra muestra ~6-7
+                                swatches a la vez y se desliza para ver el
+                                resto, igual que la paleta de cualquier app
+                                de dibujo real, sin que la barra crezca en
+                                alto. El indicador "Color elegido" (ahora
+                                un swatch sin texto, con `title`/
+                                `aria-label` para lectores de pantalla, en
+                                vez de swatch+texto en su propia fila) vive
+                                FUERA de la zona con scroll para que
+                                siempre se vea sin importar cuánto se haya
+                                deslizado la paleta. Swatches de 52px→46px
+                                (siguen muy por sobre el mínimo de 44px
+                                recomendado para táctil, solo un poco más
+                                compactos para que quepan más por pantalla
+                                sin perder tamaño de toque). Verificado en
+                                el navegador: en mobile (375×667/812) con
+                                un dibujo alto (Paisaje) la barra queda
+                                pegada al fondo de la pantalla mientras se
+                                hace scroll por el lienzo, sin taparlo; con
+                                zoom a 200% (`.colorear-canvas-wrap.zoomed`,
+                                que ya tenía su propio scroll interno con
+                                `max-height:65vh`) la barra sigue
+                                totalmente alcanzable debajo, sin
+                                superponerse; en tablet/escritorio se ve
+                                como una tarjeta normal. Probado
+                                deslizando la paleta hasta el final
+                                (llegan los 27 tonos + el selector
+                                personalizado) y pintando con un color del
+                                extremo de la lista (Negro): el flood fill
+                                se aplicó correctamente sobre el lienzo sin
+                                ningún error de consola. **Nota de
+                                metodología, no de producto:** durante la
+                                verificación, un primer intento de hacer
+                                clic en un swatch vía referencia de
+                                accesibilidad (`ref`) después de mover el
+                                scroll de la paleta con JS directo
+                                (`el.scrollLeft = ...`) no seleccionó el
+                                color esperado — resultó ser un artefacto
+                                de la herramienta de automatización (la
+                                referencia resolvió a una coordenada
+                                obsoleta tras el scroll manual), no un bug
+                                real: repetir el clic con una coordenada
+                                tomada de una captura de pantalla fresca
+                                seleccionó el color correctamente. Sin
+                                errores de consola en ningún caso probado.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

@@ -1034,28 +1034,48 @@
      empujar el resto de la pantalla hacia abajo. */
   .colorear-canvas-wrap.zoomed{ max-height:65vh; overflow:auto; }
   #colorear-canvas{ width:100%; height:auto; display:block; cursor:pointer; touch-action:manipulation; border-radius: var(--radius-md); }
-  .colorear-hint{ text-align:center; color: var(--ink-soft); font-weight:600; font-size:13px; margin:14px 0 8px; }
-  /* Paleta rediseñada (2026-08-08, pedido explícito del usuario: "paleta
-     más grande y visible... más moderna... incluir un selector de color
-     visual... mostrar claramente el color seleccionado"). El indicador de
-     arriba (`.colorear-current`) es la única fuente de verdad visual sobre
-     qué color está activo — funciona igual si viene de un swatch fijo o
-     del selector nativo (`.palette-picker`). */
-  .colorear-current{
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    font-family: var(--font-body); font-weight:700; font-size:14px; color: var(--ink);
-    margin:4px 0 14px;
+  .colorear-hint{ text-align:center; color: var(--ink-soft); font-weight:600; font-size:13px; margin:14px 0 4px; }
+  /* Barra de paleta FIJA (2026-08-09, pedido explícito del usuario: "en la
+     gama de colores no es suficiente y hay problemas al momento de
+     seleccionar el color y en mobile influye negativamente la
+     experiencia" — ver el comentario largo en `paletteHTML()`,
+     colorearNumeros.js, para el razonamiento completo). Mismo mecanismo
+     que ya usa `.topbar` (sticky), pero pegado abajo: mientras la pantalla
+     entera quepa en el viewport (tablet/escritorio, o un dibujo chico en
+     mobile) se comporta como una tarjeta normal al final del contenido;
+     en cuanto el contenido es más alto que el viewport (el caso típico en
+     mobile, con el lienzo ocupando la mayor parte de la pantalla), queda
+     pegada al fondo de la pantalla SIN necesidad de soltar el lienzo para
+     ir a buscarla. */
+  .colorear-palette-bar{
+    position: sticky; bottom: 10px; z-index: 15;
+    display:flex; align-items:center; gap:10px;
+    margin: 16px 0 0; padding: 10px 12px;
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(6px);
+    border-radius: var(--radius-lg); border:1px solid #E1EDEA;
+    box-shadow: 0 8px 24px rgba(29,53,87,0.16);
   }
   .colorear-current-swatch{
-    width:36px; height:36px; border-radius:50%; display:inline-block;
+    flex: 0 0 auto;
+    width:38px; height:38px; border-radius:50%; display:inline-block;
     border:3px solid #fff; box-shadow: 0 0 0 2px rgba(29,43,58,0.15), var(--shadow-sm);
   }
+  /* Fila de swatches con scroll horizontal propio en vez de envolver en
+     varias filas — con 27 tonos, envolver habría vuelto la barra cada vez
+     más alta y habría tapado más lienzo mientras más colores se agreguen
+     a futuro. `scroll-snap` ayuda a que un gesto de deslizar deje un
+     swatch completo (no cortado a la mitad) visible en el borde. */
   .colorear-palette{
-    display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
-    max-width:560px; margin:0 auto; padding: 0 10px 22px;
+    display:flex; flex-wrap:nowrap; align-items:center; gap:10px;
+    overflow-x:auto; -webkit-overflow-scrolling:touch;
+    scroll-snap-type:x proximity; scroll-padding-left:4px;
+    padding:4px 4px 6px; min-width:0; flex:1 1 auto;
   }
+  .colorear-palette::-webkit-scrollbar{ height:6px; }
+  .colorear-palette::-webkit-scrollbar-thumb{ background:#C7D9D5; border-radius:6px; }
   .palette-swatch{
-    width:52px; height:52px; border-radius:50%; border:3px solid #fff;
+    flex:0 0 auto; scroll-snap-align:start;
+    width:46px; height:46px; border-radius:50%; border:3px solid #fff;
     cursor:pointer; box-shadow: var(--shadow-sm); position:relative; padding:0;
     transition: transform .12s ease, box-shadow .12s ease;
   }
@@ -1066,7 +1086,7 @@
   }
   .palette-swatch.active::after{
     content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    color:#fff; font-size:20px; font-weight:900; text-shadow: 0 1px 3px rgba(0,0,0,.5); pointer-events:none;
+    color:#fff; font-size:18px; font-weight:900; text-shadow: 0 1px 3px rgba(0,0,0,.5); pointer-events:none;
   }
   .palette-picker{
     background: conic-gradient(red, #FFD54F, lime, cyan, blue, magenta, red);
@@ -1075,7 +1095,7 @@
   .palette-picker input[type="color"]{
     position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; border:none; padding:0;
   }
-  .palette-picker-icon{ font-size:20px; pointer-events:none; filter: drop-shadow(0 1px 2px rgba(0,0,0,.45)); }
+  .palette-picker-icon{ font-size:18px; pointer-events:none; filter: drop-shadow(0 1px 2px rgba(0,0,0,.45)); }
 
   /* ---------- Responsive: tablet / escritorio ----------
      El diseño es mobile-first a propósito (#app queda centrado con

@@ -366,13 +366,33 @@ export function baldeSVG(size){
    lleva la clase `act-<accion>` que dispara la animación correspondiente. */
 export function personActionSVG(action, size){
   size = size || 90;
+  /* `pf-rope`/`pf-water` son referencias de contexto SIEMPRE presentes en el
+     markup pero invisibles por defecto (`opacity:0` en CSS) — solo la
+     acción que las necesita las hace visibles (`.act-trepar .pf-rope`,
+     `.act-nadar .pf-water`). Sin esta referencia, "trepar" (brazos
+     alternando arriba) y "nadar" (torso inclinado) son ambiguos incluso
+     viéndolos animados — un problema real reportado por el usuario ("las
+     imágenes no son iguales a lo que se pregunta"): la acción sola, sin
+     ningún objeto/superficie con la que interactúa, no comunica el
+     movimiento con claridad a un niño de NT. */
+  /* Las partes del cuerpo van dentro de un <g class="pf-body"> separado de
+     `pf-rope`/`pf-water`: acciones como "nadar" rotan el cuerpo entero para
+     representarlo tumbado de lado, y si esa rotación se aplicara al <svg>
+     raíz completo (como antes), la referencia de agua/cuerda quedaría
+     inclinada con él en vez de verse como una superficie de agua nivelada o
+     una cuerda vertical fija — confuso en vez de aclarar la acción. */
   return '<svg class="action-figure act-'+action+'" width="'+size+'" height="'+size+'" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'+
-    '<circle class="pf-head" cx="50" cy="16" r="9" fill="#1D3557"/>'+
-    '<line class="pf-torso" x1="50" y1="25" x2="50" y2="58" stroke="#1D3557" stroke-width="7" stroke-linecap="round"/>'+
-    '<line class="pf-armL" x1="50" y1="30" x2="32" y2="46" stroke="#FF6B6B" stroke-width="6" stroke-linecap="round"/>'+
-    '<line class="pf-armR" x1="50" y1="30" x2="68" y2="46" stroke="#FF6B6B" stroke-width="6" stroke-linecap="round"/>'+
-    '<line class="pf-legL" x1="50" y1="58" x2="36" y2="88" stroke="#12A594" stroke-width="7" stroke-linecap="round"/>'+
-    '<line class="pf-legR" x1="50" y1="58" x2="64" y2="88" stroke="#12A594" stroke-width="7" stroke-linecap="round"/>'+
+    '<line class="pf-rope" x1="74" y1="2" x2="74" y2="98" stroke="#B08968" stroke-width="4" stroke-linecap="round"/>'+
+    '<rect class="pf-water" x="2" y="72" width="96" height="24" rx="6" fill="#7EC8E3"/>'+
+    '<line class="pf-ground" x1="4" y1="90" x2="96" y2="90" stroke="#8C6A4E" stroke-width="4" stroke-linecap="round"/>'+
+    '<g class="pf-body">'+
+      '<circle class="pf-head" cx="50" cy="16" r="9" fill="#1D3557"/>'+
+      '<line class="pf-torso" x1="50" y1="25" x2="50" y2="58" stroke="#1D3557" stroke-width="7" stroke-linecap="round"/>'+
+      '<line class="pf-armL" x1="50" y1="30" x2="32" y2="46" stroke="#FF6B6B" stroke-width="6" stroke-linecap="round"/>'+
+      '<line class="pf-armR" x1="50" y1="30" x2="68" y2="46" stroke="#FF6B6B" stroke-width="6" stroke-linecap="round"/>'+
+      '<line class="pf-legL" x1="50" y1="58" x2="36" y2="88" stroke="#12A594" stroke-width="7" stroke-linecap="round"/>'+
+      '<line class="pf-legR" x1="50" y1="58" x2="64" y2="88" stroke="#12A594" stroke-width="7" stroke-linecap="round"/>'+
+    '</g>'+
   '</svg>';
 }
 

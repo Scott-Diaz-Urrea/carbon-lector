@@ -119,7 +119,7 @@ export function genAlimentosNTRound(){
   const distract = shuffle(distractPool).slice(0,3);
   const opts = shuffle([correct].concat(distract)).map(function(e){ return {label:e, value:e}; });
   const question = askConSello
-    ? '¿Cuál de estos alimentos suele tener sellos de advertencia como "ALTO EN AZÚCARES"?'
+    ? '¿Cuál de estos alimentos suele tener sellos de advertencia como “ALTO EN AZÚCARES”?'
     : '¿Cuál de estos alimentos NO necesita sellos de advertencia?';
   return {
     promptHTML: '<p class="prompt-hint">'+question+'</p>',

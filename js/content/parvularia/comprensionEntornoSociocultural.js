@@ -72,7 +72,7 @@ const INSTITUCIONES_BANK = [
 
 const SEGURIDAD_PREV_BANK = [
   { pregunta:'Si hay un sismo, ¿qué debes hacer?', correcto:'Agacharte junto a un adulto y cubrirte', opts:['Correr por las escaleras solo','Asomarte por la ventana','Esconderte bajo la cama solo'] },
-  { pregunta:'¿Qué color del semáforo significa "Detente"?', correcto:'🔴 Rojo', opts:['🟢 Verde','🟡 Amarillo','🔵 Azul'] },
+  { pregunta:'¿Qué color del semáforo significa “Detente”?', correcto:'🔴 Rojo', opts:['🟢 Verde','🟡 Amarillo','🔵 Azul'] },
   { pregunta:'Si hay un incendio, ¿qué debes hacer?', correcto:'Salir con un adulto por la salida más cercana', opts:['Esconderte en un clóset','Volver a buscar tus juguetes','Usar el ascensor'] },
   { pregunta:'Antes de cruzar la calle, ¿qué debes hacer primero?', correcto:'Mirar a ambos lados y dar la mano a un adulto', opts:['Cruzar corriendo','Cruzar mirando el celular','Cruzar sin mirar'] },
   { pregunta:'¿Qué debes ponerte antes de andar en bicicleta o patines?', correcto: cascoSVG(40)+' El casco', opts:['👒 Un sombrero de verano','👟 Solo zapatillas','🧤 Solo guantes'] },

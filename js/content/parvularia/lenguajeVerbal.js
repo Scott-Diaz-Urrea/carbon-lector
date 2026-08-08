@@ -43,7 +43,7 @@ const SILABAS_NT_BANK = [
 
 const RIDDLES_NT_BANK = [
   { text:'Tengo alas de colores y vuelo de flor en flor. ¿Qué soy?', correct:'🦋', opts:['🐝','🐌','🐞'], reason:'las mariposas tienen alas de colores y vuelan entre flores' },
-  { text:'Doy leche y digo "muu". ¿Qué soy?', correct:'🐄', opts:['🐑','🐷','🐴'], reason:'la vaca da leche y hace "muu"' },
+  { text:'Doy leche y digo “muu”. ¿Qué soy?', correct:'🐄', opts:['🐑','🐷','🐴'], reason:'la vaca da leche y hace "muu"' },
   { text:'Brillo en el cielo de noche y soy redonda. ¿Qué soy?', correct:'🌕', opts:['☀️','⭐','☁️'], reason:'la luna brilla de noche y se ve redonda' },
   { text:'Tengo cuatro patas, ladro y soy el mejor amigo de las personas. ¿Qué soy?', correct:'🐶', opts:['🐱','🐰','🐦'], reason:'el perro ladra y es el mejor amigo del ser humano' },
   { text:'Soy amarillo, caliente, y salgo todas las mañanas. ¿Qué soy?', correct:'☀️', opts:['🌙','⭐','🌧️'], reason:'el sol es amarillo, caliente y sale de día' },

@@ -1494,6 +1494,61 @@ más atributos/categorías de los que el único módulo existente ejercitaba:
 Fuentes exactas por núcleo están citadas como comentario al inicio de cada
 `content/parvularia/<nombre>.js`.
 
+**Fix de audio roto + animaciones de "Movimientos del Cuerpo" (2026-08-08,
+pedido explícito del usuario tras probar el módulo: "no todos se escuchan" +
+"muchas imágenes no son iguales a lo que se pregunta, sobretodo los de
+movimiento"):**
+- **Bug real de audio, encontrado con un fuzz dirigido (no visual):** 3
+  ítems (`RIDDLES_NT_BANK` en `lenguajeVerbal.js`, `SEGURIDAD_PREV_BANK` en
+  `comprensionEntornoSociocultural.js`, y el `question` de
+  `genAlimentosNTRound` en `identidadAutonomia.js`) tenían comillas dobles
+  literales dentro del texto usado como `speakText` (`Doy leche y digo
+  "muu"`, `significa "Detente"`, `sellos... como "ALTO EN AZÚCARES"`). Como
+  `mcEngine.js` arma el botón 🔊 con `onclick="speak('`+r.speakText+`')"`,
+  una comilla doble dentro del texto corta el atributo HTML a la mitad —
+  el botón queda roto sin ningún error visible en consola, simplemente no
+  suena. Corregido reemplazando las comillas rectas por comillas
+  tipográficas (“ ”) en esos 3 lugares (los usos de comillas dentro de
+  `explain`/`recurso` no se tocaron, porque esos van como innerHTML de un
+  overlay, no como atributo, y ahí sí son seguras). Un fuzz de 400
+  iteraciones sobre los 34 módulos de los 8 núcleos, buscando
+  específicamente `["<>]` dentro de `speakText`, confirmó 0 casos
+  restantes — la técnica (fuzz dirigido a un patrón concreto, no solo
+  "sin `undefined`") queda documentada para revisar `speakText` de
+  contenido nuevo en el futuro.
+- **Animaciones de `personActionSVG()` (`js/svg.js`, usada también por
+  "Cuerpo en Movimiento" de 1° básico en `edfisica.js` — mismas 8 acciones
+  base) que no comunicaban la acción con claridad, ni siquiera viéndolas
+  animadas en el navegador (no solo en una captura estática):** *nadar*
+  tenía las piernas completamente quietas (sin patada) mientras el cuerpo
+  rotaba ~80° — sin ninguna referencia de agua, la pose se leía como
+  "alguien cayéndose de lado". *Trepar* tenía los brazos subiendo y
+  bajando pero el ángulo de rotación estaba mal calculado (`rotate(-55deg)`
+  a `rotate(-100deg)`): medido en el navegador con `getBoundingClientRect()`
+  (no a ojo), la mano NUNCA llegaba arriba de la cabeza, además de no haber
+  ningún objeto que "trepar". *Reptar* tenía un tirón de brazos casi
+  imperceptible (±15°) sin ninguna referencia de suelo. Se agregaron 3
+  elementos de contexto siempre presentes en el SVG pero invisibles salvo
+  que la acción los necesite (`pf-rope`/`pf-water`/`pf-ground`, controlados
+  por `opacity` vía CSS según la clase `.act-nadar`/`.act-trepar`/
+  `.act-reptar`) — van FUERA de un `<g class="pf-body">` nuevo que agrupa
+  cabeza/torso/brazos/piernas, para que la rotación que "nadar"/"reptar"
+  aplican al cuerpo NO arrastre también la referencia de agua/suelo
+  (antes, con todo dentro del mismo `<svg>` raíz, una rotación del cuerpo
+  habría inclinado el agua junto con él). Se recalcularon los ángulos de
+  brazo de *trepar* resolviendo la rotación vectorial real (shoulder→mano)
+  en vez de ajustar a ojo, y se verificó con mediciones de posición real en
+  el navegador que la mano queda por encima de la cabeza en el punto alto
+  del ciclo. *Reptar* subió su rango de tirón de brazos a ±35°. Verificado:
+  0 errores de consola jugando una partida completa de "Movimientos del
+  Cuerpo", y 300 sesiones simuladas sin ninguna repetición (confirma que el
+  cambio de CSS no rompió el mecanismo de no-repetición, que depende de
+  `promptHTML` — sin cambios — no de las animaciones). El resto de
+  imágenes/emoji de los otros 7 núcleos de NT (reportadas por el usuario
+  como "muchas imágenes no son iguales a lo que se pregunta") queda
+  pendiente de auditar en una sesión futura — este PR se acotó a
+  "movimiento" a pedido explícito del usuario.
+
 ### 1° Básico — ✅ completo (31 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
 curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/1-basico. En cada asignatura

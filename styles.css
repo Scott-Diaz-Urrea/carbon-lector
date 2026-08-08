@@ -809,9 +809,20 @@
      (rotate/translate/scale), nunca propiedades de layout, para que corran
      livianas incluso en varias a la vez en pantalla. */
   .action-figure .pf-armL, .action-figure .pf-armR,
-  .action-figure .pf-legL, .action-figure .pf-legR{ transform-box: view-box; }
+  .action-figure .pf-legL, .action-figure .pf-legR,
+  .action-figure .pf-body{ transform-box: view-box; }
 
-  .act-correr{ animation: act-bounce .5s ease-in-out infinite; }
+  /* `pf-rope`/`pf-water`/`pf-ground` son referencias de contexto (cuerda,
+     agua, suelo) — invisibles salvo que la acción las necesite (ver
+     personActionSVG() en js/svg.js). Van FUERA de `pf-body` a propósito
+     para no heredar la rotación que "nadar"/"reptar" aplican al cuerpo:
+     deben verse fijas/niveladas mientras el cuerpo se inclina o gira. */
+  .action-figure .pf-rope, .action-figure .pf-water, .action-figure .pf-ground{ opacity:0; }
+  .act-trepar .pf-rope{ opacity:1; }
+  .act-nadar .pf-water{ opacity:1; }
+  .act-reptar .pf-ground{ opacity:1; }
+
+  .act-correr .pf-body{ transform-origin:50px 50px; animation: act-bounce .5s ease-in-out infinite; }
   .act-correr .pf-armL{ transform-origin:50px 30px; animation: act-armR-run .5s ease-in-out infinite; }
   .act-correr .pf-armR{ transform-origin:50px 30px; animation: act-armL-run .5s ease-in-out infinite; }
   .act-correr .pf-legL{ transform-origin:50px 58px; animation: act-legL-run .5s ease-in-out infinite; }
@@ -831,7 +842,7 @@
   @keyframes act-armL-walk{ 0%,100%{ transform:rotate(10deg); } 50%{ transform:rotate(-10deg); } }
   @keyframes act-armR-walk{ 0%,100%{ transform:rotate(-10deg); } 50%{ transform:rotate(10deg); } }
 
-  .act-saltar{ animation: act-jump .6s ease-in-out infinite; }
+  .act-saltar .pf-body{ transform-origin:50px 50px; animation: act-jump .6s ease-in-out infinite; }
   .act-saltar .pf-armL{ transform-origin:50px 30px; animation: act-armL-jump .6s ease-in-out infinite; }
   .act-saltar .pf-armR{ transform-origin:50px 30px; animation: act-armR-jump .6s ease-in-out infinite; }
   .act-saltar .pf-legL{ transform-origin:50px 58px; animation: act-leg-jump .6s ease-in-out infinite; }
@@ -841,38 +852,65 @@
   @keyframes act-armR-jump{ 0%,100%{ transform:rotate(-10deg); } 40%,60%{ transform:rotate(70deg); } }
   @keyframes act-leg-jump{ 0%,100%{ transform:rotate(0deg); } 40%,60%{ transform:rotate(12deg); } }
 
-  .act-nadar{ animation: act-swim-rock 1.4s ease-in-out infinite; transform-origin:50px 50px; }
+  /* Nadar: antes las piernas quedaban completamente quietas mientras el
+     cuerpo giraba ~80° — sin patada, la pose se leía como "una persona
+     recostada/cayendo", no como alguien nadando. Se agregó la franja de
+     agua (`pf-water`, fija, sin la rotación del cuerpo) y una patada de
+     piernas alternada para que la acción se reconozca incluso sin
+     depender solo de la inclinación del torso. */
+  .act-nadar .pf-body{ transform-origin:50px 50px; animation: act-swim-rock 1.4s ease-in-out infinite; }
   .act-nadar .pf-armL{ transform-origin:50px 30px; animation: act-arm-swim 1.4s linear infinite; }
   .act-nadar .pf-armR{ transform-origin:50px 30px; animation: act-arm-swim 1.4s linear infinite; animation-delay:.7s; }
-  @keyframes act-swim-rock{ 0%,100%{ transform:rotate(78deg); } 50%{ transform:rotate(82deg); } }
+  .act-nadar .pf-legL{ transform-origin:50px 58px; animation: act-leg-swim-kick .5s ease-in-out infinite; }
+  .act-nadar .pf-legR{ transform-origin:50px 58px; animation: act-leg-swim-kick .5s ease-in-out infinite; animation-delay:.25s; }
+  @keyframes act-swim-rock{ 0%,100%{ transform:rotate(74deg); } 50%{ transform:rotate(82deg); } }
   @keyframes act-arm-swim{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+  @keyframes act-leg-swim-kick{ 0%,100%{ transform:rotate(-14deg); } 50%{ transform:rotate(14deg); } }
 
-  .act-bailar{ animation: act-dance-sway .8s ease-in-out infinite; transform-origin:50px 58px; }
+  .act-bailar .pf-body{ transform-origin:50px 58px; animation: act-dance-sway .8s ease-in-out infinite; }
   .act-bailar .pf-armL{ transform-origin:50px 30px; animation: act-armL-dance .8s ease-in-out infinite; }
   .act-bailar .pf-armR{ transform-origin:50px 30px; animation: act-armR-dance .8s ease-in-out infinite; }
   @keyframes act-dance-sway{ 0%,100%{ transform:rotate(-8deg); } 50%{ transform:rotate(8deg); } }
   @keyframes act-armL-dance{ 0%,100%{ transform:rotate(50deg); } 50%{ transform:rotate(-10deg); } }
   @keyframes act-armR-dance{ 0%,100%{ transform:rotate(-50deg); } 50%{ transform:rotate(10deg); } }
 
+  /* Trepar: antes los brazos subían y bajaban sin ningún objeto que
+     agarrar — indistinguible de "bailar" en un fotograma suelto. Ahora
+     hay una cuerda vertical fija (`pf-rope`) junto a la figura y las manos
+     alcanzan cerca de ella al estirarse hacia arriba. */
   .act-trepar .pf-armL{ transform-origin:50px 30px; animation: act-armL-climb .9s ease-in-out infinite; }
-  .act-trepar .pf-armR{ transform-origin:50px 30px; animation: act-armR-climb .9s ease-in-out infinite; }
+  .act-trepar .pf-armR{ transform-origin:50px 30px; animation: act-armR-climb .9s ease-in-out infinite; animation-delay:-.45s; }
   .act-trepar .pf-legL{ transform-origin:50px 58px; animation: act-legR-climb .9s ease-in-out infinite; }
   .act-trepar .pf-legR{ transform-origin:50px 58px; animation: act-legL-climb .9s ease-in-out infinite; }
-  @keyframes act-armL-climb{ 0%,100%{ transform:rotate(-60deg); } 50%{ transform:rotate(-105deg); } }
-  @keyframes act-armR-climb{ 0%,100%{ transform:rotate(60deg); } 50%{ transform:rotate(105deg); } }
+  /* rotate(115deg)/rotate(155deg): con el hombro como pivote (50,30) y la
+     mano en reposo hacia abajo-izquierda (32,46), estos ángulos llevan la
+     mano por ENCIMA de la cabeza (no hacia abajo, como quedaba con los
+     valores negativos anteriores) — verificado midiendo la posición real
+     de la mano en el navegador, no solo calculado. `animation-delay`
+     negativo en el brazo derecho los desfasa medio ciclo para que se vea
+     una mano alcanzando arriba mientras la otra baja (como trepar de
+     verdad), en vez de que ambos brazos suban y bajen juntos. */
+  @keyframes act-armL-climb{ 0%,100%{ transform:rotate(115deg); } 50%{ transform:rotate(155deg); } }
+  @keyframes act-armR-climb{ 0%,100%{ transform:rotate(-115deg); } 50%{ transform:rotate(-155deg); } }
   @keyframes act-legL-climb{ 0%,100%{ transform:rotate(18deg); } 50%{ transform:rotate(-8deg); } }
   @keyframes act-legR-climb{ 0%,100%{ transform:rotate(-18deg); } 50%{ transform:rotate(8deg); } }
 
-  .act-reptar{ animation: act-crawl-lie .01s linear forwards; transform-origin:50px 50px; }
+  /* Reptar: el cuerpo queda tumbado (rotado 90° una sola vez) sobre una
+     línea de suelo fija (`pf-ground`, sin la rotación del cuerpo). El tirón
+     de brazos antes era muy sutil (±15°) — se amplió a ±35° con más
+     diferencia de tiempo entre brazo izquierdo/derecho para que se lea
+     claramente como "avanzar arrastrándose con los brazos", no solo un
+     ligero temblor. */
+  .act-reptar .pf-body{ transform-origin:50px 50px; animation: act-crawl-lie .01s linear forwards; }
   .act-reptar .pf-torso{ transform-origin:50px 42px; animation: act-crawl-wave 1s ease-in-out infinite; }
   .act-reptar .pf-armL, .act-reptar .pf-armR{ animation: act-crawl-arms 1s ease-in-out infinite; }
   .act-reptar .pf-armL{ transform-origin:50px 30px; }
   .act-reptar .pf-armR{ transform-origin:50px 30px; animation-delay:.5s; }
   @keyframes act-crawl-lie{ to{ transform:rotate(90deg); } }
   @keyframes act-crawl-wave{ 0%,100%{ transform:scaleY(1); } 50%{ transform:scaleY(.85); } }
-  @keyframes act-crawl-arms{ 0%,100%{ transform:rotate(-15deg); } 50%{ transform:rotate(15deg); } }
+  @keyframes act-crawl-arms{ 0%,100%{ transform:rotate(-35deg); } 50%{ transform:rotate(20deg); } }
 
-  .act-girar{ animation: act-spin 1.1s linear infinite; transform-origin:50px 50px; }
+  .act-girar .pf-body{ transform-origin:50px 50px; animation: act-spin 1.1s linear infinite; }
   @keyframes act-spin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
 
   .act-lanzar .pf-armR{ transform-origin:50px 30px; animation: act-arm-throw .7s ease-in-out infinite; }

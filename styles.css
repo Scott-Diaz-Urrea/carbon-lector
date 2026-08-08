@@ -997,6 +997,15 @@
     padding:9px 14px; cursor:pointer;
   }
   .colorear-tool-btn.save{ background: var(--primary); color:#fff; border-color: var(--primary); }
+  /* Barra de herramientas nueva (2026-08-08): balde/lápiz/borrador + zoom
+     — mismo estilo de botón que "Cambiar dibujo"/"Borrar todo", con un
+     estado `.active` propio (distinto de `.save`, que es fijo) para marcar
+     cuál de las 3 herramientas está elegida. */
+  .colorear-tool-btn.tool-btn.active{ background: var(--primary); color:#fff; border-color: var(--primary); }
+  .colorear-zoom-label{
+    font-family: var(--font-body); font-weight:700; font-size:13px; color: var(--ink);
+    align-self:center; min-width:44px; text-align:center;
+  }
   /* max-width:420px (fijo) hacía que el lienzo — los 6 dibujos, tanto SVG
      como PNG/canvas, ya que todos comparten este wrapper — se quedara
      chico y rodeado de espacio vacío en tablet/escritorio, sin importar
@@ -1016,6 +1025,14 @@
   @media (min-width:1024px){
     .colorear-canvas-wrap{ max-width:760px; }
   }
+  /* Lupa/zoom (2026-08-08): `.zoomed` solo se agrega cuando el nivel de
+     zoom es >100% (`applyZoom()` en colorearNumeros.js) — a 100% el
+     wrapper se comporta exactamente igual que siempre, sin afectar a quien
+     nunca toque el botón de lupa. Con zoom, el lienzo crece más allá del
+     ancho del wrapper (`canvas.style.width` en %) y este `max-height` +
+     `overflow:auto` lo convierten en su propia zona de scroll en vez de
+     empujar el resto de la pantalla hacia abajo. */
+  .colorear-canvas-wrap.zoomed{ max-height:65vh; overflow:auto; }
   #colorear-canvas{ width:100%; height:auto; display:block; cursor:pointer; touch-action:manipulation; border-radius: var(--radius-md); }
   .colorear-hint{ text-align:center; color: var(--ink-soft); font-weight:600; font-size:13px; margin:14px 0 8px; }
   /* Paleta rediseñada (2026-08-08, pedido explícito del usuario: "paleta

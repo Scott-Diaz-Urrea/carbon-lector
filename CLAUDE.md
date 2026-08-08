@@ -591,6 +591,42 @@ js/
                               versión SVG anterior de Paisaje) se eliminaron
                               por completo al quedar sin ningún llamador —
                               ninguna otra lámina los usa.
+                              **Bug real de responsive encontrado por el
+                              usuario (2026-08-08): "no toma la página
+                              completa, no es responsivo... tablet,
+                              celulares, ipod, iphone".** Causa raíz:
+                              `.colorear-canvas-wrap` (styles.css) tenía
+                              `max-width:420px` fijo — afecta a los 6
+                              dibujos por igual (los 4 SVG y los 2 de
+                              canvas/PNG comparten el mismo wrapper), sin
+                              importar cuánto creciera `#app` en tablet/
+                              escritorio (hasta 1320px). En mobile nunca se
+                              notaba porque `#app` ya es más angosto que
+                              420px, pero en tablet (`#app` a 700-860px) el
+                              lienzo quedaba chico y rodeado de espacio
+                              vacío. Subido a `max-width:640px` (768px+
+                              hasta 1024px de viewport) y `760px` a partir
+                              de 1024px de viewport, mismo criterio de
+                              "crecer de forma progresiva" ya usado en los
+                              breakpoints de `#app`. Verificado que el
+                              mapeo de clic a píxel del flood fill
+                              (`initColorearNumeros`, ya usa
+                              `getBoundingClientRect()` contra
+                              `canvas.width/height` reales, nunca un ancho
+                              fijo) sigue alineado tras agrandar el CSS —
+                              probado con un clic real sobre el sol de
+                              Paisaje a 640px de ancho, rellenó la región
+                              correcta. Verificado en 375px (mobile, sin
+                              cambios), 768px (tablet, canvas de 420→640px)
+                              y 1280px (escritorio, canvas de 420→740px),
+                              en un dibujo SVG (Carboncito) y uno de
+                              canvas/PNG (Paisaje), sin errores de consola.
+                              El resto de canvases de la app (trazado de
+                              nombre/Caligrafía, `.trace-canvas` en
+                              `traza.js`) no tenían este bug — ya escalan
+                              con `width:100%` sin un wrapper con
+                              `max-width` propio, así que crecen junto con
+                              `#app` sin necesitar este mismo fix.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

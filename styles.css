@@ -997,9 +997,24 @@
     padding:9px 14px; cursor:pointer;
   }
   .colorear-tool-btn.save{ background: var(--primary); color:#fff; border-color: var(--primary); }
+  /* max-width:420px (fijo) hacía que el lienzo — los 6 dibujos, tanto SVG
+     como PNG/canvas, ya que todos comparten este wrapper — se quedara
+     chico y rodeado de espacio vacío en tablet/escritorio, sin importar
+     cuánto creciera #app (hasta 1320px en pantallas muy anchas — ver los
+     breakpoints de #app más abajo). Pedido explícito del usuario: "no toma
+     la página completa, no es responsivo... tablet, celulares, ipod,
+     iphone". En mobile (#app ya ≤480px) este cambio no tiene efecto
+     visible, porque #app sigue siendo el límite real; solo se nota a
+     partir de tablet. El mapeo de clic a píxel del canvas (`initColorearNumeros`
+     en colorearNumeros.js) ya usa `getBoundingClientRect()` contra
+     `canvas.width/height` reales, así que agrandar el tamaño visual (CSS)
+     no desalinea el flood fill. */
   .colorear-canvas-wrap{
-    max-width:420px; margin:0 auto; background:#fff; border-radius: var(--radius-lg);
+    max-width:640px; margin:0 auto; background:#fff; border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm); padding:10px;
+  }
+  @media (min-width:1024px){
+    .colorear-canvas-wrap{ max-width:760px; }
   }
   #colorear-svg{ width:100%; height:auto; display:block; }
   #colorear-svg [data-num]{ cursor:pointer; }

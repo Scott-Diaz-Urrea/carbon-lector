@@ -54,23 +54,31 @@ export function speak(text, lang, rate){
 /* ---------------- Sonidos (Web Audio, sin archivos externos) ---------------- */
 let actx = null;
 function getActx(){
-  if(!actx){
-    const Ctx = window.AudioContext || window.webkitAudioContext;
-    if(Ctx) actx = new Ctx();
-  }
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if(!Ctx) return null;
+  /* Bug real reportado por el usuario (2026-08-09), reaparecido incluso
+     después del fix de resume() de más abajo: "sigue sin escuchar al
+     perder o ganar, en todos lados". Causa raíz nueva: `actx` es un
+     singleton de módulo que se crea UNA vez y se reutiliza para siempre —
+     pero algunos navegadores (sobre todo Safari/iOS) cierran el
+     AudioContext por su cuenta cuando la pestaña pasa mucho rato en
+     segundo plano o inactiva, dejándolo en estado "closed". Un contexto
+     "closed" no se puede resumir (resume() rechaza la promesa) y
+     `createOscillator()` sobre él lanza una excepción síncrona — que el
+     try/catch de beep() atrapaba en silencio, así que después de ese
+     cierre NINGÚN sonido volvía a sonar en NINGÚN juego de la app hasta
+     recargar la página. Ahora, si el contexto cacheado quedó "closed", se
+     descarta y se crea uno nuevo en su lugar. */
+  if(actx && actx.state === 'closed') actx = null;
+  if(!actx) actx = new Ctx();
   return actx;
 }
 function beep(freq, dur, delay, vol){
   try{
     const ctx = getActx();
     if(!ctx) return;
-    /* Bug real reportado por el usuario (2026-08-09): "cuando aciertas o te
-       equivocas, no hay alerta con sonido". El código que llama a
-       sfxCorrect()/sfxWrong() siempre se ejecutaba bien (verificado: se
-       invocan desde answerMC() en mcEngine.js y desde los 3 juegos a medida
-       -silabas/secuencia/memorama-, todos dentro de un handler de clic/tap
-       real), pero el AudioContext puede crearse en estado "suspended" en vez
-       de "running" incluso al crearlo dentro de un gesto del usuario —
+    /* El AudioContext puede crearse en estado "suspended" en vez de
+       "running" incluso al crearlo dentro de un gesto del usuario —
        Chrome/Safari mobile son más estrictos que desktop con esto, y sin un
        resume() explícito el navegador nunca emite audio real (sin ningún
        error, `createOscillator`/`start` funcionan igual, solo que en

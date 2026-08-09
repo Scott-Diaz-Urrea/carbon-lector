@@ -4910,6 +4910,40 @@ coordenadas `%`); el resto del fix es CSS puro en `styles.css`. `#app` mide
 1200px a 1440px de viewport (antes 980px, auditoría previa de esta misma
 sesión).
 
+**Bug real de seguimiento, reportado por el usuario con captura de pantalla
+(2026-08-09): el nodo 1 tapaba el título de la pantalla.** En "Lenguaje
+Verbal" (núcleo NT), el círculo del nodo 1 quedaba literalmente encima de la
+"a" del título "Lenguaje Verbal" — no era una deformación de nodo (lo que
+cubrió la auditoría de arriba) sino el nodo desbordándose HACIA ARRIBA del
+`.map-wrap`, sobre el título de la pantalla. Causa raíz: `.node` mide 150px
+de alto fijo (la altura fija introducida en la auditoría de arriba) y se
+centra verticalmente con `transform:translate(-50%,-50%)` sobre su
+`top:X%` — necesita ≥75px de espacio libre arriba de su punto de anclaje
+para no desbordar por encima de `.map-wrap`, pero `.map-wrap` solo tenía
+`margin-top:6px`. El primer nodo de casi todos los mapas de la app está
+posicionado muy cerca del borde superior (coordenadas `y` altas, ~90-96, a
+propósito, para que quede pegado al título) — así que esto **no era un
+problema puntual de un núcleo**: se midió con `getBoundingClientRect()` en
+un muestreo de 97 pantallas de mapa de toda la app (los 8 núcleos NT,
+Educación Básica 1°/3°/6°/8° en las 9 asignaturas, los 5 niveles de EPJA,
+Educación Media 1°/2°, Plan General/Diferenciado de 3°-4° medio, y los 2
+submódulos de Estudio para Pruebas) y el solapamiento real iba de ~17px
+hasta 34.4px (el peor caso: "Ciencias" 6° básico) — el mismo bug en
+prácticamente cualquier mapa de módulos de la app, solo que la mayoría de
+las veces pasaba desapercibido porque el título ocupa 2 líneas y el
+solapamiento cae sobre espacio en blanco en vez de sobre una letra visible
+(el caso de "Lenguaje Verbal"/"Ciencias"/"Historia", títulos de 1 sola
+línea, es donde se nota). **Fix:** se subió `.map-wrap{margin-top}` de 6px
+a 56px — cubre el peor caso medido (34.4px) con ~15px de margen de sobra,
+sin tocar ninguna coordenada `%` ni el campo `height` de ningún dataset
+(mismo criterio que la auditoría de arriba: ajuste mínimo y quirúrgico, no
+un rediseño del sistema de mapa). Verificado tras el cambio: se repitió la
+misma medición programática en las mismas 97 pantallas — **0 solapamientos
+en las 97**, el peor caso ahora tiene ~15.6px de espacio libre en vez de
+-34.4px de superposición. Probado visualmente en "Lenguaje Verbal" (NT,
+375px): el título "Lenguaje Verbal" se lee completo, con espacio de sobra
+antes del nodo 1.
+
 ## Convenciones a mantener
 
 - Español de Chile en todo el copy visible al usuario.

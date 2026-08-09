@@ -15,7 +15,7 @@ import { selectColoringDrawing, backToDrawingPicker, pickColorNum, pickColorHex,
 import {
   alzSpeakOrientacion, alzShowAddForm, alzHideAddForm, alzSaveReminder,
   alzToggleDone, alzDeleteReminder, alzSpeakReminder,
-  alzSpeakExercise, alzAnswerExercise, alzNextExercise,
+  alzSpeakExercise, alzAnswerExercise, alzNextExercise, alzMemoriaListo,
 } from './games/apoyoAlzheimer.js';
 import { render } from './render.js';
 import { state } from './state.js';
@@ -57,6 +57,7 @@ window.alzSpeakReminder = alzSpeakReminder;
 window.alzSpeakExercise = alzSpeakExercise;
 window.alzAnswerExercise = alzAnswerExercise;
 window.alzNextExercise = alzNextExercise;
+window.alzMemoriaListo = alzMemoriaListo;
 
 loadProgress();
 render();

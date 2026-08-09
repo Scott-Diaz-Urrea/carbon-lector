@@ -29,8 +29,15 @@ export const MATE_MODULES = [
   {id:'sumar', label:'Sumar', open:true, key:'sumar'},
   {id:'comparar', label:'Comparar', open:true, key:'comparar'},
   {id:'formas', label:'Formas', open:true, key:'formas'},
+  {id:'examenmate1', label:'Examen Final', open:true, key:'examenmate1'},
 ];
-export const MATE_POS = [{x:24,y:84},{x:70,y:60},{x:24,y:36},{x:68,y:12}];
+/* 5° nodo agregado (2026-08-09, "Examen Final") reusando el mismo espaciado
+   ya verificado sin solapamiento en Aprendo a Leer (5 nodos, height:500,
+   paso alternado 18%×500px=90px, paso mismo lado del zigzag 36%×500px=180px
+   — bastante sobre los ~150px mínimos). Las primeras 4 posiciones quedan en
+   el mismo píxel real que antes (recalculadas para el nuevo height:500 en
+   vez de 360), así que el layout de esos 4 nodos no cambia visualmente. */
+export const MATE_POS = [{x:24,y:90},{x:70,y:72},{x:24,y:54},{x:68,y:36},{x:24,y:16}];
 
 export const MATE_MODULES_G2 = [
   {id:'salta', label:'Salta y Cuenta', open:true, key:'salta'},
@@ -40,11 +47,19 @@ export const MATE_MODULES_G2 = [
 ];
 export const MATE_POS_G2 = [{x:24,y:84},{x:70,y:60},{x:24,y:36},{x:68,y:12}];
 
-export function genCountRound(){
+/* Niveles de dificultad (2026-08-09, pedido explícito del usuario: "que
+   comience una especie de niveles, facil, normal y dificil" — piloto en
+   Matemática 1° básico). `nivel` es opcional ('facil'|'normal'|'dificil');
+   sin argumento (el resto de la app nunca lo pasa) se comporta exactamente
+   igual que antes — los rangos de "normal" son los originales. */
+export function genCountRound(nivel){
   const emoji = pick(COUNT_EMOJIS);
-  const n = randInt(1,9);
+  let n, distMax, distSpread;
+  if(nivel==='facil'){ n = randInt(1,5); distMax=8; distSpread=2; }
+  else if(nivel==='dificil'){ n = randInt(10,18); distMax=25; distSpread=4; }
+  else { n = randInt(1,9); distMax=12; distSpread=3; }
   const visual = new Array(n).fill(emoji).join(' ');
-  const opts = uniqueDistractors(n,1,12,3,4).map(function(v){ return {label:String(v), value:v}; });
+  const opts = uniqueDistractors(n,1,distMax,distSpread,4).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: '<p class="prompt-count">'+visual+'</p><p class="prompt-hint">¿Cuántos hay?</p>',
     options: opts,
@@ -56,13 +71,22 @@ export function genCountRound(){
   };
 }
 
-export function genAddRound(){
-  const a = randInt(1,5);
-  const b = randInt(1,5);
+export function genAddRound(nivel){
+  let a, b, useVisual, distMax, distSpread;
+  if(nivel==='facil'){ a = randInt(1,3); b = randInt(1,3); useVisual = true; distMax=8; distSpread=2; }
+  else if(nivel==='dificil'){ a = randInt(4,10); b = randInt(4,10); useVisual = false; distMax=25; distSpread=4; }
+  else { a = randInt(1,5); b = randInt(1,5); useVisual = true; distMax=12; distSpread=2; }
   const sum = a+b;
   const emoji = pick(COUNT_EMOJIS);
-  const visual = new Array(a).fill(emoji).join(' ') + '<span class="op-sign">+</span>' + new Array(b).fill(emoji).join(' ');
-  const opts = uniqueDistractors(sum,1,12,2,4).map(function(v){ return {label:String(v), value:v}; });
+  /* En difícil se quita el apoyo visual de objetos (queda solo la
+     ecuación en números) — un paso genuinamente más abstracto/exigente,
+     no solo números más grandes, siguiendo cómo el propio currículum de
+     1° básico distingue el cálculo con material concreto del cálculo
+     mental/simbólico. */
+  const visual = useVisual
+    ? (new Array(a).fill(emoji).join(' ') + '<span class="op-sign">+</span>' + new Array(b).fill(emoji).join(' '))
+    : ('<span class="op-num">'+a+'</span><span class="op-sign">+</span><span class="op-num">'+b+'</span>');
+  const opts = uniqueDistractors(sum,1,distMax,distSpread,4).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: '<p class="prompt-count">'+visual+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
     options: opts,
@@ -74,13 +98,18 @@ export function genAddRound(){
   };
 }
 
-export function genCompareRound(){
+export function genCompareRound(nivel){
   const emojiA = pick(COUNT_EMOJIS);
   let emojiB = pick(COUNT_EMOJIS);
   if(emojiB === emojiA){ emojiB = COUNT_EMOJIS[(COUNT_EMOJIS.indexOf(emojiA)+1) % COUNT_EMOJIS.length]; }
-  const nA = randInt(1,7);
-  let nB = randInt(1,7);
-  while(nB === nA){ nB = randInt(1,7); }
+  let maxN, minGap;
+  if(nivel==='facil'){ maxN=4; minGap=2; }
+  else if(nivel==='dificil'){ maxN=15; minGap=1; }
+  else { maxN=7; minGap=1; }
+  const nA = randInt(1,maxN);
+  let nB = randInt(1,maxN), guard=0;
+  while((nB===nA || Math.abs(nB-nA)<minGap) && guard<50){ nB = randInt(1,maxN); guard++; }
+  if(nB===nA){ nB = nA>=maxN ? nA-minGap : nA+minGap; }
   const opts = [
     { label: new Array(nA).fill(emojiA).join(' '), value:'A' },
     { label: new Array(nB).fill(emojiB).join(' '), value:'B' },
@@ -97,9 +126,39 @@ export function genCompareRound(){
   };
 }
 
-export function genFormaRound(){
-  const item = pick(SHAPES);
-  const distract = shuffle(SHAPES.filter(function(s){ return s.id!==item.id; })).slice(0,3);
+/* Pool reducido para "fácil" (las 4 formas más básicas/conocidas) y mapa de
+   formas visualmente parecidas para "difícil" (rombo/cuadrado/rectángulo se
+   confunden entre sí; círculo/óvalo también; pentágono/hexágono también) —
+   forzar esos pares como distractor prioritario hace el nivel difícil
+   genuinamente más exigente, no solo "más formas". */
+/* 6 formas, no 4: con solo 4 el conjunto de opciones (siempre las mismas 4
+   formas) queda fijo y solo 4 combinaciones únicas son posibles para
+   rounds:10 — repeticiones garantizadas desde la 5ª ronda en adelante,
+   detectado con una simulación real de sesión antes de dar esto por
+   terminado. Con 6 formas hay C(5,3)=10 combinaciones de distractores por
+   figura objetivo, de sobra para 10 rondas sin repetir. */
+const SHAPES_FACIL_IDS = ['circulo','cuadrado','triangulo','rectangulo','ovalo','pentagono'];
+const SHAPE_SIMILAR = {
+  circulo:['ovalo'], ovalo:['circulo'],
+  cuadrado:['rombo','rectangulo'], rectangulo:['cuadrado','rombo'], rombo:['cuadrado','rectangulo'],
+  triangulo:[], pentagono:['hexagono'], hexagono:['pentagono'],
+};
+export function genFormaRound(nivel){
+  let item, distract;
+  if(nivel==='facil'){
+    const pool = SHAPES.filter(function(s){ return SHAPES_FACIL_IDS.indexOf(s.id)!==-1; });
+    item = pick(pool);
+    distract = shuffle(pool.filter(function(s){ return s.id!==item.id; })).slice(0,3);
+  }else if(nivel==='dificil'){
+    item = pick(SHAPES);
+    const similarIds = SHAPE_SIMILAR[item.id] || [];
+    const similar = SHAPES.filter(function(s){ return similarIds.indexOf(s.id)!==-1; });
+    const rest = shuffle(SHAPES.filter(function(s){ return s.id!==item.id && similarIds.indexOf(s.id)===-1; }));
+    distract = similar.concat(rest).slice(0,3);
+  }else{
+    item = pick(SHAPES);
+    distract = shuffle(SHAPES.filter(function(s){ return s.id!==item.id; })).slice(0,3);
+  }
   const opts = shuffle([item].concat(distract)).map(function(s){ return {label:s.label, value:s.id}; });
   return {
     promptHTML: '<div class="shape-display">'+shapeSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué forma es?</p>',
@@ -111,6 +170,21 @@ export function genFormaRound(){
     explain: 'Esta figura es un <b>'+item.label+'</b>.',
     recurso: 'Las <b>figuras geométricas</b> son formas que se repiten en muchísimos objetos a nuestro alrededor, y cada una se reconoce por características propias: el número de lados, si esos lados son rectos o curvos, y si son todos iguales o distintos. Un círculo no tiene lados rectos ni esquinas; un cuadrado tiene 4 lados iguales y 4 esquinas iguales; un triángulo tiene 3 lados. Aprender a reconocer y nombrar formas es la base de la <b>geometría</b>, una parte de las matemáticas que estudia el espacio y las formas — se usa para construir casas, diseñar señales de tránsito, fabricar ruedas (siempre círculos, para poder rodar) y hasta para cortar una pizza en partes iguales. Reconocer formas también ayuda a describir el mundo con palabras precisas, en vez de decir solo "esa cosa redonda".',
   };
+}
+
+/* "Examen Final" (2026-08-09, pedido explícito del usuario: crear un
+   submódulo de exámenes por asignatura que "mezcla toda la asignatura" —
+   piloto en Matemática 1° básico). Toma un generador al azar entre los 4
+   módulos del año y un nivel de dificultad al azar entre los 3, para que
+   una sola partida de 20 rondas repase el curso completo en vez de un solo
+   tema — mismo criterio de "que no se parezca una ronda a otra" ya exigido
+   en toda la app, ahora también entre módulos distintos dentro de un mismo
+   examen. */
+export function genExamenMate1Round(){
+  const gens = [genCountRound, genAddRound, genCompareRound, genFormaRound];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 export function genSaltaRound(){

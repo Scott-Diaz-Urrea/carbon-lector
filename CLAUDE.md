@@ -5046,6 +5046,43 @@ y avanzó de ronda 1/8 a 2/8; Nivel 3: alternativas de sílabas de 2 letras),
 botón Recurso abriendo el modal con el texto real en Nivel 1, sin errores
 de consola en ningún caso.
 
+**Robustecida (2026-08-09, mismo día, pedido explícito del usuario tras
+probar la herramienta: "me gusta la nueva herramienta, robustecela"):**
+- **Nivel 2 ("Letra Inicial") pasó de 1 a 2 palabras por letra** (13→26
+  ítems en `PALABRAS_INICIAL`) — así la misma letra no siempre se ilustra
+  con el mismo dibujo entre partidas (antes "M" era siempre "Mano"; ahora
+  alterna con "Mono"), sin tocar la mecánica. Los 13 emoji nuevos
+  (🌳🧹🧲👁️🦄🐒⚽📖🪑🚂☁️🦷❤️) se eligieron todos entre emoji YA usados en
+  otros bancos de la app (`ciencias.js`, `lenguaje.js`, `edfisica.js`,
+  `artes.js`, `matematica.js`) para no arriesgar un ícono nuevo sin
+  verificar — mismo criterio de "reutilizar emoji ya probados" que evita
+  repetir el problema de renderizado documentado en la auditoría de NT.
+- **Nivel 4 nuevo, "Lee una Palabra"** (`genLeePalabraRound`): el peldaño
+  de pago de los 3 niveles anteriores — la primera vez que el niño debe
+  LEER un texto completo (no solo reconocer una letra o una sílaba por
+  audio) para responder. Banco de 11 palabras (`PALABRAS_LEER`) armadas
+  con sílabas del mismo Nivel 3 (consonante+vocal del set de 13 letras):
+  MAPA, SOPA, LUPA, LUNA, SAPO, DADO, LATA, DONA, PILA, PATO, TELA. A
+  diferencia de los otros 3 niveles (donde la respuesta se elige por audio
+  o forma), aquí se invierte el patrón a propósito: se muestra un emoji y
+  el niño elige, ENTRE 4 PALABRAS ESCRITAS, la que corresponde — mismo
+  mecanismo ya usado en "Palabras" (1° básico, `genPalabraRound`), banco
+  propio para no duplicarlo literalmente. `APRENDO_A_LEER_POS` pasó de 3 a
+  4 nodos (zigzag x:22/68/24/70, y:88/64/40/16) y `renderAprendoALeerMap()`
+  subió su `height` de 340 a 480 para darles espacio.
+- Verificado: los 4 generadores (los 3 ya existentes + el nuevo) pasan
+  fuzz de 400 iteraciones cada uno (sin opciones duplicadas, `correctValue`
+  siempre presente, sin `undefined`) **y una simulación real de 300
+  sesiones completas por generador usando el mismo algoritmo de
+  reintento/deduplicación de `drawMCRound()`** (no solo fuzz estructural
+  esta vez) — 0 de 300 sesiones con alguna repetición en los 4 niveles.
+  Probado en el navegador: mapa de 4 nodos sin solapar entre sí ni con el
+  título (gap real medido con `getBoundingClientRect()`: ~39px sobre el
+  título, ~80px entre nodos del mismo lado del zigzag), Nivel 4 jugado
+  (emoji 🐸 mostrando correctamente "SAPO" entre las 4 alternativas),
+  contador de estrellas máximas subiendo de 1704 a 1707 (+3, el nuevo
+  módulo), sin errores de consola.
+
 ## Convenciones a mantener
 
 - Español de Chile en todo el copy visible al usuario.

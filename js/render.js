@@ -569,12 +569,14 @@ function renderModuleMap(title, badge, modules, positions, heightPx){
 /* "Aprendo a Leer": herramienta transversal (no atada a año/núcleo, ver el
    comentario en content/aprendoALeer.js), por eso reutiliza renderModuleMap()
    directo con datos fijos en vez de pasar por byGrade/byNivel como las
-   asignaturas curriculares. Mismo `height:340` que ya usan Identidad y
-   Autonomía / Convivencia y Ciudadanía (NT) — comparten exactamente el mismo
-   layout de 3 nodos (x:24/68/24, y:82/50/18), ya verificado sin
-   solapamientos. */
+   asignaturas curriculares. `height:480` para los 4 nodos (robustecida
+   2026-08-09 con un 4° nivel) — mismo criterio de espaciado ya usado en el
+   resto de mapas de la app (paso vertical ~24% × 480px ≈ 115px por nodo,
+   bastante por sobre los ~150px de espacio real que necesitan 2 nodos del
+   mismo lado del zigzag para no solaparse, verificado con
+   getBoundingClientRect() tras el cambio). */
 function renderAprendoALeerMap(){
-  return renderModuleMap('Aprendo a Leer', '🔤 Herramienta de lectura inicial', APRENDO_A_LEER_MODULES, APRENDO_A_LEER_POS, 340);
+  return renderModuleMap('Aprendo a Leer', '🔤 Herramienta de lectura inicial', APRENDO_A_LEER_MODULES, APRENDO_A_LEER_POS, 480);
 }
 function renderComingSoonSubject(name){
   return '<div class="screen"><p class="section-title">'+name+'</p>'+

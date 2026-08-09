@@ -1487,6 +1487,68 @@ js/
                               herramienta de verificación (sandbox), no un defecto del
                               código ni algo que el usuario vería en su Windows real;
                               no se tocó ningún emoji por esto.
+                              **Sonido de acierto/error, bug real de fondo
+                              (2026-08-09, mismo día, pedido explícito del usuario:
+                              "sigue sin escuchar al perder o ganar" → "en todos
+                              lados, pero un sonido no de palabras"):** al responder
+                              un ejercicio, `alzAnswerExercise()` no reproducía nada
+                              — ni sonido ni voz, solo el mensaje de texto en
+                              pantalla. Primer intento (revertido en la misma
+                              sesión): agregar `speak()` del mensaje de feedback —
+                              descartado de inmediato porque el usuario aclaró que
+                              quería un SONIDO (como el resto de la app), no texto
+                              leído. Reemplazado por `sfxCorrect()`/`sfxWrong()`
+                              (`js/audio.js`, las mismas funciones que usa
+                              `answerMC()` en `mcEngine.js` para los ~560 módulos
+                              curriculares) — `sfxWrong` es un solo tono grave y
+                              breve, nunca un buzzer de alarma, así que sigue
+                              siendo compatible con el diseño "sin castigo" del
+                              módulo (nunca se marca en rojo).
+
+                              La frase "en todos lados" del usuario resultó ser la
+                              pista clave de un **bug real y más profundo en
+                              `js/audio.js`, que afectaba a TODA la app, no solo a
+                              este módulo nuevo**: `getActx()` guarda el
+                              `AudioContext` en una variable de módulo (`actx`)
+                              creada una sola vez y reutilizada para siempre. Ya
+                              existía un fix previo (commit `81517f4`,
+                              `ctx.resume()` si el contexto queda "suspended") para
+                              un reporte anterior de este mismo síntoma — pero
+                              algunos navegadores (sobre todo Safari/iOS) además
+                              **cierran** el `AudioContext` por su cuenta cuando la
+                              pestaña pasa un rato en segundo plano o inactiva,
+                              dejándolo en estado "closed". Un contexto "closed" no
+                              se puede reanudar (`resume()` rechaza la promesa) y
+                              `createOscillator()` sobre él lanza una excepción
+                              síncrona — que el `try/catch` de `beep()` atrapaba en
+                              silencio (por diseño, "la app funciona igual sin
+                              sonido"), así que después de ese cierre **ningún
+                              sonido volvía a sonar en ningún juego de la app**
+                              hasta recargar la página completa — coincide
+                              exactamente con "sigue sin escuchar... en todos
+                              lados" del reporte del usuario. Corregido en
+                              `getActx()`: si el contexto cacheado quedó "closed",
+                              se descarta (`actx = null`) y se crea uno nuevo en su
+                              lugar, en vez de seguir devolviendo el mismo objeto
+                              muerto para siempre.
+
+                              **Verificado con una simulación real del cierre
+                              (no solo lectura de código):** se instrumentó
+                              `AudioContext`/`createOscillator` en el navegador,
+                              se respondió un ejercicio de Alzheimer (sonó
+                              correctamente, contexto en estado "running"), se
+                              forzó el cierre real del contexto capturado
+                              (`ctx.close()`, replicando lo que hace Safari/iOS
+                              solo), y se respondió otro ejercicio: `getActx()`
+                              detectó el estado "closed" y creó un contexto nuevo
+                              que volvió a sonar sin ningún error de consola — se
+                              repitió la misma prueba navegando a un módulo
+                              cualquiera del motor MC genérico ("Vocales", 1°
+                              básico) con el contexto ya cerrado por segunda vez,
+                              confirmando que el fix beneficia a toda la app (no
+                              solo a Apoyo para Alzheimer), ya que ambos caminos
+                              pasan por el mismo `getActx()` compartido en
+                              `js/audio.js`. Sin errores de consola en ningún paso.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

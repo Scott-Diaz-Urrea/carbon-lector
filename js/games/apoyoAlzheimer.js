@@ -29,7 +29,7 @@
    criterio de "cada herramienta maneja su propio estado" ya
    usado en games/traza.js.
    ========================================================= */
-import { speak } from '../audio.js';
+import { speak, sfxCorrect, sfxWrong } from '../audio.js';
 
 /* Más lento que el 0.96 por defecto de toda la app (mismo criterio que
    Aprendo a Leer), pero no tan lento como el 0.65 de ese módulo — acá se lee
@@ -627,6 +627,14 @@ export function alzAnswerExercise(i){
     fb.innerHTML = (isRight ? pick(FEEDBACK_CORRECTO) : pick(FEEDBACK_NEUTRO)+' <b>'+escapeHtml(ex.correctValue)+'</b>')+
       '<br><button class="alz-next-btn" onclick="alzNextExercise()">🔁 Otro ejercicio</button>';
   }
+  /* Pedido explícito del usuario (2026-08-09): "sigue sin escuchar al
+     perder o ganar... en todos lados, pero un sonido no de palabras" — al
+     responder debe sonar algo, igual que el resto de la app (sfxCorrect/
+     sfxWrong de mcEngine.js), no un texto leído. sfxWrong es un solo tono
+     grave y breve (nunca un buzzer de alarma), así que sigue siendo
+     compatible con el diseño "sin castigo" del módulo (nunca se marca en
+     rojo, solo se resalta la respuesta correcta en verde). */
+  if(isRight) sfxCorrect(); else sfxWrong();
 }
 export function alzNextExercise(){
   const wrap = document.getElementById('alz-ex-wrap');

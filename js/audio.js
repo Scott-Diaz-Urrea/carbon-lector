@@ -54,6 +54,19 @@ function beep(freq, dur, delay, vol){
   try{
     const ctx = getActx();
     if(!ctx) return;
+    /* Bug real reportado por el usuario (2026-08-09): "cuando aciertas o te
+       equivocas, no hay alerta con sonido". El código que llama a
+       sfxCorrect()/sfxWrong() siempre se ejecutaba bien (verificado: se
+       invocan desde answerMC() en mcEngine.js y desde los 3 juegos a medida
+       -silabas/secuencia/memorama-, todos dentro de un handler de clic/tap
+       real), pero el AudioContext puede crearse en estado "suspended" en vez
+       de "running" incluso al crearlo dentro de un gesto del usuario —
+       Chrome/Safari mobile son más estrictos que desktop con esto, y sin un
+       resume() explícito el navegador nunca emite audio real (sin ningún
+       error, `createOscillator`/`start` funcionan igual, solo que en
+       silencio). `resume()` es seguro de llamar siempre: si el contexto ya
+       está "running" no hace nada. */
+    if(ctx.state === 'suspended'){ ctx.resume(); }
     const t0 = ctx.currentTime + (delay||0);
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();

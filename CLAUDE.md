@@ -5151,6 +5151,36 @@ el mismo mensaje que pidió reordenar Herramientas de consulta):**
   a Leer → Diccionario Español → English Dictionary). Sin errores de
   consola.
 
+**Velocidad de voz más lenta (2026-08-09, mismo día, pedido explícito del
+usuario tras probar la herramienta: "siento que el recurso del audio es
+demasiado rápido dado que colocan una sola letra en las sección de
+herramienta de aprendo a leer"):** `speak(text, lang)` (`js/audio.js`)
+usaba `utter.rate = 0.96` fijo para TODA la app (~560 módulos) — casi
+velocidad normal, un ajuste sutil que nunca fue pensado como "lento". Para
+un niño que "no conoce las letras" (la premisa misma de esta herramienta,
+ver arriba), escuchar un sonido aislado (una sola letra o una sola sílaba,
+sin ninguna palabra alrededor que dé contexto para recuperarse si no
+alcanzó a captarlo) a esa velocidad es genuinamente difícil de procesar —
+distinto de escuchar una palabra u oración completa, donde el contexto
+ayuda. **Fix:** `speak()` ganó un tercer parámetro opcional `rate`
+(`utter.rate = rate || 0.96`) — no cambia ningún comportamiento existente
+si se omite. `mcEngine.js` (`drawMCRound()`) ahora reenvía un `r.speakRate`
+opcional al botón "Escuchar" (`speak('texto', lang, rate)`, con `lang`
+como `null` explícito cuando no viene seteado, para que la posición del
+tercer argumento no dependa de si el segundo está presente). Los 5
+generadores de `js/content/aprendoALeer.js` pasan `speakRate:
+AL_SPEAK_RATE` (una constante nueva, `0.65`) — aplicado a los 5 niveles
+por igual, no solo a "Conoce las Letras" (el caso que motivó el reporte),
+porque los 5 comparten la misma premisa de pre-lectura. El resto de la
+app sigue en 0.96 sin ningún cambio, verificado explícitamente comparando
+el `onclick` del botón "Escuchar" en Aprendo a Leer
+(`speak('o',null,0.65)`) contra un módulo cualquiera de 1° básico
+(`speak('Insecto',null)`, sin tercer argumento). Verificado: fuzz de 300
+iteraciones en los 5 generadores confirmando `speakRate===0.65` en el
+100% de las rondas generadas, `MC_KEYS.length ===
+Object.keys(MC_GAMES).length === 565` sin cambios (no se agregó ningún
+módulo, solo se ajustó audio), sin errores de consola.
+
 ## Convenciones a mantener
 
 - Español de Chile en todo el copy visible al usuario.

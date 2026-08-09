@@ -1,5 +1,17 @@
 import { pick, shuffle } from '../utils.js';
 
+/* Velocidad de voz más lenta que el resto de la app (0.96 por defecto, ver
+   audio.js), pedido explícito del usuario (2026-08-09): "el recurso del
+   audio es demasiado rápido dado que colocan una sola letra". Un niño que
+   "no conoce las letras" (la premisa de esta herramienta, ver arriba)
+   necesita más tiempo para procesar un sonido aislado (una letra o una
+   sílaba sola) que para procesar una palabra u oración larga, donde el
+   contexto ayuda a recuperarse de una sílaba que no se alcanzó a
+   escuchar bien. Se aplica a los 5 niveles por igual, no solo a "Conoce
+   las Letras" (donde el ejemplo del usuario era más evidente), porque
+   todos comparten la misma premisa de pre-lectura. */
+const AL_SPEAK_RATE = 0.65;
+
 /* "Aprendo a Leer" — herramienta transversal nueva (no atada a año/núcleo),
    pedida explícitamente por el usuario (2026-08-09) para agregar debajo de
    "Colorear por Números" en Herramientas de consulta. A diferencia de las
@@ -58,7 +70,7 @@ export function genConoceLetrasRound(){
   const opts = shuffle([item].concat(distract)).map(function(l){ return { label:l.letra, value:l.letra }; });
   return {
     promptHTML: '<span class="prompt-emoji">🔊</span><p class="prompt-hint">Toca la letra que dice Carboncito.</p>',
-    options: opts, correctValue: item.letra, speakText: item.nombre, cols:4,
+    options: opts, correctValue: item.letra, speakText: item.nombre, speakRate: AL_SPEAK_RATE, cols:4,
     explain: 'Esta letra se llama "'+item.nombre+'" y se escribe así: <b>'+item.letra+'</b>.',
     recurso: recurso,
   };
@@ -98,7 +110,7 @@ export function genLetraInicialLeerRound(){
   const opts = shuffle([item.letra].concat(distract)).map(function(l){ return { label:l, value:l }; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Con qué letra empieza esta palabra?</p>',
-    options: opts, correctValue: item.letra, speakText: item.word, cols:4,
+    options: opts, correctValue: item.letra, speakText: item.word, speakRate: AL_SPEAK_RATE, cols:4,
     explain: 'La palabra es <b>'+item.word+'</b>, empieza con la letra <b>'+item.letra+'</b>.',
     recurso: recurso,
   };
@@ -133,7 +145,7 @@ export function genPrimerasSilabasRound(){
   const opts = shuffle([silaba].concat(distract)).map(function(s){ return { label:s, value:s }; });
   return {
     promptHTML: '<span class="prompt-emoji">🔊</span><p class="prompt-hint">Escucha con atención y toca la sílaba que escuchaste.</p>',
-    options: opts, correctValue: silaba, speakText: silaba.toLowerCase(), cols:4,
+    options: opts, correctValue: silaba, speakText: silaba.toLowerCase(), speakRate: AL_SPEAK_RATE, cols:4,
     explain: 'Carboncito dijo <b>'+silaba+'</b>.',
     recurso: recurso,
   };
@@ -185,7 +197,7 @@ export function genUneSilabasRound(){
   const opts = shuffle([item.word].concat(distract)).map(function(w){ return { label:w, value:w }; });
   return {
     promptHTML: '<p class="prompt-hint">Une estas sílabas. ¿Qué palabra forman?</p><p class="prompt-count">'+item.s1+' + '+item.s2+'</p>',
-    options: opts, correctValue: item.word, speakText: item.word, cols:4, kind:'word',
+    options: opts, correctValue: item.word, speakText: item.word, speakRate: AL_SPEAK_RATE, cols:4, kind:'word',
     explain: '<b>'+item.s1+'</b> + <b>'+item.s2+'</b> forman <b>'+item.word+'</b>.',
     recurso: recurso,
   };
@@ -221,7 +233,7 @@ export function genLeePalabraRound(){
   const opts = shuffle([item.word].concat(distract)).map(function(w){ return { label:w, value:w }; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué palabra corresponde a este dibujo?</p>',
-    options: opts, correctValue: item.word, speakText: item.word, cols:4, kind:'word',
+    options: opts, correctValue: item.word, speakText: item.word, speakRate: AL_SPEAK_RATE, cols:4, kind:'word',
     explain: 'La palabra correcta es <b>'+item.word+'</b>.',
     recurso: recurso,
   };

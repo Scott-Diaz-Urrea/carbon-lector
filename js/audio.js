@@ -26,15 +26,25 @@ function pickBestVoice(lang){
    asignatura con contenido en otro idioma, y leerlo con una voz en español
    sonaría con acento/pronunciación incorrecta — un problema real para un
    módulo que enseña pronunciación. Se pasa 'en' explícitamente desde esos
-   generadores (ver content/ingles.js) para que busque una voz en inglés. */
-export function speak(text, lang){
+   generadores (ver content/ingles.js) para que busque una voz en inglés.
+   `rate` es opcional (0.96 por defecto, el mismo de siempre para toda la
+   app): pedido explícito del usuario (2026-08-09) tras probar "Aprendo a
+   Leer" — el audio de una sola letra o una sola sílaba ("eme", "ma") a
+   0.96 (casi velocidad normal) pasa demasiado rápido para un niño que
+   "no conoce las letras" todavía, sin ninguna otra palabra alrededor que
+   dé contexto para recuperarse si no alcanzó a escucharlo bien. Los
+   generadores de `content/aprendoALeer.js` pasan un `rate` más lento
+   (0.65) vía `speakRate` en su ronda, reenviado por `mcEngine.js` al botón
+   "Escuchar" — el resto de la app (~560 módulos) sigue en 0.96 sin ningún
+   cambio de comportamiento. */
+export function speak(text, lang, rate){
   try{
     if(!('speechSynthesis' in window)) return;
     const utter = new SpeechSynthesisUtterance(text);
     const v = pickBestVoice(lang);
     if(v) utter.voice = v;
     utter.lang = (v && v.lang) || (lang==='en' ? 'en-US' : 'es-ES');
-    utter.rate = 0.96;
+    utter.rate = rate || 0.96;
     utter.pitch = 1.08;
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utter);

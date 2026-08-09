@@ -414,10 +414,152 @@ function genMemoriaRound(){
   };
 }
 
+/* Asociación de uso ("¿qué usarías para...?") — memoria semántica/funcional,
+   un ángulo distinto de "¿cuál no pertenece?" (que es categorización, no
+   función). Emoji verificados con grep contra el resto del código antes de
+   usarlos, mismo criterio de siempre. */
+const USO_BANK = [
+  { accion:'escribir una carta', objeto:{e:'✏️',l:'Lápiz'} },
+  { accion:'cortar un papel', objeto:{e:'✂️',l:'Tijeras'} },
+  { accion:'protegerte de la lluvia', objeto:{e:'☂️',l:'Paraguas'} },
+  { accion:'lavarte las manos', objeto:{e:'🧼',l:'Jabón'} },
+  { accion:'iluminar un cuarto oscuro', objeto:{e:'💡',l:'Ampolleta'} },
+  { accion:'abrir una puerta con llave', objeto:{e:'🔑',l:'Llave'} },
+  { accion:'ver mejor de lejos o de cerca', objeto:{e:'👓',l:'Lentes'} },
+  { accion:'limpiar algo sucio', objeto:{e:'🧽',l:'Esponja'} },
+];
+function genUsoRound(){
+  const item = pick(USO_BANK);
+  const otros = shuffle(USO_BANK.filter(function(u){ return u.objeto.l!==item.objeto.l; })).slice(0,3).map(function(u){ return u.objeto; });
+  const opts = shuffle([item.objeto].concat(otros));
+  return {
+    tipo:'uso',
+    promptHTML: '<p class="alz-ex-prompt">¿Qué usarías para '+item.accion+'?</p>',
+    speakText: '¿Qué usarías para '+item.accion+'?',
+    options: opts.map(function(o){ return o.e+' '+o.l; }),
+    correctValue: item.objeto.e+' '+item.objeto.l,
+  };
+}
+
+/* Coplas y canciones infantiles tradicionales — mismo criterio que REFRANES:
+   folclore oral de dominio público, sin autor identificable, ampliamente
+   conocido en Chile/Latinoamérica. Técnica real de reminiscencia para
+   adultos mayores, un ángulo distinto de los refranes (canción vs. dicho). */
+const COPLAS = [
+  { inicio:'Arroz con leche, me quiero', fin:'casar' },
+  { inicio:'Sana, sana, colita de', fin:'rana' },
+  { inicio:'A la rueda, rueda, de pan y', fin:'canela' },
+  { inicio:'Que llueva, que llueva, la vieja está en la', fin:'cueva' },
+  { inicio:'Cinco lobitos tiene la loba, blancos y negros detrás de la', fin:'escoba' },
+  { inicio:'Aserrín, aserrán, los maderos de San', fin:'Juan' },
+  { inicio:'Al pasar la barca, me dijo el barquero: las niñas bonitas no pagan', fin:'dinero' },
+  { inicio:'Pin Pon es un muñeco muy guapo y de', fin:'cartón' },
+  { inicio:'Los elefantes se balanceaban sobre la tela de una', fin:'araña' },
+  { inicio:'Cielito lindo, ay, ay, ay, ay, canta y no', fin:'llores' },
+  { inicio:'Antón Pirulero, cada cual, cada cual, atienda a su', fin:'juego' },
+  { inicio:'Debajo de un botón, ton, ton, que encontró Martín, tin, tin, había un', fin:'ratón' },
+  { inicio:'Estaba la pájara pinta sentada en el', fin:'verde limón' },
+  { inicio:'Naranja dulce, limón partido, dame un abrazo que yo te', fin:'pido' },
+];
+function genCancionRound(){
+  const item = pick(COPLAS);
+  const otros = shuffle(COPLAS.filter(function(c){ return c.fin!==item.fin; })).slice(0,3).map(function(c){ return c.fin; });
+  return {
+    tipo:'cancion',
+    promptHTML: '<p class="alz-ex-prompt">Completa la canción:</p><p class="alz-ex-phrase">"'+item.inicio+' ____"</p>',
+    speakText: item.inicio+' '+item.fin,
+    options: shuffle([item.fin].concat(otros)),
+    correctValue: item.fin,
+  };
+}
+
+/* Reconocer emociones en una carita — mismo set de 6 emociones ya verificado
+   en content/orientacion.js (EMOCIONES_ITEMS), duplicado localmente a
+   propósito para que este archivo siga siendo autocontenido, mismo criterio
+   que CATEGORIAS/REFRANES más arriba. */
+const EMOCIONES_ALZ = [
+  { emoji:'😄', label:'Alegría' }, { emoji:'😢', label:'Pena' }, { emoji:'😠', label:'Rabia' },
+  { emoji:'😨', label:'Miedo' }, { emoji:'😲', label:'Sorpresa' }, { emoji:'🥰', label:'Cariño' },
+];
+function genEmocionRound(){
+  const item = pick(EMOCIONES_ALZ);
+  const otros = shuffle(EMOCIONES_ALZ.filter(function(e){ return e.label!==item.label; })).slice(0,3).map(function(e){ return e.label; });
+  return {
+    tipo:'emocion',
+    promptHTML: '<p class="alz-ex-prompt">¿Qué emoción muestra esta cara?</p><p class="alz-ex-row">'+item.emoji+'</p>',
+    speakText: '¿Qué emoción muestra esta cara?',
+    options: shuffle([item.label].concat(otros)),
+    correctValue: item.label,
+  };
+}
+
+/* Contar objetos — atención/numeración, 100% dinámico. Pool propio (no
+   reutiliza EMOJI_POOL) porque cada label ya viene en plural correcto —
+   mezclar con EMOJI_POOL (singular) habría requerido pluralizar a mano y
+   arriesgado un plural mal formado ("panS", "avións"), el mismo tipo de
+   bug gramatical que ya se corrigió varias veces en el resto de la app. */
+const CONTAR_POOL = [
+  {e:'🍎',l:'manzanas',g:'f'}, {e:'🍌',l:'plátanos',g:'m'}, {e:'🍇',l:'uvas',g:'f'}, {e:'🐶',l:'perros',g:'m'},
+  {e:'🐱',l:'gatos',g:'m'}, {e:'⭐',l:'estrellas',g:'f'}, {e:'🌸',l:'flores',g:'f'}, {e:'🎈',l:'globos',g:'m'},
+];
+function genContarRound(){
+  const item = pick(CONTAR_POOL);
+  const n = 2 + Math.floor(Math.random()*5);
+  const row = new Array(n).fill(item.e).join(' ');
+  let candidatos = Array.from(new Set([n-1,n+1,n+2,n-2].filter(function(v){ return v>=1 && v!==n; })));
+  const distract = shuffle(candidatos).slice(0,3);
+  while(distract.length<3){
+    const cand = 1 + Math.floor(Math.random()*8);
+    if(cand!==n && distract.indexOf(cand)===-1) distract.push(cand);
+  }
+  const pregunta = '¿Cuánt'+(item.g==='f'?'as':'os')+' '+item.l+' hay?';
+  return {
+    tipo:'contar',
+    promptHTML: '<p class="alz-ex-prompt">'+pregunta+'</p><p class="alz-ex-row">'+row+'</p>',
+    speakText: pregunta,
+    options: shuffle([n].concat(distract)).map(function(v){ return ''+v; }),
+    correctValue: ''+n,
+  };
+}
+
+/* Rutina diaria ("¿qué haces primero?") — orientación temporal, tema que ya
+   comparte espíritu con "¿Qué día es hoy?" del hub, pero acá como ejercicio
+   activo de secuencia en vez de una consulta pasiva. El orden es una lista
+   fija sin ambigüedad (RUTINA_ORDEN), así que la opción correcta siempre es
+   la de menor índice entre las 4 sorteadas — nunca hay dos respuestas
+   defendibles. */
+const RUTINA_ORDEN = [
+  {e:'🛌',l:'Despertar'}, {e:'🍳',l:'Desayunar'}, {e:'🍽️',l:'Almorzar'}, {e:'🥣',l:'Cenar'}, {e:'🌙',l:'Dormir'},
+];
+function genRutinaRound(){
+  const idxs = shuffle([0,1,2,3,4]).slice(0,4).sort(function(a,b){ return a-b; });
+  const items = idxs.map(function(i){ return RUTINA_ORDEN[i]; });
+  const correcto = items[0];
+  return {
+    tipo:'rutina',
+    promptHTML: '<p class="alz-ex-prompt">¿Cuál de estas actividades haces PRIMERO en el día?</p>',
+    speakText: '¿Cuál de estas actividades haces primero en el día? '+items.map(function(o){ return o.l; }).join(', '),
+    options: shuffle(items).map(function(o){ return o.e+' '+o.l; }),
+    correctValue: correcto.e+' '+correcto.l,
+  };
+}
+
 function genAlzExercise(){
-  const gens = [genRefranRound, genCategoriaRound, genRelojRound, genSecuenciaRound, genMemoriaRound];
+  const gens = [
+    genRefranRound, genCategoriaRound, genRelojRound, genSecuenciaRound, genMemoriaRound,
+    genUsoRound, genCancionRound, genEmocionRound, genContarRound, genRutinaRound,
+  ];
   return pick(gens)();
 }
+
+/* Variedad de mensajes de feedback (2026-08-09, pedido explícito del usuario:
+   "que puedan llamar su atención en toda la sesión") — repetir siempre el
+   mismo "¡Muy bien!" ronda tras ronda se vuelve ruido de fondo en una
+   sesión larga; sortear entre varias frases equivalentes mantiene la
+   respuesta sintiéndose genuina sin cambiar el criterio de fondo (nunca hay
+   una versión "negativa", solo variantes igual de neutras/positivas). */
+const FEEDBACK_CORRECTO = ['¡Muy bien! 🎉','¡Excelente! 🌟','¡Así es! 👏','¡Perfecto! 😊','¡Genial! 🎈'];
+const FEEDBACK_NEUTRO = ['Buen intento. La respuesta es:','Casi. La respuesta correcta es:','Vamos bien, la respuesta es:'];
 
 let alzCurrentExercise = null;
 let alzAnswered = false;
@@ -482,7 +624,7 @@ export function alzAnswerExercise(i){
   });
   const fb = document.getElementById('alz-ex-feedback');
   if(fb){
-    fb.innerHTML = (isRight ? '¡Muy bien! 🎉' : 'Buen intento. La respuesta es: <b>'+escapeHtml(ex.correctValue)+'</b>')+
+    fb.innerHTML = (isRight ? pick(FEEDBACK_CORRECTO) : pick(FEEDBACK_NEUTRO)+' <b>'+escapeHtml(ex.correctValue)+'</b>')+
       '<br><button class="alz-next-btn" onclick="alzNextExercise()">🔁 Otro ejercicio</button>';
   }
 }

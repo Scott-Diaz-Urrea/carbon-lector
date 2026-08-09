@@ -1417,6 +1417,76 @@ js/
                               completando ambas fases (memorizar → "Ya las vi" → elegir
                               la imagen nueva) con el feedback verde/neutro de siempre,
                               sin marcar nada en rojo. Sin errores de consola.
+                              **5 ejercicios más + variedad de feedback (2026-08-09,
+                              mismo día, pedido explícito del usuario: "quiero mas
+                              ejercicios para la mente y que puedan llamar su atencion
+                              en toda la sesion"):** `genAlzExercise()` sube de 5 a 10
+                              generadores. **Asociación de uso** (`genUsoRound`,
+                              "¿Qué usarías para...?"): memoria semántica/funcional,
+                              un ángulo distinto de "¿cuál no pertenece?" (que es
+                              categorización, no función) — banco de 8 pares acción→
+                              objeto, emoji verificados con `grep` contra el resto del
+                              código. **Canción/copla infantil** (`genCancionRound`):
+                              mismo mecanismo que `genRefranRound` pero con 14 coplas y
+                              canciones tradicionales de dominio público
+                              ("Arroz con leche", "Pin Pon", "Cielito lindo", etc. —
+                              folclore oral sin autor identificable, mismo criterio que
+                              REFRANES). **Emociones en una carita**
+                              (`genEmocionRound`): reutiliza el mismo set de 6
+                              emociones ya verificado en `content/orientacion.js`
+                              (`EMOCIONES_ITEMS`), duplicado localmente para que el
+                              archivo siga autocontenido. **Contar objetos**
+                              (`genContarRound`): 100% dinámico, sin banco fijo — pool
+                              propio (`CONTAR_POOL`, no reutiliza `EMOJI_POOL`) porque
+                              cada palabra necesita su forma plural correcta de
+                              antemano. **Rutina diaria** (`genRutinaRound`, "¿qué
+                              haces primero?"): una lista fija sin ambigüedad
+                              (`RUTINA_ORDEN`, 5 etapas del día) — la opción correcta
+                              siempre es la de menor índice entre las 4 sorteadas,
+                              nunca hay dos respuestas defendibles. **Bug real
+                              encontrado y corregido durante la verificación en
+                              navegador, no por el fuzz estructural (que no lo
+                              detecta):** el `promptHTML` de `genContarRound` decía
+                              siempre "¿Cuántas X hay?" sin importar el género de X —
+                              con `CONTAR_POOL` mezclando sustantivos femeninos
+                              (manzanas, uvas, estrellas, flores) y masculinos
+                              (plátanos, perros, gatos, globos), la mitad de las rondas
+                              mostraba "¿Cuántas globos hay?" (incorrecto). Se agregó un
+                              campo `g:'f'|'m'` a cada ítem del pool y la pregunta ahora
+                              arma "Cuánt"+(f?"as":"os")+" "+palabra — verificado con un
+                              fuzz de 300 iteraciones comparando cada combinación
+                              palabra↔género esperado (0 discordancias) y confirmado
+                              visualmente en el navegador ("¿Cuántos globos hay?", ya
+                              correcto). **Variedad de mensajes de feedback**
+                              (`FEEDBACK_CORRECTO`/`FEEDBACK_NEUTRO`, sorteados en
+                              `alzAnswerExercise()`): antes siempre el mismo "¡Muy
+                              bien! 🎉" o "Buen intento. La respuesta es: X" — repetir
+                              la misma frase ronda tras ronda en una sesión larga se
+                              vuelve ruido de fondo, así que ahora hay 5 variantes
+                              positivas y 3 neutras, todas del mismo tono (nunca una
+                              versión "negativa" o punitiva). Verificado: fuzz de 800
+                              iteraciones sobre `renderAlzEjerciciosScreen()` (los 10
+                              tipos aparecen con frecuencia pareja, siempre 4
+                              alternativas sin duplicados, memoria siempre exactamente
+                              3 ítems en la fase de memorizar) + 200 iteraciones
+                              respondiendo cada ronda con `alzAnswerExercise()` (las 5
+                              variantes de feedback correcto y las 3 neutras aparecen
+                              todas, `.alz-ex-wrong`/rojo nunca aparece) + prueba real
+                              en el navegador de "uso" (Jabón/Lápiz/Esponja/Tijeras),
+                              "rutina" (Despertar/Desayunar/Dormir/Almorzar) y "contar"
+                              (globos, ya con la concordancia de género corregida). Sin
+                              errores de consola. **Nota de metodología, no de
+                              producto:** durante la verificación visual de "rutina"
+                              los emoji 🍽️/🥣/🌙/🍳/🛌 se veían con glifos extraños
+                              (uno parecía una lupa en vez de un huevo frito) — antes de
+                              asumir un bug se comparó el mismo emoji en un módulo YA
+                              enviado y aprobado (`secuenciatemporal`, Pensamiento
+                              Matemático NT, que ya usa 🍽️/🛌/🌙 desde antes) y se
+                              veía exactamente igual de "raro" ahí — confirmando que es
+                              una limitación de fuente del navegador de esta
+                              herramienta de verificación (sandbox), no un defecto del
+                              código ni algo que el usuario vería en su Windows real;
+                              no se tocó ningún emoji por esto.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

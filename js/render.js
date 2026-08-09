@@ -10,6 +10,7 @@ import { renderEscribeNombreScreen, initEscribeNombreGame } from './games/escrib
 import { renderCaligrafiaScreen, initCaligrafiaGame } from './games/caligrafia.js';
 import { renderDiccionarioScreen, initDiccionario } from './games/diccionario.js';
 import { renderColorearNumerosScreen, initColorearNumeros } from './games/colorearNumeros.js';
+import { APRENDO_A_LEER_MODULES, APRENDO_A_LEER_POS } from './content/aprendoALeer.js';
 import {
   LENGUAJE_BY_GRADE, MATE_BY_GRADE, CIENCIAS_BY_GRADE, HISTORIA_BY_GRADE,
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
@@ -92,6 +93,7 @@ export function render(){
   else if(scr === 'diccionarioEs') body = renderDiccionarioScreen('es');
   else if(scr === 'diccionarioEn') body = renderDiccionarioScreen('en');
   else if(scr === 'colorearNumeros') body = renderColorearNumerosScreen();
+  else if(scr === 'aprendoALeerMap') body = renderAprendoALeerMap();
 
   app.innerHTML =
     '<div class="topbar">'+
@@ -164,6 +166,10 @@ function renderEtapaMap(){
       '<button class="subject-card" onclick="goTo(\'colorearNumeros\')">'+
         '<span class="subject-icon">🎨</span>'+
         '<span class="subject-info"><b>Colorear por Números</b><small>Pinta un dibujo y descárgalo</small></span>'+
+      '</button>'+
+      '<button class="subject-card" onclick="goTo(\'aprendoALeerMap\')">'+
+        '<span class="subject-icon">🔤</span>'+
+        '<span class="subject-info"><b>Aprendo a Leer</b><small>Desde reconocer letras hasta la primera sílaba</small></span>'+
       '</button>'+
     '</div>'+
   '</div>';
@@ -559,6 +565,16 @@ function renderModuleMap(title, badge, modules, positions, heightPx){
       nodes+
     '</div>'+
   '</div>';
+}
+/* "Aprendo a Leer": herramienta transversal (no atada a año/núcleo, ver el
+   comentario en content/aprendoALeer.js), por eso reutiliza renderModuleMap()
+   directo con datos fijos en vez de pasar por byGrade/byNivel como las
+   asignaturas curriculares. Mismo `height:340` que ya usan Identidad y
+   Autonomía / Convivencia y Ciudadanía (NT) — comparten exactamente el mismo
+   layout de 3 nodos (x:24/68/24, y:82/50/18), ya verificado sin
+   solapamientos. */
+function renderAprendoALeerMap(){
+  return renderModuleMap('Aprendo a Leer', '🔤 Herramienta de lectura inicial', APRENDO_A_LEER_MODULES, APRENDO_A_LEER_POS, 340);
 }
 function renderComingSoonSubject(name){
   return '<div class="screen"><p class="section-title">'+name+'</p>'+

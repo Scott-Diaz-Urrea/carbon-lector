@@ -98,6 +98,19 @@ js/
     tecnologia.js             ídem Tecnología.
     ingles.js                 Inglés (desde 5° básico, primera asignatura en otro
                               idioma — ver "Estado actual del contenido").
+    aprendoALeer.js            "Aprendo a Leer" — herramienta transversal nueva (no
+                              atada a año/núcleo, mismo estatus que Diccionario/
+                              Colorear en "Herramientas de consulta"), pedida
+                              explícita del usuario (2026-08-09). A diferencia de
+                              Diccionario/Colorear (sin rondas ni estrellas), el
+                              usuario confirmó vía AskUserQuestion que ésta sí debe
+                              comportarse "como un juego normal" — usa el motor MC
+                              genérico igual que cualquier núcleo/asignatura, solo
+                              que `APRENDO_A_LEER_MODULES`/`_POS` se le pasan
+                              directo a `renderModuleMap()` en vez de pasar por
+                              `byGrade`/`byNivel` (ver "Aprendo a Leer" en "Estado
+                              actual del contenido" para el detalle de diseño y los
+                              3 niveles).
     parvularia/               los 8 núcleos jugables de Educación Parvularia NT — cada
                               archivo sigue el mismo patrón que un archivo de asignatura
                               de Básica (bancos + genXxxRound + MODULES/POS), pero viven
@@ -4943,6 +4956,95 @@ en las 97**, el peor caso ahora tiene ~15.6px de espacio libre en vez de
 -34.4px de superposición. Probado visualmente en "Lenguaje Verbal" (NT,
 375px): el título "Lenguaje Verbal" se lee completo, con espacio de sobra
 antes del nodo 1.
+
+## "Aprendo a Leer" — nueva herramienta transversal (2026-08-09)
+
+Pedido explícito del usuario, en el mismo mensaje que reportó el bug del
+nodo 1 tapando el título: "crea un modulo nuevo abajo de colorear, para
+agregar un modulo de 'aprendo a leer'". Antes de construir nada se preguntó
+vía `AskUserQuestion` qué mecánica/progreso/nivel debía tener — la
+respuesta a la pregunta de mecánica fue texto libre, no una de las 3
+opciones ofrecidas (armar palabras con sílabas / leer oraciones / ambas en
+etapas): **"pero no conoce las letras"**. Esa aclaración descartaba las 3
+opciones por igual, ya que las tres asumían que el niño ya reconoce letras
+o sílabas — el punto de partida real tenía que ser más básico: la forma de
+las letras en sí. Confirmado también: progreso "como un juego normal"
+(rondas, estrellas, XP — a diferencia de Diccionario/Colorear, que no
+puntúan) y nivel "Transición (NT), igual que Escribe tu Nombre".
+
+**Diseño resultante — 3 niveles progresivos, cada uno un módulo de opción
+múltiple más (motor MC genérico, sin mecánica nueva que mantener):**
+- **Nivel 1, "Conoce las Letras"** (`genConoceLetrasRound`): reconocimiento
+  puro de forma. Carboncito dice el NOMBRE de una letra (botón "Escuchar");
+  el niño toca, entre 4 letras grandes, la que corresponde. Las opciones
+  son un solo carácter cada una (nunca una palabra), así que no requiere
+  saber leer nada — es literalmente el primer peldaño de cualquier lector:
+  asociar un sonido con una forma, antes de conectar esa forma con ningún
+  significado.
+- **Nivel 2, "Letra Inicial"** (`genLetraInicialLeerRound`): conecta las 13
+  formas del Nivel 1 con el sonido inicial de una palabra real, apoyada
+  siempre en un emoji (para que la respuesta no dependa de leer el resto de
+  la palabra). Mecánica visualmente parecida a "Letras y Sonidos"
+  (`letrasnt`, núcleo Lenguaje Verbal) a propósito — es la evolución natural
+  del mismo tipo de ejercicio — pero con su **propio banco de 13 palabras**
+  (`PALABRAS_INICIAL`), una por cada letra del set, para no duplicar
+  literalmente el contenido de ese módulo curricular.
+- **Nivel 3, "Primeras Sílabas"** (`genPrimerasSilabasRound`): el escalón
+  final antes de "Sílabas y Sonidos" (que ya trabaja con palabras
+  completas). Carboncito dice una sílaba suelta (consonante+vocal, ej.
+  "ma") y el niño la reconoce por escrito entre 4 opciones — la primera vez
+  que se le pide leer 2 letras juntas, no solo una. Las sílabas se generan
+  combinando 7 consonantes × 5 vocales + C con A/O/U (CE/CI se excluyen a
+  propósito: en español no suenan como se leen igual que el resto de
+  combinaciones de C) — 38 combinaciones únicas en total, contenido
+  dinámico en vez de un banco fijo, mismo criterio ya establecido en el
+  resto del proyecto ("que no se parezca una ronda a otra").
+
+**Set de 13 letras compartido por los 3 niveles** (`LETRAS_SET`): las 5
+vocales + M, P, L, S, T, N, D, C — las consonantes con sonido regular y
+frecuente con las que arranca cualquier método silábico en español,
+excluyendo a propósito las de sonido irregular o poco frecuente al inicio
+(B/V, G, J, Ñ, R fuerte, H muda, Q, X, Y, Z, K, W) para no confundir a un
+niño que recién está reconociendo letras — mismo criterio de acotar el
+alcance que ya usa el resto de contenido NT (ver las exclusiones de OA
+documentadas en "Educación Parvularia" más abajo, aunque esta herramienta
+en sí no cite un OA — ver el porqué abajo).
+
+**No cita un OA de Mineduc**, a diferencia del resto de módulos NT: es una
+herramienta transversal de apoyo a una habilidad general (mismo estatus que
+Diccionario/Colorear por Números), no contenido curricular gatillado por un
+núcleo específico — la regla de oro del proyecto no aplica aquí por el
+mismo motivo que no aplica a esas 2 herramientas.
+
+**Arquitectura:** `js/content/aprendoALeer.js` exporta `APRENDO_A_LEER_MODULES`/
+`_POS` (mismo shape que cualquier `_MODULES`/`_POS` de un núcleo), pero como
+la herramienta no está atada a año/nivel, `renderAprendoALeerMap()`
+(`render.js`) llama a `renderModuleMap()` **directo** con esos datos fijos
+más `height:340` (el mismo layout de 3 nodos —x:24/68/24, y:82/50/18— que ya
+usan Identidad y Autonomía / Convivencia y Ciudadanía, ya verificado sin
+solapamientos) en vez de pasar por `byGrade`/`byNivel` como cualquier
+asignatura curricular — mismo patrón mínimo que `renderGradeMap()` usa para
+el mapa de años. Los 3 generadores se registraron en `MC_KEYS`/`MC_GAMES`
+(`mcEngine.js`, claves `alconoceletras`/`alletrainicial`/`alprimerasilabas`,
+`rounds:8` como el resto de NT), `state.stars` (`state.js`) y
+`MODULE_TITLES` (`rewards.js`, insignias "Explorador del Abecedario"/
+"Cazador de Sonidos"/"Constructor de Sílabas"). La tarjeta de acceso se
+agregó a `renderEtapaMap()` en "Herramientas de consulta", **debajo de
+"Colorear por Números"** tal como pidió el usuario.
+
+Verificado: los 3 generadores pasan fuzz de 400 iteraciones cada uno (sin
+opciones duplicadas, exactamente 4 opciones, `correctValue` siempre
+presente, `explain`/`recurso`/`speakText` siempre presentes, sin
+`undefined`) con 298-397 firmas de ronda únicas sobre 400 intentos cada
+uno — margen amplísimo sobre `rounds:8`, sin riesgo de repetición dentro de
+una partida. Probado en el navegador: navegación completa `etapaMap` (la
+tarjeta "Aprendo a Leer" aparece justo debajo de "Colorear por Números") →
+`aprendoALeerMap` (3 nodos sin solapar con el título, gracias al fix de
+`margin-top` de la sección anterior) → los 3 niveles jugados (Nivel 1:
+alternativas de una sola letra; Nivel 2: emoji ✋ + 4 letras, contestó bien
+y avanzó de ronda 1/8 a 2/8; Nivel 3: alternativas de sílabas de 2 letras),
+botón Recurso abriendo el modal con el texto real en Nivel 1, sin errores
+de consola en ningún caso.
 
 ## Convenciones a mantener
 

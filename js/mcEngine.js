@@ -142,6 +142,9 @@ import {
   genSeguridadPrevNTRound,
 } from './content/parvularia/comprensionEntornoSociocultural.js';
 import {
+  genConoceLetrasRound, genLetraInicialLeerRound, genPrimerasSilabasRound,
+} from './content/aprendoALeer.js';
+import {
   genCasosRenal7Round, genCasosHepatico7Round, genOrina7Round, genLiquidos7Round, genLcr7Round,
   genValoresCriticos7Round, genControlCalidad7Round, genEndocrinoTumoral7Round,
   genGasesArteriales7Round, genPancreas7Round, genReactivos7Round,
@@ -378,7 +381,8 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'biodiversidadevolucionpd','serviciosecosistemicospd','resilienciaclimaticapd','tecnologiaclimapd',
   'saludpublicapd','genomaambientepd','estilosvidasaludpd','calidadambientalsaludpd','tecnologiamedicapd',
   'fisicaclimapd','origenuniversopd','fuerzascentralespd','fisicamodernapd','fluidoselectromagnetismopd',
-  'nanoquimicapolimerospd','acidobaseredoxpd','termodinamicacineticapd','quimicaclimapd','contaminantesquimicospd','tecnologiasquimicasclimapd'];
+  'nanoquimicapolimerospd','acidobaseredoxpd','termodinamicacineticapd','quimicaclimapd','contaminantesquimicospd','tecnologiasquimicasclimapd',
+  'alconoceletras','alletrainicial','alprimerasilabas'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -941,6 +945,9 @@ export const MC_GAMES = {
   quimicaclimapd: { title:'Química del Cambio Climático: Ciclos y Equilibrios', gen: genQuimicaClimaPDRound, rounds:8 },
   contaminantesquimicospd: { title:'Contaminantes Químicos y sus Efectos', gen: genContaminantesQuimicosPDRound, rounds:8 },
   tecnologiasquimicasclimapd: { title:'Tecnologías Químicas para el Clima', gen: genTecnologiasQuimicasClimaPDRound, rounds:8 },
+  alconoceletras: { title:'Conoce las Letras', gen: genConoceLetrasRound, rounds:8 },
+  alletrainicial: { title:'Letra Inicial', gen: genLetraInicialLeerRound, rounds:8 },
+  alprimerasilabas: { title:'Primeras Sílabas', gen: genPrimerasSilabasRound, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

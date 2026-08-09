@@ -456,6 +456,7 @@ export const MODULE_TITLES = {
   saludpublicapd:'Analista de Salud Pública', genomaambientepd:'Genetista Ambiental', estilosvidasaludpd:'Promotor de Vida Saludable', calidadambientalsaludpd:'Guardián Ambiental', tecnologiamedicapd:'Innovador Médico',
   fisicaclimapd:'Físico del Clima', origenuniversopd:'Explorador Cósmico', fuerzascentralespd:'Maestro de la Gravedad', fisicamodernapd:'Físico Cuántico', fluidoselectromagnetismopd:'Ingeniero de Fluidos y Circuitos',
   nanoquimicapolimerospd:'Nanoquímico', acidobaseredoxpd:'Maestro del Redox', termodinamicacineticapd:'Cinético Térmico', quimicaclimapd:'Químico del Clima', contaminantesquimicospd:'Detective de Contaminantes', tecnologiasquimicasclimapd:'Tecnólogo Químico Verde',
+  alconoceletras:'Explorador del Abecedario', alletrainicial:'Cazador de Sonidos', alprimerasilabas:'Constructor de Sílabas',
 };
 
 export function spawnConfetti(container){

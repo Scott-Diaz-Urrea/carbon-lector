@@ -112,8 +112,14 @@ export const LENGUAJE_MODULES = [
   {id:'memorama', label:'Letras', open:true, key:'memorama'},
   {id:'palabras', label:'Palabras', open:true, key:'palabras'},
   {id:'comprension', label:'Comprensión', open:true, key:'comprension'},
+  {id:'examenlengua1', label:'Examen Final', open:true, key:'examenlengua1'},
 ];
-export const LENGUAJE_POS = [{x:22,y:88},{x:68,y:70},{x:24,y:52},{x:70,y:34},{x:24,y:16}];
+/* 6° nodo agregado (2026-08-09, "Examen Final") — mismas posiciones
+   originales de los 5 nodos preservadas en píxeles reales (recalculadas
+   para el nuevo height:600 en vez de 420) más un 6° paso continuando el
+   mismo espaciado alternado (Δ18%/Δ36%, igual que Matemática 1° básico),
+   verificado sin solapamiento con getBoundingClientRect(). */
+export const LENGUAJE_POS = [{x:22,y:92},{x:68,y:76},{x:24,y:60},{x:70,y:44},{x:24,y:28},{x:70,y:12}];
 
 export const LENGUAJE_MODULES_G2 = [
   {id:'combinaciones', label:'Combinaciones', open:true, key:'combinaciones'},
@@ -123,11 +129,26 @@ export const LENGUAJE_MODULES_G2 = [
 ];
 export const LENGUAJE_POS_G2 = [{x:22,y:84},{x:68,y:62},{x:24,y:40},{x:70,y:16}];
 
-export function genVocalRound(){
+/* Niveles de dificultad (2026-08-09, mismo pedido que el piloto de
+   Matemática 1° básico — ver "Motor de minijuegos de opción múltiple" en
+   CLAUDE.md). `nivel` opcional; sin argumento se comporta igual que antes
+   (5 opciones + emoji, el comportamiento "normal" original). */
+export function genVocalRound(nivel){
   const item = pick(VOCAL_WORDS);
-  const opts = shuffle(['A','E','I','O','U']).map(function(v){ return {label:v, value:v}; });
+  const vowels = ['A','E','I','O','U'];
+  let opts;
+  if(nivel==='facil'){
+    const distract = shuffle(vowels.filter(function(v){ return v!==item.answer; })).slice(0,2);
+    opts = shuffle([item.answer].concat(distract)).map(function(v){ return {label:v, value:v}; });
+  }else{
+    opts = shuffle(vowels).map(function(v){ return {label:v, value:v}; });
+  }
+  /* Difícil: se saca el emoji (la pista visual) y solo queda la palabra
+     con su primera letra tapada — hay que decodificar la palabra leyendo
+     el resto de las letras, no reconocer el dibujo. */
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span>'+
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+
       '<p class="prompt-word"><span class="blank">_</span>'+item.word.slice(1)+'</p>'+
       '<p class="prompt-hint">¿Con qué vocal empieza esta palabra?</p>',
     options: opts,
@@ -139,11 +160,23 @@ export function genVocalRound(){
   };
 }
 
-export function genPalabraRound(){
+export function genPalabraRound(nivel){
   const item = pick(PALABRA_WORDS);
-  const opts = shuffle([item.word].concat(item.opts)).map(function(w){ return {label:w, value:w}; });
+  let opts;
+  if(nivel==='facil'){
+    const distract = shuffle(item.opts).slice(0,1);
+    opts = shuffle([item.word].concat(distract)).map(function(w){ return {label:w, value:w}; });
+  }else{
+    opts = shuffle([item.word].concat(item.opts)).map(function(w){ return {label:w, value:w}; });
+  }
+  /* Difícil: sin emoji — hay que escuchar la palabra (botón "Escuchar",
+     ya usa speakText) y reconocerla ESCRITA entre las opciones, en vez de
+     emparejarla con un dibujo. */
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué palabra corresponde a esta imagen?</p>',
+    promptHTML: showEmoji
+      ? '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué palabra corresponde a esta imagen?</p>'
+      : '<p class="prompt-hint">Escucha 🔊 y elige la palabra correcta.</p>',
     options: opts,
     correctValue: item.word,
     speakText: item.word,
@@ -154,11 +187,21 @@ export function genPalabraRound(){
   };
 }
 
-export function genComprensionRound(){
+export function genComprensionRound(nivel){
   const item = pick(COMPRENSION_BANK);
-  const opts = shuffle([item.correct].concat(item.opts)).map(function(e){ return {label:e, value:e}; });
+  let opts;
+  if(nivel==='facil'){
+    const distract = shuffle(item.opts).slice(0,1);
+    opts = shuffle([item.correct].concat(distract)).map(function(e){ return {label:e, value:e}; });
+  }else{
+    opts = shuffle([item.correct].concat(item.opts)).map(function(e){ return {label:e, value:e}; });
+  }
+  /* Difícil: se oculta la oración escrita — hay que escucharla (🔊,
+     speakText ya trae el texto completo) y responder de memoria, en vez
+     de tenerla siempre visible mientras se responde. */
+  const showText = nivel !== 'dificil';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    promptHTML: (showText ? '<p class="prompt-sentence">'+item.text+'</p>' : '')+'<p class="prompt-hint">'+item.question+'</p>',
     options: opts,
     correctValue: item.correct,
     speakText: item.text,
@@ -166,6 +209,21 @@ export function genComprensionRound(){
     explain: 'Vuelve a leer: "'+item.text+'" Ahí está la respuesta.',
     recurso: '<b>Comprender</b> un texto es distinto a solo "leerlo". Leer es reconocer las palabras; comprender es entender qué significan y qué está pasando en la historia. Para comprender bien, tu cerebro hace varias cosas a la vez: recuerda las palabras que acabas de leer, imagina la escena como una película, y busca la respuesta a la pregunta dentro de lo que leyó — no fuera de eso. Por eso, si no estás seguro de una respuesta, la mejor estrategia es <b>volver a leer el texto</b> con calma, en vez de adivinar. Esta habilidad se llama comprensión lectora, y es una de las más importantes que aprenderás en el colegio: te sirve para estudiar cualquier materia, no solo Lenguaje, porque casi todo lo que aprendes viene escrito en algún texto.',
   };
+}
+
+/* "Examen Final" (mismo patrón que el piloto de Matemática 1° básico):
+   mezcla los 3 módulos de Lenguaje que son compatibles con el motor de
+   opción múltiple (Vocales/Palabras/Comprensión) y los 3 niveles al azar.
+   Sílabas (games/silabas.js) y Letras (memorama, games/memorama.js) NO se
+   incluyen a propósito: son mecánicas propias (arrastrar/emparejar
+   cartas), incompatibles con el formato {promptHTML, options,
+   correctValue} que este examen necesita — quedan como sus propios
+   juegos independientes, sin cambios. */
+export function genExamenLenguaje1Round(){
+  const gens = [genVocalRound, genPalabraRound, genComprensionRound];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 export function genCombinacionRound(){

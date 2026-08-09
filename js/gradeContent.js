@@ -71,7 +71,7 @@ export const MATE_BY_GRADE = {
   8: { modules: MATE_MODULES_G8, pos: MATE_POS_G8, height: 760 },
 };
 export const CIENCIAS_BY_GRADE = {
-  1: { modules: CIENCIAS_MODULES, pos: CIENCIAS_POS, height: 420 },
+  1: { modules: CIENCIAS_MODULES, pos: CIENCIAS_POS, height: 600 },
   2: { modules: CIENCIAS_MODULES_G2, pos: CIENCIAS_POS_G2, height: 490 },
   3: { modules: CIENCIAS_MODULES_G3, pos: CIENCIAS_POS_G3, height: 560 },
   4: { modules: CIENCIAS_MODULES_G4, pos: CIENCIAS_POS_G4, height: 420 },

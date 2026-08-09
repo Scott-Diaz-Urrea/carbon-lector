@@ -2534,7 +2534,7 @@ movimiento"):**
   pendiente de auditar en una sesión futura — este PR se acotó a
   "movimiento" a pedido explícito del usuario.
 
-### 1° Básico — ✅ completo (33 módulos, las 9 asignaturas aplicables)
+### 1° Básico — ✅ completo (34 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
 curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/1-basico. En cada asignatura
 quedaron algunos OA fuera del motor de opción múltiple (marcados abajo); estos son los
@@ -2546,7 +2546,8 @@ de opción múltiple sin una reinterpretación forzada.
   Examen Final (ver "Lenguaje 1° básico: niveles y examen final" más abajo).
 - **Matemática** (5): Contar, Sumar, Comparar, Formas, Examen Final (ver
   "Matemática 1° básico: piloto de niveles y examen final" más abajo).
-- **Ciencias Naturales** (5): Seres Vivos, Plantas, Mi Cuerpo, Materiales, Día y Noche —
+- **Ciencias Naturales** (6): Seres Vivos, Plantas, Mi Cuerpo, Materiales, Día y Noche,
+  Examen Final (ver "Ciencias Naturales 1° básico: niveles y examen final" más abajo) —
   OA1-OA4, OA6-OA9, OA11-OA12. Fuera: OA5, OA10, las 4 OAH.
 - **Historia, Geografía y Cs. Sociales** (5): Calendario, Mi Identidad, Símbolos de
   Chile, Mapas de Chile, Convivencia y Comunidad — OA1-06, OA8-11, OA13-15. Fuera: OA07
@@ -2714,6 +2715,78 @@ cambios al motor en sí — este PR solo agrega contenido.
 Próximo paso (mismo pedido, pendiente de que el usuario decida el orden):
 continuar con el resto de asignaturas de 1° básico, o pasar a 2° básico —
 a definir con el usuario en la siguiente sesión.
+
+**Ciencias Naturales 1° básico: niveles y examen final (2026-08-09):**
+mismo pedido ("sigue con Ciencias Naturales"), mismo motor sin cambios.
+Los 5 generadores de este archivo comparten un patrón distinto al de
+Matemática/Lenguaje: cada uno tiene **2 ramas** (elegidas 50/50 con
+`Math.random()`) que comparten un solo texto de `recurso`, así que el
+parámetro `nivel` se aplicó consistentemente a ambas ramas de cada
+generador, no solo a una.
+
+- **Diseño por rama** (mismo criterio ya usado: fácil = menos opciones;
+  difícil = se saca la pista visual, salvo que hacerlo deje la pregunta
+  sin sujeto):
+  - **Seres Vivos**: rama "¿es un ser vivo?" (binaria, ya en 2 opciones,
+    sin cambio de cantidad) y rama "¿qué cubre su cuerpo?" (fácil=2
+    opciones, normal=4, original). En ambas, difícil saca el emoji — pero
+    en vez de solo mostrar una instrucción de escuchar, **se muestra el
+    nombre del animal en texto** (`"Gato"`, `"Pez"`), no una imagen: exige
+    leer en vez de reconocer un dibujo, sin dejar de identificar el
+    sujeto de la pregunta.
+  - **Mi Cuerpo/Materiales/Día y Noche**: en estas 3 asignaturas el
+    nombre/descripción del ítem YA va escrito dentro de la propia
+    pregunta (`item.organ`, `item.object`, `item.text`, `item.label`),
+    así que quitar el emoji en difícil no deja la pregunta sin sujeto —
+    es puramente decorativo, se saca por consistencia visual sin perder
+    información real.
+  - **Plantas**: rama "partes de la planta" sigue mostrando el emoji en
+    los 3 niveles (es decorativo, la pista real es `item.desc`, ya en
+    texto) — solo cambia el número de opciones (fácil=2, normal=4).
+    Rama "¿qué fruto es más grande?" es la única donde el emoji SÍ es la
+    información real (no hay otra forma de comparar tamaños) — en vez de
+    sacarlo, fácil fuerza una diferencia de tamaño grande y obvia
+    (≥4 posiciones de diferencia) y difícil elige un par de tamaños
+    parecidos (≤2 posiciones), genuinamente más difícil de distinguir a
+    simple vista sin quitar la imagen que hace falta para responder.
+- **Bug real encontrado por simulación de sesión, no por fuzz
+  estructural (100% de 150 sesiones con repetición, no un caso aislado):**
+  la primera versión de "Seres Vivos" difícil reemplazaba el prompt
+  completo por una instrucción FIJA ("Escucha 🔊 y responde: ¿es un ser
+  vivo o no?"), igual sin importar cuál de los 18 ítems de `VIVOS_ITEMS`
+  se hubiera elegido — como la firma de ronda (`roundSignature()`) se
+  calcula a partir de lo que se VE en pantalla (`promptHTML` + opciones),
+  y tanto el prompt como las 2 opciones eran siempre idénticos, **todas
+  las rondas de esa rama colapsaban a una sola firma** — garantizando una
+  repetición en cualquier sesión de 10 rondas donde esa rama saliera más
+  de una vez (algo casi seguro con una probabilidad de rama de 50%).
+  Corregido con el diseño "nombre en texto en vez de imagen" descrito
+  arriba (varía por ítem, preserva la firma única) — verificado que la
+  tasa de sesiones repetidas bajó de 150/150 a 0/150 tras el fix. Mismo
+  patrón de precaución a tener en cuenta para asignaturas futuras: un
+  prompt de "modo difícil" que reemplaza el contenido variable por una
+  instrucción genérica rompe la detección de repetición del motor, sin
+  importar cuántos ítems tenga el banco real.
+- **Examen Final** (`examenciencias1`, `genExamenCiencias1Round`,
+  `rounds:20`): mezcla los 5 generadores + los 3 niveles al azar. Nuevo
+  6° nodo en el mapa (`CIENCIAS_MODULES`/`CIENCIAS_POS`,
+  `content/ciencias.js`), mismo `height:600` y mismo espaciado ya
+  verificado sin solapamiento en Matemática/Lenguaje 1° básico.
+- Verificado: los 5 generadores × 3 niveles (+ `undefined`) pasan fuzz de
+  400 iteraciones cada uno (sin `throw`, sin `undefined`, sin opciones
+  duplicadas, `correctValue` siempre presente, "fácil" nunca con más de 3
+  opciones) y el examen pasa 400 iteraciones adicionales. Simulación real
+  de 150 sesiones completas por combinación (20 rondas para el examen):
+  **0 repeticiones en las 16 combinaciones**, tras corregir el bug de
+  Seres Vivos-difícil. `MC_KEYS.length === Object.keys(MC_GAMES).length
+  === 568` (567 previos + `examenciencias1`, sin claves huérfanas).
+  Probado visualmente en el navegador: mapa de 6 nodos sin solapamiento,
+  selector de dificultad en "Seres Vivos", una ronda jugada en
+  Seres Vivos-difícil ("Gato" en texto → Pelo, avance correcto de 1/10 a
+  2/10, segunda ronda mostrando "Pez" en la otra rama también sin
+  emoji), y el Examen Final navegando directo a la pregunta 1/20 sin
+  selector (mezclando Día y Noche/Estaciones en la primera ronda), con
+  sonido confirmado y sin errores de consola.
 
 ### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

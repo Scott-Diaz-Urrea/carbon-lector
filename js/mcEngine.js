@@ -34,7 +34,7 @@ import {
   genInteresCompuestoM2Round, genEsferaM2Round, genTrigonometriaM2Round, genEstadisticaProbabilidadM2Round,
 } from './content/matematica.js';
 import {
-  genSeresVivosRound, genPlantasRound, genCuerpoRound, genMaterialesRound, genDiaNocheRound,
+  genSeresVivosRound, genPlantasRound, genCuerpoRound, genMaterialesRound, genDiaNocheRound, genExamenCiencias1Round,
   genVertebrados2Round, genCiclosVida2Round, genHabitats2Round, genCuerpoDentro2Round, genAgua2Round, genClima2Round,
   genPlantas3Round, genCicloPlanta3Round, genCuidadoAmbiente3Round, genAlimentacion3Round,
   genLuz3Round, genSonido3Round, genSistemaSolar3Round,
@@ -241,7 +241,7 @@ import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
 
 export const MC_KEYS = ['vocales','palabras','comprension','examenlengua1','contar','sumar','comparar','formas','examenmate1','combinaciones','salta','multiplicar',
-  'seresvivos','plantas','micuerpo','materiales','dianoche',
+  'seresvivos','plantas','micuerpo','materiales','dianoche','examenciencias1',
   'calendario','miidentidad','simbolos','mapas','comunidad',
   'colores','lineastexturas','materialesarte',
   'sonidos','instrumentos',
@@ -398,11 +398,12 @@ export const MC_GAMES = {
   combinaciones: { title:'Combinaciones',    gen: genCombinacionRound,  rounds:10 },
   salta:         { title:'Salta y Cuenta',   gen: genSaltaRound,        rounds:10 },
   multiplicar:   { title:'Multiplicar',      gen: genMultiplicarRound,  rounds:10 },
-  seresvivos:    { title:'Seres Vivos',      gen: genSeresVivosRound,   rounds:10 },
-  plantas:       { title:'Plantas',          gen: genPlantasRound,      rounds:10 },
-  micuerpo:      { title:'Mi Cuerpo',        gen: genCuerpoRound,       rounds:10 },
-  materiales:    { title:'Materiales',       gen: genMaterialesRound,   rounds:10 },
-  dianoche:      { title:'Día y Noche',      gen: genDiaNocheRound,     rounds:10 },
+  seresvivos:    { title:'Seres Vivos',      gen: genSeresVivosRound,   rounds:10, levels:true },
+  plantas:       { title:'Plantas',          gen: genPlantasRound,      rounds:10, levels:true },
+  micuerpo:      { title:'Mi Cuerpo',        gen: genCuerpoRound,       rounds:10, levels:true },
+  materiales:    { title:'Materiales',       gen: genMaterialesRound,   rounds:10, levels:true },
+  dianoche:      { title:'Día y Noche',      gen: genDiaNocheRound,     rounds:10, levels:true },
+  examenciencias1: { title:'Examen Final: Ciencias Naturales 1° Básico', gen: genExamenCiencias1Round, rounds:20 },
   calendario:    { title:'Calendario',       gen: genCalendarioRound,   rounds:10 },
   miidentidad:   { title:'Mi Identidad',     gen: genMiIdentidadRound,  rounds:10 },
   simbolos:      { title:'Símbolos de Chile',gen: genSimbolosRound,     rounds:10 },

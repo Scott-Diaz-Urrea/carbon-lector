@@ -1012,7 +1012,7 @@ function drawMCRound(){
     '<div class="prompt-card">'+
       r.promptHTML+
       (hasActions ? '<div class="prompt-actions">'+
-        (r.speakText ? '<button class="speak-btn" onclick="speak(\''+r.speakText+'\''+(r.speakLang?',\''+r.speakLang+'\'':'')+')">🔊 Escuchar</button>' : '')+
+        (r.speakText ? '<button class="speak-btn" onclick="speak(\''+r.speakText+'\','+(r.speakLang?'\''+r.speakLang+'\'':'null')+(r.speakRate?','+r.speakRate:'')+')">🔊 Escuchar</button>' : '')+
         (r.recurso ? '<button class="recurso-btn" onclick="showMCRecurso()">📚 Recurso</button>' : '')+
       '</div>' : '')+
     '</div>'+

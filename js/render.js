@@ -155,6 +155,14 @@ function renderEtapaMap(){
     '<p class="section-title dicc-section-title">Herramientas de consulta</p>'+
     '<p class="section-sub">Para acompañarte en cualquier etapa.</p>'+
     '<div class="subject-list">'+
+      '<button class="subject-card" onclick="goTo(\'colorearNumeros\')">'+
+        '<span class="subject-icon">🎨</span>'+
+        '<span class="subject-info"><b>Colorear por Números</b><small>Pinta un dibujo y descárgalo</small></span>'+
+      '</button>'+
+      '<button class="subject-card" onclick="goTo(\'aprendoALeerMap\')">'+
+        '<span class="subject-icon">🔤</span>'+
+        '<span class="subject-info"><b>Aprendo a Leer</b><small>Desde reconocer letras hasta armar palabras</small></span>'+
+      '</button>'+
       '<button class="subject-card" onclick="goTo(\'diccionarioEs\')">'+
         '<span class="subject-icon">📖</span>'+
         '<span class="subject-info"><b>Diccionario Español</b><small>Definiciones simples con voz</small></span>'+
@@ -162,14 +170,6 @@ function renderEtapaMap(){
       '<button class="subject-card" onclick="goTo(\'diccionarioEn\')">'+
         '<span class="subject-icon">🔤</span>'+
         '<span class="subject-info"><b>English Dictionary</b><small>Palabra, traducción y pronunciación</small></span>'+
-      '</button>'+
-      '<button class="subject-card" onclick="goTo(\'colorearNumeros\')">'+
-        '<span class="subject-icon">🎨</span>'+
-        '<span class="subject-info"><b>Colorear por Números</b><small>Pinta un dibujo y descárgalo</small></span>'+
-      '</button>'+
-      '<button class="subject-card" onclick="goTo(\'aprendoALeerMap\')">'+
-        '<span class="subject-icon">🔤</span>'+
-        '<span class="subject-info"><b>Aprendo a Leer</b><small>Desde reconocer letras hasta la primera sílaba</small></span>'+
       '</button>'+
     '</div>'+
   '</div>';
@@ -569,14 +569,17 @@ function renderModuleMap(title, badge, modules, positions, heightPx){
 /* "Aprendo a Leer": herramienta transversal (no atada a año/núcleo, ver el
    comentario en content/aprendoALeer.js), por eso reutiliza renderModuleMap()
    directo con datos fijos en vez de pasar por byGrade/byNivel como las
-   asignaturas curriculares. `height:480` para los 4 nodos (robustecida
-   2026-08-09 con un 4° nivel) — mismo criterio de espaciado ya usado en el
-   resto de mapas de la app (paso vertical ~24% × 480px ≈ 115px por nodo,
-   bastante por sobre los ~150px de espacio real que necesitan 2 nodos del
-   mismo lado del zigzag para no solaparse, verificado con
+   asignaturas curriculares. `height:500` para los 5 nodos (robustecida
+   2026-08-09 dos veces el mismo día: primero un 4° nivel, height 480; luego
+   un 5° nivel "Une las Sílabas" inspirado en el Silabario Hispanoamericano,
+   height subido a 500) — mismo criterio de espaciado ya usado en el resto de
+   mapas de la app (paso vertical de 18% × 500px = 90px entre nodos
+   consecutivos alternados, 36% × 500px = 180px entre nodos del mismo lado
+   del zigzag — bastante por sobre los ~150px de espacio real que necesitan
+   2 nodos del mismo lado para no solaparse, verificado con
    getBoundingClientRect() tras el cambio). */
 function renderAprendoALeerMap(){
-  return renderModuleMap('Aprendo a Leer', '🔤 Herramienta de lectura inicial', APRENDO_A_LEER_MODULES, APRENDO_A_LEER_POS, 480);
+  return renderModuleMap('Aprendo a Leer', '🔤 Herramienta de lectura inicial', APRENDO_A_LEER_MODULES, APRENDO_A_LEER_POS, 500);
 }
 function renderComingSoonSubject(name){
   return '<div class="screen"><p class="section-title">'+name+'</p>'+

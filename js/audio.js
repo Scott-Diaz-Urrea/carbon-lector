@@ -98,13 +98,17 @@ function beep(freq, dur, delay, vol){
     osc.stop(t0+dur+0.03);
   }catch(e){}
 }
-/* Volumen subido (2026-08-09, pedido explícito del usuario: "en todas las
-   preguntas quiero sonido cuando gano y pierdo" — probado en Educación
-   Parvularia, el sonido SÍ sonaba, pero tan bajo/breve que se sentía como
-   silencio). sfxWrong pasó de un solo tono grave a dos tonos descendentes,
-   igual de breves y sin ser un buzzer de alarma, para que se distinga con
-   más claridad del acierto (dos tonos ascendentes) sin sonar punitivo. */
-export function sfxCorrect(){ beep(523.25,0.14,0,0.22); beep(783.99,0.2,0.09,0.22); }
-export function sfxWrong(){ beep(392,0.16,0,0.2); beep(261.63,0.24,0.11,0.2); }
-export function sfxStreak(){ beep(659.25,0.09,0,0.13); beep(783.99,0.09,0.08,0.13); beep(1046.5,0.16,0.16,0.13); }
-export function sfxLevelup(){ beep(523.25,0.1,0,0.14); beep(659.25,0.1,0.09,0.14); beep(783.99,0.1,0.18,0.14); beep(1046.5,0.24,0.27,0.16); }
+/* Segunda subida de volumen (2026-08-09, mismo día, pedido explícito del
+   usuario tras la primera subida: "en mas modulos falta el sonido" — una
+   auditoría automatizada de los 565 módulos registrados en MC_GAMES + los 3
+   juegos a medida (Sílabas/Secuencia/Memorama) confirmó 0 fallas de código
+   (el sonido dispara en el 100% de los casos, incluso a lo largo de una
+   sesión completa de 10 rondas seguidas) y que GitHub Pages ya tenía
+   desplegado el fix anterior — así que la causa más probable del reporte
+   es simplemente que 0.20-0.22 de ganancia sigue siendo bajo para el
+   parlante de un celular. Subido a un rango bastante más audible
+   (0.34-0.42) en vez de seguir subiendo de a poco. */
+export function sfxCorrect(){ beep(523.25,0.16,0,0.4); beep(783.99,0.22,0.09,0.4); }
+export function sfxWrong(){ beep(392,0.18,0,0.38); beep(261.63,0.26,0.11,0.38); }
+export function sfxStreak(){ beep(659.25,0.1,0,0.3); beep(783.99,0.1,0.08,0.3); beep(1046.5,0.18,0.16,0.3); }
+export function sfxLevelup(){ beep(523.25,0.12,0,0.32); beep(659.25,0.12,0.09,0.32); beep(783.99,0.12,0.18,0.32); beep(1046.5,0.26,0.27,0.34); }

@@ -5083,6 +5083,74 @@ probar la herramienta: "me gusta la nueva herramienta, robustecela"):**
   contador de estrellas máximas subiendo de 1704 a 1707 (+3, el nuevo
   módulo), sin errores de consola.
 
+**Segunda robustecida, inspirada en el "Silabario Hispanoamericano"
+(2026-08-09, mismo día, pedido explícito del usuario: subió el PDF
+`Silabario hispanoamericano.pdf` -Adrián Dufflocq Galdames, 1953- y pidió
+"me gustaría integrar algo similar para robustecer el Aprendo a leer", en
+el mismo mensaje que pidió reordenar Herramientas de consulta):**
+- **Fuente investigada antes de escribir nada:** se extrajo el texto
+  completo del PDF con `pdftotext -layout` (escaneado con bastante ruido de
+  OCR, pero legible) — es el silabario clásico "método
+  fónico-sensorial-objetivo-sintético" usado en toda Hispanoamérica. Su
+  idea central: nunca enseñar el nombre de las consonantes por separado
+  (solo su forma), introducir una consonante nueva a la vez combinada con
+  las 5 vocales (pa-pe-pi-po-pu), y apenas hay 2 consonantes aprendidas
+  armar PALABRAS REALES uniendo sus sílabas (con P y L: "pipa", "lupa") —
+  el niño "traduce por sí solo", sin que se le lea la palabra. El libro en
+  sí (texto, ilustraciones, 1953) tiene copyright vigente, así que **no se
+  copió ninguna palabra/imagen/ejercicio textual del libro** — lo que se
+  adoptó es el MÉTODO (una técnica pedagógica no es protegible, la
+  expresión concreta del libro sí), aplicado con contenido 100% propio del
+  proyecto.
+- **Nivel 4 nuevo, "Une las Sílabas"** (`genUneSilabasRound`,
+  `js/content/aprendoALeer.js`), insertado entre "Primeras Sílabas" (antes
+  Nivel 3) y "Lee una Palabra" (antes Nivel 4, ahora Nivel 5) — es
+  exactamente el paso que el silabario clásico enseña y que la herramienta
+  todavía no tenía: fusionar 2 sílabas sueltas en una palabra completa (el
+  puente entre "reconocer 1 sílaba" y "reconocer una palabra ya armada").
+  Carboncito muestra 2 sílabas por separado (ej. "CO + CO") y el niño
+  elige, entre 4 palabras escritas, cuál se forma al juntarlas —
+  deliberadamente **sin emoji de apoyo**, a diferencia de los otros 4
+  niveles: el silabario original nunca usa un dibujo como respaldo de la
+  respuesta correcta, el niño decodifica el texto solo, así que este nivel
+  replica ese rasgo central del método en vez de solo su vocabulario.
+  Banco propio de 18 palabras reales de 2 sílabas (`PALABRAS_UNE_SILABAS`),
+  construidas exclusivamente con sílabas CV del mismo `SILABAS_POOL` ya
+  usado por "Primeras Sílabas" (mismas 13 letras, nunca CE/CI) —incluye
+  MAMÁ/PAPÁ como guiño directo al par de palabras más emblemático del
+  método, literalmente las primeras que cualquier niño arma con un
+  silabario clásico.
+- **Reordenada "Herramientas de consulta"** (`renderEtapaMap()`,
+  `js/render.js`), pedido explícito en el mismo mensaje: de
+  Diccionario Español → English Dictionary → Colorear por Números →
+  Aprendo a Leer, a **Colorear por Números → Aprendo a Leer → Diccionario
+  Español → English Dictionary**. Se aprovechó el cambio para actualizar
+  el subtítulo de la tarjeta de Aprendo a Leer ("Desde reconocer letras
+  hasta armar palabras", antes terminaba en "la primera sílaba" —
+  desactualizado tras agregar Nivel 4/5 en las dos rondas de esta sesión).
+- **Mapa de 4→5 nodos:** `APRENDO_A_LEER_POS` pasó a 5 posiciones (zigzag
+  x:22/68/24/70/22, y:90/72/54/36/16) y `renderAprendoALeerMap()` subió su
+  `height` de 480 a 500 — recalculado para mantener el mismo margen de
+  seguridad ya validado (paso alternado ~18% × 500px ≈ 90px, paso mismo
+  lado del zigzag ~36% × 500px ≈ 180px, bastante sobre los ~150px reales
+  que necesita un nodo de 150px de alto para no solaparse con su vecino).
+- Verificado: los 5 generadores (los 4 ya existentes + el nuevo) pasan
+  fuzz de 400 iteraciones cada uno (sin opciones duplicadas, `correctValue`
+  siempre presente, sin `undefined`, sin excepciones) y una simulación real
+  de 300 sesiones completas por generador con el mismo algoritmo de
+  reintento/deduplicación de `drawMCRound()` — 0 de 300 sesiones con
+  alguna repetición en los 5 niveles. `MC_KEYS.length ===
+  Object.keys(MC_GAMES).length === 565` (560 previos a Aprendo a Leer + 4
+  del build original + 1 de esta ronda, sin claves huérfanas en ninguna
+  dirección). Probado en el navegador: mapa de 5 nodos sin solapar entre sí
+  ni con el título (31px de margen real sobre el título, medido con
+  `getBoundingClientRect()`), "Une las Sílabas" jugado con una ronda real
+  ("CO + CO" → "COCO" entre las 4 alternativas, avanzó de 0/8 a 1/8 tras
+  responder bien, botones Escuchar/Recurso presentes), y la tarjeta
+  "Herramientas de consulta" confirmando el nuevo orden (Colorear → Aprendo
+  a Leer → Diccionario Español → English Dictionary). Sin errores de
+  consola.
+
 ## Convenciones a mantener
 
 - Español de Chile en todo el copy visible al usuario.

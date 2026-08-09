@@ -23,7 +23,13 @@ import { pick, shuffle } from '../utils.js';
    herramienta transversal de apoyo (mismo estatus que Diccionario/Colorear),
    no un módulo curricular gatillado por núcleo — igual que esas 2, queda
    fuera de la "regla de oro" del proyecto por ser una herramienta de
-   habilidad general, no contenido curricular con un OA específico detrás. */
+   habilidad general, no contenido curricular con un OA específico detrás.
+
+   5 niveles en total (el 4°, "Une las Sílabas", se agregó el mismo día tras
+   robustecer la herramienta con un 5° nivel inspirado en el método del
+   "Silabario Hispanoamericano" — ver el comentario detallado justo antes de
+   `genUneSilabasRound()` más abajo para la fuente, el criterio de copyright
+   y el diseño completo). */
 
 /* Los 13 sonidos con los que arranca cualquier método silábico en español:
    las 5 vocales + las 8 consonantes que forman las sílabas más simples y
@@ -133,8 +139,60 @@ export function genPrimerasSilabasRound(){
   };
 }
 
-/* Nivel 4 — "Lee una Palabra" (agregado 2026-08-09, mismo pedido de
-   robustecer la herramienta): el peldaño de pago de los 3 niveles
+/* Nivel 4 — "Une las Sílabas" (agregado 2026-08-09, mismo día, pedido
+   explícito del usuario tras compartir el PDF del "Silabario
+   Hispanoamericano" de Adrián Dufflocq Galdames, 1953: "conoces el
+   silabario... me gustaría integrar algo similar para robustecer el
+   Aprendo a Leer"). Se leyó el PDF completo (extracción de texto vía
+   `pdftotext -layout`, escaneado con bastante ruido de OCR pero legible) —
+   es el método clásico "fónico-sensorial-objetivo-sintético" usado en toda
+   Hispanoamérica: nunca se enseña el nombre de las consonantes por
+   separado, se introduce una consonante nueva a la vez combinada con las 5
+   vocales (pa-pe-pi-po-pu), y apenas hay 2 consonantes aprendidas se arman
+   PALABRAS REALES uniendo sus sílabas (ej. con P y L: "pipa", "lupa") —
+   el niño "traduce por sí solo" en vez de que se le lea la palabra. El
+   libro en sí (texto, ilustraciones, año 1953) tiene copyright vigente, así
+   que no se copió ninguna palabra/imagen/ejercicio textual de él — lo que
+   se adoptó es el MÉTODO (no protegible): la fusión de sílabas sueltas en
+   una palabra completa, que es exactamente el paso que faltaba entre
+   "Primeras Sílabas" (reconocer 1 sílaba suelta) y el módulo de abajo,
+   "Lee una Palabra" (reconocer una palabra ya completa). Aquí Carboncito
+   muestra 2 sílabas por separado (ej. "MA + PA") y el niño elige, entre 4
+   palabras escritas, cuál se forma al juntarlas — a propósito SIN emoji de
+   apoyo (a diferencia de los otros 4 niveles): el silabario original nunca
+   usa dibujos como respaldo de la respuesta, el niño decodifica el texto
+   solo, así que este nivel replica esa idea central del método. Banco
+   propio de 18 palabras reales de 2 sílabas (CV+CV, mismas 13 letras y las
+   mismas restricciones que `SILABAS_POOL` — nunca CE/CI), incluyendo MAMÁ/
+   PAPÁ como guiño directo al par de palabras más emblemático del método
+   (las primeras que cualquier niño arma con el silabario clásico). */
+const PALABRAS_UNE_SILABAS = [
+  { word:'MAMÁ', s1:'MA', s2:'MA' }, { word:'PAPÁ', s1:'PA', s2:'PA' },
+  { word:'SOPA', s1:'SO', s2:'PA' }, { word:'MAPA', s1:'MA', s2:'PA' },
+  { word:'LUPA', s1:'LU', s2:'PA' }, { word:'SAPO', s1:'SA', s2:'PO' },
+  { word:'PATO', s1:'PA', s2:'TO' }, { word:'LATA', s1:'LA', s2:'TA' },
+  { word:'PILA', s1:'PI', s2:'LA' }, { word:'DONA', s1:'DO', s2:'NA' },
+  { word:'TELA', s1:'TE', s2:'LA' }, { word:'DADO', s1:'DA', s2:'DO' },
+  { word:'TAPA', s1:'TA', s2:'PA' }, { word:'MOTO', s1:'MO', s2:'TO' },
+  { word:'NIDO', s1:'NI', s2:'DO' }, { word:'CUNA', s1:'CU', s2:'NA' },
+  { word:'COCO', s1:'CO', s2:'CO' }, { word:'MESA', s1:'ME', s2:'SA' },
+];
+export function genUneSilabasRound(){
+  const recurso = 'Las sílabas se pueden unir para formar palabras completas: "ma" más "pa" forman "mapa". A esto se le llama método sintético — de las piezas pequeñas (sílabas) se arma algo más grande (la palabra) — y es la misma idea que usan los silabarios clásicos para enseñar a leer: primero una sílaba sola, después dos sílabas juntas formando una palabra real, y así hasta leer palabras cada vez más largas.';
+  const item = pick(PALABRAS_UNE_SILABAS);
+  const distractPool = PALABRAS_UNE_SILABAS.filter(function(w){ return w.word !== item.word; }).map(function(w){ return w.word; });
+  const distract = shuffle(distractPool).slice(0,3);
+  const opts = shuffle([item.word].concat(distract)).map(function(w){ return { label:w, value:w }; });
+  return {
+    promptHTML: '<p class="prompt-hint">Une estas sílabas. ¿Qué palabra forman?</p><p class="prompt-count">'+item.s1+' + '+item.s2+'</p>',
+    options: opts, correctValue: item.word, speakText: item.word, cols:4, kind:'word',
+    explain: '<b>'+item.s1+'</b> + <b>'+item.s2+'</b> forman <b>'+item.word+'</b>.',
+    recurso: recurso,
+  };
+}
+
+/* Nivel 5 — "Lee una Palabra" (agregado 2026-08-09, mismo pedido de
+   robustecer la herramienta): el peldaño de pago de los 4 niveles
    anteriores — la primera vez que el niño debe LEER un texto completo (no
    solo una letra o una sílaba) para responder, en vez de reconocer algo por
    audio. Todas las palabras del banco están armadas con sílabas del mismo
@@ -173,8 +231,9 @@ export const APRENDO_A_LEER_MODULES = [
   { id:'alconoceletras', label:'Conoce las Letras', open:true, key:'alconoceletras' },
   { id:'alletrainicial', label:'Letra Inicial', open:true, key:'alletrainicial' },
   { id:'alprimerasilabas', label:'Primeras Sílabas', open:true, key:'alprimerasilabas' },
+  { id:'alunesilabas', label:'Une las Sílabas', open:true, key:'alunesilabas' },
   { id:'alleepalabra', label:'Lee una Palabra', open:true, key:'alleepalabra' },
 ];
 export const APRENDO_A_LEER_POS = [
-  { x:22, y:88 }, { x:68, y:64 }, { x:24, y:40 }, { x:70, y:16 },
+  { x:22, y:90 }, { x:68, y:72 }, { x:24, y:54 }, { x:70, y:36 }, { x:22, y:16 },
 ];

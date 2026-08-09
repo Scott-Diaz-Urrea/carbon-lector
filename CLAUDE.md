@@ -2534,7 +2534,7 @@ movimiento"):**
   pendiente de auditar en una sesión futura — este PR se acotó a
   "movimiento" a pedido explícito del usuario.
 
-### 1° Básico — ✅ completo (31 módulos, las 9 asignaturas aplicables)
+### 1° Básico — ✅ completo (33 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
 curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/1-basico. En cada asignatura
 quedaron algunos OA fuera del motor de opción múltiple (marcados abajo); estos son los
@@ -2542,7 +2542,8 @@ candidatos naturales si se quiere cobertura 100% literal del curso, pero típica
 OA de desempeño/creación (dibujar, cantar, moverse, opinar) que no se prestan a preguntas
 de opción múltiple sin una reinterpretación forzada.
 
-- **Lenguaje** (5): Vocales, Sílabas, Letras (memorama), Palabras, Comprensión.
+- **Lenguaje** (6): Vocales, Sílabas, Letras (memorama), Palabras, Comprensión,
+  Examen Final (ver "Lenguaje 1° básico: niveles y examen final" más abajo).
 - **Matemática** (5): Contar, Sumar, Comparar, Formas, Examen Final (ver
   "Matemática 1° básico: piloto de niveles y examen final" más abajo).
 - **Ciencias Naturales** (5): Seres Vivos, Plantas, Mi Cuerpo, Materiales, Día y Noche —
@@ -2649,6 +2650,70 @@ antes de continuar): si el diseño se aprueba, replicar el mismo patrón
 luego decidir si se extiende a otros años/etapas — dado el tamaño real de
 la tarea (~700 módulos), seguirá el mismo criterio de "un curso/asignatura
 a la vez con su propio PR" ya establecido para el resto del proyecto.
+
+**Lenguaje 1° básico: niveles y examen final (2026-08-09):** mismo pedido
+("sigue con Lenguaje 1° básico"), tras la aprobación del usuario del piloto
+de Matemática. Mismo motor genérico (`levels:true`/`selectMCLevel()`), sin
+cambios al motor en sí — este PR solo agrega contenido.
+
+- **Vocales/Palabras/Comprensión ganaron el parámetro `nivel`**
+  (`content/lenguaje.js`); **Sílabas y Letras (memorama) quedan fuera a
+  propósito**: son mecánicas propias (arrastrar sílabas / emparejar
+  cartas) que no devuelven el formato `{promptHTML, options,
+  correctValue}` que el motor de niveles/examen necesita — Letras además
+  ya tiene su propio selector de dificultad de 2 niveles (Fácil/Difícil,
+  `games/memorama.js`, sin tocar). Diseño por módulo, mismo criterio ya
+  usado en Matemática (fácil = menos opciones; difícil = se quita la
+  pista visual, no solo "más difícil el mismo formato"):
+  - **Vocales**: fácil = 3 opciones (la vocal correcta + 2 al azar) con
+    emoji; normal = 5 opciones (las 5 vocales, original) con emoji;
+    difícil = 5 opciones **sin emoji** — solo queda la palabra con su
+    primera letra tapada, hay que decodificarla leyendo el resto en vez
+    de reconocer el dibujo.
+  - **Palabras**: fácil = 2 opciones (la palabra correcta + 1 distractor)
+    con emoji; normal = 4 opciones (original) con emoji; difícil = 4
+    opciones **sin emoji** — el prompt cambia a "Escucha 🔊 y elige la
+    palabra correcta", convirtiendo el ejercicio de "empareja imagen con
+    palabra" a "reconoce por dictado", una habilidad genuinamente
+    distinta.
+  - **Comprensión**: fácil = 2 opciones con la oración visible; normal = 4
+    opciones (original) con la oración visible; difícil = 4 opciones
+    **sin la oración visible** — solo la pregunta, hay que escuchar la
+    oración completa (🔊, `speakText` ya la traía) y responder de
+    memoria en vez de tenerla siempre a la vista mientras se responde.
+- **Examen Final** (`examenlengua1`, `genExamenLenguaje1Round`,
+  `rounds:20`): mezcla Vocales/Palabras/Comprensión + los 3 niveles al
+  azar en cada ronda, mismo patrón que `genExamenMate1Round`. Nuevo 6°
+  nodo en el mapa (`LENGUAJE_MODULES`/`LENGUAJE_POS`,
+  `content/lenguaje.js`); las 5 posiciones existentes se recalcularon
+  para el nuevo `height:600` (antes 420, `gradeContent.js`) preservando
+  su posición en píxeles, y el 6° nodo continúa el mismo espaciado
+  alternado (Δ18%/Δ36% del height) ya usado en Matemática — verificado
+  sin solapamiento con `getBoundingClientRect()` (0 de 6 nodos se tocan,
+  29px de margen real entre el título y el primer nodo).
+- Verificado: los 3 generadores × 3 niveles (+ `undefined`) pasan fuzz de
+  300 iteraciones cada uno (sin `throw`, sin `undefined`, sin opciones
+  duplicadas, `correctValue` siempre presente, cantidad de opciones
+  correcta por nivel) y el examen pasa 300 iteraciones adicionales.
+  Simulación real de 150 sesiones completas por combinación (mismo
+  algoritmo de reintento de `drawMCRound()`) más 150 sesiones del examen
+  (20 rondas): **0 repeticiones en las 10 combinaciones** — a diferencia
+  del piloto de Matemática, ningún banco de Lenguaje necesitó ampliarse
+  (los bancos existentes de 16-27 ítems ya daban margen de sobra incluso
+  con el pool reducido de "fácil"). `MC_KEYS.length ===
+  Object.keys(MC_GAMES).length === 567` (566 previos + `examenlengua1`,
+  sin claves huérfanas). Probado visualmente en el navegador: mapa de 6
+  nodos sin solapamiento, selector de dificultad en "Vocales"/"Palabras",
+  una ronda jugada en Vocales-difícil ("_gua" sin emoji → A, avance
+  correcto de 1/10 a 2/10) y Palabras-difícil ("Escucha 🔊 y elige la
+  palabra correcta" con 4 opciones fonéticamente parecidas, sin imagen),
+  y el Examen Final navegando directo a la pregunta 1/20 sin selector
+  (mezclando Vocales con emoji en la primera ronda), con sonido
+  confirmado y sin errores de consola.
+
+Próximo paso (mismo pedido, pendiente de que el usuario decida el orden):
+continuar con el resto de asignaturas de 1° básico, o pasar a 2° básico —
+a definir con el usuario en la siguiente sesión.
 
 ### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

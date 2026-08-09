@@ -10,6 +10,7 @@ import {
   genComprension8Round, genGenerosDramaticos8Round, genArgumentacionMedios8Round, genGramatica8Round, genOrtografia8Round,
   genNarrativaM1Round, genPoesiaM1Round, genDramaRomanticismoM1Round, genArgumentativoMediosM1Round, genOrtografiaM1Round,
   genNarrativaM2Round, genPoesiaM2Round, genTeatroSigloOroM2Round, genCuentoLatinoamericanoM2Round, genArgumentativoMediosM2Round, genOrtografiaM2Round,
+  genExamenLenguaje1Round,
 } from './content/lenguaje.js';
 import {
   genCountRound, genAddRound, genCompareRound, genFormaRound, genExamenMate1Round, genSaltaRound, genMultiplicarRound,
@@ -239,7 +240,7 @@ import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
 
-export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','comparar','formas','examenmate1','combinaciones','salta','multiplicar',
+export const MC_KEYS = ['vocales','palabras','comprension','examenlengua1','contar','sumar','comparar','formas','examenmate1','combinaciones','salta','multiplicar',
   'seresvivos','plantas','micuerpo','materiales','dianoche',
   'calendario','miidentidad','simbolos','mapas','comunidad',
   'colores','lineastexturas','materialesarte',
@@ -385,9 +386,10 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'alconoceletras','alletrainicial','alprimerasilabas','alunesilabas','alleepalabra'];
 
 export const MC_GAMES = {
-  vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
-  palabras:      { title:'Palabras',         gen: genPalabraRound,      rounds:10 },
-  comprension:   { title:'Comprensión',      gen: genComprensionRound,  rounds:8  },
+  vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10, levels:true },
+  palabras:      { title:'Palabras',         gen: genPalabraRound,      rounds:10, levels:true },
+  comprension:   { title:'Comprensión',      gen: genComprensionRound,  rounds:8,  levels:true },
+  examenlengua1: { title:'Examen Final: Lenguaje 1° Básico', gen: genExamenLenguaje1Round, rounds:20 },
   contar:        { title:'Contar',           gen: genCountRound,        rounds:10, levels:true },
   sumar:         { title:'Sumar',            gen: genAddRound,          rounds:10, levels:true },
   comparar:      { title:'¿Cuál es mayor?',  gen: genCompareRound,      rounds:10, levels:true },

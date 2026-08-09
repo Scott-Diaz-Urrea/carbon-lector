@@ -51,7 +51,7 @@ import { ESTUDIOS_SOCIALES_EPJA_M2_MODULES, ESTUDIOS_SOCIALES_EPJA_M2_POS } from
 import { INGLES_EPJA_M2_MODULES, INGLES_EPJA_M2_POS } from './content/epja/inglesMedia2.js';
 
 export const LENGUAJE_BY_GRADE = {
-  1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 420 },
+  1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 600 },
   2: { modules: LENGUAJE_MODULES_G2, pos: LENGUAJE_POS_G2, height: 360 },
   3: { modules: LENGUAJE_MODULES_G3, pos: LENGUAJE_POS_G3, height: 510 },
   4: { modules: LENGUAJE_MODULES_G4, pos: LENGUAJE_POS_G4, height: 360 },

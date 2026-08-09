@@ -98,7 +98,13 @@ function beep(freq, dur, delay, vol){
     osc.stop(t0+dur+0.03);
   }catch(e){}
 }
-export function sfxCorrect(){ beep(523.25,0.12,0,0.14); beep(783.99,0.18,0.09,0.14); }
-export function sfxWrong(){ beep(196,0.22,0,0.10); }
+/* Volumen subido (2026-08-09, pedido explícito del usuario: "en todas las
+   preguntas quiero sonido cuando gano y pierdo" — probado en Educación
+   Parvularia, el sonido SÍ sonaba, pero tan bajo/breve que se sentía como
+   silencio). sfxWrong pasó de un solo tono grave a dos tonos descendentes,
+   igual de breves y sin ser un buzzer de alarma, para que se distinga con
+   más claridad del acierto (dos tonos ascendentes) sin sonar punitivo. */
+export function sfxCorrect(){ beep(523.25,0.14,0,0.22); beep(783.99,0.2,0.09,0.22); }
+export function sfxWrong(){ beep(392,0.16,0,0.2); beep(261.63,0.24,0.11,0.2); }
 export function sfxStreak(){ beep(659.25,0.09,0,0.13); beep(783.99,0.09,0.08,0.13); beep(1046.5,0.16,0.16,0.13); }
 export function sfxLevelup(){ beep(523.25,0.1,0,0.14); beep(659.25,0.1,0.09,0.14); beep(783.99,0.1,0.18,0.14); beep(1046.5,0.24,0.27,0.16); }

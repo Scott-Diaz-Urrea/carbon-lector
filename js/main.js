@@ -12,6 +12,11 @@ import { initMemoryGame, flipCard } from './games/memorama.js';
 import { replayGame, showNameEntry, closeRecurso } from './rewards.js';
 import { diccSpeak } from './games/diccionario.js';
 import { selectColoringDrawing, backToDrawingPicker, pickColorNum, pickColorHex, pickTool, zoomIn, zoomOut, clearColoring, saveColoringPNG } from './games/colorearNumeros.js';
+import {
+  alzSpeakOrientacion, alzShowAddForm, alzHideAddForm, alzSaveReminder,
+  alzToggleDone, alzDeleteReminder, alzSpeakReminder,
+  alzSpeakExercise, alzAnswerExercise, alzNextExercise,
+} from './games/apoyoAlzheimer.js';
 import { render } from './render.js';
 import { state } from './state.js';
 import { loadProgress } from './persistence.js';
@@ -42,6 +47,16 @@ window.zoomIn = zoomIn;
 window.zoomOut = zoomOut;
 window.clearColoring = clearColoring;
 window.saveColoringPNG = saveColoringPNG;
+window.alzSpeakOrientacion = alzSpeakOrientacion;
+window.alzShowAddForm = alzShowAddForm;
+window.alzHideAddForm = alzHideAddForm;
+window.alzSaveReminder = alzSaveReminder;
+window.alzToggleDone = alzToggleDone;
+window.alzDeleteReminder = alzDeleteReminder;
+window.alzSpeakReminder = alzSpeakReminder;
+window.alzSpeakExercise = alzSpeakExercise;
+window.alzAnswerExercise = alzAnswerExercise;
+window.alzNextExercise = alzNextExercise;
 
 loadProgress();
 render();

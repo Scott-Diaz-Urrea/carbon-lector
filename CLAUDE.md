@@ -1282,6 +1282,86 @@ js/
                                 tomada de una captura de pantalla fresca
                                 seleccionó el color correctamente. Sin
                                 errores de consola en ningún caso probado.
+    apoyoAlzheimer.js         "Apoyo para Alzheimer" — cuarta herramienta de consulta
+                              transversal (NO es un juego: sin rondas/estrellas/XP,
+                              mismo criterio que diccionario.js/colorearNumeros.js),
+                              pedido explícito del usuario (2026-08-09: "puedes crear
+                              un modulo en las herramientas para una persona con
+                              alzaimer"). Antes de construir se aclaró el alcance vía
+                              `AskUserQuestion` (petición demasiado abierta para
+                              adivinar bien algo tan sensible): el usuario eligió las
+                              3 sub-herramientas (estimulación cognitiva, orientación
+                              día/hora/lugar, recordatorios de rutina) y confirmó que
+                              la usa DIRECTAMENTE la persona con Alzheimer, no un
+                              cuidador — esa segunda respuesta fijó todo el criterio
+                              de diseño: texto muy grande, alto contraste, pocos
+                              botones por pantalla y **cero menús anidados** (el hub
+                              solo tiene 2 niveles de profundidad: `apoyoAlzheimer` →
+                              una de las 3 herramientas, nunca una pantalla
+                              intermedia).
+                              **Orientación** (`alzOrientacion`): tarjeta grande con
+                              saludo según la hora (Buenos días/tardes/noches), día de
+                              la semana, fecha completa, hora en vivo (actualizada
+                              cada 15s vía `setInterval`, con auto-limpieza: si el
+                              `<canvas>`/elemento del reloj ya no está en el DOM -se
+                              navegó a otra pantalla- el propio callback se cancela a
+                              sí mismo con `clearInterval`, mismo criterio de cleanup
+                              ya usado en `games/traza.js` para el listener de
+                              `resize`) y estación del año (calculada para el
+                              **hemisferio sur**, no el criterio de estación
+                              boreal que usan la mayoría de librerías/ejemplos en
+                              inglés — diciembre/enero/febrero es verano en Chile).
+                              Botón "🔊 Escuchar" lee todo en voz alta.
+                              **Recordatorios** (`alzRecordatorios`): a diferencia de
+                              Colorear/Aprendo a Leer (efímeros por diseño, ver sus
+                              propias entradas más abajo), esta SÍ necesita persistir
+                              entre sesiones — usa su propia clave de localStorage
+                              (`leo_alz_recordatorios_v1`), nunca la de
+                              `persistence.js` (que es solo progreso de juego:
+                              XP/estrellas/nombre), mismo criterio de "cada
+                              herramienta maneja su propio estado" ya usado en
+                              `games/traza.js`. Cada recordatorio
+                              `{id, time, text, done}`; formulario simple inline
+                              (hora + texto, sin pantalla nueva) para agregar, botón
+                              grande "✅/⬜ Marcar como hecho" y un ícono de papelera
+                              para borrar. El texto del recordatorio se escapa con un
+                              helper `escapeHtml()` propio antes de insertarse en el
+                              DOM (viene de un `<input>` de usuario y se guarda en
+                              localStorage — nunca insertar HTML de usuario sin
+                              escapar, aunque sea contenido 100% local sin backend).
+                              **Ejercicios para la mente** (`alzEjercicios`): dos
+                              técnicas reales de estimulación cognitiva para adultos
+                              mayores, elegidas al azar en cada ronda — completar un
+                              refrán tradicional (18 refranes de dominio público,
+                              folclore oral sin autor identificable, los 3
+                              distractores son siempre el final de OTRO refrán real
+                              del mismo banco, nunca una palabra inventada) y "¿cuál
+                              no pertenece al grupo?" (15 categorías con emoji + label,
+                              todos los emoji verificados con `grep` contra el resto
+                              del código antes de usarlos, mismo criterio ya
+                              establecido en `content/aprendoALeer.js` para evitar
+                              íconos que no se renderizan en Windows). **Diseño
+                              deliberadamente sin castigo**: a diferencia del motor MC
+                              genérico (`mcEngine.js`, que marca la opción tocada en
+                              rojo con animación de sacudida y un sonido de error), acá
+                              tocar cualquier opción — correcta o no — nunca marca nada
+                              en rojo; solo se resalta en verde la respuesta correcta y
+                              aparece un mensaje neutro ("Buen intento. La respuesta
+                              es: X") en vez de "incorrecto" — sentirse "mal" al
+                              equivocarse sería inapropiado para este público. Sin
+                              rondas contadas ni racha: un botón "🔁 Otro ejercicio"
+                              simplemente sigue generando actividad nueva.
+                              Verificado en el navegador: las 4 pantallas (hub +
+                              orientación + recordatorios + ejercicios), agregar/
+                              marcar como hecho/borrar un recordatorio con recarga de
+                              `localStorage` confirmada, 300 rondas de ejercicios sin
+                              opciones duplicadas ni menos de 4 alternativas, y que un
+                              clic en la opción incorrecta nunca pinta rojo (verificado
+                              programáticamente, no solo a ojo) — sin errores de
+                              consola en mobile (375px) ni escritorio. CSS propio en
+                              `styles.css` (familia `.alz-*`), con tamaños de fuente
+                              notablemente más grandes que el resto de la app (hasta
+                              48px para el reloj) a propósito.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

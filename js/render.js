@@ -12,6 +12,10 @@ import { renderDiccionarioScreen, initDiccionario } from './games/diccionario.js
 import { renderColorearNumerosScreen, initColorearNumeros } from './games/colorearNumeros.js';
 import { APRENDO_A_LEER_MODULES, APRENDO_A_LEER_POS } from './content/aprendoALeer.js';
 import {
+  renderApoyoAlzheimerScreen, renderAlzOrientacionScreen, initAlzOrientacion,
+  renderAlzRecordatoriosScreen, renderAlzEjerciciosScreen,
+} from './games/apoyoAlzheimer.js';
+import {
   LENGUAJE_BY_GRADE, MATE_BY_GRADE, CIENCIAS_BY_GRADE, HISTORIA_BY_GRADE,
   ARTES_BY_GRADE, MUSICA_BY_GRADE, EDFISICA_BY_GRADE, ORIENTACION_BY_GRADE,
   TECNOLOGIA_BY_GRADE, INGLES_BY_GRADE, SUBJECT_DEFS, NUCLEO_DEFS,
@@ -94,6 +98,10 @@ export function render(){
   else if(scr === 'diccionarioEn') body = renderDiccionarioScreen('en');
   else if(scr === 'colorearNumeros') body = renderColorearNumerosScreen();
   else if(scr === 'aprendoALeerMap') body = renderAprendoALeerMap();
+  else if(scr === 'apoyoAlzheimer') body = renderApoyoAlzheimerScreen();
+  else if(scr === 'alzOrientacion') body = renderAlzOrientacionScreen();
+  else if(scr === 'alzRecordatorios') body = renderAlzRecordatoriosScreen();
+  else if(scr === 'alzEjercicios') body = renderAlzEjerciciosScreen();
 
   app.innerHTML =
     '<div class="topbar">'+
@@ -113,6 +121,7 @@ export function render(){
   else if(scr === 'caligrafia') initCaligrafiaGame();
   else if(scr === 'diccionarioEs' || scr === 'diccionarioEn') initDiccionario();
   else if(scr === 'colorearNumeros') initColorearNumeros();
+  else if(scr === 'alzOrientacion') initAlzOrientacion();
 }
 
 function renderHome(){
@@ -170,6 +179,10 @@ function renderEtapaMap(){
       '<button class="subject-card" onclick="goTo(\'diccionarioEn\')">'+
         '<span class="subject-icon">🔤</span>'+
         '<span class="subject-info"><b>English Dictionary</b><small>Palabra, traducción y pronunciación</small></span>'+
+      '</button>'+
+      '<button class="subject-card" onclick="goTo(\'apoyoAlzheimer\')">'+
+        '<span class="subject-icon">🧡</span>'+
+        '<span class="subject-info"><b>Apoyo para Alzheimer</b><small>Orientación, recordatorios y ejercicios de memoria</small></span>'+
       '</button>'+
     '</div>'+
   '</div>';

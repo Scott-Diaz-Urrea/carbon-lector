@@ -1362,6 +1362,61 @@ js/
                               `styles.css` (familia `.alz-*`), con tamaños de fuente
                               notablemente más grandes que el resto de la app (hasta
                               48px para el reloj) a propósito.
+                              **3 ejercicios nuevos (2026-08-09, mismo día, pedido
+                              explícito del usuario: "puedes hacer mas modulos dentro
+                              de apoyo para el alzheimer" → acotado vía
+                              `AskUserQuestion` a "más ejercicios cognitivos", el resto
+                              de opciones ofrecidas -álbum de memoria familiar,
+                              contactos de emergencia, ejercicio de respiración- no se
+                              construyó):** `genAlzExercise()` ahora sortea entre 5
+                              generadores en vez de 2. **Reloj análogo** (`genRelojRound`):
+                              un `clockSVG(hora, minuto)` dibujado a mano (mismo
+                              criterio de "SVG propio en vez de imagen/librería
+                              externa" que `mascotSVG()`/`shapeSVG()`), con números
+                              solo en 12/3/6/9 para que sea legible sin tener que
+                              reconocer las 12 posiciones, y horas siempre en punto o
+                              y media (nunca "menos cuarto") — mismo criterio de
+                              reducir dificultad ya establecido para el resto del
+                              módulo. **Secuencia numérica** (`genSecuenciaRound`):
+                              contar de X en X (pasos 1/2/3/5/10), 100% dinámico sin
+                              banco fijo, seguido de 4 alternativas con distractores
+                              cercanos garantizados únicos. **Memoria de imágenes**
+                              (`genMemoriaRound`/`alzMemoriaListo()`): el único
+                              ejercicio de dos fases del módulo — primero se muestran 3
+                              imágenes para memorizar con un botón "Ya las vi" (sin
+                              cronómetro a propósito: un límite de tiempo sería
+                              estresante para este público), luego se preguntan las 3 +
+                              una nueva y hay que identificar cuál no se había
+                              mostrado. Reutiliza el mismo pool de emoji ya verificados
+                              de `CATEGORIAS` (nunca un ícono sin confirmar su soporte
+                              en Windows). Técnicamente, el objeto de ronda ahora
+                              incluye un campo `tipo` (antes no existía, no hacía
+                              falta con solo 2 tipos uniformes) — `exerciseHTML()`
+                              rama especial cuando `tipo==='memoria'` y
+                              `phase==='memorize'` (sin opciones, solo el botón "Ya las
+                              vi"); al tocarlo, `alzMemoriaListo()` muta el mismo
+                              objeto de ronda en el lugar (agrega `promptHTML`/
+                              `options`/`correctValue`/`speakText`) para que la fase de
+                              recall reutilice el mismo camino de renderizado/
+                              respuesta que reloj/secuencia/refrán/categoría, sin
+                              duplicar lógica de puntuación. El botón "🔊 Escuchar"
+                              nunca revela la respuesta en ninguno de los 3 ejercicios
+                              nuevos (a diferencia de refranes, que sí lee la frase
+                              completa por diseño) — para reloj lee solo la pregunta,
+                              para secuencia lee los números ya mostrados (ayuda sin
+                              regalar el siguiente), para memoria lee la lista a
+                              memorizar en la fase 1 y solo la pregunta en la fase 2.
+                              Verificado: fuzz de 400 iteraciones sobre
+                              `renderAlzEjerciciosScreen()`/`alzNextExercise()` (los 5
+                              tipos aparecen con frecuencia pareja, siempre 4
+                              alternativas sin duplicados, memoria siempre muestra
+                              exactamente 3 ítems en la fase de memorizar) y prueba
+                              real en el navegador: reloj mostrando correctamente
+                              "1:30" con las manecillas en esa posición, secuencia
+                              "7-8-9-10-___" con 11 como respuesta, y memoria
+                              completando ambas fases (memorizar → "Ya las vi" → elegir
+                              la imagen nueva) con el feedback verde/neutro de siempre,
+                              sin marcar nada en rojo. Sin errores de consola.
 ```
 
 **Por qué esta división:** cada `content/<asignatura>.js` es autocontenido (sus bancos +

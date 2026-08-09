@@ -310,8 +310,113 @@ function genCategoriaRound(){
     correctValue: item.intruso.e+' '+item.intruso.l,
   };
 }
+/* Reloj análogo — dibujado a mano (mismo criterio que el resto de la app:
+   SVG propio en vez de una imagen/librería externa), con números en 12/3/6/9
+   para que sea fácil de leer aunque la persona no reconozca el resto de las
+   posiciones. Solo horas en punto o y media (nunca "y veinte" o "menos
+   cuarto") — mismo criterio de reducir dificultad ya usado en el resto del
+   módulo, no un descuido. */
+function clockSVG(hour, minute, size){
+  size = size || 160;
+  const cx=100, cy=100, r=90;
+  function pt(radius, angleDeg){
+    const rad = angleDeg*Math.PI/180;
+    return { x: cx + radius*Math.cos(rad), y: cy + radius*Math.sin(rad) };
+  }
+  const hourAngle = ((hour%12) + minute/60) * 30 - 90;
+  const minAngle = minute * 6 - 90;
+  const hourTip = pt(r*0.5, hourAngle);
+  const minTip = pt(r*0.75, minAngle);
+  let ticks = '';
+  for(let i=0;i<12;i++){
+    const a = i*30 - 90;
+    const outer = pt(r*0.92,a), inner = pt(r*0.82,a);
+    ticks += '<line x1="'+inner.x+'" y1="'+inner.y+'" x2="'+outer.x+'" y2="'+outer.y+'" stroke="#1D3557" stroke-width="3" stroke-linecap="round"/>';
+  }
+  const numeros = [{n:12,a:-90},{n:3,a:0},{n:6,a:90},{n:9,a:180}].map(function(o){
+    const p = pt(r*0.68,o.a);
+    return '<text x="'+p.x+'" y="'+(p.y+7)+'" text-anchor="middle" font-size="20" font-weight="800" fill="#1D3557">'+o.n+'</text>';
+  }).join('');
+  return '<svg viewBox="0 0 200 200" width="'+size+'" height="'+size+'">'+
+    '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="#FFFFFF" stroke="#1D3557" stroke-width="4"/>'+
+    ticks + numeros +
+    '<line x1="'+cx+'" y1="'+cy+'" x2="'+hourTip.x+'" y2="'+hourTip.y+'" stroke="#1D3557" stroke-width="7" stroke-linecap="round"/>'+
+    '<line x1="'+cx+'" y1="'+cy+'" x2="'+minTip.x+'" y2="'+minTip.y+'" stroke="#0C7C70" stroke-width="5" stroke-linecap="round"/>'+
+    '<circle cx="'+cx+'" cy="'+cy+'" r="6" fill="#1D3557"/>'+
+  '</svg>';
+}
+function genRelojRound(){
+  const hour = 1 + Math.floor(Math.random()*12);
+  const minute = pick([0,30]);
+  const minTxt = minute===0 ? '00' : '30';
+  const correct = hour+':'+minTxt;
+  const otrasHoras = shuffle([1,2,3,4,5,6,7,8,9,10,11,12].filter(function(h){ return h!==hour; })).slice(0,2);
+  const otroMin = minute===0 ? '30' : '00';
+  const opts = shuffle([correct, otrasHoras[0]+':'+minTxt, otrasHoras[1]+':'+minTxt, hour+':'+otroMin]);
+  return {
+    tipo:'reloj',
+    promptHTML: '<p class="alz-ex-prompt">¿Qué hora muestra el reloj?</p><div class="alz-clock-wrap">'+clockSVG(hour,minute)+'</div>',
+    speakText: '¿Qué hora muestra el reloj?',
+    options: opts,
+    correctValue: correct,
+  };
+}
+
+/* Secuencia numérica simple (contar de X en X) — 100% dinámica, sin banco
+   fijo, mismo criterio de "que no se parezca una ronda a otra" ya exigido
+   para el resto de la app (ver CLAUDE.md, "Convenciones a mantener"). */
+function genSecuenciaRound(){
+  const step = pick([1,2,3,5,10]);
+  const start = 1 + Math.floor(Math.random()*15);
+  const seq = [start, start+step, start+2*step, start+3*step];
+  const next = start+4*step;
+  let candidatos = shuffle([next-step, next+step, next+2*step, next-2*step].filter(function(v){ return v>0 && v!==next; }));
+  candidatos = Array.from(new Set(candidatos));
+  const distract = candidatos.slice(0,3);
+  while(distract.length<3){
+    const cand = next + Math.floor(Math.random()*20) - 10;
+    if(cand>0 && cand!==next && distract.indexOf(cand)===-1) distract.push(cand);
+  }
+  return {
+    tipo:'secuencia',
+    promptHTML: '<p class="alz-ex-prompt">¿Qué número sigue?</p><p class="alz-ex-phrase">'+seq.join(' — ')+' — ___</p>',
+    speakText: 'La secuencia es: '+seq.join(', ')+'. ¿Qué número sigue?',
+    options: shuffle([next].concat(distract)).map(function(n){ return ''+n; }),
+    correctValue: ''+next,
+  };
+}
+
+/* Memoria de imágenes ("¿cuál es nueva?") — ejercicio de dos fases: primero
+   se memorizan 3 imágenes (a su propio ritmo, con un botón "Ya las vi", sin
+   límite de tiempo — un cronómetro sería estresante para este público),
+   luego se muestran las 3 + una nueva y hay que identificar cuál no se
+   había mostrado. Mismo pool de emoji ya verificados con grep (reutilizados
+   de CATEGORIAS más arriba en este archivo) — nunca un ícono sin confirmar
+   su soporte en Windows. */
+const EMOJI_POOL = [
+  {e:'🍎',l:'Manzana'}, {e:'🍌',l:'Plátano'}, {e:'🍇',l:'Uva'}, {e:'🚗',l:'Auto'},
+  {e:'🥕',l:'Zanahoria'}, {e:'🥦',l:'Brócoli'}, {e:'🍅',l:'Tomate'}, {e:'🐶',l:'Perro'},
+  {e:'🐮',l:'Vaca'}, {e:'🐷',l:'Chancho'}, {e:'🐴',l:'Caballo'}, {e:'🍽️',l:'Plato'},
+  {e:'🐱',l:'Gato'}, {e:'🐦',l:'Pájaro'}, {e:'🧦',l:'Calcetines'}, {e:'🚌',l:'Bus'},
+  {e:'✈️',l:'Avión'}, {e:'🍞',l:'Pan'}, {e:'👕',l:'Camisa'}, {e:'🧣',l:'Bufanda'},
+  {e:'🥄',l:'Cuchara'}, {e:'🥛',l:'Vaso de leche'}, {e:'🚲',l:'Bicicleta'}, {e:'🪑',l:'Silla'}, {e:'🧢',l:'Gorro'},
+];
+function genMemoriaRound(){
+  const chosen = shuffle(EMOJI_POOL).slice(0,4);
+  const toShow = chosen.slice(0,3);
+  const nuevo = chosen[3];
+  return {
+    tipo:'memoria',
+    phase:'memorize',
+    toShow: toShow,
+    nuevo: nuevo,
+    speakText: 'Memoriza estas imágenes: '+toShow.map(function(o){ return o.l; }).join(', ')+'.',
+  };
+}
+
 function genAlzExercise(){
-  return Math.random()<0.5 ? genRefranRound() : genCategoriaRound();
+  const gens = [genRefranRound, genCategoriaRound, genRelojRound, genSecuenciaRound, genMemoriaRound];
+  return pick(gens)();
 }
 
 let alzCurrentExercise = null;
@@ -319,6 +424,15 @@ let alzAnswered = false;
 
 function exerciseHTML(){
   const ex = alzCurrentExercise;
+  if(ex.tipo === 'memoria' && ex.phase === 'memorize'){
+    const imgs = ex.toShow.map(function(o){
+      return '<div class="alz-mem-item"><span class="alz-mem-emoji">'+o.e+'</span><span>'+escapeHtml(o.l)+'</span></div>';
+    }).join('');
+    return '<p class="alz-ex-prompt">Memoriza estas 3 imágenes:</p>'+
+      '<div class="alz-mem-grid">'+imgs+'</div>'+
+      '<button class="alz-next-btn" onclick="alzMemoriaListo()">Ya las vi 👍</button>'+
+      '<button class="alz-listen-btn" onclick="alzSpeakExercise()">🔊 Escuchar</button>';
+  }
   const optsHTML = ex.options.map(function(opt, i){
     return '<button class="alz-ex-opt" id="alz-ex-opt-'+i+'" onclick="alzAnswerExercise('+i+')">'+escapeHtml(opt)+'</button>';
   }).join('');
@@ -326,6 +440,20 @@ function exerciseHTML(){
     '<div class="alz-ex-options">'+optsHTML+'</div>'+
     '<div class="alz-ex-feedback" id="alz-ex-feedback"></div>'+
     '<button class="alz-listen-btn" onclick="alzSpeakExercise()">🔊 Escuchar</button>';
+}
+
+export function alzMemoriaListo(){
+  const ex = alzCurrentExercise;
+  if(!ex || ex.tipo!=='memoria') return;
+  const todas = shuffle(ex.toShow.concat([ex.nuevo]));
+  ex.phase = 'recall';
+  ex.promptHTML = '<p class="alz-ex-prompt">¿Cuál de estas imágenes es nueva?</p>';
+  ex.speakText = '¿Cuál de estas imágenes es nueva? '+todas.map(function(o){ return o.l; }).join(', ');
+  ex.options = todas.map(function(o){ return o.e+' '+o.l; });
+  ex.correctValue = ex.nuevo.e+' '+ex.nuevo.l;
+  alzAnswered = false;
+  const wrap = document.getElementById('alz-ex-wrap');
+  if(wrap) wrap.innerHTML = exerciseHTML();
 }
 
 export function renderAlzEjerciciosScreen(){

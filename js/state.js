@@ -153,7 +153,7 @@ export const state = {
            saludpublicapd:0, genomaambientepd:0, estilosvidasaludpd:0, calidadambientalsaludpd:0, tecnologiamedicapd:0,
            fisicaclimapd:0, origenuniversopd:0, fuerzascentralespd:0, fisicamodernapd:0, fluidoselectromagnetismopd:0,
            nanoquimicapolimerospd:0, acidobaseredoxpd:0, termodinamicacineticapd:0, quimicaclimapd:0, contaminantesquimicospd:0, tecnologiasquimicasclimapd:0,
-           alconoceletras:0, alletrainicial:0, alprimerasilabas:0 },
+           alconoceletras:0, alletrainicial:0, alprimerasilabas:0, alleepalabra:0 },
   badges: new Set(),
 };
 export const screenStack = ['home'];

@@ -142,7 +142,7 @@ import {
   genSeguridadPrevNTRound,
 } from './content/parvularia/comprensionEntornoSociocultural.js';
 import {
-  genConoceLetrasRound, genLetraInicialLeerRound, genPrimerasSilabasRound,
+  genConoceLetrasRound, genLetraInicialLeerRound, genPrimerasSilabasRound, genLeePalabraRound,
 } from './content/aprendoALeer.js';
 import {
   genCasosRenal7Round, genCasosHepatico7Round, genOrina7Round, genLiquidos7Round, genLcr7Round,
@@ -382,7 +382,7 @@ export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','com
   'saludpublicapd','genomaambientepd','estilosvidasaludpd','calidadambientalsaludpd','tecnologiamedicapd',
   'fisicaclimapd','origenuniversopd','fuerzascentralespd','fisicamodernapd','fluidoselectromagnetismopd',
   'nanoquimicapolimerospd','acidobaseredoxpd','termodinamicacineticapd','quimicaclimapd','contaminantesquimicospd','tecnologiasquimicasclimapd',
-  'alconoceletras','alletrainicial','alprimerasilabas'];
+  'alconoceletras','alletrainicial','alprimerasilabas','alleepalabra'];
 
 export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
@@ -948,6 +948,7 @@ export const MC_GAMES = {
   alconoceletras: { title:'Conoce las Letras', gen: genConoceLetrasRound, rounds:8 },
   alletrainicial: { title:'Letra Inicial', gen: genLetraInicialLeerRound, rounds:8 },
   alprimerasilabas: { title:'Primeras Sílabas', gen: genPrimerasSilabasRound, rounds:8 },
+  alleepalabra: { title:'Lee una Palabra', gen: genLeePalabraRound, rounds:8 },
 };
 
 /* ---------------- Motor de juegos de opción múltiple ---------------- */

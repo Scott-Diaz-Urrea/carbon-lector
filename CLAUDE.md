@@ -2117,6 +2117,33 @@ en la evaluación de nivel superior del módulo), que es el caso en todos estos 
   más ítems al banco, no tocar el motor. Sílabas y Secuencia ya evitaban repeticiones
   por su cuenta (barajan el banco completo una vez al iniciar y avanzan con
   `pool[round % pool.length]`), así que no necesitaron este cambio.
+- **Niveles de dificultad Fácil/Normal/Difícil (2026-08-09, pedido explícito
+  del usuario: "que comience una especie de niveles, facil, normal y
+  dificil", más un submódulo de "exámenes" por asignatura porque "las
+  preguntas se repiten mucho, cada vez que coloco intentar nuevamente" —
+  alcance acotado a un piloto vía `AskUserQuestion` antes de tocar los
+  ~700 módulos de la app, ver "Matemática 1° básico: piloto de niveles y
+  examen final" en "Estado actual del contenido" para el detalle
+  completo).** Motor genérico en `mcEngine.js`, retrocompatible con los
+  ~560 módulos que no lo usan: un módulo opta agregando `levels:true` a su
+  entrada en `MC_GAMES`. `initMCGame(key)` detecta ese flag y, en vez de
+  arrancar la partida de inmediato, dibuja un selector de 3 tarjetas
+  (`levelPickerHTML()`, mismo patrón visual `.diff-grid`/`.diff-card` que
+  ya usaba el selector Fácil/Difícil de Memorama — se agregó la variante
+  CSS `.diff-grid-3` para 3 columnas, con fallback a 1 columna bajo 380px)
+  dentro del mismo `#mc-screen` ya existente, sin necesitar una pantalla
+  nueva en `screenStack`. Tocar Fácil/Normal/Difícil llama a
+  `selectMCLevel(nivel)` (exportado, expuesto en `window` desde
+  `main.js`), que recién ahí arranca la partida (rondas/racha/aciertos en
+  cero) guardando `mc.nivel`. `drawMCRound()` pasa ese valor a
+  `cfg.gen(mc.nivel)` **siempre**, para todo módulo — los ~560
+  `genXxxRound()` existentes tienen firma `function(){...}` (sin
+  parámetros) y JS ignora silenciosamente un argumento de más, así que
+  ninguno se ve afectado; solo los generadores que declaran el parámetro
+  `nivel` lo usan. Un generador con niveles debe tratar `nivel===
+  undefined` (cuando se llama sin pasar por el selector, p. ej. desde un
+  módulo de "examen" que mezcla generadores) igual que `'normal'`, para
+  mantener el comportamiento por defecto ya existente.
 - **Recompensas:** XP (`awardXP`), niveles (`level()`), rachas (`streak`), insignias
   (`state.badges`, `MODULE_TITLES` define el nombre de cada insignia), confeti al
   sacar 3 estrellas (`spawnConfetti`). Sonidos vía Web Audio API sintetizado
@@ -2516,7 +2543,8 @@ OA de desempeño/creación (dibujar, cantar, moverse, opinar) que no se prestan 
 de opción múltiple sin una reinterpretación forzada.
 
 - **Lenguaje** (5): Vocales, Sílabas, Letras (memorama), Palabras, Comprensión.
-- **Matemática** (4): Contar, Sumar, Comparar, Formas.
+- **Matemática** (5): Contar, Sumar, Comparar, Formas, Examen Final (ver
+  "Matemática 1° básico: piloto de niveles y examen final" más abajo).
 - **Ciencias Naturales** (5): Seres Vivos, Plantas, Mi Cuerpo, Materiales, Día y Noche —
   OA1-OA4, OA6-OA9, OA11-OA12. Fuera: OA5, OA10, las 4 OAH.
 - **Historia, Geografía y Cs. Sociales** (5): Calendario, Mi Identidad, Símbolos de
@@ -2537,6 +2565,90 @@ de opción múltiple sin una reinterpretación forzada.
 - **Religión** e **Inglés** no se incluyeron: Religión tiene variantes por credo que
   Mineduc no unifica en un solo documento curricular, e Inglés parte recién en 5° básico
   según el currículum nacional.
+
+**Matemática 1° básico: piloto de niveles y examen final (2026-08-09):**
+pedido explícito del usuario ("me gustaria que existieran mas preguntas...
+niveles, facil, normal y dificil" + "crea un submodulo de examenes por cada
+asignatura... porque juego y las preguntas se repiten mucho"). Dado el
+tamaño real de la petición (tocaría los ~700 módulos de toda la app), se
+acotó el alcance con el usuario vía `AskUserQuestion` a un piloto en una
+sola asignatura antes de decidir si se replica al resto — confirmado
+también el mecanismo (selector de dificultad antes de jugar, como ya existe
+en Memorama) y el formato del examen (una ronda larga que mezcla TODOS los
+módulos de la asignatura, no un examen separado por módulo). Ver el motor
+genérico (`levels:true`, `selectMCLevel()`, `levelPickerHTML()`) en
+"Motor de minijuegos de opción múltiple (reutilizable)" más arriba.
+
+- **Contar/Sumar/Comparar/Formas ganaron un parámetro opcional `nivel`**
+  (`'facil'|'normal'|'dificil'`, `content/matematica.js`) — sin argumento
+  se comportan exactamente igual que antes (rango "normal" = los valores
+  originales), así que ningún otro llamador se ve afectado. Diseño por
+  módulo:
+  - **Contar**: rango del conteo `1-5` (fácil) / `1-9` (normal, original)
+    / `10-18` (difícil) — el nivel difícil ya no es "contar de un vistazo",
+    obliga a contar en serio.
+  - **Sumar**: sumandos `1-3` (fácil, con objetos dibujados) / `1-5`
+    (normal, original, con objetos) / `4-10` (difícil, **sin objetos de
+    apoyo** — la ecuación se muestra solo en números grandes, `"10 + 4"`,
+    un paso genuinamente más abstracto/exigente, no solo sumandos más
+    grandes). Nueva clase CSS `.op-num` para el modo sin objetos.
+  - **Comparar**: cantidades hasta `4` con diferencia mínima forzada de 2
+    (fácil, diferencia obvia a simple vista) / hasta `7` sin diferencia
+    mínima (normal, original) / hasta `15` con diferencia mínima de solo 1
+    (difícil, obliga a contar con cuidado en vez de "adivinar por
+    tamaño").
+  - **Formas**: pool de 6 figuras básicas, sin distractores intencionalmente
+    parecidos (fácil) / las 8 figuras originales, distractores al azar
+    (normal) / las 8 figuras, con `SHAPE_SIMILAR` priorizando pares que se
+    confunden entre sí como distractor — rombo/cuadrado/rectángulo,
+    círculo/óvalo, pentágono/hexágono (difícil).
+  - **Bug real encontrado por simulación de sesión, no por fuzz
+    estructural, antes de dar el nivel fácil de Formas por terminado:**
+    la primera versión de `SHAPES_FACIL_IDS` tenía solo 4 figuras — con un
+    pool de 4, el conjunto de opciones mostradas es SIEMPRE el mismo (las
+    4 figuras completas), así que la única variable real era cuál de las
+    4 es la correcta: apenas 4 firmas de ronda únicas posibles para
+    `rounds:10`, repetición garantizada desde la 5ª pregunta en
+    adelante — exactamente el problema que este pedido buscaba evitar.
+    Corregido ampliando el pool fácil a 6 figuras (círculo, cuadrado,
+    triángulo, rectángulo, óvalo, pentágono — dejando rombo y hexágono
+    solo para difícil), dando `C(5,3)=10` combinaciones de distractores
+    por figura objetivo, de sobra para 10 rondas.
+- **Examen Final** (`examenmate1`, `genExamenMate1Round`, `rounds:20`): en
+  cada ronda elige al azar uno de los 4 generadores del año Y uno de los 3
+  niveles, para que una sola partida larga repase el curso completo en vez
+  de un solo tema — sin selector de dificultad propio (no tiene
+  `levels:true`), ya mezcla los 3 niveles internamente. Nuevo 5° nodo en
+  el mapa de módulos (`MATE_MODULES`/`MATE_POS`, `content/matematica.js`);
+  las coordenadas de los 4 nodos existentes se recalcularon para el nuevo
+  `height:500` (antes 360, en `gradeContent.js`) preservando su posición en
+  píxeles, y el 5° nodo reutiliza el mismo espaciado ya verificado sin
+  solapamiento de "Aprendo a Leer" (paso alternado 18%×500px=90px, paso
+  mismo lado del zigzag 36%×500px=180px).
+- Verificado: los 4 generadores × 3 niveles (más `undefined`, el caso sin
+  nivel) pasan fuzz de 300 iteraciones cada uno (sin `throw`, sin
+  `undefined`, sin opciones duplicadas, `correctValue` siempre presente) y
+  el examen pasa 300 iteraciones adicionales. Simulación real de 150
+  sesiones completas por combinación módulo×nivel (mismo algoritmo de
+  reintento/deduplicación de `drawMCRound()`, no solo fuzz estructural) más
+  150 sesiones del examen (20 rondas): **0 repeticiones en las 13
+  combinaciones**, incluyendo la que reveló el bug de Formas-fácil descrito
+  arriba. `MC_KEYS.length === Object.keys(MC_GAMES).length === 566` (565
+  previos + `examenmate1`, sin claves huérfanas). Probado visualmente en
+  el navegador: mapa de 5 nodos sin solapamiento, selector de dificultad
+  en "Contar"/"Sumar" (tarjetas Fácil/Normal/Difícil), una ronda jugada en
+  Contar-difícil (18 abejas, avance correcto), una ronda en Sumar-difícil
+  ("10 + 4" sin objetos), y el Examen Final navegando directo a la
+  pregunta 1/20 sin selector, mezclando Formas-difícil (pentágono vs.
+  hexágono como distractor real) y Comparar-difícil (11 vs. 1) en las
+  primeras 2 rondas, con sonido confirmado y sin errores de consola.
+
+Próximo paso (mismo pedido, pendiente de que el usuario revise este piloto
+antes de continuar): si el diseño se aprueba, replicar el mismo patrón
+(niveles + examen final) al resto de asignaturas de 1° básico primero, y
+luego decidir si se extiende a otros años/etapas — dado el tamaño real de
+la tarea (~700 módulos), seguirá el mismo criterio de "un curso/asignatura
+a la vez con su propio PR" ya establecido para el resto del proyecto.
 
 ### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

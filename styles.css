@@ -356,8 +356,13 @@
   }
   .toast.show{ opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* ---------- Difficulty cards (memorama) ---------- */
+  /* ---------- Difficulty cards (memorama + selector de nivel del motor MC) ---------- */
   .diff-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; }
+  /* Variante de 3 columnas (2026-08-09, selector Fácil/Normal/Difícil del
+     motor genérico) — en mobile angosto cae a 1 columna para no apretar
+     las 3 tarjetas. */
+  .diff-grid-3{ grid-template-columns:1fr 1fr 1fr; }
+  @media (max-width: 380px){ .diff-grid-3{ grid-template-columns:1fr; } }
   .locked-panel{
     background: var(--paper); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
     padding: 40px 24px; text-align:center; color: var(--ink-soft); font-weight:600; font-size:14px; margin-top:16px;
@@ -422,6 +427,8 @@
   .prompt-count{ font-size: 28px; line-height:1.6; letter-spacing:2px; margin: 8px 0; word-spacing:2px; }
   .mgroup{ display:inline-block; margin: 0 8px 6px; padding: 4px 8px; border-radius:10px; background:#F3FBF9; }
   .op-sign{ color: var(--coral); font-weight:800; font-family: var(--font-display); margin: 0 4px; }
+  /* Sumar en nivel difícil: ecuación en números sin objetos de apoyo. */
+  .op-num{ font-family: var(--font-display); font-weight:800; color: var(--ink); font-size: 1.3em; }
   .emoji-removed{ opacity: 0.25; text-decoration: line-through; }
   .prompt-hint{ font-size: 13px; color: var(--ink-soft); font-weight: 600; }
   .prompt-hint b{ color: var(--coral-dark); }

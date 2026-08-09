@@ -61,7 +61,7 @@ export const LENGUAJE_BY_GRADE = {
   8: { modules: LENGUAJE_MODULES_G8, pos: LENGUAJE_POS_G8, height: 440 },
 };
 export const MATE_BY_GRADE = {
-  1: { modules: MATE_MODULES, pos: MATE_POS, height: 360 },
+  1: { modules: MATE_MODULES, pos: MATE_POS, height: 500 },
   2: { modules: MATE_MODULES_G2, pos: MATE_POS_G2, height: 360 },
   3: { modules: MATE_MODULES_G3, pos: MATE_POS_G3, height: 700 },
   4: { modules: MATE_MODULES_G4, pos: MATE_POS_G4, height: 700 },

@@ -5,7 +5,7 @@
    ========================================================= */
 import { goTo, goBack, selectGrade, selectNivel, selectEpjaNivel, selectMedioGrade, showToast } from './state.js';
 import { speak } from './audio.js';
-import { answerMC, showMCRecurso } from './mcEngine.js';
+import { answerMC, showMCRecurso, selectMCLevel } from './mcEngine.js';
 import { tapSyllable } from './games/silabas.js';
 import { tapSecuencia } from './games/secuencia.js';
 import { initMemoryGame, flipCard } from './games/memorama.js';
@@ -31,6 +31,7 @@ window.showToast = showToast;
 window.speak = speak;
 window.answerMC = answerMC;
 window.showMCRecurso = showMCRecurso;
+window.selectMCLevel = selectMCLevel;
 window.closeRecurso = closeRecurso;
 window.tapSyllable = tapSyllable;
 window.tapSecuencia = tapSecuencia;

@@ -12,7 +12,7 @@ import {
   genNarrativaM2Round, genPoesiaM2Round, genTeatroSigloOroM2Round, genCuentoLatinoamericanoM2Round, genArgumentativoMediosM2Round, genOrtografiaM2Round,
 } from './content/lenguaje.js';
 import {
-  genCountRound, genAddRound, genCompareRound, genFormaRound, genSaltaRound, genMultiplicarRound,
+  genCountRound, genAddRound, genCompareRound, genFormaRound, genExamenMate1Round, genSaltaRound, genMultiplicarRound,
   genGeometria2Round, genMedicion2Round,
   genNumeros3Round, genOperaciones3Round, genMultiplicar3Round, genDividir3Round, genFracciones3Round,
   genPatrones3Round, genGeometria3Round, genMedicion3Round, genDatos3Round,
@@ -239,7 +239,7 @@ import { sfxCorrect, sfxWrong, sfxStreak } from './audio.js';
 import { awardXP } from './state.js';
 import { showExplain, showResult, showRecurso } from './rewards.js';
 
-export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','comparar','formas','combinaciones','salta','multiplicar',
+export const MC_KEYS = ['vocales','palabras','comprension','contar','sumar','comparar','formas','examenmate1','combinaciones','salta','multiplicar',
   'seresvivos','plantas','micuerpo','materiales','dianoche',
   'calendario','miidentidad','simbolos','mapas','comunidad',
   'colores','lineastexturas','materialesarte',
@@ -388,10 +388,11 @@ export const MC_GAMES = {
   vocales:       { title:'Vocales',          gen: genVocalRound,        rounds:10 },
   palabras:      { title:'Palabras',         gen: genPalabraRound,      rounds:10 },
   comprension:   { title:'Comprensión',      gen: genComprensionRound,  rounds:8  },
-  contar:        { title:'Contar',           gen: genCountRound,        rounds:10 },
-  sumar:         { title:'Sumas fáciles',    gen: genAddRound,          rounds:10 },
-  comparar:      { title:'¿Cuál es mayor?',  gen: genCompareRound,      rounds:10 },
-  formas:        { title:'Formas',           gen: genFormaRound,        rounds:10 },
+  contar:        { title:'Contar',           gen: genCountRound,        rounds:10, levels:true },
+  sumar:         { title:'Sumar',            gen: genAddRound,          rounds:10, levels:true },
+  comparar:      { title:'¿Cuál es mayor?',  gen: genCompareRound,      rounds:10, levels:true },
+  formas:        { title:'Formas',           gen: genFormaRound,        rounds:10, levels:true },
+  examenmate1:   { title:'Examen Final: Matemática 1° Básico', gen: genExamenMate1Round, rounds:20 },
   combinaciones: { title:'Combinaciones',    gen: genCombinacionRound,  rounds:10 },
   salta:         { title:'Salta y Cuenta',   gen: genSaltaRound,        rounds:10 },
   multiplicar:   { title:'Multiplicar',      gen: genMultiplicarRound,  rounds:10 },
@@ -959,9 +960,42 @@ export function renderMCScreen(){
   return '<div class="screen" id="mc-screen"></div>';
 }
 
+/* Niveles de dificultad (2026-08-09, pedido explícito del usuario: "que
+   comience una especie de niveles, facil, normal y dificil" — piloto en
+   Matemática 1° básico, mismo patrón de selector de dificultad ya usado en
+   Memorama -.diff-grid/.diff-card-, extendido a 3 opciones en vez de 2).
+   Un módulo opta por este mecanismo agregando `levels:true` a su entrada en
+   MC_GAMES; el resto de los ~560 módulos existentes no lo tienen, así que
+   `initMCGame()` se comporta exactamente igual que antes para ellos —
+   retrocompatible sin tocar ningún otro generador de la app. */
+function levelPickerHTML(cfg){
+  return '<p class="section-title">'+cfg.title+'</p>'+
+    '<p class="section-sub">Elige la dificultad</p>'+
+    '<div class="diff-grid diff-grid-3">'+
+      '<button class="diff-card" onclick="selectMCLevel(\'facil\')"><span class="diff-emoji">🙂</span><b>Fácil</b></button>'+
+      '<button class="diff-card" onclick="selectMCLevel(\'normal\')"><span class="diff-emoji">😊</span><b>Normal</b></button>'+
+      '<button class="diff-card" onclick="selectMCLevel(\'dificil\')"><span class="diff-emoji">🤓</span><b>Difícil</b></button>'+
+    '</div>';
+}
+
 export function initMCGame(key){
   const cfg = MC_GAMES[key];
-  mc = { key: key, cfg: cfg, round: 0, correct: 0, streak: 0, total: cfg.rounds, current: null, seenPrompts: new Set() };
+  if(cfg.levels){
+    mc = { key: key, cfg: cfg, nivel: null };
+    const el = document.getElementById('mc-screen');
+    if(el) el.innerHTML = levelPickerHTML(cfg);
+    return;
+  }
+  mc = { key: key, cfg: cfg, round: 0, correct: 0, streak: 0, total: cfg.rounds, current: null, seenPrompts: new Set(), nivel: null };
+  drawMCRound();
+}
+
+/* Se llama al tocar Fácil/Normal/Difícil en el selector de arriba — arranca
+   recién ahí la partida propiamente tal (rondas/racha/aciertos en cero),
+   con `nivel` reenviado a `cfg.gen(nivel)` en cada ronda. */
+export function selectMCLevel(nivel){
+  const cfg = mc.cfg;
+  mc = { key: mc.key, cfg: cfg, round: 0, correct: 0, streak: 0, total: cfg.rounds, current: null, seenPrompts: new Set(), nivel: nivel };
   drawMCRound();
 }
 
@@ -982,7 +1016,7 @@ function drawMCRound(){
      banco de contenido para ganar margen. */
   let r, sig, attempts = 0;
   do{
-    r = mc.cfg.gen();
+    r = mc.cfg.gen(mc.nivel);
     sig = roundSignature(r);
     attempts++;
   }while(mc.seenPrompts.has(sig) && attempts < 300);

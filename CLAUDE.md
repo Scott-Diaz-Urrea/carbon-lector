@@ -2534,7 +2534,7 @@ movimiento"):**
   pendiente de auditar en una sesión futura — este PR se acotó a
   "movimiento" a pedido explícito del usuario.
 
-### 1° Básico — ✅ completo (35 módulos, las 9 asignaturas aplicables)
+### 1° Básico — ✅ completo (36 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
 curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/1-basico. En cada asignatura
 quedaron algunos OA fuera del motor de opción múltiple (marcados abajo); estos son los
@@ -2554,8 +2554,9 @@ de opción múltiple sin una reinterpretación forzada.
   básico: niveles y examen final" más abajo) — OA1-06, OA8-11, OA13-15. Fuera: OA07
   (personajes históricos — riesgo de datos inexactos sin fuente adicional) y OA12
   (niños del mundo — riesgo de generalización cultural sin fuente).
-- **Artes Visuales** (3): Colores, Líneas y Texturas, Materiales de Arte — OA1-03.
-  Fuera: OA04-05 (apreciación/opinión personal sobre obras, subjetivo).
+- **Artes Visuales** (4): Colores, Líneas y Texturas, Materiales de Arte, Examen
+  Final (ver "Artes Visuales 1° básico: niveles y examen final" más abajo) —
+  OA1-03. Fuera: OA04-05 (apreciación/opinión personal sobre obras, subjetivo).
 - **Música** (2): Sonidos, Instrumentos — OA01, OA04. Fuera: OA02-03, OA05-07
   (expresión, repertorio, improvisación, presentación en vivo — dependen de audio real).
 - **Educación Física y Salud** (3): Cuerpo en Movimiento, Vida Activa y Saludable,
@@ -2848,6 +2849,52 @@ prompt que colapsa a texto fijo rompe la firma de ronda).
   también sin tira), y el Examen Final navegando directo a la pregunta
   1/20 sin selector (mezclando Convivencia y Comunidad/instituciones en
   la primera ronda), con sonido confirmado y sin errores de consola.
+
+**Artes Visuales 1° básico: niveles y examen final (2026-08-09):** mismo
+pedido ("Sigue con Artes Visuales"), mismo motor sin cambios. Mismo
+criterio preventivo ya usado en Historia: en los 3 generadores, el nombre
+del color/línea/textura/herramienta ya va escrito en texto junto al
+swatch/emoji, así que el visual es decorativo y se puede sacar en difícil
+sin dejar la pregunta sin sujeto.
+
+- **Diseño por rama:**
+  - **Colores**: rama cálido/frío (ya binaria) y rama de mezcla
+    (`Rojo + Amarillo = ?`) — ambas muestran el nombre del color en texto
+    junto al swatch, así que difícil solo saca el swatch/círculo de
+    color. Fácil reduce la rama de mezcla a 2 opciones (la binaria ya
+    tiene 2).
+  - **Líneas y Texturas**: ambas ramas usan `item.desc` (una oración
+    descriptiva completa, p. ej. "Una línea que va derecho, sin curvas.")
+    como la pista real — el emoji es decorativo. Fácil=2 opciones,
+    difícil sin emoji.
+  - **Materiales de Arte**: único módulo con una sola rama —
+    `item.uso` ya es la pregunta completa ("Sirve para cortar papel y
+    otros materiales."). Fácil=2 opciones, difícil sin emoji.
+- **Examen Final** (`examenartes1`, `genExamenArtes1Round`, `rounds:20`):
+  mezcla los 3 generadores + los 3 niveles al azar. Nuevo 4° nodo en el
+  mapa (`ARTES_MODULES`/`ARTES_POS`, `content/artes.js`) — a diferencia
+  de Lenguaje/Ciencias/Historia (que ya tenían 5 nodos y reutilizaron el
+  mismo `height:600`), Artes Visuales solo tenía 3 módulos originales
+  (`height:340`), así que se recalculó un layout propio de 4 nodos
+  (`height:480`) preservando la posición en píxeles de los 3 nodos
+  existentes y agregando un 4° con el mismo espaciado del zigzag
+  original (Δy≈102px) — verificado sin solapamiento con
+  `getBoundingClientRect()`.
+- Verificado: los 3 generadores × 3 niveles (+ `undefined`) pasan fuzz de
+  400 iteraciones cada uno (sin `throw`, sin `undefined`, sin opciones
+  duplicadas, `correctValue` siempre presente, "fácil" nunca con más de 3
+  opciones) y el examen pasa 400 iteraciones adicionales. Simulación real
+  de 150 sesiones completas por combinación (20 rondas para el examen):
+  **0 repeticiones en las 10 combinaciones**, sin necesitar ningún fix.
+  `MC_KEYS.length === Object.keys(MC_GAMES).length === 570` (569 previos
+  + `examenartes1`, sin claves huérfanas). Probado visualmente en el
+  navegador: mapa de 4 nodos sin solapamiento, selector de dificultad en
+  "Colores", una ronda jugada en Colores-difícil (sin el swatch, "El
+  color Amarillo. ¿Es un color cálido o frío?" → Cálido, avance correcto
+  de 1/10 a 2/10), y el Examen Final navegando directo a la pregunta
+  1/20 sin selector (mezclando Materiales de Arte-difícil, "Tijera" sin
+  emoji, en la primera ronda), con sonido confirmado (incluida una
+  respuesta incorrecta) y sin errores de consola.
 
 ### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

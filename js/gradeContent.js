@@ -111,7 +111,7 @@ export const MUSICA_BY_GRADE = {
   8: { modules: MUSICA_MODULES_G8, pos: MUSICA_POS_G8, height: 200 },
 };
 export const EDFISICA_BY_GRADE = {
-  1: { modules: EDFISICA_MODULES, pos: EDFISICA_POS, height: 340 },
+  1: { modules: EDFISICA_MODULES, pos: EDFISICA_POS, height: 480 },
   2: { modules: EDFISICA_MODULES_G2, pos: EDFISICA_POS_G2, height: 340 },
   3: { modules: EDFISICA_MODULES_G3, pos: EDFISICA_POS_G3, height: 260 },
   4: { modules: EDFISICA_MODULES_G4, pos: EDFISICA_POS_G4, height: 260 },

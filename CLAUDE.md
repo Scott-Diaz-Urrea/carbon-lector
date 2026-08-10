@@ -2534,7 +2534,7 @@ movimiento"):**
   pendiente de auditar en una sesión futura — este PR se acotó a
   "movimiento" a pedido explícito del usuario.
 
-### 1° Básico — ✅ completo (37 módulos, las 9 asignaturas aplicables)
+### 1° Básico — ✅ completo (38 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
 curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/1-basico. En cada asignatura
 quedaron algunos OA fuera del motor de opción múltiple (marcados abajo); estos son los
@@ -2560,9 +2560,10 @@ de opción múltiple sin una reinterpretación forzada.
 - **Música** (3): Sonidos, Instrumentos, Examen Final (ver "Música 1° básico:
   niveles y examen final" más abajo) — OA01, OA04. Fuera: OA02-03, OA05-07
   (expresión, repertorio, improvisación, presentación en vivo — dependen de audio real).
-- **Educación Física y Salud** (3): Cuerpo en Movimiento, Vida Activa y Saludable,
-  Juego Limpio y Seguridad — OA01-02, OA06-11. Fuera: OA03-05 (variedad de juegos,
-  entornos, expresión corporal — dependen de práctica física real).
+- **Educación Física y Salud** (4): Cuerpo en Movimiento, Vida Activa y Saludable,
+  Juego Limpio y Seguridad, Examen Final (ver "Educación Física 1° básico: niveles
+  y examen final" más abajo) — OA01-02, OA06-11. Fuera: OA03-05 (variedad de
+  juegos, entornos, expresión corporal — dependen de práctica física real).
 - **Orientación** (3): Mis Emociones, Autocuidado y Hábitos, Buena Convivencia —
   OA02, OA04-08. Fuera: OA01, OA03 (autodescripción y expresión de afecto, subjetivo).
 - **Tecnología** (1): Herramientas y Materiales — OA02-03. Fuera: OA01, OA04-06
@@ -2930,6 +2931,39 @@ opciones en fácil (ya está en el mínimo).
   Final navegando directo a la pregunta 1/20 sin selector (mezclando
   Sonidos-normal, con emoji, en la primera ronda), con sonido confirmado
   y sin errores de consola.
+
+**Educación Física 1° básico: niveles y examen final (2026-08-09):** mismo
+pedido ("Sigue con Educación Física"), mismo motor sin cambios. Mismo
+criterio ya usado en Música: `item.label` ya es la descripción/afirmación
+completa en texto (el emoji aquí es una animación `personActionSVG`),
+decorativo en los 3 generadores.
+
+- **Cuerpo en Movimiento**: único generador de este año con 3 opciones
+  fijas (Locomoción/Manipulación/Estabilidad) en vez de binario — fácil
+  reduce a 2 (la correcta + 1 distractor al azar de las otras 2), normal
+  mantiene las 3, difícil mantiene las 3 pero sin la animación.
+- **Vida Activa y Saludable / Juego Limpio y Seguridad**: ambos binarios
+  Verdadero/Falso (sin margen para reducir en fácil) — difícil sin emoji.
+- **Examen Final** (`examenedfisica1`, `genExamenEdfisica1Round`,
+  `rounds:20`): mezcla los 3 generadores + los 3 niveles al azar. Nuevo
+  4° nodo en el mapa (`EDFISICA_MODULES`/`EDFISICA_POS`,
+  `content/edfisica.js`) — mismo recálculo de 3 a 4 nodos (height
+  340→480) ya usado en Artes Visuales.
+- Verificado: los 3 generadores × 3 niveles (+ `undefined`) pasan fuzz de
+  400 iteraciones cada uno (sin `throw`, sin `undefined`, sin opciones
+  duplicadas, `correctValue` siempre presente, "fácil" nunca con más de 3
+  opciones) y el examen pasa 400 iteraciones adicionales. Simulación real
+  de 150 sesiones completas por combinación (20 rondas para el examen):
+  **0 repeticiones en las 10 combinaciones**, sin necesitar ningún fix.
+  `MC_KEYS.length === Object.keys(MC_GAMES).length === 572` (571 previos
+  + `examenedfisica1`, sin claves huérfanas). Probado visualmente en el
+  navegador: mapa de 4 nodos sin solapamiento, selector de dificultad en
+  "Cuerpo en Movimiento", una ronda jugada en Movimiento-difícil (sin
+  animación, "Atrapar una pelota. ¿Qué tipo de movimiento es?" →
+  Manipulación, avance correcto de 1/10 a 2/10), y el Examen Final
+  navegando directo a la pregunta 1/20 sin selector (mezclando Seguridad-
+  normal, con el ícono de casco, en la primera ronda), con sonido
+  confirmado y sin errores de consola.
 
 ### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

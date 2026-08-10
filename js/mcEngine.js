@@ -112,7 +112,7 @@ import {
   genPrevencionRiesgosM1Round, genBienestarVidaM1Round, genRelacionesRedesM1Round, genResolucionConflictosM1Round,
   genRiesgosRedesApoyoM2Round, genBienestarRelacionesM2Round, genProyeccionAcademicaM2Round,
 } from './content/orientacion.js';
-import { genHerramientasTecRound, genTecDigital2Round, genTecDigital3Round, genTecDigital4Round, genTecDigital5Round, genTecDigital6Round, genSolucionesTecnologicas7Round, genAnalisisSoluciones8Round, genEvolucionTecnologicaM1Round, genEscenariosTecnologicosM2Round } from './content/tecnologia.js';
+import { genHerramientasTecRound, genExamenTecnologia1Round, genTecDigital2Round, genTecDigital3Round, genTecDigital4Round, genTecDigital5Round, genTecDigital6Round, genSolucionesTecnologicas7Round, genAnalisisSoluciones8Round, genEvolucionTecnologicaM1Round, genEscenariosTecnologicosM2Round } from './content/tecnologia.js';
 import { genVocabularioIngles5Round, genLecturaSimple5Round, genVocabularioIngles6Round, genLecturaSimple6Round, genVocabularioAvanzado7Round, genLecturaIntermedia7Round, genFuncionesIdioma8Round, genLecturaAvanzada8Round, genGramaticaContextoM1Round, genVocabularioContextoM1Round, genComprensionLecturaM1Round, genGramaticaContextoM2Round, genVocabularioContextoM2Round, genComprensionLecturaM2Round } from './content/ingles.js';
 import {
   genPatronesRound, genClasificarRound, genPosicionRound, genCuantificadoresRound,
@@ -247,7 +247,7 @@ export const MC_KEYS = ['vocales','palabras','comprension','examenlengua1','cont
   'sonidos','instrumentos','examenmusica1',
   'movimiento','vidaactiva','seguridad','examenedfisica1',
   'emociones','autocuidado','convivencia','examenorientacion1',
-  'herramientastec',
+  'herramientastec','examentecnologia1',
   'patrones','clasificar','posicion','cuantificadores','secuenciatemporal',
   'contarveinte','sumarquitar','formascuerpos','medir',
   'silabasnt','escucharnt','vocabnt','letrasnt',
@@ -425,7 +425,8 @@ export const MC_GAMES = {
   autocuidado:   { title:'Autocuidado y Hábitos', gen: genAutocuidadoRound, rounds:10, levels:true },
   convivencia:   { title:'Buena Convivencia',gen: genConvivenciaRound,  rounds:10, levels:true },
   examenorientacion1: { title:'Examen Final: Orientación 1° Básico', gen: genExamenOrientacion1Round, rounds:20 },
-  herramientastec:{ title:'Herramientas y Materiales', gen: genHerramientasTecRound, rounds:10 },
+  herramientastec:{ title:'Herramientas y Materiales', gen: genHerramientasTecRound, rounds:10, levels:true },
+  examentecnologia1: { title:'Examen Final: Tecnología 1° Básico', gen: genExamenTecnologia1Round, rounds:20 },
   patrones:      { title:'Patrones',         gen: genPatronesRound,     rounds:8 },
   clasificar:    { title:'Clasificar',       gen: genClasificarRound,   rounds:8 },
   posicion:      { title:'¿Dónde está?',     gen: genPosicionRound,     rounds:8 },

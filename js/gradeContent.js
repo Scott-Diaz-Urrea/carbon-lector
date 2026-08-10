@@ -131,7 +131,7 @@ export const ORIENTACION_BY_GRADE = {
   8: { modules: ORIENTACION_MODULES_G8, pos: ORIENTACION_POS_G8, height: 440 },
 };
 export const TECNOLOGIA_BY_GRADE = {
-  1: { modules: TECNOLOGIA_MODULES, pos: TECNOLOGIA_POS, height: 200 },
+  1: { modules: TECNOLOGIA_MODULES, pos: TECNOLOGIA_POS, height: 260 },
   2: { modules: TECNOLOGIA_MODULES_G2, pos: TECNOLOGIA_POS_G2, height: 200 },
   3: { modules: TECNOLOGIA_MODULES_G3, pos: TECNOLOGIA_POS_G3, height: 200 },
   4: { modules: TECNOLOGIA_MODULES_G4, pos: TECNOLOGIA_POS_G4, height: 200 },

@@ -121,7 +121,7 @@ export const EDFISICA_BY_GRADE = {
   8: { modules: EDFISICA_MODULES_G8, pos: EDFISICA_POS_G8, height: 260 },
 };
 export const ORIENTACION_BY_GRADE = {
-  1: { modules: ORIENTACION_MODULES, pos: ORIENTACION_POS, height: 340 },
+  1: { modules: ORIENTACION_MODULES, pos: ORIENTACION_POS, height: 480 },
   2: { modules: ORIENTACION_MODULES_G2, pos: ORIENTACION_POS_G2, height: 360 },
   3: { modules: ORIENTACION_MODULES_G3, pos: ORIENTACION_POS_G3, height: 360 },
   4: { modules: ORIENTACION_MODULES_G4, pos: ORIENTACION_POS_G4, height: 360 },

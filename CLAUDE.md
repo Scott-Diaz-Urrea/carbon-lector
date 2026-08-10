@@ -2534,7 +2534,7 @@ movimiento"):**
   pendiente de auditar en una sesión futura — este PR se acotó a
   "movimiento" a pedido explícito del usuario.
 
-### 1° Básico — ✅ completo (38 módulos, las 9 asignaturas aplicables)
+### 1° Básico — ✅ completo (39 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
 curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/1-basico. En cada asignatura
 quedaron algunos OA fuera del motor de opción múltiple (marcados abajo); estos son los
@@ -2564,7 +2564,8 @@ de opción múltiple sin una reinterpretación forzada.
   Juego Limpio y Seguridad, Examen Final (ver "Educación Física 1° básico: niveles
   y examen final" más abajo) — OA01-02, OA06-11. Fuera: OA03-05 (variedad de
   juegos, entornos, expresión corporal — dependen de práctica física real).
-- **Orientación** (3): Mis Emociones, Autocuidado y Hábitos, Buena Convivencia —
+- **Orientación** (4): Mis Emociones, Autocuidado y Hábitos, Buena Convivencia,
+  Examen Final (ver "Orientación 1° básico: niveles y examen final" más abajo) —
   OA02, OA04-08. Fuera: OA01, OA03 (autodescripción y expresión de afecto, subjetivo).
 - **Tecnología** (1): Herramientas y Materiales — OA02-03. Fuera: OA01, OA04-06
   (diseño propio, evaluación de resultados, uso de software real — procesos prácticos).
@@ -2964,6 +2965,42 @@ decorativo en los 3 generadores.
   navegando directo a la pregunta 1/20 sin selector (mezclando Seguridad-
   normal, con el ícono de casco, en la primera ronda), con sonido
   confirmado y sin errores de consola.
+
+**Orientación 1° básico: niveles y examen final (2026-08-09):** mismo
+pedido ("Sigue con Orientación"), mismo motor sin cambios. `genEmocionesRound`
+tiene 2 ramas con roles distintos frente a su emoji, a diferencia del
+resto del año.
+
+- **Mis Emociones**: rama "cara → emoción" mantiene el emoji de la cara
+  SIEMPRE visible en los 3 niveles — ahí el emoji es la información real
+  (reconocer una expresión facial), no decorativo, así que quitarlo
+  rompería la pregunta sin dejar ningún sujeto. Rama "descripción →
+  emoción" usa un emoji genérico (💭, siempre el mismo sin importar el
+  ítem) puramente decorativo — ese sí se saca en difícil, sin ningún
+  riesgo de colapsar la firma de ronda porque el 💭 nunca contribuyó a la
+  variedad entre ítems. Ambas ramas: fácil=2 opciones, normal=4.
+- **Autocuidado y Hábitos / Buena Convivencia**: binarios Verdadero/Falso,
+  `item.label` ya es la afirmación completa — difícil sin emoji.
+- **Examen Final** (`examenorientacion1`, `genExamenOrientacion1Round`,
+  `rounds:20`): mezcla los 3 generadores + los 3 niveles al azar. Nuevo
+  4° nodo en el mapa (`ORIENTACION_MODULES`/`ORIENTACION_POS`,
+  `content/orientacion.js`) — mismo recálculo de 3 a 4 nodos (height
+  340→480) ya usado en Artes Visuales/Educación Física.
+- Verificado: los 3 generadores × 3 niveles (+ `undefined`) pasan fuzz de
+  400 iteraciones cada uno (sin `throw`, sin `undefined`, sin opciones
+  duplicadas, `correctValue` siempre presente, "fácil" nunca con más de 3
+  opciones) y el examen pasa 400 iteraciones adicionales. Simulación real
+  de 150 sesiones completas por combinación (20 rondas para el examen):
+  **0 repeticiones en las 10 combinaciones**, sin necesitar ningún fix.
+  `MC_KEYS.length === Object.keys(MC_GAMES).length === 573` (572 previos
+  + `examenorientacion1`, sin claves huérfanas). Probado visualmente en
+  el navegador: mapa de 4 nodos sin solapamiento, selector de dificultad
+  en "Mis Emociones", una ronda jugada en Emociones-difícil (rama
+  descripción sin el 💭 genérico → Cariño, avance correcto de 1/10 a
+  2/10, segunda ronda mostrando la rama de cara con el emoji siempre
+  visible), y el Examen Final navegando directo a la pregunta 1/20 sin
+  selector (mezclando Convivencia-normal en la primera ronda), con
+  sonido confirmado y sin errores de consola.
 
 ### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

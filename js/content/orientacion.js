@@ -5,8 +5,13 @@ export const ORIENTACION_MODULES = [
   {id:'emociones', label:'Mis Emociones', open:true, key:'emociones'},
   {id:'autocuidado', label:'Autocuidado y Hábitos', open:true, key:'autocuidado'},
   {id:'convivencia', label:'Buena Convivencia', open:true, key:'convivencia'},
+  {id:'examenorientacion1', label:'Examen Final', open:true, key:'examenorientacion1'},
 ];
-export const ORIENTACION_POS = [{x:24,y:80},{x:70,y:50},{x:24,y:20}];
+/* 4° nodo agregado (2026-08-09, "Examen Final") — las 3 posiciones
+   existentes se recalcularon para el nuevo height:480 (antes 340)
+   preservando su posición en píxeles, mismo criterio ya usado en Artes
+   Visuales/Música/Educación Física. */
+export const ORIENTACION_POS = [{x:24,y:86},{x:70,y:65},{x:24,y:43},{x:70,y:22}];
 
 /* ---------------- Contenido Orientación 1° Básico ----------------
    OA02 -> Mis Emociones · OA04,08 -> Autocuidado y Hábitos · OA05-07 -> Buena
@@ -174,12 +179,18 @@ export function genConvivencia2Round(){
   };
 }
 
-export function genEmocionesRound(){
+/* Niveles de dificultad (2026-08-09, mismo motor que el resto de 1°
+   básico). `nivel` opcional; sin argumento, comportamiento original. */
+export function genEmocionesRound(nivel){
   const recurso = 'Reconocer emociones (alegría, tristeza, miedo, enojo, sorpresa) en una cara o en una descripción es el primer paso para poder manejarlas bien. Cada emoción es una señal que tu cuerpo te manda: el miedo te avisa de un peligro, la tristeza aparece cuando pierdes algo importante, la alegría cuando algo te sale bien. Ninguna emoción es "mala" en sí misma — todas cumplen un propósito —, pero aprender a identificarlas con su nombre correcto te ayuda a explicar cómo te sientes a otras personas, en vez de solo actuar sin entender por qué.';
   const item = pick(EMOCIONES_ITEMS);
-  const distract = shuffle(EMOCIONES_ITEMS.filter(function(e){ return e.label!==item.label; })).slice(0,3).map(function(e){ return e.label; });
+  let distract = shuffle(EMOCIONES_ITEMS.filter(function(e){ return e.label!==item.label; })).map(function(e){ return e.label; });
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.label].concat(distract)).map(function(e){ return {label:e, value:e}; });
   if(Math.random()<0.5){
+    /* Acá el emoji de la cara ES la información real (reconocer una
+       expresión facial) — se mantiene siempre visible en los 3 niveles,
+       a diferencia de la otra rama, que usa un emoji genérico decorativo. */
     return {
       promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué emoción muestra esta cara?</p>',
       options: opts, correctValue: item.label, speakText: item.label, cols:4, kind:'word',
@@ -187,36 +198,48 @@ export function genEmocionesRound(){
       recurso: recurso,
     };
   }
+  const showGenericEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">💭</span><p class="prompt-hint">'+item.desc+' ¿Qué emoción es?</p>',
+    promptHTML: (showGenericEmoji ? '<span class="prompt-emoji">💭</span>' : '')+'<p class="prompt-hint">'+item.desc+' ¿Qué emoción es?</p>',
     options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
     explain: 'Esa descripción corresponde a la <b>'+item.label.toLowerCase()+'</b>.',
     recurso: recurso,
   };
 }
 
-export function genAutocuidadoRound(){
+export function genAutocuidadoRound(nivel){
   const recurso = 'El <b>autocuidado</b> son los hábitos que tú mismo puedes practicar todos los días para mantenerte sano, sin depender de que un adulto te lo recuerde siempre: lavarte las manos antes de comer, cepillarte los dientes, dormir temprano, y comer alimentos variados. Aprender estos hábitos desde pequeño es importante porque, con el tiempo, se convierten en algo automático que haces por costumbre — y esos hábitos que formas ahora son los que probablemente sigas practicando de adulto.';
+  const showEmoji = nivel !== 'dificil';
   const item = pick(AUTOCUIDADO_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
     recurso: recurso,
   };
 }
 
-export function genConvivenciaRound(){
+export function genConvivenciaRound(nivel){
   const recurso = 'La <b>buena convivencia</b> es el conjunto de conductas que hacen que un grupo (tu curso, tu familia, tus amigos) pueda estar junto sin problemas: compartir, esperar tu turno, pedir las cosas por favor, escuchar cuando otro habla, y resolver los conflictos hablando en vez de peleando. No es algo que "simplemente pasa" — se construye con pequeñas acciones diarias de cada persona del grupo. Reconocer qué conductas ayudan a la buena convivencia (y cuáles la dañan) te prepara para ser un buen compañero en cualquier grupo del que formes parte.';
+  const showEmoji = nivel !== 'dificil';
   const item = pick(CONVIVENCIA_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" (mismo patrón que el resto de 1° básico): mezcla los 3
+   módulos de Orientación 1° básico + los 3 niveles al azar. */
+export function genExamenOrientacion1Round(){
+  const gens = [genEmocionesRound, genAutocuidadoRound, genConvivenciaRound];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Orientación 3° Básico ----------------

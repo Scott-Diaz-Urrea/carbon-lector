@@ -101,7 +101,7 @@ export const ARTES_BY_GRADE = {
   8: { modules: ARTES_MODULES_G8, pos: ARTES_POS_G8, height: 200 },
 };
 export const MUSICA_BY_GRADE = {
-  1: { modules: MUSICA_MODULES, pos: MUSICA_POS, height: 280 },
+  1: { modules: MUSICA_MODULES, pos: MUSICA_POS, height: 420 },
   2: { modules: MUSICA_MODULES_G2, pos: MUSICA_POS_G2, height: 260 },
   3: { modules: MUSICA_MODULES_G3, pos: MUSICA_POS_G3, height: 260 },
   4: { modules: MUSICA_MODULES_G4, pos: MUSICA_POS_G4, height: 200 },

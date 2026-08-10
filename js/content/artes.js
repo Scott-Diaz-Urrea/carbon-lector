@@ -5,8 +5,13 @@ export const ARTES_MODULES = [
   {id:'colores', label:'Colores', open:true, key:'colores'},
   {id:'lineastexturas', label:'Líneas y Texturas', open:true, key:'lineastexturas'},
   {id:'materialesarte', label:'Materiales de Arte', open:true, key:'materialesarte'},
+  {id:'examenartes1', label:'Examen Final', open:true, key:'examenartes1'},
 ];
-export const ARTES_POS = [{x:24,y:80},{x:70,y:50},{x:24,y:20}];
+/* 4° nodo agregado (2026-08-09, "Examen Final") — las 3 posiciones
+   existentes se recalcularon para el nuevo height:480 (antes 340)
+   preservando su posición en píxeles, y el 4° nodo continúa el mismo
+   espaciado (Δy≈102px) del zigzag original. */
+export const ARTES_POS = [{x:24,y:86},{x:70,y:65},{x:24,y:43},{x:70,y:22}];
 
 /* ---------------- Contenido Artes Visuales 1° Básico ----------------
    OA02 -> Colores, Líneas y Texturas · OA01,03 -> Materiales de Arte.
@@ -120,26 +125,33 @@ export function genLineasColores2Round(){
   };
 }
 
-export function genColoresRound(){
+/* Niveles de dificultad (2026-08-09, mismo motor que el resto de 1°
+   básico). `nivel` opcional; sin argumento, comportamiento original. En
+   ambas ramas el nombre del color YA va escrito en texto (junto al
+   swatch), así que el swatch es decorativo — se puede sacar en difícil
+   sin perder información real, mismo criterio ya usado en Historia. */
+export function genColoresRound(nivel){
   const recurso = 'Los colores se agrupan en dos familias según la sensación que transmiten: los <b>cálidos</b> (rojo, naranjo, amarillo) recuerdan al sol y al fuego, y los <b>fríos</b> (azul, verde, celeste) recuerdan al agua y al cielo. Además, hay solo 3 colores <b>primarios</b> (rojo, amarillo, azul) que no se pueden formar mezclando otros colores, pero que sí sirven para crear todos los demás: mezclando dos primarios en distintas cantidades obtienes los colores <b>secundarios</b> (naranjo, verde, morado). Entender esto te ayuda a predecir qué color obtendrás antes de mezclar de verdad, y a elegir colores a propósito según lo que quieras transmitir en un dibujo.';
+  const showVisual = nivel !== 'dificil';
   if(Math.random()<0.5){
     const item = pick(COLORES_ITEMS);
     const opts = shuffle([{label:'Cálido', value:'Cálido'},{label:'Frío', value:'Frío'}]);
     const visual = '<div class="shape-display">'+colorSwatchSVG(item.label, 90)+'</div>';
     return {
-      promptHTML: visual+'<p class="prompt-hint">El color '+item.label+'. ¿Es un color cálido o frío?</p>',
+      promptHTML: (showVisual ? visual : '')+'<p class="prompt-hint">El color '+item.label+'. ¿Es un color cálido o frío?</p>',
       options: opts, correctValue: item.tipo, speakText: 'El color '+item.label, cols:2, panel:true,
       explain: 'El '+item.label.toLowerCase()+' es un color <b>'+item.tipo.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
   const item = pick(MEZCLAS_COLOR);
-  const distract = shuffle(['Naranjo','Verde','Morado','Rosado'].filter(function(c){ return c!==item.result; })).slice(0,3);
+  let distract = shuffle(['Naranjo','Verde','Morado','Rosado'].filter(function(c){ return c!==item.result; }));
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.result].concat(distract)).map(function(c){ return {label:c, value:c}; });
   const visual = '<div class="mix-row">'+
-    '<div class="mix-swatch">'+colorSwatchSVG(item.a,60)+'<span>'+item.a+'</span></div>'+
+    '<div class="mix-swatch">'+(showVisual ? colorSwatchSVG(item.a,60) : '')+'<span>'+item.a+'</span></div>'+
     '<span class="mix-plus">+</span>'+
-    '<div class="mix-swatch">'+colorSwatchSVG(item.b,60)+'<span>'+item.b+'</span></div>'+
+    '<div class="mix-swatch">'+(showVisual ? colorSwatchSVG(item.b,60) : '')+'<span>'+item.b+'</span></div>'+
   '</div>';
   return {
     promptHTML: visual+'<p class="prompt-hint">¿Qué color se forma al mezclarlos?</p>',
@@ -149,15 +161,17 @@ export function genColoresRound(){
   };
 }
 
-export function genLineasTexturasRound(){
+export function genLineasTexturasRound(nivel){
   const recurso = 'Las <b>líneas</b> (rectas, curvas, onduladas, en zigzag) son el elemento más básico de cualquier dibujo — todo lo que dibujas empieza con algún tipo de línea, y cada tipo transmite una sensación distinta (una línea recta se ve firme, una ondulada se ve suave y en movimiento). Las <b>texturas</b>, en cambio, describen cómo se ve o se sentiría al tocar la superficie de algo (áspero, suave, rugoso, liso), aunque solo lo estés mirando en un dibujo o una foto. Aprender a distinguir tipos de líneas y texturas te da un vocabulario para describir obras de arte y objetos reales con más precisión, en vez de solo decir "se ve bonito" o "se ve raro".';
+  const showEmoji = nivel !== 'dificil';
   if(Math.random()<0.5){
     const item = pick(LINEAS_ITEMS);
     const lineaPool = LINEAS_ITEMS.map(function(l){ return l.label; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
-    const distract = shuffle(lineaPool.filter(function(l){ return l!==item.label; }));
+    let distract = shuffle(lineaPool.filter(function(l){ return l!==item.label; }));
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3);
     const opts = shuffle([item.label].concat(distract)).map(function(l){ return {label:l, value:l}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+' ¿Qué tipo de línea es?</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.desc+' ¿Qué tipo de línea es?</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa es una línea <b>'+item.label.toLowerCase()+'</b>.',
       recurso: recurso,
@@ -165,27 +179,39 @@ export function genLineasTexturasRound(){
   }
   const item = pick(TEXTURAS_ITEMS);
   const texturaPool = TEXTURAS_ITEMS.map(function(t){ return t.label; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
-  const distract = shuffle(texturaPool.filter(function(t){ return t!==item.label; }));
+  let distract = shuffle(texturaPool.filter(function(t){ return t!==item.label; }));
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.label].concat(distract)).map(function(t){ return {label:t, value:t}; });
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+' ¿Qué textura es?</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.desc+' ¿Qué textura es?</p>',
     options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
     explain: 'Esa es una textura <b>'+item.label.toLowerCase()+'</b>.',
     recurso: recurso,
   };
 }
 
-export function genMaterialesArteRound(){
+export function genMaterialesArteRound(nivel){
   const recurso = 'Cada material y herramienta de arte sirve para un tipo de trabajo distinto: los lápices y crayones sirven para dibujar líneas y detalles finos, las témperas y pinceles sirven para pintar superficies grandes con color, y materiales moldeables como la plasticina sirven para crear formas en volumen (que se pueden tocar por todos lados), no solo en una hoja plana. Elegir la herramienta correcta para lo que quieres crear es una decisión importante en el arte, igual que un carpintero elige el martillo para clavar y la sierra para cortar — cada herramienta tiene un trabajo para el que fue pensada.';
+  const showEmoji = nivel !== 'dificil';
   const item = pick(HERRAMIENTAS_ARTE);
-  const distract = shuffle(HERRAMIENTAS_ARTE.filter(function(h){ return h.label!==item.label; })).slice(0,3).map(function(h){ return h.label; });
+  let distract = shuffle(HERRAMIENTAS_ARTE.filter(function(h){ return h.label!==item.label; })).map(function(h){ return h.label; });
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.label].concat(distract)).map(function(h){ return {label:h, value:h}; });
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.uso+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.uso+'</p>',
     options: opts, correctValue: item.label, speakText: item.uso, cols:4, kind:'word',
     explain: item.uso+' Esa herramienta es <b>'+item.label.toLowerCase()+'</b>.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" (mismo patrón que el resto de 1° básico): mezcla los 3
+   módulos de Artes Visuales 1° básico + los 3 niveles al azar. */
+export function genExamenArtes1Round(){
+  const gens = [genColoresRound, genLineasTexturasRound, genMaterialesArteRound];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Artes Visuales 3° Básico ----------------

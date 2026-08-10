@@ -2534,7 +2534,7 @@ movimiento"):**
   pendiente de auditar en una sesión futura — este PR se acotó a
   "movimiento" a pedido explícito del usuario.
 
-### 1° Básico — ✅ completo (36 módulos, las 9 asignaturas aplicables)
+### 1° Básico — ✅ completo (37 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
 curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/1-basico. En cada asignatura
 quedaron algunos OA fuera del motor de opción múltiple (marcados abajo); estos son los
@@ -2557,7 +2557,8 @@ de opción múltiple sin una reinterpretación forzada.
 - **Artes Visuales** (4): Colores, Líneas y Texturas, Materiales de Arte, Examen
   Final (ver "Artes Visuales 1° básico: niveles y examen final" más abajo) —
   OA1-03. Fuera: OA04-05 (apreciación/opinión personal sobre obras, subjetivo).
-- **Música** (2): Sonidos, Instrumentos — OA01, OA04. Fuera: OA02-03, OA05-07
+- **Música** (3): Sonidos, Instrumentos, Examen Final (ver "Música 1° básico:
+  niveles y examen final" más abajo) — OA01, OA04. Fuera: OA02-03, OA05-07
   (expresión, repertorio, improvisación, presentación en vivo — dependen de audio real).
 - **Educación Física y Salud** (3): Cuerpo en Movimiento, Vida Activa y Saludable,
   Juego Limpio y Seguridad — OA01-02, OA06-11. Fuera: OA03-05 (variedad de juegos,
@@ -2895,6 +2896,40 @@ sin dejar la pregunta sin sujeto.
   1/20 sin selector (mezclando Materiales de Arte-difícil, "Tijera" sin
   emoji, en la primera ronda), con sonido confirmado (incluida una
   respuesta incorrecta) y sin errores de consola.
+
+**Música 1° básico: niveles y examen final (2026-08-09):** mismo pedido
+("Sigue con Música"), mismo motor sin cambios. Los 2 generadores de este
+archivo son de una sola rama cada uno y ya binarios (2 opciones) —
+`item.label` ya es la descripción completa del sonido/instrumento, así
+que difícil solo saca el emoji decorativo; sin margen para reducir
+opciones en fácil (ya está en el mínimo).
+
+- **Sonidos**: par de cualidades opuestas (Agudo/Grave, Fuerte/Suave,
+  Largo/Corto) según el ítem — difícil sin emoji, deja solo la
+  descripción en texto (p. ej. "El sonido de un elefante").
+- **Instrumentos**: binario Convencional/No convencional — mismo
+  criterio, difícil sin emoji.
+- **Examen Final** (`examenmusica1`, `genExamenMusica1Round`,
+  `rounds:20`): mezcla los 2 generadores + los 3 niveles al azar. Nuevo
+  3° nodo en el mapa (`MUSICA_MODULES`/`MUSICA_POS`, `content/musica.js`)
+  — igual que Artes Visuales, Música solo tenía 2 módulos originales
+  (`height:280`), así que se recalculó un layout propio de 3 nodos
+  (`height:420`) preservando la posición en píxeles de los 2 nodos
+  existentes.
+- Verificado: los 2 generadores × 3 niveles (+ `undefined`) pasan fuzz de
+  400 iteraciones cada uno (sin `throw`, sin `undefined`, sin opciones
+  duplicadas, `correctValue` siempre presente) y el examen pasa 400
+  iteraciones adicionales. Simulación real de 150 sesiones completas por
+  combinación (20 rondas para el examen): **0 repeticiones en las 7
+  combinaciones**, sin necesitar ningún fix. `MC_KEYS.length ===
+  Object.keys(MC_GAMES).length === 571` (570 previos + `examenmusica1`,
+  sin claves huérfanas). Probado visualmente en el navegador: mapa de 3
+  nodos sin solapamiento, selector de dificultad en "Sonidos", una ronda
+  jugada en Sonidos-difícil (sin emoji, "El sonido de un elefante. ¿Cómo
+  es este sonido?" → Grave, avance correcto de 1/10 a 2/10), y el Examen
+  Final navegando directo a la pregunta 1/20 sin selector (mezclando
+  Sonidos-normal, con emoji, en la primera ronda), con sonido confirmado
+  y sin errores de consola.
 
 ### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

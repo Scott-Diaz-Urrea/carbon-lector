@@ -2,8 +2,12 @@ import { pick, shuffle } from '../utils.js';
 
 export const TECNOLOGIA_MODULES = [
   {id:'herramientastec', label:'Herramientas y Materiales', open:true, key:'herramientastec'},
+  {id:'examentecnologia1', label:'Examen Final', open:true, key:'examentecnologia1'},
 ];
-export const TECNOLOGIA_POS = [{x:48,y:50}];
+/* 2° nodo agregado (2026-08-09, "Examen Final") — mismo layout de 2 nodos
+   ya usado en otras asignaturas de años posteriores (ARTES_POS_G3/
+   MUSICA_POS_G3), height:260 en vez del 200 original de 1 solo nodo. */
+export const TECNOLOGIA_POS = [{x:30,y:70},{x:70,y:30}];
 
 /* ---------------- Contenido Tecnología 1° Básico ----------------
    OA02-03 -> Herramientas y Materiales. OA01,04,05,06 (diseño propio, evaluación
@@ -67,28 +71,44 @@ export function genTecDigital2Round(){
   };
 }
 
-export function genHerramientasTecRound(){
+/* Niveles de dificultad (2026-08-09, mismo motor que el resto de 1°
+   básico). `nivel` opcional; sin argumento, comportamiento original.
+   `item.uso` ya es la pregunta completa en texto — el emoji es
+   decorativo, se saca en difícil sin dejar la pregunta sin sujeto. */
+export function genHerramientasTecRound(nivel){
   const recurso = 'La <b>tecnología</b> es cualquier herramienta o material que las personas crean para resolver un problema o hacer una tarea más fácil — no es solo "cosas con pantalla", también son tecnología unas tijeras, un martillo o una regla. Cada <b>herramienta</b> está diseñada para un trabajo específico (cortar, medir, pegar), y cada <b>material</b> se elige según lo que necesitas construir (fuerte, flexible, liviano). Reconocer qué herramienta o material corresponde a cada uso es el primer paso para poder crear tus propios objetos tecnológicos más adelante, eligiendo lo correcto para cada tarea en vez de usar cualquier cosa al azar.';
+  const showEmoji = nivel !== 'dificil';
   if(Math.random()<0.5){
     const item = pick(HERRAMIENTAS_TEC);
-    const distract = shuffle(HERRAMIENTAS_TEC.filter(function(h){ return h.label!==item.label; })).slice(0,3).map(function(h){ return h.label; });
+    let distract = shuffle(HERRAMIENTAS_TEC.filter(function(h){ return h.label!==item.label; })).map(function(h){ return h.label; });
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3);
     const opts = shuffle([item.label].concat(distract)).map(function(h){ return {label:h, value:h}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.uso+'</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.uso+'</p>',
       options: opts, correctValue: item.label, speakText: item.uso, cols:4, kind:'word',
       explain: item.uso+' Esa herramienta es <b>'+item.label.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
   const item = pick(MATERIALES_TEC);
-  const distract = shuffle(MATERIALES_TEC.filter(function(m){ return m.label!==item.label; })).map(function(m){ return m.label; });
+  let distract = shuffle(MATERIALES_TEC.filter(function(m){ return m.label!==item.label; })).map(function(m){ return m.label; });
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.label].concat(distract)).map(function(m){ return {label:m, value:m}; });
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.uso+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.uso+'</p>',
     options: opts, correctValue: item.label, speakText: item.uso, cols:4, kind:'word',
     explain: item.uso+' Ese material es <b>'+item.label.toLowerCase()+'</b>.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" (mismo patrón que el resto de 1° básico): Tecnología solo
+   tiene 1 módulo compatible con el motor de opción múltiple, así que el
+   examen mezcla sus 2 ramas + los 3 niveles al azar (en vez de mezclar
+   varios generadores, como en el resto de asignaturas). */
+export function genExamenTecnologia1Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genHerramientasTecRound(nivel);
 }
 
 /* ---------------- Contenido Tecnología 3° Básico ----------------

@@ -2534,7 +2534,7 @@ movimiento"):**
   pendiente de auditar en una sesión futura — este PR se acotó a
   "movimiento" a pedido explícito del usuario.
 
-### 1° Básico — ✅ completo (39 módulos, las 9 asignaturas aplicables)
+### 1° Básico — ✅ completo (40 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
 curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/1-basico. En cada asignatura
 quedaron algunos OA fuera del motor de opción múltiple (marcados abajo); estos son los
@@ -2567,7 +2567,8 @@ de opción múltiple sin una reinterpretación forzada.
 - **Orientación** (4): Mis Emociones, Autocuidado y Hábitos, Buena Convivencia,
   Examen Final (ver "Orientación 1° básico: niveles y examen final" más abajo) —
   OA02, OA04-08. Fuera: OA01, OA03 (autodescripción y expresión de afecto, subjetivo).
-- **Tecnología** (1): Herramientas y Materiales — OA02-03. Fuera: OA01, OA04-06
+- **Tecnología** (2): Herramientas y Materiales, Examen Final (ver "Tecnología
+  1° básico: niveles y examen final" más abajo) — OA02-03. Fuera: OA01, OA04-06
   (diseño propio, evaluación de resultados, uso de software real — procesos prácticos).
 - **Religión** e **Inglés** no se incluyeron: Religión tiene variantes por credo que
   Mineduc no unifica en un solo documento curricular, e Inglés parte recién en 5° básico
@@ -3001,6 +3002,52 @@ resto del año.
   visible), y el Examen Final navegando directo a la pregunta 1/20 sin
   selector (mezclando Convivencia-normal en la primera ronda), con
   sonido confirmado y sin errores de consola.
+
+**Tecnología 1° básico: niveles y examen final (2026-08-09):** mismo
+pedido ("Sigue con Tecnología"), mismo motor sin cambios — **último
+módulo del rollout de 1° básico**. A diferencia de las 8 asignaturas
+anteriores, Tecnología solo tiene 1 módulo compatible con el motor de
+opción múltiple, así que el "Examen Final" mezcla las 2 ramas del único
+generador + los 3 niveles al azar, en vez de mezclar varios generadores
+distintos.
+
+- **Herramientas y Materiales**: 2 ramas (herramientas, 6 ítems;
+  materiales, 4 ítems), `item.uso` ya es la pregunta completa en texto —
+  fácil=2 opciones, normal=4 (o las que queden, en la rama de materiales
+  con solo 4 ítems totales normal ya usaba las 3 restantes), difícil sin
+  emoji.
+- **Examen Final** (`examentecnologia1`, `genExamenTecnologia1Round`,
+  `rounds:20`): llama al único generador con un nivel al azar. Nuevo 2°
+  nodo en el mapa (`TECNOLOGIA_MODULES`/`TECNOLOGIA_POS`,
+  `content/tecnologia.js`) — Tecnología pasó de 1 a 2 nodos (mismo layout
+  de 2 nodos ya usado en otras asignaturas de años posteriores,
+  `height:200→260`).
+- Verificado: el generador × 3 niveles (+ `undefined`) pasa fuzz de 400
+  iteraciones cada uno (sin `throw`, sin `undefined`, sin opciones
+  duplicadas, `correctValue` siempre presente, "fácil" nunca con más de 3
+  opciones) y el examen pasa 400 iteraciones adicionales. Simulación real
+  de 150 sesiones completas por nivel (20 rondas para el examen): **0
+  repeticiones en las 4 combinaciones**, sin necesitar ningún fix.
+  `MC_KEYS.length === Object.keys(MC_GAMES).length === 574` (573 previos
+  + `examentecnologia1`, sin claves huérfanas). Probado visualmente en el
+  navegador: mapa de 2 nodos sin solapamiento, selector de dificultad en
+  "Herramientas y Materiales", una ronda jugada en Herramientas-difícil
+  (sin emoji, "Sirve para unir y pegar materiales." → Pegamento, avance
+  correcto de 1/10 a 2/10, segunda ronda mostrando la rama de materiales),
+  y el Examen Final navegando directo a la pregunta 1/20 sin selector, con
+  sonido confirmado y sin errores de consola.
+
+**Con esto, el rollout de niveles Fácil/Normal/Difícil + Examen Final
+queda 100% completo en 1° básico: las 9 asignaturas (Matemática,
+Lenguaje, Ciencias Naturales, Historia, Artes Visuales, Música, Educación
+Física, Orientación, Tecnología) tienen selector de dificultad y un
+submódulo de examen final que mezcla todo el año.** Próximo paso (mismo
+pedido original del usuario, "que comience una especie de niveles... y
+un submódulo de exámenes por cada asignatura"): definir con el usuario si
+se replica el mismo patrón en 2°-8° básico (y en qué orden), dado el
+tamaño real de esa tarea (~500 módulos restantes) — seguirá el mismo
+criterio de "un curso/asignatura a la vez con su propio PR" ya usado en
+todo este rollout.
 
 ### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

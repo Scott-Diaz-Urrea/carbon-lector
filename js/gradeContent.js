@@ -81,7 +81,7 @@ export const CIENCIAS_BY_GRADE = {
   8: { modules: CIENCIAS_MODULES_G8, pos: CIENCIAS_POS_G8, height: 480 },
 };
 export const HISTORIA_BY_GRADE = {
-  1: { modules: HISTORIA_MODULES, pos: HISTORIA_POS, height: 420 },
+  1: { modules: HISTORIA_MODULES, pos: HISTORIA_POS, height: 600 },
   2: { modules: HISTORIA_MODULES_G2, pos: HISTORIA_POS_G2, height: 360 },
   3: { modules: HISTORIA_MODULES_G3, pos: HISTORIA_POS_G3, height: 340 },
   4: { modules: HISTORIA_MODULES_G4, pos: HISTORIA_POS_G4, height: 340 },

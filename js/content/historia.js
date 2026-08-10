@@ -7,8 +7,12 @@ export const HISTORIA_MODULES = [
   {id:'simbolos', label:'Símbolos de Chile', open:true, key:'simbolos'},
   {id:'mapas', label:'Mapas de Chile', open:true, key:'mapas'},
   {id:'comunidad', label:'Convivencia y Comunidad', open:true, key:'comunidad'},
+  {id:'examenhistoria1', label:'Examen Final', open:true, key:'examenhistoria1'},
 ];
-export const HISTORIA_POS = [{x:22,y:88},{x:68,y:70},{x:24,y:52},{x:70,y:34},{x:24,y:16}];
+/* 6° nodo agregado (2026-08-09, "Examen Final") — mismo espaciado
+   height:600 ya verificado sin solapamiento en Matemática/Lenguaje/
+   Ciencias 1° básico. */
+export const HISTORIA_POS = [{x:22,y:92},{x:68,y:76},{x:24,y:60},{x:70,y:44},{x:24,y:28},{x:70,y:12}];
 
 /* ---------------- Contenido Historia, Geografía y Cs. Sociales 1° Básico ----------------
    Basado en OA del Decreto 439/2012 (curriculumnacional.cl):
@@ -243,16 +247,30 @@ function calStripHTML(list, todayIdx){
   }).join('')+'</div>';
 }
 
-export function genCalendarioRound(){
+/* Niveles de dificultad (2026-08-09, mismo motor que Matemática/Lenguaje/
+   Ciencias 1° básico). `nivel` opcional; sin argumento, comportamiento
+   original. En los 5 generadores de este archivo el texto de la pregunta
+   (día/mes/item.q/item.desc/item.label) SIEMPRE queda visible sin
+   importar el nivel — solo se alterna el apoyo visual (tira de
+   calendario, emoji) y la cantidad de opciones — evitando a propósito el
+   bug ya encontrado en Ciencias Naturales (un prompt que colapsa a texto
+   fijo rompe la firma de ronda y garantiza repetición). */
+export function genCalendarioRound(nivel){
   const recurso = 'El calendario organiza el tiempo en unidades que siempre se repiten en el mismo orden: la semana tiene 7 días (lunes a domingo) y el año tiene 12 meses (enero a diciembre), y ambos ciclos vuelven a empezar apenas terminan — después de domingo viene lunes otra vez, y después de diciembre viene enero otra vez. Saber qué día o mes viene después te ayuda a ubicarte en el tiempo: a planificar cuándo es tu cumpleaños, cuándo tienes una prueba, o cuánto falta para las vacaciones. Esta habilidad de "orientarse en el tiempo" es la base para entender cosas más complejas más adelante, como leer una fecha o entender cuánto tiempo pasó entre dos eventos.';
+  /* La tira visual ya muestra la secuencia completa con un "?" en la
+     posición de la respuesta — un apoyo fuerte que se saca en difícil,
+     dejando solo la oración de texto (que igual nombra el día/mes de
+     hoy, así que sigue siendo resoluble de memoria). */
+  const showStrip = nivel !== 'dificil';
   if(Math.random()<0.5){
     const idx = randInt(0, DIAS_SEMANA.length-1);
     const dia = DIAS_SEMANA[idx];
     const next = DIAS_SEMANA[(idx+1)%DIAS_SEMANA.length];
-    const distract = shuffle(DIAS_SEMANA.filter(function(d){ return d!==next && d!==dia; })).slice(0,3);
+    let distract = shuffle(DIAS_SEMANA.filter(function(d){ return d!==next && d!==dia; }));
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3);
     const opts = shuffle([next].concat(distract)).map(function(d){ return {label:d, value:d}; });
     return {
-      promptHTML: calStripHTML(DIAS_SEMANA, idx)+'<p class="prompt-hint">Si hoy es <b>'+dia+'</b>, ¿qué día viene después?</p>',
+      promptHTML: (showStrip ? calStripHTML(DIAS_SEMANA, idx) : '')+'<p class="prompt-hint">Si hoy es <b>'+dia+'</b>, ¿qué día viene después?</p>',
       options: opts, correctValue: next, speakText: '¿Qué día viene después de '+dia+'?', cols:4, kind:'word',
       explain: 'Después de <b>'+dia+'</b> viene <b>'+next+'</b>.',
       recurso: recurso,
@@ -261,21 +279,38 @@ export function genCalendarioRound(){
   const idx = randInt(0, MESES_ANIO.length-1);
   const mes = MESES_ANIO[idx];
   const next = MESES_ANIO[(idx+1)%MESES_ANIO.length];
-  const distract = shuffle(MESES_ANIO.filter(function(m){ return m!==next && m!==mes; })).slice(0,3);
+  let distract = shuffle(MESES_ANIO.filter(function(m){ return m!==next && m!==mes; }));
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([next].concat(distract)).map(function(m){ return {label:m, value:m}; });
   return {
-    promptHTML: calStripHTML(MESES_ANIO, idx)+'<p class="prompt-hint">Si estamos en <b>'+mes+'</b>, ¿qué mes viene después?</p>',
+    promptHTML: (showStrip ? calStripHTML(MESES_ANIO, idx) : '')+'<p class="prompt-hint">Si estamos en <b>'+mes+'</b>, ¿qué mes viene después?</p>',
     options: opts, correctValue: next, speakText: '¿Qué mes viene después de '+mes+'?', cols:4, kind:'word',
     explain: 'Después de <b>'+mes+'</b> viene <b>'+next+'</b>.',
     recurso: recurso,
   };
 }
 
-export function genMiIdentidadRound(){
+export function genMiIdentidadRound(nivel){
   const recurso = 'Tu identidad incluye la <b>rutina diaria</b> que sigues (despertar, ir al colegio, jugar, dormir) y la <b>familia</b> que te rodea, con sus distintos integrantes y roles. Reconocer el orden de tu rutina — qué pasa primero y qué pasa después — te ayuda a entender el paso del tiempo dentro de un mismo día, igual que aprender los días de la semana te ayuda a entender el tiempo en general. Y reconocer a los integrantes de una familia y cómo se llaman (mamá, papá, hermanos, abuelos) te ayuda a entender que cada persona en tu vida tiene un rol distinto, y que las familias pueden estar formadas de maneras distintas mientras se cuiden entre sí.';
   if(Math.random()<0.5){
-    let a = pick(RUTINA_DIARIA), b = pick(RUTINA_DIARIA);
-    while(b.label === a.label) b = pick(RUTINA_DIARIA);
+    /* Acá el emoji va DENTRO de las opciones (no del prompt), así que no
+       hay nada que ocultar en difícil — en su lugar, difícil elige un par
+       de actividades consecutivas en la rutina (más difícil de ordenar) y
+       fácil fuerza una diferencia grande y obvia, mismo criterio que la
+       comparación de tamaños de fruta en Ciencias. */
+    let a, b;
+    if(nivel==='facil'){
+      a = pick(RUTINA_DIARIA);
+      const far = RUTINA_DIARIA.filter(function(r){ return r.label!==a.label && Math.abs(r.order-a.order)>=3; });
+      b = far.length ? pick(far) : pick(RUTINA_DIARIA.filter(function(r){ return r.label!==a.label; }));
+    }else if(nivel==='dificil'){
+      a = pick(RUTINA_DIARIA);
+      const close = RUTINA_DIARIA.filter(function(r){ return r.label!==a.label && Math.abs(r.order-a.order)===1; });
+      b = close.length ? pick(close) : pick(RUTINA_DIARIA.filter(function(r){ return r.label!==a.label; }));
+    }else{
+      a = pick(RUTINA_DIARIA); b = pick(RUTINA_DIARIA);
+      while(b.label === a.label) b = pick(RUTINA_DIARIA);
+    }
     const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
     return {
       promptHTML: '<p class="prompt-hint">¿Qué pasa primero en tu día?</p>',
@@ -284,62 +319,75 @@ export function genMiIdentidadRound(){
       recurso: recurso,
     };
   }
+  const showEmoji = nivel !== 'dificil';
   const item = pick(FAMILIA_BANK);
-  const distract = shuffle(FAMILIA_OPTS_POOL.filter(function(w){ return w!==item.correct; })).slice(0,3);
+  let distract = shuffle(FAMILIA_OPTS_POOL.filter(function(w){ return w!==item.correct; }));
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.correct].concat(distract)).map(function(w){ return {label:w, value:w}; });
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.q+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.q+'</p>',
     options: opts, correctValue: item.correct, speakText: item.q, cols:4, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correct+'</b>.',
     recurso: recurso,
   };
 }
 
-export function genSimbolosRound(){
+export function genSimbolosRound(nivel){
   const recurso = 'Los <b>símbolos patrios</b> (la bandera, el escudo, el himno) representan a todo un país y a la gente que vive en él — por eso se les trata con respeto especial, como cantarlo de pie o izarla en fechas importantes. Además de esos símbolos oficiales, cada país tiene elementos "típicos" que lo representan culturalmente: comidas, bailes, animales o paisajes que la gente reconoce como parte de su identidad, aunque no sean un símbolo oficial. Reconocer qué es realmente típico de Chile (y qué pertenece a otro país o cultura) te ayuda a entender mejor tu propia identidad como parte de una comunidad más grande, el país donde vives.';
   const item = pick(CHILE_TIPICO);
   const opts = shuffle([{label:'Típico de Chile', value:true},{label:'No es de Chile', value:false}]);
   const visual = item.svg ? '<div class="shape-display">'+chileFlagSVG(90)+'</div>' : '<span class="prompt-emoji">'+item.emoji+'</span>';
+  /* Ya binario (2 opciones, no se puede reducir más en fácil) — item.label
+     es una descripción completa ("El cóndor, ave representativa de
+     Chile"), así que el visual es decorativo y se puede sacar en difícil
+     sin perder información real. */
+  const showVisual = nivel !== 'dificil';
   return {
-    promptHTML: visual+'<p class="prompt-hint">'+item.label+'</p>',
+    promptHTML: (showVisual ? visual : '')+'<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.tipico, speakText: item.label, cols:2, panel:true,
     explain: item.tipico ? item.label+' <b>es típico o representativo de Chile</b>.' : item.label+' <b>no es de Chile</b>, es de otro país o cultura.',
     recurso: recurso,
   };
 }
 
-export function genMapasRound(){
+export function genMapasRound(nivel){
   const recurso = 'Un <b>paisaje</b> es cómo se ve un lugar según su geografía: montañas, valles, playas, desiertos o bosques se distinguen por su forma, su clima y lo que crece o vive ahí. Chile tiene paisajes muy distintos de norte a sur (desde el desierto en el norte hasta glaciares en el sur) porque es un país muy largo y angosto. Un <b>mapa</b> es un dibujo que representa estos lugares desde arriba, y te ayuda a entender dónde está cada cosa y cómo se relacionan entre sí, aunque nunca hayas estado ahí en persona. Aprender a reconocer paisajes y datos básicos de la geografía de tu país es el primer paso para poder leer mapas más complejos en el futuro.';
+  const showEmoji = nivel !== 'dificil';
   if(Math.random()<0.5){
     const item = pick(PAISAJES_CHILE);
-    const distract = shuffle(PAISAJES_CHILE.filter(function(p){ return p.label!==item.label; })).slice(0,3).map(function(p){ return p.label; });
+    let distract = shuffle(PAISAJES_CHILE.filter(function(p){ return p.label!==item.label; })).map(function(p){ return p.label; });
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3);
     const opts = shuffle([item.label].concat(distract)).map(function(p){ return {label:p, value:p}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa descripción corresponde a una <b>'+item.label.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
   const item = pick(CHILE_GEO_FACTS);
-  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let distract = item.opts;
+  if(nivel==='facil') distract = shuffle(distract.slice()).slice(0,1);
+  const opts = shuffle([item.correct].concat(distract)).map(function(o){ return {label:o, value:o}; });
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.q+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.q+'</p>',
     options: opts, correctValue: item.correct, speakText: item.q, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correct+'</b>.',
     recurso: recurso,
   };
 }
 
-export function genComunidadRound(){
+export function genComunidadRound(nivel){
   const recurso = 'Una <b>comunidad</b> funciona porque distintas personas cumplen distintos roles que se necesitan entre sí: los oficios (como bombero, doctor o profesor) son trabajos que ayudan a todos, y las instituciones (como la posta, la escuela o los bomberos) son lugares organizados donde esos oficios se ponen al servicio de la comunidad completa, no solo de una persona. Además de esos roles, una buena comunidad necesita <b>normas de convivencia</b> — reglas simples como saludar, compartir, esperar el turno o pedir las cosas por favor — que ayudan a que todos puedan vivir juntos sin problemas. Reconocer qué oficio hace cada trabajo, para qué sirve cada institución, y qué conducta ayuda a la buena convivencia te prepara para ser un buen integrante de tu comunidad.';
+  const showEmoji = nivel !== 'dificil';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(OFICIOS_BANK);
-    const distract = shuffle(OFICIOS_BANK.filter(function(o){ return o.label!==item.label; })).slice(0,3).map(function(o){ return o.label; });
+    let distract = shuffle(OFICIOS_BANK.filter(function(o){ return o.label!==item.label; })).map(function(o){ return o.label; });
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3);
     const opts = shuffle([item.label].concat(distract)).map(function(o){ return {label:o, value:o}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa es la labor de un(a) <b>'+item.label.toLowerCase()+'</b>.',
       recurso: recurso,
@@ -347,10 +395,11 @@ export function genComunidadRound(){
   }
   if(roll<0.67){
     const item = pick(INSTITUCIONES_BANK);
-    const distract = shuffle(INSTITUCIONES_BANK.filter(function(i){ return i.label!==item.label; })).slice(0,3).map(function(i){ return i.label; });
+    let distract = shuffle(INSTITUCIONES_BANK.filter(function(i){ return i.label!==item.label; })).map(function(i){ return i.label; });
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3);
     const opts = shuffle([item.label].concat(distract)).map(function(i){ return {label:i, value:i}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.label, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa es la función de <b>'+item.label.toLowerCase()+'</b>.',
       recurso: recurso,
@@ -359,11 +408,20 @@ export function genComunidadRound(){
   const item = pick(NORMAS_CONVIVENCIA);
   const opts = shuffle([{label:'Buena convivencia', value:true},{label:'No está bien', value:false}]);
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.bueno, speakText: item.label, cols:2, panel:true,
     explain: item.bueno ? item.label+' <b>ayuda a la buena convivencia</b>.' : item.label+' <b>no ayuda a la buena convivencia</b>.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" (mismo patrón que Matemática/Lenguaje/Ciencias 1° básico):
+   mezcla los 5 módulos de Historia 1° básico + los 3 niveles al azar. */
+export function genExamenHistoria1Round(){
+  const gens = [genCalendarioRound, genMiIdentidadRound, genSimbolosRound, genMapasRound, genComunidadRound];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Historia, Geografía y Cs. Sociales 3° Básico ----------------

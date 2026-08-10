@@ -2534,7 +2534,7 @@ movimiento"):**
   pendiente de auditar en una sesión futura — este PR se acotó a
   "movimiento" a pedido explícito del usuario.
 
-### 1° Básico — ✅ completo (34 módulos, las 9 asignaturas aplicables)
+### 1° Básico — ✅ completo (35 módulos, las 9 asignaturas aplicables)
 Todo el contenido está basado en OA reales del Decreto 439/2012, extraídos de
 curriculumnacional.cl/curriculum/1o-6o-basico/<asignatura>/1-basico. En cada asignatura
 quedaron algunos OA fuera del motor de opción múltiple (marcados abajo); estos son los
@@ -2549,8 +2549,9 @@ de opción múltiple sin una reinterpretación forzada.
 - **Ciencias Naturales** (6): Seres Vivos, Plantas, Mi Cuerpo, Materiales, Día y Noche,
   Examen Final (ver "Ciencias Naturales 1° básico: niveles y examen final" más abajo) —
   OA1-OA4, OA6-OA9, OA11-OA12. Fuera: OA5, OA10, las 4 OAH.
-- **Historia, Geografía y Cs. Sociales** (5): Calendario, Mi Identidad, Símbolos de
-  Chile, Mapas de Chile, Convivencia y Comunidad — OA1-06, OA8-11, OA13-15. Fuera: OA07
+- **Historia, Geografía y Cs. Sociales** (6): Calendario, Mi Identidad, Símbolos de
+  Chile, Mapas de Chile, Convivencia y Comunidad, Examen Final (ver "Historia 1°
+  básico: niveles y examen final" más abajo) — OA1-06, OA8-11, OA13-15. Fuera: OA07
   (personajes históricos — riesgo de datos inexactos sin fuente adicional) y OA12
   (niños del mundo — riesgo de generalización cultural sin fuente).
 - **Artes Visuales** (3): Colores, Líneas y Texturas, Materiales de Arte — OA1-03.
@@ -2787,6 +2788,66 @@ generador, no solo a una.
   emoji), y el Examen Final navegando directo a la pregunta 1/20 sin
   selector (mezclando Día y Noche/Estaciones en la primera ronda), con
   sonido confirmado y sin errores de consola.
+
+**Historia 1° básico: niveles y examen final (2026-08-09):** mismo pedido
+("procede"), mismo motor sin cambios. A diferencia de Ciencias Naturales
+(donde varios ítems solo se identifican por emoji), en los 5 generadores
+de este archivo el texto de la pregunta (día/mes, `item.q`, `item.desc`,
+`item.label`) siempre incluye la información real dentro de la propia
+oración — el emoji/visual es decorativo en casi todos los casos — así que
+el diseño evitó desde el inicio el bug ya encontrado en Ciencias (un
+prompt que colapsa a texto fijo rompe la firma de ronda).
+
+- **Diseño por rama:**
+  - **Calendario**: ambas ramas (día siguiente / mes siguiente) muestran
+    una tira visual (`calStripHTML`) con la secuencia completa y un "?"
+    en la posición de la respuesta — un apoyo fuerte. Difícil la saca,
+    dejando solo la oración ("Si hoy es **Domingo**, ¿qué día viene
+    después?"), que sigue nombrando el día/mes actual en negrita, así que
+    sigue siendo resoluble de memoria sin la tira. Fácil reduce a 2
+    opciones.
+  - **Mi Identidad**: rama "rutina diaria" tiene el emoji DENTRO de las
+    opciones (no del prompt, mismo patrón que la comparación de tamaños
+    de fruta en Ciencias), así que no hay nada que ocultar — en su lugar,
+    difícil elige un par de actividades consecutivas en el orden del día
+    (más difícil de ordenar) y fácil fuerza una diferencia grande y obvia
+    de posiciones. Rama "familia" (item.q ya es la pregunta completa):
+    fácil=2 opciones, difícil sin emoji.
+  - **Símbolos de Chile**: ya binario (2 opciones, sin cambio de
+    cantidad); difícil saca el visual (bandera SVG o emoji) porque
+    `item.label` ya es una descripción completa ("El cóndor, ave
+    representativa de Chile").
+  - **Mapas de Chile**: rama "paisaje" (fácil=2 opciones, difícil sin
+    emoji, `item.desc` da la pista real) y rama "dato geográfico"
+    (`CHILE_GEO_FACTS`, solo 2 ítems posibles — pool ya pequeño desde
+    antes de este cambio, no se amplió por no ser parte del alcance de
+    esta tarea puntual; fácil=2 opciones, difícil sin emoji).
+  - **Convivencia y Comunidad**: sus 3 ramas (oficios/instituciones/
+    normas) siguen el mismo patrón — fácil=2 opciones en las dos primeras
+    (la tercera ya es binaria), difícil sin emoji en las 3 (`item.desc`/
+    `item.label` ya son el texto completo de la pregunta).
+- **Examen Final** (`examenhistoria1`, `genExamenHistoria1Round`,
+  `rounds:20`): mezcla los 5 generadores + los 3 niveles al azar. Nuevo
+  6° nodo en el mapa (`HISTORIA_MODULES`/`HISTORIA_POS`,
+  `content/historia.js`), mismo `height:600` y espaciado ya verificado
+  sin solapamiento en los 3 pilotos anteriores.
+- Verificado: los 5 generadores × 3 niveles (+ `undefined`) pasan fuzz de
+  400 iteraciones cada uno (sin `throw`, sin `undefined`, sin opciones
+  duplicadas, `correctValue` siempre presente, "fácil" nunca con más de 3
+  opciones) y el examen pasa 400 iteraciones adicionales. Simulación real
+  de 150 sesiones completas por combinación (20 rondas para el examen):
+  **0 repeticiones en las 16 combinaciones**, sin necesitar ningún fix
+  esta vez — el diseño de "mantener siempre el texto visible" evitó por
+  completo la categoría de bug encontrada en Ciencias. `MC_KEYS.length
+  === Object.keys(MC_GAMES).length === 569` (568 previos +
+  `examenhistoria1`, sin claves huérfanas). Probado visualmente en el
+  navegador: mapa de 6 nodos sin solapamiento, selector de dificultad en
+  "Calendario", una ronda jugada en Calendario-difícil (sin la tira
+  visual, "Si hoy es Domingo, ¿qué día viene después?" → Lunes, avance
+  correcto de 1/10 a 2/10, segunda ronda mostrando la rama de meses
+  también sin tira), y el Examen Final navegando directo a la pregunta
+  1/20 sin selector (mezclando Convivencia y Comunidad/instituciones en
+  la primera ronda), con sonido confirmado y sin errores de consola.
 
 ### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

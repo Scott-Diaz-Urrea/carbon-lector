@@ -93,8 +93,9 @@ export const EDFISICA_MODULES_G2 = [
   {id:'cuerporesponde2', label:'Mi Cuerpo Responde', open:true, key:'cuerporesponde2'},
   {id:'vidaactiva2', label:'Vida Activa y Saludable II', open:true, key:'vidaactiva2'},
   {id:'liderazgo2', label:'Juego en Equipo y Liderazgo', open:true, key:'liderazgo2'},
+  {id:'examenedfisica2', label:'Examen Final', open:true, key:'examenedfisica2'},
 ];
-export const EDFISICA_POS_G2 = [{x:70,y:80},{x:24,y:50},{x:70,y:20}];
+export const EDFISICA_POS_G2 = [{x:70,y:84},{x:24,y:60},{x:70,y:35},{x:24,y:11}];
 
 /* Los 3 bancos de esta sección se ampliaron de 6 a 12 ítems cada uno (antes
    garantizaban una repetición en cada partida de rounds:10 — detectado
@@ -145,40 +146,55 @@ const LIDERAZGO_ITEMS = [
   { emoji:'🙅', label:'Ignorar las instrucciones del profesor durante el juego no tiene riesgo', v:false },
 ];
 
-export function genCuerpoResponde2Round(){
+/* Niveles (2026-08-11): los 3 son binarios V/F, sin margen para reducir
+   opciones — solo se oculta el emoji decorativo en difícil (item.label ya
+   es la afirmación completa en texto). */
+export function genCuerpoResponde2Round(nivel){
   const recurso = 'Cuando haces ejercicio, tu cuerpo reacciona de formas que puedes notar directamente: el corazón late más rápido (para bombear más sangre a los músculos que están trabajando), respiras más rápido y más profundo (para llevar más oxígeno a tu cuerpo), y puedes empezar a sudar (para enfriarte). Estas respuestas no son señales de que algo anda mal — son la forma en que tu cuerpo se adapta para darte la energía que necesitas mientras te mueves. Reconocer estas respuestas normales del cuerpo te ayuda a entender por qué es importante calentar antes de hacer deporte, y a distinguir un cansancio normal de una señal de alerta real.';
   const item = pick(CUERPO_RESPONDE_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
     recurso: recurso,
   };
 }
 
-export function genVidaActiva2Round(){
+export function genVidaActiva2Round(nivel){
   const recurso = 'Mantener una vida activa y saludable en 2° básico significa seguir combinando hábitos de movimiento regular, buena alimentación, descanso suficiente e higiene diaria — los mismos pilares de 1° básico, pero ahora con más autonomía para practicarlos tú solo, sin que un adulto tenga que recordártelo siempre. Entre más temprano se forman estos hábitos, más fácil es mantenerlos de forma natural cuando seas grande, porque se vuelven parte de tu rutina normal en vez de sentirse como una obligación.';
   const item = pick(VIDA_ACTIVA_2_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
     recurso: recurso,
   };
 }
 
-export function genLiderazgo2Round(){
+export function genLiderazgo2Round(nivel){
   const recurso = 'Jugar en equipo requiere algo más que solo saber jugar bien: requiere <b>liderazgo</b> positivo, que significa animar a tus compañeros, escuchar las ideas de los demás, y ayudar a resolver desacuerdos sin gritar ni pelear. Un buen líder de equipo no es necesariamente el que juega mejor, sino el que ayuda a que todo el grupo trabaje unido y se sienta incluido. Practicar estas habilidades desde pequeño —en un juego de patio— te prepara para trabajar bien en equipo en muchas otras situaciones de tu vida, no solo en el deporte.';
   const item = pick(LIDERAZGO_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" 2° básico Educación Física: mezcla los 3 módulos del año
+   + los 3 niveles al azar. */
+export function genExamenEdfisica2Round(){
+  const gens = [genCuerpoResponde2Round, genVidaActiva2Round, genLiderazgo2Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* Niveles de dificultad (2026-08-09, mismo motor que el resto de 1°

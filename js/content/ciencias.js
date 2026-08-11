@@ -170,9 +170,10 @@ export const CIENCIAS_MODULES_G2 = [
   {id:'cuerpodentro2', label:'Mi Cuerpo por Dentro', open:true, key:'cuerpodentro2'},
   {id:'agua2', label:'El Agua', open:true, key:'agua2'},
   {id:'clima2', label:'Clima e Instrumentos', open:true, key:'clima2'},
+  {id:'examenciencias2', label:'Examen Final', open:true, key:'examenciencias2'},
 ];
 export const CIENCIAS_POS_G2 = [
-  {x:22,y:92},{x:68,y:77},{x:24,y:61},{x:70,y:45},{x:24,y:26},{x:70,y:8}
+  {x:22,y:93},{x:68,y:81},{x:24,y:67},{x:70,y:54},{x:24,y:37},{x:70,y:22},{x:24,y:7}
 ];
 
 const VERTEBRADOS_BANK = [
@@ -270,31 +271,42 @@ const TIEMPO_ATMOSFERICO_BANK = [
   { emoji:'🌨️', texto:'Caen copitos blancos y fríos del cielo', tipo:'Nevado' },
 ];
 
-export function genVertebrados2Round(){
+/* Niveles (2026-08-11): fácil reduce distractores; difícil oculta el
+   emoji/dibujo y muestra el NOMBRE del animal en texto — mismo criterio ya
+   usado en "Seres Vivos" de 1° básico para evitar el bug de firma de ronda
+   colapsada (un prompt que varía por ítem en vez de un texto fijo). */
+export function genVertebrados2Round(nivel){
   const recurso = 'Los animales se dividen en dos grandes grupos según si tienen o no columna vertebral (una fila de huesitos que recorre la espalda y protege la médula espinal): los <b>vertebrados</b> sí la tienen, y se dividen en 5 tipos —mamíferos, aves, reptiles, anfibios y peces—, cada uno con características propias (los mamíferos tienen pelo y maman de su madre, las aves tienen plumas y ponen huevos, los peces respiran por branquias). Los <b>invertebrados</b> (como insectos, arañas o caracoles) no tienen columna vertebral, y son en realidad el grupo con más especies distintas en todo el planeta, aunque tienden a ser más pequeños. Reconocer esta clasificación te ayuda a organizar el enorme mundo animal en categorías más fáciles de entender.';
+  const showVisual = nivel !== 'dificil';
   if(Math.random()<0.5){
     const isVert = Math.random()<0.5;
     const item = isVert ? pick(VERTEBRADOS_BANK) : pick(INVERTEBRADOS_BANK);
     const opts = shuffle([{label:'Tiene columna vertebral', value:true},{label:'No tiene columna vertebral', value:false}]);
+    const visual = showVisual ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '<p class="prompt-hint">'+item.label+'</p>';
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿El/la '+item.label.toLowerCase()+' tiene columna vertebral?</p>',
+      promptHTML: visual+'<p class="prompt-hint">¿El/la '+item.label.toLowerCase()+' tiene columna vertebral?</p>',
       options: opts, correctValue: isVert, speakText: item.label, cols:2, panel:true,
       explain: isVert ? 'El/la '+item.label.toLowerCase()+' es un <b>vertebrado</b>, tiene columna vertebral.' : 'El/la '+item.label.toLowerCase()+' es un <b>invertebrado</b>, no tiene columna vertebral.',
       recurso: recurso,
     };
   }
   const item = pick(VERTEBRADOS_BANK);
-  const distract = shuffle(['Mamífero','Ave','Reptil','Anfibio','Pez'].filter(function(t){ return t!==item.tipo; })).slice(0,3);
+  let distract = shuffle(['Mamífero','Ave','Reptil','Anfibio','Pez'].filter(function(t){ return t!==item.tipo; }));
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  const visual = showVisual ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '<p class="prompt-hint">'+item.label+'</p>';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué tipo de vertebrado es?</p>',
+    promptHTML: visual+'<p class="prompt-hint">¿Qué tipo de vertebrado es?</p>',
     options: opts, correctValue: item.tipo, speakText: item.label, cols:4, kind:'word',
-    explain: 'El/la '+item.label.toLowerCase()+' es un(a) <b>'+item.tipo.toLowerCase()+'</b>.',
+    explain: 'El/la '+item.label.toLowerCase()+' es un <b>'+item.tipo.toLowerCase()+'</b>.',
     recurso: recurso,
   };
 }
 
-export function genCiclosVida2Round(){
+/* Niveles (2026-08-11): fácil mantiene la tira completa del ciclo (apoyo
+   visual fuerte); difícil la oculta, obligando a recordar el orden real del
+   ciclo de vida de memoria en vez de leerlo directo de la imagen. */
+export function genCiclosVida2Round(nivel){
   const recurso = 'Un <b>ciclo de vida</b> es la secuencia de etapas por las que pasa un ser vivo desde que nace hasta que puede tener sus propias crías, y luego el ciclo vuelve a empezar con la próxima generación. Cada especie tiene un ciclo distinto: algunos animales nacen ya pareciéndose a sus padres (como los perros), mientras que otros pasan por transformaciones enormes en su cuerpo (como la oruga que se convierte en mariposa, o el renacuajo que se convierte en rana). Entender el orden correcto de estas etapas —qué viene antes y qué viene después— te ayuda a comprender cómo crecen y cambian los seres vivos con el tiempo, no de forma instantánea.';
   const ciclo = pick(CICLOS_G2);
   let a = pick(ciclo), b = pick(ciclo);
@@ -303,31 +315,39 @@ export function genCiclosVida2Round(){
   const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
   const earlier = a.orden<b.orden ? a : b, later = a.orden<b.orden ? b : a;
   const correct = askBefore ? earlier.label : later.label;
-  const cicloDisplay = ciclo.map(function(c){ return c.emoji; }).join(' → ');
+  const showSeq = nivel !== 'dificil';
+  const cicloDisplay = showSeq ? '<p class="prompt-count" style="font-size:26px;">'+ciclo.map(function(c){ return c.emoji; }).join(' → ')+'</p>' : '';
   return {
-    promptHTML: '<p class="prompt-count" style="font-size:26px;">'+cicloDisplay+'</p><p class="prompt-hint">'+(askBefore ? '¿Qué viene ANTES en este ciclo de vida?' : '¿Qué viene DESPUÉS en este ciclo de vida?')+'</p>',
+    promptHTML: cicloDisplay+'<p class="prompt-hint">'+(askBefore ? '¿Qué viene ANTES en este ciclo de vida?' : '¿Qué viene DESPUÉS en este ciclo de vida?')+'</p>',
     options: opts, correctValue: correct, speakText: askBefore ? '¿Qué viene antes?' : '¿Qué viene después?', cols:2, panel:true,
     explain: earlier.label+' viene antes que '+later.label+' en este ciclo de vida.',
     recurso: recurso,
   };
 }
 
-export function genHabitats2Round(){
+/* Niveles (2026-08-11): rama de hábitat reduce opciones/oculta el emoji
+   (queda solo el nombre del animal en texto); rama de cuidado (ya
+   textual, sin visual) solo reduce opciones en fácil. */
+export function genHabitats2Round(nivel){
   const recurso = 'Un <b>hábitat</b> es el lugar donde un animal encuentra todo lo que necesita para vivir: alimento, agua, refugio y un clima adecuado para su cuerpo — por eso un pez vive en el agua y un oso polar vive en el hielo, y no al revés. Cuando un hábitat se daña (por contaminación, tala de árboles o caza excesiva), los animales que dependen de él pueden enfermarse, quedarse sin alimento o incluso desaparecer de esa zona. Por eso cuidar el hábitat de los animales —no ensuciarlo, no destruirlo, respetar a los animales silvestres— es una forma directa de cuidar a los animales mismos, aunque no los toques directamente.';
   if(Math.random()<0.5){
     const item = pick(HABITAT_ANIMALES);
     const habitatPool = HABITAT_ANIMALES.map(function(h){ return h.habitat; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
-    const distract = shuffle(habitatPool.filter(function(h){ return h!==item.habitat; })).slice(0,3);
+    let distract = shuffle(habitatPool.filter(function(h){ return h!==item.habitat; }));
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3);
     const opts = shuffle([item.habitat].concat(distract)).map(function(h){ return {label:h, value:h}; });
+    const visual = nivel==='dificil' ? '<p class="prompt-hint">'+item.label+'</p>' : '<span class="prompt-emoji">'+item.emoji+'</span>';
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Dónde vive el/la '+item.label.toLowerCase()+'?</p>',
+      promptHTML: visual+'<p class="prompt-hint">¿Dónde vive el/la '+item.label.toLowerCase()+'?</p>',
       options: opts, correctValue: item.habitat, speakText: item.label, cols:4, kind:'word',
       explain: 'El/la '+item.label.toLowerCase()+' vive en el/la <b>'+item.habitat.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
   const item = pick(CUIDADO_ANIMAL_BANK);
-  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.incorrectas;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones ayuda a cuidar a los animales?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones ayuda a cuidar a los animales?', cols:2, panel:true,
@@ -336,21 +356,29 @@ export function genHabitats2Round(){
   };
 }
 
-export function genCuerpoDentro2Round(){
+/* Niveles (2026-08-11): rama de órganos reduce opciones/oculta el emoji o
+   dibujo (el nombre del órgano ya va en la pregunta, así que sigue siendo
+   resoluble sin el visual); rama de ejercicio (banco chico, 2 ítems, ya
+   textual) solo reduce opciones en fácil. */
+export function genCuerpoDentro2Round(nivel){
   const recurso = 'Por fuera todos los cuerpos se ven distintos, pero por dentro todos tenemos los mismos órganos principales trabajando en equipo, cada uno con un trabajo específico: el corazón bombea la sangre por todo el cuerpo, los pulmones toman el aire que respiras, el estómago digiere la comida que comes, y el cerebro controla y coordina todo lo demás. Ninguno de estos órganos funciona solo — se necesitan entre sí para mantenerte vivo y con energía. Hacer ejercicio con regularidad ayuda a que estos órganos (especialmente el corazón y los pulmones) se mantengan fuertes y funcionen mejor, no solo a que tus músculos se vean más grandes.';
   if(Math.random()<0.5){
     const item = pick(ORGANOS_BANK);
-    const distract = shuffle(ORGANOS_BANK.filter(function(o){ return o.organo!==item.organo; })).slice(0,3).map(function(o){ return o.funcion; });
+    let distract = shuffle(ORGANOS_BANK.filter(function(o){ return o.organo!==item.organo; }));
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3).map(function(o){ return o.funcion; });
     const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
+    const visual = nivel==='dificil' ? '' : '<span class="prompt-emoji">'+item.emoji+'</span>';
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Qué hace tu '+item.organo.toLowerCase()+'?</p>',
+      promptHTML: visual+'<p class="prompt-hint">¿Qué hace tu '+item.organo.toLowerCase()+'?</p>',
       options: opts, correctValue: item.funcion, speakText: '¿Qué hace tu '+item.organo+'?', cols:2, panel:true,
       explain: 'Tu '+item.organo.toLowerCase()+' '+item.funcion.toLowerCase().replace(/^./, function(c){ return c; })+'.',
       recurso: recurso,
     };
   }
   const item = pick(EJERCICIO_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.opts;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -359,15 +387,21 @@ export function genCuerpoDentro2Round(){
   };
 }
 
-export function genAgua2Round(){
+/* Niveles (2026-08-11): rama de estados reduce opciones/oculta el emoji;
+   rama de ciclo del agua oculta el emoji dentro de las opciones en
+   difícil (deja solo el texto); rama de propiedades ya es V/F binario,
+   sin margen para reducir. */
+export function genAgua2Round(nivel){
   const recurso = 'El agua es la única sustancia común que puedes observar fácilmente en sus 3 estados: <b>sólido</b> (hielo, cuando hace mucho frío), <b>líquido</b> (la que bebes y usas todos los días) y <b>gaseoso</b> (vapor de agua, invisible en el aire). El agua cambia de un estado a otro según la temperatura: se congela con el frío y se evapora con el calor. Este cambio constante entre estados es lo que impulsa el <b>ciclo del agua</b>: el agua se evapora de mares y ríos, sube y forma nubes, cae como lluvia, y vuelve a juntarse en ríos y mares — un ciclo que se repite sin parar y que hace posible que siempre haya agua disponible en la Tierra.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(AGUA_ESTADOS_BANK);
-    const distract = AGUA_ESTADOS_BANK.filter(function(a){ return a.estado!==item.estado; }).map(function(a){ return a.estado; });
+    let distract = AGUA_ESTADOS_BANK.filter(function(a){ return a.estado!==item.estado; }).map(function(a){ return a.estado; });
+    if(nivel==='facil'){ distract = shuffle(distract).slice(0,1); }
     const opts = shuffle([item.estado].concat(distract)).map(function(e){ return {label:e, value:e}; });
+    const visual = nivel==='dificil' ? '' : '<span class="prompt-emoji">'+item.emoji+'</span>';
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'. ¿En qué estado está el agua?</p>',
+      promptHTML: visual+'<p class="prompt-hint">'+item.label+'. ¿En qué estado está el agua?</p>',
       options: opts, correctValue: item.estado, speakText: item.label, cols:2, kind:'word', panel:true,
       explain: item.label+' es agua en estado <b>'+item.estado.toLowerCase()+'</b>.',
       recurso: recurso,
@@ -377,7 +411,11 @@ export function genAgua2Round(){
     let a = pick(CICLO_AGUA), b = pick(CICLO_AGUA);
     while(b.label === a.label) b = pick(CICLO_AGUA);
     const askBefore = Math.random()<0.5;
-    const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
+    const showEmoji = nivel !== 'dificil';
+    const opts = shuffle([
+      {label:(showEmoji?a.emoji+' ':'')+a.label, value:a.label},
+      {label:(showEmoji?b.emoji+' ':'')+b.label, value:b.label},
+    ]);
     const earlier = a.orden<b.orden ? a : b, later = a.orden<b.orden ? b : a;
     return {
       promptHTML: '<p class="prompt-hint">'+(askBefore ? '¿Qué paso viene ANTES en el ciclo del agua?' : '¿Qué paso viene DESPUÉS en el ciclo del agua?')+'</p>',
@@ -396,31 +434,51 @@ export function genAgua2Round(){
   };
 }
 
-export function genClima2Round(){
+/* Niveles (2026-08-11): ambas ramas reducen opciones en fácil y ocultan el
+   emoji/dibujo en difícil (el nombre del instrumento o la descripción del
+   tiempo ya van en texto, así que sigue siendo resoluble). De paso se
+   corrige el placeholder "un(a)" sin resolver (bug ya documentado en
+   CLAUDE.md, pendiente en este archivo): todos los instrumentos usan "un",
+   salvo "veleta" que usa "una". */
+export function genClima2Round(nivel){
   const recurso = 'Para estudiar el clima de forma científica, no basta con "mirar hacia afuera" — se usan instrumentos especiales que miden datos exactos: el termómetro mide la temperatura, el pluviómetro mide cuánta lluvia cae, y la veleta mide la dirección del viento. Con estos datos, los meteorólogos pueden describir el <b>tiempo atmosférico</b> de un día (soleado, nublado, lluvioso, con viento) de forma precisa y comparable, no solo con una impresión personal. Aprender a usar instrumentos de medición, en vez de solo observar a simple vista, es una habilidad científica importante que se aplica en muchas áreas más allá del clima.';
   if(Math.random()<0.5){
     const item = pick(INSTRUMENTOS_CLIMA_BANK);
-    const distract = INSTRUMENTOS_CLIMA_BANK.filter(function(i){ return i.label!==item.label; }).map(function(i){ return i.mide; });
+    let distract = INSTRUMENTOS_CLIMA_BANK.filter(function(i){ return i.label!==item.label; }).map(function(i){ return i.mide; });
+    if(nivel==='facil'){ distract = shuffle(distract).slice(0,1); }
     const opts = shuffle([item.mide].concat(distract)).map(function(m){ return {label:m, value:m}; });
-    const visual = item.svg==='pluviometro' ? '<div class="shape-display">'+pluviometroSVG(90)+'</div>'
+    const visual = nivel==='dificil' ? '' : (item.svg==='pluviometro' ? '<div class="shape-display">'+pluviometroSVG(90)+'</div>'
       : item.svg==='veleta' ? '<div class="shape-display">'+veletaSVG(90)+'</div>'
-      : '<span class="prompt-emoji">'+item.emoji+'</span>';
+      : '<span class="prompt-emoji">'+item.emoji+'</span>');
+    const articulo = item.label==='Veleta' ? 'una' : 'un';
     return {
-      promptHTML: visual+'<p class="prompt-hint">¿Qué mide un(a) '+item.label.toLowerCase()+'?</p>',
+      promptHTML: visual+'<p class="prompt-hint">¿Qué mide '+articulo+' '+item.label.toLowerCase()+'?</p>',
       options: opts, correctValue: item.mide, speakText: item.label, cols:2, kind:'word', panel:true,
       explain: 'El/la '+item.label.toLowerCase()+' mide <b>'+item.mide.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
   const item = pick(TIEMPO_ATMOSFERICO_BANK);
-  const distract = TIEMPO_ATMOSFERICO_BANK.filter(function(t){ return t.tipo!==item.tipo; }).map(function(t){ return t.tipo; });
+  let distract = TIEMPO_ATMOSFERICO_BANK.filter(function(t){ return t.tipo!==item.tipo; }).map(function(t){ return t.tipo; });
+  if(nivel==='facil'){ distract = shuffle(distract).slice(0,1); }
   const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  const visual = nivel==='dificil' ? '' : '<span class="prompt-emoji">'+item.emoji+'</span>';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto+'. ¿Qué tiempo atmosférico es?</p>',
+    promptHTML: visual+'<p class="prompt-hint">'+item.texto+'. ¿Qué tiempo atmosférico es?</p>',
     options: opts, correctValue: item.tipo, speakText: item.texto, cols:4, kind:'word',
     explain: item.texto+', eso es <b>'+item.tipo.toLowerCase()+'</b>.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" 2° básico Ciencias Naturales: mezcla los 6 módulos del
+   año + los 3 niveles al azar, mismo patrón ya validado en Matemática y
+   Lenguaje de este mismo curso. */
+export function genExamenCiencias2Round(){
+  const gens = [genVertebrados2Round, genCiclosVida2Round, genHabitats2Round, genCuerpoDentro2Round, genAgua2Round, genClima2Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* Niveles de dificultad (2026-08-09, mismo pedido/motor que Matemática y

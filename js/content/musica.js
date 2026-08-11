@@ -62,8 +62,9 @@ const INSTRUMENTOS_ITEMS = [
    real, no aptos para el motor de opción múltiple. */
 export const MUSICA_MODULES_G2 = [
   {id:'timbrepulso2', label:'Timbre y Pulso', open:true, key:'timbrepulso2'},
+  {id:'examenmusica2', label:'Examen Final', open:true, key:'examenmusica2'},
 ];
-export const MUSICA_POS_G2 = [{x:50,y:50}];
+export const MUSICA_POS_G2 = [{x:30,y:70},{x:70,y:30}];
 
 const TIMBRE_BANK = [
   { emoji:'🥁', instrumento:'Tambor', desc:'Un sonido seco y golpeado, como un golpe fuerte.' },
@@ -73,31 +74,46 @@ const TIMBRE_BANK = [
   { emoji:'🎺', instrumento:'Trompeta', desc:'Un sonido brillante y potente, como una fanfarria.' },
 ];
 const PULSO_BANK = [
-  { pregunta:'¿Qué es el "pulso" en la música?', correcta:'El latido constante, como el tic-tac de un reloj', opts:['Una nota muy aguda','El nombre de un instrumento','El final de una canción'] },
-  { pregunta:'¿Qué es un "acento" en la música?', correcta:'Un golpe o nota que suena más fuerte que las demás', opts:['Una nota muy suave','El silencio entre notas','El nombre de una canción'] },
+  { pregunta:'¿Qué es el “pulso” en la música?', correcta:'El latido constante, como el tic-tac de un reloj', opts:['Una nota muy aguda','El nombre de un instrumento','El final de una canción'] },
+  { pregunta:'¿Qué es un “acento” en la música?', correcta:'Un golpe o nota que suena más fuerte que las demás', opts:['Una nota muy suave','El silencio entre notas','El nombre de una canción'] },
 ];
 
-export function genTimbrePulso2Round(){
+/* Niveles (2026-08-11): rama de timbre reduce distractores/oculta el
+   emoji (item.desc ya describe el sonido en texto); rama de pulso (banco
+   chico, ya textual) solo reduce opciones en fácil. */
+export function genTimbrePulso2Round(nivel){
   const recurso = 'El <b>timbre</b> es lo que hace que reconozcas qué instrumento está sonando aunque toque exactamente la misma nota que otro instrumento — es como la "huella digital" del sonido de cada instrumento (un violín y una guitarra pueden tocar la misma nota, pero suenan claramente distintos). El <b>pulso</b>, en cambio, es el "latido" constante y regular que se repite en una canción, como el tic-tac de un reloj, y sirve de base para que todos los músicos toquen a la misma velocidad. Aprender a distinguir el timbre de distintos instrumentos y a sentir el pulso de una canción son dos habilidades básicas para entender música de cualquier tipo.';
   if(Math.random()<0.5){
     const item = pick(TIMBRE_BANK);
-    const distract = shuffle(TIMBRE_BANK.filter(function(t){ return t.instrumento!==item.instrumento; })).slice(0,3).map(function(t){ return t.instrumento; });
+    let distract = shuffle(TIMBRE_BANK.filter(function(t){ return t.instrumento!==item.instrumento; }));
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3).map(function(t){ return t.instrumento; });
     const opts = shuffle([item.instrumento].concat(distract)).map(function(i){ return {label:i, value:i}; });
+    const visual = nivel==='dificil' ? '' : '<span class="prompt-emoji">'+item.emoji+'</span>';
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+' ¿Qué instrumento tiene este timbre?</p>',
+      promptHTML: visual+'<p class="prompt-hint">'+item.desc+' ¿Qué instrumento tiene este timbre?</p>',
       options: opts, correctValue: item.instrumento, speakText: item.desc, cols:4, kind:'word',
       explain: 'Ese timbre corresponde al <b>'+item.instrumento.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
   const item = pick(PULSO_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.opts;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" 2° básico Música: solo hay 1 módulo compatible, así que
+   el examen re-randomiza el nivel sobre el mismo generador (mismo patrón
+   que Artes Visuales/Tecnología). */
+export function genExamenMusica2Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genTimbrePulso2Round(nivel);
 }
 
 /* Niveles de dificultad (2026-08-09, mismo motor que el resto de 1°

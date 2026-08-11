@@ -89,8 +89,9 @@ const HERRAMIENTAS_ARTE = [
    producción) y OA04-05 (comunicar impresiones/preferencias, subjetivo). */
 export const ARTES_MODULES_G2 = [
   {id:'lineascolores2', label:'Líneas y Colores', open:true, key:'lineascolores2'},
+  {id:'examenartes2', label:'Examen Final', open:true, key:'examenartes2'},
 ];
-export const ARTES_POS_G2 = [{x:50,y:50}];
+export const ARTES_POS_G2 = [{x:30,y:70},{x:70,y:30}];
 
 const LINEAS_G2_BANK = ['Vertical','Horizontal','Diagonal','Espiral','Quebrada'];
 const COLORES_PRIM_SEC = [
@@ -102,11 +103,17 @@ const COLORES_PRIM_SEC = [
   { label:'Morado', tipo:'Secundario' },
 ];
 
-export function genLineasColores2Round(){
+/* Niveles (2026-08-11): rama de líneas mantiene el dibujo SVG siempre
+   visible en los 3 niveles (es la única fuente de información: no hay
+   texto que la reemplace), solo varía la cantidad de opciones; rama de
+   colores oculta el swatch en difícil porque el nombre del color ya va
+   en texto junto a él (decorativo, mismo criterio que genColoresRound). */
+export function genLineasColores2Round(nivel){
   const recurso = 'Las líneas pueden dibujarse en distintas direcciones y formas (vertical, horizontal, diagonal, en espiral, quebrada), y cada tipo se usa para transmitir algo distinto en un dibujo: una línea horizontal se ve tranquila, una diagonal se ve dinámica. Los colores, por su parte, se dividen en <b>primarios</b> (rojo, amarillo, azul — no se pueden formar mezclando otros colores) y <b>secundarios</b> (naranjo, verde, morado — se forman mezclando dos primarios). Entender estas dos ideas básicas del lenguaje visual —tipos de línea y tipos de color— te da las herramientas para describir y crear tus propias obras con más intención, en vez de dibujar al azar.';
   if(Math.random()<0.5){
     const tipo = pick(LINEAS_G2_BANK);
-    const distract = shuffle(LINEAS_G2_BANK.filter(function(t){ return t!==tipo; })).slice(0,3);
+    let distract = shuffle(LINEAS_G2_BANK.filter(function(t){ return t!==tipo; }));
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3);
     const opts = shuffle([tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
     return {
       promptHTML: '<div class="shape-display">'+lineTypeSVG(tipo,100)+'</div><p class="prompt-hint">¿Qué tipo de línea es?</p>',
@@ -117,12 +124,21 @@ export function genLineasColores2Round(){
   }
   const item = pick(COLORES_PRIM_SEC);
   const opts = shuffle([{label:'Primario', value:'Primario'},{label:'Secundario', value:'Secundario'}]);
+  const showSwatch = nivel !== 'dificil';
   return {
-    promptHTML: '<div class="shape-display">'+colorSwatchSVG(item.label,90)+'</div><p class="prompt-hint">El color '+item.label+'. ¿Es un color primario o secundario?</p>',
+    promptHTML: (showSwatch ? '<div class="shape-display">'+colorSwatchSVG(item.label,90)+'</div>' : '')+'<p class="prompt-hint">El color '+item.label+'. ¿Es un color primario o secundario?</p>',
     options: opts, correctValue: item.tipo, speakText: 'El color '+item.label, cols:2, panel:true,
     explain: 'El '+item.label.toLowerCase()+' es un color <b>'+item.tipo.toLowerCase()+'</b>.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" 2° básico Artes Visuales: solo hay 1 módulo compatible,
+   así que el examen re-randomiza el nivel sobre el mismo generador (mismo
+   patrón que Tecnología 1° básico). */
+export function genExamenArtes2Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genLineasColores2Round(nivel);
 }
 
 /* Niveles de dificultad (2026-08-09, mismo motor que el resto de 1°

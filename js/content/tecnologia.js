@@ -40,8 +40,9 @@ const MATERIALES_TEC = [
    múltiple. */
 export const TECNOLOGIA_MODULES_G2 = [
   {id:'tecdigital2', label:'Tecnología Digital', open:true, key:'tecdigital2'},
+  {id:'examentecnologia2', label:'Examen Final', open:true, key:'examentecnologia2'},
 ];
-export const TECNOLOGIA_POS_G2 = [{x:48,y:50}];
+export const TECNOLOGIA_POS_G2 = [{x:30,y:70},{x:70,y:30}];
 
 /* Ampliado de 4 a 10 ítems — antes garantizaba una repetición en cada
    partida de rounds:8. Todos siguen dentro de TE02 OA05-07 (software de
@@ -59,16 +60,28 @@ const TEC_DIGITAL_BANK = [
   { emoji:'💾', pregunta:'¿Por qué es importante guardar tu trabajo en el computador?', correcta:'Para no perder lo que hiciste', opts:['Para que se borre solo','Para que nadie más lo use','Para que el computador se apague'] },
 ];
 
-export function genTecDigital2Round(){
+/* Niveles (2026-08-11): fácil reduce a 2 opciones; difícil oculta el
+   emoji (item.pregunta ya es la pregunta completa en texto). */
+export function genTecDigital2Round(nivel){
   const recurso = 'La <b>tecnología digital</b> incluye herramientas como programas de dibujo, procesadores de texto, y el uso de internet — y usarla bien requiere aprender no solo a manejarla, sino a hacerlo de forma segura. Por ejemplo, un programa de dibujo digital te permite crear y corregir sin gastar papel, un procesador de texto te ayuda a escribir y editar más fácil que a mano, e internet te conecta con información e imágenes de todo el mundo. Pero junto con estas herramientas, aprender uso seguro de internet desde pequeño —no dar datos personales, avisar a un adulto si ves algo raro— es tan importante como aprender a usar el programa mismo.';
   const item = pick(TEC_DIGITAL_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.opts;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.pregunta+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" 2° básico Tecnología: solo hay 1 módulo compatible, así
+   que el examen re-randomiza el nivel sobre el mismo generador. */
+export function genExamenTecnologia2Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genTecDigital2Round(nivel);
 }
 
 /* Niveles de dificultad (2026-08-09, mismo motor que el resto de 1°

@@ -126,8 +126,9 @@ export const LENGUAJE_MODULES_G2 = [
   {id:'secuencia', label:'Secuencia', open:true, key:'secuencia'},
   {id:'gramatica2', label:'Gramática', open:true, key:'gramatica2'},
   {id:'comprension2', label:'Comprensión II', open:true, key:'comprension2'},
+  {id:'examenlengua2', label:'Examen Final', open:true, key:'examenlengua2'},
 ];
-export const LENGUAJE_POS_G2 = [{x:22,y:84},{x:68,y:62},{x:24,y:40},{x:70,y:16}];
+export const LENGUAJE_POS_G2 = [{x:22,y:87},{x:68,y:68},{x:24,y:50},{x:70,y:30},{x:24,y:10}];
 
 /* Niveles de dificultad (2026-08-09, mismo pedido que el piloto de
    Matemática 1° básico — ver "Motor de minijuegos de opción múltiple" en
@@ -226,12 +227,18 @@ export function genExamenLenguaje1Round(){
   return gen(nivel);
 }
 
-export function genCombinacionRound(){
+/* Niveles (2026-08-11, continuación del rollout a 2° básico): fácil reduce
+   a 2 opciones; difícil saca el emoji de apoyo, dejando solo la palabra con
+   el hueco — hay que decodificar leyendo antes/después, no reconocer el
+   dibujo. */
+export function genCombinacionRound(nivel){
   const item = pick(COMBO_WORDS);
-  const distract = shuffle(ALL_COMBOS.filter(function(c){ return c!==item.combo; })).slice(0,3);
+  let distract = shuffle(ALL_COMBOS.filter(function(c){ return c!==item.combo; }));
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.combo].concat(distract)).map(function(c){ return {label:c, value:c}; });
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span>'+
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+
       '<p class="prompt-word">'+item.before+'<span class="blank">_</span>'+item.after+'</p>'+
       '<p class="prompt-hint">¿Qué combinación completa la palabra?</p>',
     options: opts,
@@ -275,14 +282,20 @@ const ORACIONES_GRAMATICA = [
   { texto:'La niña feliz salta', sustantivo:'Niña', adjetivo:'Feliz', otras:['La','Salta'] },
 ];
 
-export function genGramatica2Round(){
+/* Niveles (2026-08-11): fácil reduce ambas ramas a 2 opciones; normal y
+   difícil quedan iguales al original (ya es puramente textual, sin ningún
+   apoyo visual que ocultar — mismo criterio ya usado en la rama de
+   Posición de Geometría2, donde no todo módulo necesita 3 comportamientos
+   distintos). */
+export function genGramatica2Round(nivel){
   const recurso = 'El <b>sustantivo</b> es la palabra que nombra a una persona, animal, cosa o lugar (perro, casa, niña), y el <b>adjetivo</b> es la palabra que describe cómo es ese sustantivo (grande, feliz, roja). En español, el adjetivo debe "concordar" con el sustantivo que describe: si el sustantivo es femenino y plural (como "las niñas"), el adjetivo también debe ser femenino y plural ("bonitas", no "bonito"). Fijarte en esta concordancia te ayuda a hablar y escribir correctamente, y a reconocer con más facilidad cuál palabra de una oración nombra algo y cuál lo describe.';
   if(Math.random()<0.5){
     const suj = pick(SUJETOS_CONCORDANCIA);
     const adj = pick(ADJ_FORMS);
     const correct = adj[suj.genero+'_'+suj.numero];
     const allForms = [adj.M_S, adj.F_S, adj.M_P, adj.F_P].filter(function(f,i,arr){ return arr.indexOf(f)===i; });
-    const distract = allForms.filter(function(f){ return f!==correct; });
+    let distract = allForms.filter(function(f){ return f!==correct; });
+    if(nivel==='facil'){ distract = shuffle(distract).slice(0,1); }
     const opts = shuffle([correct].concat(distract)).map(function(f){ return {label:f, value:f}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+suj.texto+' es muy <span class="blank">___</span>.</p><p class="prompt-hint">¿Qué palabra completa la oración?</p>',
@@ -295,7 +308,9 @@ export function genGramatica2Round(){
   const askSustantivo = Math.random()<0.5;
   const correct = askSustantivo ? item.sustantivo : item.adjetivo;
   const otherTarget = askSustantivo ? item.adjetivo : item.sustantivo;
-  const opts = shuffle([correct, otherTarget].concat(item.otras)).map(function(w){ return {label:w, value:w}; });
+  let rest = [otherTarget].concat(item.otras);
+  if(nivel==='facil'){ rest = shuffle(rest).slice(0,1); }
+  const opts = shuffle([correct].concat(rest)).map(function(w){ return {label:w, value:w}; });
   return {
     promptHTML: '<p class="prompt-sentence">"'+item.texto+'"</p><p class="prompt-hint">¿Cuál palabra es el '+(askSustantivo ? 'sustantivo (nombra a alguien o algo)' : 'adjetivo (dice cómo es)')+'?</p>',
     options: opts, correctValue: correct, speakText: item.texto, cols:4, kind:'word',
@@ -315,16 +330,34 @@ const COMPRENSION2_BANK = [
   { text:'Para hacer una ensalada de frutas: lava las frutas, córtalas en trozos pequeños, mézclalas en un bowl y sírvelas frías.', question:'¿Qué haces justo antes de mezclar las frutas?', correct:'Cortarlas en trozos', opts:['Lavarlas','Servirlas frías','Comprarlas'], reason:'El texto dice: lavar, luego cortar, y luego mezclar.' },
 ];
 
-export function genComprension2Round(){
+/* Niveles (2026-08-11): fácil reduce a 2 opciones; difícil oculta el texto
+   escrito — hay que escucharlo (🔊, speakText ya trae el texto completo) y
+   responder de memoria, mismo criterio ya usado en Comprensión de 1°
+   básico. */
+export function genComprension2Round(nivel){
   const item = pick(COMPRENSION2_BANK);
-  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let distract = item.opts;
+  if(nivel==='facil'){ distract = shuffle(distract).slice(0,1); }
+  const opts = shuffle([item.correct].concat(distract)).map(function(o){ return {label:o, value:o}; });
   const kind = /^[A-ZÁÉÍÓÚÑ]/.test(item.correct) ? 'word' : undefined;
+  const showText = nivel !== 'dificil';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    promptHTML: (showText ? '<p class="prompt-sentence">'+item.text+'</p>' : '')+'<p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, cols: kind ? 2 : 4, kind: kind, panel: kind==='word',
     explain: item.reason,
     recurso: 'Este tipo de pregunta te pide algo más difícil que solo recordar lo que leíste: te pide <b>inferir</b>, es decir, deducir algo que el texto no dice directamente, usando pistas. Por ejemplo, si el texto dice que "el cielo se puso gris y empezó a caer agua", no dice la palabra "lluvia", pero tú puedes deducirlo por esas pistas. Para inferir bien, fíjate en detalles como acciones, sensaciones o el orden en que pasan las cosas, y pregúntate "¿qué explicación tiene más sentido con estas pistas?". Esta habilidad es distinta a memorizar: es usar lo que sabes del mundo para entender lo que un texto sugiere sin decirlo explícitamente.',
   };
+}
+
+/* "Examen Final" 2° básico Lenguaje: mezcla Combinaciones/Gramática/
+   Comprensión II + los 3 niveles al azar. Secuencia (games/secuencia.js)
+   queda fuera, mismo criterio que Sílabas/Letras en el examen de 1°
+   básico: mecánica propia, no devuelve {promptHTML,options,correctValue}. */
+export function genExamenLenguaje2Round(){
+  const gens = [genCombinacionRound, genGramatica2Round, genComprension2Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Lenguaje 3° Básico ----------------

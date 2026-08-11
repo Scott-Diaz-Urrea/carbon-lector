@@ -3049,7 +3049,7 @@ tamaño real de esa tarea (~500 módulos restantes) — seguirá el mismo
 criterio de "un curso/asignatura a la vez con su propio PR" ya usado en
 todo este rollout.
 
-### 2° Básico — ✅ completo (33 módulos, las 9 asignaturas)
+### 2° Básico — ✅ completo (42 módulos, las 9 asignaturas + niveles + Examen Final)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
 curriculum/1o-6o-basico/<asignatura>/2-basico (páginas por-OA individuales,
 verificadas cruzando el listado agregado contra al menos una página `<código>-oa-01`
@@ -3091,6 +3091,112 @@ fuera y por qué en el comentario inicial de su archivo `content/<asignatura>.js
 - **Tecnología** (1): Tecnología Digital (software de dibujo, procesador de texto,
   uso seguro de internet) — OA05-07. Fuera: OA01-04 (diseñar/elaborar/evaluar un
   objeto tecnológico propio — producción práctica).
+
+**2° básico: niveles Fácil/Normal/Difícil + Examen Final, las 9 asignaturas
+(2026-08-11):** pedido explícito del usuario ("procede con 2° básico") tras
+completar el mismo rollout en 1° básico. A diferencia de 1° básico (9 PRs
+independientes, uno por asignatura, cada uno confirmado con "Sigue con X"),
+esta vez el pedido cubrió el curso completo de una sola vez, así que las 9
+asignaturas se implementaron y verificaron juntas en un solo PR — mismo
+motor (`levels:true`/`selectMCLevel()`/`levelPickerHTML()`), sin ningún
+cambio a `mcEngine.js` en sí, solo contenido nuevo por asignatura.
+
+- **Sílabas y Letras (memorama) siguen fuera del motor de niveles**, mismo
+  criterio que Sílabas/Letras en 1° básico: son mecánicas propias (arrastrar/
+  emparejar cartas), no devuelven `{promptHTML,options,correctValue}`.
+  "Secuencia" (Lenguaje 2° básico) es igual de incompatible y también queda
+  fuera, tanto de niveles como del Examen Final de Lenguaje.
+- **Diseño por asignatura** (mismo criterio ya establecido: fácil reduce el
+  número de alternativas o el rango numérico; difícil oculta el apoyo visual
+  decorativo —emoji, SVG— dejando solo el texto que ya describe el ítem, o
+  sube la complejidad real del ítem cuando no hay nada que ocultar):
+  - **Matemática** (Salta y Cuenta, Multiplicar, Geometría, Medición): Salta
+    y Cuenta varía el paso (2/5 en fácil, hasta 2/5/10 en difícil), el rango
+    y si el hueco está al medio (interpolar, fácil) o en un extremo
+    (extrapolar, difícil). Multiplicar quita el apoyo visual de objetos
+    dibujados en difícil (igual que Sumar en 1° básico). Geometría: la rama
+    de posición pasa de 2 a 3 objetos en difícil (con 3 preguntas posibles:
+    izquierda/derecha/medio); las ramas de figura 2D/cuerpo 3D reemplazan el
+    dibujo por una descripción de sus propiedades (lados/caras) en difícil.
+    Medición: Calendario/Hora ajustan cuántas opciones y qué tan cercanos son
+    los distractores; Longitud ajusta qué tan parecida es la medida de los 2
+    objetos comparados (diferencia grande y obvia en fácil, cercana en
+    difícil).
+  - **Lenguaje** (Combinaciones, Gramática, Comprensión II): mismo patrón que
+    Vocales/Palabras/Comprensión de 1° básico — fácil reduce opciones,
+    difícil oculta el emoji o el texto de apoyo (Comprensión II oculta el
+    relato, hay que escucharlo).
+  - **Ciencias Naturales** (6 módulos): en la mayoría de las ramas, difícil
+    reemplaza el emoji del animal/objeto por su NOMBRE EN TEXTO (nunca por
+    un texto genérico fijo) — mismo criterio preventivo ya aprendido en
+    Ciencias 1° básico para no colapsar la firma de ronda. Ciclos de Vida
+    oculta la tira completa del ciclo en difícil, obligando a recordar el
+    orden de memoria. De paso se corrigió 1 de los 4 placeholders `"un(a)"`
+    sin resolver ya documentados como pendientes en este archivo
+    (`genVertebrados2Round`) y el bug ya conocido de "un(a)" en
+    `genClima2Round` (instrumentos de clima, con artículo correcto "un"/
+    "una" según el instrumento — solo "veleta" usa "una").
+  - **Historia** (4 módulos): mismo criterio que Historia 1° básico —
+    el texto de la pregunta siempre nombra la zona/pueblo/práctica en
+    palabras, así que difícil solo oculta el emoji decorativo, nunca el
+    texto.
+  - **Artes Visuales** (Líneas y Colores, único módulo): la rama de tipo de
+    línea mantiene el SVG siempre visible en los 3 niveles (es la única
+    fuente de información, no hay texto que la reemplace) y solo varía el
+    número de opciones; la rama de color primario/secundario oculta el
+    swatch en difícil (el nombre del color ya va en texto).
+  - **Música** (Timbre y Pulso, único módulo): rama de timbre reduce
+    distractores/oculta el emoji (`item.desc` ya describe el sonido); rama
+    de pulso (banco chico, ya textual) solo reduce opciones en fácil. De
+    paso se corrigió un bug real de `speakText` con comillas rectas sin
+    escapar (`"pulso"`/`"acento"`, rompía el atributo `onclick` del botón
+    Escuchar — mismo patrón de bug ya documentado y corregido en NT,
+    resuelto aquí con comillas tipográficas “ ”).
+  - **Educación Física** (3 módulos, todos V/F binarios): sin margen para
+    reducir opciones — solo se oculta el emoji decorativo en difícil.
+  - **Orientación** (4 módulos): Mis Emociones II y Buena Convivencia II
+    ocultan el texto de la escena en difícil (hay que escuchar 🔊 para
+    conocerla, mismo criterio que Comprensión II de Lenguaje); Autocuidado y
+    Hábitos II/Hábitos de Trabajo Escolar (V/F binarios) solo ocultan el
+    emoji. De paso se corrigió el mismo bug de comillas rectas sin escapar
+    en `AUTOCUIDADO_2_ITEMS` (`"no"` → “no”).
+  - **Tecnología** (Tecnología Digital, único módulo): fácil reduce a 2
+    opciones, difícil oculta el emoji (`item.pregunta` ya es la pregunta
+    completa en texto).
+- **Examen Final por asignatura**: mezcla los módulos del año + los 3
+  niveles al azar, `rounds:20`, sin selector propio (`levels` no seteado).
+  Para las 3 asignaturas con un solo módulo compatible (Artes, Música,
+  Tecnología) el examen re-randomiza el nivel sobre ese único generador,
+  mismo patrón ya usado en Tecnología 1° básico.
+- **Mapas de nodos recalculados** (mismo método de siempre: preservar la
+  posición en píxeles de los nodos existentes, extrapolar el nuevo nodo con
+  el mismo paso del zigzag, elegir una altura nueva con margen): Lenguaje/
+  Matemática/Historia/Orientación 4→5 nodos; Ciencias 6→7; Educación Física
+  3→4; Artes/Música/Tecnología 1→2 (reusando el layout canónico de 2 nodos
+  `[{x:30,y:70},{x:70,y:30}]`, height:260, ya validado en Tecnología 1°
+  básico).
+- Verificado: los 28 generadores base + 9 exámenes pasan fuzz de 200
+  iteraciones por nivel (108 combinaciones, sin `throw`, sin `undefined`,
+  sin opciones duplicadas, `correctValue` siempre presente, `recurso`
+  siempre presente, sin comillas rectas sin escapar en `speakText` — 0
+  hallazgos tras corregir los 2 bugs de comillas de Música/Orientación) y
+  simulación de 150 sesiones completas por combinación (90 combinaciones,
+  13.500 sesiones): **0 repeticiones**. `MC_KEYS.length ===
+  Object.keys(MC_GAMES).length === 583` (574 previos + 9 exámenes, sin
+  claves huérfanas). Probado visualmente en el navegador: las 9 pantallas
+  de mapa de 2° básico renderizadas de verdad (`getBoundingClientRect()`),
+  **0 solapamientos, ancho de etiqueta máximo 170px** en las 9; una partida
+  jugada en "Vertebrados e Invertebrados" en Difícil (mostró "Gato" en
+  texto en vez del emoji, avance correcto de 1/10 a 2/10 con sonido
+  confirmado); el Examen Final de Ciencias saltando directo a 1/20 sin
+  selector; el Examen Final de Tecnología (único módulo) mostrando una
+  pregunta real sin selector. Sin errores de consola en ningún caso.
+
+**Con esto, el rollout de niveles Fácil/Normal/Difícil + Examen Final queda
+completo en 1° y 2° básico.** Próximo paso: definir con el usuario si se
+continúa con 3°-8° básico (y en qué orden) — mismo criterio de "un curso a
+la vez" que el resto del proyecto, dado el tamaño real de la tarea
+restante.
 
 ### 3° Básico — ✅ completo (36 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

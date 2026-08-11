@@ -44,8 +44,9 @@ export const MATE_MODULES_G2 = [
   {id:'multiplicar', label:'Multiplicar', open:true, key:'multiplicar'},
   {id:'geometria2', label:'Geometría', open:true, key:'geometria2'},
   {id:'medicion2', label:'Medición', open:true, key:'medicion2'},
+  {id:'examenmate2', label:'Examen Final', open:true, key:'examenmate2'},
 ];
-export const MATE_POS_G2 = [{x:24,y:84},{x:70,y:60},{x:24,y:36},{x:68,y:12}];
+export const MATE_POS_G2 = [{x:24,y:87},{x:70,y:68},{x:24,y:49},{x:68,y:30},{x:24,y:10}];
 
 /* Niveles de dificultad (2026-08-09, pedido explícito del usuario: "que
    comience una especie de niveles, facil, normal y dificil" — piloto en
@@ -187,14 +188,25 @@ export function genExamenMate1Round(){
   return gen(nivel);
 }
 
-export function genSaltaRound(){
-  const step = pick([2,5,10]);
-  const startMult = randInt(0, Math.floor(80/step));
+/* Niveles de dificultad (2026-08-11, continuación del rollout a 2° básico):
+   `nivel` opcional, sin argumento se comporta igual que antes ('normal').
+   Fácil: pasos más simples (2 o 5), rango chico, hueco siempre en el medio
+   (más fácil de interpolar), distractores bien alejados (fáciles de
+   descartar). Difícil: hueco en un extremo (obliga a extrapolar el patrón en
+   vez de interpolarlo), rango más grande, distractores más cercanos entre sí
+   (hay que aplicar el paso real, no solo "adivinar por tamaño"). */
+export function genSaltaRound(nivel){
+  let stepPool, maxStartDiv, blankIdxPool, spreadMult;
+  if(nivel==='facil'){ stepPool=[2,5]; maxStartDiv=30; blankIdxPool=[2]; spreadMult=3; }
+  else if(nivel==='dificil'){ stepPool=[2,5,10]; maxStartDiv=150; blankIdxPool=[0,4]; spreadMult=1; }
+  else { stepPool=[2,5,10]; maxStartDiv=80; blankIdxPool=[1,2,3]; spreadMult=2; }
+  const step = pick(stepPool);
+  const startMult = randInt(0, Math.floor(maxStartDiv/step));
   const start = startMult*step;
   const seq = [start, start+step, start+2*step, start+3*step, start+4*step];
-  const blankIdx = randInt(1,3);
+  const blankIdx = pick(blankIdxPool);
   const correct = seq[blankIdx];
-  const opts = uniqueDistractors(correct, 0, 999, step*2, 4).map(function(v){ return {label:String(v), value:v}; });
+  const opts = uniqueDistractors(correct, 0, 999, step*spreadMult, 4).map(function(v){ return {label:String(v), value:v}; });
   const displaySeq = seq.map(function(n,i){ return i===blankIdx ? '<span class="blank">?</span>' : n; }).join(' — ');
   return {
     promptHTML: '<p class="prompt-count" style="letter-spacing:1px;">'+displaySeq+'</p><p class="prompt-hint">¿Qué número falta en la secuencia?</p>',
@@ -244,7 +256,38 @@ const OBJETOS_LONGITUD_G2 = [
   { emoji:'🏟️', label:'La cancha de fútbol', medida:'100 m', valor:10000 },
 ];
 
-function genPosicionG2Round(){
+/* Niveles (2026-08-11): Posición usa siempre 2 objetos en fácil/normal (ya
+   era el mínimo posible); difícil suma un 3er objeto y 3 preguntas posibles
+   (izquierda/derecha/medio), genuinamente más exigente sin reducir nada.
+   Figura2D/Solido3D: fácil reduce a 2 opciones; difícil oculta el dibujo y
+   lo reemplaza por una descripción de sus propiedades (lados/caras), para
+   que la respuesta exija razonar en vez de solo reconocer visualmente. */
+const FIGURA_2D_DESC = {
+  circulo: 'No tiene lados rectos ni esquinas.',
+  cuadrado: 'Tiene 4 lados iguales y 4 esquinas iguales.',
+  triangulo: 'Tiene 3 lados y 3 esquinas.',
+  rectangulo: 'Tiene 4 lados rectos, pero no todos iguales.',
+};
+const SOLIDO_3D_DESC = {
+  cubo: 'Tiene 6 caras cuadradas iguales.',
+  paralelepipedo: 'Tiene 6 caras rectangulares, como una caja de zapatos.',
+  esfera: 'No tiene caras planas ni esquinas, como una pelota.',
+  cono: 'Tiene una base circular y termina en una punta.',
+};
+function genPosicionG2Round(nivel){
+  if(nivel==='dificil'){
+    const three = shuffle(OBJETOS_POS_POOL).slice(0,3);
+    const [a,b,c] = three;
+    const askType = pick(['izquierda','derecha','medio']);
+    const correct = askType==='izquierda' ? a.label : askType==='derecha' ? c.label : b.label;
+    const question = askType==='medio' ? '¿qué objeto está en el medio?' : '¿qué objeto está más a la '+askType+'?';
+    const opts = shuffle(three).map(function(o){ return {label:o.label, value:o.label}; });
+    return {
+      promptHTML: '<p class="prompt-count">'+a.emoji+' '+b.emoji+' '+c.emoji+'</p><p class="prompt-hint">'+question+'</p>',
+      options: opts, correctValue: correct, speakText: question, cols:3, panel:true,
+      explain: 'El/la <b>'+correct.toLowerCase()+'</b> está '+(askType==='medio'?'en el medio':'más a la '+askType)+'.',
+    };
+  }
   let a = pick(OBJETOS_POS_POOL), b = pick(OBJETOS_POS_POOL);
   while(b.label === a.label) b = pick(OBJETOS_POS_POOL);
   const askLeft = Math.random()<0.5;
@@ -257,39 +300,56 @@ function genPosicionG2Round(){
   };
 }
 
-function genFigura2DG2Round(){
+function genFigura2DG2Round(nivel){
   const item = pick(FIGURAS_2D_G2);
-  const distract = FIGURAS_2D_G2.filter(function(s){ return s.id!==item.id; });
+  let distract = FIGURAS_2D_G2.filter(function(s){ return s.id!==item.id; });
+  if(nivel==='facil'){ distract = shuffle(distract).slice(0,1); }
   const opts = shuffle([item].concat(distract)).map(function(s){ return {label:s.label, value:s.id}; });
+  const visual = nivel==='dificil'
+    ? '<p class="prompt-hint">'+FIGURA_2D_DESC[item.id]+'</p>'
+    : '<div class="shape-display">'+shapeSVG(item.id,110)+'</div>';
   return {
-    promptHTML: '<div class="shape-display">'+shapeSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué figura es?</p>',
+    promptHTML: visual+'<p class="prompt-hint">¿Qué figura es?</p>',
     options: opts, correctValue: item.id, speakText: item.label, cols:2, kind:'word', panel:true,
     explain: 'Esta figura es un <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
 
-function genSolido3DG2Round(){
+function genSolido3DG2Round(nivel){
   const item = pick(SOLIDOS_3D_G2);
-  const distract = SOLIDOS_3D_G2.filter(function(s){ return s.id!==item.id; });
+  let distract = SOLIDOS_3D_G2.filter(function(s){ return s.id!==item.id; });
+  if(nivel==='facil'){ distract = shuffle(distract).slice(0,1); }
   const opts = shuffle([item].concat(distract)).map(function(s){ return {label:s.label, value:s.id}; });
+  const visual = nivel==='dificil'
+    ? '<p class="prompt-hint">'+SOLIDO_3D_DESC[item.id]+'</p>'
+    : '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div>';
   return {
-    promptHTML: '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué cuerpo geométrico es?</p>',
+    promptHTML: visual+'<p class="prompt-hint">¿Qué cuerpo geométrico es?</p>',
     options: opts, correctValue: item.id, speakText: item.label, cols:2, kind:'word', panel:true,
     explain: 'Este cuerpo geométrico es '+articuloFigura(item.id)+' <b>'+item.label.toLowerCase()+'</b>.',
   };
 }
 
-export function genGeometria2Round(){
+export function genGeometria2Round(nivel){
   const recurso = 'La geometría de 2° básico junta tres ideas: la <b>posición relativa</b> (izquierda/derecha, un objeto respecto a otro), las <b>figuras 2D</b> (círculo, cuadrado, triángulo, rectángulo — planas, con solo largo y ancho), y los <b>cuerpos 3D</b> (cubo, paralelepípedo, esfera, cono — con volumen, que puedes tomar en tus manos y tienen largo, ancho y alto). La diferencia clave entre 2D y 3D es esa: una figura 2D es plana como un dibujo en una hoja, mientras que un cuerpo 3D ocupa espacio real, como una caja o una pelota. Reconocer estas formas en objetos de tu entorno (una ventana es un rectángulo, un dado es un cubo) te ayuda a ver la geometría en el mundo real, no solo en el papel.';
   const roll = Math.random();
-  const r = roll<0.34 ? genPosicionG2Round() : roll<0.67 ? genFigura2DG2Round() : genSolido3DG2Round();
+  const r = roll<0.34 ? genPosicionG2Round(nivel) : roll<0.67 ? genFigura2DG2Round(nivel) : genSolido3DG2Round(nivel);
   r.recurso = recurso;
   return r;
 }
 
-function genCalendarioG2Round(){
+/* Niveles (2026-08-11): Calendario/Hora ajustan cuántas opciones se ofrecen
+   y qué tan cercanos son los distractores (fácil = pocos y bien alejados,
+   difícil = 4 pero muy próximos entre sí, obliga a saber la respuesta en
+   vez de descartar por tamaño). Longitud ajusta qué tan parecida es la
+   medida de los 2 objetos comparados (fácil = diferencia grande y obvia,
+   difícil = medidas cercanas, hay que leer con cuidado). */
+function genCalendarioG2Round(nivel){
   const item = pick(CALENDARIO_HECHOS);
-  const opts = uniqueDistractors(item.correcta, item.min, item.max, item.spread, 4).map(function(v){ return {label:String(v), value:v}; });
+  let count=4, spread=item.spread;
+  if(nivel==='facil'){ count=2; spread=item.spread+3; }
+  else if(nivel==='dificil'){ spread=Math.max(1,item.spread-2); }
+  const opts = uniqueDistractors(item.correcta, item.min, item.max, spread, count).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:4,
@@ -297,11 +357,14 @@ function genCalendarioG2Round(){
   };
 }
 
-function genHoraG2Round(){
+function genHoraG2Round(nivel){
   const hour = randInt(1,12);
-  const isHalf = Math.random()<0.5;
+  const isHalf = nivel==='facil' ? false : Math.random()<0.5;
   const display = String(hour).padStart(2,'0')+':'+(isHalf ? '30' : '00');
-  const hourOpts = uniqueDistractors(hour, 1, 12, 3, 4);
+  let count=4, spread=3;
+  if(nivel==='facil'){ count=2; spread=6; }
+  else if(nivel==='dificil'){ spread=1; }
+  const hourOpts = uniqueDistractors(hour, 1, 12, spread, count);
   const opts = hourOpts.map(function(h){ return {label: h+(isHalf ? ' y media' : ' en punto'), value: h}; });
   return {
     promptHTML: '<p class="prompt-count" style="font-size:40px;">'+display+'</p><p class="prompt-hint">¿Qué hora es?</p>',
@@ -310,9 +373,17 @@ function genHoraG2Round(){
   };
 }
 
-function genLongitudG2Round(){
-  let a = pick(OBJETOS_LONGITUD_G2), b = pick(OBJETOS_LONGITUD_G2);
-  while(b.label === a.label || b.valor === a.valor) b = pick(OBJETOS_LONGITUD_G2);
+function genLongitudG2Round(nivel){
+  const a = pick(OBJETOS_LONGITUD_G2);
+  let candidates = OBJETOS_LONGITUD_G2.filter(function(o){ return o.label!==a.label && o.valor!==a.valor; });
+  if(nivel==='facil'){
+    const far = candidates.filter(function(o){ return Math.abs(o.valor-a.valor) >= Math.max(o.valor,a.valor)*0.5; });
+    if(far.length) candidates = far;
+  } else if(nivel==='dificil'){
+    const close = candidates.filter(function(o){ return Math.abs(o.valor-a.valor) <= Math.min(o.valor,a.valor)*0.6; });
+    if(close.length) candidates = close;
+  }
+  const b = pick(candidates);
   const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
   const longer = a.valor>b.valor ? a : b;
   return {
@@ -322,24 +393,47 @@ function genLongitudG2Round(){
   };
 }
 
-export function genMedicion2Round(){
+export function genMedicion2Round(nivel){
   const recurso = 'Medir significa comparar algo contra una unidad conocida para expresar "cuánto" hay de eso: el <b>calendario</b> mide el tiempo en días, semanas y meses; el <b>reloj</b> mide el tiempo dentro de un día en horas; y una <b>regla o huincha</b> mide la longitud en centímetros o metros. Aunque parezcan temas distintos, todos comparten la misma idea de fondo: elegir una unidad fija (un día, una hora, un centímetro) y contar cuántas veces cabe esa unidad en lo que estás midiendo. Practicar con calendarios, relojes y objetos cotidianos te prepara para usar la medición en situaciones reales, como saber cuánto falta para tu cumpleaños o qué tan largo es tu lápiz.';
   const roll = Math.random();
-  const r = roll<0.34 ? genCalendarioG2Round() : roll<0.67 ? genHoraG2Round() : genLongitudG2Round();
+  const r = roll<0.34 ? genCalendarioG2Round(nivel) : roll<0.67 ? genHoraG2Round(nivel) : genLongitudG2Round(nivel);
   r.recurso = recurso;
   return r;
 }
 
-export function genMultiplicarRound(){
-  const table = pick([2,5,10]);
-  const groups = randInt(2,5);
+/* "Examen Final" 2° básico (2026-08-11, mismo patrón ya validado en 1°
+   básico): mezcla los 4 módulos del año + los 3 niveles al azar. */
+export function genExamenMate2Round(){
+  const gens = [genSaltaRound, genMultiplicarRound, genGeometria2Round, genMedicion2Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
+}
+
+/* Niveles (2026-08-11): fácil reduce las tablas a 2/5 y los grupos a 2-3
+   (más fácil de dibujar/contar); difícil sube grupos hasta 8 y QUITA el
+   apoyo visual de los objetos dibujados (queda solo "N × T" en números),
+   mismo criterio ya usado en Sumar de 1° básico para el paso más abstracto. */
+export function genMultiplicarRound(nivel){
+  let tablePool, groupsMin, groupsMax, useVisual;
+  if(nivel==='facil'){ tablePool=[2,5]; groupsMin=2; groupsMax=3; useVisual=true; }
+  else if(nivel==='dificil'){ tablePool=[2,5,10]; groupsMin=4; groupsMax=8; useVisual=false; }
+  else { tablePool=[2,5,10]; groupsMin=2; groupsMax=5; useVisual=true; }
+  const table = pick(tablePool);
+  const groups = randInt(groupsMin,groupsMax);
   const emoji = pick(COUNT_EMOJIS);
   const total = table*groups;
-  const groupHTML = [];
-  for(let g=0; g<groups; g++){ groupHTML.push('<span class="mgroup">'+new Array(table).fill(emoji).join('')+'</span>'); }
-  const opts = uniqueDistractors(total, 1, 100, table, 4).map(function(v){ return {label:String(v), value:v}; });
+  let visual;
+  if(useVisual){
+    const groupHTML = [];
+    for(let g=0; g<groups; g++){ groupHTML.push('<span class="mgroup">'+new Array(table).fill(emoji).join('')+'</span>'); }
+    visual = groupHTML.join('');
+  } else {
+    visual = '<span class="op-num">'+groups+'</span><span class="op-sign">×</span><span class="op-num">'+table+'</span>';
+  }
+  const opts = uniqueDistractors(total, 1, 200, table, 4).map(function(v){ return {label:String(v), value:v}; });
   return {
-    promptHTML: '<p class="prompt-count">'+groupHTML.join('')+'</p><p class="prompt-hint">'+groups+' grupos de '+table+'. ¿Cuántos hay en total?</p>',
+    promptHTML: '<p class="prompt-count">'+visual+'</p><p class="prompt-hint">'+groups+' grupos de '+table+'. ¿Cuántos hay en total?</p>',
     options: opts,
     correctValue: total,
     speakText: '¿Cuánto es '+groups+' veces '+table+'?',

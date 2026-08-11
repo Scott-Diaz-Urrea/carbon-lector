@@ -113,8 +113,9 @@ export const HISTORIA_MODULES_G2 = [
   {id:'patrimonio2', label:'Patrimonio de Chile', open:true, key:'patrimonio2'},
   {id:'paisajes2', label:'Paisajes de Chile', open:true, key:'paisajes2'},
   {id:'ciudadania2', label:'Formación Ciudadana', open:true, key:'ciudadania2'},
+  {id:'examenhistoria2', label:'Examen Final', open:true, key:'examenhistoria2'},
 ];
-export const HISTORIA_POS_G2 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
+export const HISTORIA_POS_G2 = [{x:22,y:90},{x:68,y:71},{x:24,y:53},{x:70,y:31},{x:24,y:10}];
 
 /* Se agregaron Diaguita (Norte Chico) y Picunche (Zona Central, antes del
    ensanche mapuche hacia el norte) — antes solo había 3 pueblos y ninguno
@@ -178,20 +179,32 @@ const CIUDADANIA_BANK = [
   { correcta:'Tratar con respeto a todas las personas de tu comunidad', incorrectas:['Burlarte de alguien por cómo habla o se viste','Tratar mal a alguien por ser distinto','Excluir a alguien de un grupo sin motivo'] },
 ];
 
-export function genPueblos2Round(){
+/* Niveles (2026-08-11): en los 4 generadores de este módulo el nombre del
+   pueblo/zona/práctica siempre va en texto dentro de la pregunta, así que
+   nunca se necesita reemplazar el prompt entero (mismo criterio ya
+   aplicado en Calendario/Mi Identidad de 1° básico) — solo se ajusta la
+   cantidad de opciones (fácil) y se oculta el emoji decorativo (difícil). */
+export function genPueblos2Round(nivel){
   const recurso = 'Antes de la llegada de los españoles, distintos <b>pueblos originarios</b> ya vivían en lo que hoy es Chile, cada uno adaptado a la zona geográfica donde habitaba: por ejemplo, pueblos del norte se adaptaron al desierto, y pueblos del sur a los bosques y el frío. La zona donde vivía cada pueblo influía directamente en cómo se alimentaban, qué materiales usaban para construir, y qué actividades realizaban — no es casualidad, sino una adaptación inteligente al entorno natural disponible. Conocer qué pueblo vivió en cada zona te ayuda a entender que Chile tiene una historia y una diversidad cultural mucho más larga que solo desde la llegada de los españoles.';
   const item = pick(PUEBLOS_BANK);
   const askZona = Math.random()<0.5;
+  const showEmoji = nivel !== 'dificil';
   if(askZona){
-    const opts = shuffle(ZONAS_POOL).map(function(z){ return {label:z, value:z}; });
+    let opts = shuffle(ZONAS_POOL);
+    if(nivel==='facil'){
+      const wrong = opts.filter(function(z){ return z!==item.zona; });
+      opts = shuffle([item.zona, pick(wrong)]);
+    }
+    opts = opts.map(function(z){ return {label:z, value:z}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿En qué zona de Chile vivía tradicionalmente el pueblo '+item.pueblo+'?</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">¿En qué zona de Chile vivía tradicionalmente el pueblo '+item.pueblo+'?</p>',
       options: opts, correctValue: item.zona, speakText: '¿En qué zona vivía el pueblo '+item.pueblo+'?', cols:2, panel:true,
       explain: 'El pueblo <b>'+item.pueblo+'</b> vivía tradicionalmente en la zona <b>'+item.zona+'</b>.',
       recurso: recurso,
     };
   }
-  const distract = PUEBLOS_BANK.filter(function(p){ return p.pueblo!==item.pueblo; }).map(function(p){ return p.pueblo; });
+  let distract = PUEBLOS_BANK.filter(function(p){ return p.pueblo!==item.pueblo; }).map(function(p){ return p.pueblo; });
+  distract = shuffle(distract).slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.pueblo].concat(distract)).map(function(p){ return {label:p, value:p}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Qué pueblo originario vivía tradicionalmente en la zona '+item.zona+'?</p>',
@@ -201,41 +214,55 @@ export function genPueblos2Round(){
   };
 }
 
-export function genPatrimonio2Round(){
+export function genPatrimonio2Round(nivel){
   const recurso = 'El <b>patrimonio natural</b> son los lugares, paisajes y elementos de la naturaleza que un país considera valiosos y dignos de proteger, porque representan algo único de su geografía o su historia — como un volcán, un desierto o un glaciar reconocible. A diferencia del patrimonio cultural (edificios, tradiciones, comidas creadas por personas), el patrimonio natural existe sin que el ser humano lo haya construido, pero igual necesita ser cuidado y protegido para que las próximas generaciones también puedan disfrutarlo. Reconocer qué lugares son patrimonio natural de Chile te ayuda a valorar y cuidar mejor el entorno natural de tu propio país.';
   const item = pick(PATRIMONIO_NATURAL_BANK);
   const opts = shuffle([{label:'Patrimonio natural de Chile', value:true},{label:'No es de Chile', value:false}]);
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.label+'</p>',
     options: opts, correctValue: item.tipico, speakText: item.label, cols:2, panel:true,
     explain: item.tipico ? item.label+' <b>es patrimonio natural de Chile</b>.' : item.label+' <b>no es de Chile</b>.',
     recurso: recurso,
   };
 }
 
-export function genPaisajes2Round(){
+export function genPaisajes2Round(nivel){
   const recurso = 'Chile es un país muy largo (más de 4.000 km de norte a sur), por eso tiene paisajes tan distintos según la zona: el desierto árido en el norte, valles y costas templadas en la zona central, bosques y lluvia abundante en el sur, y hielos y glaciares en el extremo sur. Esta variedad de paisajes se debe principalmente al clima de cada zona, que cambia según qué tan cerca o lejos está del ecuador y de la cordillera. Reconocer qué paisaje corresponde a cada zona te ayuda a entender por qué la vida, los animales y las actividades de la gente son tan distintas entre el norte y el sur de un mismo país.';
   const item = pick(PAISAJES_ZONA_BANK);
-  const distract = PAISAJES_ZONA_BANK.filter(function(p){ return p.zona!==item.zona; }).map(function(p){ return p.zona; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
+  let distract = PAISAJES_ZONA_BANK.filter(function(p){ return p.zona!==item.zona; }).map(function(p){ return p.zona; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
+  distract = shuffle(distract).slice(0, nivel==='facil' ? 1 : distract.length);
   const opts = shuffle([item.zona].concat(distract)).map(function(z){ return {label:z, value:z}; });
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿En qué zona de Chile encuentras principalmente '+item.label.toLowerCase()+'?</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">¿En qué zona de Chile encuentras principalmente '+item.label.toLowerCase()+'?</p>',
     options: opts, correctValue: item.zona, speakText: '¿En qué zona encuentras '+item.label+'?', cols:4, kind:'word',
     explain: item.label+' se encuentra principalmente en la zona <b>'+item.zona+'</b> de Chile.',
     recurso: recurso,
   };
 }
 
-export function genCiudadania2Round(){
+export function genCiudadania2Round(nivel){
   const recurso = 'La <b>formación ciudadana</b> son las conductas y valores que necesitas para convivir bien dentro de una sociedad más grande que tu familia o tu curso: respetar las normas, ser honesto, cuidar los espacios públicos, y colaborar con los demás sin esperar algo a cambio. Estas prácticas parecen simples, pero son la base de cómo funciona una comunidad —desde tu barrio hasta el país completo—: si cada persona actúa con buena convivencia ciudadana, todos se benefician; si muchas personas no lo hacen, la convivencia se hace difícil para todos. Aprender a reconocer estas buenas prácticas desde pequeño te prepara para ser un ciudadano responsable de adulto.';
   const item = pick(CIUDADANIA_BANK);
-  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.incorrectas;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de convivencia ciudadana?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de convivencia ciudadana?', cols:2, panel:true,
     explain: '"'+item.correcta+'" es una buena práctica de convivencia ciudadana.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" 2° básico Historia: mezcla los 4 módulos del año + los 3
+   niveles al azar, mismo patrón ya validado en el resto de 2° básico. */
+export function genExamenHistoria2Round(){
+  const gens = [genPueblos2Round, genPatrimonio2Round, genPaisajes2Round, genCiudadania2Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 function calStripHTML(list, todayIdx){

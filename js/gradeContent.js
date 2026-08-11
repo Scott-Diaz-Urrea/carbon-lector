@@ -52,7 +52,7 @@ import { INGLES_EPJA_M2_MODULES, INGLES_EPJA_M2_POS } from './content/epja/ingle
 
 export const LENGUAJE_BY_GRADE = {
   1: { modules: LENGUAJE_MODULES, pos: LENGUAJE_POS, height: 600 },
-  2: { modules: LENGUAJE_MODULES_G2, pos: LENGUAJE_POS_G2, height: 360 },
+  2: { modules: LENGUAJE_MODULES_G2, pos: LENGUAJE_POS_G2, height: 430 },
   3: { modules: LENGUAJE_MODULES_G3, pos: LENGUAJE_POS_G3, height: 510 },
   4: { modules: LENGUAJE_MODULES_G4, pos: LENGUAJE_POS_G4, height: 360 },
   5: { modules: LENGUAJE_MODULES_G5, pos: LENGUAJE_POS_G5, height: 440 },
@@ -62,7 +62,7 @@ export const LENGUAJE_BY_GRADE = {
 };
 export const MATE_BY_GRADE = {
   1: { modules: MATE_MODULES, pos: MATE_POS, height: 500 },
-  2: { modules: MATE_MODULES_G2, pos: MATE_POS_G2, height: 360 },
+  2: { modules: MATE_MODULES_G2, pos: MATE_POS_G2, height: 450 },
   3: { modules: MATE_MODULES_G3, pos: MATE_POS_G3, height: 700 },
   4: { modules: MATE_MODULES_G4, pos: MATE_POS_G4, height: 700 },
   5: { modules: MATE_MODULES_G5, pos: MATE_POS_G5, height: 840 },
@@ -72,7 +72,7 @@ export const MATE_BY_GRADE = {
 };
 export const CIENCIAS_BY_GRADE = {
   1: { modules: CIENCIAS_MODULES, pos: CIENCIAS_POS, height: 600 },
-  2: { modules: CIENCIAS_MODULES_G2, pos: CIENCIAS_POS_G2, height: 490 },
+  2: { modules: CIENCIAS_MODULES_G2, pos: CIENCIAS_POS_G2, height: 580 },
   3: { modules: CIENCIAS_MODULES_G3, pos: CIENCIAS_POS_G3, height: 560 },
   4: { modules: CIENCIAS_MODULES_G4, pos: CIENCIAS_POS_G4, height: 420 },
   5: { modules: CIENCIAS_MODULES_G5, pos: CIENCIAS_POS_G5, height: 420 },
@@ -82,7 +82,7 @@ export const CIENCIAS_BY_GRADE = {
 };
 export const HISTORIA_BY_GRADE = {
   1: { modules: HISTORIA_MODULES, pos: HISTORIA_POS, height: 600 },
-  2: { modules: HISTORIA_MODULES_G2, pos: HISTORIA_POS_G2, height: 360 },
+  2: { modules: HISTORIA_MODULES_G2, pos: HISTORIA_POS_G2, height: 440 },
   3: { modules: HISTORIA_MODULES_G3, pos: HISTORIA_POS_G3, height: 340 },
   4: { modules: HISTORIA_MODULES_G4, pos: HISTORIA_POS_G4, height: 340 },
   5: { modules: HISTORIA_MODULES_G5, pos: HISTORIA_POS_G5, height: 340 },
@@ -112,7 +112,7 @@ export const MUSICA_BY_GRADE = {
 };
 export const EDFISICA_BY_GRADE = {
   1: { modules: EDFISICA_MODULES, pos: EDFISICA_POS, height: 480 },
-  2: { modules: EDFISICA_MODULES_G2, pos: EDFISICA_POS_G2, height: 340 },
+  2: { modules: EDFISICA_MODULES_G2, pos: EDFISICA_POS_G2, height: 420 },
   3: { modules: EDFISICA_MODULES_G3, pos: EDFISICA_POS_G3, height: 260 },
   4: { modules: EDFISICA_MODULES_G4, pos: EDFISICA_POS_G4, height: 260 },
   5: { modules: EDFISICA_MODULES_G5, pos: EDFISICA_POS_G5, height: 260 },
@@ -122,7 +122,7 @@ export const EDFISICA_BY_GRADE = {
 };
 export const ORIENTACION_BY_GRADE = {
   1: { modules: ORIENTACION_MODULES, pos: ORIENTACION_POS, height: 480 },
-  2: { modules: ORIENTACION_MODULES_G2, pos: ORIENTACION_POS_G2, height: 360 },
+  2: { modules: ORIENTACION_MODULES_G2, pos: ORIENTACION_POS_G2, height: 440 },
   3: { modules: ORIENTACION_MODULES_G3, pos: ORIENTACION_POS_G3, height: 360 },
   4: { modules: ORIENTACION_MODULES_G4, pos: ORIENTACION_POS_G4, height: 360 },
   5: { modules: ORIENTACION_MODULES_G5, pos: ORIENTACION_POS_G5, height: 440 },
@@ -132,7 +132,7 @@ export const ORIENTACION_BY_GRADE = {
 };
 export const TECNOLOGIA_BY_GRADE = {
   1: { modules: TECNOLOGIA_MODULES, pos: TECNOLOGIA_POS, height: 260 },
-  2: { modules: TECNOLOGIA_MODULES_G2, pos: TECNOLOGIA_POS_G2, height: 200 },
+  2: { modules: TECNOLOGIA_MODULES_G2, pos: TECNOLOGIA_POS_G2, height: 260 },
   3: { modules: TECNOLOGIA_MODULES_G3, pos: TECNOLOGIA_POS_G3, height: 200 },
   4: { modules: TECNOLOGIA_MODULES_G4, pos: TECNOLOGIA_POS_G4, height: 200 },
   5: { modules: TECNOLOGIA_MODULES_G5, pos: TECNOLOGIA_POS_G5, height: 200 },

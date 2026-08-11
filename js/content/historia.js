@@ -471,8 +471,9 @@ export const HISTORIA_MODULES_G3 = [
   {id:'civilizaciones3', label:'Grecia y Roma', open:true, key:'civilizaciones3'},
   {id:'geografia3', label:'Geografía del Mundo', open:true, key:'geografia3'},
   {id:'ciudadania3', label:'Formación Ciudadana III', open:true, key:'ciudadania3'},
+  {id:'examenhistoria3', label:'Examen Final', open:true, key:'examenhistoria3'},
 ];
-export const HISTORIA_POS_G3 = [{x:24,y:82},{x:68,y:50},{x:24,y:18}];
+export const HISTORIA_POS_G3 = [{x:24,y:88},{x:68,y:63},{x:24,y:38},{x:68,y:13}];
 
 const CIVILIZACIONES_BANK = [
   { pregunta:'¿Cómo se llamaban las ciudades-estado de la antigua Grecia?', correcta:'Polis', opts:['Imperios','Reinos','Tribus'] },
@@ -520,9 +521,16 @@ const INSTITUCIONES3_BANK = [
   { pregunta:'¿A qué institución acudes si te enfermas gravemente?', correcta:'El hospital', opts:['La municipalidad','La biblioteca','El correo'] },
 ];
 
-export function genCivilizaciones3Round(){
+/* Niveles (2026-08-11): los 3 generadores de este archivo son 100%
+   textuales (preguntas de conocimiento factual, sin ningún emoji/visual
+   que ocultar) — fácil reduce opciones; difícil se comporta igual a
+   normal, mismo criterio ya usado en Ortografía de Lenguaje 3° básico
+   cuando no hay ningún visual que ocultar. */
+export function genCivilizaciones3Round(nivel){
   const item = pick(CIVILIZACIONES_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.opts;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -531,12 +539,14 @@ export function genCivilizaciones3Round(){
   };
 }
 
-export function genGeografia3Round(){
+export function genGeografia3Round(nivel){
   const recurso = 'La geografía del mundo se organiza con varios sistemas: los <b>puntos cardinales</b> (norte, sur, este, oeste) te ayudan a describir direcciones; los <b>hemisferios</b> dividen el planeta en mitades (norte/sur según el ecuador, este/oeste según otro círculo imaginario); y las <b>zonas climáticas</b> (tropical, templada, polar) varían según qué tan cerca o lejos está un lugar del ecuador, determinando si el clima es cálido, templado o muy frío. Estos conceptos te dan un "lenguaje común" para describir cualquier lugar del planeta con precisión, sin importar en qué país estés.';
   const roll = Math.random();
   const bank = roll<0.34 ? CUADRANTES_BANK : roll<0.67 ? HEMISFERIOS_BANK : ZONAS_CLIMATICAS_BANK;
   const item = pick(bank);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.opts;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -545,11 +555,13 @@ export function genGeografia3Round(){
   };
 }
 
-export function genCiudadania3Round(){
+export function genCiudadania3Round(nivel){
   const recurso = 'La formación ciudadana en 3° básico profundiza ideas como la honestidad (decir la verdad y asumir tus errores en vez de esconderlos), el respeto de las reglas incluso sin supervisión, y los derechos que todos los niños tienen (cuidado, educación, protección). Además, conocer las <b>instituciones</b> de tu comunidad —la biblioteca (libros), la municipalidad (organiza tu comuna), el hospital (salud)— te ayuda a saber a quién acudir según lo que necesites. Ser un buen ciudadano no es solo obedecer, es entender por qué existen estas normas e instituciones y cómo te benefician a ti y a toda tu comunidad.';
   if(Math.random()<0.6){
     const item = pick(CIUDADANIA3_BANK);
-    const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+    let opts2 = item.incorrectas;
+    if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+    const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
       options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
@@ -558,13 +570,24 @@ export function genCiudadania3Round(){
     };
   }
   const item = pick(INSTITUCIONES3_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.opts;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" 3° básico Historia: mezcla los 3 módulos del año + los 3
+   niveles al azar. */
+export function genExamenHistoria3Round(){
+  const gens = [genCivilizaciones3Round, genGeografia3Round, genCiudadania3Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Historia, Geografía y Cs. Sociales 4° Básico ----------------

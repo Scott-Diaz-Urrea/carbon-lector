@@ -172,8 +172,9 @@ export function genExamenMusica1Round(){
 export const MUSICA_MODULES_G3 = [
   {id:'lenguajemusical3', label:'Lenguaje Musical', open:true, key:'lenguajemusical3'},
   {id:'musicasociedad3', label:'Música en la Sociedad', open:true, key:'musicasociedad3'},
+  {id:'examenmusica3', label:'Examen Final', open:true, key:'examenmusica3'},
 ];
-export const MUSICA_POS_G3 = [{x:30,y:70},{x:70,y:30}];
+export const MUSICA_POS_G3 = [{x:24,y:85},{x:70,y:50},{x:24,y:15}];
 
 const FORMA_MUSICAL_BANK = [
   { patron:['A','A','A'], forma:'A-A-A (se repite la misma sección)' },
@@ -184,7 +185,7 @@ const FORMA_MUSICAL_BANK = [
   { patron:['A','B','A','B'], forma:'A-B-A-B (dos secciones que se alternan)' },
 ];
 const PULSO_ACENTO_BANK = [
-  { pregunta:'¿Cómo se llama el "latido" constante y regular que se repite en una canción, como el tic-tac de un reloj?', correcta:'El pulso', opts:['El acento','La melodía','El silencio'] },
+  { pregunta:'¿Cómo se llama el “latido” constante y regular que se repite en una canción, como el tic-tac de un reloj?', correcta:'El pulso', opts:['El acento','La melodía','El silencio'] },
   { pregunta:'¿Cómo se llama cuando un golpe o nota suena más fuerte que las demás dentro del pulso?', correcta:'El acento', opts:['El pulso','La pausa','El tono'] },
 ];
 const MUSICA_SOCIEDAD_BANK = [
@@ -198,11 +199,15 @@ const MUSICA_SOCIEDAD_BANK = [
   { situacion:'Una ceremonia solemne y triste de despedida', correcta:'Una marcha fúnebre', opts:['Una canción de cumpleaños','Un jingle publicitario','La cueca'] },
 ];
 
-export function genLenguajeMusical3Round(){
+/* Niveles (2026-08-11): ambos generadores son 100% textuales (código de
+   letras A-B-C o descripción de situación, sin ningún emoji/imagen) —
+   fácil reduce opciones; difícil se comporta igual a normal. */
+export function genLenguajeMusical3Round(nivel){
   const recurso = 'La <b>forma musical</b> describe cómo se organizan las distintas secciones de una canción (llamadas A, B, C...): cuando una sección se repite igual (A-A-A), cuando vuelve a la sección inicial después de otra distinta (A-B-A), o cuando aparecen varias secciones diferentes seguidas (A-B-C) — es como el "esqueleto" de una canción, la estructura que la organiza de principio a fin. El <b>pulso</b> (el latido regular que se repite, como el tic-tac de un reloj) y el <b>acento</b> (cuando un golpe suena más fuerte que los demás dentro de ese pulso) son otros dos elementos básicos del lenguaje musical que te ayudan a sentir el ritmo de cualquier canción.';
   if(Math.random()<0.5){
     const item = pick(FORMA_MUSICAL_BANK);
-    const distract = shuffle(FORMA_MUSICAL_BANK.filter(function(f){ return f.forma!==item.forma; })).slice(0,3).map(function(f){ return f.forma; });
+    let distract = shuffle(FORMA_MUSICAL_BANK.filter(function(f){ return f.forma!==item.forma; }));
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3).map(function(f){ return f.forma; });
     const opts = shuffle([item.forma].concat(distract)).map(function(f){ return {label:f, value:f}; });
     return {
       promptHTML: '<p class="prompt-count" style="font-size:32px;">'+item.patron.join(' - ')+'</p><p class="prompt-hint">¿Qué forma musical tiene esta secuencia de secciones?</p>',
@@ -212,7 +217,9 @@ export function genLenguajeMusical3Round(){
     };
   }
   const item = pick(PULSO_ACENTO_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.opts;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -221,15 +228,26 @@ export function genLenguajeMusical3Round(){
   };
 }
 
-export function genMusicaSociedad3Round(){
+export function genMusicaSociedad3Round(nivel){
   const item = pick(MUSICA_SOCIEDAD_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.opts;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.situacion+'. ¿Qué tipo de música es más probable escuchar ahí?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion+'. ¿Qué música es más probable escuchar ahí?', cols:2, kind:'word',
     explain: 'En esa situación, lo más común es escuchar <b>'+item.correcta.toLowerCase()+'</b>.',
     recurso: 'La música siempre está conectada con una situación o un momento social específico: hay canciones para celebrar (cumpleaños), para calmar a un bebé (canciones de cuna), para ceremonias oficiales (himnos), para vender productos (jingles publicitarios), y música folclórica típica de fiestas patrias (como la cueca en Chile). Reconocer qué tipo de música corresponde a cada situación te ayuda a entender que la música no es solo entretenimiento — cumple funciones sociales específicas y refleja la cultura de cada país o comunidad.',
   };
+}
+
+/* "Examen Final" 3° básico Música: mezcla los 2 módulos del año + los 3
+   niveles al azar. */
+export function genExamenMusica3Round(){
+  const gens = [genLenguajeMusical3Round, genMusicaSociedad3Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Música 4° Básico ----------------

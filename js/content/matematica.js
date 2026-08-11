@@ -468,9 +468,10 @@ export const MATE_MODULES_G3 = [
   {id:'geometria3', label:'Geometría III', open:true, key:'geometria3'},
   {id:'medicion3', label:'Medición III', open:true, key:'medicion3'},
   {id:'datos3', label:'Datos y Gráficos', open:true, key:'datos3'},
+  {id:'examenmate3', label:'Examen Final', open:true, key:'examenmate3'},
 ];
 export const MATE_POS_G3 = [
-  {x:22,y:94},{x:68,y:83},{x:24,y:72},{x:70,y:61},{x:24,y:50},{x:70,y:39},{x:24,y:28},{x:70,y:17},{x:24,y:6}
+  {x:22,y:95},{x:68,y:85},{x:24,y:75},{x:70,y:65},{x:24,y:55},{x:70,y:45},{x:24,y:35},{x:70,y:25},{x:24,y:15},{x:70,y:5}
 ];
 
 const OBJETOS_PRECIO = [
@@ -522,17 +523,23 @@ function barChartHTML(categorias){
   }).join('')+'</div>';
 }
 
-export function genNumeros3Round(){
+/* Niveles (2026-08-11, rollout a 3° básico): en las 4 ramas fácil reduce el
+   rango/las opciones y difícil sube el rango o exige extrapolar en vez de
+   interpolar — mismo criterio ya usado en Matemática 1°-2° básico. */
+export function genNumeros3Round(nivel){
   const recurso = 'Los números hasta 1000 se organizan en <b>centenas</b> (grupos de 100), <b>decenas</b> (grupos de 10) y <b>unidades</b> (números sueltos del 0 al 9) — por ejemplo, 347 tiene 3 centenas, 4 decenas y 7 unidades. Esta forma de descomponer un número (llamada valor posicional) es la clave para comparar números grandes: primero se compara la cantidad de dígitos, luego la centena, luego la decena. Contar salteado (de 5 en 5, de 10 en 10, de 100 en 100) te ayuda a moverte más rápido entre números grandes sin tener que contar de uno en uno, algo esencial quien empieza a trabajar con números de 3 dígitos.';
   const roll = Math.random();
   if(roll<0.25){
-    const step = pick([5,10,100]);
-    const startMult = randInt(0, Math.floor(900/step));
+    let stepPool, maxStartDiv, blankIdx, spreadMult;
+    if(nivel==='facil'){ stepPool=[5,10]; maxStartDiv=300; blankIdx=1; spreadMult=3; }
+    else if(nivel==='dificil'){ stepPool=[5,10,100]; maxStartDiv=900; blankIdx=3; spreadMult=1; }
+    else { stepPool=[5,10,100]; maxStartDiv=900; blankIdx=randInt(1,2); spreadMult=2; }
+    const step = pick(stepPool);
+    const startMult = randInt(0, Math.floor(maxStartDiv/step));
     const start = startMult*step;
     const seq = [start, start+step, start+2*step, start+3*step];
-    const blankIdx = randInt(1,2);
     const correct = seq[blankIdx];
-    const opts = uniqueDistractors(correct, 0, 1000, step, 4).map(function(v){ return {label:String(v), value:v}; });
+    const opts = uniqueDistractors(correct, 0, 1000, step*spreadMult, 4).map(function(v){ return {label:String(v), value:v}; });
     const displaySeq = seq.map(function(n,i){ return i===blankIdx ? '<span class="blank">?</span>' : n; }).join(' — ');
     return {
       promptHTML: '<p class="prompt-count" style="letter-spacing:1px;">'+displaySeq+'</p><p class="prompt-hint">¿Qué número falta en la secuencia?</p>',
@@ -542,8 +549,13 @@ export function genNumeros3Round(){
     };
   }
   if(roll<0.5){
-    let a = randInt(0,999), b = randInt(0,999);
-    while(a===b) b = randInt(0,999);
+    let maxN, minGap;
+    if(nivel==='facil'){ maxN=99; minGap=30; }
+    else if(nivel==='dificil'){ maxN=999; minGap=1; }
+    else { maxN=999; minGap=10; }
+    let a = randInt(0,maxN), b = randInt(0,maxN), guard=0;
+    while(Math.abs(a-b)<minGap && guard<80){ b = randInt(0,maxN); guard++; }
+    if(a===b) b = a>=maxN ? a-minGap : a+minGap;
     const opts = shuffle([{label:String(a), value:'A'},{label:String(b), value:'B'}]);
     return {
       promptHTML: '<p class="prompt-hint">Toca el número <b>mayor</b></p>',
@@ -557,7 +569,9 @@ export function genNumeros3Round(){
     const cien = Math.floor(n/100), dec = Math.floor((n%100)/10), uni = n%10;
     const kind = pick(['CENTENAS','DECENAS','UNIDADES']);
     const correct = kind==='CENTENAS' ? cien : kind==='DECENAS' ? dec : uni;
-    const opts = uniqueDistractors(correct, 0, 9, 2, 4).map(function(v){ return {label:String(v), value:v}; });
+    const count = nivel==='facil' ? 2 : 4;
+    const spread = nivel==='dificil' ? 1 : 2;
+    const opts = uniqueDistractors(correct, 0, 9, spread, count).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-count" style="font-size:40px;">'+n+'</p><p class="prompt-hint">¿Cuántas '+kind.toLowerCase()+' tiene este número?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuántas '+kind.toLowerCase()+' tiene el '+n+'?', cols:4,
@@ -565,7 +579,10 @@ export function genNumeros3Round(){
       recurso: recurso,
     };
   }
-  const n = randInt(0,1000);
+  let n;
+  if(nivel==='facil'){ n = pick([randInt(0,9), randInt(100,999)]); }
+  else if(nivel==='dificil'){ n = pick([9,10,99,100,999,1000]); }
+  else { n = randInt(0,1000); }
   const digitos = String(n).length;
   const opts = shuffle(['1 dígito','2 dígitos','3 dígitos','4 dígitos']).map(function(o){ return {label:o, value:o}; });
   const correct = digitos+' dígito'+(digitos>1?'s':'');
@@ -577,11 +594,16 @@ export function genNumeros3Round(){
   };
 }
 
-export function genOperaciones3Round(){
+/* Niveles (2026-08-11): fácil reduce el rango numérico (números más
+   chicos, más fáciles de sumar/restar mentalmente); difícil sube el rango
+   y, en la rama de vuelto, fuerza diferencias más chicas (0 o 50) en vez
+   de las más redondas (100 o 200). */
+export function genOperaciones3Round(nivel){
   const recurso = 'Sumar y restar con números de 3 dígitos funciona igual que con números pequeños, solo que hay que ser más ordenado: alinear las centenas con las centenas, las decenas con las decenas y las unidades con las unidades. Un uso muy práctico de la resta es calcular <b>vuelto</b>: si pagas con más dinero del que cuesta algo, el vuelto es la diferencia entre lo que pagaste y el precio real — una resta que probablemente ya haces sin darte cuenta cuando compras algo. Practicar estas operaciones con dinero (pesos chilenos) conecta la matemática de la sala de clases con situaciones que vives todos los días.';
   const roll = Math.random();
   if(roll<0.4){
-    const a = randInt(10,500), b = randInt(10,500);
+    const maxV = nivel==='facil' ? 100 : nivel==='dificil' ? 500 : 300;
+    const a = randInt(10,maxV), b = randInt(10,maxV);
     const sum = a+b;
     const opts = uniqueDistractors(sum, 20, 1000, 20, 4).map(function(v){ return {label:String(v), value:v}; });
     return {
@@ -592,7 +614,8 @@ export function genOperaciones3Round(){
     };
   }
   if(roll<0.7){
-    const a = randInt(100,900), b = randInt(10,99);
+    const aMax = nivel==='facil' ? 300 : 900;
+    const a = randInt(100,aMax), b = randInt(10,99);
     const result = a-b;
     const opts = uniqueDistractors(result, 0, 900, 20, 4).map(function(v){ return {label:String(v), value:v}; });
     return {
@@ -603,19 +626,25 @@ export function genOperaciones3Round(){
     };
   }
   const item = pick(OBJETOS_PRECIO);
-  const tienes = item.precio + pick([0,50,100,200]);
+  const diffPool = nivel==='facil' ? [100,200] : nivel==='dificil' ? [0,50] : [0,50,100,200];
+  const tienes = item.precio + pick(diffPool);
   const falta = tienes - item.precio;
   const opts = uniqueDistractors(falta, 0, 3000, 100, 4).map(function(v){ return {label:'$'+v, value:v}; });
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+' cuesta $'+item.precio+'. Si pagas con $'+tienes+', ¿cuánto vuelto recibes?</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.label+' cuesta $'+item.precio+'. Si pagas con $'+tienes+', ¿cuánto vuelto recibes?</p>',
     options: opts, correctValue: falta, speakText: '¿Cuánto vuelto recibes?', cols:4,
     explain: '$'+tienes+' - $'+item.precio+' = <b>$'+falta+'</b> de vuelto.',
     recurso: recurso,
   };
 }
 
-export function genMultiplicar3Round(){
-  const a = randInt(2,10), b = randInt(2,10);
+/* Niveles (2026-08-11): fácil restringe las tablas a 2-5 (las más fáciles
+   de recordar); difícil sube a 6-10 (tablas menos practicadas, genuinamente
+   más exigentes de memoria); normal mantiene el rango original 2-10. */
+export function genMultiplicar3Round(nivel){
+  const range = nivel==='facil' ? [2,5] : nivel==='dificil' ? [6,10] : [2,10];
+  const a = randInt(range[0],range[1]), b = randInt(range[0],range[1]);
   const total = a*b;
   const opts = uniqueDistractors(total, 4, 100, a, 4).map(function(v){ return {label:String(v), value:v}; });
   return {
@@ -626,8 +655,9 @@ export function genMultiplicar3Round(){
   };
 }
 
-export function genDividir3Round(){
-  const b = randInt(2,10), q = randInt(2,10);
+export function genDividir3Round(nivel){
+  const range = nivel==='facil' ? [2,5] : nivel==='dificil' ? [6,10] : [2,10];
+  const b = randInt(range[0],range[1]), q = randInt(range[0],range[1]);
   const total = b*q;
   const opts = uniqueDistractors(q, 1, 10, 2, 4).map(function(v){ return {label:String(v), value:v}; });
   return {
@@ -638,12 +668,28 @@ export function genDividir3Round(){
   };
 }
 
-export function genFracciones3Round(){
+/* Niveles (2026-08-11): el dibujo (círculo/barra coloreada) es la única
+   fuente de información — se mantiene siempre visible en los 3 niveles, y
+   `den` sigue sorteándose entre las 3 opciones SIEMPRE (restringirlo por
+   nivel reduciría el espacio de fracciones únicas del currículum -solo 6
+   valores posibles- por debajo de rounds:10, garantizando repetición;
+   detectado antes de dar esto por terminado). Fácil reduce a 2
+   alternativas; difícil prioriza un distractor del MISMO denominador
+   (numerador vecino, visualmente más parecido) en vez de uno de otro
+   denominador, más difícil de descartar a simple vista. */
+export function genFracciones3Round(nivel){
   const den = pick([2,3,4]);
   const num = randInt(1,den-1);
-  const distractDens = shuffle([2,3,4].filter(function(d){ return d!==den; }));
+  const otherDens = [2,3,4].filter(function(d){ return d!==den; });
   const correct = num+'/'+den;
-  const opts = [correct].concat(distractDens.map(function(d){ return num+'/'+d; })).concat([(num+1)+'/'+den]).map(function(f){ return {label:f, value:f}; });
+  const sameDenDistract = [];
+  for(let n=1;n<den;n++){ if(n!==num) sameDenDistract.push(n+'/'+den); }
+  const otherDenDistract = shuffle(otherDens).map(function(d){ return randInt(1,d-1)+'/'+d; });
+  const pool = nivel==='dificil'
+    ? sameDenDistract.concat(otherDenDistract)
+    : otherDenDistract.concat([(num+1)+'/'+den]);
+  let opts = [correct].concat(pool.slice(0,3)).map(function(f){ return {label:f, value:f}; });
+  if(nivel==='facil'){ opts = opts.slice(0,2); }
   /* Las fracciones de uso común del currículum (1/2, 1/3, 2/3, 1/4, 2/4,
      3/4) son solo 6 valores posibles — con una sola representación visual
      eso deja menos combinaciones únicas que rounds:8, garantizando una
@@ -659,14 +705,18 @@ export function genFracciones3Round(){
   };
 }
 
-export function genPatrones3Round(){
+/* Niveles (2026-08-11): fácil reduce el rango de paso/números; difícil lo
+   sube — ambas ramas ya son 100% dinámicas, sin visual que ocultar. */
+export function genPatrones3Round(nivel){
   const recurso = 'Un <b>patrón</b> es una secuencia de números que cambia siguiendo siempre la misma regla (por ejemplo, sumar el mismo número cada vez) — descubrir esa regla te permite predecir qué número viene después, sin que alguien te lo diga. Una <b>ecuación</b> con un número faltante (como "___ + 5 = 12") te pide encontrar qué valor hace que la igualdad sea verdadera, y para resolverla puedes pensar "¿qué número, sumado a 5, da 12?" en vez de adivinar al azar. Ambas habilidades —reconocer patrones y resolver ecuaciones simples— son la base del álgebra que aprenderás en años posteriores.';
   if(Math.random()<0.5){
-    const step = randInt(2,9);
-    const start = randInt(1,20);
+    const stepMax = nivel==='facil' ? 5 : nivel==='dificil' ? 9 : 7;
+    const startMax = nivel==='facil' ? 10 : nivel==='dificil' ? 30 : 20;
+    const step = randInt(2,stepMax);
+    const start = randInt(1,startMax);
     const seq = [start, start+step, start+2*step, start+3*step];
     const correct = start+4*step;
-    const opts = uniqueDistractors(correct, 1, 200, step, 4).map(function(v){ return {label:String(v), value:v}; });
+    const opts = uniqueDistractors(correct, 1, 300, step, 4).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-count">'+seq.join(', ')+', <span class="blank">?</span></p><p class="prompt-hint">¿Qué número sigue en el patrón?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué número sigue?', cols:4,
@@ -674,11 +724,12 @@ export function genPatrones3Round(){
       recurso: recurso,
     };
   }
-  const a = randInt(1,50), b = randInt(1,50);
+  const maxV = nivel==='facil' ? 20 : nivel==='dificil' ? 99 : 50;
+  const a = randInt(1,maxV), b = randInt(1,maxV);
   const total = a+b;
   const askA = Math.random()<0.5;
   const correct = askA ? a : b;
-  const opts = uniqueDistractors(correct, 0, 100, 5, 4).map(function(v){ return {label:String(v), value:v}; });
+  const opts = uniqueDistractors(correct, 0, maxV*2, 5, 4).map(function(v){ return {label:String(v), value:v}; });
   const known = askA ? b : a;
   return {
     promptHTML: '<p class="prompt-count" style="font-size:28px;">'+(askA?'<span class="blank">?</span>':'') +' + '+known+' = '+total+(!askA?' — <span class="blank">?</span>':'')+'</p><p class="prompt-hint">¿Qué número falta?</p>',
@@ -688,15 +739,23 @@ export function genPatrones3Round(){
   };
 }
 
-export function genGeometria3Round(){
+/* Niveles (2026-08-11): fácil reduce opciones en las 3 ramas; difícil
+   oculta el emoji decorativo de la rama de cuadrícula (item.label ya va
+   en el texto). Las ramas de sólido 3D/ángulo mantienen su SVG siempre
+   visible en los 3 niveles — es la única fuente de información, sin
+   texto que la reemplace. */
+export function genGeometria3Round(nivel){
   const recurso = 'La geometría de 3° básico suma tres ideas nuevas: la <b>cuadrícula</b> permite ubicar un objeto con precisión usando dos números (columna y fila), igual que en un juego de mesa o un mapa; los <b>cuerpos geométricos</b> (pirámide, cubo, esfera) tienen caras, aristas y vértices que los distinguen entre sí; y los <b>ángulos</b> (recto, agudo, obtuso) describen qué tan abierta o cerrada es una esquina o un cruce de líneas — un ángulo recto es como la esquina de una hoja de papel, uno agudo es más cerrado, y uno obtuso es más abierto. Estas tres herramientas te permiten describir con precisión la forma y la posición de las cosas que te rodean.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(CUADRICULA_POOL);
     const col = randInt(1,5), row = randInt(1,5);
-    const opts = shuffle([col+','+row, (col+1)+','+row, col+','+(row+1), (col+1)+','+(row+1)]).map(function(c){ return {label:c, value:c}; });
+    let opts = shuffle([col+','+row, (col+1)+','+row, col+','+(row+1), (col+1)+','+(row+1)]);
+    if(nivel==='facil'){ opts = [col+','+row].concat(opts.filter(function(o){ return o!==col+','+row; }).slice(0,1)); }
+    opts = shuffle(opts).map(function(c){ return {label:c, value:c}; });
+    const showEmoji = nivel !== 'dificil';
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">El '+item.label.toLowerCase()+' está en la columna '+col+' y la fila '+row+'. ¿Cuál es su posición (columna,fila)?</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">El '+item.label.toLowerCase()+' está en la columna '+col+' y la fila '+row+'. ¿Cuál es su posición (columna,fila)?</p>',
       options: opts, correctValue: col+','+row, speakText: '¿Cuál es la posición del '+item.label.toLowerCase()+'?', cols:2, panel:true,
       explain: 'La posición es columna '+col+', fila '+row+', o sea <b>('+col+','+row+')</b>.',
       recurso: recurso,
@@ -704,7 +763,8 @@ export function genGeometria3Round(){
   }
   if(roll<0.67){
     const item = pick(SOLIDOS_3D_G3);
-    const distract = shuffle(SOLIDOS_3D_G3.filter(function(s){ return s.id!==item.id; })).slice(0,3);
+    let distract = shuffle(SOLIDOS_3D_G3.filter(function(s){ return s.id!==item.id; }));
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3);
     const opts = shuffle([item].concat(distract)).map(function(s){ return {label:s.label, value:s.id}; });
     return {
       promptHTML: '<div class="shape-display">'+solid3DSVG(item.id,110)+'</div><p class="prompt-hint">¿Qué cuerpo geométrico es?</p>',
@@ -714,7 +774,12 @@ export function genGeometria3Round(){
     };
   }
   const tipo = pick(ANGULOS_POOL);
-  const opts = shuffle(ANGULOS_POOL).map(function(t){ return {label:t, value:t}; });
+  let angOpts = ANGULOS_POOL;
+  if(nivel==='facil'){
+    const others = ANGULOS_POOL.filter(function(t){ return t!==tipo; });
+    angOpts = shuffle([tipo, pick(others)]);
+  }
+  const opts = shuffle(angOpts).map(function(t){ return {label:t, value:t}; });
   return {
     promptHTML: '<div class="shape-display">'+anguloSVG(tipo,100)+'</div><p class="prompt-hint">¿Qué tipo de ángulo es?</p>',
     options: opts, correctValue: tipo, speakText: '¿Qué tipo de ángulo es?', cols:4, kind:'word',
@@ -723,12 +788,18 @@ export function genGeometria3Round(){
   };
 }
 
-export function genMedicion3Round(){
+/* Niveles (2026-08-11): rama de hora restringe a horas en punto/media en
+   fácil (más simple de leer) y usa las 4 opciones de minuto en difícil;
+   rama de perímetro reduce opciones en fácil; rama de peso fuerza una
+   diferencia de gramos grande y obvia en fácil, y cercana en difícil
+   (mismo criterio que Longitud en 2° básico). */
+export function genMedicion3Round(nivel){
   const recurso = 'La medición en 3° básico profundiza en 3 herramientas distintas: leer la <b>hora</b> con más precisión (cuartos y medias horas, no solo horas en punto), calcular el <b>perímetro</b> de una figura (sumar la medida de todos sus lados, útil por ejemplo para saber cuánta reja necesitas para cercar un patio), y comparar el <b>peso</b> de distintos objetos. Aunque parecen temas separados, todos comparten la misma lógica de la medición: elegir una unidad conocida (minutos, centímetros, gramos) y usarla para describir "cuánto" hay de algo, de forma que cualquier persona pueda entenderlo igual.';
   const roll = Math.random();
   if(roll<0.34){
     const hour = randInt(1,12);
-    const min = pick([0,15,30,45]);
+    const minPool = nivel==='facil' ? [0,30] : [0,15,30,45];
+    const min = pick(minPool);
     const display = String(hour).padStart(2,'0')+':'+String(min).padStart(2,'0');
     const labels = {0:' en punto',15:' y cuarto',30:' y media',45:' menos cuarto'};
     /* Para "menos cuarto" (X:45) se nombra la hora SIGUIENTE ("las 3 menos
@@ -736,7 +807,7 @@ export function genMedicion3Round(){
        español que se pasaba por alto usando `hour` directo. */
     const hourLabel = min===45 ? (hour%12)+1 : hour;
     const correct = display;
-    const distractPool = [0,15,30,45].filter(function(m){ return m!==min; }).map(function(m){ return String(hour).padStart(2,'0')+':'+String(m).padStart(2,'0'); });
+    const distractPool = minPool.filter(function(m){ return m!==min; }).map(function(m){ return String(hour).padStart(2,'0')+':'+String(m).padStart(2,'0'); });
     const opts = shuffle([correct].concat(shuffle(distractPool).slice(0,3))).map(function(d){ return {label:d, value:d}; });
     return {
       promptHTML: '<p class="prompt-count" style="font-size:40px;">'+display+'</p><p class="prompt-hint">¿Cuál reloj digital marca esta misma hora?</p>',
@@ -748,7 +819,8 @@ export function genMedicion3Round(){
   if(roll<0.67){
     const item = pick(PERIMETRO_FIGURAS);
     const perimetro = item.lados.reduce(function(a,b){ return a+b; }, 0);
-    const opts = uniqueDistractors(perimetro, 4, 40, 3, 4).map(function(v){ return {label:String(v), value:v}; });
+    const count = nivel==='facil' ? 2 : 4;
+    const opts = uniqueDistractors(perimetro, 4, 40, 3, count).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-hint">Los lados de '+item.label+' miden: '+item.lados.join(', ')+' (en cm). ¿Cuál es su perímetro?</p>',
       options: opts, correctValue: perimetro, speakText: '¿Cuál es el perímetro?', cols:4,
@@ -756,8 +828,16 @@ export function genMedicion3Round(){
       recurso: recurso,
     };
   }
-  let a = pick(PESO_OBJETOS), b = pick(PESO_OBJETOS);
-  while(b.label === a.label) b = pick(PESO_OBJETOS);
+  const a = pick(PESO_OBJETOS);
+  let candidates = PESO_OBJETOS.filter(function(o){ return o.label!==a.label; });
+  if(nivel==='facil'){
+    const far = candidates.filter(function(o){ return Math.abs(o.gramos-a.gramos) >= Math.max(o.gramos,a.gramos)*0.6; });
+    if(far.length) candidates = far;
+  } else if(nivel==='dificil'){
+    const close = candidates.filter(function(o){ return Math.abs(o.gramos-a.gramos) <= Math.min(o.gramos,a.gramos)*0.5; });
+    if(close.length) candidates = close;
+  }
+  const b = pick(candidates);
   const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
   const heavier = a.gramos>b.gramos ? a : b;
   return {
@@ -768,13 +848,18 @@ export function genMedicion3Round(){
   };
 }
 
-export function genDatos3Round(){
+/* Niveles (2026-08-11): el gráfico de barras se mantiene siempre visible
+   en los 3 niveles (es la fuente de datos real); solo varía el número de
+   opciones (fácil) y qué tan cercanos son los distractores del conteo
+   (difícil, spread más chico). */
+export function genDatos3Round(nivel){
   const recurso = 'Un <b>gráfico de barras</b> es una forma visual de mostrar los resultados de una encuesta: cada barra representa una opción distinta, y la altura de la barra muestra cuántas personas eligieron esa opción — mientras más alta la barra, más votos tuvo. Leer un gráfico de barras es más rápido que leer una lista de números, porque puedes comparar las alturas a simple vista para saber de inmediato cuál opción ganó o cuál tuvo menos apoyo. Esta habilidad de leer datos organizados visualmente es muy usada en la vida real, desde encuestas escolares hasta noticias y estudios.';
   const item = pick(DATOS_ENCUESTA);
   const roll = Math.random();
   if(roll<0.5){
     const maxCat = item.categorias.reduce(function(a,b){ return b.valor>a.valor ? b : a; });
-    const distract = shuffle(item.categorias.filter(function(c){ return c.label!==maxCat.label; })).map(function(c){ return c.label; });
+    let distract = shuffle(item.categorias.filter(function(c){ return c.label!==maxCat.label; })).map(function(c){ return c.label; });
+    if(nivel==='facil'){ distract = distract.slice(0,1); }
     const opts = shuffle([maxCat.label].concat(distract)).map(function(c){ return {label:c, value:c}; });
     return {
       promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuál opción tuvo más votos?</p>',
@@ -784,13 +869,24 @@ export function genDatos3Round(){
     };
   }
   const target = pick(item.categorias);
-  const opts = uniqueDistractors(target.valor, 0, 20, 2, 4).map(function(v){ return {label:String(v), value:v}; });
+  const count = nivel==='facil' ? 2 : 4;
+  const spread = nivel==='dificil' ? 1 : 2;
+  const opts = uniqueDistractors(target.valor, 0, 20, spread, count).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuántos votos tuvo la opción "'+target.label+'"?</p>',
     options: opts, correctValue: target.valor, speakText: '¿Cuántos votos tuvo '+target.label+'?', cols:4,
     explain: 'La opción "'+target.label+'" tuvo <b>'+target.valor+'</b> votos.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" 3° básico Matemática: mezcla los 9 módulos del año + los
+   3 niveles al azar. */
+export function genExamenMate3Round(){
+  const gens = [genNumeros3Round, genOperaciones3Round, genMultiplicar3Round, genDividir3Round, genFracciones3Round, genPatrones3Round, genGeometria3Round, genMedicion3Round, genDatos3Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Matemática 4° Básico ----------------

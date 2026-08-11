@@ -134,8 +134,9 @@ export function genExamenTecnologia1Round(){
    producción práctica, no apto para opción múltiple. */
 export const TECNOLOGIA_MODULES_G3 = [
   {id:'tecdigital3', label:'Tecnología Digital III', open:true, key:'tecdigital3'},
+  {id:'examentecnologia3', label:'Examen Final', open:true, key:'examentecnologia3'},
 ];
-export const TECNOLOGIA_POS_G3 = [{x:48,y:50}];
+export const TECNOLOGIA_POS_G3 = [{x:30,y:70},{x:70,y:30}];
 
 const TEC_DIGITAL_3_BANK = [
   { emoji:'📊', pregunta:'¿Para qué usarías un software de presentaciones (diapositivas) en un trabajo escolar?', correcta:'Para organizar y mostrar tus ideas de forma clara con texto e imágenes', opts:['Para cocinar una receta','Para escuchar música','Para hacer ejercicio'] },
@@ -148,15 +149,27 @@ const TEC_DIGITAL_3_BANK = [
   { emoji:'🔒', pregunta:'¿Qué debes hacer si una página de internet te pide datos que no te parecen necesarios?', correcta:'Consultar con un adulto antes de ingresar esos datos', opts:['Ingresarlos de inmediato','Ignorar la duda y seguir no más','Compartir la página con desconocidos'] },
 ];
 
-export function genTecDigital3Round(){
+/* Niveles (2026-08-11): fácil reduce a 2 opciones; difícil oculta el
+   emoji (item.pregunta ya es la pregunta completa en texto). */
+export function genTecDigital3Round(nivel){
   const item = pick(TEC_DIGITAL_3_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.opts;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.pregunta+'</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".',
     recurso: 'Usar tecnología digital de forma responsable significa más que solo saber apretar botones: incluye organizar bien tu tiempo frente a pantallas (combinarlo con otras actividades como jugar afuera y descansar), presentar tus trabajos con cuidado (ortografía revisada, información bien organizada), y cuidar tu seguridad en internet (nunca dar datos personales sin consultar primero con un adulto). Estas habilidades digitales son cada vez más importantes porque usarás computadores e internet en casi todo lo que hagas de aquí en adelante, en el colegio y en la vida diaria.',
   };
+}
+
+/* "Examen Final" 3° básico Tecnología: solo hay 1 módulo compatible, así
+   que el examen re-randomiza el nivel sobre el mismo generador. */
+export function genExamenTecnologia3Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genTecDigital3Round(nivel);
 }
 
 /* ---------------- Contenido Tecnología 4° Básico ----------------

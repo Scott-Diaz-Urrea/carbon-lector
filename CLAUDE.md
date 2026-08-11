@@ -3198,7 +3198,7 @@ continúa con 3°-8° básico (y en qué orden) — mismo criterio de "un curso 
 la vez" que el resto del proyecto, dado el tamaño real de la tarea
 restante.
 
-### 3° Básico — ✅ completo (36 módulos, las 9 asignaturas)
+### 3° Básico — ✅ completo (45 módulos, las 9 asignaturas + niveles + Examen Final)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
 curriculum/1o-6o-basico/<asignatura>/3-basico. El currículum de 3° básico es
 sensiblemente más amplio que 1°-2° básico (p.ej. Matemática pasa de 9 a 26 OA,
@@ -3270,6 +3270,114 @@ de crear un módulo por cada OA individual.
   buscadores, seguridad en internet — contenido nuevo, sin repetir lo ya cubierto
   por "Tecnología Digital" de 2° básico — OA05-07). Fuera: OA01-04 (diseñar/
   planificar/elaborar/evaluar un objeto tecnológico propio — producción práctica).
+
+**3° básico: niveles Fácil/Normal/Difícil + Examen Final, las 9 asignaturas
+(2026-08-11):** pedido explícito del usuario ("procede con 3° básico") tras
+completar el mismo rollout en 2° básico. Mismo motor sin cambios
+(`levels:true`/`selectMCLevel()`/`levelPickerHTML()`), un solo PR cubriendo
+las 9 asignaturas de una vez, mismo criterio ya usado en 2° básico.
+
+- **Diseño por asignatura** (mismo criterio de siempre: fácil reduce
+  opciones/rango numérico; difícil oculta el apoyo visual decorativo o
+  sube la complejidad real cuando no hay nada que ocultar):
+  - **Matemática** (9 módulos, el año más denso del rollout hasta ahora):
+    Números hasta 1000 varía paso/rango en su rama de secuencia (hueco al
+    medio en fácil vs. en un extremo -extrapolar- en difícil) y usa números
+    "obvios" vs. "de borde" (9, 10, 99, 100...) en su rama de conteo de
+    dígitos. Sumar/Restar y Dinero, Multiplicar y Dividir ajustan el rango
+    numérico. **Fracciones** es el caso más delicado: el banco de
+    fracciones "de uso curricular" solo tiene 6 valores posibles
+    (documentado desde su construcción original) — restringir el
+    denominador por nivel (el primer intento) habría reducido ese espacio
+    por debajo de `rounds:8`, así que se mantuvo `den` siempre aleatorio
+    entre {2,3,4} en los 3 niveles, y solo se varía la cantidad de
+    opciones (fácil) y si el distractor es del mismo denominador -más
+    parecido, difícil- o de otro -más obvio, normal/fácil-. Geometría III
+    oculta el emoji en su rama de cuadrícula (difícil) y mantiene el SVG
+    de sólidos/ángulos siempre visible (es la única fuente de
+    información). Medición III restringe horas a en-punto/y-media en
+    fácil (vs. las 4 variantes con cuartos en difícil) y fuerza pesos
+    cercanos/lejanos según nivel en su rama de comparación. Datos y
+    Gráficos mantiene el gráfico de barras siempre visible.
+  - **Lenguaje** (6 módulos): Comprensión III oculta el texto narrativo en
+    difícil (hay que escuchar 🔊, mismo criterio que Comprensión II de 2°
+    básico); Orden Alfabético varía la CANTIDAD de palabras a comparar (3
+    en fácil, 5 en difícil) en vez de las opciones, ya que las opciones
+    son las mismas palabras mostradas; Ortografía (ya binaria, 100%
+    textual) acepta `nivel` sin cambiar comportamiento.
+  - **Ciencias Naturales** (7 módulos): mismo criterio preventivo ya
+    aprendido en Ciencias 1°-2° básico — difícil reemplaza el emoji del
+    animal/objeto por su nombre en texto, nunca por un texto genérico
+    fijo. De paso se corrigió el placeholder `"un(a)"` sin resolver en
+    `genAlimentacion3Round` (categorías de alimento con género mixto:
+    Verdura/Fruta/Proteína → "una", Lácteo/Cereal/Azúcar → "un").
+  - **Historia** (3 módulos, 100% textuales sin ningún emoji): fácil
+    reduce opciones; difícil se comporta igual a normal, mismo criterio ya
+    usado para módulos sin ningún visual que ocultar.
+  - **Artes Visuales** (2 módulos): fácil reduce opciones; difícil oculta
+    el swatch de color o el emoji del material (el nombre ya va en texto).
+  - **Música** (2 módulos, 100% textuales: código de letras A-B-C o
+    descripción de situación, sin emoji): fácil reduce opciones; difícil
+    igual a normal. De paso se corrigió un bug real de comillas rectas sin
+    escapar en `PULSO_ACENTO_BANK` (rompía el botón Escuchar — mismo
+    patrón de bug ya corregido varias veces en el proyecto).
+  - **Educación Física** (2 módulos, ambos V/F binarios 100% textuales):
+    `nivel` se acepta por consistencia de API sin cambiar comportamiento.
+  - **Orientación** (4 módulos): Manejo Emocional/Buen Trato ocultan el
+    texto de la escena en difícil (mismo criterio que Comprensión III);
+    Autocuidado/Hábitos de Estudio (V/F binarios) aceptan `nivel` sin
+    cambio.
+  - **Tecnología** (1 módulo): fácil reduce a 2 opciones, difícil oculta
+    el emoji.
+- **Examen Final por asignatura**: mezcla los módulos del año + los 3
+  niveles al azar, `rounds:20`. Para Artes/Música/Edfisica/Tecnología (los
+  años con menos módulos o bancos más chicos) el examen re-randomiza sobre
+  los módulos disponibles, mismo patrón ya usado en años anteriores.
+  **Bug real encontrado por la simulación del examen, no por el fuzz
+  estructural:** el Examen Final de Educación Física (solo 2 módulos,
+  ambos V/F con 8 ítems cada uno = 16 firmas únicas posibles) daba
+  **100/100 sesiones con repetición** para `rounds:20` — el mismo patrón
+  de "banco insuficiente para el total de rondas" ya documentado
+  repetidas veces en el proyecto, aquí a nivel de EXAMEN (no de módulo
+  individual, que sí pasaba con margen justo). Corregido ampliando
+  `VIDA_ACTIVA_3_ITEMS`/`SEGURIDAD_3_ITEMS` de 8 a 12 ítems cada uno (24
+  combinadas, margen amplio sobre 20).
+- **Mapas de nodos**: esta ronda reveló un problema real en el método de
+  "preservar posición en píxeles de los nodos existentes" ya usado en
+  sesiones anteriores — cuando dos nodos consecutivos del zigzag tienen
+  coordenadas `x` *cercanas pero no idénticas* (ej. 22 vs. 24, una
+  diferencia de solo ~2% del ancho real), el chequeo de "mismo lado"
+  basado en igualdad exacta de `x` no detectaba el par como riesgo de
+  solapamiento, aunque visualmente casi coincidan en la misma columna —
+  encontrado en Lenguaje (7 nodos) con un solapamiento real entre el nodo
+  1 y el nodo 3 pese a que el cálculo decía que había margen. **Desde
+  entonces, todos los layouts de este PR se recalcularon con pasos
+  verticales UNIFORMES** (en vez de preservar exactamente los píxeles
+  antiguos) apuntando a un margen de ≥165px entre cualquier par de nodos
+  con `x` a menos de 10 unidades de distancia — verificado con
+  `getBoundingClientRect()` real en el navegador, no solo con el cálculo,
+  para cada asignatura antes de darla por terminada.
+- Verificado: los 36 generadores base + 9 exámenes pasan fuzz de 200
+  iteraciones por nivel (108 combinaciones, sin `throw`, sin `undefined`,
+  sin opciones duplicadas, `correctValue` siempre presente, `recurso`
+  siempre presente, sin comillas rectas sin escapar en `speakText` — 0
+  hallazgos tras corregir el bug de Música) y simulación de 100-150
+  sesiones completas por combinación (108 combinaciones): **0
+  repeticiones** tras corregir el bug del Examen de Educación Física.
+  `MC_KEYS.length === Object.keys(MC_GAMES).length === 592` (583 previos
+  + 9 exámenes). Probado visualmente en el navegador: las 9 pantallas de
+  mapa de 3° básico renderizadas de verdad, **0 solapamientos, ancho de
+  etiqueta máximo 170px** en las 9 (Matemática con 10 nodos, el mapa más
+  grande de la app hasta ahora); una partida jugada en "Fracciones" en
+  Difícil (dibujo SVG de fracción siempre visible, avance correcto de
+  1/20 a 2/20 con sonido confirmado dentro del Examen Final de
+  Matemática, que salta directo sin selector). Sin errores de consola en
+  ningún caso.
+
+**Con esto, el rollout de niveles Fácil/Normal/Difícil + Examen Final
+queda completo en 1°, 2° y 3° básico.** Próximo paso: definir con el
+usuario si se continúa con 4°-8° básico (y en qué orden) — mismo criterio
+de "un curso a la vez" que el resto del proyecto.
 
 ### 4° Básico — ✅ completo (30 módulos, las 9 asignaturas)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/

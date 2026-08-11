@@ -245,8 +245,9 @@ export function genExamenArtes1Round(){
 export const ARTES_MODULES_G3 = [
   {id:'colorexpresivo3', label:'Color Expresivo', open:true, key:'colorexpresivo3'},
   {id:'materialesarte3', label:'Materiales de Modelado y Reciclaje', open:true, key:'materialesarte3'},
+  {id:'examenartes3', label:'Examen Final', open:true, key:'examenartes3'},
 ];
-export const ARTES_POS_G3 = [{x:30,y:70},{x:70,y:30}];
+export const ARTES_POS_G3 = [{x:24,y:85},{x:70,y:50},{x:24,y:15}];
 
 /* La asociación color-emoción es una convención ampliamente enseñada en
    educación artística (no una verdad científica única), consistente con
@@ -272,28 +273,43 @@ const MATERIALES_ARTE3_BANK = [
   { emoji:'🪵', material:'las ramitas', categoria:'Material natural' },
 ];
 
-export function genColorExpresivo3Round(){
+/* Niveles (2026-08-11): fácil reduce opciones; difícil oculta el swatch/
+   emoji decorativo (el nombre del color/material ya va en texto). */
+export function genColorExpresivo3Round(nivel){
   const item = pick(COLOR_EXPRESIVO_BANK);
-  const distract = shuffle(COLOR_EXPRESIVO_BANK.filter(function(c){ return c.color!==item.color; })).slice(0,3).map(function(c){ return c.emocion; });
+  let distract = shuffle(COLOR_EXPRESIVO_BANK.filter(function(c){ return c.color!==item.color; }));
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3).map(function(c){ return c.emocion; });
   const opts = shuffle([item.emocion].concat(distract)).map(function(e){ return {label:e, value:e}; });
+  const showSwatch = nivel !== 'dificil';
   return {
-    promptHTML: '<div class="shape-display">'+colorSwatchSVG(item.color,90)+'</div><p class="prompt-hint">El color '+item.color+'. ¿Qué sensación transmite generalmente en una obra de arte?</p>',
+    promptHTML: (showSwatch ? '<div class="shape-display">'+colorSwatchSVG(item.color,90)+'</div>' : '')+'<p class="prompt-hint">El color '+item.color+'. ¿Qué sensación transmite generalmente en una obra de arte?</p>',
     options: opts, correctValue: item.emocion, speakText: 'El color '+item.color, cols:2, panel:true,
     explain: 'El '+item.color.toLowerCase()+' suele transmitir <b>'+item.emocion.toLowerCase()+'</b>.',
     recurso: 'Los artistas eligen colores a propósito para transmitir una sensación específica al espectador, una convención muy usada en el arte y el diseño: colores como el rojo o el naranjo suelen transmitir energía o pasión, el azul suele transmitir calma, y el amarillo suele transmitir alegría. Esto no es una regla científica absoluta, sino una asociación cultural ampliamente compartida que los artistas aprovechan para "decirte algo" sin usar palabras. Fijarte en los colores que predominan en una obra de arte te da pistas sobre qué emoción quiso transmitir quien la creó.',
   };
 }
 
-export function genMaterialesArte3Round(){
+export function genMaterialesArte3Round(nivel){
   const item = pick(MATERIALES_ARTE3_BANK);
-  const distract = shuffle(MATERIALES_ARTE3_BANK.filter(function(m){ return m.categoria!==item.categoria; })).map(function(m){ return m.categoria; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
+  let distract = shuffle(MATERIALES_ARTE3_BANK.filter(function(m){ return m.categoria!==item.categoria; })).map(function(m){ return m.categoria; }).filter(function(v,i,arr){ return arr.indexOf(v)===i; });
+  if(nivel==='facil'){ distract = distract.slice(0,1); }
   const opts = shuffle([item.categoria].concat(distract)).map(function(c){ return {label:c, value:c}; });
+  const showEmoji = nivel !== 'dificil';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿A qué categoría pertenece '+item.material+'?</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">¿A qué categoría pertenece '+item.material+'?</p>',
     options: opts, correctValue: item.categoria, speakText: '¿A qué categoría pertenece '+item.material+'?', cols:2, kind:'word', panel:true,
     explain: (item.material.charAt(0).toUpperCase()+item.material.slice(1))+' es un <b>'+item.categoria.toLowerCase()+'</b>.',
     recurso: 'El arte se puede crear con distintos tipos de materiales, cada uno con una textura y un uso propio: los <b>materiales de modelado</b> (arcilla, plasticina) se pueden amasar y moldear en 3 dimensiones; los <b>materiales de reciclaje</b> (cajas, botellas, latas usadas) le dan una segunda vida a objetos que ibas a botar, y además son una forma de cuidar el ambiente; y los <b>materiales naturales</b> (hojas, semillas, ramitas) vienen directamente de la naturaleza sin ninguna transformación. Conocer estas categorías te da más opciones creativas al momento de crear tus propias obras de arte.',
   };
+}
+
+/* "Examen Final" 3° básico Artes Visuales: mezcla los 2 módulos del año +
+   los 3 niveles al azar. */
+export function genExamenArtes3Round(){
+  const gens = [genColorExpresivo3Round, genMaterialesArte3Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Artes Visuales 4° Básico ----------------

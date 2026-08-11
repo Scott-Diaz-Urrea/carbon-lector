@@ -283,8 +283,9 @@ export const ORIENTACION_MODULES_G3 = [
   {id:'autocuidado3', label:'Autocuidado III', open:true, key:'autocuidado3'},
   {id:'buentrato3', label:'Buen Trato y Resolución de Conflictos', open:true, key:'buentrato3'},
   {id:'habitosestudio3', label:'Hábitos de Trabajo Escolar', open:true, key:'habitosestudio3'},
+  {id:'examenorientacion3', label:'Examen Final', open:true, key:'examenorientacion3'},
 ];
-export const ORIENTACION_POS_G3 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
+export const ORIENTACION_POS_G3 = [{x:22,y:90},{x:68,y:71},{x:24,y:53},{x:70,y:31},{x:24,y:10}];
 
 const EMOCIONES_ESTRATEGIA_BANK = [
   { situacion:'Un compañero te quitó tu lápiz sin permiso y sientes mucha rabia.', correcta:'Respirar profundo y contar hasta diez antes de reaccionar', malas:['Gritarle inmediatamente','Quitarle algo suyo de vuelta','Pegarle'] },
@@ -327,18 +328,26 @@ const HABITOS_ESTUDIO_3_BANK = [
   { label:'Repasar lo aprendido en clases al llegar a casa ayuda a recordarlo mejor', v:true },
 ];
 
-export function genManejoEmocional3Round(){
+/* Niveles (2026-08-11): Manejo Emocional/Buen Trato reducen distractores
+   en fácil y ocultan el TEXTO de la escena en difícil (hay que escuchar
+   🔊, mismo criterio que Comprensión II de Lenguaje). Autocuidado/Hábitos
+   de Estudio (binarios V/F, sin visual) aceptan nivel sin cambiar
+   comportamiento. */
+export function genManejoEmocional3Round(nivel){
   const item = pick(EMOCIONES_ESTRATEGIA_BANK);
-  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  let malas = item.malas;
+  if(nivel==='facil'){ malas = shuffle(malas).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(malas)).map(function(o){ return {label:o, value:o}; });
+  const showText = nivel !== 'dificil';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    promptHTML: (showText ? '<p class="prompt-sentence">'+item.situacion+'</p>' : '')+'<p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta+'" — así manejas la emoción sin lastimarte a ti ni a otros.',
     recurso: 'El manejo emocional no significa "no sentir" emociones difíciles como el enojo o la frustración —eso es imposible y no es la meta—, sino aprender estrategias para expresarlas sin lastimarte a ti mismo ni a los demás: respirar hondo antes de reaccionar, hablar de lo que sientes en vez de explotar, o alejarte un momento de la situación para calmarte. Practicar estas estrategias desde pequeño te da herramientas que vas a necesitar toda la vida, porque las emociones intensas van a seguir apareciendo — lo que cambia con la práctica es cómo las manejas.',
   };
 }
 
-export function genAutocuidado3Round(){
+export function genAutocuidado3Round(nivel){
   const item = pick(AUTOCUIDADO_3_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
@@ -349,18 +358,21 @@ export function genAutocuidado3Round(){
   };
 }
 
-export function genBuenTrato3Round(){
+export function genBuenTrato3Round(nivel){
   const item = pick(CONFLICTO_3_BANK);
-  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  let malas = item.malas;
+  if(nivel==='facil'){ malas = shuffle(malas).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(malas)).map(function(o){ return {label:o, value:o}; });
+  const showText = nivel !== 'dificil';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
+    promptHTML: (showText ? '<p class="prompt-sentence">'+item.texto+'</p>' : '')+'<p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta+'" — así se resuelve el problema con respeto.',
     recurso: 'El "buen trato" significa tratar a los demás con respeto y empatía, incluso cuando hay un desacuerdo o alguien está teniendo dificultades: apoyar a un compañero que está siendo molestado, escuchar distintos puntos de vista antes de decidir algo en grupo, y preguntar en vez de excluir cuando alguien no quiere participar. Resolver los conflictos con buen trato —hablando y escuchando— en vez de ignorarlos o pelear, es una habilidad social que te sirve para llevarte mejor con cualquier grupo de personas en tu vida.',
   };
 }
 
-export function genHabitosEstudio3Round(){
+export function genHabitosEstudio3Round(nivel){
   const item = pick(HABITOS_ESTUDIO_3_BANK);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
@@ -369,6 +381,15 @@ export function genHabitosEstudio3Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
     recurso: 'Buenos hábitos de estudio no son un talento con el que naces, son conductas que puedes practicar y mejorar: organizar un horario para no dejar las tareas para el último momento, tener un lugar tranquilo y ordenado para estudiar, revisar tu mochila la noche anterior, y repasar lo aprendido en clases al llegar a casa. Pedir ayuda cuando no entiendes algo también es parte de tener buenos hábitos —no es una debilidad, es una estrategia inteligente— porque te permite resolver dudas antes de que se acumulen.',
   };
+}
+
+/* "Examen Final" 3° básico Orientación: mezcla los 4 módulos del año + los
+   3 niveles al azar. */
+export function genExamenOrientacion3Round(){
+  const gens = [genManejoEmocional3Round, genAutocuidado3Round, genBuenTrato3Round, genHabitosEstudio3Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Orientación 4° Básico ----------------

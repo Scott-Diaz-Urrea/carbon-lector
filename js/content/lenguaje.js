@@ -381,8 +381,9 @@ export const LENGUAJE_MODULES_G3 = [
   {id:'alfabetico3', label:'Orden Alfabético', open:true, key:'alfabetico3'},
   {id:'gramatica3', label:'Gramática III', open:true, key:'gramatica3'},
   {id:'ortografia3', label:'Ortografía', open:true, key:'ortografia3'},
+  {id:'examenlengua3', label:'Examen Final', open:true, key:'examenlengua3'},
 ];
-export const LENGUAJE_POS_G3 = [{x:22,y:92},{x:68,y:78},{x:24,y:62},{x:70,y:46},{x:24,y:28},{x:70,y:10}];
+export const LENGUAJE_POS_G3 = [{x:22,y:94},{x:68,y:80},{x:24,y:65},{x:70,y:51},{x:24,y:37},{x:70,y:22},{x:24,y:8}];
 
 const GENEROS_BANK = [
   { desc:'Un texto breve con ritmo y a veces con rima, que expresa sentimientos.', label:'Poema' },
@@ -464,10 +465,16 @@ const ORTOGRAFIA_BANK = [
 /* Artículo correcto por género gramatical, para no dejar el literal "un(a)"
    sin resolver en el explain (bug encontrado en la auditoría 2026-07-22). */
 const GENERO_ARTICULO = { Poema:'un', Cuento:'un', Fábula:'una', Leyenda:'una', Mito:'un', Novela:'una', Historieta:'una' };
-export function genGenerosLiterarios3Round(){
+/* Niveles (2026-08-11, rollout a 3° básico): en general fácil reduce
+   opciones y difícil oculta el texto de apoyo cuando existe (Comprensión
+   III); en generadores puramente textuales sin ningún visual que ocultar,
+   difícil sube la cantidad de datos a comparar en vez de ocultar algo
+   (Orden Alfabético). */
+export function genGenerosLiterarios3Round(nivel){
   const recurso = 'Los géneros literarios son categorías que agrupan los textos según sus características comunes: un <b>cuento</b> es una historia corta con pocos personajes, una <b>fábula</b> usa animales que hablan para enseñar una moraleja, una <b>leyenda</b> mezcla hechos reales con elementos fantásticos para explicar el origen de algo, un <b>mito</b> explica fenómenos naturales o el origen del mundo con dioses o seres sobrenaturales, y un <b>poema</b> usa el ritmo y la rima para expresar emociones. Reconocer estas diferencias te ayuda a saber qué esperar de un texto antes de leerlo completo, y a entender mejor la intención de quien lo escribió.';
   const item = pick(GENEROS_BANK);
-  const distract = shuffle(GENEROS_POOL.filter(function(g){ return g!==item.label; })).slice(0,3);
+  let distract = shuffle(GENEROS_POOL.filter(function(g){ return g!==item.label; }));
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.label].concat(distract)).map(function(g){ return {label:g, value:g}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'</p><p class="prompt-hint">¿Qué género literario es?</p>',
@@ -477,21 +484,26 @@ export function genGenerosLiterarios3Round(){
   };
 }
 
-export function genComprension3Round(){
+export function genComprension3Round(nivel){
   const item = pick(COMPRENSION3_BANK);
-  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let distract = item.opts;
+  if(nivel==='facil'){ distract = shuffle(distract).slice(0,1); }
+  const opts = shuffle([item.correct].concat(distract)).map(function(o){ return {label:o, value:o}; });
+  const showText = nivel !== 'dificil';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    promptHTML: (showText ? '<p class="prompt-sentence">'+item.text+'</p>' : '')+'<p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
     explain: item.reason,
     recurso: 'Comprender un texto a fondo va más allá de reconocer las palabras: incluye <b>inferir</b> lo que no se dice directamente (deducir con pistas), entender <b>lenguaje figurado</b> (frases que no significan literalmente lo que dicen, como "se me heló la sangre"), y distinguir información de textos no literarios (que informan hechos reales, a diferencia de un cuento). Practicar estas distintas formas de comprensión te prepara para leer cualquier tipo de texto —cuentos, noticias, instrucciones— entendiendo realmente su mensaje, no solo las palabras sueltas.',
   };
 }
 
-export function genVocabulario3Round(){
+export function genVocabulario3Round(nivel){
   const recurso = 'Cuando encuentras una palabra que no conoces en un texto, no siempre necesitas un diccionario: muchas veces el <b>contexto</b> (las palabras y oraciones que rodean a esa palabra) te da pistas suficientes para deducir su significado. Por ejemplo, si una oración dice "el perro estaba famélico, así que devoró su comida en segundos", puedes deducir que "famélico" significa "con mucha hambre", aunque nunca hayas visto esa palabra antes. Esta habilidad de usar el contexto para descubrir significados es mucho más útil en la vida real que memorizar listas de palabras, porque te sirve con cualquier palabra nueva que encuentres.';
   const item = pick(VOCABULARIO3_BANK);
-  const opts = shuffle([item.significado].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  let distract = item.opts;
+  if(nivel==='facil'){ distract = shuffle(distract).slice(0,1); }
+  const opts = shuffle([item.significado].concat(distract)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'<b>'+item.palabra+'</b>'+item.resto+'</p><p class="prompt-hint">¿Qué significa la palabra <b>'+item.palabra.toLowerCase()+'</b>?</p>',
     options: opts, correctValue: item.significado, speakText: item.texto+item.palabra+item.resto, cols:2, panel:true,
@@ -500,9 +512,13 @@ export function genVocabulario3Round(){
   };
 }
 
-export function genAlfabetico3Round(){
+/* Fácil compara solo 3 palabras (más fácil ordenar mentalmente); difícil
+   compara 5 (más elementos para tener en cuenta). Las opciones son las
+   mismas palabras mostradas, así que no se pueden reducir por separado. */
+export function genAlfabetico3Round(nivel){
   const recurso = 'El <b>orden alfabético</b> es la forma estándar de organizar palabras según la posición de sus letras en el abecedario (A, B, C... hasta la Z) — así se ordenan los diccionarios, las guías telefónicas y muchas listas. Para ordenar palabras, primero comparas su primera letra; si es igual, comparas la segunda letra, y así sucesivamente. Saber ordenar alfabéticamente es una habilidad práctica que usarás toda la vida: te permite encontrar rápido una palabra en el diccionario, un libro en una biblioteca, o un nombre en una lista larga, sin tener que revisar uno por uno desde el principio.';
-  const words = shuffle(ALFABETICO_POOL).slice(0,4);
+  const wordCount = nivel==='facil' ? 3 : nivel==='dificil' ? 5 : 4;
+  const words = shuffle(ALFABETICO_POOL).slice(0,wordCount);
   const sorted = words.slice().sort();
   const askFirst = Math.random()<0.5;
   const correct = askFirst ? sorted[0] : sorted[sorted.length-1];
@@ -515,15 +531,16 @@ export function genAlfabetico3Round(){
   };
 }
 
-export function genGramatica3Round(){
+export function genGramatica3Round(nivel){
   const recurso = 'En una oración, el <b>sustantivo</b> nombra a alguien o algo, el <b>adjetivo</b> describe cómo es, y el <b>artículo</b> (el, la, un, una, los, las) va antes del sustantivo para indicar si es específico o general, y en qué género y número está. Los <b>pronombres</b> (yo, tú, él, ella, nosotros) son palabras que reemplazan a un sustantivo ya mencionado antes, para no repetir el mismo nombre una y otra vez en un texto — por ejemplo, en vez de decir "María fue al parque, María jugó, María volvió a casa", puedes decir "María fue al parque, ella jugó, luego volvió a casa". Reconocer estas categorías gramaticales te ayuda a entender mejor cómo se arma una oración en español.';
   if(Math.random()<0.5){
     const item = pick(ORACIONES_GRAMATICA_G3);
     const roll = Math.random();
     const kind = roll<0.34 ? 'sustantivo' : (roll<0.67 ? 'adjetivo' : 'articulo');
     const correct = item[kind];
-    const otherTargets = ['sustantivo','adjetivo','articulo'].filter(function(k){ return k!==kind; }).map(function(k){ return item[k]; });
-    const opts = shuffle(otherTargets.concat(item.otras).concat([correct])).map(function(w){ return {label:w, value:w}; });
+    let rest = ['sustantivo','adjetivo','articulo'].filter(function(k){ return k!==kind; }).map(function(k){ return item[k]; }).concat(item.otras);
+    if(nivel==='facil'){ rest = shuffle(rest).slice(0,1); }
+    const opts = shuffle(rest.concat([correct])).map(function(w){ return {label:w, value:w}; });
     const kindLabel = kind==='sustantivo' ? 'sustantivo (nombra a alguien o algo)' : kind==='adjetivo' ? 'adjetivo (dice cómo es)' : 'artículo (el/la/un/una/los/las)';
     return {
       promptHTML: '<p class="prompt-sentence">"'+item.texto+'"</p><p class="prompt-hint">¿Cuál palabra es el '+kindLabel+'?</p>',
@@ -533,7 +550,8 @@ export function genGramatica3Round(){
     };
   }
   const item = pick(PRONOMBRES_BANK);
-  const distract = shuffle(PRONOMBRES_POOL.filter(function(p){ return p!==item.correcto; })).slice(0,3);
+  let distract = shuffle(PRONOMBRES_POOL.filter(function(p){ return p!==item.correcto; }));
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3);
   const opts = shuffle([item.correcto].concat(distract)).map(function(p){ return {label:p, value:p}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué pronombre completa la oración?</p>',
@@ -543,7 +561,10 @@ export function genGramatica3Round(){
   };
 }
 
-export function genOrtografia3Round(){
+/* Ya binario (2 opciones), sin ningún visual que ocultar — fácil/normal/
+   difícil se comportan igual, mismo criterio ya usado en Posición de
+   Geometría2 (2° básico) cuando el original ya era el mínimo posible. */
+export function genOrtografia3Round(nivel){
   const item = pick(ORTOGRAFIA_BANK);
   const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
   return {
@@ -552,6 +573,15 @@ export function genOrtografia3Round(){
     explain: 'La forma correcta es: "'+item.correcta+'"',
     recurso: 'La ortografía tiene reglas específicas que muchas veces no se "escuchan" al hablar, por eso hay que aprenderlas de memoria y practicarlas al escribir: por ejemplo, los días de la semana en español NO llevan mayúscula (se escribe "lunes", no "Lunes", a diferencia del inglés), y el uso de mayúsculas se reserva para nombres propios, el inicio de una oración, o después de un punto. Escribir con buena ortografía no es solo una formalidad — ayuda a que tu texto se entienda con claridad y se vea como algo cuidado y bien pensado, algo que se valora en la escuela y en la vida adulta.',
   };
+}
+
+/* "Examen Final" 3° básico Lenguaje: mezcla los 6 módulos del año + los 3
+   niveles al azar. */
+export function genExamenLenguaje3Round(){
+  const gens = [genGenerosLiterarios3Round, genComprension3Round, genVocabulario3Round, genAlfabetico3Round, genGramatica3Round, genOrtografia3Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Lenguaje 4° Básico ----------------

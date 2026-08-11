@@ -269,18 +269,28 @@ export function genExamenEdfisica1Round(){
 export const EDFISICA_MODULES_G3 = [
   {id:'vidaactiva3', label:'Vida Activa y Saludable III', open:true, key:'vidaactiva3'},
   {id:'seguridad3', label:'Juego Limpio y Seguridad III', open:true, key:'seguridad3'},
+  {id:'examenedfisica3', label:'Examen Final', open:true, key:'examenedfisica3'},
 ];
-export const EDFISICA_POS_G3 = [{x:30,y:70},{x:70,y:30}];
+export const EDFISICA_POS_G3 = [{x:24,y:85},{x:70,y:50},{x:24,y:15}];
 
+/* Ampliados de 8 a 12 ítems cada uno (2026-08-11): el Examen Final de esta
+   asignatura mezcla solo estos 2 módulos (ambos binarios V/F), y con
+   8+8=16 firmas únicas posibles no alcanzaba para rounds:20 — detectado
+   simulando 100 sesiones completas del examen (100/100 con repetición
+   garantizada) antes de dar el módulo por terminado. */
 const VIDA_ACTIVA_3_ITEMS = [
   { label:'Practicar actividad física de manera regular, no solo de vez en cuando, mejora tu condición física', v:true },
   { label:'Tu cuerpo necesita más oxígeno cuando haces ejercicio intenso, por eso respiras más rápido', v:true },
   { label:'Mantener hábitos de higiene después de hacer deporte, como ducharte, es parte de una vida saludable', v:true },
   { label:'Registrar cómo reacciona tu cuerpo al ejercicio (pulso, respiración) ayuda a entender tus propios límites', v:true },
   { label:'Elegir posturas correctas al sentarte o pararte cuida tu columna a largo plazo', v:true },
+  { label:'Beber agua antes, durante y después de hacer deporte ayuda a que tu cuerpo funcione bien', v:true },
+  { label:'Estirar tus músculos antes y después de hacer ejercicio ayuda a prevenir lesiones', v:true },
   { label:'Practicar deporte una sola vez al año es suficiente para mantenerte en buena condición física', v:false },
   { label:'No importa cómo reacciona tu cuerpo al ejercicio, nunca hay que prestarle atención', v:false },
   { label:'Es buena idea saltarse la ducha después de sudar mucho haciendo deporte', v:false },
+  { label:'Da lo mismo la postura que uses al sentarte, nunca afecta tu columna', v:false },
+  { label:'No es necesario tomar agua mientras haces deporte, solo importa después de terminar', v:false },
 ];
 const SEGURIDAD_3_ITEMS = [
   { label:'Cumplir las reglas de un juego colectivo, incluso cuando estás perdiendo, es parte del juego limpio', v:true },
@@ -288,12 +298,18 @@ const SEGURIDAD_3_ITEMS = [
   { label:'Revisar que el lugar donde vas a jugar esté seguro y despejado antes de empezar es una buena práctica', v:true },
   { label:'Usar la ropa y protección adecuada para cada actividad física ayuda a evitar lesiones', v:true },
   { label:'Avisar a un adulto si te lesionas o ves que un compañero se lesiona es lo correcto', v:true },
+  { label:'Felicitar al equipo contrario cuando juega bien, aunque hayas perdido, es parte del juego limpio', v:true },
+  { label:'Seguir las instrucciones del profesor durante una actividad física ayuda a que sea segura para todos', v:true },
   { label:'Hacer trampa para ganar un juego está bien si nadie se da cuenta', v:false },
   { label:'Cambiar las reglas del juego a mitad de camino, solo para ganar tú, es justo', v:false },
   { label:'No es necesario avisar a nadie si un compañero se golpea jugando', v:false },
+  { label:'Burlarte de un compañero que se equivocó durante un juego es una buena práctica deportiva', v:false },
+  { label:'Jugar sin revisar si el espacio es seguro no tiene ningún riesgo', v:false },
 ];
 
-export function genVidaActiva3Round(){
+/* Ambos ya binarios (V/F) y 100% textuales, sin ningún visual — nivel se
+   acepta por consistencia de API pero no cambia el comportamiento. */
+export function genVidaActiva3Round(nivel){
   const item = pick(VIDA_ACTIVA_3_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
@@ -304,7 +320,7 @@ export function genVidaActiva3Round(){
   };
 }
 
-export function genSeguridad3Round(){
+export function genSeguridad3Round(nivel){
   const item = pick(SEGURIDAD_3_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
@@ -313,6 +329,15 @@ export function genSeguridad3Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
     recurso: 'El "juego limpio" en el deporte significa jugar con honestidad: seguir las reglas incluso cuando vas perdiendo, admitir tus propias faltas, y no hacer trampa aunque nadie te vea — hacer trampa "porque nadie se da cuenta" sigue siendo trampa, y arruina el sentido del juego para todos. La seguridad, por su parte, significa revisar el espacio antes de jugar, usar la ropa y protección adecuada, y avisar a un adulto si alguien se lesiona. Practicar el deporte con honestidad y cuidado es lo que realmente hace que el juego sea disfrutable y seguro para todos los que participan.',
   };
+}
+
+/* "Examen Final" 3° básico Educación Física: mezcla los 2 módulos del año
+   + los 3 niveles al azar. */
+export function genExamenEdfisica3Round(){
+  const gens = [genVidaActiva3Round, genSeguridad3Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Educación Física y Salud 4° Básico ----------------

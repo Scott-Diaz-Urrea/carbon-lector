@@ -642,9 +642,10 @@ export const CIENCIAS_MODULES_G3 = [
   {id:'luz3', label:'La Luz', open:true, key:'luz3'},
   {id:'sonido3', label:'El Sonido', open:true, key:'sonido3'},
   {id:'sistemasolar3', label:'Sistema Solar', open:true, key:'sistemasolar3'},
+  {id:'examenciencias3', label:'Examen Final', open:true, key:'examenciencias3'},
 ];
 export const CIENCIAS_POS_G3 = [
-  {x:22,y:92},{x:68,y:77},{x:24,y:62},{x:70,y:47},{x:24,y:32},{x:70,y:17},{x:24,y:4}
+  {x:22,y:94},{x:68,y:81},{x:24,y:68},{x:70,y:55},{x:24,y:42},{x:70,y:29},{x:24,y:16},{x:70,y:4}
 ];
 
 /* Partes de la Planta (OA01) solo tiene 3 elementos reales (raíz/tallo/
@@ -740,15 +741,19 @@ const FASES_LUNA_BANK = [
   { emoji:'🌗', fase:'Cuarto menguante', desc:'Se ve la mitad de la Luna iluminada, disminuyendo' },
 ];
 
-export function genPlantas3Round(){
+/* Niveles (2026-08-11, rollout a 3° básico): fácil reduce opciones; difícil
+   oculta el emoji decorativo, dejando el texto que ya describe el ítem. */
+export function genPlantas3Round(nivel){
   const recurso = 'Cada parte de una planta cumple un trabajo específico para que la planta completa sobreviva: la <b>raíz</b> ancla la planta a la tierra y absorbe agua y nutrientes, el <b>tallo</b> transporta esa agua hacia arriba y sostiene a la planta, y las <b>hojas</b> usan la luz del sol para fabricar el alimento de la planta (un proceso llamado fotosíntesis). Además, Chile tiene especies de plantas propias y reconocibles, como el copihue (la flor nacional) o la araucaria, adaptadas a los distintos climas del país. Aprender las partes de una planta y reconocer especies chilenas te conecta con la naturaleza que te rodea, no solo con plantas genéricas de un libro.';
   const roll = Math.random();
+  const showEmoji = nivel !== 'dificil';
   if(roll<0.34){
     const item = pick(PARTES_PLANTA_BANK);
-    const distract = shuffle(PARTES_PLANTA_BANK.filter(function(p){ return p.parte!==item.parte; })).map(function(p){ return p.funcion; });
+    let distract = shuffle(PARTES_PLANTA_BANK.filter(function(p){ return p.parte!==item.parte; })).map(function(p){ return p.funcion; });
+    if(nivel==='facil'){ distract = distract.slice(0,1); }
     const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿Cuál es la función de '+(item.parte==='Hojas'?'las':'la')+' '+item.parte.toLowerCase()+'?</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">¿Cuál es la función de '+(item.parte==='Hojas'?'las':'la')+' '+item.parte.toLowerCase()+'?</p>',
       options: opts, correctValue: item.funcion, speakText: '¿Cuál es la función de la '+item.parte.toLowerCase()+'?', cols:2, panel:true,
       explain: (item.parte==='Hojas'?'Las':'La')+' '+item.parte.toLowerCase()+': '+item.funcion.toLowerCase()+'.',
       recurso: recurso,
@@ -756,7 +761,8 @@ export function genPlantas3Round(){
   }
   if(roll<0.67){
     const item = pick(PARTES_PLANTA_BANK);
-    const distract = shuffle(PARTES_PLANTA_BANK.filter(function(p){ return p.parte!==item.parte; })).map(function(p){ return p.parte; });
+    let distract = shuffle(PARTES_PLANTA_BANK.filter(function(p){ return p.parte!==item.parte; })).map(function(p){ return p.parte; });
+    if(nivel==='facil'){ distract = distract.slice(0,1); }
     const opts = shuffle([item.parte].concat(distract)).map(function(p){ return {label:p, value:p}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.funcion+'</p><p class="prompt-hint">¿De qué parte de la planta se trata?</p>',
@@ -766,21 +772,28 @@ export function genPlantas3Round(){
     };
   }
   const item = pick(PLANTAS_CHILE_BANK);
-  const distract = shuffle(PLANTAS_CHILE_BANK.filter(function(p){ return p.tipo!==item.tipo; })).slice(0,3).map(function(p){ return p.tipo; });
+  let distract = shuffle(PLANTAS_CHILE_BANK.filter(function(p){ return p.tipo!==item.tipo; }));
+  distract = distract.slice(0, nivel==='facil' ? 1 : 3).map(function(p){ return p.tipo; });
   const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.planta+'. ¿Qué es?</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.planta+'. ¿Qué es?</p>',
     options: opts, correctValue: item.tipo, speakText: item.planta, cols:2, kind:'word', panel:true,
     explain: 'El/la <b>'+item.planta.toLowerCase()+'</b> es '+item.tipo.toLowerCase()+'.',
     recurso: recurso,
   };
 }
 
-export function genCicloPlanta3Round(){
+/* Ya binario (2 opciones); difícil oculta el emoji de las opciones,
+   dejando solo el nombre de la etapa en texto. */
+export function genCicloPlanta3Round(nivel){
   let a = pick(CICLO_PLANTA_BANK), b = pick(CICLO_PLANTA_BANK);
   while(b.label === a.label) b = pick(CICLO_PLANTA_BANK);
   const askBefore = Math.random()<0.5;
-  const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
+  const showEmoji = nivel !== 'dificil';
+  const opts = shuffle([
+    {label:(showEmoji?a.emoji+' ':'')+a.label, value:a.label},
+    {label:(showEmoji?b.emoji+' ':'')+b.label, value:b.label},
+  ]);
   const earlier = a.orden<b.orden ? a : b, later = a.orden<b.orden ? b : a;
   const correct = askBefore ? earlier.label : later.label;
   return {
@@ -791,9 +804,11 @@ export function genCicloPlanta3Round(){
   };
 }
 
-export function genCuidadoAmbiente3Round(){
+export function genCuidadoAmbiente3Round(nivel){
   const item = pick(CUIDADO_AMBIENTE3_BANK);
-  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.incorrectas;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones ayuda a cuidar las plantas y el ambiente?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones ayuda a cuidar las plantas y el ambiente?', cols:2, panel:true,
@@ -802,21 +817,30 @@ export function genCuidadoAmbiente3Round(){
   };
 }
 
-export function genAlimentacion3Round(){
+/* Niveles (2026-08-11). De paso se corrige el placeholder "un(a)" sin
+   resolver (bug ya documentado en CLAUDE.md, pendiente en este archivo):
+   Verdura/Fruta/Proteína son femeninas ("una"), Lácteo/Cereal/Azúcar
+   (uso común "el azúcar" en Chile) son masculinas ("un"). */
+const ARTICULO_CATEGORIA = { Verdura:'una', Fruta:'una', Proteína:'una', Lácteo:'un', Cereal:'un', 'Azúcar (consumo moderado)':'un' };
+export function genAlimentacion3Round(nivel){
   const recurso = 'Los alimentos se agrupan en categorías según los nutrientes que aportan a tu cuerpo (frutas y verduras, lácteos, proteínas, cereales), y comer variado —no siempre lo mismo— asegura que recibas todos los nutrientes que necesitas para crecer sano. Además de elegir bien qué comer, la <b>higiene con los alimentos</b> es igual de importante para prevenir enfermedades: lavar las frutas y verduras antes de comerlas, lavarte las manos antes de cocinar o comer, y mantener los alimentos bien guardados evita que bacterias dañinas lleguen a tu cuerpo. Una buena alimentación combina ambas cosas: elegir alimentos variados Y manipularlos con higiene.';
+  const showEmoji = nivel !== 'dificil';
   if(Math.random()<0.5){
     const item = pick(ALIMENTOS3_BANK);
-    const distract = shuffle(ALIMENTOS3_BANK.filter(function(a){ return a.categoria!==item.categoria; })).slice(0,3).map(function(a){ return a.categoria; });
+    let distract = shuffle(ALIMENTOS3_BANK.filter(function(a){ return a.categoria!==item.categoria; }));
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3).map(function(a){ return a.categoria; });
     const opts = shuffle([item.categoria].concat(distract)).map(function(c){ return {label:c, value:c}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">¿A qué categoría pertenece '+item.alimento+'?</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">¿A qué categoría pertenece '+item.alimento+'?</p>',
       options: opts, correctValue: item.categoria, speakText: '¿A qué categoría pertenece '+item.alimento+'?', cols:2, kind:'word', panel:true,
-      explain: (item.alimento.charAt(0).toUpperCase()+item.alimento.slice(1))+' es un(a) <b>'+item.categoria.toLowerCase()+'</b>.',
+      explain: (item.alimento.charAt(0).toUpperCase()+item.alimento.slice(1))+' es '+(ARTICULO_CATEGORIA[item.categoria]||'un')+' <b>'+item.categoria.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
   const item = pick(HIGIENE_ALIMENTOS_BANK);
-  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  let opts2 = item.incorrectas;
+  if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+  const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de higiene con los alimentos?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de higiene con los alimentos?', cols:2, panel:true,
@@ -825,13 +849,16 @@ export function genAlimentacion3Round(){
   };
 }
 
-export function genLuz3Round(){
+/* Niveles: ambas ramas ya son binarias (V/F o natural/artificial); difícil
+   solo oculta el emoji en la rama de fuentes (item.fuente ya va en texto). */
+export function genLuz3Round(nivel){
   const recurso = 'La luz puede venir de <b>fuentes naturales</b> (el Sol, el fuego) o <b>fuentes artificiales</b> (una ampolleta, una linterna) creadas por el ser humano. La luz tiene propiedades que puedes comprobar tú mismo: viaja en línea recta (por eso una sombra tiene la misma forma que el objeto que la produce), y puede atravesar algunos materiales transparentes (como el vidrio) pero no otros opacos (como la madera), lo que forma sombras. Entender cómo se comporta la luz te ayuda a explicar fenómenos cotidianos, como por qué se forma una sombra o por qué no puedes ver a través de una pared.';
   if(Math.random()<0.5){
     const item = pick(LUZ_FUENTES_BANK);
+    const showEmoji = nivel !== 'dificil';
     const opts = shuffle([{label:'Fuente natural', value:'Natural'},{label:'Fuente artificial', value:'Artificial'}]);
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.fuente+'. ¿Es una fuente de luz natural o artificial?</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.fuente+'. ¿Es una fuente de luz natural o artificial?</p>',
       options: opts, correctValue: item.tipo, speakText: item.fuente, cols:2, panel:true,
       explain: item.fuente.charAt(0).toUpperCase()+item.fuente.slice(1)+' es una fuente de luz <b>'+item.tipo.toLowerCase()+'</b>.',
       recurso: recurso,
@@ -847,7 +874,10 @@ export function genLuz3Round(){
   };
 }
 
-export function genSonido3Round(){
+/* Ya binario (V/F) y 100% textual, sin ningún visual que ocultar — nivel
+   se acepta por consistencia de API pero no cambia el comportamiento,
+   mismo criterio ya usado en Ortografía de este mismo rollout. */
+export function genSonido3Round(nivel){
   const item = pick(SONIDO_PROPIEDADES_BANK);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
@@ -858,15 +888,20 @@ export function genSonido3Round(){
   };
 }
 
-export function genSistemaSolar3Round(){
+/* Niveles: las ramas 1 y 3 ocultan el emoji en difícil (item.desc ya
+   describe el objeto/fase en texto completo); la rama 2 (preguntas de
+   movimientos, ya textual) solo reduce opciones en fácil. */
+export function genSistemaSolar3Round(nivel){
   const recurso = 'El Sistema Solar está formado por el Sol (una estrella que da luz y calor propios) y todo lo que gira a su alrededor por su gravedad: planetas como la Tierra, satélites como la Luna, y otros cuerpos como cometas y asteroides. La Tierra tiene dos movimientos distintos y simultáneos: la <b>rotación</b> (gira sobre sí misma, produce el día y la noche, dura 24 horas) y la <b>traslación</b> (gira alrededor del Sol, dura un año). La Luna, por su parte, muestra distintas <b>fases</b> (luna nueva, creciente, llena, menguante) según cuánto de su superficie iluminada por el Sol podemos ver desde la Tierra, un ciclo que se repite aproximadamente cada mes.';
   const roll = Math.random();
+  const showEmoji = nivel !== 'dificil';
   if(roll<0.34){
     const item = pick(SISTEMA_SOLAR_BANK);
-    const distract = shuffle(SISTEMA_SOLAR_BANK.filter(function(s){ return s.nombre!==item.nombre; })).slice(0,3).map(function(s){ return s.nombre; });
+    let distract = shuffle(SISTEMA_SOLAR_BANK.filter(function(s){ return s.nombre!==item.nombre; }));
+    distract = distract.slice(0, nivel==='facil' ? 1 : 3).map(function(s){ return s.nombre; });
     const opts = shuffle([item.nombre].concat(distract)).map(function(n){ return {label:n, value:n}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'</p>',
+      promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.desc+'</p>',
       options: opts, correctValue: item.nombre, speakText: item.desc, cols:4, kind:'word',
       explain: 'Esa descripción corresponde a <b>'+item.nombre+'</b>.',
       recurso: recurso,
@@ -874,7 +909,9 @@ export function genSistemaSolar3Round(){
   }
   if(roll<0.67){
     const item = pick(MOVIMIENTOS_TIERRA_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    let opts2 = item.opts;
+    if(nivel==='facil'){ opts2 = shuffle(opts2).slice(0,1); }
+    const opts = shuffle([item.correcta].concat(opts2)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -883,14 +920,24 @@ export function genSistemaSolar3Round(){
     };
   }
   const item = pick(FASES_LUNA_BANK);
-  const distract = shuffle(FASES_LUNA_BANK.filter(function(f){ return f.fase!==item.fase; })).map(function(f){ return f.fase; });
+  let distract = shuffle(FASES_LUNA_BANK.filter(function(f){ return f.fase!==item.fase; })).map(function(f){ return f.fase; });
+  if(nivel==='facil'){ distract = distract.slice(0,1); }
   const opts = shuffle([item.fase].concat(distract)).map(function(f){ return {label:f, value:f}; });
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.desc+'. ¿Qué fase de la Luna es?</p>',
+    promptHTML: (showEmoji ? '<span class="prompt-emoji">'+item.emoji+'</span>' : '')+'<p class="prompt-hint">'+item.desc+'. ¿Qué fase de la Luna es?</p>',
     options: opts, correctValue: item.fase, speakText: item.desc, cols:2, kind:'word', panel:true,
     explain: 'Esa es la fase de <b>'+item.fase.toLowerCase()+'</b>.',
     recurso: recurso,
   };
+}
+
+/* "Examen Final" 3° básico Ciencias Naturales: mezcla los 7 módulos del
+   año + los 3 niveles al azar. */
+export function genExamenCiencias3Round(){
+  const gens = [genPlantas3Round, genCicloPlanta3Round, genCuidadoAmbiente3Round, genAlimentacion3Round, genLuz3Round, genSonido3Round, genSistemaSolar3Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 export function genDiaNocheRound(nivel){

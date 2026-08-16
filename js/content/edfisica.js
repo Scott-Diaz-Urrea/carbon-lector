@@ -523,8 +523,9 @@ export function genExamenEdfisica5Round(){
 export const EDFISICA_MODULES_G6 = [
   {id:'vidapostura6', label:'Vida Activa y Postura VI', open:true, key:'vidapostura6'},
   {id:'liderazgo6', label:'Liderazgo y Seguridad VI', open:true, key:'liderazgo6'},
+  {id:'examenedfisica6', label:'Examen Final', open:true, key:'examenedfisica6'},
 ];
-export const EDFISICA_POS_G6 = [{x:30,y:70},{x:70,y:30}];
+export const EDFISICA_POS_G6 = [{x:24,y:85},{x:70,y:50},{x:24,y:15}];
 
 const INTENSIDAD_ACTIVIDAD6_BANK = [
   { actividad:'Ver una película sentado en el sillón', intensidad:'Baja' },
@@ -543,13 +544,14 @@ const HABITOS_VI_BANK = [
   { label:'Medir tu esfuerzo con el pulso te ayuda a saber si tu actividad física fue de intensidad baja, moderada o alta', v:true },
   { label:'Es imposible saber si un ejercicio fue intenso o no, no existe ninguna forma de medirlo', v:false },
 ];
-export function genVidaPostura6Round(){
+export function genVidaPostura6Round(nivel){
   const recurso = 'La actividad física se puede clasificar por su <b>intensidad</b>: baja (como estar sentado), moderada (como bailar o nadar a ritmo constante) o alta (como correr a máximo esfuerzo). Medir el <b>pulso</b> (los latidos del corazón por minuto) es una forma real de saber qué tan intensa fue una actividad. Además de moverse, mantener una vida activa y saludable incluye planificar horarios para hacer ejercicio, cuidar la postura al usar dispositivos electrónicos, y practicar buena higiene después de la actividad física.';
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(INTENSIDAD_ACTIVIDAD6_BANK);
     const todos = ['Baja','Moderada','Alta'];
-    const distract = todos.filter(function(t){ return t!==item.intensidad; });
+    const distractAll = todos.filter(function(t){ return t!==item.intensidad; });
+    const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
     const opts = shuffle([item.intensidad].concat(distract)).map(function(i){ return {label:'Intensidad '+i, value:i}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué intensidad de esfuerzo físico tiene esta actividad?</p>',
@@ -576,7 +578,7 @@ const LIDERAZGO_SEGURIDAD6_ITEMS = [
   { label:'Reconocer cuando un rival juega mejor, sin dejar de esforzarte, es parte del juego limpio', v:true },
   { label:'Hacer trampa para ganar un juego es una forma válida de liderazgo', v:false },
 ];
-export function genLiderazgo6Round(){
+export function genLiderazgo6Round(nivel){
   const recurso = 'El buen liderazgo en el deporte se nota en las acciones concretas: motivar a un compañero desanimado, repartir roles según las fortalezas de cada integrante, y reconocer cuando un rival juega mejor sin dejar de esforzarse (eso es <b>juego limpio</b>). La seguridad también es parte de jugar bien: revisar el estado de los materiales antes de usarlos y guardarlos correctamente al terminar evita accidentes. Gritar, hacer trampa o jugar de forma imprudente para impresionar, en cambio, no son formas válidas de liderar ni de competir.';
   const item = pick(LIDERAZGO_SEGURIDAD6_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
@@ -585,6 +587,13 @@ export function genLiderazgo6Round(){
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
   };
+}
+
+export function genExamenEdfisica6Round(){
+  const gens = [genVidaPostura6Round, genLiderazgo6Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Educación Física y Salud 7° Básico ----------------

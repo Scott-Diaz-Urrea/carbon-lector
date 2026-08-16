@@ -1570,8 +1570,9 @@ export const CIENCIAS_MODULES_G6 = [
   {id:'energiatransformaciones6', label:'Energía y sus Transformaciones', open:true, key:'energiatransformaciones6'},
   {id:'calortemperatura6', label:'Calor, Temperatura y Estados de la Materia', open:true, key:'calortemperatura6'},
   {id:'tierrasueloerosion6', label:'La Tierra: Capas, Suelo y Erosión', open:true, key:'tierrasueloerosion6'},
+  {id:'examenciencias6', label:'Examen Final', open:true, key:'examenciencias6'},
 ];
-export const CIENCIAS_POS_G6 = [{x:20,y:94},{x:64,y:80},{x:24,y:64},{x:66,y:48},{x:22,y:30},{x:66,y:10}];
+export const CIENCIAS_POS_G6 = [{x:20,y:95},{x:64,y:82},{x:24,y:68},{x:66,y:54},{x:22,y:40},{x:66,y:22},{x:22,y:6}];
 
 const FOTOSINTESIS_BANK = [
   { pregunta:'¿Qué necesita una planta para realizar la fotosíntesis?', correcta:'Agua, dióxido de carbono y luz solar', opts:['Solo agua y oscuridad','Solo tierra y aire frío','Solo semillas y viento'] },
@@ -1593,12 +1594,13 @@ const IMPACTO_HUMANO_BANK = [
   { afirmacion:'Contaminar un río puede afectar a toda la cadena alimentaria que depende de esa agua', v:true },
   { afirmacion:'Las acciones humanas nunca tienen ningún efecto sobre las redes alimentarias naturales', v:false },
 ];
-export function genFotosintesisCadenas6Round(){
+export function genFotosintesisCadenas6Round(nivel){
   const recurso = 'La <b>fotosíntesis</b> es el proceso mediante el cual las plantas usan la luz del sol, agua y dióxido de carbono para fabricar su propio alimento y liberar oxígeno — por eso son los <b>productores</b> de toda cadena alimentaria. Los <b>consumidores primarios</b> se alimentan de esos productores, y los <b>consumidores secundarios</b> se alimentan de otros consumidores. Como todos los organismos de un ecosistema están conectados en esta cadena, una acción humana (talar un bosque, contaminar un río, introducir una especie que no es nativa) puede alterar el equilibrio de toda la red, no solo del organismo directamente afectado.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(FOTOSINTESIS_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+    const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -1610,7 +1612,8 @@ export function genFotosintesisCadenas6Round(){
     const idx = randInt(0,2);
     const organismo = item.cadena[idx];
     const correct = ROLES_CADENA[idx];
-    const distract = ROLES_CADENA.filter(function(r){ return r!==correct; });
+    const distractAll = ROLES_CADENA.filter(function(r){ return r!==correct; });
+    const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
     const opts = shuffle([correct].concat(distract)).map(function(r){ return {label:r, value:r}; });
     return {
       promptHTML: '<p class="prompt-count" style="font-size:20px;">'+item.cadena.join(' → ')+'</p><p class="prompt-hint">En esta cadena alimentaria, ¿qué rol cumple "'+organismo+'"?</p>',
@@ -1655,11 +1658,12 @@ const PUBERTAD_CAMBIOS_BANK = [
   { afirmacion:'Sentir emociones más intensas o cambiantes durante la pubertad es algo anormal que nunca le pasa a nadie', v:false },
   { afirmacion:'La pubertad solo afecta el cuerpo, nunca tiene relación con cómo se sienten las emociones de una persona', v:false },
 ];
-export function genReproductorPubertad6Round(){
+export function genReproductorPubertad6Round(nivel){
   const recurso = 'El sistema reproductor femenino y masculino cumplen una función biológica: producir óvulos y espermatozoides, y permitir la reproducción humana. La <b>pubertad</b> es la etapa del desarrollo en que el cuerpo empieza a madurar hacia la adultez, y trae cambios físicos observables (crecimiento acelerado, cambios de voz, aparición de vello corporal, inicio de la menstruación en las niñas) que son normales y esperables. Cada persona vive estos cambios a un ritmo distinto, y también es normal sentir emociones más intensas o cambiantes durante esta etapa.';
   if(Math.random()<0.5){
     const item = pick(SISTEMA_REPRODUCTOR_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+    const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -1689,7 +1693,7 @@ const DROGAS_EFECTOS_BANK = [
   { pregunta:'¿Cuál de estas es una conducta de protección frente a las drogas?', correcta:'Rodearse de amistades que respeten tus decisiones', opts:['Probar cualquier cosa que ofrezca un amigo','Ignorar los consejos de la familia','Guardar el problema en secreto siempre'] },
   { pregunta:'¿Qué factor ayuda a prevenir el consumo de drogas en la adolescencia?', correcta:'Tener una buena comunicación con la familia', opts:['Aislarse de la familia por completo','Evitar hablar de cualquier problema','Seguir siempre la presión de un grupo'] },
 ];
-export function genHabitosSaludables6Round(){
+export function genHabitosSaludables6Round(nivel){
   const recurso = 'El cuerpo durante el crecimiento necesita cuidados constantes: higiene regular, alimentación variada, sueño suficiente y actividad física. El tabaco y el alcohol son sustancias que dañan órganos concretos del cuerpo (pulmones, corazón, hígado, sistema nervioso) — conocer sus efectos reales, y no solo que "hacen mal", ayuda a entender por qué evitarlas. Factores protectores como una buena comunicación familiar y rodearse de amistades que respeten las propias decisiones son herramientas reales de prevención, no solo consejos genéricos.';
   if(Math.random()<0.5){
     const item = pick(HABITOS_CRECIMIENTO_BANK);
@@ -1701,7 +1705,8 @@ export function genHabitosSaludables6Round(){
     };
   }
   const item = pick(DROGAS_EFECTOS_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -1727,12 +1732,13 @@ const USO_RESPONSABLE_ENERGIA_BANK = [
   { accion:'Compartir el auto con otras personas que van al mismo lugar (carpool)', ayuda:true },
   { accion:'Usar el auto para recorrer distancias muy cortas que se podrían caminar', ayuda:false },
 ];
-export function genEnergiaTransformaciones6Round(){
+export function genEnergiaTransformaciones6Round(nivel){
   const recurso = 'La energía nunca desaparece: se <b>transforma</b> de un tipo a otro (una vela transforma energía química en luz y calor; un panel solar transforma luz en electricidad). Los recursos energéticos se dividen en <b>renovables</b> (sol, viento, agua — se regeneran naturalmente y no se agotan) y <b>no renovables</b> (petróleo, carbón, gas natural — tardan millones de años en formarse y se agotan con el uso). Usar la energía de forma responsable —apagar luces innecesarias, elegir electrodomésticos eficientes, compartir el auto— ayuda a que los recursos duren más y se dañe menos el ambiente.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(TRANSFORMACION_ENERGIA6_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+    const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.objeto+'</p><p class="prompt-hint">¿En qué transforma principalmente la energía?</p>',
       options: opts, correctValue: item.correcta, speakText: item.objeto, cols:2, kind:'word', panel:true,
@@ -1779,12 +1785,13 @@ const CALOR_TEMPERATURA_BANK = [
   { pregunta:'¿Qué mide un termómetro: el calor o la temperatura?', correcta:'La temperatura', opts:['El calor','El sonido','La humedad'] },
   { pregunta:'¿Qué es el calor?', correcta:'La energía que se transfiere de un objeto a otro', opts:['Una unidad para medir el peso','Un instrumento de medición','Un tipo de sonido'] },
 ];
-export function genCalorTemperatura6Round(){
+export function genCalorTemperatura6Round(nivel){
   const recurso = 'El <b>calor</b> es la energía que se transfiere siempre desde el objeto más caliente hacia el más frío (nunca al revés), mientras que la <b>temperatura</b> es lo que mide un termómetro para indicar qué tan caliente o frío está algo. La materia existe en tres estados según cómo se comportan sus partículas: <b>sólido</b> (muy juntas, forma fija), <b>líquido</b> (más separadas, toman la forma del recipiente) y <b>gaseoso</b> (muy separadas, se mueven libremente). El calor es precisamente lo que provoca los cambios entre estos estados: fusión, evaporación, ebullición, condensación, solidificación y sublimación.';
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(CALOR_FLUJO_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+    const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.escenario+'.</p><p class="prompt-hint">¿Hacia dónde fluye el calor en esta situación?</p>',
       options: opts, correctValue: item.correcta, speakText: item.escenario, cols:2, panel:true,
@@ -1794,7 +1801,8 @@ export function genCalorTemperatura6Round(){
   if(roll<0.5){
     const item = pick(ESTADOS_PARTICULAS_BANK);
     const todos = ['Sólido','Líquido','Gaseoso'];
-    const distract = todos.filter(function(e){ return e!==item.estado; });
+    const distractAll = todos.filter(function(e){ return e!==item.estado; });
+    const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
     const opts = shuffle([item.estado].concat(distract)).map(function(e){ return {label:e, value:e}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿A qué estado de la materia corresponde esta descripción?</p>',
@@ -1804,7 +1812,8 @@ export function genCalorTemperatura6Round(){
   }
   if(roll<0.75){
     const item = pick(CAMBIOS_ESTADO_BANK);
-    const distract = shuffle(CAMBIOS_ESTADO_BANK.filter(function(c){ return c.proceso!==item.proceso; })).slice(0,3).map(function(c){ return c.proceso; });
+    const distractCount = nivel==='facil' ? 1 : 3;
+    const distract = shuffle(CAMBIOS_ESTADO_BANK.filter(function(c){ return c.proceso!==item.proceso; })).slice(0,distractCount).map(function(c){ return c.proceso; });
     const opts = shuffle([item.proceso].concat(distract)).map(function(p){ return {label:p, value:p}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué cambio de estado ocurre en esta situación?</p>',
@@ -1836,12 +1845,13 @@ const EROSION_BANK = [
   { agente:'El agua', desc:'La lluvia y los ríos arrastran tierra y desgastan rocas al fluir sobre ellas' },
   { agente:'Las actividades humanas', desc:'Talar bosques o sobreexplotar terrenos deja el suelo más expuesto y vulnerable' },
 ];
-export function genTierraSueloErosion6Round(){
+export function genTierraSueloErosion6Round(nivel){
   const recurso = 'La Tierra tiene varias capas: la <b>atmósfera</b> (aire que rodea el planeta), la <b>litósfera</b> (la capa sólida de rocas y suelo) y la <b>hidrósfera</b> (toda el agua del planeta). El <b>suelo</b> se forma de rocas descompuestas junto con materia orgánica (restos de plantas y animales), y es esencial para que crezcan los cultivos. La <b>erosión</b> es el desgaste del suelo y las rocas por agentes naturales como el viento y el agua, pero también puede acelerarse por actividades humanas como talar bosques o sobreexplotar terrenos, dejando el suelo más expuesto y vulnerable.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(CAPAS_TIERRA6_BANK);
-    const distract = shuffle(CAPAS_TIERRA6_BANK.filter(function(c){ return c.capa!==item.capa; })).map(function(c){ return c.capa; });
+    const distractAll = shuffle(CAPAS_TIERRA6_BANK.filter(function(c){ return c.capa!==item.capa; })).map(function(c){ return c.capa; });
+    const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
     const opts = shuffle([item.capa].concat(distract)).map(function(c){ return {label:c, value:c}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué capa de la Tierra es?</p>',
@@ -1851,7 +1861,8 @@ export function genTierraSueloErosion6Round(){
   }
   if(roll<0.67){
     const item = pick(SUELO_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+    const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -1859,13 +1870,21 @@ export function genTierraSueloErosion6Round(){
     };
   }
   const item = pick(EROSION_BANK);
-  const distract = shuffle(EROSION_BANK.filter(function(e){ return e.agente!==item.agente; })).map(function(e){ return e.agente; });
+  const distractAll = shuffle(EROSION_BANK.filter(function(e){ return e.agente!==item.agente; })).map(function(e){ return e.agente; });
+  const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
   const opts = shuffle([item.agente].concat(distract)).map(function(a){ return {label:a, value:a}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué agente de erosión se describe aquí?</p>',
     options: opts, correctValue: item.agente, speakText: item.desc, cols:2, kind:'word', panel:true,
     explain: item.agente+': '+item.desc.toLowerCase()+'.', recurso: recurso,
   };
+}
+
+export function genExamenCiencias6Round(){
+  const gens = [genFotosintesisCadenas6Round, genReproductorPubertad6Round, genHabitosSaludables6Round, genEnergiaTransformaciones6Round, genCalorTemperatura6Round, genTierraSueloErosion6Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Ciencias Naturales 7° Básico ----------------

@@ -56,7 +56,7 @@ export const LENGUAJE_BY_GRADE = {
   3: { modules: LENGUAJE_MODULES_G3, pos: LENGUAJE_POS_G3, height: 700 },
   4: { modules: LENGUAJE_MODULES_G4, pos: LENGUAJE_POS_G4, height: 420 },
   5: { modules: LENGUAJE_MODULES_G5, pos: LENGUAJE_POS_G5, height: 470 },
-  6: { modules: LENGUAJE_MODULES_G6, pos: LENGUAJE_POS_G6, height: 440 },
+  6: { modules: LENGUAJE_MODULES_G6, pos: LENGUAJE_POS_G6, height: 470 },
   7: { modules: LENGUAJE_MODULES_G7, pos: LENGUAJE_POS_G7, height: 440 },
   8: { modules: LENGUAJE_MODULES_G8, pos: LENGUAJE_POS_G8, height: 440 },
 };
@@ -96,7 +96,7 @@ export const ARTES_BY_GRADE = {
   3: { modules: ARTES_MODULES_G3, pos: ARTES_POS_G3, height: 260 },
   4: { modules: ARTES_MODULES_G4, pos: ARTES_POS_G4, height: 260 },
   5: { modules: ARTES_MODULES_G5, pos: ARTES_POS_G5, height: 260 },
-  6: { modules: ARTES_MODULES_G6, pos: ARTES_POS_G6, height: 200 },
+  6: { modules: ARTES_MODULES_G6, pos: ARTES_POS_G6, height: 260 },
   7: { modules: ARTES_MODULES_G7, pos: ARTES_POS_G7, height: 200 },
   8: { modules: ARTES_MODULES_G8, pos: ARTES_POS_G8, height: 200 },
 };
@@ -106,7 +106,7 @@ export const MUSICA_BY_GRADE = {
   3: { modules: MUSICA_MODULES_G3, pos: MUSICA_POS_G3, height: 260 },
   4: { modules: MUSICA_MODULES_G4, pos: MUSICA_POS_G4, height: 260 },
   5: { modules: MUSICA_MODULES_G5, pos: MUSICA_POS_G5, height: 260 },
-  6: { modules: MUSICA_MODULES_G6, pos: MUSICA_POS_G6, height: 200 },
+  6: { modules: MUSICA_MODULES_G6, pos: MUSICA_POS_G6, height: 260 },
   7: { modules: MUSICA_MODULES_G7, pos: MUSICA_POS_G7, height: 200 },
   8: { modules: MUSICA_MODULES_G8, pos: MUSICA_POS_G8, height: 200 },
 };
@@ -136,7 +136,7 @@ export const TECNOLOGIA_BY_GRADE = {
   3: { modules: TECNOLOGIA_MODULES_G3, pos: TECNOLOGIA_POS_G3, height: 260 },
   4: { modules: TECNOLOGIA_MODULES_G4, pos: TECNOLOGIA_POS_G4, height: 260 },
   5: { modules: TECNOLOGIA_MODULES_G5, pos: TECNOLOGIA_POS_G5, height: 260 },
-  6: { modules: TECNOLOGIA_MODULES_G6, pos: TECNOLOGIA_POS_G6, height: 200 },
+  6: { modules: TECNOLOGIA_MODULES_G6, pos: TECNOLOGIA_POS_G6, height: 260 },
   7: { modules: TECNOLOGIA_MODULES_G7, pos: TECNOLOGIA_POS_G7, height: 200 },
   8: { modules: TECNOLOGIA_MODULES_G8, pos: TECNOLOGIA_POS_G8, height: 200 },
 };

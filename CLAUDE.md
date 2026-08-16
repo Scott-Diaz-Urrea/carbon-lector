@@ -3825,9 +3825,130 @@ cambios en ambos niveles nuevos.
   mapa de Inglés sin solapamiento ni scroll horizontal. Sin errores de
   consola en ningún caso.
 
+**6° básico: niveles Fácil/Normal/Difícil + Examen Final, las 9 asignaturas +
+Inglés (2026-08-16):** pedido explícito del usuario ("procede con 6°
+básico") de continuar el rollout tras completar 5° básico. Mismo motor sin
+cambios (`levels:true`/`selectMCLevel()`/`levelPickerHTML()`), las 9
+asignaturas + Inglés implementadas y verificadas en un solo PR, mismo
+patrón ya usado en años anteriores.
+
+- **Diseño por asignatura** (mismo criterio de siempre: fácil reduce
+  opciones/rango; difícil oculta el apoyo visual decorativo o sube la
+  complejidad real cuando no hay nada que ocultar):
+  - **Matemática** (10 módulos): Múltiplos y Factores restringe el rango de
+    factores/candidatos por nivel (rango chico y candidatos "obvios" en
+    fácil, rango amplio y candidatos "de borde" en difícil). Operatoria/
+    Razones y Porcentajes/Fracciones y Números Mixtos/Decimales/Patrones,
+    Tablas y Ecuaciones ajustan rango numérico y ocultan pistas de cálculo
+    en difícil. Triángulos y Teselados/Ángulos ocultan el SVG (triángulo/
+    ángulo/teselado) en difícil, dejando solo la descripción en texto. Área
+    y Volumen amplía el rango de dimensiones en difícil. Datos y
+    Probabilidades reduce/oculta el apoyo visual del gráfico doble/circular
+    en difícil.
+  - **Lenguaje** (5 módulos): mismo patrón que años anteriores — reducción
+    de distractores en fácil; Ortografía (tilde diacrítica, ya binaria y
+    100% textual) acepta `nivel` sin cambiar comportamiento.
+  - **Ciencias Naturales** (6 módulos, incluye **Sistema Reproductor y
+    Pubertad**, contenido ya revisado y aprobado por el usuario en sesiones
+    anteriores): mismo criterio preventivo ya establecido — difícil oculta
+    el emoji decorativo vía `item.opts.slice(0,1)` para fácil y ocultación
+    de apoyo visual para difícil, sin tocar el texto de ningún ítem. El
+    helper compartido `sistemaRound()` (usado por varias ramas del módulo
+    de sistemas del cuerpo) se actualizó para aceptar y reenviar `nivel` a
+    sus 3 sub-funciones, mismo patrón "dispatcher" ya usado en años
+    anteriores.
+  - **Historia** (6 módulos, incluye **Chile en el Siglo XX** —
+    `genSigloxx6Round`, con el `SIGLOXX_DEMOCRATIZACION_BANK` ya protegido
+    desde 6° básico original— y **Formación Ciudadana VI**): mismo criterio
+    de reducción de distractores en fácil; en ambos módulos sensibles solo
+    se tocó la lógica de conteo de opciones (`item.opts.slice(0,1)`),
+    dejando el texto de `correcta`/`opts`/`pregunta` exactamente igual al ya
+    revisado y aprobado en la auditoría de 2026-07-22.
+  - **Artes Visuales** (1 módulo, Lenguaje Visual IV): 3 ramas (gama de
+    color, contraste, volumen) — fácil reduce distractores; difícil oculta
+    el swatch/SVG donde aplica.
+  - **Música** (1 módulo, Melodía: Diseños y Variaciones): fácil reduce
+    distractores; difícil igual a normal (contenido ya 100% textual).
+  - **Educación Física** (2 módulos): Vida Activa y Postura VI reduce
+    distractores en fácil; Liderazgo y Seguridad VI (binario V/F) acepta
+    `nivel` sin cambio.
+  - **Orientación** (5 módulos, incluye **Prevención VI** —
+    `genPrevencion6Round`, con `PREVENCION_6_BANK` ya protegido—): Manejo
+    Emocional/Buen Trato VI ocultan el texto de la escena en difícil
+    ("Escucha 🔊 la situación y responde", mismo patrón ya usado en
+    Comprensión); Prevención/Autocuidado Digital/Hábitos de Estudio VI
+    (V/F o reducción simple de distractores) solo tocan el conteo de
+    opciones, nunca el texto protegido de Prevención.
+  - **Tecnología** (1 módulo, Tecnología Digital VI): fácil reduce
+    distractores. Banco (`TEC_DIGITAL_6_BANK`) ampliado proactivamente de
+    9 a 12 ítems antes de fuzz-testear, aplicando la lección ya reforzada
+    de años anteriores sobre márgenes de banco para años de un solo módulo.
+  - **Inglés** (2 módulos): Vocabulario Intermedio oculta el emoji en
+    difícil ("Escucha 🔊 y elige la palabra en inglés correcta."); Lectura
+    Simple II oculta el texto en inglés en difícil, mismo mecanismo
+    `speakLang:'en'` ya establecido desde 5° básico.
+- **2 bugs reales encontrados y corregidos:**
+  1. **Import faltante, rompía toda la app (no solo Lenguaje):**
+     `genExamenLenguaje6Round` se usó en `MC_GAMES`/`MC_KEYS`
+     (`mcEngine.js`) pero se olvidó agregarlo a la lista de imports desde
+     `./content/lenguaje.js` — un `ReferenceError` a nivel de módulo ES que
+     impide que cargue TODA la app, no solo la pantalla de Lenguaje.
+     Detectado de inmediato al correr el primer fuzz-test en el navegador
+     (la app no cargaba en absoluto). Corregido agregando la función a la
+     línea de import; verificado con un conteo de `grep` confirmando que
+     los 10 nombres de función `genExamen*6Round` nuevos aparecen
+     exactamente 2 veces cada uno en `mcEngine.js` (import + uso).
+  2. **`examenmusica6` con repetición garantizada (150/150 sesiones
+     simuladas con al menos un repetido):** mismo patrón ya documentado en
+     Música/Tecnología de 4° básico — con solo 3 ramas y bancos chicos
+     (`REITERACION_CONTRASTE_BANK` 4 ítems, `DISENO_MELODICO_BANK` 3
+     ítems), el total de firmas de ronda únicas posibles (18) quedaba por
+     debajo de las 20 rondas del examen. Corregido ampliando
+     `REITERACION_CONTRASTE_BANK` de 4 a 8 ítems y `DISENO_MELODICO_BANK`
+     de 3 a 6 ítems (contenido nuevo dentro del mismo concepto ya citado,
+     reusando los mismos valores de `tipo`/`diseno` con texto descriptivo
+     distinto). Verificado tras el fix: 0/300 sesiones con repetición.
+     `VARIACION_BANK` (2→4 ítems) se había ampliado proactivamente antes
+     de fuzz-testear, aplicando esa misma lección desde el principio — el
+     gap real fue no haber anticipado el mismo riesgo para las otras 2
+     ramas del mismo módulo.
+- **Examen Final por asignatura**: mezcla los módulos del año + los 3
+  niveles al azar, `rounds:20`, sin selector propio. Para Artes/Música/
+  Tecnología (un solo módulo compatible) el examen re-randomiza el nivel
+  sobre ese único generador.
+- **Mapas de nodos recalculados** con el mismo método de siempre (paso
+  vertical uniforme, margen ≥150px entre nodos del mismo lado del zigzag,
+  verificado con `getBoundingClientRect()` real en el navegador): Matemática
+  10→11; Lenguaje 5→6; Ciencias 6→7; Historia 6→7; Artes/Música/Tecnología
+  1→2 (layout canónico `[{x:30,y:70},{x:70,y:30}]`, height:260); Educación
+  Física/Inglés 2→3.
+- Verificado: los 39 generadores base (10 matemática + 5 lenguaje + 6
+  ciencias + 6 historia + 1 artes + 1 música + 2 edfisica + 5 orientación +
+  1 tecnología + 2 inglés) pasan fuzz de 400 iteraciones por módulo (4
+  niveles × 100, sin `THROW`, sin `undefined`, sin opciones duplicadas,
+  `correctValue` siempre presente) y simulación de 150 sesiones completas
+  por combinación módulo×nivel + los 10 exámenes (47 combinaciones): **0
+  repeticiones** tras los 2 fixes. `MC_KEYS.length ===
+  Object.keys(MC_GAMES).length === 621` (611 previos + 10 exámenes nuevos,
+  sin claves huérfanas). Regresión completa de los 621 módulos de toda la
+  app (40 iteraciones cada uno): confirmó que los únicos 2 hallazgos
+  preexistentes (`sistemasecuacionesm1`, `ortografiam1` en 1° Medio, ya
+  flagueados en una sesión anterior como tarea aparte) siguen siendo los
+  mismos — ningún módulo nuevo introdujo una regresión. Probado
+  visualmente en el navegador: los 10 mapas de 6° básico renderizados de
+  verdad, **0 solapamientos** en los 10; una partida jugada en "Múltiplos y
+  Factores" en Difícil (avance correcto de ronda), el Examen Final de
+  Lenguaje saltando directo a la pregunta 1/20 sin selector (confirmando el
+  fix del import faltante en vivo), y el selector de dificultad de "Sistema
+  Reproductor y Pubertad" renderizando correctamente (contenido protegido
+  intacto). Probado también en 375px (mobile) en el mapa de Historia: 0
+  solapamientos, 0 scroll horizontal, 0 errores de consola (verificado en
+  una pestaña nueva del navegador para descartar mensajes de consola
+  obsoletos de una pestaña reutilizada).
+
 **Con esto, el rollout de niveles Fácil/Normal/Difícil + Examen Final
-queda completo en 1°, 2°, 3°, 4° y 5° básico.** Próximo paso: continuar
-con 6°-8° básico (y en qué orden definir con el usuario) — mismo criterio
+queda completo en 1°, 2°, 3°, 4°, 5° y 6° básico.** Próximo paso: continuar
+con 7°-8° básico (y en qué orden definir con el usuario) — mismo criterio
 de "un curso a la vez" que el resto del proyecto.
 
 ### 6° Básico — ✅ completo (39 módulos, las 9 asignaturas + Inglés)

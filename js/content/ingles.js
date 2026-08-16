@@ -108,8 +108,9 @@ export function genExamenIngles5Round(){
 export const INGLES_MODULES_G6 = [
   {id:'vocabularioingles6', label:'Vocabulario Intermedio', open:true, key:'vocabularioingles6'},
   {id:'lecturasimple6', label:'Lectura Simple II', open:true, key:'lecturasimple6'},
+  {id:'exameningles6', label:'Examen Final', open:true, key:'exameningles6'},
 ];
-export const INGLES_POS_G6 = [{x:30,y:70},{x:70,y:30}];
+export const INGLES_POS_G6 = [{x:24,y:85},{x:70,y:50},{x:24,y:15}];
 
 const CLIMA_VERBOS_BANK = [
   { emoji:'☀️', english:'Sunny' }, { emoji:'🌧️', english:'Rainy' }, { emoji:'❄️', english:'Snowy' },
@@ -121,20 +122,22 @@ const DIAS_SEMANA_BANK = [
   { spanish:'Lunes', english:'Monday' }, { spanish:'Martes', english:'Tuesday' }, { spanish:'Miércoles', english:'Wednesday' },
   { spanish:'Jueves', english:'Thursday' }, { spanish:'Viernes', english:'Friday' }, { spanish:'Sábado', english:'Saturday' }, { spanish:'Domingo', english:'Sunday' },
 ];
-export function genVocabularioIngles6Round(){
+export function genVocabularioIngles6Round(nivel){
   const recurso = 'En inglés, el clima se describe con adjetivos como "sunny" (soleado), "rainy" (lluvioso) o "windy" (con viento), y las acciones cotidianas con verbos como "run" (correr) o "sleep" (dormir). Los días de la semana en inglés ("Monday", "Tuesday"...) se aprenden mejor como traducción directa palabra por palabra, ya que —a diferencia del clima o las acciones— no tienen una imagen que los represente por sí solos. Practicar este vocabulario básico ayuda a construir las primeras oraciones simples en un segundo idioma.';
+  const distractCount = nivel==='facil' ? 1 : 3;
   if(Math.random()<0.6){
     const item = pick(CLIMA_VERBOS_BANK);
-    const distract = shuffle(CLIMA_VERBOS_BANK.filter(function(v){ return v.english!==item.english; })).slice(0,3).map(function(v){ return v.english; });
+    const distract = shuffle(CLIMA_VERBOS_BANK.filter(function(v){ return v.english!==item.english; })).slice(0,distractCount).map(function(v){ return v.english; });
     const opts = shuffle([item.english].concat(distract)).map(function(e){ return {label:e, value:e}; });
+    const visual = nivel==='dificil' ? '<p class="prompt-hint">Escucha 🔊 y elige la palabra en inglés correcta.</p>' : '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">How do you say this in English? (¿Cómo se dice esto en inglés?)</p>';
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">How do you say this in English? (¿Cómo se dice esto en inglés?)</p>',
+      promptHTML: visual,
       options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, kind:'word',
       explain: 'Se dice <b>'+item.english+'</b> en inglés.', recurso: recurso,
     };
   }
   const item = pick(DIAS_SEMANA_BANK);
-  const distract = shuffle(DIAS_SEMANA_BANK.filter(function(d){ return d.english!==item.english; })).slice(0,3).map(function(d){ return d.english; });
+  const distract = shuffle(DIAS_SEMANA_BANK.filter(function(d){ return d.english!==item.english; })).slice(0,distractCount).map(function(d){ return d.english; });
   const opts = shuffle([item.english].concat(distract)).map(function(e){ return {label:e, value:e}; });
   return {
     promptHTML: '<p class="prompt-word">'+item.spanish+'</p><p class="prompt-hint">How do you say this day in English?</p>',
@@ -155,15 +158,24 @@ const LECTURA_SIMPLE2_BANK = [
   { text:'Greeting card: Happy birthday. I hope you have a wonderful day. With love, Grandma.', question:'Who wrote the card?', correct:'Grandma', opts:['Mom','A friend','The teacher'] },
   { text:'A short poem: Twinkle, twinkle, little star, how I wonder what you are.', question:'What does the poem talk about?', correct:'A star', opts:['The moon','The sun','A cloud'] },
 ];
-export function genLecturaSimple6Round(){
+export function genLecturaSimple6Round(nivel){
   const recurso = 'Leer un texto breve en inglés (una nota, una postal, un menú o un poema corto) no requiere entender cada palabra: basta con identificar la información clave que responde la pregunta —quién escribe, qué pide, cuándo ocurre algo—, apoyándose en palabras conocidas y en el contexto general del texto. Esta misma estrategia de "leer para encontrar el dato" funciona igual en español y en inglés.';
   const item = pick(LECTURA_SIMPLE2_BANK);
-  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correct].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
+  const textoHTML = nivel==='dificil' ? '<p class="prompt-hint">Listen 🔊 and answer. (Escucha y responde)</p>' : '<p class="prompt-sentence">'+item.text+'</p>';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    promptHTML: textoHTML+'<p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, speakLang:'en', cols:2, kind:'word',
     explain: 'The answer is <b>'+item.correct+'</b>.', recurso: recurso,
   };
+}
+
+export function genExamenIngles6Round(){
+  const gens = [genVocabularioIngles6Round, genLecturaSimple6Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Inglés 7° Básico ----------------

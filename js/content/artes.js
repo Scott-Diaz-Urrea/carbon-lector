@@ -460,8 +460,9 @@ export function genExamenArtes5Round(){
    (OAA A-G) tampoco aplican al motor de opción múltiple. */
 export const ARTES_MODULES_G6 = [
   {id:'lenguajevisual6', label:'Lenguaje Visual IV', open:true, key:'lenguajevisual6'},
+  {id:'examenartes6', label:'Examen Final', open:true, key:'examenartes6'},
 ];
-export const ARTES_POS_G6 = [{x:50,y:50}];
+export const ARTES_POS_G6 = [{x:30,y:70},{x:70,y:30}];
 
 const GAMA_COLOR_BANK = [
   { desc:'Una pintura usa solo tonos de rojo, naranjo y amarillo, dando una sensación cálida y energética', gama:'Gama cálida' },
@@ -482,13 +483,14 @@ const VOLUMEN_LLENO_VACIO_BANK = [
   { desc:'Al modelar una figura en arcilla, la parte de material que ocupa espacio se llama "lleno", y el hueco o espacio que queda alrededor o dentro se llama "vacío"', pregunta:'¿Por qué es importante el "vacío" en una escultura, y no solo el "lleno"?', correcta:'Porque el espacio vacío también forma parte de la composición visual de la obra', opts:['Porque el vacío nunca se considera parte de la obra','Porque las esculturas siempre deben ser totalmente sólidas','Porque el vacío arruina cualquier escultura'] },
   { desc:'Una escultura de madera calada (con agujeros a propósito) deja ver el espacio detrás de ella a través de sus huecos', pregunta:'¿Qué parte de la escultura representa el "vacío"?', correcta:'Los huecos que dejan ver a través de la escultura', opts:['La madera sólida que forma la figura','El color de la madera','La base que sostiene la escultura'] },
 ];
-export function genLenguajeVisual6Round(){
+export function genLenguajeVisual6Round(nivel){
   const recurso = 'Una <b>gama de color</b> es un conjunto de colores emparentados que da una sensación general a una obra: cálida (rojos, naranjos, amarillos), fría (azules, verdes, morados) o monocromática (tonos distintos de un mismo color). El <b>contraste</b> resalta elementos al ponerlos en oposición: claro-oscuro (para que algo destaque con fuerza) o de complementarios (colores opuestos en el círculo cromático, que se intensifican mutuamente). Y en escultura, el <b>volumen</b> se describe con "lleno" (la parte sólida) y "vacío" (los huecos o espacios abiertos) — ambos forman parte de la composición visual de la obra, no solo el material sólido.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(GAMA_COLOR_BANK);
     const todos = ['Gama cálida','Gama fría','Monocromática'];
-    const distract = todos.filter(function(g){ return g!==item.gama; });
+    const distractAll = todos.filter(function(g){ return g!==item.gama; });
+    const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
     const opts = shuffle([item.gama].concat(distract)).map(function(g){ return {label:g, value:g}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué gama de color se usa en esta obra?</p>',
@@ -507,12 +509,18 @@ export function genLenguajeVisual6Round(){
     };
   }
   const item = pick(VOLUMEN_LLENO_VACIO_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
   };
+}
+
+export function genExamenArtes6Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genLenguajeVisual6Round(nivel);
 }
 
 /* ---------------- Contenido Artes Visuales 7° Básico ----------------

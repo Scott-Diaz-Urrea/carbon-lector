@@ -607,8 +607,9 @@ export const LENGUAJE_MODULES_G4 = [
   {id:'vocabulario4', label:'Vocabulario en Contexto II', open:true, key:'vocabulario4'},
   {id:'gramatica4', label:'Gramática IV', open:true, key:'gramatica4'},
   {id:'ortografia4', label:'Ortografía II', open:true, key:'ortografia4'},
+  {id:'examenlengua4', label:'Examen Final', open:true, key:'examenlengua4'},
 ];
-export const LENGUAJE_POS_G4 = [{x:22,y:88},{x:68,y:64},{x:24,y:38},{x:70,y:12}];
+export const LENGUAJE_POS_G4 = [{x:22,y:92},{x:68,y:71},{x:24,y:50},{x:70,y:29},{x:24,y:6}];
 
 const COMPRENSION4_BANK = [
   { text:'Diego dejó su bicicleta afuera durante toda la noche de tormenta, y al día siguiente encontró óxido en la cadena.', question:'¿Por qué la cadena se oxidó?', correct:'Porque quedó expuesta a la lluvia toda la noche', opts:['Porque era una bicicleta nueva','Porque Diego la lavó con jabón','Porque la guardó en su pieza'], reason:'La lluvia sobre el metal durante horas es lo que produce el óxido.' },
@@ -674,23 +675,29 @@ const ORTOGRAFIA4_BANK = [
   { incorrecta:'Habia una vez un rey muy sabio', correcta:'Había una vez un rey muy sabio', regla:'Se escribe con B: "había" (del verbo haber).' },
 ];
 
-export function genComprension4Round(){
+export function genComprension4Round(nivel){
   const item = pick(COMPRENSION4_BANK);
-  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const pool = nivel==='facil' ? [item.correct, item.opts[0]] : [item.correct].concat(item.opts);
+  const opts = shuffle(pool).map(function(o){ return {label:o, value:o}; });
   const kind = /^[A-ZÁÉÍÓÚÑ]/.test(item.correct) ? 'word' : undefined;
+  /* Difícil: el texto ya no queda visible en pantalla, hay que escucharlo
+     con el botón 🔊 y responder de memoria — mismo criterio ya usado en
+     Comprensión de años anteriores. */
+  const textoHTML = nivel==='dificil' ? '' : '<p class="prompt-sentence">'+item.text+'</p>';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    promptHTML: textoHTML+'<p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, cols: kind?2:2, kind: kind, panel:true,
     explain: item.reason,
     recurso: 'Comprender un texto va mucho más allá de reconocer las palabras: incluye <b>inferir</b> (deducir algo que el texto no dice directamente, usando pistas del contexto — como saber que una bicicleta se oxidó porque quedó bajo la lluvia toda la noche), reconocer <b>lenguaje figurado</b> (frases que no se leen literalmente, como "le explotaba el corazón de la emoción", que expresa una emoción intensa, no un hecho real), identificar el <b>género literario</b> de un texto (fábula, mito, novela — cada uno con características propias), y extraer información explícita de <b>textos no literarios</b> (instrucciones, avisos, recomendaciones). Practicar estas estrategias te ayuda a entender no solo QUÉ dice un texto, sino también lo que sugiere entre líneas.',
   };
 }
 
-export function genVocabulario4Round(){
+export function genVocabulario4Round(nivel){
   const recurso = 'Cuando no conoces una palabra, el <b>contexto</b> (las oraciones a su alrededor) casi siempre te da pistas suficientes para deducir su significado, sin necesidad de buscarla en un diccionario. Otra herramienta útil son los <b>prefijos</b>: partículas que se agregan al INICIO de una palabra base y cambian su significado de forma predecible — "des-" revierte una acción (hacer → deshacer), "re-" indica que se repite (hacer → rehacer), "in-" niega una cualidad (capaz → incapaz). Una vez que reconoces qué hace un prefijo, puedes deducir el significado de palabras nuevas que nunca habías visto, con tal de que conozcas su palabra base.';
+  const count = nivel==='facil' ? 2 : 4;
   if(Math.random()<0.5){
     const item = pick(VOCABULARIO4_CONTEXTO_BANK);
-    const opts = shuffle([item.significado].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.significado].concat(item.opts.slice(0,count-1))).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.texto+'<b>'+item.palabra+'</b>'+item.resto+'</p><p class="prompt-hint">¿Qué significa la palabra <b>'+item.palabra.toLowerCase()+'</b>?</p>',
       options: opts, correctValue: item.significado, speakText: item.texto+item.palabra+item.resto, cols:2, panel:true,
@@ -699,7 +706,7 @@ export function genVocabulario4Round(){
     };
   }
   const item = pick(PREFIJOS_BANK);
-  const distract = shuffle(PREFIJOS_BANK.filter(function(p){ return p.prefijo!==item.prefijo; })).slice(0,3).map(function(p){ return p.significadoPrefijo; });
+  const distract = shuffle(PREFIJOS_BANK.filter(function(p){ return p.prefijo!==item.prefijo; })).slice(0,count-1).map(function(p){ return p.significadoPrefijo; });
   const opts = shuffle([item.significadoPrefijo].concat(distract)).map(function(s){ return {label:s, value:s}; });
   return {
     promptHTML: '<p class="prompt-word">'+item.ejemplo+'</p><p class="prompt-hint">La palabra base es "'+item.base.toLowerCase()+'". ¿Qué indica el prefijo "'+item.prefijo.toLowerCase()+'" en esta palabra?</p>',
@@ -709,11 +716,12 @@ export function genVocabulario4Round(){
   };
 }
 
-export function genGramatica4Round(){
+export function genGramatica4Round(nivel){
   const recurso = 'Un <b>adverbio</b> es una palabra que modifica a un verbo, dando más información sobre CÓMO (modo: lentamente), CUÁNDO (tiempo: mañana), DÓNDE (lugar: aquí) o CUÁNTO (cantidad: mucho) ocurre la acción — a diferencia de un adjetivo, que describe a un sustantivo, el adverbio siempre acompaña a un verbo. Por otro lado, la <b>concordancia sujeto-verbo</b> es la regla que exige que el verbo cambie su forma según quién realiza la acción: "yo camino", "tú caminas", "nosotros caminamos" — el mismo verbo "caminar" toma una terminación distinta según el sujeto, y una oración donde no concuerdan ("Los niños juega") suena incorrecta al oído porque rompe esta regla.';
+  const count = nivel==='facil' ? 2 : 4;
   if(Math.random()<0.5){
     const item = pick(ADVERBIOS_BANK);
-    const distract = shuffle(['Adverbio de modo','Adverbio de tiempo','Adverbio de lugar','Adverbio de cantidad'].filter(function(t){ return t!==item.tipo; }));
+    const distract = shuffle(['Adverbio de modo','Adverbio de tiempo','Adverbio de lugar','Adverbio de cantidad'].filter(function(t){ return t!==item.tipo; })).slice(0,count-1);
     const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.texto.replace(item.palabra,'<b>'+item.palabra+'</b>')+'</p><p class="prompt-hint">¿Qué tipo de adverbio es la palabra en negrita?</p>',
@@ -723,7 +731,7 @@ export function genGramatica4Round(){
     };
   }
   const item = pick(VERBOS_CONCORDANCIA_BANK);
-  const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
+  const opts = shuffle([item.correcto].concat(item.malas.slice(0,count-1))).map(function(v){ return {label:v, value:v}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué verbo completa correctamente la oración?</p>',
     options: opts, correctValue: item.correcto, speakText: item.texto.replace('___', item.correcto), cols:4, kind:'word',
@@ -732,7 +740,7 @@ export function genGramatica4Round(){
   };
 }
 
-export function genOrtografia4Round(){
+export function genOrtografia4Round(nivel){
   const item = pick(ORTOGRAFIA4_BANK);
   const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
   return {
@@ -741,6 +749,13 @@ export function genOrtografia4Round(){
     explain: item.regla,
     recurso: 'El español tiene varias reglas ortográficas que no se "escuchan" al hablar, así que hay que memorizarlas: las formas del verbo <b>ir</b> en pasado ("iba", "iban") siempre se escriben con B, nunca con V. La palabra <b>"hay"</b> (del verbo haber, indica que algo existe) se confunde fácilmente con <b>"ahí"</b> (que indica un lugar) y con <b>"ay"</b> (una exclamación) — aunque suenan parecido, cada una se usa en una situación distinta. La <b>tilde</b> (acento escrito) marca la sílaba donde cae la fuerza de la voz en palabras que, sin ella, se leerían mal o se confundirían con otra palabra (como "árbol", que sin tilde no seguiría la regla de las palabras graves).',
   };
+}
+
+export function genExamenLenguaje4Round(){
+  const gens = [genComprension4Round, genVocabulario4Round, genGramatica4Round, genOrtografia4Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Lenguaje 5° Básico ----------------

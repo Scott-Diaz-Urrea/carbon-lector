@@ -262,33 +262,49 @@ export function genExamenMusica3Round(){
    autoevaluación) por las mismas razones que en años anteriores. */
 export const MUSICA_MODULES_G4 = [
   {id:'dinamicatempo4', label:'Dinámica y Tempo', open:true, key:'dinamicatempo4'},
+  {id:'examenmusica4', label:'Examen Final', open:true, key:'examenmusica4'},
 ];
-export const MUSICA_POS_G4 = [{x:50,y:50}];
+export const MUSICA_POS_G4 = [{x:30,y:70},{x:70,y:30}];
 
 const DINAMICA_BANK = [
   { desc:'Un volumen muy suave, casi un susurro musical', termino:'Piano (suave)' },
+  { desc:'Tocar un instrumento apenas audible, como para no despertar a alguien', termino:'Piano (suave)' },
   { desc:'Un volumen muy fuerte y potente', termino:'Forte (fuerte)' },
+  { desc:'Una orquesta tocando con toda su potencia en el clímax de una obra', termino:'Forte (fuerte)' },
   { desc:'Un volumen que va aumentando poco a poco, de suave a fuerte', termino:'Crescendo' },
+  { desc:'Un tambor que empieza casi en silencio y va sonando cada vez más fuerte', termino:'Crescendo' },
   { desc:'Un volumen que va disminuyendo poco a poco, de fuerte a suave', termino:'Decrescendo' },
+  { desc:'Una canción que termina apagándose de a poco hasta casi no escucharse', termino:'Decrescendo' },
 ];
 const TEMPO_BANK = [
   { desc:'Una canción que se toca muy rápido', termino:'Allegro (rápido)' },
+  { desc:'Una melodía tan veloz que apenas se alcanzan a distinguir las notas', termino:'Allegro (rápido)' },
   { desc:'Una canción que se toca muy lenta y calmada', termino:'Largo (muy lento)' },
+  { desc:'Una pieza solemne que se toca con mucha calma, nota por nota', termino:'Largo (muy lento)' },
   { desc:'Una canción que se toca a velocidad moderada, ni rápida ni lenta', termino:'Moderato' },
+  { desc:'Un paso musical cómodo, sin apuro ni lentitud', termino:'Moderato' },
   { desc:'Una canción que se toca a un paso tranquilo, como una caminata', termino:'Andante' },
+  { desc:'Una melodía que avanza a un ritmo relajado, como caminar por el parque', termino:'Andante' },
 ];
 
-export function genDinamicaTempo4Round(){
+export function genDinamicaTempo4Round(nivel){
   const bank = Math.random()<0.5 ? DINAMICA_BANK : TEMPO_BANK;
   const item = pick(bank);
-  const distract = shuffle(bank.filter(function(b){ return b.termino!==item.termino; })).map(function(b){ return b.termino; });
-  const opts = shuffle([item.termino].concat(distract)).map(function(t){ return {label:t, value:t}; });
+  const distractSet = Array.from(new Set(bank.filter(function(b){ return b.termino!==item.termino; }).map(function(b){ return b.termino; })));
+  const distract = shuffle(distractSet);
+  const pool = nivel==='facil' ? distract.slice(0,1) : distract;
+  const opts = shuffle([item.termino].concat(pool)).map(function(t){ return {label:t, value:t}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué término musical describe esto?</p>',
     options: opts, correctValue: item.termino, speakText: item.desc, cols:2, kind:'word',
     explain: 'Ese término musical es <b>'+item.termino+'</b>.',
     recurso: 'La <b>dinámica</b> en música se refiere a qué tan fuerte o suave suena algo: "piano" significa suave, "forte" significa fuerte, y "crescendo"/"decrescendo" describen un volumen que va aumentando o disminuyendo gradualmente durante la canción. El <b>tempo</b>, en cambio, se refiere a la velocidad: "allegro" es rápido, "largo" es muy lento, "moderato" es una velocidad intermedia y "andante" es un paso tranquilo, como caminar. Estos términos vienen del italiano porque los primeros compositores que los estandarizaron, hace varios siglos, eran principalmente italianos — hoy músicos de todo el mundo usan las mismas palabras para indicar cómo debe sonar una pieza, sin importar en qué idioma se compuso.',
   };
+}
+
+export function genExamenMusica4Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genDinamicaTempo4Round(nivel);
 }
 
 /* ---------------- Contenido Música 5° Básico ----------------

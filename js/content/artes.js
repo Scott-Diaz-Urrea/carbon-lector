@@ -325,8 +325,9 @@ export function genExamenArtes3Round(){
    subjetivo) y OA05 (autoevaluación de fortalezas propias). */
 export const ARTES_MODULES_G4 = [
   {id:'lenguajevisual4', label:'Lenguaje Visual II', open:true, key:'lenguajevisual4'},
+  {id:'examenartes4', label:'Examen Final', open:true, key:'examenartes4'},
 ];
-export const ARTES_POS_G4 = [{x:50,y:50}];
+export const ARTES_POS_G4 = [{x:30,y:70},{x:70,y:30}];
 
 const LENGUAJE_VISUAL4_BANK = [
   { pregunta:'¿Qué es una línea de contorno en un dibujo?', correcta:'La línea que marca el borde o silueta de una figura', opts:['El color de fondo del dibujo','La textura de la superficie','El título de la obra'] },
@@ -341,15 +342,20 @@ const LENGUAJE_VISUAL4_BANK = [
   { pregunta:'Un retrato realista de una persona, donde se reconoce su cara, es una forma...', correcta:'Figurativa', opts:['No figurativa (abstracta)','Transparente','Simétrica'] },
 ];
 
-export function genLenguajeVisual4Round(){
+export function genLenguajeVisual4Round(nivel){
   const item = pick(LENGUAJE_VISUAL4_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.correcta].concat(nivel==='facil' ? item.opts.slice(0,1) : item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
     explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.',
     recurso: 'La <b>línea de contorno</b> es la línea que marca el borde de una figura, separándola del fondo y definiendo claramente su forma — es lo primero que suele dibujarse al bosquejar un objeto. Un mismo color puede variar de dos formas distintas: el <b>tono</b> (qué tan claro u oscuro es, según se le agregue blanco o negro) y el <b>matiz</b> (la variación específica dentro de ese color, como un rojo más anaranjado o más violeta). Una obra también se puede clasificar según qué tan reconocible es lo que representa: una forma <b>figurativa</b> muestra algo identificable del mundo real (un gato, una casa), mientras que una forma <b>no figurativa</b> (o abstracta) es un patrón de líneas y colores que no representa nada concreto.',
   };
+}
+
+export function genExamenArtes4Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genLenguajeVisual4Round(nivel);
 }
 
 /* ---------------- Contenido Artes Visuales 5° Básico ----------------

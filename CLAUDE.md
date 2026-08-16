@@ -3451,6 +3451,113 @@ cada archivo.
   internet — OA05-07). Fuera: OA01-04 (diseñar/elaborar/evaluar un objeto
   tecnológico propio).
 
+**4° básico: niveles Fácil/Normal/Difícil + Examen Final, las 9 asignaturas
+(2026-08-16):** pedido explícito del usuario de continuar el rollout tras
+completar 1°-3° básico en sesiones anteriores. Mismo motor sin cambios
+(`levels:true`/`selectMCLevel()`/`levelPickerHTML()`), las 9 asignaturas
+implementadas y verificadas en un solo PR, mismo patrón ya usado en 2°/3°
+básico.
+
+- **Diseño por asignatura** (mismo criterio de siempre: fácil reduce
+  opciones/rango numérico; difícil oculta el apoyo visual decorativo o sube
+  la complejidad real cuando no hay nada que ocultar):
+  - **Matemática** (9 módulos): rango/spread por nivel en los generadores
+    numéricos (Números, Operaciones, Multiplicar/Dividir, Decimales,
+    Patrones, Medición, Datos); Fracciones difícil agrega un distractor
+    "trampa" (fracción invertida) en vez de solo otro denominador;
+    Geometría difícil randomiza la dirección en la rama de coordenadas
+    (antes siempre "a la derecha") y restringe el banco de simetría a
+    figuras menos obvias.
+  - **Lenguaje** (4 módulos): Comprensión oculta el texto en difícil
+    (mismo criterio ya usado en años anteriores); Vocabulario/Gramática
+    reducen opciones en fácil; Ortografía (ya binaria) acepta `nivel` sin
+    cambiar comportamiento.
+  - **Ciencias Naturales** (5 módulos): difícil quita el emoji decorativo
+    cuando el texto ya nombra el elemento (mismo criterio preventivo ya
+    aprendido en Ciencias de años anteriores, para no colapsar la firma de
+    ronda con un texto genérico fijo).
+  - **Historia** (3 módulos, 100% textuales sin emoji): fácil reduce
+    opciones; difícil igual a normal.
+  - **Artes/Música/Tecnología** (1 módulo cada una): fácil reduce
+    opciones; sin apoyo visual que quitar en difícil.
+  - **Educación Física** (2 módulos): fácil reduce opciones donde el banco
+    lo permite; difícil quita el emoji decorativo.
+  - **Orientación** (4 módulos): Manejo Emocional/Buen Trato ocultan el
+    texto de la escena en difícil (mismo criterio que Comprensión);
+    Autocuidado/Hábitos de Estudio (V/F binarios) aceptan `nivel` sin
+    cambio.
+- **Examen Final por asignatura**: mezcla los módulos del año + los 3
+  niveles al azar, `rounds:20`. Mapas de nodos recalculados con el mismo
+  método de siempre (paso vertical uniforme, margen ≥150px entre nodos del
+  mismo lado del zigzag, verificado con `getBoundingClientRect()` real en
+  el navegador, no solo calculado).
+- **3 bugs reales encontrados y corregidos, ninguno por el fuzz-test
+  estructural inicial (que los dejó pasar) sino por verificación visual
+  real en el navegador — la lección más importante de esta ronda:**
+  1. `genFracciones4Round` (Matemática) difícil: el distractor "trampa"
+     nuevo mezclaba mal las variables (usaba el denominador al azar como
+     numerador de un candidato en vez de como denominador), lo que a
+     veces coincidía exactamente con la respuesta correcta — encontrado
+     por fuzz-test (43/300 con duplicados), corregido armando los 4
+     candidatos con un `Set` para garantizar unicidad real.
+  2. `genTierra4Round` (Ciencias, rama "capas") y
+     `genDinamicaTempo4Round` (Música): ambos filtraban un banco de
+     objetos (`shuffle(BANCO.filter(...))`) para armar distractores pero
+     **se olvidaba el `.map()` final** que extrae el campo de texto —
+     el resultado eran objetos JS crudos usados como `label`, que se
+     renderizaban literalmente como `"[object Object]"` en las
+     alternativas. **Este bug no lo detectó ningún fuzz-test estructural**
+     (la comparación de duplicados/`correctValue` usa igualdad de
+     referencia de objetos, así que 3 objetos distintos cuentan como "3
+     valores únicos" aunque todos se vean idénticos en pantalla, y
+     `correctValue` —un string— sigue estando presente entre las
+     opciones porque el primer elemento del array sí era el string
+     correcto) — solo apareció al jugar una ronda real del Examen Final
+     de Ciencias en el navegador y ver literalmente "[object Object]"
+     como alternativa. **Lección reforzada para todo el proyecto:** un
+     fuzz-test que compara `label`/`value` con `===`/`Set` no es
+     suficiente por sí solo cuando un bug puede producir objetos en vez
+     de strings — hace falta además una pasada de fuzz-test que
+     `String()`-convierta cada label y busque literalmente la subcadena
+     `"[object"`, y sobre todo, ninguna verificación automatizada
+     reemplaza jugar una ronda real en el navegador antes de dar un
+     módulo por terminado.
+  3. Al ampliar `DINAMICA_BANK`/`TEMPO_BANK` (Música) con más
+     descripciones por término para el punto anterior, el banco pasó a
+     tener descripciones repetidas del mismo término — el fix usó un
+     `Set` sobre los términos ya extraídos para deduplicar antes de
+     armar los distractores.
+  4. Los Exámenes Finales de Música y Tecnología (cada uno con un solo
+     módulo base) repetían en el 100% de 150 sesiones simuladas para
+     `rounds:20`: el generador difícil resultaba idéntico al normal en
+     ambos casos (nada que ocultar), así que solo había 2 variantes de
+     firma reales por ítem del banco en vez de 3, insuficiente para 20
+     rondas con 8 ítems. Corregido ampliando ambos bancos (Música:
+     4+4→8+8 ítems, con descripciones nuevas por término ya citado, no
+     términos nuevos; Tecnología: 8→12 ítems) hasta dejar margen real.
+- Verificado: fuzz de 300-400 iteraciones por módulo/nivel (0 hallazgos
+  tras las correcciones, incluida una pasada dedicada buscando
+  `"[object"` en cada label) y simulación de 150-200 sesiones completas
+  por combinación módulo×nivel + examen (0 repeticiones tras el fix de
+  Música/Tecnología). `MC_KEYS.length === Object.keys(MC_GAMES).length
+  === 601` (592 previos + 9 exámenes nuevos, sin claves huérfanas).
+  Regresión completa de los 601 módulos de toda la app (40 iteraciones
+  cada uno): encontró 2 bugs reales preexistentes de opciones duplicadas
+  en 1° medio (`sistemasecuacionesm1`, `ortografiam1`) — **no
+  relacionados con este PR**, fuera de alcance, reportados aparte para
+  una sesión futura en vez de mezclarlos con este cambio. Probado
+  visualmente en el navegador: los 9 mapas de 4° básico renderizados de
+  verdad, 0 solapamientos, ancho de etiqueta máximo 170px en los 9; una
+  partida jugada en "Sumar, Restar y Dinero II" en Difícil (distractores
+  cercanos, avance correcto de 1/8 a 2/8); el Examen Final de Ciencias y
+  el de Música confirmando en vivo que el fix del `"[object Object]"`
+  funciona (alternativas de texto real, sin duplicados).
+
+**Con esto, el rollout de niveles Fácil/Normal/Difícil + Examen Final
+queda completo en 1°, 2°, 3° y 4° básico.** Próximo paso: continuar con
+5°-8° básico (y en qué orden definir con el usuario) — mismo criterio de
+"un curso a la vez" que el resto del proyecto.
+
 ### 5° Básico — ✅ completo (35 módulos, las 9 asignaturas + Inglés nuevo)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
 curriculum/1o-6o-basico/<asignatura>/5-basico. **Primera aparición de Inglés en la

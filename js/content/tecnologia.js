@@ -183,8 +183,9 @@ export function genExamenTecnologia3Round(){
    práctica). */
 export const TECNOLOGIA_MODULES_G4 = [
   {id:'tecdigital4', label:'Tecnología Digital IV', open:true, key:'tecdigital4'},
+  {id:'examentecnologia4', label:'Examen Final', open:true, key:'examentecnologia4'},
 ];
-export const TECNOLOGIA_POS_G4 = [{x:48,y:50}];
+export const TECNOLOGIA_POS_G4 = [{x:30,y:70},{x:70,y:30}];
 
 const TEC_DIGITAL_4_BANK = [
   { pregunta:'¿Para qué usarías una hoja de cálculo?', correcta:'Para organizar datos en filas y columnas, y hacer cálculos automáticos', opts:['Para escuchar música','Para tomar fotografías','Para hacer ejercicio'] },
@@ -195,17 +196,26 @@ const TEC_DIGITAL_4_BANK = [
   { pregunta:'¿Qué elemento de diseño puedes agregar en un procesador de textos para mejorar un documento?', correcta:'Títulos, negritas e imágenes', opts:['Solo texto sin ningún formato','Un video musical','Un juego interactivo'] },
   { pregunta:'¿Por qué es importante guardar tu trabajo con frecuencia mientras usas un computador?', correcta:'Para no perder tu progreso si el programa falla', opts:['Para que el computador se apague','Para que el archivo se borre','No es importante'] },
   { pregunta:'¿Qué debes revisar en un correo electrónico antes de hacer clic en un enlace?', correcta:'Que el remitente sea alguien conocido y confiable', opts:['Solo el color del correo','El día en que fue enviado','No es necesario revisar nada'] },
+  { pregunta:'¿Qué función usarías en una hoja de cálculo para sumar automáticamente una columna de números?', correcta:'Una fórmula de suma', opts:['Un dibujo a mano','Una foto pegada','Un color de fondo'] },
+  { pregunta:'¿Qué es una contraseña segura?', correcta:'Una combinación de letras, números y símbolos difícil de adivinar', opts:['Tu propio nombre','El número 1234','La misma para todas tus cuentas'] },
+  { pregunta:'¿Por qué es importante organizar tus archivos en carpetas con nombres claros?', correcta:'Para encontrarlos fácilmente más adelante', opts:['Para que ocupen más espacio','Para que se vean más bonitos','No tiene ninguna utilidad'] },
+  { pregunta:'¿Qué deberías hacer si recibes un mensaje de alguien desconocido pidiéndote tu contraseña?', correcta:'No responder y contárselo a un adulto de confianza', opts:['Enviar la contraseña de inmediato','Responder con otra contraseña','Ignorarlo sin decirle a nadie'] },
 ];
 
-export function genTecDigital4Round(){
+export function genTecDigital4Round(nivel){
   const item = pick(TEC_DIGITAL_4_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.correcta].concat(nivel==='facil' ? item.opts.slice(0,1) : item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".',
     recurso: 'Una <b>hoja de cálculo</b> organiza información en filas y columnas, y es especialmente útil para números y datos (como los resultados de una encuesta) porque puede hacer cálculos automáticos, a diferencia de un simple documento de texto. Un <b>software de presentaciones</b> sirve para mostrar ideas en diapositivas con texto e imágenes, ideal para exponer un trabajo frente a otros. Al usar internet, la <b>seguridad digital</b> es clave: antes de usar información de un sitio web hay que evaluar si la fuente es confiable, nunca entregar datos personales sin motivo claro, y revisar que el remitente de un correo sea alguien conocido antes de hacer clic en cualquier enlace.',
   };
+}
+
+export function genExamenTecnologia4Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genTecDigital4Round(nivel);
 }
 
 /* ---------------- Contenido Tecnología 5° Básico ----------------

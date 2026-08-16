@@ -995,8 +995,9 @@ export const CIENCIAS_MODULES_G4 = [
   {id:'materia4', label:'La Materia', open:true, key:'materia4'},
   {id:'fuerzas4', label:'Las Fuerzas', open:true, key:'fuerzas4'},
   {id:'tierra4', label:'La Tierra', open:true, key:'tierra4'},
+  {id:'examenciencias4', label:'Examen Final', open:true, key:'examenciencias4'},
 ];
-export const CIENCIAS_POS_G4 = [{x:22,y:90},{x:68,y:70},{x:24,y:50},{x:70,y:30},{x:24,y:10}];
+export const CIENCIAS_POS_G4 = [{x:22,y:92},{x:68,y:75},{x:24,y:58},{x:70,y:41},{x:24,y:24},{x:70,y:6}];
 
 const ECOSISTEMA_ELEMENTOS_BANK = [
   { emoji:'🐦', elemento:'un pájaro', tipo:'Elemento vivo' },
@@ -1092,22 +1093,25 @@ const RIESGOS_NATURALES_BANK = [
   { correcta:'Conocer las vías de evacuación de tu escuela', incorrectas:['No saber por dónde salir en una emergencia','Bloquear las salidas de emergencia','Ignorar los simulacros de evacuación'] },
 ];
 
-export function genEcosistemas4Round(){
+export function genEcosistemas4Round(nivel){
   const recurso = 'Un <b>ecosistema</b> es una comunidad de elementos vivos (plantas, animales, hongos) y no vivos (agua, luz solar, rocas) que interactúan entre sí en un mismo lugar. Los seres vivos que forman parte de él tienen <b>adaptaciones</b>: características especiales que les permiten sobrevivir en su ambiente (el cuello largo de la jirafa, la joroba del camello). Dentro de un ecosistema, la energía pasa de unos seres vivos a otros formando una <b>cadena alimentaria</b>: los productores (plantas) fabrican su propio alimento con luz solar, los consumidores (animales) se alimentan de otros seres vivos, y los descomponedores (hongos) devuelven los nutrientes a la tierra cuando algo muere. Cuidar los ecosistemas de Chile —bosques nativos, ríos, especies en peligro como el huemul— es esencial porque, si se rompe un eslabón de esta cadena, todo el ecosistema se ve afectado.';
   const roll = Math.random();
+  const count = nivel==='facil' ? 2 : 4;
   if(roll<0.34){
     const item = pick(ECOSISTEMA_ELEMENTOS_BANK);
     const opts = shuffle([{label:'Elemento vivo', value:'Elemento vivo'},{label:'Elemento no vivo', value:'Elemento no vivo'}]);
+    const nombre = item.elemento.charAt(0).toUpperCase()+item.elemento.slice(1);
+    const emojiHTML = nivel==='dificil' ? '' : '<span class="prompt-emoji">'+item.emoji+'</span>';
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.elemento.charAt(0).toUpperCase()+item.elemento.slice(1)+'. ¿Es un elemento vivo o no vivo de un ecosistema?</p>',
+      promptHTML: emojiHTML+'<p class="prompt-hint">'+nombre+'. ¿Es un elemento vivo o no vivo de un ecosistema?</p>',
       options: opts, correctValue: item.tipo, speakText: item.elemento, cols:2, panel:true,
-      explain: (item.elemento.charAt(0).toUpperCase()+item.elemento.slice(1))+' es un <b>'+item.tipo.toLowerCase()+'</b>.',
+      explain: nombre+' es un <b>'+item.tipo.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
   if(roll<0.6){
     const item = pick(ADAPTACIONES_BANK);
-    const distract = shuffle(ADAPTACIONES_BANK.filter(function(a){ return a.animal!==item.animal; })).slice(0,3).map(function(a){ return a.animal; });
+    const distract = shuffle(ADAPTACIONES_BANK.filter(function(a){ return a.animal!==item.animal; })).slice(0,count-1).map(function(a){ return a.animal; });
     const opts = shuffle([item.animal.toUpperCase()].concat(distract.map(function(a){ return a.toUpperCase(); }))).map(function(a){ return {label:a, value:a}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.adaptacion+'.</p><p class="prompt-hint">¿Qué animal o planta tiene esta adaptación?</p>',
@@ -1118,7 +1122,7 @@ export function genEcosistemas4Round(){
   }
   if(roll<0.8){
     const item = pick(CADENA_ALIMENTARIA_BANK);
-    const distract = shuffle(CADENA_ALIMENTARIA_BANK.filter(function(c){ return c.rol!==item.rol; })).map(function(c){ return c.rol; });
+    const distract = shuffle(CADENA_ALIMENTARIA_BANK.filter(function(c){ return c.rol!==item.rol; })).slice(0,count-1).map(function(c){ return c.rol; });
     const opts = shuffle([item.rol].concat(distract)).map(function(r){ return {label:r, value:r}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué función cumple en la cadena alimentaria?</p>',
@@ -1128,7 +1132,7 @@ export function genEcosistemas4Round(){
     };
   }
   const item = pick(CUIDADO_ECOSISTEMA_BANK);
-  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.correcta].concat(item.incorrectas.slice(0,count-1))).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas acciones ayuda a cuidar los ecosistemas de Chile?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas acciones ayuda a cuidar los ecosistemas de Chile?', cols:2, panel:true,
@@ -1137,15 +1141,17 @@ export function genEcosistemas4Round(){
   };
 }
 
-export function genCuerpoHumano4Round(){
+export function genCuerpoHumano4Round(nivel){
   const recurso = 'El cuerpo humano se mueve gracias al trabajo conjunto de tres sistemas: el <b>esqueleto</b> (huesos que le dan forma y protegen órganos importantes, como el cráneo que protege el cerebro), los <b>músculos</b> (que se contraen y relajan para generar movimiento) y los <b>tendones</b> (que conectan los músculos a los huesos para que ese movimiento se transmita). El punto donde se unen dos huesos y permiten el movimiento se llama <b>articulación</b> (como la rodilla o el codo). Todo este movimiento, además, es controlado por el <b>sistema nervioso</b>: el cerebro decide qué hacer, la médula espinal transporta esa orden, y los nervios la llevan hasta el músculo exacto que debe moverse.';
   const roll = Math.random();
+  const count = nivel==='facil' ? 2 : 4;
+  const emojiOn = nivel!=='dificil';
   if(roll<0.4){
     const item = pick(HUESOS_BANK);
-    const distract = shuffle(HUESOS_BANK.filter(function(h){ return h.hueso!==item.hueso; })).slice(0,3).map(function(h){ return h.funcion; });
+    const distract = shuffle(HUESOS_BANK.filter(function(h){ return h.hueso!==item.hueso; })).slice(0,count-1).map(function(h){ return h.funcion; });
     const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.hueso+'. ¿Cuál es su función principal?</p>',
+      promptHTML: (emojiOn?'<span class="prompt-emoji">'+item.emoji+'</span>':'')+'<p class="prompt-hint">'+item.hueso+'. ¿Cuál es su función principal?</p>',
       options: opts, correctValue: item.funcion, speakText: item.hueso, cols:2, panel:true,
       explain: item.hueso+': '+item.funcion.toLowerCase()+'.',
       recurso: recurso,
@@ -1153,7 +1159,7 @@ export function genCuerpoHumano4Round(){
   }
   if(roll<0.7){
     const item = pick(MOVIMIENTO_CUERPO_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correcta].concat(item.opts.slice(0,count-1))).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -1165,33 +1171,37 @@ export function genCuerpoHumano4Round(){
   const distract = shuffle(SISTEMA_NERVIOSO_BANK.filter(function(s){ return s.estructura!==item.estructura; })).map(function(s){ return s.funcion; });
   const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.estructura+'. ¿Cuál es su función?</p>',
+    promptHTML: (emojiOn?'<span class="prompt-emoji">'+item.emoji+'</span>':'')+'<p class="prompt-hint">'+item.estructura+'. ¿Cuál es su función?</p>',
     options: opts, correctValue: item.funcion, speakText: item.estructura, cols:2, panel:true,
     explain: item.estructura+': '+item.funcion.toLowerCase()+'.',
     recurso: recurso,
   };
 }
 
-export function genMateria4Round(){
+export function genMateria4Round(nivel){
   const recurso = 'Toda la <b>materia</b> (todo lo que existe a tu alrededor, incluido el aire que no puedes ver) tiene dos propiedades fundamentales: tiene <b>masa</b> (una cantidad de "materia" que se puede pesar) y <b>ocupa espacio</b> (un volumen). La materia existe en tres <b>estados</b>: sólido (forma fija, como el hielo), líquido (toma la forma de su recipiente, como el agua) y gaseoso (se expande y llena todo el espacio disponible, como el vapor o el aire). Para medir estas propiedades usamos <b>instrumentos</b> específicos: una balanza mide la masa, un termómetro mide la temperatura, y una probeta (vaso graduado) mide el volumen de un líquido.';
   const roll = Math.random();
+  const emojiOn = nivel!=='dificil';
   if(roll<0.4){
     const item = pick(ESTADOS_MATERIA4_BANK);
     const distract = shuffle(['Sólido','Líquido','Gaseoso'].filter(function(e){ return e!==item.estado; }));
-    const opts = shuffle([item.estado].concat(distract)).map(function(e){ return {label:e, value:e}; });
+    const pool = nivel==='facil' ? distract.slice(0,1) : distract;
+    const opts = shuffle([item.estado].concat(pool)).map(function(e){ return {label:e, value:e}; });
+    const nombre = item.ejemplo.charAt(0).toUpperCase()+item.ejemplo.slice(1);
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+(item.ejemplo.charAt(0).toUpperCase()+item.ejemplo.slice(1))+'. ¿En qué estado de la materia está?</p>',
+      promptHTML: (emojiOn?'<span class="prompt-emoji">'+item.emoji+'</span>':'')+'<p class="prompt-hint">'+nombre+'. ¿En qué estado de la materia está?</p>',
       options: opts, correctValue: item.estado, speakText: item.ejemplo, cols:2, kind:'word', panel:true,
-      explain: (item.ejemplo.charAt(0).toUpperCase()+item.ejemplo.slice(1))+' está en estado <b>'+item.estado.toLowerCase()+'</b>.',
+      explain: nombre+' está en estado <b>'+item.estado.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
   if(roll<0.7){
     const item = pick(INSTRUMENTOS_MEDICION_BANK);
     const distract = shuffle(INSTRUMENTOS_MEDICION_BANK.filter(function(i){ return i.instrumento!==item.instrumento; })).map(function(i){ return i.mide; });
-    const opts = shuffle([item.mide].concat(distract)).map(function(m){ return {label:m, value:m}; });
+    const pool = nivel==='facil' ? distract.slice(0,1) : distract;
+    const opts = shuffle([item.mide].concat(pool)).map(function(m){ return {label:m, value:m}; });
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.instrumento+'. ¿Qué mide este instrumento?</p>',
+      promptHTML: (emojiOn?'<span class="prompt-emoji">'+item.emoji+'</span>':'')+'<p class="prompt-hint">'+item.instrumento+'. ¿Qué mide este instrumento?</p>',
       options: opts, correctValue: item.mide, speakText: item.instrumento, cols:2, kind:'word', panel:true,
       explain: item.instrumento+' mide <b>'+item.mide.toLowerCase()+'</b>.',
       recurso: recurso,
@@ -1207,8 +1217,10 @@ export function genMateria4Round(){
   };
 }
 
-export function genFuerzas4Round(){
+export function genFuerzas4Round(nivel){
   const recurso = 'Una <b>fuerza</b> es una acción capaz de producir dos efectos sobre un objeto: <b>cambiar su movimiento</b> (hacer que empiece a moverse, se detenga, o cambie de dirección — como patear una pelota) o <b>cambiar su forma</b> (deformarlo — como apretar la plasticina). Existen distintos tipos de fuerza según cómo actúan: la <b>fuerza de contacto</b> requiere tocar el objeto directamente (empujar, tirar), la <b>fuerza magnética</b> atrae objetos de metal sin tocarlos, la <b>fuerza de gravedad</b> atrae todo hacia el centro de la Tierra (por eso las cosas caen), y la <b>fuerza de roce</b> frena el movimiento cuando dos superficies se rozan entre sí.';
+  const emojiOn = nivel!=='dificil';
+  const count = nivel==='facil' ? 2 : 4;
   if(Math.random()<0.5){
     /* Solo existen 2 categorías reales de efecto (cambia movimiento / cambia
        forma) — antes se armaban 4 opciones filtrando el banco, pero con
@@ -1219,14 +1231,14 @@ export function genFuerzas4Round(){
     const otroEfecto = ['Cambia su movimiento','Cambia su forma'].filter(function(e){ return e!==item.efecto; })[0];
     const opts = shuffle([{label:item.efecto, value:item.efecto},{label:otroEfecto, value:otroEfecto}]);
     return {
-      promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.texto+'. ¿Qué efecto de la fuerza es?</p>',
+      promptHTML: (emojiOn?'<span class="prompt-emoji">'+item.emoji+'</span>':'')+'<p class="prompt-hint">'+item.texto+'. ¿Qué efecto de la fuerza es?</p>',
       options: opts, correctValue: item.efecto, speakText: item.texto, cols:2, kind:'word', panel:true,
       explain: item.texto+': la fuerza <b>'+item.efecto.toLowerCase()+'</b>.',
       recurso: recurso,
     };
   }
   const item = pick(TIPOS_FUERZA_BANK);
-  const distract = shuffle(TIPOS_FUERZA_BANK.filter(function(t){ return t.tipo!==item.tipo; })).map(function(t){ return t.tipo; });
+  const distract = shuffle(TIPOS_FUERZA_BANK.filter(function(t){ return t.tipo!==item.tipo; })).slice(0,count-1).map(function(t){ return t.tipo; });
   const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.texto+'.</p><p class="prompt-hint">¿Qué tipo de fuerza es?</p>',
@@ -1236,13 +1248,15 @@ export function genFuerzas4Round(){
   };
 }
 
-export function genTierra4Round(){
+export function genTierra4Round(nivel){
   const recurso = 'La Tierra está formada por tres <b>capas</b> concéntricas: la <b>corteza</b> (la más externa y delgada, donde vivimos), el <b>manto</b> (una capa intermedia enorme, muy caliente y en parte fundida) y el <b>núcleo</b> (la capa más interna y caliente, en el centro del planeta). La corteza no es una sola pieza continua: está dividida en <b>placas tectónicas</b>, bloques enormes que se mueven muy lentamente — cuando dos placas chocan o se rozan, esa energía puede liberarse como un terremoto o, con el paso de millones de años, formar montañas. Por eso es importante saber cómo prevenir riesgos naturales: conocer las zonas seguras de tu casa o escuela, tener un kit de emergencia, y alejarte de la costa si sientes un temblor fuerte cerca del mar.';
   const roll = Math.random();
+  const count = nivel==='facil' ? 2 : 4;
   if(roll<0.4){
     const item = pick(CAPAS_TIERRA_BANK);
     const distract = shuffle(CAPAS_TIERRA_BANK.filter(function(c){ return c.capa!==item.capa; })).map(function(c){ return c.capa; });
-    const opts = shuffle([item.capa].concat(distract)).map(function(c){ return {label:c, value:c}; });
+    const pool = nivel==='facil' ? distract.slice(0,1) : distract;
+    const opts = shuffle([item.capa].concat(pool)).map(function(c){ return {label:c, value:c}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué capa de la Tierra es?</p>',
       options: opts, correctValue: item.capa, speakText: item.desc, cols:2, kind:'word', panel:true,
@@ -1252,7 +1266,7 @@ export function genTierra4Round(){
   }
   if(roll<0.7){
     const item = pick(PLACAS_TECTONICAS_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correcta].concat(nivel==='facil' ? item.opts.slice(0,1) : item.opts)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -1261,13 +1275,20 @@ export function genTierra4Round(){
     };
   }
   const item = pick(RIESGOS_NATURALES_BANK);
-  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.correcta].concat(item.incorrectas.slice(0,count-1))).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena medida de prevención ante riesgos naturales?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena medida de prevención ante riesgos naturales?', cols:2, panel:true,
     explain: '"'+item.correcta+'" te ayuda a estar más seguro ante un riesgo natural.',
     recurso: recurso,
   };
+}
+
+export function genExamenCiencias4Round(){
+  const gens = [genEcosistemas4Round, genCuerpoHumano4Round, genMateria4Round, genFuerzas4Round, genTierra4Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Ciencias Naturales 5° Básico ----------------

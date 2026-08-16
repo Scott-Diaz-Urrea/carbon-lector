@@ -353,8 +353,9 @@ export function genExamenEdfisica3Round(){
 export const EDFISICA_MODULES_G4 = [
   {id:'condicionfisica4', label:'Condición Física y Pulso', open:true, key:'condicionfisica4'},
   {id:'seguridad4', label:'Seguridad y Juego Limpio IV', open:true, key:'seguridad4'},
+  {id:'examenedfisica4', label:'Examen Final', open:true, key:'examenedfisica4'},
 ];
-export const EDFISICA_POS_G4 = [{x:30,y:70},{x:70,y:30}];
+export const EDFISICA_POS_G4 = [{x:22,y:88},{x:68,y:50},{x:24,y:12}];
 
 const COMPONENTES_FISICOS_BANK = [
   { actividad:'Correr una larga distancia sin parar', componente:'Resistencia cardiovascular' },
@@ -382,11 +383,12 @@ const SEGURIDAD_4_ITEMS = [
   { label:'Jugar en un espacio con objetos peligrosos sin avisarle a nadie es seguro', v:false },
 ];
 
-export function genCondicionFisica4Round(){
+export function genCondicionFisica4Round(nivel){
   const recurso = 'La <b>condición física</b> tiene 4 componentes principales: la resistencia cardiovascular (la capacidad de mantener un esfuerzo por un tiempo largo, como correr sin parar), la fuerza (la capacidad de levantar o mover objetos pesados), la flexibilidad (qué tan bien se estiran tus músculos y articulaciones) y la velocidad (qué tan rápido puedes moverte en un tramo corto). El <b>pulso</b> es la cantidad de veces que late tu corazón por minuto, y se puede sentir fácilmente con los dedos en la muñeca o el cuello; medirlo antes y después de hacer ejercicio te muestra cómo responde tu cuerpo al esfuerzo — el pulso aumenta durante el ejercicio intenso porque el corazón trabaja más rápido para llevar oxígeno a los músculos.';
+  const count = nivel==='facil' ? 2 : 4;
   if(Math.random()<0.7){
     const item = pick(COMPONENTES_FISICOS_BANK);
-    const distract = shuffle(['Resistencia cardiovascular','Fuerza','Flexibilidad','Velocidad'].filter(function(c){ return c!==item.componente; }));
+    const distract = shuffle(['Resistencia cardiovascular','Fuerza','Flexibilidad','Velocidad'].filter(function(c){ return c!==item.componente; })).slice(0,count-1);
     const opts = shuffle([item.componente].concat(distract)).map(function(c){ return {label:c, value:c}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué componente de la condición física se está trabajando?</p>',
@@ -396,7 +398,7 @@ export function genCondicionFisica4Round(){
     };
   }
   const item = pick(PULSO_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.correcta].concat(nivel==='facil' ? item.opts.slice(0,1) : item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -405,7 +407,7 @@ export function genCondicionFisica4Round(){
   };
 }
 
-export function genSeguridad4Round(){
+export function genSeguridad4Round(nivel){
   const item = pick(SEGURIDAD_4_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
   return {
@@ -414,6 +416,13 @@ export function genSeguridad4Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
     recurso: 'Jugar limpio significa respetar las reglas de un juego incluso cuando nadie te está mirando, y cumplir con el rol que te asignan dentro de un equipo, porque cada jugador depende de que los demás hagan su parte. La <b>seguridad</b> al hacer actividad física incluye conocer bien el espacio donde te mueves, usar la ropa y el calzado adecuado para reducir el riesgo de lesiones, y avisar de inmediato si te sientes mal o lesionado durante la actividad — ignorar una molestia física puede convertir una lesión pequeña en una más grave. Estos hábitos de responsabilidad y honestidad son parte tan importante del deporte como la habilidad física misma.',
   };
+}
+
+export function genExamenEdfisica4Round(){
+  const gens = [genCondicionFisica4Round, genSeguridad4Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Educación Física y Salud 5° Básico ----------------

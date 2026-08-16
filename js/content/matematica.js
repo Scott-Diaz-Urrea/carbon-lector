@@ -916,9 +916,10 @@ export const MATE_MODULES_G4 = [
   {id:'geometria4', label:'Geometría IV', open:true, key:'geometria4'},
   {id:'medicion4', label:'Medición IV', open:true, key:'medicion4'},
   {id:'datos4', label:'Datos y Probabilidades', open:true, key:'datos4'},
+  {id:'examenmate4', label:'Examen Final', open:true, key:'examenmate4'},
 ];
 export const MATE_POS_G4 = [
-  {x:22,y:94},{x:68,y:83},{x:24,y:72},{x:70,y:61},{x:24,y:50},{x:70,y:39},{x:24,y:28},{x:70,y:17},{x:24,y:6}
+  {x:22,y:96},{x:68,y:86},{x:24,y:76},{x:70,y:66},{x:24,y:56},{x:70,y:46},{x:24,y:36},{x:70,y:26},{x:24,y:16},{x:70,y:6}
 ];
 
 const OBJETOS_PRECIO4 = [
@@ -959,7 +960,7 @@ const OBJETOS_LONGITUD4 = [
   { emoji:'🏫', label:'La escuela', cm:5000 },
 ];
 
-export function genNumeros4Round(){
+export function genNumeros4Round(nivel){
   const recurso = 'Los números hasta 10 000 se organizan en <b>unidades de mil</b> (grupos de 1000), <b>centenas</b> (grupos de 100), <b>decenas</b> (grupos de 10) y <b>unidades</b> — por ejemplo, 4728 tiene 4 unidades de mil, 7 centenas, 2 decenas y 8 unidades. Esta descomposición (llamada valor posicional) sirve para comparar números grandes de forma rápida: basta con mirar, de izquierda a derecha, el primer dígito donde los dos números sean distintos. También es la base para leer un número en voz alta: "cuatro mil setecientos veintiocho" nombra primero los miles y luego el resto, tal como se hace al escribirlo.';
   const roll = Math.random();
   if(roll<0.34){
@@ -976,7 +977,8 @@ export function genNumeros4Round(){
     const wrong1 = mil+' UNIDADES DE MIL + '+dec+' CENTENAS + '+cien+' DECENAS + '+uni+' UNIDADES';
     const wrong2 = cien+' UNIDADES DE MIL + '+mil+' CENTENAS + '+dec+' DECENAS + '+uni+' UNIDADES';
     const wrong3 = mil+' UNIDADES DE MIL + '+cien+' CENTENAS + '+uni+' DECENAS + '+dec+' UNIDADES';
-    const opts = shuffle([correct,wrong1,wrong2,wrong3]).map(function(o){ return {label:o, value:o}; });
+    const pool = nivel==='facil' ? [correct,wrong1] : [correct,wrong1,wrong2,wrong3];
+    const opts = shuffle(pool).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-count" style="font-size:40px;">'+n+'</p><p class="prompt-hint">¿Cuál es la descomposición correcta de este número?</p>',
       options: opts, correctValue: correct, speakText: '¿Cuál es la descomposición de '+n+'?', cols:2, panel:true,
@@ -985,8 +987,11 @@ export function genNumeros4Round(){
     };
   }
   if(roll<0.67){
-    let a = randInt(0,9999), b = randInt(0,9999);
-    while(a===b) b = randInt(0,9999);
+    let minGap;
+    if(nivel==='facil'){ minGap=3000; } else if(nivel==='dificil'){ minGap=1; } else { minGap=200; }
+    let a = randInt(0,9999), b = randInt(0,9999), guard=0;
+    while(Math.abs(a-b)<minGap && guard<80){ b = randInt(0,9999); guard++; }
+    if(a===b) b = a>=9999-minGap ? a-minGap : a+minGap;
     const opts = shuffle([{label:String(a), value:'A'},{label:String(b), value:'B'}]);
     return {
       promptHTML: '<p class="prompt-hint">Toca el número <b>mayor</b></p>',
@@ -996,7 +1001,11 @@ export function genNumeros4Round(){
     };
   }
   const n = randInt(1000,9999);
-  const opts = shuffle([n, n+randInt(1,50), n-randInt(1,50), n+randInt(100,300)]).map(function(v){ return {label:String(v), value:v}; });
+  let candidatos;
+  if(nivel==='facil'){ candidatos = [n, n+randInt(200,400)]; }
+  else if(nivel==='dificil'){ candidatos = [n, n+randInt(1,8), n-randInt(1,8), n+randInt(9,20)]; }
+  else { candidatos = [n, n+randInt(1,50), n-randInt(1,50), n+randInt(100,300)]; }
+  const opts = shuffle(candidatos).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estos números se lee "'+numeroALetras(n)+'"?</p>',
     options: opts, correctValue: n, speakText: '¿Cuál número es '+numeroALetras(n)+'?', cols:2, panel:true,
@@ -1012,13 +1021,18 @@ function numeroALetras(n){
   return s;
 }
 
-export function genOperaciones4Round(){
+export function genOperaciones4Round(nivel){
   const recurso = 'Sumar y restar con números más grandes usa la misma idea que con números chicos, solo que ahora hay que ordenar bien las centenas, decenas y unidades antes de operar. Dos propiedades muy útiles: cualquier número <b>+ 0</b> queda igual (el 0 es el "elemento neutro" de la suma) y cualquier número <b>× 1</b> también queda igual (el 1 es el "elemento neutro" de la multiplicación) — no cambian nada porque no agregan ni quitan cantidad. El dinero es un ejemplo perfecto de resta en la vida real: cuando pagas con un billete más grande que el precio, el vuelto que te devuelven es justamente la diferencia entre lo que pagaste y lo que costó.';
   const roll = Math.random();
+  const count = nivel==='facil' ? 2 : 4;
   if(roll<0.34){
-    const a = randInt(100,900), b = randInt(10,99);
+    let aMax, bMax, spread;
+    if(nivel==='facil'){ aMax=[100,300]; bMax=[10,40]; spread=60; }
+    else if(nivel==='dificil'){ aMax=[500,900]; bMax=[60,99]; spread=8; }
+    else { aMax=[100,900]; bMax=[10,99]; spread=20; }
+    const a = randInt(aMax[0],aMax[1]), b = randInt(bMax[0],bMax[1]);
     const sum = a+b;
-    const opts = uniqueDistractors(sum, 100, 1200, 20, 4).map(function(v){ return {label:String(v), value:v}; });
+    const opts = uniqueDistractors(sum, 100, 1200, spread, count).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-count" style="font-size:30px;">'+a+' + '+b+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
       options: opts, correctValue: sum, speakText: '¿Cuánto es '+a+' más '+b+'?', cols:4,
@@ -1031,7 +1045,8 @@ export function genOperaciones4Round(){
     const usaCero = Math.random()<0.5;
     const correct = n;
     const pregunta = usaCero ? '¿Cuánto es '+n+' + 0?' : '¿Cuánto es '+n+' × 1?';
-    const opts = uniqueDistractors(correct, 0, 40, 3, 4).map(function(v){ return {label:String(v), value:v}; });
+    const spread = nivel==='dificil' ? 1 : 3;
+    const opts = uniqueDistractors(correct, 0, 40, spread, count).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-hint">'+pregunta+'</p>',
       options: opts, correctValue: correct, speakText: pregunta, cols:4,
@@ -1040,9 +1055,11 @@ export function genOperaciones4Round(){
     };
   }
   const item = pick(OBJETOS_PRECIO4);
-  const tienes = item.precio + pick([0,500,1000,2000]);
+  const tienesPool = nivel==='dificil' ? [0,200,500,1000] : [0,500,1000,2000];
+  const tienes = item.precio + pick(tienesPool);
   const falta = tienes - item.precio;
-  const opts = uniqueDistractors(falta, 0, 20000, 500, 4).map(function(v){ return {label:'$'+v, value:v}; });
+  const spread = nivel==='dificil' ? 100 : 500;
+  const opts = uniqueDistractors(falta, 0, 20000, spread, count).map(function(v){ return {label:'$'+v, value:v}; });
   return {
     promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">'+item.label+' cuesta $'+item.precio+'. Si pagas con $'+tienes+', ¿cuánto vuelto recibes?</p>',
     options: opts, correctValue: falta, speakText: '¿Cuánto vuelto recibes?', cols:4,
@@ -1051,12 +1068,17 @@ export function genOperaciones4Round(){
   };
 }
 
-export function genMultiplicarDividir4Round(){
+export function genMultiplicarDividir4Round(nivel){
   const recurso = 'Multiplicar un número de 3 dígitos por uno de 1 dígito es, en el fondo, sumar ese número varias veces — la multiplicación solo lo hace más rápido cuando los grupos son grandes. La <b>división</b> es la operación contraria: si multiplicar junta grupos iguales, dividir los reparte. Cuando divides un total en grupos de un tamaño fijo, la pregunta es "¿cuántos grupos completos se forman?" — y esa respuesta es exactamente lo que multiplicación y división comparten: si 6 × 4 = 24, entonces 24 ÷ 6 = 4 y 24 ÷ 4 = 6. Por eso se dice que multiplicar y dividir son operaciones inversas: una deshace lo que hace la otra.';
+  const count = nivel==='facil' ? 2 : 4;
   if(Math.random()<0.5){
-    const a = randInt(100,300), b = randInt(2,9);
+    let aRange, spread;
+    if(nivel==='facil'){ aRange=[100,150]; spread=80; }
+    else if(nivel==='dificil'){ aRange=[300,500]; spread=25; }
+    else { aRange=[100,300]; spread=50; }
+    const a = randInt(aRange[0],aRange[1]), b = randInt(2,9);
     const total = a*b;
-    const opts = uniqueDistractors(total, 100, 3000, 50, 4).map(function(v){ return {label:String(v), value:v}; });
+    const opts = uniqueDistractors(total, 100, 5000, spread, count).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-count" style="font-size:30px;">'+a+' × '+b+'</p><p class="prompt-hint">¿Cuánto es?</p>',
       options: opts, correctValue: total, speakText: '¿Cuánto es '+a+' por '+b+'?', cols:4,
@@ -1064,9 +1086,13 @@ export function genMultiplicarDividir4Round(){
       recurso: recurso,
     };
   }
-  const b = randInt(2,9), q = randInt(10,20);
+  let qRange, spread;
+  if(nivel==='facil'){ qRange=[5,10]; spread=5; }
+  else if(nivel==='dificil'){ qRange=[20,40]; spread=2; }
+  else { qRange=[10,20]; spread=3; }
+  const b = randInt(2,9), q = randInt(qRange[0],qRange[1]);
   const total = b*q;
-  const opts = uniqueDistractors(q, 5, 40, 3, 4).map(function(v){ return {label:String(v), value:v}; });
+  const opts = uniqueDistractors(q, 2, 400, spread, count).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: '<p class="prompt-hint">Tienes '+total+' objetos y los repartes en grupos de '+b+'. ¿Cuántos grupos se forman?</p>',
     options: opts, correctValue: q, speakText: '¿Cuántos grupos de '+b+' se forman con '+total+'?', cols:4,
@@ -1075,17 +1101,45 @@ export function genMultiplicarDividir4Round(){
   };
 }
 
-export function genFracciones4Round(){
+export function genFracciones4Round(nivel){
   const recurso = 'Una <b>fracción</b> representa una parte de un todo dividido en trozos iguales: el número de abajo (denominador) dice en cuántos trozos se dividió el todo, y el número de arriba (numerador) dice cuántos de esos trozos estás tomando. Para sumar dos fracciones que tienen el <b>mismo denominador</b>, solo se suman los numeradores y el denominador se queda igual — porque los trozos ya son del mismo tamaño, no hace falta convertir nada. Un <b>número mixto</b> (como 2 y 3/4) combina un número entero con una fracción, y sirve para representar cantidades que pasan de "un todo completo" pero no llegan a completar el siguiente: por ejemplo, 2 pizzas enteras más 3/4 de otra pizza.';
   const roll = Math.random();
+  const count = nivel==='facil' ? 2 : 4;
   if(roll<0.4){
-    const den = pick([2,3,4,5,6]);
+    const denPool = nivel==='facil' ? [2,3,4] : [2,3,4,5,6];
+    const den = pick(denPool);
     const num = randInt(1,den-1);
     const correct = num+'/'+den;
     const useBarra = Math.random()<0.5;
     const dibujo = useBarra ? fraccionBarraSVG(num,den,110) : fraccionSVG(num,den,110);
-    const distractDens = shuffle([2,3,4,5,6].filter(function(d){ return d!==den; })).slice(0,2);
-    const opts = shuffle([correct].concat(distractDens.map(function(d){ return num+'/'+d; })).concat([(num+1)+'/'+den])).map(function(f){ return {label:f, value:f}; });
+    let candidatos;
+    if(nivel==='dificil'){
+      /* Distractores "trampa": misma fracción invertida (den/num) y un
+         numerador vecino con el mismo denominador — mucho más parecidas
+         a la correcta que una fracción de otro denominador. Se arman con
+         un Set para garantizar que ninguna colapse con `correct` ni entre
+         sí (bug real encontrado por fuzz-testing: un candidato calculado
+         con las variables cambiadas de lugar podía coincidir con
+         `correct` cuando el denominador "vecino" al azar era igual a
+         `num`). */
+      const candSet = new Set([correct]);
+      candSet.add(den+'/'+num);
+      const vecino = (num+1<=den-1) ? (num+1) : (num-1>=1 ? num-1 : num+2);
+      candSet.add(vecino+'/'+den);
+      let guard = 0;
+      while(candSet.size<4 && guard<20){
+        const otroDen = pick([2,3,4,5,6,7,8].filter(function(d){ return d!==den; }));
+        candSet.add(num+'/'+otroDen);
+        guard++;
+      }
+      candidatos = Array.from(candSet).slice(0,4);
+    } else {
+      const distractDens = shuffle([2,3,4,5,6].filter(function(d){ return d!==den; })).slice(0,2);
+      const candSet = new Set([correct].concat(distractDens.map(function(d){ return num+'/'+d; })).concat([(num+1)+'/'+den]));
+      candidatos = Array.from(candSet).slice(0,4);
+    }
+    const pool = nivel==='facil' ? [correct, candidatos.filter(function(c){ return c!==correct; })[0]] : candidatos;
+    const opts = shuffle(pool).map(function(f){ return {label:f, value:f}; });
     return {
       promptHTML: '<div class="shape-display">'+dibujo+'</div><p class="prompt-hint">¿Qué fracción está coloreada?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué fracción está coloreada?', cols:4, kind:'word',
@@ -1094,10 +1148,11 @@ export function genFracciones4Round(){
     };
   }
   if(roll<0.7){
-    const den = pick([3,4,5,6]);
+    const denPool = nivel==='facil' ? [3,4] : nivel==='dificil' ? [6,7,8] : [3,4,5,6];
+    const den = pick(denPool);
     const a = randInt(1,den-2), b = randInt(1,den-a-1);
     const sum = a+b;
-    const opts = uniqueDistractors(sum, 1, den, 1, Math.min(4,den-1)).map(function(v){ return {label:v+'/'+den, value:v+'/'+den}; });
+    const opts = uniqueDistractors(sum, 1, den, 1, Math.min(count,den-1)).map(function(v){ return {label:v+'/'+den, value:v+'/'+den}; });
     return {
       promptHTML: '<p class="prompt-count" style="font-size:28px;">'+a+'/'+den+' + '+b+'/'+den+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
       options: opts, correctValue: sum+'/'+den, speakText: '¿Cuánto es '+a+'/'+den+' más '+b+'/'+den+'?', cols:4,
@@ -1105,8 +1160,10 @@ export function genFracciones4Round(){
       recurso: recurso,
     };
   }
-  const entero = randInt(1,4);
-  const den = pick([2,3,4]);
+  const enteroMax = nivel==='dificil' ? 6 : nivel==='facil' ? 2 : 4;
+  const entero = randInt(1,enteroMax);
+  const denPool3 = nivel==='dificil' ? [3,4,5,6] : [2,3,4];
+  const den = pick(denPool3);
   const num = randInt(1,den-1);
   const correct = entero+' Y '+num+'/'+den;
   /* Cuando el numerador es justo la mitad del denominador (p.ej. 1/2, 2/4),
@@ -1118,7 +1175,7 @@ export function genFracciones4Round(){
     (entero+1)+' Y '+num+'/'+den,
     segundoDistractor,
     (entero-1>=0?entero-1:entero+2)+' Y '+num+'/'+den,
-  ]);
+  ]).slice(0, count-1);
   const opts = shuffle([correct].concat(distract)).map(function(f){ return {label:f, value:f}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cómo se escribe el número mixto formado por '+entero+' enteros y '+num+'/'+den+'?</p>',
@@ -1128,12 +1185,15 @@ export function genFracciones4Round(){
   };
 }
 
-export function genDecimales4Round(){
+export function genDecimales4Round(nivel){
   const recurso = 'Un número <b>decimal</b> es una forma distinta de escribir una fracción: los <b>décimos</b> (0,1; 0,2...) representan un todo dividido en 10 partes iguales, igual que una fracción con denominador 10 — por eso 0,3 y 3/10 significan exactamente lo mismo. La coma decimal separa la parte entera (a la izquierda) de la parte que es menor que un entero (a la derecha). Para sumar decimales, se alinean las comas una debajo de la otra y se suma como con números normales, columna por columna, igual que se hace con centenas, decenas y unidades. Los decimales se usan todos los días, por ejemplo en el dinero: $1,50 significa un peso con 50 centésimos.';
+  const count = nivel==='facil' ? 2 : 4;
   if(Math.random()<0.5){
-    const decimas = randInt(1,9);
+    const decimasMax = nivel==='facil' ? 5 : 9;
+    const decimas = randInt(1,decimasMax);
     const correct = '0,'+decimas;
-    const opts = uniqueDistractors(decimas, 1, 9, 2, 4).map(function(v){ return {label:'0,'+v, value:'0,'+v}; });
+    const spread = nivel==='dificil' ? 1 : 2;
+    const opts = uniqueDistractors(decimas, 1, 9, spread, count).map(function(v){ return {label:'0,'+v, value:'0,'+v}; });
     return {
       promptHTML: '<div class="shape-display">'+fraccionBarraSVG(decimas,10,110)+'</div><p class="prompt-hint">¿Qué número decimal representa esta barra (en décimos)?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué decimal representa esta barra?', cols:4,
@@ -1141,9 +1201,13 @@ export function genDecimales4Round(){
       recurso: recurso,
     };
   }
-  const a = randInt(1,50)/10, b = randInt(1,40)/10;
+  let aMax, bMax, spread;
+  if(nivel==='facil'){ aMax=20; bMax=20; spread=10; }
+  else if(nivel==='dificil'){ aMax=90; bMax=90; spread=2; }
+  else { aMax=50; bMax=40; spread=5; }
+  const a = randInt(1,aMax)/10, b = randInt(1,bMax)/10;
   const sum = Math.round((a+b)*10)/10;
-  const opts = uniqueDistractors(Math.round(sum*10), 1, 100, 5, 4).map(function(v){ return {label:(v/10).toFixed(1).replace('.',','), value:(v/10).toFixed(1).replace('.',',')}; });
+  const opts = uniqueDistractors(Math.round(sum*10), 1, 200, spread, count).map(function(v){ return {label:(v/10).toFixed(1).replace('.',','), value:(v/10).toFixed(1).replace('.',',')}; });
   const correctLabel = sum.toFixed(1).replace('.',',');
   return {
     promptHTML: '<p class="prompt-count" style="font-size:28px;">'+a.toFixed(1).replace('.',',')+' + '+b.toFixed(1).replace('.',',')+'</p><p class="prompt-hint">¿Cuánto es en total?</p>',
@@ -1153,14 +1217,18 @@ export function genDecimales4Round(){
   };
 }
 
-export function genPatrones4Round(){
+export function genPatrones4Round(nivel){
   const recurso = 'Un <b>patrón numérico</b> es una secuencia de números que sigue siempre la misma regla — por ejemplo, sumar la misma cantidad cada vez. Para descubrir qué número sigue, primero hay que encontrar la regla: mira la diferencia entre dos números seguidos que ya conoces, y esa diferencia se repite en toda la secuencia. Una <b>ecuación</b> con un espacio en blanco (como ? + 5 = 12) es una pregunta que pide encontrar el número que falta para que la igualdad sea verdadera — se puede resolver pensando "¿qué número más 5 da 12?" o haciendo la operación contraria (12 − 5). Reconocer patrones y resolver ecuaciones simples es la puerta de entrada al álgebra, que estudiarás en años más avanzados.';
+  const count = nivel==='facil' ? 2 : 4;
   if(Math.random()<0.5){
-    const step = randInt(3,15);
+    let stepPool;
+    if(nivel==='facil'){ stepPool=[2,5,10]; } else if(nivel==='dificil'){ stepPool=[3,7,9,11,13]; } else { stepPool=null; }
+    const step = stepPool ? pick(stepPool) : randInt(3,15);
     const start = randInt(1,50);
     const seq = [start, start+step, start+2*step, start+3*step];
     const correct = start+4*step;
-    const opts = uniqueDistractors(correct, 1, 300, step, 4).map(function(v){ return {label:String(v), value:v}; });
+    const spread = nivel==='dificil' ? Math.max(2, Math.round(step/2)) : step;
+    const opts = uniqueDistractors(correct, 1, 300, spread, count).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-count">'+seq.join(', ')+', <span class="blank">?</span></p><p class="prompt-hint">¿Qué número sigue en el patrón?</p>',
       options: opts, correctValue: correct, speakText: '¿Qué número sigue?', cols:4,
@@ -1168,12 +1236,16 @@ export function genPatrones4Round(){
       recurso: recurso,
     };
   }
-  const a = randInt(5,80), b = randInt(1,40);
+  let aMax, bMax, spread;
+  if(nivel==='facil'){ aMax=[5,30]; bMax=15; spread=10; }
+  else if(nivel==='dificil'){ aMax=[40,80]; bMax=40; spread=3; }
+  else { aMax=[5,80]; bMax=40; spread=8; }
+  const a = randInt(aMax[0],aMax[1]), b = randInt(1,bMax);
   const total = a+b;
   const askA = Math.random()<0.5;
   const correct = askA ? a : b;
   const known = askA ? b : a;
-  const opts = uniqueDistractors(correct, 0, 120, 8, 4).map(function(v){ return {label:String(v), value:v}; });
+  const opts = uniqueDistractors(correct, 0, 120, spread, count).map(function(v){ return {label:String(v), value:v}; });
   return {
     promptHTML: '<p class="prompt-count" style="font-size:28px;"><span class="blank">?</span> + '+known+' = '+total+'</p><p class="prompt-hint">¿Qué número falta?</p>',
     options: opts, correctValue: correct, speakText: '¿Qué número falta en la ecuación?', cols:4,
@@ -1182,16 +1254,28 @@ export function genPatrones4Round(){
   };
 }
 
-export function genGeometria4Round(){
+export function genGeometria4Round(nivel){
   const recurso = 'Un cuerpo geométrico 3D se puede describir de varias formas: por sus <b>coordenadas</b> en una cuadrícula (columna y fila, que dicen exactamente dónde está un punto), por sus <b>vistas</b> (qué forma se ve si lo miras de frente, de lado o desde arriba — un cubo siempre se ve cuadrado sin importar el ángulo, pero un cono se ve triángulo de frente y círculo desde arriba), o por su <b>simetría</b> (si al doblar una figura por la mitad, ambos lados coinciden exactamente). Los <b>ángulos</b> miden qué tan abierta o cerrada está una esquina, y se clasifican en agudo (más cerrado que una escuadra), recto (exactamente como una escuadra) y obtuso (más abierto que una escuadra).';
   const roll = Math.random();
+  const count = nivel==='facil' ? 2 : 4;
   if(roll<0.25){
     const col = randInt(1,10), row = randInt(1,10);
-    const opts = shuffle([col+','+row, (col+1)+','+row, col+','+(row+1), (col+2)+','+(row+1)]).map(function(c){ return {label:c, value:c}; });
+    /* Difícil: dirección al azar entre las 4 posibles, en vez de siempre
+       "a la derecha" — obliga a leer con cuidado cuál coordenada cambia. */
+    const dir = nivel==='dificil' ? pick(['derecha','izquierda','arriba','abajo']) : 'derecha';
+    let nuevoCol = col, nuevoRow = row, dirLabel;
+    if(dir==='derecha'){ nuevoCol = col+1; dirLabel = '1 columna hacia la derecha'; }
+    else if(dir==='izquierda'){ nuevoCol = Math.max(1,col-1); dirLabel = '1 columna hacia la izquierda'; }
+    else if(dir==='arriba'){ nuevoRow = row+1; dirLabel = '1 fila hacia arriba'; }
+    else { nuevoRow = Math.max(1,row-1); dirLabel = '1 fila hacia abajo'; }
+    const correct = nuevoCol+','+nuevoRow;
+    const candidatos = [col+','+row, (col+1)+','+row, col+','+(row+1), (nuevoCol+1)+','+nuevoRow, nuevoCol+','+(nuevoRow+1)];
+    const distractPool = Array.from(new Set(candidatos)).filter(function(c){ return c!==correct; });
+    const opts = shuffle([correct].concat(shuffle(distractPool).slice(0,count-1))).map(function(c){ return {label:c, value:c}; });
     return {
-      promptHTML: '<p class="prompt-hint">Un punto está ubicado en la coordenada (columna, fila) = ('+col+', '+row+'). Si avanzas 1 columna hacia la derecha, ¿cuál es la nueva coordenada?</p>',
-      options: opts, correctValue: (col+1)+','+row, speakText: '¿Cuál es la nueva coordenada?', cols:2, panel:true,
-      explain: 'Avanzar 1 columna a la derecha cambia solo el primer número: ('+(col+1)+', '+row+').',
+      promptHTML: '<p class="prompt-hint">Un punto está ubicado en la coordenada (columna, fila) = ('+col+', '+row+'). Si avanzas '+dirLabel+', ¿cuál es la nueva coordenada?</p>',
+      options: opts, correctValue: correct, speakText: '¿Cuál es la nueva coordenada?', cols:2, panel:true,
+      explain: 'Avanzar '+dirLabel+' da la coordenada ('+correct+').',
       recurso: recurso,
     };
   }
@@ -1199,7 +1283,7 @@ export function genGeometria4Round(){
     const item = pick(SOLIDOS_VISTAS_BANK);
     const vista = pick(['frente','lado','arriba']);
     const correct = item[vista];
-    const distract = shuffle(['Un cuadrado','Un círculo','Un triángulo','Un rectángulo'].filter(function(v){ return v!==correct; })).slice(0,3);
+    const distract = shuffle(['Un cuadrado','Un círculo','Un triángulo','Un rectángulo'].filter(function(v){ return v!==correct; })).slice(0,count-1);
     const opts = shuffle([correct].concat(distract)).map(function(v){ return {label:v, value:v}; });
     const vistaLabel = vista==='frente'?'de frente':vista==='lado'?'de lado':'desde arriba';
     const art = articuloFigura(item.id);
@@ -1212,7 +1296,13 @@ export function genGeometria4Round(){
     };
   }
   if(roll<0.75){
-    const item = pick(SIMETRIA_BANK);
+    /* Fácil: figuras de contraste obvio (círculo/cuadrado sí, paralelogramo
+       no). Difícil: figuras menos evidentes a simple vista sin doblarlas
+       mentalmente (triángulo/óvalo/rombo/paralelogramo). */
+    const bankPool = nivel==='facil' ? SIMETRIA_BANK.filter(function(it){ return ['circulo','cuadrado','paralelogramo'].indexOf(it.id)!==-1; })
+      : nivel==='dificil' ? SIMETRIA_BANK.filter(function(it){ return ['triangulo','ovalo','rombo','paralelogramo'].indexOf(it.id)!==-1; })
+      : SIMETRIA_BANK;
+    const item = pick(bankPool);
     const opts = shuffle([{label:'Sí tiene línea de simetría', value:true},{label:'No tiene línea de simetría', value:false}]);
     const art = articuloFigura(item.id);
     const dibujo = item.id==='paralelogramo' ? paralelogramoSVG(100) : shapeSVG(item.id,100);
@@ -1252,12 +1342,13 @@ const CONVERSION_TIEMPO_BANK = [
   { pregunta:'¿Cuántos meses tiene 1 año?', correcta:12, opts:[24,30,52] },
 ];
 
-export function genMedicion4Round(){
+export function genMedicion4Round(nivel){
   const recurso = 'Medir en 4° básico junta varias ideas: el reloj de <b>24 horas</b> (usado en muchos relojes digitales y horarios de buses/aviones) se puede convertir al formato A.M./P.M. de 12 horas que usamos para hablar — las horas de 13 a 23 restan 12 para pasar a P.M. (14:00 = 2:00 P.M.). También se puede convertir entre unidades de tiempo (60 minutos = 1 hora, 24 horas = 1 día) y de longitud (100 centímetros = 1 metro). El <b>área</b> de un rectángulo es el espacio que cubre su superficie, y se calcula multiplicando largo × ancho; el <b>volumen</b> de una caja es el espacio que ocupa por dentro, y se calcula multiplicando largo × ancho × alto — una dimensión más que el área, porque el volumen mide un espacio en 3 direcciones en vez de 2.';
   const roll = Math.random();
+  const count = nivel==='facil' ? 2 : 4;
   if(roll<0.2){
     const item = pick(HORA_AMPM_BANK);
-    const distract = shuffle(HORA_AMPM_BANK.filter(function(h){ return h.correcto!==item.correcto; })).slice(0,3).map(function(h){ return h.correcto; });
+    const distract = shuffle(HORA_AMPM_BANK.filter(function(h){ return h.correcto!==item.correcto; })).slice(0,count-1).map(function(h){ return h.correcto; });
     const opts = shuffle([item.correcto].concat(distract)).map(function(h){ return {label:h, value:h}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.descripcion+' — el reloj de 24 horas marca '+item.hora+'. ¿Cómo se escribe esa hora con A.M./P.M.?</p>',
@@ -1268,7 +1359,8 @@ export function genMedicion4Round(){
   }
   if(roll<0.4){
     const item = pick(CONVERSION_TIEMPO_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(v){ return {label:String(v), value:v}; });
+    const optPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+    const opts = shuffle([item.correcta].concat(optPool)).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:4,
@@ -1277,8 +1369,11 @@ export function genMedicion4Round(){
     };
   }
   if(roll<0.6){
-    let a = pick(OBJETOS_LONGITUD4), b = pick(OBJETOS_LONGITUD4);
-    while(b.label===a.label) b = pick(OBJETOS_LONGITUD4);
+    let minGap;
+    if(nivel==='facil'){ minGap=400; } else if(nivel==='dificil'){ minGap=1; } else { minGap=50; }
+    let a = pick(OBJETOS_LONGITUD4), b = pick(OBJETOS_LONGITUD4), guard=0;
+    while((b.label===a.label || Math.abs(a.cm-b.cm)<minGap) && guard<80){ b = pick(OBJETOS_LONGITUD4); guard++; }
+    if(b.label===a.label) b = OBJETOS_LONGITUD4.filter(function(o){ return o.label!==a.label; })[0];
     const opts = shuffle([{label:a.emoji+' '+a.label, value:a.label},{label:b.emoji+' '+b.label, value:b.label}]);
     const longer = a.cm>b.cm ? a : b;
     return {
@@ -1289,9 +1384,13 @@ export function genMedicion4Round(){
     };
   }
   if(roll<0.8){
-    const largo = randInt(3,10), ancho = randInt(2,8);
+    let largoR, anchoR, spread;
+    if(nivel==='facil'){ largoR=[3,6]; anchoR=[2,4]; spread=15; }
+    else if(nivel==='dificil'){ largoR=[8,15]; anchoR=[6,12]; spread=3; }
+    else { largoR=[3,10]; anchoR=[2,8]; spread=6; }
+    const largo = randInt(largoR[0],largoR[1]), ancho = randInt(anchoR[0],anchoR[1]);
     const area = largo*ancho;
-    const opts = uniqueDistractors(area, 4, 100, 6, 4).map(function(v){ return {label:v+' unidades cuadradas', value:v}; });
+    const opts = uniqueDistractors(area, 4, 200, spread, count).map(function(v){ return {label:v+' unidades cuadradas', value:v}; });
     return {
       promptHTML: '<p class="prompt-hint">Un rectángulo mide '+largo+' unidades de largo y '+ancho+' unidades de ancho. ¿Cuál es su área?</p>',
       options: opts, correctValue: area, speakText: '¿Cuál es el área del rectángulo?', cols:2,
@@ -1299,9 +1398,13 @@ export function genMedicion4Round(){
       recurso: recurso,
     };
   }
-  const l = randInt(2,5), a = randInt(2,4), h = randInt(2,4);
+  let lR, aR, hR, spread2;
+  if(nivel==='facil'){ lR=[2,3]; aR=[2,3]; hR=[2,3]; spread2=10; }
+  else if(nivel==='dificil'){ lR=[4,7]; aR=[3,6]; hR=[3,5]; spread2=4; }
+  else { lR=[2,5]; aR=[2,4]; hR=[2,4]; spread2=8; }
+  const l = randInt(lR[0],lR[1]), a = randInt(aR[0],aR[1]), h = randInt(hR[0],hR[1]);
   const vol = l*a*h;
-  const opts = uniqueDistractors(vol, 4, 150, 8, 4).map(function(v){ return {label:v+' cubos', value:v}; });
+  const opts = uniqueDistractors(vol, 4, 400, spread2, count).map(function(v){ return {label:v+' cubos', value:v}; });
   return {
     promptHTML: '<p class="prompt-hint">Una caja se llena con cubos pequeños: '+l+' de largo, '+a+' de ancho y '+h+' de alto. ¿Cuántos cubos caben en total?</p>',
     options: opts, correctValue: vol, speakText: '¿Cuántos cubos caben en la caja?', cols:2,
@@ -1317,13 +1420,15 @@ const EXPERIMENTOS_ALEATORIOS_BANK = [
   { pregunta:'Si lanzas una moneda 10 veces, ¿es seguro que salgan exactamente 5 caras y 5 sellos?', correcta:'No, es solo una posibilidad, no una certeza', opts:['Sí, siempre será exacto','Solo saldrán caras','Solo saldrán sellos'] },
 ];
 
-export function genDatos4Round(){
+export function genDatos4Round(nivel){
   const recurso = 'Una <b>encuesta</b> junta las respuestas de varias personas sobre una misma pregunta, y un <b>gráfico de barras</b> muestra esas respuestas de forma visual: mientras más alta la barra, más personas eligieron esa opción — así se puede ver de un vistazo cuál opción ganó (la barra más alta) y cuál perdió (la más baja), y sumando todas las barras se obtiene el total de personas encuestadas. La <b>probabilidad</b> estudia qué tan posible es que ocurra algo al azar: lanzar una moneda tiene solo 2 resultados posibles (cara o sello), y si una bolsa tiene más bolitas de un color que de otro, es más probable sacar ese color — aunque nunca es una certeza, solo una posibilidad más alta.';
   const roll = Math.random();
+  const count = nivel==='facil' ? 2 : 4;
+  const spread = nivel==='dificil' ? 1 : 3;
   if(roll<0.34){
     const item = pick(DATOS_ENCUESTA);
     const total = item.categorias.reduce(function(a,c){ return a+c.valor; }, 0);
-    const opts = uniqueDistractors(total, 5, 60, 3, 4).map(function(v){ return {label:String(v), value:v}; });
+    const opts = uniqueDistractors(total, 5, 60, spread, count).map(function(v){ return {label:String(v), value:v}; });
     return {
       promptHTML: barChartHTML(item.categorias)+'<p class="prompt-hint">'+item.pregunta+' ¿Cuántas personas respondieron la encuesta en total?</p>',
       options: opts, correctValue: total, speakText: '¿Cuántas personas respondieron en total?', cols:4,
@@ -1333,7 +1438,8 @@ export function genDatos4Round(){
   }
   if(roll<0.67){
     const item = pick(EXPERIMENTOS_ALEATORIOS_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const optPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+    const opts = shuffle([item.correcta].concat(optPool)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -1354,6 +1460,13 @@ export function genDatos4Round(){
     explain: '<b>'+correct+'</b> tuvo la '+(askMax?'mayor':'menor')+' cantidad de votos.',
     recurso: recurso,
   };
+}
+
+export function genExamenMate4Round(){
+  const gens = [genNumeros4Round, genOperaciones4Round, genMultiplicarDividir4Round, genFracciones4Round, genDecimales4Round, genPatrones4Round, genGeometria4Round, genMedicion4Round, genDatos4Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Matemática 5° Básico ----------------

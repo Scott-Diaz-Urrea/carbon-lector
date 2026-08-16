@@ -610,8 +610,9 @@ export const HISTORIA_MODULES_G4 = [
   {id:'civilizacionesamericanas4', label:'Civilizaciones Americanas', open:true, key:'civilizacionesamericanas4'},
   {id:'geografiaamerica4', label:'Geografía de América', open:true, key:'geografiaamerica4'},
   {id:'ciudadania4', label:'Formación Ciudadana IV', open:true, key:'ciudadania4'},
+  {id:'examenhistoria4', label:'Examen Final', open:true, key:'examenhistoria4'},
 ];
-export const HISTORIA_POS_G4 = [{x:24,y:82},{x:68,y:50},{x:24,y:18}];
+export const HISTORIA_POS_G4 = [{x:24,y:88},{x:68,y:61},{x:24,y:34},{x:68,y:7}];
 
 const CIVILIZACIONES_AMERICANAS_BANK = [
   { pregunta:'¿En qué región vivía la civilización Maya?', correcta:'América Central (península de Yucatán)', opts:['Los Andes de Sudamérica','El valle de México','La Patagonia'] },
@@ -654,9 +655,9 @@ const CIUDADANIA4_VALORES_BANK = [
   { correcta:'Identificar la causa de un problema antes de buscar una solución', incorrectas:['Buscar una solución sin entender el problema','Culpar a alguien sin analizar la situación','Ignorar por qué ocurrió el conflicto'] },
 ];
 
-export function genCivilizacionesAmericanas4Round(){
+export function genCivilizacionesAmericanas4Round(nivel){
   const item = pick(CIVILIZACIONES_AMERICANAS_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.correcta].concat(nivel==='facil' ? item.opts.slice(0,1) : item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -665,9 +666,9 @@ export function genCivilizacionesAmericanas4Round(){
   };
 }
 
-export function genGeografiaAmerica4Round(){
+export function genGeografiaAmerica4Round(nivel){
   const item = pick(GEOGRAFIA_AMERICA_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.correcta].concat(nivel==='facil' ? item.opts.slice(0,1) : item.opts)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -676,11 +677,12 @@ export function genGeografiaAmerica4Round(){
   };
 }
 
-export function genCiudadania4Round(){
+export function genCiudadania4Round(nivel){
   const recurso = 'En Chile, distintas <b>autoridades</b> cumplen roles específicos: el Presidente o la Presidenta dirige el país completo, el alcalde o la alcaldesa dirige una comuna, los ministros ayudan al Presidente en áreas como salud o educación, y los senadores y diputados en el Congreso crean, discuten y aprueban las leyes. Más allá de conocer estas autoridades, la <b>formación ciudadana</b> también se practica en el día a día: decir siempre la verdad, tratar con respeto a todas las personas sin importar su condición, votar y participar en las decisiones de tu curso, y dialogar para resolver conflictos en vez de pelear — todas estas son formas de ejercer una buena ciudadanía, incluso antes de tener edad para votar en una elección real.';
+  const count = nivel==='facil' ? 2 : 4;
   if(Math.random()<0.4){
     const item = pick(CIUDADANIA4_ACTORES_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correcta].concat(item.opts.slice(0,count-1))).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -689,13 +691,20 @@ export function genCiudadania4Round(){
     };
   }
   const item = pick(CIUDADANIA4_VALORES_BANK);
-  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.correcta].concat(item.incorrectas.slice(0,count-1))).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
     explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.',
     recurso: recurso,
   };
+}
+
+export function genExamenHistoria4Round(){
+  const gens = [genCivilizacionesAmericanas4Round, genGeografiaAmerica4Round, genCiudadania4Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Historia, Geografía y Cs. Sociales 5° Básico ----------------

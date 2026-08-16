@@ -412,8 +412,9 @@ export const ORIENTACION_MODULES_G4 = [
   {id:'autocuidado4', label:'Autocuidado IV', open:true, key:'autocuidado4'},
   {id:'buentrato4', label:'Buen Trato y Resolución de Conflictos II', open:true, key:'buentrato4'},
   {id:'habitosestudio4', label:'Hábitos de Trabajo Escolar II', open:true, key:'habitosestudio4'},
+  {id:'examenorientacion4', label:'Examen Final', open:true, key:'examenorientacion4'},
 ];
-export const ORIENTACION_POS_G4 = [{x:22,y:88},{x:68,y:65},{x:24,y:42},{x:70,y:16}];
+export const ORIENTACION_POS_G4 = [{x:22,y:92},{x:68,y:71},{x:24,y:50},{x:70,y:29},{x:24,y:6}];
 
 const EMOCIONES_ESTRATEGIA4_BANK = [
   { situacion:'Sientes celos porque tu hermano recibió más atención en una celebración familiar.', correcta:'Reconocer el sentimiento y conversarlo con un adulto de confianza', malas:['Portarte mal para llamar la atención','Culpar a tu hermano por tus celos','Guardarte el sentimiento y aislarte'] },
@@ -456,11 +457,13 @@ const HABITOS_ESTUDIO_4_BANK = [
   { label:'No es necesario tener ningún horario para estudiar, se puede improvisar siempre', v:false },
 ];
 
-export function genManejoEmocional4Round(){
+export function genManejoEmocional4Round(nivel){
   const item = pick(EMOCIONES_ESTRATEGIA4_BANK);
-  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  const pool = nivel==='facil' ? [item.correcta, item.malas[0]] : [item.correcta].concat(item.malas);
+  const opts = shuffle(pool).map(function(o){ return {label:o, value:o}; });
+  const textoHTML = nivel==='dificil' ? '' : '<p class="prompt-sentence">'+item.situacion+'</p>';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    promptHTML: textoHTML+'<p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta+'" — así manejas la emoción sin lastimarte a ti ni a otros.',
     recurso: 'El <b>manejo emocional</b> no significa esconder o negar lo que sientes, sino reconocer la emoción (celos, decepción, ansiedad, orgullo, frustración) y elegir una respuesta que no te dañe a ti ni a otros. Un primer paso útil es simplemente nombrar la emoción ("estoy sintiendo celos" o "esto me da vergüenza") — ponerle nombre a lo que sientes ayuda a que no te controle por completo. Después, hay estrategias concretas según la emoción: respirar y calmarte ante la frustración, conversar con un adulto de confianza ante la ansiedad, o reconocer tu esfuerzo aunque no hayas ganado. Con práctica, manejar tus emociones se vuelve más fácil, igual que cualquier otra habilidad.',
@@ -478,11 +481,13 @@ export function genAutocuidado4Round(){
   };
 }
 
-export function genBuenTrato4Round(){
+export function genBuenTrato4Round(nivel){
   const item = pick(CONFLICTO_4_BANK);
-  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  const pool = nivel==='facil' ? [item.correcta, item.malas[0]] : [item.correcta].concat(item.malas);
+  const opts = shuffle(pool).map(function(o){ return {label:o, value:o}; });
+  const textoHTML = nivel==='dificil' ? '' : '<p class="prompt-sentence">'+item.texto+'</p>';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
+    promptHTML: textoHTML+'<p class="prompt-hint">¿Qué es lo mejor que pueden hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta+'" — así se resuelve el problema con respeto.',
     recurso: 'Resolver un conflicto de buena manera casi siempre empieza con lo mismo: escuchar todas las partes involucradas antes de sacar conclusiones, y buscar una solución en conjunto en vez de imponer una idea sin conversar. Frente a una injusticia (como que alguien se burle de un compañero, o que un nuevo estudiante se sienta excluido), la mejor respuesta suele ser acercarse con empatía, apoyar a quien está siendo afectado, y —si la situación lo requiere— buscar la ayuda de un adulto, en vez de sumarte al comportamiento injusto o ignorarlo. Practicar el buen trato en situaciones pequeñas del día a día te prepara para resolver conflictos más grandes de forma pacífica en el futuro.',
@@ -498,6 +503,13 @@ export function genHabitosEstudio4Round(){
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.',
     recurso: 'Los buenos <b>hábitos de estudio</b> se construyen con constancia, no con esfuerzo de último minuto: estudiar un poco cada día rinde mucho más que intentar aprenderlo todo la noche anterior a una prueba, porque el cerebro necesita tiempo para consolidar lo aprendido. Anotar tareas y fechas de entrega en una agenda, tener un horario fijo para estudiar, y preguntar cuando algo no se entiende son hábitos simples que marcan una gran diferencia con el tiempo. Revisar tus propios errores después de una prueba —en vez de solo mirar la nota— también es clave: te muestra exactamente qué necesitas reforzar antes de la próxima evaluación.',
   };
+}
+
+export function genExamenOrientacion4Round(){
+  const gens = [genManejoEmocional4Round, genAutocuidado4Round, genBuenTrato4Round, genHabitosEstudio4Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Orientación 5° Básico ----------------

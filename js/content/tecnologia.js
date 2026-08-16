@@ -233,8 +233,9 @@ export function genExamenTecnologia4Round(){
    propio) por ser un proceso de producción práctica. */
 export const TECNOLOGIA_MODULES_G5 = [
   {id:'tecdigital5', label:'Tecnología Digital V', open:true, key:'tecdigital5'},
+  {id:'examentecnologia5', label:'Examen Final', open:true, key:'examentecnologia5'},
 ];
-export const TECNOLOGIA_POS_G5 = [{x:48,y:50}];
+export const TECNOLOGIA_POS_G5 = [{x:30,y:70},{x:70,y:30}];
 
 const TEC_DIGITAL_5_BANK = [
   { pregunta:'¿Qué opción de formato usarías en un procesador de textos para destacar un título dentro de un documento?', correcta:'Aumentar el tamaño de la letra y ponerla en negrita', opts:['Escribirlo en el mismo tamaño que el resto del texto','Borrar el título','Escribirlo en un idioma distinto'] },
@@ -246,16 +247,25 @@ const TEC_DIGITAL_5_BANK = [
   { pregunta:'Si un compañero de un grupo en línea comparte información falsa por error, ¿qué es lo más responsable?', correcta:'Avisarle con respeto y ayudar a corregir la información', opts:['Compartir la información falsa a más personas','Burlarte del error frente al grupo','Ignorarlo, no es tu problema'] },
   { pregunta:'¿Qué opción de un procesador de textos ayuda a mostrar información en columnas ordenadas, como nombres y notas?', correcta:'Insertar una tabla', opts:['Cambiar el fondo de toda la página a un color oscuro','Insertar un video musical','Borrar el documento completo'] },
   { pregunta:'¿Para qué sirve revisar la ortografía automática antes de entregar un documento?', correcta:'Para detectar y corregir errores de escritura antes de compartirlo', opts:['Para que el documento se vea con más colores','Para hacerlo más largo','No sirve para nada'] },
+  { pregunta:'¿Qué opción de un procesador de textos permite cambiar el tipo de letra de todo un documento a la vez?', correcta:'Seleccionar todo el texto y cambiar la fuente desde el menú de formato', opts:['Escribir cada palabra en un documento distinto','Borrar el documento y empezar de nuevo','Imprimir el documento varias veces'] },
+  { pregunta:'¿Qué deberías hacer si necesitas usar una imagen de internet para un trabajo escolar?', correcta:'Elegir una imagen libre de derechos o dar el crédito a quien la creó', opts:['Usar cualquier imagen sin revisar nada','Cambiarle solo el nombre del archivo','Decir que la imagen es propia aunque no lo sea'] },
+  { pregunta:'¿Para qué sirve guardar copias de respaldo de un trabajo digital importante?', correcta:'Para no perder el trabajo si el computador falla o el archivo se daña', opts:['Para que el archivo ocupe más espacio','Para que el documento se vea con más colores','No sirve para nada'] },
 ];
-export function genTecDigital5Round(){
+export function genTecDigital5Round(nivel){
   const recurso = 'Un <b>procesador de textos</b> tiene opciones de formato para que un documento se lea con claridad: negrita y tamaño de letra para destacar títulos, alineación para ordenar el texto en la página, viñetas o numeración para organizar listas, y tablas para mostrar información en columnas ordenadas. Al comunicarse en internet con compañeros de un trabajo grupal, lo responsable es compartir solo información relacionada con el trabajo, tratar a todos con respeto, y evitar compartir datos personales innecesarios (como direcciones o teléfonos) en un grupo en línea.';
   const item = pick(TEC_DIGITAL_5_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".', recurso: recurso,
   };
+}
+
+export function genExamenTecnologia5Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genTecDigital5Round(nivel);
 }
 
 /* ---------------- Contenido Tecnología 6° Básico ----------------

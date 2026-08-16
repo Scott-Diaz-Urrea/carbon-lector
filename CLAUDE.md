@@ -3685,6 +3685,151 @@ módulos de toda la app, pasan 300 sesiones simuladas cada uno sin ningún
 repetido, y 100-300 iteraciones de fuzz estructural sin `undefined`, opciones
 duplicadas dentro de una ronda, ni `correctValue` ausente de las opciones.
 
+**5° básico: niveles Fácil/Normal/Difícil + Examen Final, las 9 asignaturas +
+Inglés (2026-08-16):** pedido explícito del usuario de continuar el rollout
+tras completar 4° básico. Mismo motor sin cambios
+(`levels:true`/`selectMCLevel()`/`levelPickerHTML()`), las 9 asignaturas +
+Inglés implementadas y verificadas en un solo PR, mismo patrón ya usado en
+años anteriores. Primera vez que el rollout de niveles alcanza una
+asignatura en otro idioma (Inglés) — el mecanismo `speakLang:'en'` ya
+establecido desde la construcción original de 5° básico se preservó sin
+cambios en ambos niveles nuevos.
+
+- **Diseño por asignatura** (mismo criterio de siempre: fácil reduce
+  opciones/rango; difícil oculta el apoyo visual decorativo o sube la
+  complejidad real cuando no hay nada que ocultar):
+  - **Matemática** (10 módulos, el año más denso hasta ahora): Números
+    Grandes varía el rango numérico por nivel (hasta 6 cifras en fácil,
+    9 cifras fijas en difícil, forzando comparación dígito a dígito) y
+    amplía el pool de posiciones consultadas (solo centena/decena/unidad
+    en fácil, las 9 posiciones posibles en difícil, no solo las 3
+    "de millón" originales). Multiplicar/Dividir/Operaciones/Patrones
+    ajustan rango numérico y ocultan la pista de cálculo mental en
+    difícil. Fracciones oculta el dibujo SVG de la fracción en difícil,
+    dejando solo el número. Decimales fuerza una comparación de cifras
+    muy cercanas en difícil (diferencia de hasta 3 milésimos). Geometría
+    oculta el swatch/figura SVG en difícil, mostrando solo el nombre en
+    texto. Datos reduce/oculta el listado explícito de valores del
+    diagrama de tallo y hojas en difícil, obligando a leerlo del gráfico
+    real en vez de la oración de apoyo.
+  - **Lenguaje** (5 módulos): Comprensión oculta el texto narrativo/no
+    literario en difícil (hay que escuchar 🔊, mismo criterio que años
+    anteriores); Recursos Poéticos/Vocabulario/Gramática reducen
+    distractores en fácil (Gramática además oculta la pista "(VERBO)" en
+    difícil); Ortografía (ya binaria, 100% textual) acepta `nivel` sin
+    cambiar comportamiento.
+  - **Ciencias Naturales** (4 módulos): mismo criterio preventivo ya
+    aprendido en años anteriores — fácil reduce el número de
+    distractores, sin necesitar ocultar ningún emoji porque los 4 módulos
+    de este año ya eran 100% textuales desde su construcción original.
+  - **Historia** (4 módulos, 100% textuales sin emoji): fácil reduce
+    distractores a 1; difícil se comporta igual que normal, mismo
+    criterio ya usado para módulos sin ningún visual que ocultar.
+  - **Artes Visuales** (1 módulo): fácil reduce distractores; difícil
+    oculta el swatch de color o la figura SVG, mostrando solo el nombre.
+  - **Música** (1 módulo): fácil reduce distractores a 1 en ambas ramas;
+    difícil igual a normal (ya 100% textual). Bancos ampliados de 6→8 y
+    2→4 ítems respectivamente (ver bug de Examen Final más abajo).
+  - **Educación Física** (2 módulos): Vida Activa reduce distractores en
+    fácil; Liderazgo (binario V/F) acepta `nivel` sin cambio.
+  - **Orientación** (5 módulos): Manejo Emocional/Buen Trato ocultan el
+    texto de la escena en difícil (mismo criterio que Comprensión);
+    Autocuidado Digital/Prevención/Hábitos de Estudio (V/F binarios)
+    aceptan `nivel` sin cambio.
+  - **Tecnología** (1 módulo): fácil reduce distractores a 1. Banco
+    ampliado de 9 a 12 ítems (ver bug de Examen Final más abajo).
+  - **Inglés** (2 módulos, primera vez que el rollout cubre una
+    asignatura bilingüe): Vocabulario Básico oculta el emoji en difícil,
+    mostrando solo "Escucha 🔊 y elige la palabra en inglés correcta." —
+    convierte el ejercicio de "reconocer una imagen" a "reconocer por
+    dictado", igual que el mismo patrón ya usado para Comprensión en
+    español. Lectura Simple oculta el texto en inglés en difícil,
+    obligando a escuchar la oración completa antes de responder.
+- **Bug real encontrado y corregido — no por el fuzz-test estructural
+  inicial (que no lo detectó), sino por una segunda pasada de simulación
+  de sesión dirigida específicamente a `medicion5`:** la rama de "¿cuál
+  objeto es más largo?" armaba el par a comparar con un `pick()` inicial y
+  luego, para fácil/difícil, reintentaba `pick()` hasta encontrar un par
+  con la diferencia de tamaño deseada (grande para fácil, chica para
+  difícil) — pero el reintento podía volver a sortear el MISMO objeto que
+  ya era `a`, produciendo una "comparación" entre un objeto y sí mismo
+  (mismo emoji/label duplicado dos veces como opciones, ambas con el mismo
+  `value`). Con el banco real (`OBJETOS_LONGITUD5`, 5 objetos con largos
+  400/170/1500/15/14 cm) el problema era peor en difícil: el único par
+  realmente "cercano" en todo el banco es celular/lápiz (15 vs. 14 cm), así
+  que para cualquier `a` que no fuera uno de esos dos, el bucle de
+  reintento (máximo 10 intentos) muchas veces no encontraba ningún par
+  cercano real y terminaba quedándose con `b === a`. Detectado con 13/400
+  fallos en el fuzz dirigido a este módulo, y heredado también por
+  `examenmate5` (que a veces sortea este generador). **Corregido**
+  reemplazando el bucle de reintento por una selección determinista: se
+  ordenan los demás 4 objetos del banco por cercanía a `a.cm` y se toma
+  directamente el más cercano (difícil) o el más lejano (fácil) de esa
+  lista ya filtrada (que nunca incluye a `a` mismo) — elimina la
+  posibilidad estructural de que `b` vuelva a ser `a`. Verificado tras el
+  fix: 0/2000 fallos en `medicion5` y 0/2000 en `examenmate5`. **Lección
+  reforzada para generadores futuros:** un bucle "reintentar hasta cumplir
+  una condición" sobre un `pick()` de un banco pequeño necesita excluir
+  explícitamente el valor ya elegido de las candidatas, o filtrar/ordenar
+  las candidatas restantes de antemano — reintentar sobre el banco
+  completo (incluyendo el ya elegido) puede converger de vuelta al mismo
+  valor, sobre todo con pocos ítems y un límite bajo de reintentos.
+- **2 bugs de Examen Final por banco insuficiente (mismo patrón ya
+  documentado en años anteriores), esta vez anticipados proactivamente
+  antes de fuzz-testear, no descubiertos después:** con solo 2-3 niveles
+  de variación real por rama y un banco de contenido chico (Música:
+  `TEXTURA_MUSICAL_BANK` 6 ítems, `PREGUNTA_RESPUESTA_BANK` 2 ítems;
+  Tecnología: `TEC_DIGITAL_5_BANK` 9 ítems), el Examen Final de un año con
+  un solo módulo (`rounds:20`) corría alto riesgo de repetición
+  garantizada, el mismo problema ya visto y corregido en Música/Tecnología
+  de 4° básico. Se ampliaron ambos bancos por adelantado (Música: 6→8 y
+  2→4 ítems; Tecnología: 9→12 ítems) con contenido real dentro del mismo
+  concepto ya citado, antes de dar el módulo por terminado — evitando
+  repetir el ciclo de "fuzz-test → encontrar bug → ampliar banco" ya
+  vivido en la ronda anterior.
+- **Examen Final por asignatura**: mezcla los módulos del año + los 3
+  niveles al azar, `rounds:20`, sin selector propio (`levels` no seteado).
+  Para las asignaturas con un solo módulo compatible (Artes, Música,
+  Tecnología) el examen re-randomiza el nivel sobre ese único generador,
+  mismo patrón ya usado en años anteriores.
+- **Mapas de nodos recalculados** con el mismo método de siempre (paso
+  vertical uniforme, margen ≥150px entre nodos del mismo lado del zigzag,
+  verificado con `getBoundingClientRect()` real en el navegador, no solo
+  calculado): Lenguaje/Orientación 5→6 nodos; Matemática 10→11; Ciencias
+  4→5; Historia 4→5; Educación Física 2→3; Inglés 2→3; Artes/Música/
+  Tecnología 1→2 (reusando el layout canónico `[{x:30,y:70},{x:70,y:30}]`,
+  height:260, ya validado en años anteriores).
+- Verificado: los 32 generadores base (10 matemática + 5 lenguaje + 4
+  ciencias + 4 historia + 1 artes + 1 música + 2 edfisica + 5 orientación +
+  1 tecnología + 2 inglés) pasan fuzz de 400 iteraciones por módulo (4
+  niveles × 100, sin `THROW`, sin `undefined`, sin opciones duplicadas,
+  `correctValue` siempre presente en las opciones — 0 hallazgos tras el fix
+  de `medicion5`) y simulación de 150 sesiones completas por combinación
+  módulo×nivel + los 10 exámenes (144 combinaciones): **0 repeticiones**.
+  `MC_KEYS.length === Object.keys(MC_GAMES).length === 611` (sin claves
+  huérfanas). Regresión completa de los 611 módulos de toda la app (40
+  iteraciones cada uno): confirmó que los únicos 2 hallazgos preexistentes
+  (`sistemasecuacionesm1`, `ortografiam1` en 1° Medio, ya flagueados en una
+  sesión anterior como tarea aparte) siguen siendo los mismos — ningún
+  módulo nuevo introdujo una regresión. Probado visualmente en el
+  navegador: los 10 mapas de 5° básico renderizados de verdad, **0
+  solapamientos, ancho de etiqueta máximo 170px** en los 10; una partida
+  jugada en "Números Grandes" en Difícil (posición "unidad de mil" sobre
+  un número de 9 cifras, avance correcto de 1/8 a 2/8); el Examen Final de
+  Matemática saltando directo a la pregunta 1/20 sin selector, mezclando
+  "Medición y Área" en Difícil (respuesta correcta, avance a 2/20 sin
+  errores); "Vocabulario Básico" de Inglés en Difícil mostrando "Escucha 🔊
+  y elige la palabra en inglés correcta." sin emoji, con una respuesta
+  incorrecta mostrando el overlay de Carboncito con "Se dice Bird en
+  inglés." (capitalización correcta). Probado también en 375px (mobile):
+  mapa de Inglés sin solapamiento ni scroll horizontal. Sin errores de
+  consola en ningún caso.
+
+**Con esto, el rollout de niveles Fácil/Normal/Difícil + Examen Final
+queda completo en 1°, 2°, 3°, 4° y 5° básico.** Próximo paso: continuar
+con 6°-8° básico (y en qué orden definir con el usuario) — mismo criterio
+de "un curso a la vez" que el resto del proyecto.
+
 ### 6° Básico — ✅ completo (39 módulos, las 9 asignaturas + Inglés)
 Todo basado en OA reales del Decreto 439/2012, extraídos de curriculumnacional.cl/
 curriculum/1o-6o-basico/<asignatura>/6-basico. Varios OA de 6° básico repiten

@@ -372,8 +372,9 @@ export function genExamenArtes4Round(){
    que arriesgarían imprecisión sin una fuente adicional). */
 export const ARTES_MODULES_G5 = [
   {id:'lenguajevisual5', label:'Lenguaje Visual III', open:true, key:'lenguajevisual5'},
+  {id:'examenartes5', label:'Examen Final', open:true, key:'examenartes5'},
 ];
-export const ARTES_POS_G5 = [{x:50,y:50}];
+export const ARTES_POS_G5 = [{x:30,y:70},{x:70,y:30}];
 
 const COLOR_COMPLEMENTARIO_BANK = [
   { color:'Rojo', complementario:'Verde' }, { color:'Azul', complementario:'Naranjo' }, { color:'Amarillo', complementario:'Morado' },
@@ -395,16 +396,18 @@ const LUZ_SOMBRA_BANK = [
   { pregunta:'¿Qué es la "sombra proyectada" de un objeto?', correcta:'La sombra que el objeto arroja sobre otra superficie, como el suelo', opts:['La parte más oscura del propio objeto','El color más brillante del objeto','La forma exacta del objeto'] },
   { pregunta:'Si la luz viene de un solo lado de un objeto, ¿qué ocurre en el lado opuesto?', correcta:'Se forma una zona de sombra', opts:['Se forma un brillo más intenso','El objeto cambia de color por completo','No ocurre ningún cambio visual'] },
 ];
-export function genLenguajeVisual5Round(){
+export function genLenguajeVisual5Round(nivel){
   const recurso = 'En el <b>círculo cromático</b>, cada color tiene un <b>color complementario</b> justo enfrente (como el rojo y el verde, o el azul y el naranjo) — al ponerlos juntos se resaltan mutuamente con mucho contraste. Una forma es <b>cerrada</b> cuando su línea vuelve al punto donde comenzó, encerrando un espacio (como un círculo o un cuadrado); es <b>abierta</b> cuando la línea no se junta consigo misma. La <b>luz y la sombra</b> le dan volumen a un dibujo: la sombra propia está en el objeto mismo (el lado que no recibe luz), y la sombra proyectada es la que el objeto arroja sobre la superficie donde está apoyado.';
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(COLOR_COMPLEMENTARIO_BANK);
     const todos = ['Verde','Naranjo','Morado','Rojo','Azul','Amarillo'];
-    const distract = shuffle(todos.filter(function(c){ return c!==item.complementario; })).slice(0,3);
+    const distractCount = nivel==='facil' ? 1 : 3;
+    const distract = shuffle(todos.filter(function(c){ return c!==item.complementario; })).slice(0,distractCount);
     const opts = shuffle([item.complementario].concat(distract)).map(function(c){ return {label:c, value:c}; });
+    const visual = nivel==='dificil' ? '<p class="prompt-word">'+item.color+'</p>' : '<div class="shape-display">'+colorSwatchSVG(item.color,90)+'</div>';
     return {
-      promptHTML: '<div class="shape-display">'+colorSwatchSVG(item.color,90)+'</div><p class="prompt-hint">El color '+item.color+'. ¿Cuál es su color complementario (el que está justo enfrente en el círculo cromático)?</p>',
+      promptHTML: visual+'<p class="prompt-hint">El color '+item.color+'. ¿Cuál es su color complementario (el que está justo enfrente en el círculo cromático)?</p>',
       options: opts, correctValue: item.complementario, speakText: '¿Cuál es el color complementario del '+item.color.toLowerCase()+'?', cols:4, kind:'word',
       explain: 'El complementario del '+item.color.toLowerCase()+' es el <b>'+item.complementario.toLowerCase()+'</b>.', recurso: recurso,
     };
@@ -413,9 +416,10 @@ export function genLenguajeVisual5Round(){
     const opts = shuffle([{label:'Forma cerrada', value:true},{label:'Forma abierta', value:false}]);
     if(Math.random()<0.5){
       const item = pick(FORMAS_CERRADAS_BANK);
+      const visual = nivel==='dificil' ? '<p class="prompt-word">'+item.label+'</p>' : '<div class="shape-display">'+shapeSVG(item.id,100)+'</div>';
       return {
-        promptHTML: '<div class="shape-display">'+shapeSVG(item.id,100)+'</div><p class="prompt-hint">¿Esta figura es una forma abierta o cerrada?</p>',
-        options: opts, correctValue: true, speakText: '¿Es una forma abierta o cerrada?', cols:2, panel:true,
+        promptHTML: visual+'<p class="prompt-hint">¿Esta figura es una forma abierta o cerrada?</p>',
+        options: opts, correctValue: true, speakText: '¿Es '+item.label.toLowerCase()+' una forma abierta o cerrada?', cols:2, panel:true,
         explain: 'Un '+item.label.toLowerCase()+' es una <b>forma cerrada</b>: su línea vuelve al punto donde comenzó, encerrando un espacio.', recurso: recurso,
       };
     }
@@ -427,12 +431,18 @@ export function genLenguajeVisual5Round(){
     };
   }
   const item = pick(LUZ_SOMBRA_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
   };
+}
+
+export function genExamenArtes5Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genLenguajeVisual5Round(nivel);
 }
 
 /* ---------------- Contenido Artes Visuales 6° Básico ----------------

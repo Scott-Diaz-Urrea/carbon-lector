@@ -1309,8 +1309,9 @@ export const CIENCIAS_MODULES_G5 = [
   {id:'alimentacionsalud5', label:'Alimentación y Salud', open:true, key:'alimentacionsalud5'},
   {id:'electricidad5', label:'Electricidad', open:true, key:'electricidad5'},
   {id:'aguatierra5', label:'Agua en la Tierra', open:true, key:'aguatierra5'},
+  {id:'examenciencias5', label:'Examen Final', open:true, key:'examenciencias5'},
 ];
-export const CIENCIAS_POS_G5 = [{x:22,y:88},{x:68,y:64},{x:24,y:38},{x:70,y:12}];
+export const CIENCIAS_POS_G5 = [{x:22,y:92},{x:68,y:72},{x:24,y:52},{x:70,y:32},{x:22,y:8}];
 
 const CELULA_BANK = [
   { pregunta:'¿Cuál es la unidad básica que forma a todos los seres vivos?', correcta:'La célula', opts:['El órgano','El tejido','El hueso'] },
@@ -1334,9 +1335,10 @@ const CIRCULATORIO_BANK = [
   { parte:'Las arterias', funcion:'Llevar sangre desde el corazón hacia el resto del cuerpo' },
   { parte:'Las venas', funcion:'Llevar sangre de vuelta hacia el corazón' },
 ];
-function sistemaRound(bank, sistemaLabel, recurso){
+function sistemaRound(bank, sistemaLabel, recurso, nivel){
   const item = pick(bank);
-  const distract = shuffle(bank.filter(function(b){ return b.funcion!==item.funcion; })).map(function(b){ return b.funcion; });
+  const distractAll = shuffle(bank.filter(function(b){ return b.funcion!==item.funcion; })).map(function(b){ return b.funcion; });
+  const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
   const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
   return {
     promptHTML: '<p class="prompt-word">'+item.parte+'</p><p class="prompt-hint">Esta parte pertenece al sistema '+sistemaLabel+'. ¿Cuál es su función principal?</p>',
@@ -1344,21 +1346,22 @@ function sistemaRound(bank, sistemaLabel, recurso){
     explain: item.parte+': '+item.funcion.toLowerCase()+'.', recurso: recurso,
   };
 }
-export function genCelulaSistemas5Round(){
+export function genCelulaSistemas5Round(nivel){
   const recurso = 'Todos los seres vivos están formados por <b>células</b>, la unidad básica de la vida — algunos organismos tienen una sola célula (unicelulares) y otros, como los humanos, tienen billones trabajando juntas (multicelulares). El cuerpo humano funciona gracias a sistemas que colaboran entre sí: el <b>sistema digestivo</b> transforma los alimentos en nutrientes que el cuerpo puede usar, el <b>sistema respiratorio</b> toma el oxígeno del aire y elimina el dióxido de carbono, y el <b>sistema circulatorio</b> transporta la sangre (con oxígeno y nutrientes) a todo el cuerpo a través del corazón y los vasos sanguíneos.';
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(CELULA_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const optsAll = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+    const opts = shuffle([item.correcta].concat(optsAll)).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word', panel:true,
       explain: 'La respuesta correcta es <b>'+item.correcta+'</b>.', recurso: recurso,
     };
   }
-  if(roll<0.5) return sistemaRound(DIGESTIVO_BANK,'digestivo',recurso);
-  if(roll<0.75) return sistemaRound(RESPIRATORIO_BANK,'respiratorio',recurso);
-  return sistemaRound(CIRCULATORIO_BANK,'circulatorio',recurso);
+  if(roll<0.5) return sistemaRound(DIGESTIVO_BANK,'digestivo',recurso,nivel);
+  if(roll<0.75) return sistemaRound(RESPIRATORIO_BANK,'respiratorio',recurso,nivel);
+  return sistemaRound(CIRCULATORIO_BANK,'circulatorio',recurso,nivel);
 }
 
 const CONSUMO_ALIMENTOS_BANK = [
@@ -1381,12 +1384,13 @@ const MICROORGANISMOS_BANK = [
   { nombre:'Las bacterias que ayudan a la digestión en el intestino', tipo:'Beneficioso' },
   { nombre:'El virus que causa el resfrío común', tipo:'Dañino' },
 ];
-export function genAlimentacionSalud5Round(){
+export function genAlimentacionSalud5Round(nivel){
   const recurso = 'Una alimentación saludable combina distintos grupos de alimentos porque cada uno aporta algo distinto: las <b>proteínas</b> (carne, huevo, legumbres) ayudan a crecer y reparar el cuerpo, los <b>carbohidratos</b> (pan, arroz, papa) entregan energía para el día a día, y las <b>frutas y verduras</b> aportan vitaminas y minerales. El cigarrillo daña principalmente los pulmones y contiene nicotina, una sustancia que genera adicción. No todos los microorganismos son dañinos: algunos, como las bacterias que transforman la leche en yogur, son beneficiosos y hasta se usan para preparar alimentos.';
+  const optsCount = nivel==='facil' ? 1 : 3;
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(CONSUMO_ALIMENTOS_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correcta].concat(item.opts.slice(0,optsCount))).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -1395,7 +1399,7 @@ export function genAlimentacionSalud5Round(){
   }
   if(roll<0.67){
     const item = pick(CIGARRILLO_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correcta].concat(item.opts.slice(0,optsCount))).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -1437,12 +1441,13 @@ const AHORRO_ENERGIA_BANK = [
   { accion:'Dejar la puerta del refrigerador abierta por mucho rato', ahorra:false },
   { accion:'Aprovechar la luz natural durante el día en vez de encender luces', ahorra:true },
 ];
-export function genElectricidad5Round(){
+export function genElectricidad5Round(nivel){
   const recurso = 'La energía eléctrica se puede <b>transformar</b> en otros tipos de energía: luz y calor en una ampolleta, sonido en un parlante, movimiento en un ventilador. Un <b>circuito eléctrico simple</b> necesita una pila (entrega la energía), cables (conducen la corriente) y un interruptor (abre o cierra el paso de la corriente) para que la electricidad pueda circular. Los materiales <b>conductores</b> (como los metales o el agua con sal) dejan pasar la corriente eléctrica, mientras que los <b>aislantes</b> (como la madera, el plástico o el vidrio) no la dejan pasar — por eso los cables tienen un forro de plástico. Ahorrar energía (apagar luces, desconectar aparatos) cuida tanto el medioambiente como el gasto en la casa.';
+  const optsCount = nivel==='facil' ? 1 : 3;
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(TRANSFORMACION_ELECTRICA_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correcta].concat(item.opts.slice(0,optsCount))).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.objeto+'</p><p class="prompt-hint">¿En qué transforma principalmente la energía eléctrica?</p>',
       options: opts, correctValue: item.correcta, speakText: item.objeto, cols:2, kind:'word', panel:true,
@@ -1451,7 +1456,8 @@ export function genElectricidad5Round(){
   }
   if(roll<0.5){
     const item = pick(CIRCUITO_BANK);
-    const distract = shuffle(CIRCUITO_BANK.filter(function(c){ return c.funcion!==item.funcion; })).map(function(c){ return c.funcion; });
+    const distractAll = shuffle(CIRCUITO_BANK.filter(function(c){ return c.funcion!==item.funcion; })).map(function(c){ return c.funcion; });
+    const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
     const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
     return {
       promptHTML: '<p class="prompt-word">'+item.componente+'</p><p class="prompt-hint">En un circuito eléctrico simple, ¿cuál es la función de esta parte?</p>',
@@ -1495,12 +1501,13 @@ const PROTECCION_AGUA_BANK = [
   { accion:'Verter aceite de cocina por el desagüe hacia los ríos', protege:false },
   { accion:'Cuidar que las fábricas no contaminen los cuerpos de agua', protege:true },
 ];
-export function genAguaTierra5Round(){
+export function genAguaTierra5Round(nivel){
   const recurso = 'Casi toda el agua del planeta está en los océanos, en forma de <b>agua salada</b> — el agua dulce, la que podemos beber, es solo una pequeña parte del total, repartida en ríos, lagos, glaciares y aguas subterráneas. Un <b>océano</b> es una masa de agua salada enorme y profunda con mareas, mientras que un <b>lago</b> suele ser más pequeño, con agua dulce y rodeado de tierra. Como el agua dulce es escasa, cuidarla (no desperdiciarla, no contaminarla con basura o químicos) es fundamental para que siga estando disponible para todos los seres vivos.';
+  const optsCount = nivel==='facil' ? 1 : 3;
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(DISTRIBUCION_AGUA_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correcta].concat(item.opts.slice(0,optsCount))).map(function(o){ return {label:o, value:o}; });
     return {
       promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -1523,6 +1530,13 @@ export function genAguaTierra5Round(){
     options: opts, correctValue: item.protege, speakText: item.accion, cols:2, panel:true,
     explain: item.protege ? 'Sí: esta acción ayuda a proteger los cuerpos de agua.' : 'No: esta acción daña o contamina los cuerpos de agua.', recurso: recurso,
   };
+}
+
+export function genExamenCiencias5Round(){
+  const gens = [genCelulaSistemas5Round, genAlimentacionSalud5Round, genElectricidad5Round, genAguaTierra5Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Ciencias Naturales 6° Básico ----------------

@@ -439,8 +439,9 @@ export function genExamenEdfisica4Round(){
 export const EDFISICA_MODULES_G5 = [
   {id:'vidapostura5', label:'Vida Activa y Postura V', open:true, key:'vidapostura5'},
   {id:'liderazgo5', label:'Liderazgo y Seguridad V', open:true, key:'liderazgo5'},
+  {id:'examenedfisica5', label:'Examen Final', open:true, key:'examenedfisica5'},
 ];
-export const EDFISICA_POS_G5 = [{x:30,y:70},{x:70,y:30}];
+export const EDFISICA_POS_G5 = [{x:24,y:85},{x:70,y:50},{x:24,y:15}];
 
 const INTENSIDAD_ACTIVIDAD_BANK = [
   { actividad:'Caminar tranquilamente hasta la casa de un vecino', intensidad:'Baja' },
@@ -459,13 +460,14 @@ const PLANIFICACION_POSTURA_BANK = [
   { label:'No importa la postura que tengas al estudiar o ver una pantalla', v:false },
   { label:'Medir tu esfuerzo físico con el pulso o con una escala te ayuda a saber qué tan intenso fue el ejercicio', v:true },
 ];
-export function genVidaPostura5Round(){
+export function genVidaPostura5Round(nivel){
   const recurso = 'La <b>intensidad</b> de una actividad física indica cuánto esfuerzo le exige al cuerpo: baja (como caminar tranquilo), moderada (como andar en bicicleta) o alta (como correr rápido) — combinar actividades de distinta intensidad durante la semana ayuda a mantener una vida activa y saludable. Cuidar la <b>postura</b> corporal al sentarse, cargar mochilas o dormir, junto con buenos hábitos de higiene y descanso, previene dolores y problemas físicos a futuro. Planificar cuándo y cómo hacer actividad física regularmente (no solo cuando se recuerda) es clave para mantener estos hábitos en el tiempo.';
   const roll = Math.random();
   if(roll<0.4){
     const item = pick(INTENSIDAD_ACTIVIDAD_BANK);
     const todos = ['Baja','Moderada','Alta'];
-    const distract = todos.filter(function(t){ return t!==item.intensidad; });
+    const distractAll = todos.filter(function(t){ return t!==item.intensidad; });
+    const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
     const opts = shuffle([item.intensidad].concat(distract)).map(function(i){ return {label:'Intensidad '+i, value:i}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.actividad+'.</p><p class="prompt-hint">¿Qué intensidad de esfuerzo físico tiene esta actividad?</p>',
@@ -492,7 +494,7 @@ const LIDERAZGO_SEGURIDAD5_ITEMS = [
   { label:'Aceptar las decisiones del árbitro o profesor, incluso cuando no te gustan, es jugar limpio', v:true },
   { label:'Da lo mismo seguir o no las normas de seguridad si el juego se pone competitivo', v:false },
 ];
-export function genLiderazgo5Round(){
+export function genLiderazgo5Round(nivel){
   const recurso = 'Un buen <b>líder de equipo</b> organiza y motiva a sus compañeros con respeto, escuchando las ideas de todos antes de decidir — no impone su opinión ni ignora a los demás. La <b>seguridad</b> en la actividad física implica revisar que el espacio de juego esté libre de peligros, usar los implementos deportivos de forma responsable, y nunca presionar a un compañero a jugar lesionado. Jugar limpio significa aceptar las decisiones de un árbitro o profesor y seguir las normas de seguridad incluso cuando el juego se pone competitivo.';
   const item = pick(LIDERAZGO_SEGURIDAD5_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
@@ -501,6 +503,13 @@ export function genLiderazgo5Round(){
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
   };
+}
+
+export function genExamenEdfisica5Round(){
+  const gens = [genVidaPostura5Round, genLiderazgo5Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Educación Física y Salud 6° Básico ----------------

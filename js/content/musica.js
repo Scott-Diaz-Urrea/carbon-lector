@@ -320,8 +320,9 @@ export function genExamenMusica4Round(){
    requiere datos verificables sobre obras específicas o es subjetivo). */
 export const MUSICA_MODULES_G5 = [
   {id:'texturamusical5', label:'Texturas y Estructura Musical', open:true, key:'texturamusical5'},
+  {id:'examenmusica5', label:'Examen Final', open:true, key:'examenmusica5'},
 ];
-export const MUSICA_POS_G5 = [{x:50,y:50}];
+export const MUSICA_POS_G5 = [{x:30,y:70},{x:70,y:30}];
 
 const TEXTURA_MUSICAL_BANK = [
   { desc:'Una persona cantando sola, sin ningún acompañamiento musical', tipo:'Monofonía' },
@@ -330,17 +331,22 @@ const TEXTURA_MUSICAL_BANK = [
   { desc:'Una banda donde el cantante lleva la melodía y los demás instrumentos tocan acordes de fondo', tipo:'Homofonía' },
   { desc:'Un coro donde cada grupo de voces va entrando con la misma melodía en momentos distintos, sobreponiéndose entre sí, como en un canon', tipo:'Polifonía' },
   { desc:'Varios instrumentos tocando cada uno su propia melodía independiente, entrelazadas entre sí', tipo:'Polifonía' },
+  { desc:'Un violinista tocando una melodía sin ningún otro instrumento acompañándolo', tipo:'Monofonía' },
+  { desc:'Un cantante llevando la melodía mientras el piano toca acordes que la sostienen por debajo', tipo:'Homofonía' },
 ];
 const PREGUNTA_RESPUESTA_BANK = [
   { desc:'Una frase musical que suena como una "pregunta", seguida de otra frase que la "responde", como una conversación musical', correcta:'Estructura de pregunta-respuesta' },
   { desc:'Un instrumento toca una frase corta y luego otro instrumento le contesta con una frase parecida, como si conversaran', correcta:'Estructura de pregunta-respuesta' },
+  { desc:'Una trompeta toca una frase breve que parece dejar algo pendiente, y enseguida un clarinete responde con otra frase que la completa', correcta:'Estructura de pregunta-respuesta' },
+  { desc:'El coro canta una frase corta y el director la repite con una frase que la contesta, como en un diálogo musical', correcta:'Estructura de pregunta-respuesta' },
 ];
-export function genTexturaMusical5Round(){
+export function genTexturaMusical5Round(nivel){
   const recurso = 'La <b>textura musical</b> describe cómo se combinan las voces o instrumentos que suenan al mismo tiempo: en la <b>monofonía</b> suena una sola melodía sin acompañamiento (como cantar solo), en la <b>homofonía</b> una melodía principal suena acompañada por otras voces que la apoyan, y en la <b>polifonía</b> suenan dos o más melodías independientes al mismo tiempo (como un canon). Otra forma de organizar la música es la estructura de <b>pregunta-respuesta</b>: una frase musical "pregunta" y otra frase la "responde", como una conversación entre instrumentos o voces.';
   if(Math.random()<0.6){
     const item = pick(TEXTURA_MUSICAL_BANK);
     const todos = ['Monofonía','Homofonía','Polifonía'];
-    const distract = todos.filter(function(t){ return t!==item.tipo; });
+    const distractAll = todos.filter(function(t){ return t!==item.tipo; });
+    const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
     const opts = shuffle([item.tipo].concat(distract)).map(function(t){ return {label:t, value:t}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué textura musical describe esta situación?</p>',
@@ -349,12 +355,20 @@ export function genTexturaMusical5Round(){
     };
   }
   const item = pick(PREGUNTA_RESPUESTA_BANK);
-  const opts = shuffle([{label:item.correcta, value:item.correcta},{label:'Forma A-B-A', value:'Forma A-B-A'},{label:'Crescendo', value:'Crescendo'},{label:'Monofonía', value:'Monofonía'}]);
+  const distractOpts = nivel==='facil'
+    ? [{label:'Forma A-B-A', value:'Forma A-B-A'}]
+    : [{label:'Forma A-B-A', value:'Forma A-B-A'},{label:'Crescendo', value:'Crescendo'},{label:'Monofonía', value:'Monofonía'}];
+  const opts = shuffle([{label:item.correcta, value:item.correcta}].concat(distractOpts));
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Cómo se llama esta estructura musical?</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, panel:true,
     explain: 'Esta estructura se llama <b>'+item.correcta+'</b>.', recurso: recurso,
   };
+}
+
+export function genExamenMusica5Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genTexturaMusical5Round(nivel);
 }
 
 /* ---------------- Contenido Música 6° Básico ----------------

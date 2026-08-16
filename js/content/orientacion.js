@@ -543,8 +543,9 @@ export const ORIENTACION_MODULES_G5 = [
   {id:'prevencionsaludable5', label:'Prevención y Vida Saludable', open:true, key:'prevencionsaludable5'},
   {id:'buentrato5', label:'Buen Trato y Resolución de Conflictos V', open:true, key:'buentrato5'},
   {id:'habitosestudio5', label:'Hábitos de Trabajo Escolar V', open:true, key:'habitosestudio5'},
+  {id:'examenorientacion5', label:'Examen Final', open:true, key:'examenorientacion5'},
 ];
-export const ORIENTACION_POS_G5 = [{x:20,y:92},{x:66,y:74},{x:22,y:52},{x:66,y:28},{x:22,y:6}];
+export const ORIENTACION_POS_G5 = [{x:22,y:95},{x:68,y:77},{x:22,y:59},{x:68,y:41},{x:22,y:23},{x:68,y:5}];
 
 const EMOCIONES_IMPACTO5_BANK = [
   { situacion:'Estás muy enojado porque perdiste un juego, y sientes ganas de gritarle a tu compañero de equipo.', correcta:'Reconocer tu enojo, respirar, y expresarlo con calma sin herir a tu compañero', malas:['Gritarle a tu compañero para desahogarte','Culparlo del resultado del juego','Guardarte el enojo y tratarlo mal en silencio'] },
@@ -557,12 +558,14 @@ const EMOCIONES_IMPACTO5_BANK = [
   { situacion:'Sientes admiración por un compañero que logró algo difícil, pero también un poco de envidia.', correcta:'Reconocer ambos sentimientos y felicitar genuinamente a tu compañero', malas:['Ignorar el logro de tu compañero por envidia','Hacer comentarios negativos sobre su logro','Fingir que no te importa cuando sí te importa'] },
   { situacion:'Te sientes aliviado después de resolver un problema, y notas que tu grupo también se relaja.', correcta:'Compartir tu alivio con el grupo y reconocer el esfuerzo de todos', malas:['Atribuirte todo el mérito sin reconocer al grupo','Ignorar cómo se siente el resto del grupo','Minimizar el esfuerzo de tus compañeros'] },
 ];
-export function genManejoEmocional5Round(){
+export function genManejoEmocional5Round(nivel){
   const recurso = 'Identificar una emoción es solo el primer paso: también importa pensar en cómo esa emoción afecta a las personas que te rodean, no solo a ti. Antes de reaccionar por impulso (gritar, pegar, aislarse), ayuda reconocer qué se está sintiendo, respirar, y elegir una forma de expresarlo que no dañe a nadie — por ejemplo, contarle a alguien cómo te sientes en vez de actuar de inmediato. Manejar así las emociones fortalece las relaciones con los demás y ayuda a resolver mejor los conflictos.';
   const item = pick(EMOCIONES_IMPACTO5_BANK);
-  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  const malasPool = nivel==='facil' ? item.malas.slice(0,1) : item.malas;
+  const opts = shuffle([item.correcta].concat(malasPool)).map(function(o){ return {label:o, value:o}; });
+  const textoHTML = nivel==='dificil' ? '<p class="prompt-hint">Escucha 🔊 la situación y responde.</p>' : '<p class="prompt-sentence">'+item.situacion+'</p>';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer, pensando en ti y en los demás?</p>',
+    promptHTML: textoHTML+'<p class="prompt-hint">¿Qué es lo mejor que puedes hacer, pensando en ti y en los demás?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta+'" — así reconoces tu emoción sin dañar a quienes te rodean.', recurso: recurso,
   };
@@ -578,7 +581,7 @@ const AUTOCUIDADO_DIGITAL5_ITEMS = [
   { label:'Pedir permiso a un adulto antes de usar una aplicación o red social nueva es una práctica segura', v:true },
   { label:'Si alguien en internet te pide guardar un secreto incómodo, lo correcto es contárselo a un adulto', v:true },
 ];
-export function genAutocuidadoDigital5Round(){
+export function genAutocuidadoDigital5Round(nivel){
   const recurso = 'Cuidarse en internet significa proteger tu información personal (nombre completo, dirección, teléfono, fotos) y no compartirla con desconocidos, revisar la configuración de privacidad de tus redes sociales, y pedir permiso a un adulto antes de usar aplicaciones nuevas. Si algo te incomoda en internet, o si alguien te pide guardar un secreto que te hace sentir mal, lo correcto siempre es contárselo a un adulto de confianza — mantener una buena comunicación con tu familia sobre lo que haces en línea es la mejor protección.';
   const item = pick(AUTOCUIDADO_DIGITAL5_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
@@ -599,7 +602,7 @@ const PREVENCION_SALUDABLE5_ITEMS = [
   { label:'Saber decir "no" ante una situación que te hace sentir incómodo es una habilidad protectora', v:true },
   { label:'Pedir ayuda a un adulto de confianza cuando algo te preocupa es una buena estrategia de prevención', v:true },
 ];
-export function genPrevencionSaludable5Round(){
+export function genPrevencionSaludable5Round(nivel){
   const recurso = 'Un <b>factor protector</b> es algo que ayuda a una persona a tomar buenas decisiones y a mantenerse alejada de conductas de riesgo: buenos hábitos (dormir bien, hacer deporte), una buena comunicación con la familia, amistades que apoyan y respetan, y saber decir "no" ante una presión que va contra los propios valores. Ocupar el tiempo libre en actividades que gustan (un deporte, un pasatiempo) y pedir ayuda a un adulto de confianza cuando algo preocupa son también estrategias de prevención importantes.';
   const item = pick(PREVENCION_SALUDABLE5_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
@@ -620,12 +623,14 @@ const CONFLICTO_5_BANK = [
   { texto:'Un grupo de trabajo no logra ponerse de acuerdo en cómo repartir las tareas de un proyecto.', correcta:'Proponer repartir las tareas según las fortalezas de cada integrante, dialogando en conjunto', malas:['Repartir las tareas sin preguntarle a nadie','Dejar que una sola persona haga todo el trabajo','Discutir sin llegar a ningún acuerdo'] },
   { texto:'Un compañero comenta en tono de burla el acento o la forma de hablar de un estudiante de otra región.', correcta:'Hacerle notar que eso no está bien y valorar la diversidad de acentos y culturas', malas:['Reírte también para no quedar fuera del grupo','Ignorar el comentario ofensivo','Sumarte a la burla'] },
 ];
-export function genBuenTrato5Round(){
+export function genBuenTrato5Round(nivel){
   const recurso = 'Resolver un conflicto de forma pacífica no significa ignorarlo ni tomar partido sin escuchar: significa reconocer lo que pasó, escuchar a las personas involucradas con empatía, y buscar una solución en conjunto que respete a todos. La <b>solidaridad</b> —defender a alguien que está siendo excluido o molestado, incluir a quien queda fuera de un grupo, o simplemente avisar a un adulto cuando algo no está bien— fortalece la convivencia mucho más que ignorar el problema o sumarse a una burla para no quedar fuera del grupo.';
   const item = pick(CONFLICTO_5_BANK);
-  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  const malasPool = nivel==='facil' ? item.malas.slice(0,1) : item.malas;
+  const opts = shuffle([item.correcta].concat(malasPool)).map(function(o){ return {label:o, value:o}; });
+  const textoHTML = nivel==='dificil' ? '<p class="prompt-hint">Escucha 🔊 la situación y responde.</p>' : '<p class="prompt-sentence">'+item.texto+'</p>';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que se puede hacer en esta situación?</p>',
+    promptHTML: textoHTML+'<p class="prompt-hint">¿Qué es lo mejor que se puede hacer en esta situación?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta+'" — así se resuelve el conflicto con respeto y empatía.', recurso: recurso,
   };
@@ -643,7 +648,7 @@ const HABITOS_ESTUDIO_5_BANK = [
   { label:'Celebrar los avances pequeños hacia una meta ayuda a mantener la motivación', v:true },
   { label:'Comparar constantemente tu progreso con el de otros, en vez de con tus propias metas, es lo más útil', v:false },
 ];
-export function genHabitosEstudio5Round(){
+export function genHabitosEstudio5Round(nivel){
   const recurso = 'Tener buenos <b>hábitos de trabajo escolar</b> empieza por fijarse una meta clara antes de comenzar una tarea, dividir tareas grandes en pasos más pequeños para no sentirse abrumado, y revisar el propio progreso para saber si hace falta ajustar el esfuerzo. Perseverar cuando algo se pone difícil (en vez de abandonar de inmediato), celebrar los avances pequeños, y trabajar en colaboración repartiendo tareas con los compañeros son estrategias que ayudan a lograr mejores resultados que compararse constantemente con el desempeño de otros.';
   const item = pick(HABITOS_ESTUDIO_5_BANK);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
@@ -652,6 +657,13 @@ export function genHabitosEstudio5Round(){
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
   };
+}
+
+export function genExamenOrientacion5Round(){
+  const gens = [genManejoEmocional5Round, genAutocuidadoDigital5Round, genPrevencionSaludable5Round, genBuenTrato5Round, genHabitosEstudio5Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Orientación 6° Básico ----------------

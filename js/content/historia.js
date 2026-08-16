@@ -730,8 +730,9 @@ export const HISTORIA_MODULES_G5 = [
   {id:'colonia5', label:'La Colonia en Chile', open:true, key:'colonia5'},
   {id:'geografiachile5', label:'Geografía de Chile', open:true, key:'geografiachile5'},
   {id:'ciudadania5', label:'Formación Ciudadana V', open:true, key:'ciudadania5'},
+  {id:'examenhistoria5', label:'Examen Final', open:true, key:'examenhistoria5'},
 ];
-export const HISTORIA_POS_G5 = [{x:24,y:88},{x:68,y:64},{x:24,y:38},{x:68,y:12}];
+export const HISTORIA_POS_G5 = [{x:24,y:92},{x:68,y:72},{x:24,y:52},{x:68,y:32},{x:24,y:8}];
 
 const CONQUISTA_AMERICA_BANK = [
   { pregunta:'¿Quién llegó a América en 1492, buscando una nueva ruta hacia Asia?', correcta:'Cristóbal Colón', opts:['Hernando de Magallanes','Pedro de Valdivia','Francisco Pizarro'] },
@@ -777,10 +778,11 @@ const CIUDADANIA5_BANK = [
   { correcta:'Escuchar distintos puntos de vista antes de tomar una decisión en grupo', incorrectas:['Decidir solo sin escuchar a nadie más','Ignorar las opiniones distintas a la propia','Imponer una decisión sin dialogar'] },
 ];
 
-export function genConquista5Round(){
+export function genConquista5Round(nivel){
   const recurso = 'La <b>llegada de los europeos a América</b> (1492, con el viaje de Cristóbal Colón, y más tarde la expedición de Hernando de Magallanes que encontró el paso hacia el océano Pacífico) cambió profundamente el continente y también Europa: se intercambiaron alimentos, animales y enfermedades entre ambos mundos, y muchos pueblos indígenas sufrieron graves consecuencias, incluida la pérdida de territorio, población y formas de vida propias. Este proceso se llama <b>conquista</b>, y en Chile comenzó con la fundación de Santiago por Pedro de Valdivia en 1541.';
   const item = pick(CONQUISTA_AMERICA_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -788,10 +790,11 @@ export function genConquista5Round(){
   };
 }
 
-export function genColonia5Round(){
+export function genColonia5Round(nivel){
   const recurso = 'La <b>Colonia</b> fue el largo período (1541-1810) en que Chile dependió del reino de España, gobernado desde la lejana capital colonial en el Perú. En esta época se formó una sociedad con oficios y costumbres propias, se construyó patrimonio arquitectónico que aún existe, y hubo una relación de conflicto y también de acuerdos de paz (parlamentos) entre los españoles y el pueblo mapuche en la llamada "frontera" del sur del país — un tema histórico complejo que se presenta aquí de forma neutral y factual, sin tomar partido.';
   const item = pick(COLONIA_CHILE_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -799,10 +802,11 @@ export function genColonia5Round(){
   };
 }
 
-export function genGeografiaChile5Round(){
+export function genGeografiaChile5Round(nivel){
   const recurso = 'Chile se organiza en <b>zonas geográficas</b> con paisajes muy distintos de norte a sur (norte grande desértico, zona central de clima templado, zona sur lluviosa, y zonas australes frías) debido a su forma larga y angosta. Cada zona ofrece <b>recursos naturales</b> distintos (minerales en el norte, tierras fértiles en el centro, bosques y agua en el sur) que las personas han aprovechado de formas diferentes. Chile también está expuesto a <b>riesgos naturales</b> como terremotos, tsunamis, erupciones volcánicas e inundaciones, por lo que conocerlos ayuda a estar mejor preparados.';
   const item = pick(GEOGRAFIA_CHILE5_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -810,15 +814,23 @@ export function genGeografiaChile5Round(){
   };
 }
 
-export function genCiudadania5Round(){
+export function genCiudadania5Round(nivel){
   const recurso = 'La <b>formación ciudadana</b> trata sobre cómo vivir bien en comunidad: conocer los derechos y deberes que tenemos, valorar el esfuerzo y el mérito propio, actuar con honestidad, y participar activamente en decisiones que afectan al grupo, como elegir representantes de curso o proponer proyectos escolares. Estas prácticas preparan para participar más adelante en la vida democrática del país, donde las decisiones se toman escuchando a distintas personas y respetando reglas comunes.';
   const item = pick(CIUDADANIA5_BANK);
-  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  const incorrPool = nivel==='facil' ? item.incorrectas.slice(0,1) : item.incorrectas;
+  const opts = shuffle([item.correcta].concat(incorrPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
     explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.', recurso: recurso,
   };
+}
+
+export function genExamenHistoria5Round(){
+  const gens = [genConquista5Round, genColonia5Round, genGeografiaChile5Round, genCiudadania5Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Historia, Geografía y Cs. Sociales 6° Básico ----------------

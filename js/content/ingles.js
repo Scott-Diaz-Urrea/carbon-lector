@@ -29,8 +29,9 @@
 export const INGLES_MODULES_G5 = [
   {id:'vocabularioingles5', label:'Vocabulario Básico', open:true, key:'vocabularioingles5'},
   {id:'lecturasimple5', label:'Lectura Simple', open:true, key:'lecturasimple5'},
+  {id:'exameningles5', label:'Examen Final', open:true, key:'exameningles5'},
 ];
-export const INGLES_POS_G5 = [{x:30,y:70},{x:70,y:30}];
+export const INGLES_POS_G5 = [{x:24,y:85},{x:70,y:50},{x:24,y:15}];
 
 const VOCABULARIO_INGLES_BANK = [
   { emoji:'🐶', english:'Dog' }, { emoji:'🐱', english:'Cat' }, { emoji:'🐦', english:'Bird' },
@@ -40,13 +41,15 @@ const VOCABULARIO_INGLES_BANK = [
   { emoji:'📚', english:'Book' }, { emoji:'✏️', english:'Pencil' }, { emoji:'🎒', english:'Backpack' }, { emoji:'📏', english:'Ruler' },
   { emoji:'🍎', english:'Apple' }, { emoji:'🍌', english:'Banana' }, { emoji:'🍞', english:'Bread' }, { emoji:'🥛', english:'Milk' },
 ];
-export function genVocabularioIngles5Round(){
+export function genVocabularioIngles5Round(nivel){
   const recurso = 'Aprender vocabulario nuevo en inglés es más fácil cuando se asocia directamente una <b>imagen o concepto</b> con la palabra en inglés, sin pasar por la traducción al español cada vez — así como un bebé aprende su primer idioma reconociendo objetos, no memorizando definiciones. Practicar categorías completas (animales, colores, la familia, útiles escolares, comida) ayuda a construir un vocabulario base sólido, que después sirve para formar oraciones simples y leer textos más largos en inglés.';
   const item = pick(VOCABULARIO_INGLES_BANK);
-  const distract = shuffle(VOCABULARIO_INGLES_BANK.filter(function(v){ return v.english!==item.english; })).slice(0,3).map(function(v){ return v.english; });
+  const distractCount = nivel==='facil' ? 1 : 3;
+  const distract = shuffle(VOCABULARIO_INGLES_BANK.filter(function(v){ return v.english!==item.english; })).slice(0,distractCount).map(function(v){ return v.english; });
   const opts = shuffle([item.english].concat(distract)).map(function(e){ return {label:e, value:e}; });
+  const visual = nivel==='dificil' ? '<p class="prompt-hint">Escucha 🔊 y elige la palabra en inglés correcta.</p>' : '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">How do you say this in English? (¿Cómo se dice esto en inglés?)</p>';
   return {
-    promptHTML: '<span class="prompt-emoji">'+item.emoji+'</span><p class="prompt-hint">How do you say this in English? (¿Cómo se dice esto en inglés?)</p>',
+    promptHTML: visual,
     options: opts, correctValue: item.english, speakText: item.english, speakLang:'en', cols:2, kind:'word',
     explain: 'Se dice <b>'+item.english+'</b> en inglés.', recurso: recurso,
   };
@@ -64,15 +67,24 @@ const LECTURA_SIMPLE_BANK = [
   { text:'Leo has two brothers and one sister.', question:'How many sisters does Leo have?', correct:'One', opts:['Two','Three','Zero'] },
   { text:'The sun is bright today, and the sky is blue.', question:'What color is the sky today?', correct:'Blue', opts:['Gray','Black','Green'] },
 ];
-export function genLecturaSimple5Round(){
+export function genLecturaSimple5Round(nivel){
   const recurso = 'Leer en inglés a este nivel no requiere entender cada palabra: se trata de identificar la <b>información explícita</b> que el texto dice directamente (un color, una cantidad, un lugar, el orden de las acciones), apoyándose en las palabras que sí se conocen y en el contexto general de la oración. Buscar palabras clave relacionadas con la pregunta dentro del texto —igual que se haría al leer en español— es la misma estrategia de comprensión lectora, solo que aplicada a otro idioma.';
   const item = pick(LECTURA_SIMPLE_BANK);
-  const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correct].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
+  const textoHTML = nivel==='dificil' ? '<p class="prompt-hint">Listen 🔊 and answer. (Escucha y responde)</p>' : '<p class="prompt-sentence">'+item.text+'</p>';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+    promptHTML: textoHTML+'<p class="prompt-hint">'+item.question+'</p>',
     options: opts, correctValue: item.correct, speakText: item.text, speakLang:'en', cols:2, kind:'word',
     explain: 'The answer is <b>'+item.correct+'</b>.', recurso: recurso,
   };
+}
+
+export function genExamenIngles5Round(){
+  const gens = [genVocabularioIngles5Round, genLecturaSimple5Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Inglés 6° Básico ----------------

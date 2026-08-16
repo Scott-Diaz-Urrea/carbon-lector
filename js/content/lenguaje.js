@@ -790,8 +790,9 @@ export const LENGUAJE_MODULES_G5 = [
   {id:'vocabulario5', label:'Vocabulario y Sinónimos V', open:true, key:'vocabulario5'},
   {id:'gramatica5', label:'Gramática V', open:true, key:'gramatica5'},
   {id:'ortografia5', label:'Ortografía III', open:true, key:'ortografia5'},
+  {id:'examenlengua5', label:'Examen Final', open:true, key:'examenlengua5'},
 ];
-export const LENGUAJE_POS_G5 = [{x:22,y:90},{x:68,y:70},{x:22,y:50},{x:68,y:30},{x:22,y:10}];
+export const LENGUAJE_POS_G5 = [{x:22,y:95},{x:68,y:77},{x:22,y:59},{x:68,y:41},{x:22,y:23},{x:68,y:5}];
 
 const COMPRENSION5_NARRATIVA_BANK = [
   { text:'Cuando Ignacio vio que su hermana menor lloraba porque se le rompió su juguete, le prestó el suyo sin que ella se lo pidiera.', question:'¿Qué opinión podemos formarnos de Ignacio?', correct:'Que es una persona generosa y empática', opts:['Que es una persona egoísta','Que no le importan los demás','Que le gusta romper juguetes'], reason:'Prestar su juguete sin que se lo pidan muestra generosidad y empatía hacia su hermana.' },
@@ -827,40 +828,42 @@ const IDEA_PRINCIPAL_BANK = [
   { parrafo:'Las abejas no solo producen miel: también son esenciales para polinizar las flores de muchas plantas que después se convierten en frutas y verduras que comemos.', correcta:'Las abejas son importantes por la miel y por la polinización', opts:['Las abejas solo sirven para hacer miel','Las plantas no necesitan polinización','Las abejas no tienen relación con los alimentos'] },
 ];
 
-export function genComprension5Round(){
+export function genComprension5Round(nivel){
   const recurso = 'Comprender un texto va más allá de leer las palabras: incluye <b>inferir</b> (deducir información que el texto no dice directamente, usando pistas del relato), evaluar de forma crítica un texto no literario (revisar quién lo escribió, con qué propósito, y si entrega suficiente información para confiar en él), y encontrar la <b>idea principal</b> de un párrafo — la oración que resume de qué se trata todo lo demás. Estas estrategias sirven tanto para cuentos como para noticias, afiches o instrucciones, y son la base para leer con sentido crítico en vez de solo decodificar letras.';
+  const distract = nivel==='facil' ? function(arr){ return arr.slice(0,1); } : function(arr){ return arr; };
+  const textoHTML = function(t){ return nivel==='dificil' ? '<p class="prompt-hint">Escucha 🔊 el texto y responde.</p>' : '<p class="prompt-sentence">'+t+'</p>'; };
   const roll = Math.random();
   if(roll<0.25){
     const item = pick(COMPRENSION5_NARRATIVA_BANK);
-    const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correct].concat(distract(item.opts))).map(function(o){ return {label:o, value:o}; });
     return {
-      promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+      promptHTML: textoHTML(item.text)+'<p class="prompt-hint">'+item.question+'</p>',
       options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
       explain: item.reason, recurso: recurso,
     };
   }
   if(roll<0.5){
     const item = pick(COMPRENSION5_NOLITERARIO_BANK);
-    const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correct].concat(distract(item.opts))).map(function(o){ return {label:o, value:o}; });
     return {
-      promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+      promptHTML: textoHTML(item.text)+'<p class="prompt-hint">'+item.question+'</p>',
       options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
       explain: item.reason, recurso: recurso,
     };
   }
   if(roll<0.75){
     const item = pick(EVALUAR_INFO_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correcta].concat(distract(item.opts))).map(function(o){ return {label:o, value:o}; });
     return {
-      promptHTML: '<p class="prompt-sentence">'+item.escenario+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+      promptHTML: textoHTML(item.escenario)+'<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.escenario, cols:2, panel:true,
       explain: 'La respuesta correcta es: <b>'+item.correcta+'</b>.', recurso: recurso,
     };
   }
   const item = pick(IDEA_PRINCIPAL_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.correcta].concat(distract(item.opts))).map(function(o){ return {label:o, value:o}; });
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.parrafo+'</p><p class="prompt-hint">¿Cuál oración resume mejor la idea principal del párrafo?</p>',
+    promptHTML: textoHTML(item.parrafo)+'<p class="prompt-hint">¿Cuál oración resume mejor la idea principal del párrafo?</p>',
     options: opts, correctValue: item.correcta, speakText: item.parrafo, cols:2, panel:true,
     explain: 'La idea principal es: <b>'+item.correcta+'</b>.', recurso: recurso,
   };
@@ -878,11 +881,12 @@ const RECURSOS_POETICOS_BANK = [
   { verso:'El sonido de las campanas retumbaba dulce en el silencio de la plaza.', recurso:'Apela al oído', explicacion:'Describe un sonido (las campanas) para que el lector casi pueda escucharlo.' },
   { verso:'El sabor agridulce de la fruta madura llenó su boca.', recurso:'Apela al gusto', explicacion:'Describe un sabor (agridulce) para que el lector casi pueda saborearlo.' },
 ];
-export function genRecursosPoeticos5Round(){
+export function genRecursosPoeticos5Round(nivel){
   const recurso = 'Los poemas usan <b>recursos del lenguaje poético</b> para crear imágenes más vivas que una descripción normal. La <b>personificación</b> le da a algo que no es humano (el viento, la luna, el río) una acción o emoción propia de las personas. La <b>comparación</b> une dos ideas usando "como" para resaltar una semejanza ("brillaban como estrellas"). Y "apelar a los sentidos" significa describir algo de forma tan vívida (un olor, un sonido, un sabor) que el lector casi puede sentirlo mientras lee, aunque no esté presente en la escena.';
   const item = pick(RECURSOS_POETICOS_BANK);
   const todos = ['Personificación','Comparación','Apela al olfato','Apela al oído','Apela al gusto'];
-  const distract = shuffle(todos.filter(function(r){ return r!==item.recurso; })).slice(0,3);
+  const distractCount = nivel==='facil' ? 1 : 3;
+  const distract = shuffle(todos.filter(function(r){ return r!==item.recurso; })).slice(0,distractCount);
   const opts = shuffle([item.recurso].concat(distract)).map(function(r){ return {label:r, value:r}; });
   return {
     promptHTML: '<p class="prompt-sentence">"'+item.verso+'"</p><p class="prompt-hint">¿Qué recurso del lenguaje poético se usa en este verso?</p>',
@@ -906,11 +910,12 @@ const MATICES_SINONIMOS_BANK = [
   { oracion:'La noticia de que ganó el premio lo dejó ___.', mejor:'Eufórico', peor:'Medianamente contento', explicacion:'"Eufórico" transmite una alegría intensa, mucho mayor que "medianamente contento" — mejor para una noticia tan buena.' },
   { oracion:'El silencio en la biblioteca era ___.', mejor:'Absoluto', peor:'Bastante notorio', explicacion:'"Absoluto" transmite que no había ningún ruido en lo absoluto, más preciso que "bastante notorio" para describir el silencio de una biblioteca.' },
 ];
-export function genVocabulario5Round(){
+export function genVocabulario5Round(nivel){
   const recurso = 'Muchas palabras se forman a partir de una <b>raíz</b> (una parte fija con un significado propio) que viene del griego o del latín — por ejemplo "bio" significa vida y aparece en biólogo, biografía, biología. Reconocer raíces ayuda a deducir el significado de palabras nuevas sin necesidad de buscarlas en el diccionario. Además, entre dos sinónimos casi siempre hay un <b>matiz</b> de intensidad: "exhausto" transmite mucho más cansancio que "un poco cansado" — elegir la palabra con la intensidad correcta hace que un texto comunique mejor lo que realmente se quiere decir.';
   if(Math.random()<0.5){
     const item = pick(RAICES_AFIJOS_BANK);
-    const distract = shuffle(RAICES_AFIJOS_BANK.filter(function(r){ return r.raiz!==item.raiz; })).slice(0,3).map(function(r){ return r.significadoRaiz; });
+    const distractCount = nivel==='facil' ? 1 : 3;
+    const distract = shuffle(RAICES_AFIJOS_BANK.filter(function(r){ return r.raiz!==item.raiz; })).slice(0,distractCount).map(function(r){ return r.significadoRaiz; });
     const opts = shuffle([item.significadoRaiz].concat(distract)).map(function(s){ return {label:s, value:s}; });
     return {
       promptHTML: '<p class="prompt-word">'+item.palabra+'</p><p class="prompt-hint">Esta palabra contiene la raíz "'+item.raiz.toLowerCase()+'". ¿Qué significa esa raíz?</p>',
@@ -937,12 +942,14 @@ const CONJUGACION_BANK = [
   { texto:'Ahora mismo, el perro ___ (CORRER) por el jardín.', correcto:'Corre', malas:['Corrió','Correrá','Corría'] },
   { texto:'Anoche, ustedes ___ (LEER) un cuento antes de dormir.', correcto:'Leyeron', malas:['Leen','Leerán','Leían'] },
 ];
-export function genGramatica5Round(){
+export function genGramatica5Round(nivel){
   const recurso = 'La <b>conjugación de un verbo</b> cambia según cuándo ocurre la acción (presente, pasado o futuro) y quién la realiza (yo, tú, él/ella, nosotros, ellos). Las pistas como "ayer", "todos los días" o "mañana" indican en qué tiempo hay que conjugar el verbo: "ayer" pide pasado, "todos los días" pide presente, y "mañana" pide futuro. Elegir la conjugación correcta es clave para que una oración tenga sentido y sea gramaticalmente correcta.';
   const item = pick(CONJUGACION_BANK);
-  const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
+  const malas = nivel==='facil' ? item.malas.slice(0,1) : item.malas;
+  const opts = shuffle([item.correcto].concat(malas)).map(function(v){ return {label:v, value:v}; });
+  const textoMostrado = nivel==='dificil' ? item.texto.replace(/\s*\([^)]*\)/,'').replace('___','<span class="blank">___</span>') : item.texto.replace('___','<span class="blank">___</span>');
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Qué forma del verbo completa correctamente la oración?</p>',
+    promptHTML: '<p class="prompt-sentence">'+textoMostrado+'</p><p class="prompt-hint">¿Qué forma del verbo completa correctamente la oración?</p>',
     options: opts, correctValue: item.correcto, speakText: item.texto.replace(/\s*\([^)]*\)/,'').replace('___', item.correcto), cols:4, kind:'word',
     explain: '<b>'+item.correcto+'</b> es la conjugación correcta del verbo para ese momento y esa persona.', recurso: recurso,
   };
@@ -969,6 +976,13 @@ export function genOrtografia5Round(){
     options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
     explain: item.regla, recurso: recurso,
   };
+}
+
+export function genExamenLenguaje5Round(){
+  const gens = [genComprension5Round, genRecursosPoeticos5Round, genVocabulario5Round, genGramatica5Round, genOrtografia5Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Lenguaje 6° Básico ----------------

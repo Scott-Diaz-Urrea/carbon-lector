@@ -1017,8 +1017,9 @@ export const LENGUAJE_MODULES_G6 = [
   {id:'vocabulario6', label:'Vocabulario VI', open:true, key:'vocabulario6'},
   {id:'gramatica6', label:'Gramática VI', open:true, key:'gramatica6'},
   {id:'ortografia6', label:'Ortografía IV', open:true, key:'ortografia6'},
+  {id:'examenlengua6', label:'Examen Final', open:true, key:'examenlengua6'},
 ];
-export const LENGUAJE_POS_G6 = [{x:22,y:90},{x:68,y:70},{x:22,y:50},{x:68,y:30},{x:22,y:10}];
+export const LENGUAJE_POS_G6 = [{x:22,y:95},{x:68,y:77},{x:22,y:59},{x:68,y:41},{x:22,y:23},{x:68,y:5}];
 
 const COMPRENSION6_NARRATIVA_BANK = [
   { text:'Mientras todos los demás excursionistas se quejaban del frío, Elena sonreía y ayudaba a armar las carpas sin que nadie se lo pidiera.', question:'¿Qué opinión podemos formarnos de Elena?', correct:'Que tiene una actitud positiva y colaboradora', opts:['Que le molesta ayudar a los demás','Que no soporta el frío','Que prefiere estar sola'], reason:'Sonreír y ayudar sin que se lo pidan, incluso en una situación incómoda, muestra una actitud positiva y colaboradora.' },
@@ -1053,40 +1054,42 @@ const IDEA_PRINCIPAL6_BANK = [
   { parrafo:'Practicar un instrumento musical desde niño ayuda a desarrollar la disciplina, mejora la coordinación entre manos y mente, y puede fortalecer la memoria a largo plazo.', correcta:'Aprender un instrumento musical desde temprano trae varios beneficios', opts:['Aprender música no tiene ningún beneficio más allá del sonido','Solo sirve para presentarse en conciertos','La coordinación no tiene relación con la música'] },
 ];
 
-export function genComprension6Round(){
+export function genComprension6Round(nivel){
   const recurso = 'Comprender un texto va más allá de leer las palabras: incluye entender lo que el texto sugiere sin decirlo directamente (inferencia), separar lo que es un dato comprobable de lo que es una interpretación (hechos vs. opiniones), notar cuando un mensaje publicitario busca convencer más que informar, y saber resumir el punto central de un párrafo en una sola oración (idea principal). Estas son las mismas herramientas de lectura crítica que se usan para leer noticias, avisos y textos escolares de forma más consciente.';
+  const distract = nivel==='facil' ? function(arr){ return arr.slice(0,1); } : function(arr){ return arr; };
+  const textoHTML = function(t){ return nivel==='dificil' ? '<p class="prompt-hint">Escucha 🔊 el texto y responde.</p>' : '<p class="prompt-sentence">'+t+'</p>'; };
   const roll = Math.random();
   if(roll<0.2){
     const item = pick(COMPRENSION6_NARRATIVA_BANK);
-    const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correct].concat(distract(item.opts))).map(function(o){ return {label:o, value:o}; });
     return {
-      promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+      promptHTML: textoHTML(item.text)+'<p class="prompt-hint">'+item.question+'</p>',
       options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
       explain: item.reason, recurso: recurso,
     };
   }
   if(roll<0.4){
     const item = pick(COMPRENSION6_NOLITERARIO_BANK);
-    const opts = shuffle([item.correct].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correct].concat(distract(item.opts))).map(function(o){ return {label:o, value:o}; });
     return {
-      promptHTML: '<p class="prompt-sentence">'+item.text+'</p><p class="prompt-hint">'+item.question+'</p>',
+      promptHTML: textoHTML(item.text)+'<p class="prompt-hint">'+item.question+'</p>',
       options: opts, correctValue: item.correct, speakText: item.text, cols:2, panel:true,
       explain: item.reason, recurso: recurso,
     };
   }
   if(roll<0.6){
     const item = pick(MENSAJES_PUBLICITARIOS_BANK);
-    const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+    const opts = shuffle([item.correcta].concat(distract(item.opts))).map(function(o){ return {label:o, value:o}; });
     return {
-      promptHTML: '<p class="prompt-sentence">'+item.aviso+'</p><p class="prompt-hint">'+item.pregunta+'</p>',
+      promptHTML: textoHTML(item.aviso)+'<p class="prompt-hint">'+item.pregunta+'</p>',
       options: opts, correctValue: item.correcta, speakText: item.aviso, cols:2, panel:true,
       explain: 'La respuesta correcta es: '+item.correcta+'.', recurso: recurso,
     };
   }
   const item = pick(IDEA_PRINCIPAL6_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.correcta].concat(distract(item.opts))).map(function(o){ return {label:o, value:o}; });
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.parrafo+'</p><p class="prompt-hint">¿Cuál oración resume mejor la idea principal del párrafo?</p>',
+    promptHTML: textoHTML(item.parrafo)+'<p class="prompt-hint">¿Cuál oración resume mejor la idea principal del párrafo?</p>',
     options: opts, correctValue: item.correcta, speakText: item.parrafo, cols:2, panel:true,
     explain: 'La idea principal es: <b>'+item.correcta+'</b>.', recurso: recurso,
   };
@@ -1104,11 +1107,12 @@ const RECURSOS_POETICOS2_BANK = [
   { verso:'El río conversaba en voz baja con las piedras del camino.', recurso:'Personificación', explicacion:'Le da al río la capacidad humana de "conversar", que en realidad no tiene.' },
   { verso:'Sus palabras eran afiladas como cuchillos.', recurso:'Comparación', explicacion:'Usa la palabra "como" para comparar las palabras con cuchillos.' },
 ];
-export function genRecursosPoeticos6Round(){
+export function genRecursosPoeticos6Round(nivel){
   const recurso = 'Los poemas usan recursos del lenguaje para crear efectos e imágenes especiales: la <b>hipérbole</b> exagera algo a propósito para enfatizar ("lloré un océano"); la <b>onomatopeya</b> imita con palabras un sonido real ("tic-tac", "bzzz"); y la <b>aliteración</b> repite un mismo sonido varias veces seguidas para crear un efecto musical ("tres tristes tigres"). Junto a la personificación y la comparación (ya vistas en años anteriores), estos recursos hacen que un texto suene más vívido y expresivo que una descripción simple.';
   const item = pick(RECURSOS_POETICOS2_BANK);
   const todos = ['Personificación','Comparación','Hipérbole','Onomatopeya','Aliteración'];
-  const distract = shuffle(todos.filter(function(r){ return r!==item.recurso; })).slice(0,3);
+  const distractCount = nivel==='facil' ? 1 : 3;
+  const distract = shuffle(todos.filter(function(r){ return r!==item.recurso; })).slice(0,distractCount);
   const opts = shuffle([item.recurso].concat(distract)).map(function(r){ return {label:r, value:r}; });
   return {
     promptHTML: '<p class="prompt-sentence">"'+item.verso+'"</p><p class="prompt-hint">¿Qué recurso del lenguaje poético se usa en este verso?</p>',
@@ -1138,12 +1142,13 @@ const LOCUCIONES_BANK = [
   { locucion:'Poco a poco', significado:'Lentamente y con calma', opts:['De una sola vez y muy rápido','Sin ningún orden','De forma violenta'] },
   { locucion:'De pies a cabeza', significado:'Completamente, de principio a fin', opts:['Solo una pequeña parte','De forma desordenada','Nunca por completo'] },
 ];
-export function genVocabulario6Round(){
+export function genVocabulario6Round(nivel){
   const recurso = 'Un <b>sufijo</b> es una partícula que se agrega al final de una palabra base para cambiar su significado (VELOZ + -DAD = VELOCIDAD, una cualidad). Un <b>hiperónimo</b> es una palabra general que agrupa a otras más específicas (MUEBLE agrupa a SILLA, MESA, CAMA — esas son sus hipónimos). Y una <b>locución</b> es una expresión fija de varias palabras cuyo significado en conjunto no siempre se adivina palabra por palabra (como "de vez en cuando", que significa "a veces"). Reconocer estas piezas del idioma ayuda a entender palabras y expresiones nuevas sin necesidad de memorizarlas una por una.';
+  const distractCount = nivel==='facil' ? 1 : 3;
   const roll = Math.random();
   if(roll<0.34){
     const item = pick(SUFIJOS_BANK);
-    const distract = shuffle(SUFIJOS_BANK.filter(function(s){ return s.sufijo!==item.sufijo; })).slice(0,3).map(function(s){ return s.significadoSufijo; });
+    const distract = shuffle(SUFIJOS_BANK.filter(function(s){ return s.sufijo!==item.sufijo; })).slice(0,distractCount).map(function(s){ return s.significadoSufijo; });
     const opts = shuffle([item.significadoSufijo].concat(distract)).map(function(s){ return {label:s, value:s}; });
     return {
       promptHTML: '<p class="prompt-word">'+item.palabra+'</p><p class="prompt-hint">Esta palabra viene de "'+item.base.toLowerCase()+'" más el sufijo "'+item.sufijo+'". ¿Qué indica ese sufijo?</p>',
@@ -1155,7 +1160,7 @@ export function genVocabulario6Round(){
     const grupo = pick(HIPERONIMOS_GRUPOS);
     const correct = pick(grupo.hiponimos);
     const otros = HIPERONIMOS_GRUPOS.filter(function(g){ return g.hiperonimo!==grupo.hiperonimo; });
-    const distract = shuffle(otros.map(function(g){ return pick(g.hiponimos); }));
+    const distract = shuffle(otros.map(function(g){ return pick(g.hiponimos); })).slice(0,distractCount);
     const opts = shuffle([correct].concat(distract)).map(function(h){ return {label:h, value:h}; });
     return {
       promptHTML: '<p class="prompt-word">'+grupo.hiperonimo+'</p><p class="prompt-hint">¿Cuál de estas palabras es un hipónimo (una palabra más específica) de "'+grupo.hiperonimo.toLowerCase()+'"?</p>',
@@ -1164,7 +1169,7 @@ export function genVocabulario6Round(){
     };
   }
   const item = pick(LOCUCIONES_BANK);
-  const opts = shuffle([item.significado].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const opts = shuffle([item.significado].concat(item.opts.slice(0,distractCount))).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">"'+item.locucion+'"</p><p class="prompt-hint">¿Qué significa esta expresión?</p>',
     options: opts, correctValue: item.significado, speakText: item.locucion, cols:2, panel:true,
@@ -1184,12 +1189,14 @@ const PARTICIPIOS_IRREGULARES_BANK = [
   { texto:'La nieve ha ___ (CUBRIR) todo el jardín esta mañana.', correcto:'Cubierto', malas:['Cubrido','Cubriendo','Cubre'] },
   { texto:'Mi hermana ya ha ___ (VOLVER) de su viaje.', correcto:'Vuelto', malas:['Volvido','Volviendo','Vuelve'] },
 ];
-export function genGramatica6Round(){
+export function genGramatica6Round(nivel){
   const recurso = 'El <b>participio</b> es la forma del verbo que se usa después de "he", "has", "ha"... (como en "he comido"). La mayoría de los participios son regulares y terminan en "-ado" o "-ido" (comido, hablado), pero algunos verbos tienen un <b>participio irregular</b> que no sigue esa regla — como ROTO (de romper), ESCRITO (de escribir) o HECHO (de hacer). Estos participios irregulares no se pueden deducir con una fórmula: hay que aprenderlos de memoria, uno por uno, porque son excepciones fijas del idioma.';
   const item = pick(PARTICIPIOS_IRREGULARES_BANK);
-  const opts = shuffle([item.correcto].concat(item.malas)).map(function(v){ return {label:v, value:v}; });
+  const malas = nivel==='facil' ? item.malas.slice(0,1) : item.malas;
+  const opts = shuffle([item.correcto].concat(malas)).map(function(v){ return {label:v, value:v}; });
+  const textoMostrado = nivel==='dificil' ? item.texto.replace(/\s*\([^)]*\)/,'').replace('___','<span class="blank">___</span>') : item.texto.replace('___','<span class="blank">___</span>');
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.texto.replace('___','<span class="blank">___</span>')+'</p><p class="prompt-hint">¿Cuál es el participio correcto de ese verbo?</p>',
+    promptHTML: '<p class="prompt-sentence">'+textoMostrado+'</p><p class="prompt-hint">¿Cuál es el participio correcto de ese verbo?</p>',
     options: opts, correctValue: item.correcto, speakText: item.texto.replace(/\s*\([^)]*\)/,'').replace('___', item.correcto), cols:4, kind:'word',
     explain: '<b>'+item.correcto+'</b> es el participio irregular correcto — no sigue la terminación regular "-ado/-ido".', recurso: recurso,
   };
@@ -1205,7 +1212,7 @@ const TILDE_DIACRITICA_BANK = [
   { incorrecta:'Tu hermano trajo el te para ti.', correcta:'Tu hermano trajo el té para ti.', regla:'"Té" (la bebida) lleva tilde para diferenciarse de "te" (pronombre, como en "te lo traigo").' },
   { incorrecta:'El me dijo que si vendría.', correcta:'Él me dijo que sí vendría.', regla:'"Él" (pronombre) y "sí" (afirmación) llevan tilde, a diferencia de "el" (artículo) y "si" (condicional).' },
 ];
-export function genOrtografia6Round(){
+export function genOrtografia6Round(nivel){
   const recurso = 'La <b>tilde diacrítica</b> es una tilde que no marca la sílaba más fuerte, sino que sirve para distinguir dos palabras que se escriben igual pero significan cosas distintas — como "él" (la persona) y "el" (el artículo), o "sé" (yo sé) y "se" (él se fue), o "tú" (pronombre) y "tu" (posesivo, "tu casa"). Sin esa tilde, dos palabras completamente diferentes se verían idénticas por escrito, así que la tilde diacrítica cumple un rol clave para que el significado de la oración quede claro.';
   const item = pick(TILDE_DIACRITICA_BANK);
   const opts = shuffle([{label:item.correcta, value:'correcta'},{label:item.incorrecta, value:'incorrecta'}]);
@@ -1214,6 +1221,13 @@ export function genOrtografia6Round(){
     options: opts, correctValue: 'correcta', speakText: '¿Cuál oración está bien escrita?', cols:2, panel:true,
     explain: item.regla, recurso: recurso,
   };
+}
+
+export function genExamenLenguaje6Round(){
+  const gens = [genComprension6Round, genRecursosPoeticos6Round, genVocabulario6Round, genGramatica6Round, genOrtografia6Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Lengua y Literatura 7° Básico ----------------

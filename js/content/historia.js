@@ -883,8 +883,9 @@ export const HISTORIA_MODULES_G6 = [
   {id:'sigloxx6', label:'Chile en el Siglo XX', open:true, key:'sigloxx6'},
   {id:'geografiachile6', label:'Geografía de Chile VI', open:true, key:'geografiachile6'},
   {id:'ciudadania6', label:'Formación Ciudadana VI', open:true, key:'ciudadania6'},
+  {id:'examenhistoria6', label:'Examen Final', open:true, key:'examenhistoria6'},
 ];
-export const HISTORIA_POS_G6 = [{x:22,y:92},{x:68,y:76},{x:22,y:58},{x:68,y:42},{x:22,y:24},{x:68,y:6}];
+export const HISTORIA_POS_G6 = [{x:20,y:95},{x:64,y:82},{x:24,y:68},{x:66,y:54},{x:22,y:40},{x:66,y:22},{x:22,y:6}];
 
 const INDEPENDENCIA_BANK = [
   { pregunta:'¿En qué fecha se formó la Primera Junta Nacional de Gobierno, dando inicio al proceso de independencia de Chile?', correcta:'El 18 de septiembre de 1810', opts:['El 12 de febrero de 1818','El 5 de abril de 1817','El 1 de enero de 1900'] },
@@ -961,10 +962,11 @@ const CIUDADANIA6_BANK = [
   { correcta:'Si los derechos de una persona no son respetados, existen formas de protegerla, como acudir a un adulto responsable o a una institución', incorrectas:['Si no se respetan tus derechos, no existe ninguna forma de protegerte','Es mejor no hacer nada si no se respetan tus derechos','Solo los adultos pueden tener sus derechos protegidos'] },
 ];
 
-export function genIndependencia6Round(){
+export function genIndependencia6Round(nivel){
   const recurso = 'La <b>independencia de Chile</b> fue un proceso de varios años, no un solo hecho: comenzó el 18 de septiembre de 1810 con la Primera Junta Nacional de Gobierno, pasó por la Reconquista española (1814-1817) tras la derrota patriota en Rancagua, y se consolidó cuando el Ejército Libertador —liderado por Bernardo O\'Higgins— cruzó la cordillera de los Andes en 1817 y venció en Chacabuco y, definitivamente, en Maipú (1818). El objetivo de fondo de los criollos americanos era gobernarse a sí mismos, sin depender de una potencia europea.';
   const item = pick(INDEPENDENCIA_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -972,7 +974,7 @@ export function genIndependencia6Round(){
   };
 }
 
-export function genRepublica6Round(){
+export function genRepublica6Round(nivel){
   const recurso = 'La <b>Constitución de 1833</b> organizó el nuevo Estado chileno con un gobierno presidencialista (un Presidente con amplias atribuciones), y ese marco institucional se mantuvo por décadas. Durante el siglo XIX, Chile vivió avances importantes: se fundaron escuelas y liceos que ampliaron el acceso a la educación, y el <b>ferrocarril</b> transformó el transporte de personas y mercancías entre ciudades. El derecho a votar, en cambio, era mucho más restringido que hoy: solo un pequeño grupo de hombres podía votar, algo que fue cambiando recién con el paso del tiempo.';
   const item = pick(REPUBLICA_SIGLO19_BANK);
   if(item.afirmacion){
@@ -983,7 +985,8 @@ export function genRepublica6Round(){
       explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
     };
   }
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -991,10 +994,11 @@ export function genRepublica6Round(){
   };
 }
 
-export function genSalitre6Round(){
+export function genSalitre6Round(nivel){
   const recurso = 'La <b>Guerra del Pacífico</b> (1879-1883) enfrentó a Chile contra Perú y Bolivia, y como resultado Chile incorporó territorios del actual norte del país (como Antofagasta y Tarapacá), ricos en <b>salitre</b> — un mineral usado principalmente como fertilizante, que impulsó una gran expansión económica. Sin embargo, los trabajadores de las oficinas salitreras vivían condiciones laborales muy difíciles, lo que dio origen a la llamada "<b>cuestión social</b>": los primeros movimientos obreros que buscaban mejorar esas condiciones de vida y trabajo.';
   const item = pick(SALITRE_EXPANSION_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -1002,10 +1006,11 @@ export function genSalitre6Round(){
   };
 }
 
-export function genSigloxx6Round(){
+export function genSigloxx6Round(nivel){
   const recurso = 'Durante el siglo XX, el derecho a votar en Chile se fue extendiendo a más personas: en 1935 las mujeres pudieron votar por primera vez en elecciones municipales, y en 1949 una ley les dio también el derecho a votar en elecciones presidenciales y parlamentarias (ejercido por primera vez en la elección de 1952). Más adelante, el país vivió hitos que marcan su historia reciente como línea de tiempo: el 11 de septiembre de 1973, el 5 de octubre de 1988 (el plebiscito) y el 11 de marzo de 1990, cuando Patricio Aylwin asumió como el primer Presidente elegido democráticamente tras ese período.';
   const item = pick(SIGLOXX_DEMOCRATIZACION_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, kind:'word',
@@ -1013,10 +1018,11 @@ export function genSigloxx6Round(){
   };
 }
 
-export function genGeografiaChile6Round(){
+export function genGeografiaChile6Round(nivel){
   const recurso = 'Chile es un país <b>tricontinental</b>: tiene territorio en América, Oceanía (Isla de Pascua) y la Antártica. Su forma larga y angosta le da ambientes naturales muy distintos: desierto en el norte (con el desafío real de la escasez de agua), clima mediterráneo en la Zona Central, y bosques templados en el sur. Por estar sobre el borde de placas tectónicas, Chile también es un país sísmico —el terremoto de Valdivia de 1960 es el mayor registrado en la historia—, lo que obliga a construir edificios preparados para resistir movimientos telúricos.';
   const item = pick(GEOGRAFIA_CHILE6_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -1024,11 +1030,12 @@ export function genGeografiaChile6Round(){
   };
 }
 
-export function genCiudadania6Round(){
+export function genCiudadania6Round(nivel){
   const recurso = 'El Estado de Chile se organiza en tres poderes: el <b>Poder Ejecutivo</b> (el Presidente y sus ministros, que gobiernan y administran el país), el <b>Poder Legislativo</b> (el Congreso Nacional, que crea y aprueba las leyes) y el <b>Poder Judicial</b> (los tribunales, que aplican la ley y resuelven conflictos). La <b>Constitución Política</b> establece cómo se organiza este gobierno y protege los derechos de las personas — y todo derecho también trae deberes: participar responsablemente en el curso, respetar las reglas y proponer proyectos que beneficien a la comunidad son formas concretas de buena ciudadanía.';
   if(Math.random()<0.4){
     const item = pick(PODERES_ESTADO_BANK);
-    const distract = shuffle(PODERES_ESTADO_BANK.filter(function(p){ return p.poder!==item.poder; })).map(function(p){ return p.funcion; });
+    const distractAll = shuffle(PODERES_ESTADO_BANK.filter(function(p){ return p.poder!==item.poder; })).map(function(p){ return p.funcion; });
+    const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
     const opts = shuffle([item.funcion].concat(distract)).map(function(f){ return {label:f, value:f}; });
     return {
       promptHTML: '<p class="prompt-word">'+item.poder+'</p><p class="prompt-hint">¿Cuál es la función de este poder del Estado?</p>',
@@ -1037,12 +1044,20 @@ export function genCiudadania6Round(){
     };
   }
   const item = pick(CIUDADANIA6_BANK);
-  const opts = shuffle([item.correcta].concat(item.incorrectas)).map(function(o){ return {label:o, value:o}; });
+  const incorrPool = nivel==='facil' ? item.incorrectas.slice(0,1) : item.incorrectas;
+  const opts = shuffle([item.correcta].concat(incorrPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">¿Cuál de estas es una buena práctica de formación ciudadana?</p>',
     options: opts, correctValue: item.correcta, speakText: '¿Cuál de estas es una buena práctica de formación ciudadana?', cols:2, panel:true,
     explain: '"'+item.correcta+'" es un buen ejemplo de formación ciudadana.', recurso: recurso,
   };
+}
+
+export function genExamenHistoria6Round(){
+  const gens = [genIndependencia6Round, genRepublica6Round, genSalitre6Round, genSigloxx6Round, genGeografiaChile6Round, genCiudadania6Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Historia, Geografía y Cs. Sociales 7° Básico ----------------

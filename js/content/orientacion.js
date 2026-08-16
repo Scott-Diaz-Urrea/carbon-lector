@@ -686,8 +686,9 @@ export const ORIENTACION_MODULES_G6 = [
   {id:'prevencion6', label:'Prevención VI', open:true, key:'prevencion6'},
   {id:'buentrato6', label:'Buen Trato y Resolución de Conflictos VI', open:true, key:'buentrato6'},
   {id:'habitosestudio6', label:'Hábitos de Trabajo Escolar VI', open:true, key:'habitosestudio6'},
+  {id:'examenorientacion6', label:'Examen Final', open:true, key:'examenorientacion6'},
 ];
-export const ORIENTACION_POS_G6 = [{x:20,y:92},{x:66,y:74},{x:22,y:52},{x:66,y:28},{x:22,y:6}];
+export const ORIENTACION_POS_G6 = [{x:22,y:95},{x:68,y:77},{x:22,y:59},{x:68,y:41},{x:22,y:23},{x:68,y:5}];
 
 const EMOCIONES_6_BANK = [
   { situacion:'Sientes decepción porque no quedaste seleccionado en un equipo, y notas que otro compañero tampoco quedó y se ve muy triste.', correcta:'Reconocer tu propia decepción y apoyar a tu compañero que se siente igual', malas:['Burlarte de tu compañero por no quedar seleccionado','Ignorar tu decepción hasta explotar después','Culpar al entrenador sin ninguna razón'] },
@@ -700,12 +701,14 @@ const EMOCIONES_6_BANK = [
   { situacion:'Sientes miedo escénico antes de participar en una obra de teatro escolar, y notas que otro compañero también está nervioso.', correcta:'Reconocer el miedo, apoyar a tu compañero, y recordar que ambos se están preparando', malas:['Burlarte del nerviosismo de tu compañero','Abandonar la obra sin avisar a nadie','Fingir que no sientes nada de miedo'] },
   { situacion:'Sientes tristeza porque te mudaste de colegio y extrañas a tus antiguos amigos.', correcta:'Reconocer la tristeza y buscar formas de mantener el contacto, mientras conoces gente nueva', malas:['Negarte a hacer nuevos amigos por lealtad a los anteriores','Ocultar por completo tu tristeza sin hablarlo con nadie','Culpar a tu familia por la mudanza'] },
 ];
-export function genManejoEmocional6Round(){
+export function genManejoEmocional6Round(nivel){
   const recurso = 'Manejar bien una emoción no significa esconderla, sino <b>reconocerla y actuar con respeto</b> a partir de ella. Muchas situaciones difíciles se complican cuando además hay que considerar cómo se siente otra persona al mismo tiempo —por ejemplo, sentir alegría propia mientras un amigo pasa por un mal momento—, y ahí es clave equilibrar la propia emoción con empatía hacia el otro, en vez de ignorar cualquiera de las dos partes.';
   const item = pick(EMOCIONES_6_BANK);
-  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  const malasPool = nivel==='facil' ? item.malas.slice(0,1) : item.malas;
+  const opts = shuffle([item.correcta].concat(malasPool)).map(function(o){ return {label:o, value:o}; });
+  const textoHTML = nivel==='dificil' ? '<p class="prompt-hint">Escucha 🔊 la situación y responde.</p>' : '<p class="prompt-sentence">'+item.situacion+'</p>';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.situacion+'</p><p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
+    promptHTML: textoHTML+'<p class="prompt-hint">¿Qué es lo mejor que puedes hacer?</p>',
     options: opts, correctValue: item.correcta, speakText: item.situacion, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta+'" — así manejas la emoción con respeto hacia ti y hacia otros.', recurso: recurso,
   };
@@ -722,7 +725,7 @@ const AUTOCUIDADO_DIGITAL6_ITEMS = [
   { label:'Usar la misma contraseña simple para todas tus cuentas en internet es una práctica segura', v:false },
   { label:'Revisar quién puede ver tus publicaciones antes de compartir algo en redes sociales es una buena práctica', v:true },
 ];
-export function genAutocuidadoDigital6Round(){
+export function genAutocuidadoDigital6Round(nivel){
   const recurso = 'Cuidarse en internet significa pensar antes de compartir: quién podría ver una foto o un dato personal, y qué consecuencias podría tener eso. Prácticas concretas como revisar los permisos de una aplicación con un adulto, bloquear o reportar a quien te molesta, y usar contraseñas distintas y seguras para cada cuenta, protegen tu información e intimidad. Y si algo incómodo pasa en línea, hablarlo con la familia siempre ayuda a resolverlo mejor que guardarlo en secreto.';
   const item = pick(AUTOCUIDADO_DIGITAL6_ITEMS);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
@@ -744,10 +747,11 @@ const PREVENCION_6_BANK = [
   { pregunta:'¿Por qué el cuerpo de un niño o adolescente es especialmente vulnerable a los efectos de las drogas?', correcta:'Porque su cuerpo y cerebro todavía están en desarrollo', opts:['Porque los niños son más fuertes que los adultos','Porque no les afecta en nada','Porque su cuerpo ya terminó de desarrollarse'] },
   { pregunta:'¿Cuál de estas es una señal de que alguien podría necesitar ayuda con un problema de consumo de sustancias?', correcta:'Cambios bruscos de ánimo y alejamiento de sus seres queridos', opts:['Sacar siempre buenas notas','Dormir las horas recomendadas','Practicar deporte regularmente'] },
 ];
-export function genPrevencion6Round(){
+export function genPrevencion6Round(nivel){
   const recurso = 'El cuerpo de un niño o adolescente todavía está en desarrollo, por lo que es especialmente vulnerable a sustancias como el tabaco, el alcohol o la marihuana, que dañan órganos concretos y pueden afectar la memoria y la concentración. Un <b>factor protector</b> es algo que ayuda a tomar decisiones saludables —como el deporte, buenas amistades o una comunicación abierta con la familia—, y saber rechazar con seguridad una oferta de estas sustancias es una habilidad real de autocuidado, no solo una regla que hay que seguir.';
   const item = pick(PREVENCION_6_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
@@ -765,12 +769,14 @@ const CONFLICTO_6_BANK = [
   { texto:'Un grupo de amigos deja de invitar a alguien a sus juntas sin darle ninguna explicación.', correcta:'Preguntar qué pasó y buscar una conversación honesta con la persona excluida', malas:['Seguir excluyéndola sin explicación','Hablar mal de ella para justificar la exclusión','Ignorar cómo se siente'] },
   { texto:'Un estudiante comparte contenido ofensivo sobre otro compañero en un grupo de mensajería del curso.', correcta:'No reenviarlo, pedir que se elimine, y avisar a un adulto responsable', malas:['Reenviarlo a otros grupos','Agregar más comentarios ofensivos','Guardarlo para compartirlo después'] },
 ];
-export function genBuenTrato6Round(){
+export function genBuenTrato6Round(nivel){
   const recurso = 'Resolver un conflicto de forma sana casi siempre implica los mismos pasos: no sumarse a una burla o rumor, hablar directamente con la persona involucrada en vez de excluirla en silencio, y pedir ayuda a un adulto cuando la situación lo requiere (como cuando se comparte información privada o contenido ofensivo sobre alguien). Estas mismas habilidades aplican tanto a conflictos presenciales como a los que ocurren en redes sociales o chats grupales.';
   const item = pick(CONFLICTO_6_BANK);
-  const opts = shuffle([item.correcta].concat(item.malas)).map(function(o){ return {label:o, value:o}; });
+  const malasPool = nivel==='facil' ? item.malas.slice(0,1) : item.malas;
+  const opts = shuffle([item.correcta].concat(malasPool)).map(function(o){ return {label:o, value:o}; });
+  const textoHTML = nivel==='dificil' ? '<p class="prompt-hint">Escucha 🔊 la situación y responde.</p>' : '<p class="prompt-sentence">'+item.texto+'</p>';
   return {
-    promptHTML: '<p class="prompt-sentence">'+item.texto+'</p><p class="prompt-hint">¿Qué es lo mejor que se puede hacer en esta situación?</p>',
+    promptHTML: textoHTML+'<p class="prompt-hint">¿Qué es lo mejor que se puede hacer en esta situación?</p>',
     options: opts, correctValue: item.correcta, speakText: item.texto, cols:2, panel:true,
     explain: 'Lo mejor es "'+item.correcta+'" — así se resuelve el conflicto con respeto.', recurso: recurso,
   };
@@ -788,7 +794,7 @@ const HABITOS_ESTUDIO_6_BANK = [
   { label:'Ignorar los comentarios del profesor sobre tus pruebas es la mejor forma de aprender', v:false },
   { label:'Tomar pequeños descansos durante una sesión larga de estudio ayuda a mantener la concentración', v:true },
 ];
-export function genHabitosEstudio6Round(){
+export function genHabitosEstudio6Round(nivel){
   const recurso = 'Estudiar de forma efectiva no depende solo de "esforzarse más", sino de buenos hábitos concretos: organizarse con anticipación revisando el calendario de pruebas, estudiar en un lugar tranquilo, repasar varios días antes en vez de dejarlo todo para la noche anterior, tomar pequeños descansos, y pedir ayuda cuando algo no se entiende. Fijarse metas realistas para cada sesión de estudio también ayuda a mantener la motivación en el tiempo.';
   const item = pick(HABITOS_ESTUDIO_6_BANK);
   const opts = shuffle([{label:'Verdadero', value:true},{label:'Falso', value:false}]);
@@ -797,6 +803,13 @@ export function genHabitosEstudio6Round(){
     options: opts, correctValue: item.v, speakText: item.label, cols:2, panel:true,
     explain: item.v ? 'Esa afirmación es <b>verdadera</b>.' : 'Esa afirmación es <b>falsa</b>.', recurso: recurso,
   };
+}
+
+export function genExamenOrientacion6Round(){
+  const gens = [genManejoEmocional6Round, genAutocuidadoDigital6Round, genPrevencion6Round, genBuenTrato6Round, genHabitosEstudio6Round];
+  const gen = pick(gens);
+  const nivel = pick(['facil','normal','dificil']);
+  return gen(nivel);
 }
 
 /* ---------------- Contenido Orientación 7° Básico ----------------

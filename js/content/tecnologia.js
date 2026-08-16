@@ -280,8 +280,9 @@ export function genExamenTecnologia5Round(){
    elaborar/evaluar un objeto o servicio tecnológico propio). */
 export const TECNOLOGIA_MODULES_G6 = [
   {id:'tecdigital6', label:'Tecnología Digital VI', open:true, key:'tecdigital6'},
+  {id:'examentecnologia6', label:'Examen Final', open:true, key:'examentecnologia6'},
 ];
-export const TECNOLOGIA_POS_G6 = [{x:48,y:50}];
+export const TECNOLOGIA_POS_G6 = [{x:30,y:70},{x:70,y:30}];
 
 const TEC_DIGITAL_6_BANK = [
   { pregunta:'Antes de entregar un trabajo escrito, ¿qué es importante revisar además de la ortografía?', correcta:'Que las ideas estén ordenadas y sean fáciles de entender', opts:['Que tenga la mayor cantidad de colores posible','Que sea lo más largo posible sin importar el contenido','No es necesario revisar nada más'] },
@@ -293,16 +294,25 @@ const TEC_DIGITAL_6_BANK = [
   { pregunta:'¿Qué es recomendable hacer antes de reutilizar una imagen de internet en un trabajo que vas a publicar?', correcta:'Verificar que se pueda usar libremente o dar el crédito correspondiente', opts:['Usarla sin revisar nada','Cambiarle el nombre al archivo solamente','Publicarla como si fuera propia sin ningún crédito'] },
   { pregunta:'¿Qué opción de un software de organización de ideas ayuda a comunicar los resultados de una investigación con claridad?', correcta:'Ordenar la información con títulos, gráficos e imágenes relevantes', opts:['Escribir todo en un solo párrafo sin ningún orden','Usar solo texto sin ningún elemento visual','Copiar la información sin organizarla'] },
   { pregunta:'¿Qué deberías hacer si vas a publicar los resultados de una encuesta que hiciste con tus compañeros?', correcta:'Mostrar los datos de forma clara y honesta, sin inventar resultados', opts:['Inventar resultados para que se vean mejor','Publicar solo los resultados que te convienen','No es necesario mostrar los datos reales'] },
+  { pregunta:'¿Qué deberías hacer si un compañero de grupo no está de acuerdo con publicar el trabajo todavía?', correcta:'Conversarlo y esperar a llegar a un acuerdo antes de publicar', opts:['Publicarlo de todas formas sin avisarle','Eliminar a ese compañero del trabajo','Ignorar su opinión por completo'] },
+  { pregunta:'¿Por qué es importante citar la fuente de donde se obtuvo un dato o una imagen antes de publicarlo?', correcta:'Para dar crédito a quien corresponde y evitar presentar el trabajo de otros como propio', opts:['No es necesario citar ninguna fuente','Porque así el trabajo se ve más largo','Porque las fuentes nunca importan en un trabajo digital'] },
+  { pregunta:'¿Qué deberías revisar en un documento antes de compartirlo con una audiencia amplia, como todo el colegio?', correcta:'Que el lenguaje y el contenido sean apropiados para esa audiencia', opts:['Que tenga la mayor cantidad de imágenes posible','Que sea escrito en el idioma menos conocido','No es necesario revisar nada distinto'] },
 ];
-export function genTecDigital6Round(){
+export function genTecDigital6Round(nivel){
   const recurso = 'Antes de compartir un documento o publicar información en línea, hay dos pasos clave: <b>revisar</b> (que las ideas estén ordenadas, que la información sea correcta, que todos los integrantes de un trabajo grupal estén de acuerdo) y <b>publicar de forma responsable</b> (compartir contenido verificado y respetuoso, pensando en quién lo va a ver, y dando crédito si se reutiliza el trabajo de otra persona). Herramientas como el control de cambios o los comentarios en un documento colaborativo existen justamente para que varias personas puedan revisar y mejorar un mismo trabajo antes de compartirlo.';
   const item = pick(TEC_DIGITAL_6_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.pregunta, cols:2, panel:true,
     explain: 'La respuesta correcta es "'+item.correcta+'".', recurso: recurso,
   };
+}
+
+export function genExamenTecnologia6Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genTecDigital6Round(nivel);
 }
 
 /* ---------------- Contenido Tecnología 7° Básico ----------------

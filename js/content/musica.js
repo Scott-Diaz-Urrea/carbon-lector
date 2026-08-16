@@ -389,25 +389,35 @@ export function genExamenMusica5Round(){
    específico, autoevaluación). */
 export const MUSICA_MODULES_G6 = [
   {id:'melodiavariaciones6', label:'Melodía: Diseños y Variaciones', open:true, key:'melodiavariaciones6'},
+  {id:'examenmusica6', label:'Examen Final', open:true, key:'examenmusica6'},
 ];
-export const MUSICA_POS_G6 = [{x:50,y:50}];
+export const MUSICA_POS_G6 = [{x:30,y:70},{x:70,y:30}];
 
 const REITERACION_CONTRASTE_BANK = [
   { desc:'Una canción repite exactamente la misma frase musical dos veces seguidas', tipo:'Reiteración' },
   { desc:'Una canción toca una frase suave y calmada, y luego una frase completamente distinta, fuerte y agitada', tipo:'Contraste' },
   { desc:'Un coro canta la misma melodía una y otra vez a lo largo de toda la canción, sin cambiar nada', tipo:'Reiteración' },
   { desc:'Una pieza musical pasa de una sección lenta y triste a una sección rápida y alegre, muy diferente a la anterior', tipo:'Contraste' },
+  { desc:'Un estribillo vuelve a sonar exactamente igual cada vez que se repite a lo largo de la canción', tipo:'Reiteración' },
+  { desc:'Una melodía tocada por un violín solo es seguida de inmediato por toda la orquesta tocando fuerte, muy distinto a lo anterior', tipo:'Contraste' },
+  { desc:'Un tambor repite el mismo golpe rítmico una y otra vez durante toda la pieza, sin cambiar en ningún momento', tipo:'Reiteración' },
+  { desc:'Una parte de la canción suena en un tono mayor alegre, y la siguiente cambia bruscamente a un tono menor triste', tipo:'Contraste' },
 ];
 const DISENO_MELODICO_BANK = [
   { desc:'Una melodía que va subiendo de tono, nota por nota, de más grave a más aguda', diseno:'Ascendente' },
   { desc:'Una melodía que va bajando de tono, nota por nota, de más aguda a más grave', diseno:'Descendente' },
   { desc:'Una melodía que sube y baja de tono varias veces, como las olas del mar', diseno:'Ondulante' },
+  { desc:'Una escala musical tocada desde la nota más grave hasta la más aguda, sin bajar en ningún momento', diseno:'Ascendente' },
+  { desc:'Una melodía que empieza en un tono muy agudo y va bajando poco a poco hasta terminar en un tono grave', diseno:'Descendente' },
+  { desc:'Una melodía que se mueve como una serpiente, subiendo y bajando de tono de forma continua', diseno:'Ondulante' },
 ];
 const VARIACION_BANK = [
   { desc:'Una canción presenta su melodía principal, y luego la repite pero un poco más rápido y con un instrumento distinto', pregunta:'¿Cómo se llama a repetir una idea musical con algunos cambios, en vez de repetirla exactamente igual?', correcta:'Variación', opts:['Silencio','Pausa','Acorde'] },
   { desc:'Un compositor toma un tema musical simple y lo repite varias veces, cada vez con un ritmo o una dinámica distinta', pregunta:'¿Cómo se llama a esta técnica de repetir un tema con cambios?', correcta:'Variación', opts:['Silencio','Pausa','Acorde'] },
+  { desc:'Una melodía conocida vuelve a sonar más adelante en la pieza, pero esta vez más suave y en un tono distinto', pregunta:'¿Cómo se llama repetir una melodía cambiando su dinámica o su tono?', correcta:'Variación', opts:['Silencio','Pausa','Acorde'] },
+  { desc:'Un tema musical se presenta al inicio de la obra y reaparece cerca del final, esta vez tocado por otro grupo de instrumentos', pregunta:'¿Cómo se llama a esta forma de reutilizar un tema con cambios?', correcta:'Variación', opts:['Silencio','Pausa','Acorde'] },
 ];
-export function genMelodiaVariaciones6Round(){
+export function genMelodiaVariaciones6Round(nivel){
   const recurso = 'Una melodía se construye repitiendo o cambiando frases musicales: la <b>reiteración</b> repite exactamente la misma frase, mientras que el <b>contraste</b> presenta una frase muy distinta (por ejemplo, pasar de algo suave a algo fuerte). El <b>diseño melódico</b> describe la forma que dibuja una melodía al moverse: ascendente (sube), descendente (baja) u ondulante (sube y baja, como olas). Y la <b>variación</b> es repetir una idea musical pero con algunos cambios —más rápido, con otro instrumento— en vez de tocarla exactamente igual cada vez.';
   const roll = Math.random();
   if(roll<0.34){
@@ -422,7 +432,8 @@ export function genMelodiaVariaciones6Round(){
   if(roll<0.67){
     const item = pick(DISENO_MELODICO_BANK);
     const todos = ['Ascendente','Descendente','Ondulante'];
-    const distract = todos.filter(function(d){ return d!==item.diseno; });
+    const distractAll = todos.filter(function(d){ return d!==item.diseno; });
+    const distract = nivel==='facil' ? distractAll.slice(0,1) : distractAll;
     const opts = shuffle([item.diseno].concat(distract)).map(function(d){ return {label:d, value:d}; });
     return {
       promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">¿Qué diseño melódico describe esto?</p>',
@@ -431,12 +442,18 @@ export function genMelodiaVariaciones6Round(){
     };
   }
   const item = pick(VARIACION_BANK);
-  const opts = shuffle([item.correcta].concat(item.opts)).map(function(o){ return {label:o, value:o}; });
+  const optsPool = nivel==='facil' ? item.opts.slice(0,1) : item.opts;
+  const opts = shuffle([item.correcta].concat(optsPool)).map(function(o){ return {label:o, value:o}; });
   return {
     promptHTML: '<p class="prompt-sentence">'+item.desc+'.</p><p class="prompt-hint">'+item.pregunta+'</p>',
     options: opts, correctValue: item.correcta, speakText: item.desc, cols:2, kind:'word',
     explain: 'Esto se llama <b>'+item.correcta+'</b>.', recurso: recurso,
   };
+}
+
+export function genExamenMusica6Round(){
+  const nivel = pick(['facil','normal','dificil']);
+  return genMelodiaVariaciones6Round(nivel);
 }
 
 /* ---------------- Contenido Música 7° Básico ----------------

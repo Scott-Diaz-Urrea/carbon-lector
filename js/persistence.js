@@ -1,20 +1,60 @@
 import { state } from './state.js';
 import { HOUSE_ITEMS, HOUSE_FREE, HOUSE_LIMIT, HOUSE_MAX_ITEMS, MUNDO_ITEMS, SLOT_DEFAULTS, LEGACY_ITEM_MAP } from './content/mundoItems.js';
 
-const STORAGE_KEY = 'leo_progress_v1';
-
-export function loadProgress(){
+/* ---------- Perfiles: varios jugadores en el mismo dispositivo ----------
+   El jugador 'p1' usa la clave de siempre ('leo_progress_v1'), así el avance anterior sigue siendo suyo.
+   Los demás usan 'leo_progress_v1_<id>'. El índice vive en 'leo_profiles_v1'. */
+const IDX_KEY = 'leo_profiles_v1';
+const MAX_PROFILES = 5;
+export function storageKey(id){ return id === 'p1' ? 'leo_progress_v1' : 'leo_progress_v1_' + id; }
+export function getProfileIndex(){
   try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return;
-    const saved = JSON.parse(raw);
-    if(typeof saved.xp === 'number') state.xp = saved.xp;
-    if(typeof saved.currentGrade === 'number') state.currentGrade = saved.currentGrade;
-    if(typeof saved.currentNivel === 'string') state.currentNivel = saved.currentNivel;
-    if(typeof saved.userName === 'string') state.userName = saved.userName;
-    if(typeof saved.coins === 'number' && saved.coins >= 0) state.coins = saved.coins;
+    const i = JSON.parse(localStorage.getItem(IDX_KEY));
+    if(i && Array.isArray(i.list) && i.list.length && i.list.some(function(q){ return q.id === i.active; })) return i;
+  }catch(e){}
+  return { active:'p1', list:[{ id:'p1' }] };
+}
+function putIndex(i){ try{ localStorage.setItem(IDX_KEY, JSON.stringify(i)); }catch(e){} }
+let activeCache = null;
+export function getActiveProfile(){ return activeCache || (activeCache = getProfileIndex().active); }
+export function setActiveProfile(id){
+  const i = getProfileIndex();
+  if(i.list.some(function(q){ return q.id === id; })){ i.active = id; putIndex(i); activeCache = id; }
+}
+export function createProfile(name){
+  const i = getProfileIndex();
+  if(i.list.length >= MAX_PROFILES) return null;
+  const id = 'p' + Date.now().toString(36);
+  i.list.push({ id:id }); putIndex(i);
+  try{ localStorage.setItem(storageKey(id), JSON.stringify({ userName:name })); }catch(e){}
+  return id;
+}
+export function deleteProfile(id){
+  const i = getProfileIndex();
+  if(i.list.length <= 1) return false;
+  i.list = i.list.filter(function(q){ return q.id !== id; });
+  if(i.active === id){ i.active = i.list[0].id; activeCache = i.active; }
+  putIndex(i);
+  try{ localStorage.removeItem(storageKey(id)); }catch(e){}
+  return true;
+}
+export const MAX_PLAYERS = MAX_PROFILES;
+
+/* Copia del estado inicial (se toma al importar, antes de cargar nada) para poder leer el avance de otros jugadores. */
+let DEFAULTS_JSON = null;   // se toma en loadProgress() (state.js importa este módulo, así que no se puede leer al evaluarlo)
+function captureDefaults(){
+  if(!DEFAULTS_JSON) DEFAULTS_JSON = JSON.stringify({ xp:state.xp, currentGrade:state.currentGrade, currentNivel:state.currentNivel, userName:'', coins:state.coins, world:state.world, stars:state.stars });
+}
+function freshState(){ captureDefaults(); const st = JSON.parse(DEFAULTS_JSON); st.badges = new Set(); return st; }
+
+function applySaved(saved, st){
+    if(typeof saved.xp === 'number') st.xp = saved.xp;
+    if(typeof saved.currentGrade === 'number') st.currentGrade = saved.currentGrade;
+    if(typeof saved.currentNivel === 'string') st.currentNivel = saved.currentNivel;
+    if(typeof saved.userName === 'string') st.userName = saved.userName;
+    if(typeof saved.coins === 'number' && saved.coins >= 0) st.coins = saved.coins;
     if(saved.world && typeof saved.world === 'object'){
-      const w = saved.world, cur = state.world;
+      const w = saved.world, cur = st.world;
       const known = MUNDO_ITEMS.map(function(i){ return i.id; });
       function fixId(x){ return typeof x === 'string' ? (LEGACY_ITEM_MAP[x] || x) : x; }
       if(Array.isArray(w.owned)){
@@ -90,22 +130,40 @@ export function loadProgress(){
       }
     }
     if(saved.stars && typeof saved.stars === 'object'){
-      Object.keys(state.stars).forEach(function(key){
-        if(typeof saved.stars[key] === 'number') state.stars[key] = saved.stars[key];
+      Object.keys(st.stars).forEach(function(key){
+        if(typeof saved.stars[key] === 'number') st.stars[key] = saved.stars[key];
       });
     }
     if(Array.isArray(saved.badges)){
-      saved.badges.forEach(function(b){ state.badges.add(b); });
+      saved.badges.forEach(function(b){ st.badges.add(b); });
     }
+}
+
+export function loadProgress(){
+  captureDefaults();   // antes de aplicar nada: estado inicial limpio
+  try{
+    const raw = localStorage.getItem(storageKey(getActiveProfile()));
+    if(!raw) return;
+    applySaved(JSON.parse(raw), state);
   }catch(e){
     /* localStorage no disponible (modo privado, cuota llena) o datos corruptos:
        la app sigue funcionando normalmente, solo sin progreso restaurado. */
   }
 }
 
+/* Lee (sin tocar el estado vivo) el avance validado de un jugador: tablero familiar y visitas a su casa. */
+export function peekProfile(id){
+  try{
+    const raw = localStorage.getItem(storageKey(id));
+    const st = freshState();
+    if(raw) applySaved(JSON.parse(raw), st);
+    return st;
+  }catch(e){ return null; }
+}
+
 export function saveProgress(){
   try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    localStorage.setItem(storageKey(getActiveProfile()), JSON.stringify({
       xp: state.xp,
       currentGrade: state.currentGrade,
       currentNivel: state.currentNivel,

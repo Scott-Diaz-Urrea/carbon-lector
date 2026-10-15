@@ -135,6 +135,7 @@ function renderHome(){
     '<p class="logo-word">LEO</p>'+
     '<p class="logo-tag">'+greeting+'</p>'+
     '<button class="cta-btn" onclick="goTo(\'etapaMap\')">Comenzar aventura</button>'+
+    '<button class="cta-btn secondary home-players" onclick="showProfilePicker()">👥 Jugadores</button>'+
     '<div class="home-footnote"><b>Prototipo educativo</b> — organizado igual que la trayectoria escolar real: por etapa, año y materia, para calzar con lo que el colegio ya enseña. Empieza gratis con <b>1° Básico</b>: Lenguaje y Matemáticas. Por cierto: así como el carboncillo fue de los primeros materiales con los que la humanidad dibujó letras y símbolos, <b>Carboncito</b> te acompaña a trazar las tuyas.</div>'+
   '</div>';
 }

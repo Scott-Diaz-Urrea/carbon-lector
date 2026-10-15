@@ -10,6 +10,7 @@ import { renderEscribeNombreScreen, initEscribeNombreGame } from './games/escrib
 import { renderCaligrafiaScreen, initCaligrafiaGame } from './games/caligrafia.js';
 import { renderDiccionarioScreen, initDiccionario } from './games/diccionario.js';
 import { renderColorearNumerosScreen, initColorearNumeros } from './games/colorearNumeros.js';
+import { renderMundoScreen, initMundo } from './games/mundo.js';
 import { APRENDO_A_LEER_MODULES, APRENDO_A_LEER_POS } from './content/aprendoALeer.js';
 import {
   renderApoyoAlzheimerScreen, renderAlzOrientacionScreen, initAlzOrientacion,
@@ -98,6 +99,7 @@ export function render(){
   else if(scr === 'diccionarioEn') body = renderDiccionarioScreen('en');
   else if(scr === 'colorearNumeros') body = renderColorearNumerosScreen();
   else if(scr === 'aprendoALeerMap') body = renderAprendoALeerMap();
+  else if(scr === 'mundo') body = renderMundoScreen();
   else if(scr === 'apoyoAlzheimer') body = renderApoyoAlzheimerScreen();
   else if(scr === 'alzOrientacion') body = renderAlzOrientacionScreen();
   else if(scr === 'alzRecordatorios') body = renderAlzRecordatoriosScreen();
@@ -107,6 +109,7 @@ export function render(){
     '<div class="topbar">'+
       '<button class="backbtn ' + (showBack?'':'hidden') + '" onclick="goBack()" aria-label="Volver">'+backIconSVG()+'</button>'+
       '<div class="topbar-right">'+
+        '<div class="pill coinpill"><span class="coin-ic"></span>' + state.coins + '</div>'+
         '<div class="pill xppill">⚡ Nv.' + level() + '</div>'+
         '<div class="pill starpill">' + starSVG(true) + totalStars() + '/' + maxStars() + '</div>'+
       '</div>'+
@@ -121,6 +124,7 @@ export function render(){
   else if(scr === 'caligrafia') initCaligrafiaGame();
   else if(scr === 'diccionarioEs' || scr === 'diccionarioEn') initDiccionario();
   else if(scr === 'colorearNumeros') initColorearNumeros();
+  else if(scr === 'mundo') initMundo();
   else if(scr === 'alzOrientacion') initAlzOrientacion();
 }
 
@@ -140,6 +144,10 @@ function renderEtapaMap(){
     '<p class="section-title">Elige tu etapa</p>'+
     '<p class="section-sub">La misma trayectoria del sistema escolar chileno, paso a paso.</p>'+
     '<div class="subject-list">'+
+      '<button class="subject-card" onclick="goTo(\'mundo\')">'+
+        '<span class="subject-icon">🌎</span>'+
+        '<span class="subject-info"><b>Mundo de Carboncito</b><small>Explora en 3D y gasta tus monedas</small></span>'+
+      '</button>'+
       '<button class="subject-card" onclick="selectNivel(\'nt\')">'+
         '<span class="subject-icon">🧸</span>'+
         '<span class="subject-info"><b>Educación Parvularia</b><small>Nivel de Transición</small></span>'+

@@ -7524,3 +7524,15 @@ en adelante (Educación Media, EPJA, o expansión de Estudio para Pruebas)
 debe escribirse directamente en oración normal desde el principio — este
 rollout no necesita repetirse si el patrón se sigue por defecto en contenido
 nuevo.
+
+## "Mundo de Carboncito" — juego 3D con monedas (2026-10-15)
+
+Pedido del usuario: un "mini Roblox" para sus hijos (12, 11 y 5 años; celular/PC/tablet) dentro de LEO, donde estudiar da monedas canjeables, con visión de crecer a muchos mundos. Decisiones: un solo jugador, sin multijugador ni cuentas (seguridad/privacidad infantil), arte 100% geométrico en bloques. El usuario eligió (AskUserQuestion): **personaje principal = una persona con creador de avatar**, y **estructura = pueblo central + portales a mundos** (el pueblo/portales son la Fase 2, aún no construida).
+- **Three.js 0.160 desde CDN, import dinámico** (`js/games/mundo.js`): solo se descarga al entrar al mundo; el resto de LEO sigue sin dependencias. Autorizado por el usuario.
+- **Personaje:** `buildPerson()` (humano de bloques). Creador de avatar gratis (piel, peinado, color de pelo) en `state.world.avatar`; se abre solo la primera vez. **Carboncito es el guía NPC** (`buildPug()`, look fijo): sigue a la persona y da misiones.
+- **Misiones:** arreglo `MISSIONS` en `mundo.js` (tipos `bones` y `visit`), progreso en `state.world.mission`, recompensa de monedas pagada una sola vez. Agregar misiones = agregar entradas ahí.
+- **Monedas:** `state.coins` + `state.world` persistidos en `persistence.js` (valida ids; formato anterior con `skin_*` se descarta). `showResult()` otorga 5 por estrella + 10 por insignia nueva. Los huesitos NO dan monedas (evitar farmeo sin estudiar). Moneda dibujada con `.coin-ic` (CSS), no 🪙 (riesgo de tofu).
+- **Tienda:** `js/content/mundoItems.js` (7 poleras + 5 accesorios para la persona).
+- **Controles:** teclado (WASD/flechas) y joystick táctil (`@media (pointer:coarse)`).
+- **Nota de verificación:** en pruebas automatizadas el dt del bucle se limita a 0.05s, así que a bajo fps el personaje avanza lento; esperar varios segundos.
+- Pendiente (Fase 2+): pueblo central con portales, mundos nuevos (bosque, playa, espacio), minijuegos, casa propia, construcción con bloques, más ropa.

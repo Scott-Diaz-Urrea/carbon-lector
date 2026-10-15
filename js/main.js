@@ -12,7 +12,7 @@ import { initMemoryGame, flipCard } from './games/memorama.js';
 import { replayGame, showNameEntry, closeRecurso } from './rewards.js';
 import { diccSpeak } from './games/diccionario.js';
 import { selectColoringDrawing, backToDrawingPicker, pickColorNum, pickColorHex, pickTool, zoomIn, zoomOut, clearColoring, saveColoringPNG } from './games/colorearNumeros.js';
-import { mundoToggleShop, mundoItemClick, mundoToggleAvatar, mundoAvatarTab, mundoToggleFull, mundoLookSave, mundoLookWear, mundoTalk, mundoDialogClose, mundoDialogAction, mundoQuizStart, mundoQuizAnswer, mundoQuizNext, mundoToggleEmotes, mundoEmote, mundoToggleSound, mundoAvatarSet, mundoAvatarDone, mundoPortalUnlock, mundoPortalClose, mundoToggleBuild, mundoBuildPick, mundoBuildPlace, mundoBuildRemove } from './games/mundo.js';
+import { mundoToggleShop, mundoItemClick, mundoToggleAvatar, mundoAvatarTab, mundoToggleFull, mundoLookSave, mundoLookWear, mundoTalk, mundoDialogClose, mundoDialogAction, mundoQuizStart, mundoQuizAnswer, mundoQuizNext, mundoToggleEmotes, mundoEmote, mundoToggleSound, mundoToggleSettings, mundoSetPref, mundoSpeakGuide, mundoSpeakDialog, mundoQuizSpeak, mundoAvatarSet, mundoAvatarDone, mundoPortalUnlock, mundoPortalClose, mundoToggleBuild, mundoBuildPick, mundoBuildPlace, mundoBuildRemove } from './games/mundo.js';
 import {
   alzSpeakOrientacion, alzShowAddForm, alzHideAddForm, alzSaveReminder,
   alzToggleDone, alzDeleteReminder, alzSpeakReminder,
@@ -65,6 +65,11 @@ window.mundoQuizNext = mundoQuizNext;
 window.mundoToggleEmotes = mundoToggleEmotes;
 window.mundoEmote = mundoEmote;
 window.mundoToggleSound = mundoToggleSound;
+window.mundoToggleSettings = mundoToggleSettings;
+window.mundoSetPref = mundoSetPref;
+window.mundoSpeakGuide = mundoSpeakGuide;
+window.mundoSpeakDialog = mundoSpeakDialog;
+window.mundoQuizSpeak = mundoQuizSpeak;
 window.mundoAvatarSet = mundoAvatarSet;
 window.mundoAvatarDone = mundoAvatarDone;
 window.mundoPortalUnlock = mundoPortalUnlock;

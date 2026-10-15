@@ -16,7 +16,9 @@ export const state = {
   world: { owned: ['shirt_azul','pants_azul','shoes_negro'],
            equipped: { hat: null, face: null, back: null, neck: null, shirt: 'shirt_azul', pants: 'pants_azul', shoes: 'shoes_negro', pet: null },
            avatar: { created: false, tone: 1, hair: 'corto', hairColor: 1 },
-           missions: { bosque: 0, playa: 0, espacio: 0, obby: 0, volcan: 0, arrecife: 0 }, bosses: { volcan: false, arrecife: false }, unlocked: ['bosque'], looks: [null, null, null], quests: { pan: 0, estrella: 0, receta: 0, linterna: 0, concha: 0 },
+           missions: { bosque: 0, playa: 0, espacio: 0, obby: 0, volcan: 0, arrecife: 0 }, bosses: { volcan: false, arrecife: false },
+           daily: { last: '', streak: 0 }, studyDay: '', best: { obby: null }, medals: { obby: 0 },
+           daily: { last: '', streak: 0 }, studyDay: '', best: { obby: null }, medals: { obby: 0 }, unlocked: ['bosque'], looks: [null, null, null], quests: { pan: 0, estrella: 0, receta: 0, linterna: 0, concha: 0 },
            house: { items: [], owned: ['b_madera','b_blanco','b_rojo','b_azul'] } },
   stars: { vocales:0, silabas:0, memorama:0, palabras:0, comprension:0, contar:0, sumar:0, comparar:0, formas:0, examenmate1:0, examenlengua1:0, examenciencias1:0, examenhistoria1:0, examenartes1:0, examenmusica1:0, examenedfisica1:0, examenorientacion1:0, examentecnologia1:0,
            combinaciones:0, secuencia:0, salta:0, multiplicar:0,
@@ -207,6 +209,10 @@ export function awardXP(n){
   saveProgress();
 }
 
+function pad2(n){ return (n<10 ? '0' : '') + n; }
+export function dayStr(d){ return d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate()); }
+export function todayStr(){ return dayStr(new Date()); }
+export function yesterdayStr(){ return dayStr(new Date(Date.now() - 86400000)); }
 export function awardCoins(n){
   if(n>0){ state.coins += n; saveProgress(); }
 }

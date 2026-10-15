@@ -1,5 +1,5 @@
 import { mascotSVG, starSVG } from './svg.js';
-import { state, awardXP, awardCoins, goBack } from './state.js';
+import { state, awardXP, awardCoins, goBack, todayStr } from './state.js';
 import { MC_KEYS, initMCGame } from './mcEngine.js';
 import { initSilabasGame } from './games/silabas.js';
 import { initSecuenciaGame } from './games/secuencia.js';
@@ -590,6 +590,7 @@ export function showResult(moduleKey, correctOrStars, total, isStarsAlready, cus
     stars = ratio>=0.85 ? 3 : ratio>=0.6 ? 2 : ratio>=0.35 ? 1 : 0;
   }
   state.stars[moduleKey] = Math.max(state.stars[moduleKey], stars);
+  if(stars > 0) state.world.studyDay = todayStr();   // el cofre diario del Mundo de Carboncito da un bono si hoy estudiaste
   saveProgress();
 
   const isNewBadge = !state.badges.has(moduleKey) && stars>0;

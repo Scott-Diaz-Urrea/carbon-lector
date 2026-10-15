@@ -32,6 +32,19 @@ export function loadProgress(){
         const ok = typeof id === 'string' && id.indexOf(slot + '_') === 0 && cur.owned.indexOf(id) !== -1;
         cur.equipped[slot] = ok ? id : SLOT_DEFAULTS[slot];
       });
+      if(Array.isArray(w.looks)){
+        [0,1,2].forEach(function(i){
+          const L = w.looks[i];
+          if(L && typeof L === 'object' && L.equipped && typeof L.equipped === 'object'){
+            const eqs = {};
+            Object.keys(SLOT_DEFAULTS).forEach(function(slot){
+              const id = fixId(L.equipped[slot]);
+              eqs[slot] = (typeof id === 'string' && id.indexOf(slot + '_') === 0) ? id : (id === null && !/^(shirt|pants|shoes)$/.test(slot) ? null : SLOT_DEFAULTS[slot]);
+            });
+            cur.looks[i] = { tone: typeof L.tone === 'number' ? L.tone : 1, hair: typeof L.hair === 'string' ? L.hair : 'corto', hairColor: typeof L.hairColor === 'number' ? L.hairColor : 1, equipped: eqs };
+          }else cur.looks[i] = null;
+        });
+      }
       const av = w.avatar || {};
       cur.avatar.created = av.created === true;
       if(typeof av.tone === 'number') cur.avatar.tone = av.tone;

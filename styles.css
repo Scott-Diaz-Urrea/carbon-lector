@@ -1359,3 +1359,25 @@
   @media (pointer:coarse){ .mundo-jump{ display:flex; } }
   .mundo-wrap.build-open .mundo-jump{ bottom:158px; }
   .mundo-wrap.avatar-open .mundo-jump{ display:none; }
+
+  /* Fase 5: cámara orbital, joystick flotante, pantalla completa */
+  .mundo-wrap{ height: calc(100vh - 190px); height: calc(100dvh - 190px); }
+  .mundo-joy{ pointer-events:none; opacity:.4; }
+  .mundo-joy.active{ opacity:1; }
+  .mundo-joy .mundo-knob{ pointer-events:none; }
+  .mundo-fs-btn{ padding:9px 12px; }
+  .mundo-wrap.mundo-full{ position:fixed; inset:0; z-index:80; width:100vw; height:100vh; height:100dvh; max-height:none; border-radius:0; }
+  body.mundo-fs{ overflow:hidden; }
+  body.mundo-fs .topbar{ display:none; }
+  .look-list{ display:flex; flex-direction:column; gap:8px; }
+  .look-card{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; background:#F4F7F7; border-radius: var(--radius-md); padding:10px 12px; }
+  .look-card small{ flex:1 1 100px; color: var(--ink-soft); font-weight:700; }
+  @media (max-width:640px){
+    .mundo-help{ display:none; }
+    .mundo-wrap{ height: calc(100vh - 100px); height: calc(100dvh - 100px); max-height:none; }
+    .mundo-screen{ padding-top:0; padding-bottom:0; }
+  }
+  @media (max-height:520px) and (orientation:landscape){
+    .mundo-help{ display:none; }
+    .mundo-wrap{ height: calc(100vh - 70px); height: calc(100dvh - 70px); max-height:none; }
+  }

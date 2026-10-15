@@ -12,7 +12,7 @@ import { initMemoryGame, flipCard } from './games/memorama.js';
 import { replayGame, showNameEntry, closeRecurso } from './rewards.js';
 import { diccSpeak } from './games/diccionario.js';
 import { selectColoringDrawing, backToDrawingPicker, pickColorNum, pickColorHex, pickTool, zoomIn, zoomOut, clearColoring, saveColoringPNG } from './games/colorearNumeros.js';
-import { mundoToggleShop, mundoItemClick, mundoToggleAvatar, mundoAvatarTab, mundoAvatarSet, mundoAvatarDone, mundoPortalUnlock, mundoPortalClose, mundoToggleBuild, mundoBuildPick, mundoBuildPlace, mundoBuildRemove } from './games/mundo.js';
+import { mundoToggleShop, mundoItemClick, mundoToggleAvatar, mundoAvatarTab, mundoToggleFull, mundoLookSave, mundoLookWear, mundoAvatarSet, mundoAvatarDone, mundoPortalUnlock, mundoPortalClose, mundoToggleBuild, mundoBuildPick, mundoBuildPlace, mundoBuildRemove } from './games/mundo.js';
 import {
   alzSpeakOrientacion, alzShowAddForm, alzHideAddForm, alzSaveReminder,
   alzToggleDone, alzDeleteReminder, alzSpeakReminder,
@@ -53,6 +53,9 @@ window.mundoToggleShop = mundoToggleShop;
 window.mundoItemClick = mundoItemClick;
 window.mundoToggleAvatar = mundoToggleAvatar;
 window.mundoAvatarTab = mundoAvatarTab;
+window.mundoToggleFull = mundoToggleFull;
+window.mundoLookSave = mundoLookSave;
+window.mundoLookWear = mundoLookWear;
 window.mundoAvatarSet = mundoAvatarSet;
 window.mundoAvatarDone = mundoAvatarDone;
 window.mundoPortalUnlock = mundoPortalUnlock;

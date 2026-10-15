@@ -73,7 +73,7 @@ function getActx(){
   if(!actx) actx = new Ctx();
   return actx;
 }
-function beep(freq, dur, delay, vol){
+function beep(freq, dur, delay, vol, type){
   try{
     const ctx = getActx();
     if(!ctx) return;
@@ -88,7 +88,7 @@ function beep(freq, dur, delay, vol){
     const t0 = ctx.currentTime + (delay||0);
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    osc.type = 'sine';
+    osc.type = type || 'sine';
     osc.frequency.setValueAtTime(freq, t0);
     gain.gain.setValueAtTime(0, t0);
     gain.gain.linearRampToValueAtTime(vol||0.15, t0+0.02);
@@ -108,6 +108,10 @@ function beep(freq, dur, delay, vol){
    es simplemente que 0.20-0.22 de ganancia sigue siendo bajo para el
    parlante de un celular. Subido a un rango bastante más audible
    (0.34-0.42) en vez de seguir subiendo de a poco. */
+export const playBeep = beep;   // tono suelto (lo usa el Mundo de Carboncito para música y efectos)
+export function audioRunning(){
+  try{ const c = getActx(); if(!c) return false; if(c.state === 'suspended') c.resume(); return c.state === 'running'; }catch(e){ return false; }
+}
 export function sfxCorrect(){ beep(523.25,0.16,0,0.4); beep(783.99,0.22,0.09,0.4); }
 export function sfxWrong(){ beep(392,0.18,0,0.38); beep(261.63,0.26,0.11,0.38); }
 export function sfxStreak(){ beep(659.25,0.1,0,0.3); beep(783.99,0.1,0.08,0.3); beep(1046.5,0.18,0.16,0.3); }

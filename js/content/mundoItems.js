@@ -14,8 +14,9 @@ export const AVATAR_SLOTS = [
   { id:'shirt', label:'Polera',   icon:'👕', optional:false },
   { id:'pants', label:'Pantalón', icon:'👖', optional:false },
   { id:'shoes', label:'Zapatos',  icon:'👟', optional:false },
+  { id:'pet',   label:'Mascota',  icon:'🐾', optional:true },
 ];
-export const SLOT_DEFAULTS = { hat:null, face:null, back:null, neck:null, shirt:'shirt_azul', pants:'pants_azul', shoes:'shoes_negro' };
+export const SLOT_DEFAULTS = { hat:null, face:null, back:null, neck:null, shirt:'shirt_azul', pants:'pants_azul', shoes:'shoes_negro', pet:null };
 
 export const MUNDO_ITEMS = [
   // Poleras
@@ -74,6 +75,14 @@ export const MUNDO_ITEMS = [
   { id:'back_capa',    slot:'back', label:'Capa',     price:50,  icon:'🦸' },
   { id:'back_alas',    slot:'back', label:'Alas',     price:80,  icon:'🕊️' },
   { id:'back_jet',     slot:'back', label:'Jetpack',  price:100, icon:'🚀' },
+
+  // Mascotas (te siguen)
+  { id:'pet_pollito',  slot:'pet', label:'Pollito',   price:25,  icon:'🐥' },
+  { id:'pet_conejo',   slot:'pet', label:'Conejito',  price:30,  icon:'🐰' },
+  { id:'pet_gato',     slot:'pet', label:'Gatito',    price:30,  icon:'🐱' },
+  { id:'pet_pinguino', slot:'pet', label:'Pingüino',  price:50,  icon:'🐧' },
+  { id:'pet_robot',    slot:'pet', label:'Robot',     price:80,  icon:'🤖' },
+  { id:'pet_dragon',   slot:'pet', label:'Dragón',    price:120, icon:'🐲' },
 
   // Cuello
   { id:'neck_mono',    slot:'neck', label:'Moño',     price:20, icon:'🎀' },

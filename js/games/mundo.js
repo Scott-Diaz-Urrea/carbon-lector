@@ -42,6 +42,7 @@ export function renderMundoScreen(){
         '<div class="pill" id="mundo-collect-pill"><span id="mundo-collect-icon">🦴</span> <span id="mundo-bones">0</span></div>'+
         '<button class="mundo-shop-btn" id="mundo-build-btn" style="display:none" onclick="mundoToggleBuild()">🔨 Construir</button>'+
         '<button class="mundo-shop-btn alone" onclick="mundoToggleAvatar()">👤 Avatar</button>'+
+        '<button class="mundo-shop-btn alone mundo-fs-btn" onclick="mundoToggleFull()" aria-label="Pantalla completa">⛶</button>'+
       '</div>'+
       '<div class="mundo-guide" id="mundo-guide"><span class="guide-face">🐾</span><span><b id="mundo-zone"></b><br><span id="mundo-guide-text"></span></span></div>'+
       '<div class="mundo-joy" id="mundo-joy"><div class="mundo-knob" id="mundo-knob"></div></div>'+
@@ -51,7 +52,7 @@ export function renderMundoScreen(){
       '<div class="mundo-portal hidden" id="mundo-portal"></div>'+
       '<div class="mundo-build hidden" id="mundo-build"></div>'+
     '</div>'+
-    '<p class="mundo-help">Muévete con las flechas o WASD y salta con la barra espaciadora (en celular: joystick y botón Saltar). Sigue las misiones de Carboncito. ¡Estudia para ganar monedas y estrenar cosas nuevas!</p>'+
+    '<p class="mundo-help">PC: WASD para moverte, espacio para saltar, arrastra el mouse (o Q/E) para girar la cámara y la rueda para acercar. Celular y tablet: joystick a la izquierda, arrastra a la derecha para girar la cámara, pellizca para acercar. Toca ⛶ para pantalla completa. ¡Estudia para ganar monedas y estrenar cosas nuevas!</p>'+
   '</div>';
 }
 
@@ -75,7 +76,7 @@ function avatarHTML(){
   function sw(field, i, hex){
     return '<button class="av-sw'+(av[field]===i?' on':'')+'" style="background:'+hexCss(hex)+'" onclick="mundoAvatarSet(\''+field+'\','+i+')" aria-label="Opción '+(i+1)+'"></button>';
   }
-  const tabs = [{ id:'cuerpo', label:'Cuerpo', icon:'🙂' }].concat(AVATAR_SLOTS).map(function(t){
+  const tabs = [{ id:'cuerpo', label:'Cuerpo', icon:'🙂' }, { id:'looks', label:'Mis looks', icon:'⭐' }].concat(AVATAR_SLOTS).map(function(t){
     return '<button class="av-tab'+(avatarTab===t.id?' on':'')+'" onclick="mundoAvatarTab(\''+t.id+'\')"><span>'+t.icon+'</span><small>'+t.label+'</small></button>';
   }).join('');
   let body;
@@ -84,6 +85,16 @@ function avatarHTML(){
       '<p class="shop-sec">Peinado</p><div class="av-row">'+AVATAR_HAIRS.map(function(h){
         return '<button class="av-chip'+(av.hair===h.id?' on':'')+'" onclick="mundoAvatarSet(\'hair\',\''+h.id+'\')">'+h.label+'</button>'; }).join('')+'</div>'+
       '<p class="shop-sec">Color de pelo</p><div class="av-row">'+AVATAR_HAIR_COLORS.map(function(h,i){ return sw('hairColor',i,h); }).join('')+'</div>';
+  }else if(avatarTab === 'looks'){
+    body = '<p class="shop-note">Guarda hasta 3 looks completos (como los outfits de Roblox) y cámbiate con un toque.</p><div class="look-list">'+
+      [0,1,2].map(function(i){
+        const L = state.world.looks[i];
+        const sh = L && itemById(L.equipped.shirt), ht = L && L.equipped.hat && itemById(L.equipped.hat);
+        return '<div class="look-card"><b>Look '+(i+1)+'</b>'+
+          '<small>'+(L ? ('Polera '+(sh?sh.label:'')+(ht?' · '+ht.label:'')) : 'Vacío')+'</small>'+
+          (L ? '<button class="av-chip on" onclick="mundoLookWear('+i+')">Ponerme</button>' : '')+
+          '<button class="av-chip" onclick="mundoLookSave('+i+')">'+(L ? 'Guardar aquí mi look actual' : 'Guardar mi look actual')+'</button></div>';
+      }).join('')+'</div>';
   }else{
     const slot = AVATAR_SLOTS.filter(function(x){ return x.id===avatarTab; })[0];
     const list = itemsBySlot(avatarTab);
@@ -131,7 +142,34 @@ export function mundoToggleAvatar(){
   el.innerHTML = avatarHTML(); el.classList.remove('hidden');
   const wrap = document.getElementById('mundo-wrap'); if(wrap) wrap.classList.add('avatar-open');
 }
+export function mundoToggleFull(){
+  const wrap = document.getElementById('mundo-wrap');
+  if(!wrap) return;
+  const on = !wrap.classList.contains('mundo-full');
+  wrap.classList.toggle('mundo-full', on);
+  document.body.classList.toggle('mundo-fs', on);
+  try{
+    if(on && wrap.requestFullscreen && !document.fullscreenElement) wrap.requestFullscreen().catch(function(){});
+    else if(!on && document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function(){});
+  }catch(e){ /* sin Fullscreen API (p. ej. iPhone): queda el modo de pantalla ocupada por CSS */ }
+}
 export const mundoToggleShop = mundoToggleAvatar;   // compat: la tienda ahora vive en el panel de avatar
+export function mundoLookSave(i){
+  const w = state.world, av = w.avatar;
+  w.looks[i] = { tone:av.tone, hair:av.hair, hairColor:av.hairColor, equipped:Object.assign({}, w.equipped) };
+  saveProgress(); showToast('¡Look '+(i+1)+' guardado!'); renderAvatarPanel();
+}
+export function mundoLookWear(i){
+  const w = state.world, L = w.looks[i];
+  if(!L) return;
+  w.avatar.tone = L.tone; w.avatar.hair = L.hair; w.avatar.hairColor = L.hairColor;
+  Object.keys(w.equipped).forEach(function(slot){
+    const id = L.equipped[slot];
+    if(id === null && slot !== 'shirt' && slot !== 'pants' && slot !== 'shoes') w.equipped[slot] = null;
+    else if(typeof id === 'string' && w.owned.indexOf(id) !== -1) w.equipped[slot] = id;
+  });
+  saveProgress(); if(outfitHook) outfitHook(); renderAvatarPanel();
+}
 export function mundoAvatarTab(tab){ avatarTab = tab; renderAvatarPanel(); }
 export function mundoAvatarSet(field, val){
   state.world.avatar[field] = val;
@@ -306,14 +344,27 @@ function buildPerson(){
   const body = new T.Group(); root.add(body);
   box(0.95,0.9,0.5,shirtMat,0,1.25,0,body);   // torso
   box(0.7,0.7,0.7,skinMat,0,2.1,0,body);       // cabeza
-  [-1,1].forEach(function(s){ box(0.09,0.12,0.04,black,s*0.16,2.17,0.36,body); });
-  box(0.22,0.05,0.04,black,0,1.97,0.36,body);  // sonrisa
+  // cara dibujada (como el "decal" de Roblox): ojos con brillo y sonrisa
+  (function(){
+    const c = document.createElement('canvas'); c.width = 128; c.height = 128;
+    const g = c.getContext('2d');
+    g.fillStyle = '#1a1a1a';
+    [[40,52],[88,52]].forEach(function(e){ g.beginPath(); g.ellipse(e[0],e[1],9,14,0,0,Math.PI*2); g.fill(); });
+    g.fillStyle = '#ffffff';
+    [[43,46],[91,46]].forEach(function(e){ g.beginPath(); g.arc(e[0],e[1],3.5,0,Math.PI*2); g.fill(); });
+    g.strokeStyle = '#1a1a1a'; g.lineWidth = 6; g.lineCap = 'round';
+    g.beginPath(); g.arc(64,78,26,0.2*Math.PI,0.8*Math.PI); g.stroke();
+    const tex = new T.CanvasTexture(c);
+    const face = new T.Mesh(new T.PlaneGeometry(0.66,0.66), new T.MeshBasicMaterial({ map:tex, transparent:true }));
+    face.position.set(0,2.1,0.352); body.add(face);
+  })();
 
   const legs = [], arms = [];
   [-1,1].forEach(function(s){
-    const leg = new T.Group(); leg.position.set(s*0.22,0.8,0); body.add(leg); legs.push(leg);
-    const arm = new T.Group(); arm.position.set(s*0.63,1.65,0);
-    box(0.3,0.8,0.3,skinMat,0,-0.4,0,arm); body.add(arm); arms.push(arm);
+    const leg = new T.Group(); leg.position.set(s*0.24,0.8,0); body.add(leg); legs.push(leg);
+    const arm = new T.Group(); arm.position.set(s*0.7,1.68,0);
+    box(0.44,0.42,0.44,shirtMat,0,-0.21,0,arm);   // manga (del color de la polera, como en Roblox)
+    box(0.4,0.42,0.4,skinMat,0,-0.6,0,arm); body.add(arm); arms.push(arm);
   });
 
   const shadow = new T.Mesh(new T.CircleGeometry(0.8,20), new T.MeshBasicMaterial({ color:0x000000, transparent:true, opacity:0.25 }));
@@ -432,12 +483,12 @@ function buildPerson(){
     legs.forEach(function(leg){
       clear(leg);
       if(pants.short){
-        box(0.4,0.32,0.4,M(pants.hex),0,-0.16,0,leg);
-        box(0.38,0.3,0.38,skinMat,0,-0.47,0,leg);
+        box(0.46,0.32,0.46,M(pants.hex),0,-0.16,0,leg);
+        box(0.4,0.3,0.4,skinMat,0,-0.47,0,leg);
       }else{
-        box(0.4,0.62,0.4,M(pants.hex),0,-0.31,0,leg);
+        box(0.46,0.62,0.46,M(pants.hex),0,-0.31,0,leg);
       }
-      box(0.44,0.18,0.52,M(shoes.hex),0,-0.71,0.05,leg);
+      box(0.5,0.18,0.56,M(shoes.hex),0,-0.71,0.05,leg);
     });
 
     // pelo
@@ -924,7 +975,7 @@ export async function initMundo(){
   const scene = new T.Scene();
   scene.background = new T.Color(zone.sky);
   scene.fog = new T.Fog(zone.sky, zone.fogNear, zone.fogFar);
-  const camera = new T.PerspectiveCamera(55, 1, 0.1, 250);
+  const camera = new T.PerspectiveCamera(62, 1, 0.1, 400);
   const world = zone.build(scene, {
     portalLabel: function(id){
       const z = ZONES[id];
@@ -1096,7 +1147,7 @@ export async function initMundo(){
   const keys = {};
   function onKey(e, down){
     const k = e.key.toLowerCase();
-    if(['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d'].indexOf(k) !== -1){
+    if(['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d','q','e'].indexOf(k) !== -1){
       keys[k] = down;
       if(e.target===document.body || e.target===document.documentElement) e.preventDefault();
     }
@@ -1111,24 +1162,64 @@ export async function initMundo(){
   }, ku = function(e){ if(e.key === ' ') jumpHeld = false; onKey(e,false); };
   window.addEventListener('keydown',kd); window.addEventListener('keyup',ku);
 
-  // entrada: joystick táctil
+  // cámara orbital en tercera persona (como Roblox): arrastrar gira, rueda / pellizco acerca
+  let camYaw = 0, camPitch = 0.42, camDist = 12;
+  let viewYaw = 0, viewPitch = 0.42, viewDist = 12;
+  let pinchD = null;
+  const camPtrs = new Map();
+  function clamp(v,lo,hi){ return Math.max(lo, Math.min(hi, v)); }
+
+  // entrada táctil/mouse sobre el mundo: izquierda = joystick flotante, derecha = cámara
   const joy = document.getElementById('mundo-joy'), knob = document.getElementById('mundo-knob');
   const joyVec = { x:0, y:0 };
-  let joyId = null;
-  function joyMove(e){
-    const r = joy.getBoundingClientRect();
-    const cx = r.left+r.width/2, cy = r.top+r.height/2, max = r.width/2-8;
-    let dx = e.clientX-cx, dy = e.clientY-cy;
+  let joyId = null, joyCx = 0, joyCy = 0;
+  function joyUpdate(e){
+    const max = 50;
+    let dx = e.clientX-joyCx, dy = e.clientY-joyCy;
     const d = Math.hypot(dx,dy);
     if(d > max){ dx = dx/d*max; dy = dy/d*max; }
     knob.style.transform = 'translate('+dx+'px,'+dy+'px)';
     joyVec.x = dx/max; joyVec.y = dy/max;
   }
-  function joyEnd(){ joyId = null; joyVec.x = 0; joyVec.y = 0; knob.style.transform = 'translate(0,0)'; }
-  joy.addEventListener('pointerdown', function(e){ joyId = e.pointerId; joy.setPointerCapture(e.pointerId); joyMove(e); });
-  joy.addEventListener('pointermove', function(e){ if(e.pointerId===joyId) joyMove(e); });
-  joy.addEventListener('pointerup', joyEnd);
-  joy.addEventListener('pointercancel', joyEnd);
+  function joyEnd(){
+    joyId = null; joyVec.x = 0; joyVec.y = 0; knob.style.transform = 'translate(0,0)';
+    joy.classList.remove('active'); joy.style.left = ''; joy.style.top = ''; joy.style.bottom = '';
+  }
+  canvas.addEventListener('pointerdown', function(e){
+    try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
+    const r = wrap.getBoundingClientRect(), px = e.clientX-r.left, py = e.clientY-r.top;
+    if(e.pointerType === 'touch' && joyId === null && px < r.width*0.5){
+      joyId = e.pointerId; joyCx = e.clientX; joyCy = e.clientY;
+      joy.style.left = (px-60)+'px'; joy.style.top = (py-60)+'px'; joy.style.bottom = 'auto';
+      joy.classList.add('active'); joyUpdate(e);
+    }else{
+      camPtrs.set(e.pointerId, { x:e.clientX, y:e.clientY });
+    }
+  });
+  canvas.addEventListener('pointermove', function(e){
+    if(e.pointerId === joyId){ joyUpdate(e); return; }
+    const c = camPtrs.get(e.pointerId); if(!c) return;
+    if(camPtrs.size === 2){
+      const pts = Array.from(camPtrs.values());
+      const nx = e.clientX, ny = e.clientY;
+      const other = pts[0] === c ? pts[1] : pts[0];
+      const d = Math.hypot(nx-other.x, ny-other.y);
+      if(pinchD) camDist = clamp(camDist * pinchD / d, 5, 24);
+      pinchD = d;
+    }else{
+      camYaw -= (e.clientX-c.x)*0.008;
+      camPitch = clamp(camPitch + (e.clientY-c.y)*0.006, 0.08, 1.25);
+    }
+    c.x = e.clientX; c.y = e.clientY;
+  });
+  function ptrEnd(e){
+    if(e.pointerId === joyId) joyEnd();
+    camPtrs.delete(e.pointerId);
+    if(camPtrs.size < 2) pinchD = null;
+  }
+  canvas.addEventListener('pointerup', ptrEnd);
+  canvas.addEventListener('pointercancel', ptrEnd);
+  canvas.addEventListener('wheel', function(e){ e.preventDefault(); camDist = clamp(camDist + e.deltaY*0.012, 5, 24); }, { passive:false });
 
   const jumpBtn = document.getElementById('mundo-jump');
   if(jumpBtn){
@@ -1163,11 +1254,13 @@ export async function initMundo(){
     let ix = (keys['arrowright']||keys['d']?1:0) - (keys['arrowleft']||keys['a']?1:0);
     let iz = (keys['arrowdown']||keys['s']?1:0) - (keys['arrowup']||keys['w']?1:0);
     ix += joyVec.x; iz += joyVec.y;
+    if(!buildOpen){ if(keys['q']) camYaw += 1.9*dt; if(keys['e']) camYaw -= 1.9*dt; }
     const mag = Math.min(1, Math.hypot(ix,iz));
     const moving = mag > 0.12;
     if(moving){
       const speed = 7.5*mag;
-      const nx = ix/Math.hypot(ix,iz), nz = iz/Math.hypot(ix,iz);
+      const hh = Math.hypot(ix,iz), sy = Math.sin(viewYaw), cyw = Math.cos(viewYaw);
+      const nx = (cyw*ix + sy*iz)/hh, nz = (-sy*ix + cyw*iz)/hh;   // "adelante" = hacia donde mira la cámara
       const mx = pos.x + nx*speed*dt, mz = pos.z + nz*speed*dt;
       if(!blockedAt(mx,pos.z,pos.y)) pos.x = mx;
       if(!blockedAt(pos.x,mz,pos.y)) pos.z = mz;
@@ -1191,7 +1284,8 @@ export async function initMundo(){
     // brazos y piernas
     const sw = (moving && grounded) ? Math.sin(walk)*0.8 : 0;
     me.legs[0].rotation.x = sw; me.legs[1].rotation.x = -sw;
-    me.arms[0].rotation.x = grounded ? -sw : -2.6; me.arms[1].rotation.x = grounded ? sw : -2.6;
+    const idle = (!moving && grounded) ? Math.sin(t*1.6)*0.05 : 0;
+    me.arms[0].rotation.x = grounded ? -sw+idle : -2.6; me.arms[1].rotation.x = grounded ? sw-idle : -2.6;
     me.body.position.y = moving ? Math.abs(Math.sin(walk))*0.06 : 0;
 
     // Carboncito sigue a la persona
@@ -1283,15 +1377,20 @@ export async function initMundo(){
       }
     }
 
-    // cámara que sigue (más arriba el punto de mira si hay un panel abierto, para ver al personaje)
-    const cx = pos.x, cz2 = pos.z+11;
-    camera.position.x += (cx-camera.position.x)*Math.min(1,dt*5);
-    camera.position.y += ((9 + pos.y)-camera.position.y)*Math.min(1,dt*5);
-    camera.position.z += (cz2-camera.position.z)*Math.min(1,dt*5);
-    camera.lookAt(pos.x,pos.y+1,pos.z + ((avatarOpen || buildOpen) ? 4 : 0));
+    // cámara orbital: detrás del personaje; con el panel de avatar abierto pasa al frente y se acerca
+    let wantYaw = camYaw, wantPitch = camPitch, wantDist = camDist * (camera.aspect < 0.8 ? 1.2 : 1), lookY = 1.6;
+    if(avatarOpen){ wantYaw = heading; wantPitch = 0.12; wantDist = camera.aspect < 0.8 ? 10.5 : 8; lookY = -0.2; }
+    else if(buildOpen){ lookY = -0.4; }
+    let dyaw = wantYaw - viewYaw;
+    while(dyaw > Math.PI) dyaw -= Math.PI*2; while(dyaw < -Math.PI) dyaw += Math.PI*2;
+    const k = Math.min(1, dt*(avatarOpen ? 5 : 14));
+    viewYaw += dyaw*k; viewPitch += (wantPitch-viewPitch)*k; viewDist += (wantDist-viewDist)*Math.min(1,dt*6);
+    const cp = Math.cos(viewPitch);
+    camera.position.set(pos.x + Math.sin(viewYaw)*viewDist*cp, pos.y + 1.6 + Math.sin(viewPitch)*viewDist, pos.z + Math.cos(viewYaw)*viewDist*cp);
+    camera.lookAt(pos.x, pos.y + lookY, pos.z);
 
     renderer.render(scene,camera);
   }
-  camera.position.set(pos.x,9+pos.y,pos.z+11);
+  camera.position.set(pos.x, pos.y+6, pos.z+12);
   frame();
 }

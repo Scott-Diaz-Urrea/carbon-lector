@@ -1,5 +1,5 @@
 import { state } from './state.js';
-import { HOUSE_ITEMS, HOUSE_FREE, HOUSE_LIMIT, HOUSE_MAX_ITEMS } from './content/mundoItems.js';
+import { HOUSE_ITEMS, HOUSE_FREE, HOUSE_LIMIT, HOUSE_MAX_ITEMS, MUNDO_ITEMS, SLOT_DEFAULTS, LEGACY_ITEM_MAP } from './content/mundoItems.js';
 
 const STORAGE_KEY = 'leo_progress_v1';
 
@@ -15,13 +15,23 @@ export function loadProgress(){
     if(typeof saved.coins === 'number' && saved.coins >= 0) state.coins = saved.coins;
     if(saved.world && typeof saved.world === 'object'){
       const w = saved.world, cur = state.world;
+      const known = MUNDO_ITEMS.map(function(i){ return i.id; });
+      function fixId(x){ return typeof x === 'string' ? (LEGACY_ITEM_MAP[x] || x) : x; }
       if(Array.isArray(w.owned)){
-        cur.owned = w.owned.filter(function(x){ return typeof x === 'string' && /^(shirt|acc)_/.test(x); });
-        if(cur.owned.indexOf('shirt_azul') === -1) cur.owned.unshift('shirt_azul');
+        cur.owned = w.owned.map(fixId).filter(function(x){ return known.indexOf(x) !== -1; });
       }
+      ['shirt_azul','pants_azul','shoes_negro'].forEach(function(f){ if(cur.owned.indexOf(f) === -1) cur.owned.push(f); });
       const eq = w.equipped || {};
-      cur.equipped.shirt = (typeof eq.shirt === 'string' && cur.owned.indexOf(eq.shirt) !== -1) ? eq.shirt : 'shirt_azul';
-      cur.equipped.acc = (typeof eq.acc === 'string' && cur.owned.indexOf(eq.acc) !== -1) ? eq.acc : null;
+      const legacyAcc = fixId(eq.acc);
+      Object.keys(SLOT_DEFAULTS).forEach(function(slot){
+        let id = fixId(eq[slot]);
+        if(slot === 'hat' && !id && /^hat_/.test(legacyAcc)) id = legacyAcc;
+        if(slot === 'face' && !id && /^face_/.test(legacyAcc)) id = legacyAcc;
+        if(slot === 'back' && !id && /^back_/.test(legacyAcc)) id = legacyAcc;
+        if(slot === 'neck' && !id && /^neck_/.test(legacyAcc)) id = legacyAcc;
+        const ok = typeof id === 'string' && id.indexOf(slot + '_') === 0 && cur.owned.indexOf(id) !== -1;
+        cur.equipped[slot] = ok ? id : SLOT_DEFAULTS[slot];
+      });
       const av = w.avatar || {};
       cur.avatar.created = av.created === true;
       if(typeof av.tone === 'number') cur.avatar.tone = av.tone;
@@ -42,7 +52,7 @@ export function loadProgress(){
         }).slice(0, HOUSE_MAX_ITEMS).map(function(it){ return { t:it.t, x:it.x, y:it.y, z:it.z }; }) : [];
       }
       if(Array.isArray(w.unlocked)){
-        cur.unlocked = w.unlocked.filter(function(x){ return x==='bosque' || x==='playa' || x==='espacio'; });
+        cur.unlocked = w.unlocked.filter(function(x){ return x==='bosque' || x==='playa' || x==='espacio' || x==='obby'; });
         if(cur.unlocked.indexOf('bosque') === -1) cur.unlocked.unshift('bosque');
       }
     }

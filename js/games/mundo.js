@@ -14,7 +14,7 @@
 import { state, showToast, spendCoins, awardCoins } from '../state.js';
 import { saveProgress } from '../persistence.js';
 import { render } from '../render.js';
-import { MUNDO_ITEMS, itemById, AVATAR_TONES, AVATAR_HAIRS, AVATAR_HAIR_COLORS, hexCss, HOUSE_ITEMS, houseItemById, HOUSE_LIMIT, HOUSE_MAX_ITEMS } from '../content/mundoItems.js';
+import { MUNDO_ITEMS, AVATAR_SLOTS, itemsBySlot, cssOf, itemById, AVATAR_TONES, AVATAR_HAIRS, AVATAR_HAIR_COLORS, hexCss, HOUSE_ITEMS, houseItemById, HOUSE_LIMIT, HOUSE_MAX_ITEMS } from '../content/mundoItems.js';
 
 const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
@@ -41,95 +41,103 @@ export function renderMundoScreen(){
         '<div class="pill coinpill"><span class="coin-ic"></span><span id="mundo-coins">'+state.coins+'</span></div>'+
         '<div class="pill" id="mundo-collect-pill"><span id="mundo-collect-icon">🦴</span> <span id="mundo-bones">0</span></div>'+
         '<button class="mundo-shop-btn" id="mundo-build-btn" style="display:none" onclick="mundoToggleBuild()">🔨 Construir</button>'+
-        '<button class="mundo-shop-btn" onclick="mundoToggleAvatar()">👤 Yo</button>'+
-        '<button class="mundo-shop-btn alone" onclick="mundoToggleShop()">🛍️ Tienda</button>'+
+        '<button class="mundo-shop-btn alone" onclick="mundoToggleAvatar()">👤 Avatar</button>'+
       '</div>'+
       '<div class="mundo-guide" id="mundo-guide"><span class="guide-face">🐾</span><span><b id="mundo-zone"></b><br><span id="mundo-guide-text"></span></span></div>'+
       '<div class="mundo-joy" id="mundo-joy"><div class="mundo-knob" id="mundo-knob"></div></div>'+
+      '<button class="mundo-jump" id="mundo-jump" aria-label="Saltar">⤒<small>Saltar</small></button>'+
       '<div class="mundo-shop hidden" id="mundo-shop"></div>'+
       '<div class="mundo-avatar hidden" id="mundo-avatar"></div>'+
       '<div class="mundo-portal hidden" id="mundo-portal"></div>'+
       '<div class="mundo-build hidden" id="mundo-build"></div>'+
     '</div>'+
-    '<p class="mundo-help">Muévete con las flechas o WASD (en celular, con el joystick). Sigue las misiones de Carboncito. ¡Estudia para ganar monedas y estrenar cosas nuevas!</p>'+
+    '<p class="mundo-help">Muévete con las flechas o WASD y salta con la barra espaciadora (en celular: joystick y botón Saltar). Sigue las misiones de Carboncito. ¡Estudia para ganar monedas y estrenar cosas nuevas!</p>'+
   '</div>';
 }
 
-/* ---------- Tienda ---------- */
-function shopHTML(){
-  function card(it){
-    const owned = state.world.owned.indexOf(it.id) !== -1;
-    const equipped = state.world.equipped.shirt===it.id || state.world.equipped.acc===it.id;
-    const preview = it.kind==='shirt'
-      ? '<span class="shop-swatch" style="background:'+it.css+'"></span>'
-      : '<span class="shop-icon">'+it.icon+'</span>';
-    const status = equipped ? '<small class="shop-on">Puesto ✔</small>'
-      : owned ? '<small>Ponerme</small>'
-      : '<small class="shop-price"><span class="coin-ic"></span> '+it.price+'</small>';
-    return '<button class="shop-card'+(equipped?' equipped':'')+'" onclick="mundoItemClick(\''+it.id+'\')">'+
-      preview+'<b>'+it.label+'</b>'+status+'</button>';
-  }
-  const skins = MUNDO_ITEMS.filter(function(i){ return i.kind==='shirt'; }).map(card).join('');
-  const accs = MUNDO_ITEMS.filter(function(i){ return i.kind==='acc'; }).map(card).join('');
-  return '<div class="shop-head"><b>Tienda de Carboncito</b>'+
-      '<span class="pill coinpill"><span class="coin-ic"></span>'+state.coins+'</span>'+
-      '<button class="shop-close" onclick="mundoToggleShop()" aria-label="Cerrar">✕</button></div>'+
-    '<p class="shop-note">Ganas monedas al terminar juegos de estudio de LEO.</p>'+
-    '<p class="shop-sec">Poleras</p><div class="shop-grid">'+skins+'</div>'+
-    '<p class="shop-sec">Accesorios</p><div class="shop-grid">'+accs+'</div>';
+/* ---------- Avatar: inventario + catálogo en un solo panel (como el editor de Roblox) ---------- */
+let avatarTab = 'cuerpo';
+
+function itemCard(it){
+  const owned = state.world.owned.indexOf(it.id) !== -1;
+  const equipped = state.world.equipped[it.slot] === it.id;
+  const prev = it.icon
+    ? '<span class="shop-icon">'+it.icon+'</span>'
+    : '<span class="shop-swatch" style="background:'+cssOf(it)+'">'+(it.pattern ? '<i class="pat-'+it.pattern+'"></i>' : '')+'</span>';
+  const status = equipped ? '<small class="shop-on">Puesto ✔</small>'
+    : owned ? '<small>Tuyo · Ponerme</small>'
+    : '<small class="shop-price"><span class="coin-ic"></span> '+it.price+'</small>';
+  return '<button class="shop-card'+(equipped?' equipped':'')+'" onclick="mundoItemClick(\''+it.id+'\')">'+prev+'<b>'+it.label+'</b>'+status+'</button>';
 }
 
-function refreshShop(){
-  const shop = document.getElementById('mundo-shop');
-  if(shop && !shop.classList.contains('hidden')) shop.innerHTML = shopHTML();
-  const c = document.getElementById('mundo-coins');
-  if(c) c.textContent = state.coins;
-  const top = document.querySelector('.topbar .coinpill');
-  if(top) top.innerHTML = '<span class="coin-ic"></span>' + state.coins;
-}
-
-export function mundoToggleShop(){
-  const shop = document.getElementById('mundo-shop');
-  if(!shop) return;
-  const open = shop.classList.contains('hidden');
-  if(open){ closeAvatar(); closeBuild(); }
-  shop.classList.toggle('hidden', !open);
-  if(open) shop.innerHTML = shopHTML();
-}
-
-/* ---------- Creador de avatar ---------- */
 function avatarHTML(){
   const av = state.world.avatar;
   function sw(field, i, hex){
     return '<button class="av-sw'+(av[field]===i?' on':'')+'" style="background:'+hexCss(hex)+'" onclick="mundoAvatarSet(\''+field+'\','+i+')" aria-label="Opción '+(i+1)+'"></button>';
   }
-  return '<div class="shop-head"><b>Mi personaje</b><button class="shop-close" onclick="mundoAvatarDone()" aria-label="Cerrar">✕</button></div>'+
-    '<p class="shop-sec">Piel</p><div class="av-row">'+AVATAR_TONES.map(function(h,i){ return sw('tone',i,h); }).join('')+'</div>'+
-    '<p class="shop-sec">Peinado</p><div class="av-row">'+AVATAR_HAIRS.map(function(h){
-      return '<button class="av-chip'+(av.hair===h.id?' on':'')+'" onclick="mundoAvatarSet(\'hair\',\''+h.id+'\')">'+h.label+'</button>'; }).join('')+'</div>'+
-    '<p class="shop-sec">Color de pelo</p><div class="av-row">'+AVATAR_HAIR_COLORS.map(function(h,i){ return sw('hairColor',i,h); }).join('')+'</div>'+
+  const tabs = [{ id:'cuerpo', label:'Cuerpo', icon:'🙂' }].concat(AVATAR_SLOTS).map(function(t){
+    return '<button class="av-tab'+(avatarTab===t.id?' on':'')+'" onclick="mundoAvatarTab(\''+t.id+'\')"><span>'+t.icon+'</span><small>'+t.label+'</small></button>';
+  }).join('');
+  let body;
+  if(avatarTab === 'cuerpo'){
+    body = '<p class="shop-sec">Piel</p><div class="av-row">'+AVATAR_TONES.map(function(h,i){ return sw('tone',i,h); }).join('')+'</div>'+
+      '<p class="shop-sec">Peinado</p><div class="av-row">'+AVATAR_HAIRS.map(function(h){
+        return '<button class="av-chip'+(av.hair===h.id?' on':'')+'" onclick="mundoAvatarSet(\'hair\',\''+h.id+'\')">'+h.label+'</button>'; }).join('')+'</div>'+
+      '<p class="shop-sec">Color de pelo</p><div class="av-row">'+AVATAR_HAIR_COLORS.map(function(h,i){ return sw('hairColor',i,h); }).join('')+'</div>';
+  }else{
+    const slot = AVATAR_SLOTS.filter(function(x){ return x.id===avatarTab; })[0];
+    const list = itemsBySlot(avatarTab);
+    const mine = list.filter(function(i){ return state.world.owned.indexOf(i.id) !== -1; }).length;
+    const none = slot.optional
+      ? '<button class="shop-card'+(state.world.equipped[avatarTab]===null?' equipped':'')+'" onclick="mundoItemClick(\'none_'+avatarTab+'\')"><span class="shop-icon">🚫</span><b>Ninguno</b><small>'+(state.world.equipped[avatarTab]===null?'Puesto ✔':'Quitar')+'</small></button>'
+      : '';
+    body = '<p class="shop-note">Tienes '+mine+' de '+list.length+'. Toca un ítem para comprarlo o ponértelo.</p><div class="shop-grid">'+none+list.map(itemCard).join('')+'</div>';
+  }
+  return '<div class="shop-head"><b>Avatar</b><span class="pill coinpill"><span class="coin-ic"></span>'+state.coins+'</span>'+
+      '<button class="shop-close" onclick="mundoAvatarDone()" aria-label="Cerrar">✕</button></div>'+
+    '<div class="av-tabs">'+tabs+'</div>'+
+    '<div class="av-body">'+body+'</div>'+
     '<button class="av-done" onclick="mundoAvatarDone()">¡Listo!</button>';
+}
+function renderAvatarPanel(){
+  const el = document.getElementById('mundo-avatar');
+  if(!el || !avatarOpen) return;
+  const body = el.querySelector('.av-body'); const sc = body ? body.scrollTop : 0;
+  const tabs = el.querySelector('.av-tabs'); const tl = tabs ? tabs.scrollLeft : 0;
+  el.innerHTML = avatarHTML();
+  const b2 = el.querySelector('.av-body'); if(b2) b2.scrollTop = sc;
+  const t2 = el.querySelector('.av-tabs'); if(t2) t2.scrollLeft = tl;
+}
+function refreshShop(){
+  const c = document.getElementById('mundo-coins');
+  if(c) c.textContent = state.coins;
+  const top = document.querySelector('.topbar .coinpill');
+  if(top) top.innerHTML = '<span class="coin-ic"></span>' + state.coins;
+  renderAvatarPanel();
 }
 function closeAvatar(){
   const el = document.getElementById('mundo-avatar');
   if(el) el.classList.add('hidden');
+  const wrap = document.getElementById('mundo-wrap');
+  if(wrap) wrap.classList.remove('avatar-open');
   avatarOpen = false;
 }
 export function mundoToggleAvatar(){
   const el = document.getElementById('mundo-avatar');
   if(!el) return;
-  if(!avatarOpen){
-    const shop = document.getElementById('mundo-shop'); if(shop) shop.classList.add('hidden');
-    closeBuild();
-    el.innerHTML = avatarHTML(); el.classList.remove('hidden'); avatarOpen = true;
-  }else closeAvatar();
+  if(avatarOpen){ closeAvatar(); return; }
+  closeBuild();
+  avatarOpen = true;
+  el.innerHTML = avatarHTML(); el.classList.remove('hidden');
+  const wrap = document.getElementById('mundo-wrap'); if(wrap) wrap.classList.add('avatar-open');
 }
+export const mundoToggleShop = mundoToggleAvatar;   // compat: la tienda ahora vive en el panel de avatar
+export function mundoAvatarTab(tab){ avatarTab = tab; renderAvatarPanel(); }
 export function mundoAvatarSet(field, val){
   state.world.avatar[field] = val;
   saveProgress();
   if(outfitHook) outfitHook();
-  const el = document.getElementById('mundo-avatar');
-  if(el) el.innerHTML = avatarHTML();
+  renderAvatarPanel();
 }
 export function mundoAvatarDone(){
   state.world.avatar.created = true;
@@ -137,21 +145,25 @@ export function mundoAvatarDone(){
   closeAvatar();
   if(guideSay) guideSay(null);
 }
-
 export function mundoItemClick(id){
-  const it = itemById(id);
-  if(!it) return;
   const w = state.world;
-  if(w.owned.indexOf(id) === -1){
-    if(!spendCoins(it.price)){
-      showToast('Te faltan '+(it.price-state.coins)+' monedas. ¡Estudia para ganar más!');
-      return;
+  if(id.indexOf('none_') === 0){
+    w.equipped[id.slice(5)] = null;
+  }else{
+    const it = itemById(id);
+    if(!it) return;
+    if(w.owned.indexOf(id) === -1){
+      if(!spendCoins(it.price)){
+        showToast('Te faltan '+(it.price-state.coins)+' monedas. ¡Estudia para ganar más!');
+        return;
+      }
+      w.owned.push(id);
+      showToast('¡Compraste '+it.label+'!');
     }
-    w.owned.push(id);
-    showToast('¡Compraste '+it.label+'!');
+    const slot = AVATAR_SLOTS.filter(function(x){ return x.id===it.slot; })[0];
+    if(w.equipped[it.slot] === id && slot.optional) w.equipped[it.slot] = null;
+    else w.equipped[it.slot] = id;
   }
-  if(it.kind==='shirt') w.equipped.shirt = id;
-  else w.equipped.acc = (w.equipped.acc===id) ? null : id;
   saveProgress();
   if(outfitHook) outfitHook();
   refreshShop();
@@ -274,17 +286,22 @@ function buildPerson(){
   const skinMat = new T.MeshLambertMaterial({ color:0xe8b98a });
   const hairMat = new T.MeshLambertMaterial({ color:0x6b4423 });
   const shirtMat = new T.MeshLambertMaterial({ color:0x3b82f6 });
-  const pantsMat = new T.MeshLambertMaterial({ color:0x2c3e75 });
   const black = new T.MeshLambertMaterial({ color:0x111111 });
+  function M(c, o){ return new T.MeshLambertMaterial(Object.assign({ color:c }, o||{})); }
 
-  function box(w,h,d,mat,x,y,z,parent){
-    const m = new T.Mesh(new T.BoxGeometry(w,h,d), mat);
-    m.position.set(x,y,z); (parent||root).add(m); return m;
+  function box(w,h,d,m,x,y,z,parent){
+    const o = new T.Mesh(new T.BoxGeometry(w,h,d), m);
+    o.position.set(x,y,z); (parent||root).add(o); return o;
   }
-  function ball(r,mat,x,y,z,parent){
-    const m = new T.Mesh(new T.SphereGeometry(r,10,8), mat);
-    m.position.set(x,y,z); (parent||root).add(m); return m;
+  function ball(r,m,x,y,z,parent){
+    const o = new T.Mesh(new T.SphereGeometry(r,10,8), m);
+    o.position.set(x,y,z); (parent||root).add(o); return o;
   }
+  function cyl(rt,rb,h,m,x,y,z,parent,seg){
+    const o = new T.Mesh(new T.CylinderGeometry(rt,rb,h,seg||12), m);
+    o.position.set(x,y,z); (parent||root).add(o); return o;
+  }
+  function clear(g){ while(g.children.length) g.remove(g.children[0]); }
 
   const body = new T.Group(); root.add(body);
   box(0.95,0.9,0.5,shirtMat,0,1.25,0,body);   // torso
@@ -294,8 +311,7 @@ function buildPerson(){
 
   const legs = [], arms = [];
   [-1,1].forEach(function(s){
-    const leg = new T.Group(); leg.position.set(s*0.22,0.8,0);
-    box(0.4,0.8,0.4,pantsMat,0,-0.4,0,leg); body.add(leg); legs.push(leg);
+    const leg = new T.Group(); leg.position.set(s*0.22,0.8,0); body.add(leg); legs.push(leg);
     const arm = new T.Group(); arm.position.set(s*0.63,1.65,0);
     box(0.3,0.8,0.3,skinMat,0,-0.4,0,arm); body.add(arm); arms.push(arm);
   });
@@ -303,60 +319,147 @@ function buildPerson(){
   const shadow = new T.Mesh(new T.CircleGeometry(0.8,20), new T.MeshBasicMaterial({ color:0x000000, transparent:true, opacity:0.25 }));
   shadow.rotation.x = -Math.PI/2; shadow.position.y = 0.02; root.add(shadow);
 
-  const hair = new T.Group(); body.add(hair);
-  const acc = new T.Group(); body.add(acc);
+  const hair = new T.Group(), deco = new T.Group(), gear = new T.Group();
+  body.add(hair); body.add(deco); body.add(gear);
+
+  /* Un modelo por ítem de accesorio: se arma dentro de `gear`. */
+  const MODELS = {
+    hat_gorra: function(g){
+      box(0.8,0.24,0.8,M(0xe0334c),0,2.58,0,g); box(0.72,0.06,0.4,M(0xb02030),0,2.5,0.5,g);
+    },
+    hat_chef: function(g){
+      cyl(0.34,0.34,0.5,M(0xffffff),0,2.8,0,g); ball(0.42,M(0xffffff),0,3.15,0,g);
+    },
+    hat_copa: function(g){
+      const m = M(0x2b2b5a); cyl(0.3,0.36,0.65,m,0,3.0,0,g); cyl(0.55,0.55,0.07,m,0,2.68,0,g);
+    },
+    hat_casco: function(g){
+      const dome = new T.Mesh(new T.SphereGeometry(0.5,14,8,0,Math.PI*2,0,Math.PI/2), M(0xf7c948));
+      dome.position.y = 2.46; g.add(dome); box(0.1,0.05,0.9,M(0xe0334c),0,2.97,0,g);
+    },
+    hat_gato: function(g){
+      const m = M(0x333333);
+      [-1,1].forEach(function(s){ const c = new T.Mesh(new T.ConeGeometry(0.17,0.34,4), m); c.position.set(s*0.24,2.88,0); g.add(c); });
+    },
+    hat_conejo: function(g){
+      [-1,1].forEach(function(s){ box(0.15,0.75,0.1,M(0xffffff),s*0.2,3.05,0,g); box(0.07,0.55,0.11,M(0xf9a8c4),s*0.2,3.05,0.01,g); });
+    },
+    hat_pirata: function(g){
+      box(0.95,0.2,0.55,M(0x1a1a1a),0,2.65,0,g); box(0.5,0.28,0.4,M(0x1a1a1a),0,2.82,0,g); box(0.15,0.12,0.05,M(0xffffff),0,2.82,0.22,g);
+    },
+    hat_mago: function(g){
+      const c = new T.Mesh(new T.ConeGeometry(0.42,1.0,12), M(0x6d3fbf)); c.position.y = 3.05; g.add(c);
+      cyl(0.62,0.62,0.06,M(0x6d3fbf),0,2.56,0,g,16); box(0.2,0.2,0.05,M(0xffd43b),0,2.85,0.4,g);
+    },
+    hat_corona: function(g){
+      const gold = M(0xf2c230); cyl(0.42,0.34,0.32,gold,0,2.8,0,g,8);
+      [-0.28,0,0.28].forEach(function(x){ ball(0.07,M(0xe0334c),x,3.0,0,g); });
+    },
+    hat_aureola: function(g){
+      const t = new T.Mesh(new T.TorusGeometry(0.36,0.05,8,20), new T.MeshBasicMaterial({ color:0xffe066 }));
+      t.rotation.x = Math.PI/2; t.position.y = 3.05; g.add(t);
+    },
+    face_lentes: function(g){
+      const l = M(0x222233); box(0.3,0.22,0.06,l,-0.19,2.19,0.38,g); box(0.3,0.22,0.06,l,0.19,2.19,0.38,g); box(0.1,0.05,0.06,l,0,2.21,0.38,g);
+    },
+    face_sol: function(g){
+      const l = M(0x050505); box(0.33,0.24,0.07,l,-0.19,2.19,0.38,g); box(0.33,0.24,0.07,l,0.19,2.19,0.38,g); box(0.1,0.06,0.07,l,0,2.22,0.38,g);
+    },
+    face_antifaz: function(g){
+      box(0.76,0.2,0.74,M(0x1a1a1a),0,2.2,0,g); [-1,1].forEach(function(s){ box(0.09,0.1,0.05,M(0xffffff),s*0.16,2.2,0.38,g); });
+    },
+    face_parche: function(g){
+      box(0.26,0.24,0.06,M(0x111111),-0.17,2.18,0.38,g); const st = box(0.8,0.05,0.74,M(0x111111),0,2.3,0,g); st.rotation.z = 0.25;
+    },
+    face_bigote: function(g){
+      const m = M(0x2a1a10); [-1,1].forEach(function(s){ const b = box(0.2,0.07,0.06,m,s*0.1,2.04,0.38,g); b.rotation.z = s*0.2; });
+    },
+    face_nariz: function(g){ ball(0.1,M(0xe0334c),0,2.06,0.42,g); },
+    back_mochila: function(g){
+      box(0.72,0.85,0.3,M(0x8a5a2b),0,1.3,-0.4,g); box(0.5,0.3,0.1,M(0x6b4423),0,1.1,-0.58,g);
+    },
+    back_capa: function(g){
+      const c = box(0.95,1.2,0.06,M(0xe0334c),0,1.2,-0.32,g); c.rotation.x = 0.18;
+    },
+    back_alas: function(g){
+      [-1,1].forEach(function(s){
+        const w = box(0.08,1.05,0.65,M(0xffffff),s*0.5,1.55,-0.45,g); w.rotation.z = s*0.45;
+        const w2 = box(0.08,0.7,0.5,M(0xe9f1ff),s*0.78,1.3,-0.5,g); w2.rotation.z = s*0.45;
+      });
+    },
+    back_jet: function(g){
+      [-1,1].forEach(function(s){ cyl(0.15,0.15,0.75,M(0x888c94),s*0.22,1.35,-0.42,g,10); const f = new T.Mesh(new T.ConeGeometry(0.12,0.35,8), new T.MeshBasicMaterial({ color:0xff8a1f })); f.rotation.x = Math.PI; f.position.set(s*0.22,0.85,-0.42); g.add(f); });
+      box(0.7,0.12,0.12,M(0x555a62),0,1.55,-0.42,g);
+    },
+    neck_mono: function(g){
+      const r = M(0xe0334c);
+      const l = box(0.28,0.2,0.1,r,-0.17,1.62,0.28,g); l.rotation.z = 0.4;
+      const rr = box(0.28,0.2,0.1,r,0.17,1.62,0.28,g); rr.rotation.z = -0.4;
+      box(0.13,0.13,0.12,r,0,1.62,0.3,g);
+    },
+    neck_corbata: function(g){
+      box(0.16,0.14,0.08,M(0x1e3a8a),0,1.66,0.27,g); const t = box(0.16,0.62,0.06,M(0x1e3a8a),0,1.32,0.27,g); t.rotation.z = 0.0;
+    },
+    neck_bufanda: function(g){
+      box(1.0,0.2,0.62,M(0xe0334c),0,1.68,0,g); box(0.2,0.55,0.1,M(0xe0334c),0.3,1.36,0.3,g); box(0.2,0.08,0.11,M(0xffffff),0.3,1.2,0.3,g);
+    },
+    neck_medalla: function(g){
+      const d = cyl(0.16,0.16,0.05,M(0xf2c230),0,1.42,0.28,g,16); d.rotation.x = Math.PI/2; box(0.06,0.3,0.04,M(0xe0334c),0,1.65,0.27,g);
+    },
+  };
 
   function applyOutfit(){
-    const av = state.world.avatar;
+    const av = state.world.avatar, eq = state.world.equipped;
     skinMat.color.setHex(AVATAR_TONES[av.tone] != null ? AVATAR_TONES[av.tone] : AVATAR_TONES[1]);
     hairMat.color.setHex(AVATAR_HAIR_COLORS[av.hairColor] != null ? AVATAR_HAIR_COLORS[av.hairColor] : AVATAR_HAIR_COLORS[1]);
-    const shirt = itemById(state.world.equipped.shirt) || MUNDO_ITEMS[0];
-    shirtMat.color.setHex(shirt.hex);
 
-    while(hair.children.length) hair.remove(hair.children[0]);
+    // polera (+ estampado)
+    const shirt = itemById(eq.shirt) || itemById('shirt_azul');
+    shirtMat.color.setHex(shirt.hex);
+    clear(deco);
+    if(shirt.pattern === 'rayas'){
+      [0.95,1.25,1.55].forEach(function(y){ box(0.97,0.1,0.52,M(0xffffff),0,y,0,deco); });
+    }else if(shirt.pattern === 'estrella'){
+      const st = new T.Mesh(new T.OctahedronGeometry(0.2), new T.MeshBasicMaterial({ color:0xffe066 })); st.position.set(0,1.3,0.27); st.scale.z = 0.3; deco.add(st);
+    }else if(shirt.pattern === 'corazon'){
+      const r = M(0xe0334c); const d = box(0.24,0.24,0.04,r,0,1.26,0.26,deco); d.rotation.z = Math.PI/4;
+      ball(0.13,r,-0.09,1.37,0.26,deco); ball(0.13,r,0.09,1.37,0.26,deco);
+    }
+
+    // pantalones y zapatos
+    const pants = itemById(eq.pants) || itemById('pants_azul');
+    const shoes = itemById(eq.shoes) || itemById('shoes_negro');
+    legs.forEach(function(leg){
+      clear(leg);
+      if(pants.short){
+        box(0.4,0.32,0.4,M(pants.hex),0,-0.16,0,leg);
+        box(0.38,0.3,0.38,skinMat,0,-0.47,0,leg);
+      }else{
+        box(0.4,0.62,0.4,M(pants.hex),0,-0.31,0,leg);
+      }
+      box(0.44,0.18,0.52,M(shoes.hex),0,-0.71,0.05,leg);
+    });
+
+    // pelo
+    clear(hair);
     box(0.78,0.22,0.78,hairMat,0,2.5,0,hair);
     box(0.78,0.5,0.18,hairMat,0,2.28,-0.3,hair);
     if(av.hair==='largo'){
       box(0.78,0.95,0.18,hairMat,0,1.9,-0.32,hair);
       [-1,1].forEach(function(s){ box(0.1,0.55,0.5,hairMat,s*0.4,2.2,-0.05,hair); });
     }else if(av.hair==='coleta'){
-      ball(0.2,hairMat,0,2.3,-0.48,hair);
-      box(0.14,0.5,0.14,hairMat,0,2.0,-0.5,hair);
+      ball(0.2,hairMat,0,2.3,-0.48,hair); box(0.14,0.5,0.14,hairMat,0,2.0,-0.5,hair);
     }else if(av.hair==='rulos'){
-      for(let i=0;i<7;i++){
-        const a2 = i/7*Math.PI*2;
-        ball(0.2,hairMat,Math.cos(a2)*0.38,2.55,Math.sin(a2)*0.38,hair);
-      }
+      for(let i=0;i<7;i++){ const a2 = i/7*Math.PI*2; ball(0.2,hairMat,Math.cos(a2)*0.38,2.55,Math.sin(a2)*0.38,hair); }
       ball(0.24,hairMat,0,2.68,0,hair);
     }
 
-    while(acc.children.length) acc.remove(acc.children[0]);
-    const a = state.world.equipped.acc;
-    const red = new T.MeshLambertMaterial({ color:0xe0334c });
-    const gold = new T.MeshLambertMaterial({ color:0xf2c230 });
-    if(a==='acc_gorro'){
-      const hatMat = new T.MeshLambertMaterial({ color:0x2b2b5a });
-      const hat = new T.Mesh(new T.CylinderGeometry(0.3,0.36,0.65,12), hatMat);
-      hat.position.set(0,3.0,0); acc.add(hat);
-      const brim = new T.Mesh(new T.CylinderGeometry(0.55,0.55,0.07,16), hatMat);
-      brim.position.set(0,2.68,0); acc.add(brim);
-    }else if(a==='acc_corona'){
-      const c = new T.Mesh(new T.CylinderGeometry(0.42,0.34,0.32,8), gold);
-      c.position.set(0,2.8,0); acc.add(c);
-      [-0.28,0,0.28].forEach(function(x){ ball(0.07,red,x,3.0,0,acc); });
-    }else if(a==='acc_lentes'){
-      const lens = new T.MeshLambertMaterial({ color:0x111122 });
-      box(0.3,0.22,0.06,lens,-0.19,2.19,0.38,acc);
-      box(0.3,0.22,0.06,lens,0.19,2.19,0.38,acc);
-      box(0.1,0.05,0.06,lens,0,2.21,0.38,acc);
-    }else if(a==='acc_capa'){
-      const cape = box(0.95,1.2,0.06,red,0,1.2,-0.32,acc);
-      cape.rotation.x = 0.18;
-    }else if(a==='acc_corbata'){
-      const l = box(0.28,0.2,0.1,red,-0.17,1.6,0.28,acc); l.rotation.z = 0.4;
-      const r = box(0.28,0.2,0.1,red,0.17,1.6,0.28,acc); r.rotation.z = -0.4;
-      box(0.13,0.13,0.12,red,0,1.6,0.3,acc);
-    }
+    // accesorios (cabeza, cara, espalda, cuello)
+    clear(gear);
+    ['hat','face','back','neck'].forEach(function(slot){
+      const id = eq[slot];
+      if(id && MODELS[id]) MODELS[id](gear);
+    });
   }
   applyOutfit();
   return { root:root, body:body, legs:legs, arms:arms, applyOutfit:applyOutfit };
@@ -471,6 +574,7 @@ function buildPueblo(scene, ctx){
     addPortal(scene, obstacles, 16, 0, 0xf7c948, ctx.portalLabel('playa'), 'playa'),
     addPortal(scene, obstacles, -16, 0, 0x9b59d0, ctx.portalLabel('espacio'), 'espacio'),
     addPortal(scene, obstacles, 11, -11, 0xff9f43, '🏠 Mi Casa', 'casa'),
+    addPortal(scene, obstacles, 11, 11, 0xff5a1f, ctx.portalLabel('obby'), 'obby'),
   ];
   addFence(scene, 38);
   addLights(scene, 0xffffff, 0x88aa66, 0.9);
@@ -643,6 +747,46 @@ function houseMesh(def){
   return g;
 }
 
+/* ----- Carrera de obstáculos (obby): plataformas sobre lava, 5 etapas con puntos de control ----- */
+function buildObby(scene, ctx){
+  const T = THREE, platforms = [], checkpoints = [], visits = {};
+  const lava = new T.Mesh(new T.PlaneGeometry(900,900), new T.MeshBasicMaterial({ color:0xe8461a }));
+  lava.rotation.x = -Math.PI/2; lava.position.y = -6; scene.add(lava);
+  function plat(x,z,w,d,top,color){
+    const m = new T.Mesh(new T.BoxGeometry(w,1,d), mat(color));
+    m.position.set(x,top-0.5,z); scene.add(m);
+    platforms.push({ x:x, z:z, hw:w/2, hd:d/2, bottom:top-1, top:top });
+  }
+  const GREEN = 0x2fb344;
+  function checkpoint(n, x, z, top){
+    plat(x,z,5,5,top,GREEN);
+    checkpoints.push({ x:x, z:z, top:top });
+    visits['e'+n] = { x:x, z:z, y:top };
+    const pole = new T.Mesh(new T.CylinderGeometry(0.06,0.06,2.6,6), mat(0xeeeeee)); pole.position.set(x+1.8,top+1.3,z); scene.add(pole);
+    const flag = new T.Mesh(new T.PlaneGeometry(1.2,0.8), new T.MeshBasicMaterial({ color:0xffd43b, side:T.DoubleSide })); flag.position.set(x+2.4,top+2.2,z); scene.add(flag);
+  }
+  plat(0,0,7,7,0,0x59c46b);               // inicio
+  let z = -8, top = 0;
+  checkpoint(1, 0, z, top);                // etapa 1: escalones
+  for(let i=0;i<6;i++){ z -= 4.2; top += 0.4; plat(0,z,3.4,3.4,top,0x7ed957); }
+  z -= 5.0; checkpoint(2, 0, z, top);      // etapa 2: zigzag
+  for(let i=0;i<6;i++){ z -= 4.0; top += 0.2; plat(i%2 ? 2.6 : -2.6, z, 2.8, 2.8, top, 0xf7c948); }
+  z -= 5.0; checkpoint(3, 0, z, top);      // etapa 3: escalera al cielo
+  for(let i=0;i<5;i++){ z -= 3.7; top += 1.0; plat(0,z,2.8,2.8,top,0xf783ac); }
+  z -= 4.9; checkpoint(4, 0, z, top);      // etapa 4: saltos largos
+  for(let i=0;i<5;i++){ z -= 5.4; plat(0,z,2.6,2.6,top,0x4fb4f2); }
+  z -= 5.7; checkpoint(5, 0, z, top);      // etapa 5: vigas angostas
+  for(let i=0;i<6;i++){ z -= 4.2; top += 0.3; plat(i%2 ? 2.0 : -2.0, z, 1.7, 1.7, top, 0x9b59d0); }
+  z -= 5.5; plat(0,z,8,8,top,0xe8b923);    // meta
+  visits.meta = { x:0, z:z, y:top };
+  const base = new T.Mesh(new T.CylinderGeometry(1,1.2,0.6,12), mat(0xcfcfcf)); base.position.set(0,top+0.3,z); scene.add(base);
+  const cup = new T.Mesh(new T.CylinderGeometry(0.8,0.4,1.0,12), mat(0xf2c230)); cup.position.set(0,top+1.1,z); scene.add(cup);
+  const ball = new T.Mesh(new T.SphereGeometry(0.35,10,8), mat(0xf2c230)); ball.position.set(0,top+1.9,z); scene.add(ball);
+  const portals = [ addPortal(scene, [], -3.2, 0.8, 0xffd43b, 'Volver al pueblo', 'pueblo') ];
+  addLights(scene, 0xffffff, 0xffc9a0, 0.95);
+  return { obstacles:[], portals:portals, visits:visits, platforms:platforms, checkpoints:checkpoints, spawn:{ x:0, y:0, z:0 } };
+}
+
 /* ---------- Coleccionables ---------- */
 function makeBone(){
   const T = THREE;
@@ -677,6 +821,15 @@ const ZONES = {
              hello:'Bienvenido al pueblo 🏘️ Entra a un portal para viajar. Los que tienen candado 🔒 se abren con monedas.' },
   casa:    { name:'Mi Casa', radius:23, sky:0x9fdcff, fogNear:50, fogFar:110, build:buildCasa, home:true,
              hello:'¡Esta es tu casa! 🏠 Toca 🔨 Construir para poner bloques y muebles. Desbloquea más con tus monedas.' },
+  obby:    { name:'Carrera de Obstáculos', radius:260, floor:null, sky:0x87ceeb, fogNear:80, fogFar:230, build:buildObby, price:30,
+             missions:[
+               { type:'visit', at:'e1', r:3, reward:5,  text:'🏁 ¡Carrera de obstáculos! Salta (barra espaciadora o botón Saltar) por las plataformas hasta la 1ª bandera.', done:'¡Etapa 1 lista!' },
+               { type:'visit', at:'e2', r:3, reward:6,  text:'Etapa 2: ¡zigzag! Cuidado con la lava 🌋 Si te caes, vuelves a tu última bandera.', done:'¡Etapa 2 lista!' },
+               { type:'visit', at:'e3', r:3, reward:8,  text:'Etapa 3: la escalera al cielo ⬆️ Sube de a una plataforma.', done:'¡Etapa 3 lista!' },
+               { type:'visit', at:'e4', r:3, reward:10, text:'Etapa 4: ¡saltos largos! Corre y salta 🏃', done:'¡Etapa 4 lista!' },
+               { type:'visit', at:'e5', r:3, reward:12, text:'Etapa 5: vigas angostas, ¡equilibrio! 🎯', done:'¡Etapa 5 lista!' },
+               { type:'visit', at:'meta', r:4, reward:40, text:'¡Última subida! Llega a la meta 🏆', done:'¡Campeón de la carrera! 🏆' },
+             ] },
   bosque:  { name:'Bosque', radius:37, sky:0x9fdcff, fogNear:35, fogFar:80, build:buildBosque, price:0,
              collect:{ emoji:'🦴', make:makeBone, n:10 },
              missions:[
@@ -780,6 +933,25 @@ export async function initMundo(){
   });
   const obstacles = world.obstacles;
   const R = zone.radius;
+  const platforms = world.platforms || [];
+  const hasFloor = zone.floor !== null;
+  const spawn = world.spawn || { x:0, y:0, z:0 };
+  let vy = 0, grounded = true, jumpHeld = false, coyote = 0;
+  function groundAt(x,z,y){
+    let g = hasFloor ? 0 : -Infinity;
+    for(let i=0;i<platforms.length;i++){
+      const p = platforms[i];
+      if(Math.abs(x-p.x) < p.hw+0.25 && Math.abs(z-p.z) < p.hd+0.25 && p.top <= y+0.35 && p.top > g) g = p.top;
+    }
+    return g;
+  }
+  function blockedAt(px,pz,py){
+    for(let i=0;i<platforms.length;i++){
+      const p = platforms[i];
+      if(Math.abs(px-p.x) < p.hw+0.35 && Math.abs(pz-p.z) < p.hd+0.35 && py < p.top-0.3 && py+1.8 > p.bottom) return true;
+    }
+    return false;
+  }
 
   // título de zona
   const zname = document.getElementById('mundo-zone');
@@ -792,7 +964,7 @@ export async function initMundo(){
   if(from && from !== 'pueblo' && zoneId === 'pueblo'){
     const pp = world.portals.filter(function(p){ return p.dest === from; })[0];
     pos.set(pp ? pp.x*0.7 : 0, 0, pp ? pp.z*0.7 : 6);
-  }else pos.set(0,0, zoneId==='pueblo' ? 7 : 0);
+  }else pos.set(spawn.x, spawn.y, zoneId==='pueblo' ? 7 : spawn.z);
   let heading = 0;
   if(window.__LEO_DEBUG) window.__mundo = { pos:pos };   // gancho solo para pruebas manuales
 
@@ -811,7 +983,10 @@ export async function initMundo(){
     const def = houseItemById(it.t); if(!def) return;
     const m = houseMesh(def); m.position.set(it.x, it.y, it.z); scene.add(m);
     let obs = null;
-    if(it.y===0 && it.t!=='f_alfombra'){ obs = { x:it.x, z:it.z, r:0.62 }; obstacles.push(obs); }
+    if(it.t !== 'f_alfombra'){
+      obs = { x:it.x, z:it.z, hw:0.5, hd:0.5, bottom:it.y, top:it.y + (def.kind==='block' ? 1 : 0.85) };
+      platforms.push(obs);
+    }
     placed.set(it, { mesh:m, obs:obs });
   }
   if(isHome){
@@ -836,7 +1011,7 @@ export async function initMundo(){
         const v = placed.get(top);
         if(v){
           scene.remove(v.mesh);
-          if(v.obs){ const k = obstacles.indexOf(v.obs); if(k >= 0) obstacles.splice(k,1); }
+          if(v.obs){ const k = platforms.indexOf(v.obs); if(k >= 0) platforms.splice(k,1); }
           placed.delete(top);
         }
         h.items.splice(h.items.indexOf(top),1);
@@ -927,12 +1102,13 @@ export async function initMundo(){
     }
   }
   const kd = function(e){
+    if(e.key === ' '){ jumpHeld = true; if(e.target===document.body || e.target===document.documentElement) e.preventDefault(); }
     onKey(e,true);
     if(isHome && buildOpen && !e.repeat){
       const k = e.key.toLowerCase();
       if(k==='e') buildHooks.place(); else if(k==='q') buildHooks.remove();
     }
-  }, ku = function(e){ onKey(e,false); };
+  }, ku = function(e){ if(e.key === ' ') jumpHeld = false; onKey(e,false); };
   window.addEventListener('keydown',kd); window.addEventListener('keyup',ku);
 
   // entrada: joystick táctil
@@ -953,6 +1129,18 @@ export async function initMundo(){
   joy.addEventListener('pointermove', function(e){ if(e.pointerId===joyId) joyMove(e); });
   joy.addEventListener('pointerup', joyEnd);
   joy.addEventListener('pointercancel', joyEnd);
+
+  const jumpBtn = document.getElementById('mundo-jump');
+  if(jumpBtn){
+    jumpBtn.addEventListener('pointerdown', function(e){ jumpHeld = true; e.preventDefault(); });
+    ['pointerup','pointercancel','pointerleave'].forEach(function(ev){ jumpBtn.addEventListener(ev, function(){ jumpHeld = false; }); });
+  }
+
+  function respawn(){
+    pos.set(spawn.x, spawn.y, spawn.z); vy = 0; grounded = true;
+    guide.root.position.set(spawn.x-1.5, spawn.y, spawn.z+1.5);
+    showToast('¡Sigue intentando! 💪');
+  }
 
   function cleanup(){
     window.removeEventListener('keydown',kd); window.removeEventListener('keyup',ku);
@@ -980,7 +1168,9 @@ export async function initMundo(){
     if(moving){
       const speed = 7.5*mag;
       const nx = ix/Math.hypot(ix,iz), nz = iz/Math.hypot(ix,iz);
-      pos.x += nx*speed*dt; pos.z += nz*speed*dt;
+      const mx = pos.x + nx*speed*dt, mz = pos.z + nz*speed*dt;
+      if(!blockedAt(mx,pos.z,pos.y)) pos.x = mx;
+      if(!blockedAt(pos.x,mz,pos.y)) pos.z = mz;
       pushOut(pos, obstacles, 0.6, R);
       const target = Math.atan2(nx,nz);
       let diff = target-heading;
@@ -989,10 +1179,19 @@ export async function initMundo(){
       me.root.rotation.y = heading;
       walk += dt*10*mag;
     }
+    // física vertical: gravedad, salto y plataformas
+    if(grounded) coyote = 0.12; else coyote -= dt;   // tiempo de gracia para saltar justo al salir del borde
+    if(jumpHeld && coyote > 0){ vy = 11; grounded = false; coyote = 0; }
+    const py0 = pos.y;
+    vy -= 28*dt; pos.y += vy*dt;
+    const gy = groundAt(pos.x,pos.z,py0);
+    if(pos.y <= gy && vy <= 0){ pos.y = gy; vy = 0; grounded = true; } else grounded = false;
+    if(pos.y < -12) respawn();
+
     // brazos y piernas
-    const sw = moving ? Math.sin(walk)*0.8 : 0;
+    const sw = (moving && grounded) ? Math.sin(walk)*0.8 : 0;
     me.legs[0].rotation.x = sw; me.legs[1].rotation.x = -sw;
-    me.arms[0].rotation.x = -sw; me.arms[1].rotation.x = sw;
+    me.arms[0].rotation.x = grounded ? -sw : -2.6; me.arms[1].rotation.x = grounded ? sw : -2.6;
     me.body.position.y = moving ? Math.abs(Math.sin(walk))*0.06 : 0;
 
     // Carboncito sigue a la persona
@@ -1013,6 +1212,7 @@ export async function initMundo(){
       guide.root.rotation.y = guideHeading;
     }
     const gsw = gMoving ? Math.sin(guideWalk)*0.7 : 0;
+    guide.root.position.y += (pos.y - guide.root.position.y)*Math.min(1,dt*6);
     guide.legs[0].rotation.x = gsw; guide.legs[3].rotation.x = gsw;
     guide.legs[1].rotation.x = -gsw; guide.legs[2].rotation.x = -gsw;
     guide.body.position.y = gMoving ? Math.abs(Math.sin(guideWalk))*0.08 : 0;
@@ -1037,7 +1237,17 @@ export async function initMundo(){
     const vm = missions[mIndex()];
     if(vm && vm.type==='visit'){
       const at = world.visits[vm.at];
-      if(at && Math.hypot(pos.x-at.x, pos.z-at.z) < vm.r) completeMission();
+      if(at && Math.hypot(pos.x-at.x, pos.z-at.z) < vm.r && (at.y == null || Math.abs(pos.y-at.y) < 1.6)) completeMission();
+    }
+
+    // puntos de control del obby
+    if(world.checkpoints){
+      world.checkpoints.forEach(function(c){
+        if((spawn.x !== c.x || spawn.z !== c.z) && Math.hypot(pos.x-c.x,pos.z-c.z) < 2.4 && Math.abs(pos.y-c.top) < 1){
+          spawn.x = c.x; spawn.y = c.top; spawn.z = c.z;
+          showToast('🚩 ¡Punto de control!');
+        }
+      });
     }
 
     // portales
@@ -1076,12 +1286,12 @@ export async function initMundo(){
     // cámara que sigue (más arriba el punto de mira si hay un panel abierto, para ver al personaje)
     const cx = pos.x, cz2 = pos.z+11;
     camera.position.x += (cx-camera.position.x)*Math.min(1,dt*5);
-    camera.position.y += (9-camera.position.y)*Math.min(1,dt*5);
+    camera.position.y += ((9 + pos.y)-camera.position.y)*Math.min(1,dt*5);
     camera.position.z += (cz2-camera.position.z)*Math.min(1,dt*5);
-    camera.lookAt(pos.x,1,pos.z + ((avatarOpen || buildOpen) ? 4 : 0));
+    camera.lookAt(pos.x,pos.y+1,pos.z + ((avatarOpen || buildOpen) ? 4 : 0));
 
     renderer.render(scene,camera);
   }
-  camera.position.set(pos.x,9,pos.z+11);
+  camera.position.set(pos.x,9+pos.y,pos.z+11);
   frame();
 }

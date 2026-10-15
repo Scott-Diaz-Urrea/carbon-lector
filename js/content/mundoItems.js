@@ -1,28 +1,98 @@
 /* Catálogo del "Mundo de Carboncito" (juego 3D).
    El personaje principal es una PERSONA (avatar de bloques); Carboncito es el guía.
    Las monedas se ganan estudiando (ver showResult en rewards.js).
-   kind 'shirt': color de la polera (una a la vez, 'shirt_azul' es gratis).
-   kind 'acc': accesorio (uno a la vez, tocar el equipado lo quita).
-   Lo gratuito (tono de piel, peinado, color de pelo) vive en el creador de avatar. */
-export const MUNDO_ITEMS = [
-  { id:'shirt_azul',     kind:'shirt', label:'Azul',     price:0,  hex:0x3b82f6, css:'#3b82f6' },
-  { id:'shirt_rojo',     kind:'shirt', label:'Rojo',     price:20, hex:0xe0334c, css:'#e0334c' },
-  { id:'shirt_verde',    kind:'shirt', label:'Verde',    price:20, hex:0x2fb344, css:'#2fb344' },
-  { id:'shirt_amarillo', kind:'shirt', label:'Amarillo', price:30, hex:0xf7c948, css:'#f7c948' },
-  { id:'shirt_rosado',   kind:'shirt', label:'Rosado',   price:30, hex:0xf783ac, css:'#f783ac' },
-  { id:'shirt_morado',   kind:'shirt', label:'Morado',   price:40, hex:0x9b59d0, css:'#9b59d0' },
-  { id:'shirt_dorado',   kind:'shirt', label:'Dorado',   price:80, hex:0xe8b923, css:'#e8b923' },
+   Cada ítem va en un SLOT (una sola cosa equipada por slot, igual que el editor de
+   avatar de Roblox): hat, face, back, neck, shirt, pants, shoes.
+   - Los slots shirt/pants/shoes siempre tienen algo puesto; los demás se pueden dejar vacíos.
+   - Tocar un ítem: si no es tuyo se compra (monedas), si es tuyo se equipa o se quita.
+   - price 0 = viene gratis. */
+export const AVATAR_SLOTS = [
+  { id:'hat',   label:'Cabeza',   icon:'🎩', optional:true },
+  { id:'face',  label:'Cara',     icon:'🕶️', optional:true },
+  { id:'back',  label:'Espalda',  icon:'🎒', optional:true },
+  { id:'neck',  label:'Cuello',   icon:'🎀', optional:true },
+  { id:'shirt', label:'Polera',   icon:'👕', optional:false },
+  { id:'pants', label:'Pantalón', icon:'👖', optional:false },
+  { id:'shoes', label:'Zapatos',  icon:'👟', optional:false },
+];
+export const SLOT_DEFAULTS = { hat:null, face:null, back:null, neck:null, shirt:'shirt_azul', pants:'pants_azul', shoes:'shoes_negro' };
 
-  { id:'acc_corbata', kind:'acc', label:'Moño',   price:20, icon:'🎀' },
-  { id:'acc_lentes',  kind:'acc', label:'Lentes', price:25, icon:'🕶️' },
-  { id:'acc_gorro',   kind:'acc', label:'Gorro',  price:25, icon:'🎩' },
-  { id:'acc_capa',    kind:'acc', label:'Capa',   price:50, icon:'🦸' },
-  { id:'acc_corona',  kind:'acc', label:'Corona', price:60, icon:'👑' },
+export const MUNDO_ITEMS = [
+  // Poleras
+  { id:'shirt_azul',     slot:'shirt', label:'Azul',      price:0,  hex:0x3b82f6 },
+  { id:'shirt_rojo',     slot:'shirt', label:'Roja',      price:20, hex:0xe0334c },
+  { id:'shirt_verde',    slot:'shirt', label:'Verde',     price:20, hex:0x2fb344 },
+  { id:'shirt_negra',    slot:'shirt', label:'Negra',     price:20, hex:0x2a2a2f },
+  { id:'shirt_blanca',   slot:'shirt', label:'Blanca',    price:20, hex:0xf5f5f5 },
+  { id:'shirt_amarillo', slot:'shirt', label:'Amarilla',  price:30, hex:0xf7c948 },
+  { id:'shirt_rosado',   slot:'shirt', label:'Rosada',    price:30, hex:0xf783ac },
+  { id:'shirt_rayas',    slot:'shirt', label:'Rayas',     price:35, hex:0xe0334c, pattern:'rayas' },
+  { id:'shirt_morado',   slot:'shirt', label:'Morada',    price:40, hex:0x9b59d0 },
+  { id:'shirt_estrella', slot:'shirt', label:'Estrella',  price:40, hex:0x1e3a8a, pattern:'estrella' },
+  { id:'shirt_corazon',  slot:'shirt', label:'Corazón',   price:40, hex:0xf5f5f5, pattern:'corazon' },
+  { id:'shirt_dorado',   slot:'shirt', label:'Dorada',    price:80, hex:0xe8b923 },
+
+  // Pantalones
+  { id:'pants_azul',   slot:'pants', label:'Azul',    price:0,  hex:0x2c3e75 },
+  { id:'pants_negro',  slot:'pants', label:'Negro',   price:15, hex:0x222226 },
+  { id:'pants_gris',   slot:'pants', label:'Gris',    price:15, hex:0x777b82 },
+  { id:'pants_cafe',   slot:'pants', label:'Café',    price:15, hex:0x7a5230 },
+  { id:'pants_rojo',   slot:'pants', label:'Rojo',    price:20, hex:0xb83a3a },
+  { id:'pants_verde',  slot:'pants', label:'Verde',   price:20, hex:0x2f7d44 },
+  { id:'pants_short',  slot:'pants', label:'Short',   price:25, hex:0x3b82f6, short:true },
+  { id:'pants_dorado', slot:'pants', label:'Dorado',  price:60, hex:0xe8b923 },
+
+  // Zapatos
+  { id:'shoes_negro',  slot:'shoes', label:'Negros',  price:0,  hex:0x1a1a1a },
+  { id:'shoes_blanco', slot:'shoes', label:'Blancos', price:15, hex:0xf5f5f5 },
+  { id:'shoes_rojo',   slot:'shoes', label:'Rojos',   price:20, hex:0xe0334c },
+  { id:'shoes_azul',   slot:'shoes', label:'Azules',  price:20, hex:0x3b82f6 },
+  { id:'shoes_dorado', slot:'shoes', label:'Dorados', price:50, hex:0xe8b923 },
+
+  // Cabeza
+  { id:'hat_gorra',   slot:'hat', label:'Gorra',          price:15, icon:'🧢' },
+  { id:'hat_chef',    slot:'hat', label:'Gorro de chef',  price:25, icon:'🍳' },
+  { id:'hat_copa',    slot:'hat', label:'Sombrero copa',  price:25, icon:'🎩' },
+  { id:'hat_casco',   slot:'hat', label:'Casco',          price:30, icon:'⛑️' },
+  { id:'hat_gato',    slot:'hat', label:'Orejas gato',    price:35, icon:'🐱' },
+  { id:'hat_conejo',  slot:'hat', label:'Orejas conejo',  price:35, icon:'🐰' },
+  { id:'hat_pirata',  slot:'hat', label:'Pirata',         price:45, icon:'☠️' },
+  { id:'hat_mago',    slot:'hat', label:'Mago',           price:50, icon:'🔮' },
+  { id:'hat_corona',  slot:'hat', label:'Corona',         price:60, icon:'👑' },
+  { id:'hat_aureola', slot:'hat', label:'Aureola',        price:70, icon:'😇' },
+
+  // Cara
+  { id:'face_bigote',  slot:'face', label:'Bigote',       price:15, icon:'👨' },
+  { id:'face_nariz',   slot:'face', label:'Nariz payaso', price:15, icon:'🤡' },
+  { id:'face_antifaz', slot:'face', label:'Antifaz',      price:20, icon:'🎭' },
+  { id:'face_parche',  slot:'face', label:'Parche',       price:20, icon:'🏴' },
+  { id:'face_lentes',  slot:'face', label:'Lentes',       price:25, icon:'👓' },
+  { id:'face_sol',     slot:'face', label:'Lentes de sol',price:30, icon:'🕶️' },
+
+  // Espalda
+  { id:'back_mochila', slot:'back', label:'Mochila',  price:30,  icon:'🎒' },
+  { id:'back_capa',    slot:'back', label:'Capa',     price:50,  icon:'🦸' },
+  { id:'back_alas',    slot:'back', label:'Alas',     price:80,  icon:'🕊️' },
+  { id:'back_jet',     slot:'back', label:'Jetpack',  price:100, icon:'🚀' },
+
+  // Cuello
+  { id:'neck_mono',    slot:'neck', label:'Moño',     price:20, icon:'🎀' },
+  { id:'neck_corbata', slot:'neck', label:'Corbata',  price:20, icon:'👔' },
+  { id:'neck_bufanda', slot:'neck', label:'Bufanda',  price:25, icon:'🧣' },
+  { id:'neck_medalla', slot:'neck', label:'Medalla',  price:40, icon:'🏅' },
 ];
 
 export function itemById(id){
   return MUNDO_ITEMS.filter(function(i){ return i.id===id; })[0] || null;
 }
+export function itemsBySlot(slot){
+  return MUNDO_ITEMS.filter(function(i){ return i.slot===slot; });
+}
+/* Ids del formato de la Fase 1-3 -> ids nuevos (migración de partidas guardadas). */
+export const LEGACY_ITEM_MAP = {
+  acc_gorro:'hat_copa', acc_corona:'hat_corona', acc_lentes:'face_lentes', acc_capa:'back_capa', acc_corbata:'neck_mono',
+};
+export function cssOf(it){ return hexCss(it.hex); }
 
 /* Creador de avatar (gratis). */
 export const AVATAR_TONES = [0xffdbb4, 0xe8b98a, 0xc68642, 0x8d5524, 0x5c3a21];

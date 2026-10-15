@@ -1531,3 +1531,83 @@
   .pf-backup{ display:flex; flex-direction:column; gap:6px; background:#F4F7F7; border-radius: var(--radius-md); padding:10px 12px; margin:8px 0; text-align:left; }
   .pf-backup small{ color: var(--ink-soft); font-size:12.5px; }
   .pf-backup-btns{ display:flex; gap:8px; flex-wrap:wrap; }
+
+  /* ===== Interfaz compacta en celulares chicos y en horizontal (los textos y botones eran desproporcionados) ===== */
+  @media (max-width:420px), (max-height:520px){
+    .mundo-guide{ font-size:13px; line-height:1.3; padding:6px 10px; gap:6px; }
+    .guide-face{ font-size:18px; }
+    .mundo-guide.collapsed{ max-height:50px; }
+    .guide-speak, .dlg-speak{ width:30px; height:30px; font-size:14px; }
+    .mundo-shop-btn{ font-size:12px; padding:7px 10px; }
+    .mundo-back-btn{ width:34px; height:34px; font-size:17px; }
+    .mundo-jump{ width:68px; height:68px; font-size:24px; right:14px; bottom:22px; }
+    .mundo-jump small{ font-size:10px; }
+    .mundo-emote-btn{ width:44px; height:44px; font-size:20px; right:26px; bottom:104px; }
+    .mundo-sound-btn{ width:38px; height:38px; font-size:16px; right:29px; bottom:156px; }
+    .mundo-emotes{ right:80px; bottom:100px; padding:6px; gap:4px; }
+    .mundo-emotes button{ padding:4px 6px; font-size:18px; }
+    .mundo-settings{ font-size:13px; padding:10px; right:80px; bottom:150px; }
+    .set-row{ padding:8px 10px; font-size:13px; }
+    .mundo-dialog{ font-size:14px; padding:12px; }
+    .mundo-dialog p{ font-size:14px; margin:4px 0; }
+    .dlg-head{ font-size:17px; }
+    .quiz-prompt{ padding:8px; font-size:15px; }
+    .quiz-opt{ font-size:14.5px; padding:9px 10px; }
+    .mundo-dialog .av-done{ padding:9px; font-size:15px; }
+    .mundo-talk{ font-size:15px; padding:9px 18px; bottom:104px; }
+    .mundo-portal{ padding:14px; } .mundo-portal b{ font-size:19px; }
+    .shop-grid{ grid-template-columns:repeat(auto-fill,minmax(80px,1fr)); gap:7px; }
+    .shop-card{ padding:6px 4px; gap:2px; }
+    .shop-card b{ font-size:12px; } .shop-card small{ font-size:11px; }
+    .shop-icon{ font-size:26px; line-height:30px; } .shop-swatch{ width:30px; height:30px; }
+    .av-tab{ min-width:54px; padding:4px 5px; } .av-tab span{ font-size:17px; } .av-tab small{ font-size:10px; }
+    .av-chip{ font-size:13px; padding:6px 11px; } .av-sw{ width:34px; height:34px; }
+    .shop-head{ font-size:17px; }
+    .build-chip{ min-width:62px; }
+    .build-actions .av-done{ font-size:14px; padding:8px; }
+    .look-card{ padding:8px 10px; }
+    .board-row{ font-size:13px; padding:8px 10px; } .board-row b{ font-size:15px; }
+    .mundo-big .mundo-guide{ font-size:15px; }
+    .mundo-big .mundo-dialog, .mundo-big .mundo-dialog p{ font-size:16px; }
+    .mundo-big .quiz-opt{ font-size:16.5px; }
+    .mundo-big .mundo-talk{ font-size:17px; }
+  }
+  @media (max-height:520px){          /* celular horizontal: todo aún más bajo y en una fila */
+    .mundo-guide.collapsed{ max-height:32px; }
+    .mundo-guide.collapsed #mundo-guide-text{ -webkit-line-clamp:1; }
+    .mundo-guide:not(.collapsed){ max-height:40%; }
+    .mundo-jump{ width:60px; height:60px; bottom:12px; }
+    .mundo-emote-btn{ right:92px; bottom:16px; width:40px; height:40px; }
+    .mundo-sound-btn{ right:140px; bottom:17px; width:36px; height:36px; }
+    .mundo-talk{ bottom:10px; font-size:14px; padding:8px 16px; }
+    .mundo-hud .pill{ font-size:12px; padding:5px 9px; }
+    .mundo-emotes{ right:14px; bottom:84px; }
+    .mundo-settings{ right:14px; bottom:84px; width:min(240px,46%); }
+    .mundo-dialog{ width:min(430px,62%); max-height:92%; }
+    .mundo-avatar .av-body{ max-height:none; }
+  }
+  /* pantalla completa / notch: los controles respetan las zonas seguras (iPhone con muesca, barras de Android) */
+  .mundo-wrap.mundo-full .mundo-hud{ top:calc(10px + env(safe-area-inset-top, 0px)); left:calc(10px + env(safe-area-inset-left, 0px)); right:calc(10px + env(safe-area-inset-right, 0px)); }
+  .mundo-wrap.mundo-full .mundo-guide{ left:calc(10px + env(safe-area-inset-left, 0px)); right:calc(10px + env(safe-area-inset-right, 0px)); }
+  .mundo-wrap.mundo-full .mundo-jump{ right:calc(14px + env(safe-area-inset-right, 0px)); bottom:calc(22px + env(safe-area-inset-bottom, 0px)); }
+  .mundo-wrap.mundo-full .mundo-emote-btn{ right:calc(26px + env(safe-area-inset-right, 0px)); }
+  .mundo-wrap.mundo-full .mundo-sound-btn{ right:calc(29px + env(safe-area-inset-right, 0px)); }
+  .mundo-wrap.mundo-full .mundo-avatar, .mundo-wrap.mundo-full .mundo-build{ padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px)); }
+  @media (max-height:520px){
+    .mundo-wrap.mundo-full .mundo-jump{ right:calc(14px + env(safe-area-inset-right, 0px)); bottom:calc(12px + env(safe-area-inset-bottom, 0px)); }
+    .mundo-wrap.mundo-full .mundo-emote-btn{ right:calc(92px + env(safe-area-inset-right, 0px)); }
+    .mundo-wrap.mundo-full .mundo-sound-btn{ right:calc(140px + env(safe-area-inset-right, 0px)); }
+    .mundo-wrap.mundo-full .mundo-avatar, .mundo-wrap.mundo-full .mundo-build{ right:env(safe-area-inset-right, 0px); }
+  }
+  body{ padding-left:env(safe-area-inset-left, 0px); padding-right:env(safe-area-inset-right, 0px); }
+  /* panel de avatar en celular vertical chico: más lista, menos relleno */
+  @media (max-height:700px) and (orientation:portrait){
+    .mundo-avatar{ max-height:58%; }
+    .mundo-avatar .av-body{ min-height:120px; }
+  }
+  /* inicio y mapas en celular horizontal: la mascota y el título no ocupan toda la pantalla */
+  @media (max-height:520px) and (orientation:landscape){
+    .home-hero .mascot-wrap svg{ width:110px; height:auto; }
+    .home-hero .logo-word{ font-size:44px; }
+    .home-hero .home-footnote{ display:none; }
+  }

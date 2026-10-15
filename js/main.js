@@ -19,8 +19,12 @@ import {
   alzSpeakExercise, alzAnswerExercise, alzNextExercise, alzMemoriaListo,
 } from './games/apoyoAlzheimer.js';
 import { render } from './render.js';
+import { currentScreen } from './state.js';
 import { state } from './state.js';
 import { loadProgress, getProfileIndex } from './persistence.js';
+import { initPlatform, leoInstall, leoDismissTip, requestPersistence } from './platform.js';
+import { unlockAudio } from './audio.js';
+import { bkDownload, bkPickFile, bkRestoreFile } from './profiles.js';
 import { showProfilePicker, pfClose, pfChoose, pfCreate, pfDelete, profileChosenThisSession } from './profiles.js';
 
 window.goTo = goTo;
@@ -92,7 +96,20 @@ window.alzAnswerExercise = alzAnswerExercise;
 window.alzNextExercise = alzNextExercise;
 window.alzMemoriaListo = alzMemoriaListo;
 
+window.leoInstall = leoInstall;
+window.leoDismissTip = leoDismissTip;
+window.bkDownload = bkDownload;
+window.bkPickFile = bkPickFile;
+window.bkRestoreFile = bkRestoreFile;
 window.showProfilePicker = showProfilePicker;
+
+initPlatform(function(){ if(currentScreen() === 'home') render(); });   // instalación como app + service worker
+// primer gesto de la sesión: desbloquea el audio (iOS) y pide almacenamiento persistente
+(function(){
+  const evs = ['pointerdown','touchend','keydown'];
+  function first(){ evs.forEach(function(ev){ window.removeEventListener(ev, first, true); }); unlockAudio(); requestPersistence(); }
+  evs.forEach(function(ev){ window.addEventListener(ev, first, { capture:true, passive:true }); });
+})();
 window.pfClose = pfClose;
 window.pfChoose = pfChoose;
 window.pfCreate = pfCreate;

@@ -109,6 +109,15 @@ function beep(freq, dur, delay, vol, type){
    parlante de un celular. Subido a un rango bastante más audible
    (0.34-0.42) en vez de seguir subiendo de a poco. */
 export const playBeep = beep;   // tono suelto (lo usa el Mundo de Carboncito para música y efectos)
+/* iOS/Safari solo permite audio tras un gesto del usuario: se llama en el primer toque/tecla de la sesión. */
+export function unlockAudio(){
+  try{
+    const c = getActx(); if(!c) return;
+    if(c.state === 'suspended') c.resume();
+    const b = c.createBuffer(1, 1, 22050), src = c.createBufferSource();
+    src.buffer = b; src.connect(c.destination); src.start(0);
+  }catch(e){}
+}
 export function audioRunning(){
   try{ const c = getActx(); if(!c) return false; if(c.state === 'suspended') c.resume(); return c.state === 'running'; }catch(e){ return false; }
 }

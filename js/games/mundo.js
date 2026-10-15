@@ -11,7 +11,7 @@
    - Las monedas se ganan estudiando y se gastan en la tienda
      (accesorios y colores de Carboncito).
    ========================================================= */
-import { state, showToast, spendCoins, awardCoins, totalStars, todayStr, yesterdayStr } from '../state.js';
+import { state, showToast, spendCoins, awardCoins, totalStars, todayStr, yesterdayStr, setBackHook } from '../state.js';
 import { playBeep, audioRunning, sfxCorrect, sfxWrong, sfxStreak, sfxLevelup, speak } from '../audio.js';
 import { saveProgress } from '../persistence.js';
 import { render } from '../render.js';
@@ -1698,18 +1698,29 @@ export async function initMundo(){
   if(myRun !== runId || !document.body.contains(wrap)) return;
 
   const T = THREE;
+  const lowEnd = !!((navigator.deviceMemory && navigator.deviceMemory <= 2) || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4));
   let renderer;
   try{
-    renderer = new T.WebGLRenderer({ antialias:true });
+    renderer = new T.WebGLRenderer({ antialias: !lowEnd });
   }catch(e){
     if(loading) loading.textContent = 'Tu dispositivo no puede mostrar el mundo 3D. 🐾';
     return;
   }
   if(loading) loading.remove();
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+  let pr = Math.min(window.devicePixelRatio||1, lowEnd ? 1.25 : 2);   // celulares modestos: menos píxeles
+  renderer.setPixelRatio(pr);
   const canvas = renderer.domElement;
   canvas.className = 'mundo-canvas';
   wrap.insertBefore(canvas, wrap.firstChild);
+
+  let ctxLost = false, ctxTimer = null;
+  canvas.addEventListener('webglcontextlost', function(e){
+    e.preventDefault(); ctxLost = true;
+    showToast('Reconectando el mundo… 🐾');
+    clearTimeout(ctxTimer); ctxTimer = setTimeout(function(){ if(ctxLost && myRun === runId) render(); }, 2500);   // si el navegador no lo restaura solo, se reconstruye
+  });
+  canvas.addEventListener('webglcontextrestored', function(){ clearTimeout(ctxTimer); ctxLost = false; if(myRun === runId) render(); });
+  canvas.addEventListener('contextmenu', function(e){ e.preventDefault(); });
 
   const scene = new T.Scene();
   scene.background = new T.Color(zone.sky);
@@ -2069,6 +2080,28 @@ export async function initMundo(){
   document.addEventListener('visibilitychange', onVisibility);
   canvas.addEventListener('lostpointercapture', onWinPointerEnd);
 
+  // mantener la pantalla encendida mientras se juega (Android/iOS 16.4+)
+  let wakeLock = null;
+  async function takeWake(){
+    try{ if(navigator.wakeLock && !document.hidden && !wakeLock){ wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', function(){ wakeLock = null; }); } }catch(e){}
+  }
+  const onWakeVis = function(){ if(!document.hidden) takeWake(); };
+  takeWake(); document.addEventListener('visibilitychange', onWakeVis);
+  // Safari ignora user-scalable=no: se bloquean los gestos de zoom de página mientras se juega
+  const noGesture = function(e){ e.preventDefault(); };
+  ['gesturestart','gesturechange','gestureend'].forEach(function(g){ document.addEventListener(g, noGesture); });
+  // botón/gesto Atrás del dispositivo: primero cierra paneles y diálogos, recién después sale del mundo
+  setBackHook(function(){
+    let h = false;
+    const d = dialogEl(); if(d && !d.classList.contains('hidden')){ mundoDialogClose(); h = true; }
+    const pf = document.getElementById('pf-overlay'); if(pf){ pf.remove(); h = true; }
+    ['mundo-emotes','mundo-settings','mundo-portal'].forEach(function(id){ const e = document.getElementById(id); if(e && !e.classList.contains('hidden')){ e.classList.add('hidden'); h = true; } });
+    if(avatarOpen){ mundoAvatarDone(); h = true; }
+    if(buildOpen){ closeBuild(); h = true; }
+    if(!h && wantFull && wrap.classList.contains('mundo-full') && !landscapeMQ.matches){ wantFull = false; setFull(false); h = true; }
+    return h;
+  });
+
   function respawn(){
     pos.set(spawn.x, spawn.y, spawn.z); vy = 0; grounded = true;
     guide.root.position.set(spawn.x-1.5, spawn.y, spawn.z+1.5);
@@ -2087,6 +2120,10 @@ export async function initMundo(){
   }, 650);
 
   function cleanup(){
+    document.removeEventListener('visibilitychange', onWakeVis);
+    ['gesturestart','gesturechange','gestureend'].forEach(function(g){ document.removeEventListener(g, noGesture); });
+    if(wakeLock){ try{ wakeLock.release(); }catch(e){} wakeLock = null; }
+    if(myRun === runId) setBackHook(null);
     window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchend', onTouchEnd); window.removeEventListener('touchcancel', onTouchEnd);
     window.removeEventListener('pointerup', onWinPointerEnd); window.removeEventListener('pointercancel', onWinPointerEnd);
     window.removeEventListener('blur', releaseAll); document.removeEventListener('visibilitychange', onVisibility);
@@ -2103,13 +2140,17 @@ export async function initMundo(){
   }
 
   const labelV = new T.Vector3();
+  let slowFrames = 0;
   let portalBlocked = null;   // portal cuyo aviso ya se mostró (se rearma al alejarse)
   const clock = new T.Clock();
   let walk = 0;
   function frame(){
     if(myRun !== runId || !document.body.contains(wrap)){ cleanup(); return; }
     requestAnimationFrame(frame);
-    const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+    const rawDt = clock.getDelta(), dt = Math.min(rawDt, 0.05), t = clock.elapsedTime;
+    // resolución adaptable: si va lento sostenidamente (< ~22 fps), baja la resolución en vez de trabarse
+    if(rawDt > 0.045 && rawDt < 0.5) slowFrames++; else if(slowFrames > 0) slowFrames--;
+    if(slowFrames > 60 && pr > 0.8){ pr = Math.max(0.75, pr - 0.35); renderer.setPixelRatio(pr); resize(); slowFrames = 0; }
 
     if(touchSeen && touchCount === 0 && ((joyId !== null && performance.now()-joyT0 > 200) || (jumpPtr !== null && performance.now()-jumpT0 > 200))) releaseTouch();   // vigilante: no hay dedos, no debe haber controles activos
 
@@ -2350,7 +2391,7 @@ export async function initMundo(){
     else if(panelOpen && vh > vw) camera.setViewOffset(vw, vh, 0, vh*(avatarOpen ? 0.2 : 0.12), vw, vh);   // panel inferior: el personaje sube
     else if(camera.view && camera.view.enabled) camera.clearViewOffset();
 
-    renderer.render(scene,camera);
+    if(!ctxLost) renderer.render(scene,camera);
   }
   camera.position.set(pos.x, pos.y+6, pos.z+12);
   frame();

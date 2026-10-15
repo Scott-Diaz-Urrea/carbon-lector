@@ -33,3 +33,33 @@ export const AVATAR_HAIRS = [
 export const AVATAR_HAIR_COLORS = [0x1b1b1b, 0x6b4423, 0xe6c35c, 0xb7410e, 0x3b82f6, 0xf783ac];
 
 export function hexCss(n){ return '#' + ('000000' + n.toString(16)).slice(-6); }
+
+/* Catálogo de construcción de "Mi Casa". Los bloques/muebles marcados free
+   vienen desbloqueados; el resto se compra una vez (después, uso ilimitado). */
+export const HOUSE_ITEMS = [
+  { id:'b_madera',   kind:'block', label:'Madera',   price:0,  color:0xc99a5b },
+  { id:'b_blanco',   kind:'block', label:'Blanco',   price:0,  color:0xf5f5f5 },
+  { id:'b_rojo',     kind:'block', label:'Rojo',     price:0,  color:0xe0334c },
+  { id:'b_azul',     kind:'block', label:'Azul',     price:0,  color:0x3b82f6 },
+  { id:'b_verde',    kind:'block', label:'Verde',    price:5,  color:0x2fb344 },
+  { id:'b_amarillo', kind:'block', label:'Amarillo', price:5,  color:0xf7c948 },
+  { id:'b_ladrillo', kind:'block', label:'Ladrillo', price:10, color:0xb5523b },
+  { id:'b_piedra',   kind:'block', label:'Piedra',   price:10, color:0x9aa0a6 },
+  { id:'b_vidrio',   kind:'block', label:'Vidrio',   price:15, color:0xa9dcf5, opacity:0.45 },
+  { id:'b_dorado',   kind:'block', label:'Dorado',   price:30, color:0xe8b923 },
+
+  { id:'f_silla',    kind:'furn', label:'Silla',    price:10, icon:'💺' },
+  { id:'f_mesa',     kind:'furn', label:'Mesa',     price:15, icon:'🍽️' },
+  { id:'f_cama',     kind:'furn', label:'Cama',     price:20, icon:'🛏️' },
+  { id:'f_sofa',     kind:'furn', label:'Sillón',   price:25, icon:'🛋️' },
+  { id:'f_planta',   kind:'furn', label:'Planta',   price:10, icon:'🌱' },
+  { id:'f_lampara',  kind:'furn', label:'Lámpara',  price:15, icon:'💡' },
+  { id:'f_alfombra', kind:'furn', label:'Alfombra', price:10, icon:'▦' },
+  { id:'f_arbol',    kind:'furn', label:'Árbol',    price:12, icon:'🌳' },
+];
+export function houseItemById(id){
+  return HOUSE_ITEMS.filter(function(i){ return i.id===id; })[0] || null;
+}
+export const HOUSE_FREE = HOUSE_ITEMS.filter(function(i){ return i.price===0; }).map(function(i){ return i.id; });
+export const HOUSE_LIMIT = 10;      // la casa va de -10 a 10 en x y z
+export const HOUSE_MAX_ITEMS = 800;

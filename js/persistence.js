@@ -1,4 +1,5 @@
 import { state } from './state.js';
+import { HOUSE_ITEMS, HOUSE_FREE, HOUSE_LIMIT, HOUSE_MAX_ITEMS } from './content/mundoItems.js';
 
 const STORAGE_KEY = 'leo_progress_v1';
 
@@ -29,6 +30,17 @@ export function loadProgress(){
       if(w.missions && typeof w.missions === 'object'){
         Object.keys(cur.missions).forEach(function(k){ if(typeof w.missions[k] === 'number') cur.missions[k] = w.missions[k]; });
       }else if(typeof w.mission === 'number') cur.missions.bosque = w.mission;   // formato de la Fase 1
+      if(w.house && typeof w.house === 'object'){
+        const ids = HOUSE_ITEMS.map(function(i){ return i.id; });
+        const owned = Array.isArray(w.house.owned) ? w.house.owned.filter(function(x){ return ids.indexOf(x) !== -1; }) : [];
+        HOUSE_FREE.forEach(function(f){ if(owned.indexOf(f) === -1) owned.push(f); });
+        cur.house.owned = owned;
+        const L = HOUSE_LIMIT;
+        function okInt(n, lo, hi){ return typeof n === 'number' && n === Math.round(n) && n >= lo && n <= hi; }
+        cur.house.items = Array.isArray(w.house.items) ? w.house.items.filter(function(it){
+          return it && ids.indexOf(it.t) !== -1 && okInt(it.x,-L,L) && okInt(it.z,-L,L) && okInt(it.y,0,3);
+        }).slice(0, HOUSE_MAX_ITEMS).map(function(it){ return { t:it.t, x:it.x, y:it.y, z:it.z }; }) : [];
+      }
       if(Array.isArray(w.unlocked)){
         cur.unlocked = w.unlocked.filter(function(x){ return x==='bosque' || x==='playa' || x==='espacio'; });
         if(cur.unlocked.indexOf('bosque') === -1) cur.unlocked.unshift('bosque');

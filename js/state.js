@@ -170,8 +170,28 @@ export const state = {
 export const screenStack = ['home'];
 
 export function currentScreen(){ return screenStack[screenStack.length-1]; }
-export function goTo(screen){ screenStack.push(screen); render(); }
-export function goBack(){ if(screenStack.length>1){ screenStack.pop(); render(); } }
+/* Botón/gesto "Atrás" del dispositivo (Android, navegadores): sincronizado con la pila de pantallas.
+   goTo agrega una entrada al historial; goBack (botón de la app) retrocede el historial sin volver a retroceder la pila. */
+let ignorePop = 0;
+let backHook = null;     // función que cierra paneles/diálogos abiertos; devuelve true si cerró algo
+export function setBackHook(fn){ backHook = fn; }
+try{ history.replaceState({ leo:1 }, ''); }catch(e){}
+export function goTo(screen){
+  screenStack.push(screen);
+  try{ history.pushState({ leo:screenStack.length }, ''); }catch(e){}
+  render();
+}
+export function goBack(){
+  if(screenStack.length>1){
+    screenStack.pop(); render();
+    try{ ignorePop++; history.back(); }catch(e){ ignorePop = 0; }
+  }
+}
+window.addEventListener('popstate', function(){
+  if(ignorePop > 0){ ignorePop--; return; }
+  if(backHook && backHook()){ try{ history.pushState({ leo:screenStack.length }, ''); }catch(e){} return; }   // se cerró un panel: seguimos en la misma pantalla
+  if(screenStack.length > 1){ screenStack.pop(); render(); }
+});
 export function selectGrade(id){ state.currentGrade = id; saveProgress(); goTo('subjectMap'); }
 export function gradeLabel(id){
   const g = GRADES.filter(function(x){ return x.id===id; })[0];

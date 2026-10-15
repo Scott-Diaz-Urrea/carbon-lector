@@ -11,6 +11,8 @@ import { renderCaligrafiaScreen, initCaligrafiaGame } from './games/caligrafia.j
 import { renderDiccionarioScreen, initDiccionario } from './games/diccionario.js';
 import { renderColorearNumerosScreen, initColorearNumeros } from './games/colorearNumeros.js';
 import { renderMundoScreen, initMundo } from './games/mundo.js';
+import { installHTML } from './platform.js';
+import { backupTipHTML } from './profiles.js';
 import { APRENDO_A_LEER_MODULES, APRENDO_A_LEER_POS } from './content/aprendoALeer.js';
 import {
   renderApoyoAlzheimerScreen, renderAlzOrientacionScreen, initAlzOrientacion,
@@ -136,6 +138,7 @@ function renderHome(){
     '<p class="logo-tag">'+greeting+'</p>'+
     '<button class="cta-btn" onclick="goTo(\'etapaMap\')">Comenzar aventura</button>'+
     '<button class="cta-btn secondary home-players" onclick="showProfilePicker()">👥 Jugadores</button>'+
+    installHTML()+backupTipHTML()+
     '<div class="home-footnote"><b>Prototipo educativo</b> — organizado igual que la trayectoria escolar real: por etapa, año y materia, para calzar con lo que el colegio ya enseña. Empieza gratis con <b>1° Básico</b>: Lenguaje y Matemáticas. Por cierto: así como el carboncillo fue de los primeros materiales con los que la humanidad dibujó letras y símbolos, <b>Carboncito</b> te acompaña a trazar las tuyas.</div>'+
   '</div>';
 }

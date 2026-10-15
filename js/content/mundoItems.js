@@ -95,7 +95,42 @@ export const MUNDO_ITEMS = [
   { id:'neck_medalla', slot:'neck', label:'Medalla',  price:40, icon:'🏅' },
   { id:'neck_flores',  slot:'neck', label:'Collar de flores', price:25, icon:'🌺' },
   { id:'back_guitarra', slot:'back', label:'Guitarra', price:40, icon:'🎸' },
+
+  // Temporada: Halloween (15 oct - 2 nov)
+  { id:'hat_calabaza',  slot:'hat',   label:'Calabaza',        price:30, icon:'🎃', season:'halloween' },
+  { id:'hat_bruja',     slot:'hat',   label:'Sombrero de bruja', price:40, icon:'🧹', season:'halloween' },
+  { id:'face_vampiro',  slot:'face',  label:'Colmillos',       price:20, icon:'🦇', season:'halloween' },
+  { id:'back_murcielago', slot:'back', label:'Alas de murciélago', price:60, icon:'🦇', season:'halloween' },
+  { id:'shirt_calabaza', slot:'shirt', label:'Calabaza',       price:25, hex:0xff8a1f, season:'halloween' },
+  // Temporada: Navidad (1 dic - 6 ene)
+  { id:'hat_navidad',   slot:'hat',   label:'Gorro navideño',  price:30, icon:'🎅', season:'navidad' },
+  { id:'shirt_navidad', slot:'shirt', label:'Navidad',         price:30, hex:0xc0392b, pattern:'estrella', season:'navidad' },
+  // Temporada: Fiestas Patrias (10 - 25 sep)
+  { id:'hat_chupalla',  slot:'hat',   label:'Chupalla',        price:30, icon:'👒', season:'patrias' },
+  { id:'neck_panuelo',  slot:'neck',  label:'Pañuelo huaso',   price:20, icon:'🎽', season:'patrias' },
+  { id:'back_bandera',  slot:'back',  label:'Bandera de Chile', price:25, icon:'🚩', season:'patrias' },
 ];
+
+/* Temporadas: la ropa de temporada solo se vende mientras dura (si ya la compraste, es tuya para siempre).
+   Para probar: localStorage 'leo_mundo_season' = halloween | navidad | patrias | none */
+export const SEASONS = {
+  halloween: { label:'Halloween', icon:'🎃', from:[10,15], to:[11,2] },
+  navidad:   { label:'Navidad',   icon:'🎄', from:[12,1],  to:[1,6] },
+  patrias:   { label:'Fiestas Patrias', icon:'🎉', from:[9,10], to:[9,25] },
+};
+export function activeSeason(){
+  let ov = null;
+  try{ ov = localStorage.getItem('leo_mundo_season'); }catch(e){}
+  if(ov === 'none') return null;
+  if(ov && SEASONS[ov]) return ov;
+  const d = new Date(), md = (d.getMonth()+1)*100 + d.getDate();
+  const ids = Object.keys(SEASONS);
+  for(let i=0;i<ids.length;i++){
+    const s = SEASONS[ids[i]], a = s.from[0]*100 + s.from[1], b = s.to[0]*100 + s.to[1];
+    if(a <= b ? (md >= a && md <= b) : (md >= a || md <= b)) return ids[i];
+  }
+  return null;
+}
 
 export function itemById(id){
   return MUNDO_ITEMS.filter(function(i){ return i.id===id; })[0] || null;

@@ -62,6 +62,10 @@ export const MUNDO_ITEMS = [
   { id:'hat_corona',  slot:'hat', label:'Corona',         price:60, icon:'👑' },
   { id:'hat_aureola', slot:'hat', label:'Aureola',        price:70, icon:'😇' },
 
+  { id:'hat_flores',   slot:'hat', label:'Corona de flores', price:15, icon:'🌸' },
+  { id:'hat_lana',     slot:'hat', label:'Gorro de lana',    price:20, icon:'🧶' },
+  { id:'hat_vaquero',  slot:'hat', label:'Sombrero vaquero', price:40, icon:'🤠' },
+
   // Cara
   { id:'face_bigote',  slot:'face', label:'Bigote',       price:15, icon:'👨' },
   { id:'face_nariz',   slot:'face', label:'Nariz payaso', price:15, icon:'🤡' },
@@ -89,6 +93,8 @@ export const MUNDO_ITEMS = [
   { id:'neck_corbata', slot:'neck', label:'Corbata',  price:20, icon:'👔' },
   { id:'neck_bufanda', slot:'neck', label:'Bufanda',  price:25, icon:'🧣' },
   { id:'neck_medalla', slot:'neck', label:'Medalla',  price:40, icon:'🏅' },
+  { id:'neck_flores',  slot:'neck', label:'Collar de flores', price:25, icon:'🌺' },
+  { id:'back_guitarra', slot:'back', label:'Guitarra', price:40, icon:'🎸' },
 ];
 
 export function itemById(id){

@@ -12,7 +12,7 @@ import { initMemoryGame, flipCard } from './games/memorama.js';
 import { replayGame, showNameEntry, closeRecurso } from './rewards.js';
 import { diccSpeak } from './games/diccionario.js';
 import { selectColoringDrawing, backToDrawingPicker, pickColorNum, pickColorHex, pickTool, zoomIn, zoomOut, clearColoring, saveColoringPNG } from './games/colorearNumeros.js';
-import { mundoToggleShop, mundoItemClick, mundoToggleAvatar, mundoAvatarSet, mundoAvatarDone, mundoPortalUnlock, mundoPortalClose } from './games/mundo.js';
+import { mundoToggleShop, mundoItemClick, mundoToggleAvatar, mundoAvatarSet, mundoAvatarDone, mundoPortalUnlock, mundoPortalClose, mundoToggleBuild, mundoBuildPick, mundoBuildPlace, mundoBuildRemove } from './games/mundo.js';
 import {
   alzSpeakOrientacion, alzShowAddForm, alzHideAddForm, alzSaveReminder,
   alzToggleDone, alzDeleteReminder, alzSpeakReminder,
@@ -56,6 +56,10 @@ window.mundoAvatarSet = mundoAvatarSet;
 window.mundoAvatarDone = mundoAvatarDone;
 window.mundoPortalUnlock = mundoPortalUnlock;
 window.mundoPortalClose = mundoPortalClose;
+window.mundoToggleBuild = mundoToggleBuild;
+window.mundoBuildPick = mundoBuildPick;
+window.mundoBuildPlace = mundoBuildPlace;
+window.mundoBuildRemove = mundoBuildRemove;
 window.alzSpeakOrientacion =alzSpeakOrientacion;
 window.alzShowAddForm = alzShowAddForm;
 window.alzHideAddForm = alzHideAddForm;

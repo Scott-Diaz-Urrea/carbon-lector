@@ -14,7 +14,7 @@
 import { state, showToast, spendCoins, awardCoins } from '../state.js';
 import { saveProgress } from '../persistence.js';
 import { render } from '../render.js';
-import { MUNDO_ITEMS, itemById, AVATAR_TONES, AVATAR_HAIRS, AVATAR_HAIR_COLORS, hexCss } from '../content/mundoItems.js';
+import { MUNDO_ITEMS, itemById, AVATAR_TONES, AVATAR_HAIRS, AVATAR_HAIR_COLORS, hexCss, HOUSE_ITEMS, houseItemById, HOUSE_LIMIT, HOUSE_MAX_ITEMS } from '../content/mundoItems.js';
 
 const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
@@ -24,6 +24,9 @@ let outfitHook = null;  // función que reaplica el atuendo al pug vivo
 let bonesCollected = 0;   // huesitos recogidos en esta visita
 let missionBones = 0;     // huesitos de la misión de huesitos activa
 let avatarOpen = false;
+let buildOpen = false;     // panel de construcción de Mi Casa abierto
+let buildType = 'b_madera'; // ítem seleccionado para construir
+let buildHooks = null;     // {place, remove}: acciones de construcción de la zona viva
 let guideSay = null;      // función que cambia el texto de Carboncito
 
 let currentZone = 'pueblo';  // zona actual (se reinicia al pueblo al salir del juego)
@@ -37,6 +40,7 @@ export function renderMundoScreen(){
       '<div class="mundo-hud">'+
         '<div class="pill coinpill"><span class="coin-ic"></span><span id="mundo-coins">'+state.coins+'</span></div>'+
         '<div class="pill" id="mundo-collect-pill"><span id="mundo-collect-icon">🦴</span> <span id="mundo-bones">0</span></div>'+
+        '<button class="mundo-shop-btn" id="mundo-build-btn" style="display:none" onclick="mundoToggleBuild()">🔨 Construir</button>'+
         '<button class="mundo-shop-btn" onclick="mundoToggleAvatar()">👤 Yo</button>'+
         '<button class="mundo-shop-btn alone" onclick="mundoToggleShop()">🛍️ Tienda</button>'+
       '</div>'+
@@ -45,6 +49,7 @@ export function renderMundoScreen(){
       '<div class="mundo-shop hidden" id="mundo-shop"></div>'+
       '<div class="mundo-avatar hidden" id="mundo-avatar"></div>'+
       '<div class="mundo-portal hidden" id="mundo-portal"></div>'+
+      '<div class="mundo-build hidden" id="mundo-build"></div>'+
     '</div>'+
     '<p class="mundo-help">Muévete con las flechas o WASD (en celular, con el joystick). Sigue las misiones de Carboncito. ¡Estudia para ganar monedas y estrenar cosas nuevas!</p>'+
   '</div>';
@@ -87,7 +92,7 @@ export function mundoToggleShop(){
   const shop = document.getElementById('mundo-shop');
   if(!shop) return;
   const open = shop.classList.contains('hidden');
-  if(open) closeAvatar();
+  if(open){ closeAvatar(); closeBuild(); }
   shop.classList.toggle('hidden', !open);
   if(open) shop.innerHTML = shopHTML();
 }
@@ -115,6 +120,7 @@ export function mundoToggleAvatar(){
   if(!el) return;
   if(!avatarOpen){
     const shop = document.getElementById('mundo-shop'); if(shop) shop.classList.add('hidden');
+    closeBuild();
     el.innerHTML = avatarHTML(); el.classList.remove('hidden'); avatarOpen = true;
   }else closeAvatar();
 }
@@ -199,6 +205,67 @@ function buildPug(){
 
   return { root:root, body:body, legs:legs, tail:tail };
 }
+
+/* ---------- Mi Casa: panel de construcción ---------- */
+function buildHTML(){
+  const h = state.world.house;
+  const cur = houseItemById(buildType);
+  function chip(it){
+    const owned = h.owned.indexOf(it.id) !== -1;
+    const prev = it.kind==='block'
+      ? '<span class="shop-swatch" style="background:'+hexCss(it.color)+';width:30px;height:30px"></span>'
+      : '<span class="shop-icon" style="font-size:26px;line-height:30px">'+it.icon+'</span>';
+    const sub = owned ? '' : '<small class="shop-price"><span class="coin-ic"></span> '+it.price+'</small>';
+    return '<button class="shop-card build-chip'+(buildType===it.id?' equipped':'')+'" onclick="mundoBuildPick(\''+it.id+'\')">'+prev+'<b>'+it.label+'</b>'+sub+'</button>';
+  }
+  return '<div class="build-actions">'+
+      '<button class="av-done build-put" onclick="mundoBuildPlace()">➕ Poner '+(cur?cur.label:'')+'</button>'+
+      '<button class="av-chip build-del" onclick="mundoBuildRemove()">➖ Quitar</button>'+
+      '<button class="shop-close" onclick="mundoToggleBuild()" aria-label="Cerrar">✕</button>'+
+    '</div>'+
+    '<div class="build-row">'+HOUSE_ITEMS.map(chip).join('')+'</div>';
+}
+function closeBuild(){
+  const el = document.getElementById('mundo-build');
+  if(el) el.classList.add('hidden');
+  const wrap = document.getElementById('mundo-wrap');
+  if(wrap) wrap.classList.remove('build-open');
+  buildOpen = false;
+}
+function refreshBuild(){
+  const el = document.getElementById('mundo-build');
+  if(!el || !buildOpen) return;
+  const row = el.querySelector('.build-row'); const sl = row ? row.scrollLeft : 0;
+  el.innerHTML = buildHTML();
+  const row2 = el.querySelector('.build-row'); if(row2) row2.scrollLeft = sl;
+}
+export function mundoToggleBuild(){
+  const el = document.getElementById('mundo-build');
+  if(!el) return;
+  if(buildOpen){ closeBuild(); return; }
+  const shop = document.getElementById('mundo-shop'); if(shop) shop.classList.add('hidden');
+  closeAvatar();
+  el.innerHTML = buildHTML(); el.classList.remove('hidden');
+  const wrap = document.getElementById('mundo-wrap'); if(wrap) wrap.classList.add('build-open');
+  buildOpen = true;
+}
+export function mundoBuildPick(id){
+  const it = houseItemById(id), h = state.world.house;
+  if(!it) return;
+  if(h.owned.indexOf(id) === -1){
+    if(!spendCoins(it.price)){
+      showToast('Te faltan '+(it.price-state.coins)+' monedas. ¡Estudia para ganar más!');
+      return;
+    }
+    h.owned.push(id); saveProgress();
+    showToast('¡Desbloqueaste: '+it.label+'!');
+    refreshShop();
+  }
+  buildType = id;
+  refreshBuild();
+}
+export function mundoBuildPlace(){ if(buildHooks) buildHooks.place(); }
+export function mundoBuildRemove(){ if(buildHooks) buildHooks.remove(); }
 
 /* ---------- Persona (avatar de bloques) ---------- */
 function buildPerson(){
@@ -403,6 +470,7 @@ function buildPueblo(scene, ctx){
     addPortal(scene, obstacles, 0, -16, 0x2fb344, ctx.portalLabel('bosque'), 'bosque'),
     addPortal(scene, obstacles, 16, 0, 0xf7c948, ctx.portalLabel('playa'), 'playa'),
     addPortal(scene, obstacles, -16, 0, 0x9b59d0, ctx.portalLabel('espacio'), 'espacio'),
+    addPortal(scene, obstacles, 11, -11, 0xff9f43, '🏠 Mi Casa', 'casa'),
   ];
   addFence(scene, 38);
   addLights(scene, 0xffffff, 0x88aa66, 0.9);
@@ -511,6 +579,70 @@ function buildEspacio(scene, ctx){
   return { obstacles:obstacles, portals:portals, visits:{ bandera:{ x:-12, z:-10 } } };
 }
 
+/* ----- Mi Casa ----- */
+function buildCasa(scene, ctx){
+  const T = THREE, obstacles = [], rnd = mulberry32(31);
+  discOnGround(scene, 40, 0x7ed957);
+  const L = HOUSE_LIMIT;
+  const floor = new T.Mesh(new T.PlaneGeometry(2*L+1,2*L+1), mat(0xe9d3a6));
+  floor.rotation.x = -Math.PI/2; floor.position.y = 0.02; scene.add(floor);
+  const grid = new T.GridHelper(2*L+1, 2*L+1, 0xb89a68, 0xcdb27f); grid.position.y = 0.04; scene.add(grid);
+  for(let i=0;i<14;i++){
+    const a = rnd()*Math.PI*2, d = 17 + rnd()*5;
+    const x = Math.cos(a)*d, z = Math.sin(a)*d;
+    if(Math.hypot(x,z+18) < 4) continue;
+    addTree(scene, obstacles, x, z, 0.9+rnd()*0.5, 0x2f9e44, 0x40c057);
+  }
+  const portals = [ addPortal(scene, obstacles, 0, -17, 0xffd43b, 'Volver al pueblo', 'pueblo') ];
+  addFence(scene, 24);
+  addLights(scene, 0xffffff, 0x88aa66, 0.95);
+  return { obstacles:obstacles, portals:portals, visits:{}, house:true };
+}
+
+function houseMesh(def){
+  const T = THREE, g = new T.Group();
+  function box(w,h,d,color,x,y,z,opts){
+    const m = new T.Mesh(new T.BoxGeometry(w,h,d), mat(color, opts));
+    m.position.set(x,y,z); g.add(m); return m;
+  }
+  if(def.kind === 'block'){
+    box(0.98,0.98,0.98,def.color,0,0.5,0, def.opacity ? { transparent:true, opacity:def.opacity } : null);
+    return g;
+  }
+  if(def.id==='f_mesa'){
+    box(0.95,0.1,0.95,0xb07a3f,0,0.78,0);
+    [[-0.38,-0.38],[0.38,-0.38],[-0.38,0.38],[0.38,0.38]].forEach(function(p){ box(0.1,0.74,0.1,0x8a5a2b,p[0],0.37,p[1]); });
+  }else if(def.id==='f_silla'){
+    box(0.6,0.08,0.6,0xb07a3f,0,0.45,0);
+    box(0.6,0.55,0.08,0xb07a3f,0,0.78,-0.26);
+    [[-0.24,-0.24],[0.24,-0.24],[-0.24,0.24],[0.24,0.24]].forEach(function(p){ box(0.07,0.42,0.07,0x8a5a2b,p[0],0.21,p[1]); });
+  }else if(def.id==='f_cama'){
+    box(0.95,0.3,0.98,0x8a5a2b,0,0.25,0);
+    box(0.88,0.2,0.9,0xf5f5f5,0,0.5,0.02);
+    box(0.7,0.12,0.25,0x93c5fd,0,0.66,-0.3);
+    box(0.95,0.55,0.1,0x8a5a2b,0,0.5,-0.46);
+  }else if(def.id==='f_sofa'){
+    box(0.98,0.4,0.8,0xd94f4f,0,0.3,0.08);
+    box(0.98,0.55,0.2,0xb83a3a,0,0.6,-0.38);
+    [-1,1].forEach(function(s){ box(0.15,0.5,0.8,0xb83a3a,s*0.42,0.45,0.08); });
+  }else if(def.id==='f_planta'){
+    const pot = new T.Mesh(new T.CylinderGeometry(0.25,0.18,0.35,10), mat(0xc2693a)); pot.position.y = 0.18; g.add(pot);
+    const leaf = new T.Mesh(new T.SphereGeometry(0.38,10,8), mat(0x2fb344)); leaf.position.y = 0.7; g.add(leaf);
+  }else if(def.id==='f_lampara'){
+    box(0.08,1.1,0.08,0x555555,0,0.55,0);
+    box(0.3,0.05,0.3,0x555555,0,0.03,0);
+    const sh = new T.Mesh(new T.ConeGeometry(0.32,0.4,10,1,true), new T.MeshBasicMaterial({ color:0xfff1a8, side:T.DoubleSide })); sh.position.y = 1.2; g.add(sh);
+  }else if(def.id==='f_alfombra'){
+    box(0.98,0.05,0.98,0xd94f4f,0,0.04,0);
+    box(0.7,0.06,0.7,0xf7c948,0,0.05,0);
+  }else if(def.id==='f_arbol'){
+    const tr = new T.Mesh(new T.CylinderGeometry(0.1,0.14,0.6,8), mat(0x8a5a2b)); tr.position.y = 0.3; g.add(tr);
+    const c = new T.Mesh(new T.ConeGeometry(0.45,0.9,8), mat(0x2f9e44)); c.position.y = 1.0; g.add(c);
+    const c2 = new T.Mesh(new T.ConeGeometry(0.33,0.7,8), mat(0x40c057)); c2.position.y = 1.5; g.add(c2);
+  }
+  return g;
+}
+
 /* ---------- Coleccionables ---------- */
 function makeBone(){
   const T = THREE;
@@ -543,6 +675,8 @@ function makeStar(){
 const ZONES = {
   pueblo:  { name:'Pueblo de Carboncito', radius:37, sky:0xbfe8ff, fogNear:50, fogFar:110, build:buildPueblo,
              hello:'Bienvenido al pueblo 🏘️ Entra a un portal para viajar. Los que tienen candado 🔒 se abren con monedas.' },
+  casa:    { name:'Mi Casa', radius:23, sky:0x9fdcff, fogNear:50, fogFar:110, build:buildCasa, home:true,
+             hello:'¡Esta es tu casa! 🏠 Toca 🔨 Construir para poner bloques y muebles. Desbloquea más con tus monedas.' },
   bosque:  { name:'Bosque', radius:37, sky:0x9fdcff, fogNear:35, fogFar:80, build:buildBosque, price:0,
              collect:{ emoji:'🦴', make:makeBone, n:10 },
              missions:[
@@ -577,7 +711,7 @@ function pushOut(pos, obstacles, pr, R){
   if(d0 > lim){ pos.x *= lim/d0; pos.z *= lim/d0; }
 }
 
-function isUnlocked(id){ return id==='pueblo' || state.world.unlocked.indexOf(id) !== -1; }
+function isUnlocked(id){ return id==='pueblo' || id==='casa' || state.world.unlocked.indexOf(id) !== -1; }
 
 function travel(dest){
   arrivedFrom = currentZone;
@@ -610,7 +744,7 @@ export async function initMundo(){
   if(!wrap) return;
   const zoneId = currentZone, zone = ZONES[zoneId];
   const from = arrivedFrom; travelling = false; arrivedFrom = null;
-  bonesCollected = 0; missionBones = 0; avatarOpen = false;
+  bonesCollected = 0; missionBones = 0; avatarOpen = false; buildOpen = false; buildHooks = null;
 
   try{
     if(!THREE) THREE = await import(THREE_URL);
@@ -662,6 +796,56 @@ export async function initMundo(){
   let heading = 0;
   if(window.__LEO_DEBUG) window.__mundo = { pos:pos };   // gancho solo para pruebas manuales
 
+  // Mi Casa: construcción con bloques y muebles sobre una grilla (cursor delante del personaje)
+  const isHome = !!world.house;
+  const buildBtn = document.getElementById('mundo-build-btn');
+  if(buildBtn) buildBtn.style.display = isHome ? '' : 'none';
+  let myBuildHooks = null;
+  const placed = new Map();      // ítem guardado -> {mesh, obs}
+  const targetCell = { x:0, z:0 };
+  let cursor = null;
+  function stackCount(x,z){
+    return state.world.house.items.filter(function(i){ return i.x===x && i.z===z; }).length;
+  }
+  function addItemView(it){
+    const def = houseItemById(it.t); if(!def) return;
+    const m = houseMesh(def); m.position.set(it.x, it.y, it.z); scene.add(m);
+    let obs = null;
+    if(it.y===0 && it.t!=='f_alfombra'){ obs = { x:it.x, z:it.z, r:0.62 }; obstacles.push(obs); }
+    placed.set(it, { mesh:m, obs:obs });
+  }
+  if(isHome){
+    state.world.house.items.forEach(addItemView);
+    cursor = new T.Group();
+    cursor.add(new T.LineSegments(new T.EdgesGeometry(new T.BoxGeometry(1.04,1.04,1.04)), new T.LineBasicMaterial({ color:0xff9f43 })));
+    cursor.add(new T.Mesh(new T.BoxGeometry(1.02,1.02,1.02), new T.MeshBasicMaterial({ color:0xffd43b, transparent:true, opacity:0.25 })));
+    cursor.visible = false; scene.add(cursor);
+    buildHooks = {
+      place: function(){
+        const h = state.world.house, x = targetCell.x, z = targetCell.z, n = stackCount(x,z);
+        if(n >= 4){ showToast('¡Ya no caben más cosas ahí arriba!'); return; }
+        if(h.items.length >= HOUSE_MAX_ITEMS){ showToast('Tu casa está llena.'); return; }
+        const it = { t:buildType, x:x, y:n, z:z };
+        h.items.push(it); addItemView(it); saveProgress();
+      },
+      remove: function(){
+        const h = state.world.house;
+        let top = null;
+        h.items.forEach(function(i){ if(i.x===targetCell.x && i.z===targetCell.z && (!top || i.y > top.y)) top = i; });
+        if(!top){ showToast('Ahí no hay nada para quitar.'); return; }
+        const v = placed.get(top);
+        if(v){
+          scene.remove(v.mesh);
+          if(v.obs){ const k = obstacles.indexOf(v.obs); if(k >= 0) obstacles.splice(k,1); }
+          placed.delete(top);
+        }
+        h.items.splice(h.items.indexOf(top),1);
+        saveProgress();
+      },
+    };
+    myBuildHooks = buildHooks;
+  }
+
   // Carboncito, el guía: te sigue y te va dando misiones
   const guide = buildPug();
   guide.root.scale.setScalar(0.7);
@@ -694,7 +878,7 @@ export async function initMundo(){
   const missions = zone.missions || [];
   function mIndex(){ return state.world.missions[zoneId] || 0; }
   function missionText(){
-    if(zoneId === 'pueblo') return zone.hello;
+    if(zone.hello) return zone.hello;
     const m = missions[mIndex()];
     if(!m) return 'Completaste las misiones de este lugar 🎉 ¡Vuelve al pueblo y visita otro portal! 🐾';
     return m.text + (m.type==='collect' ? ' ('+Math.min(missionBones,m.n)+'/'+m.n+')' : '');
@@ -703,7 +887,8 @@ export async function initMundo(){
     if(!guideBox) return;
     guideBox.textContent = customText || missionText();
   }
-  guideSay = function(txt){ customText = txt; refreshGuide(); };
+  const myGuideSay = function(txt){ customText = txt; refreshGuide(); };
+  guideSay = myGuideSay;
   if(!state.world.avatar.created){
     customText = '¡Hola'+(state.userName?', '+state.userName:'')+'! Soy Carboncito 🐾 Primero crea tu personaje y toca ¡Listo!';
     setTimeout(function(){ if(myRun===runId) mundoToggleAvatar(); }, 400);
@@ -741,7 +926,13 @@ export async function initMundo(){
       if(e.target===document.body || e.target===document.documentElement) e.preventDefault();
     }
   }
-  const kd = function(e){ onKey(e,true); }, ku = function(e){ onKey(e,false); };
+  const kd = function(e){
+    onKey(e,true);
+    if(isHome && buildOpen && !e.repeat){
+      const k = e.key.toLowerCase();
+      if(k==='e') buildHooks.place(); else if(k==='q') buildHooks.remove();
+    }
+  }, ku = function(e){ onKey(e,false); };
   window.addEventListener('keydown',kd); window.addEventListener('keyup',ku);
 
   // entrada: joystick táctil
@@ -767,7 +958,8 @@ export async function initMundo(){
     window.removeEventListener('keydown',kd); window.removeEventListener('keyup',ku);
     ro.disconnect(); renderer.dispose();
     if(outfitHook === me.applyOutfit) outfitHook = null;
-    guideSay = null;
+    if(guideSay === myGuideSay) guideSay = null;
+    if(myBuildHooks && buildHooks === myBuildHooks) buildHooks = null;
     if(!travelling && myRun === runId) currentZone = 'pueblo';  // al salir del juego, la próxima vez se empieza en el pueblo
   }
 
@@ -869,12 +1061,24 @@ export async function initMundo(){
       }
     });
 
+    // Mi Casa: cursor de construcción delante del personaje
+    if(cursor){
+      cursor.visible = buildOpen;
+      if(buildOpen){
+        const L = HOUSE_LIMIT;
+        const tx = Math.max(-L, Math.min(L, Math.round(pos.x + Math.sin(heading)*1.7)));
+        const tz = Math.max(-L, Math.min(L, Math.round(pos.z + Math.cos(heading)*1.7)));
+        targetCell.x = tx; targetCell.z = tz;
+        cursor.position.set(tx, stackCount(tx,tz)+0.5, tz);
+      }
+    }
+
     // cámara que sigue (más arriba el punto de mira si hay un panel abierto, para ver al personaje)
     const cx = pos.x, cz2 = pos.z+11;
     camera.position.x += (cx-camera.position.x)*Math.min(1,dt*5);
     camera.position.y += (9-camera.position.y)*Math.min(1,dt*5);
     camera.position.z += (cz2-camera.position.z)*Math.min(1,dt*5);
-    camera.lookAt(pos.x,1,pos.z + (avatarOpen ? 4 : 0));
+    camera.lookAt(pos.x,1,pos.z + ((avatarOpen || buildOpen) ? 4 : 0));
 
     renderer.render(scene,camera);
   }

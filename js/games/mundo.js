@@ -11,7 +11,8 @@
    - Las monedas se ganan estudiando y se gastan en la tienda
      (accesorios y colores de Carboncito).
    ========================================================= */
-import { state, showToast, spendCoins, awardCoins } from '../state.js';
+import { state, showToast, spendCoins, awardCoins, totalStars } from '../state.js';
+import { playBeep, audioRunning, sfxCorrect, sfxWrong, sfxStreak, sfxLevelup } from '../audio.js';
 import { saveProgress } from '../persistence.js';
 import { render } from '../render.js';
 import { MC_GAMES } from '../mcEngine.js';
@@ -30,6 +31,33 @@ let buildOpen = false;     // panel de construcción de Mi Casa abierto
 let buildType = 'b_madera'; // ítem seleccionado para construir
 let buildHooks = null;     // {place, remove}: acciones de construcción de la zona viva
 let guideSay = null;      // función que cambia el texto de Carboncito
+
+let soundOn = true;           // música y efectos del mundo (se recuerda en este dispositivo)
+try{ soundOn = localStorage.getItem('leo_mundo_music') !== '0'; }catch(e){}
+function sfx(kind){
+  if(!soundOn) return;
+  switch(kind){
+    case 'jump':   playBeep(330,0.07,0,0.16,'square'); playBeep(523,0.1,0.05,0.14,'square'); break;
+    case 'coin':   playBeep(880,0.08,0,0.16); playBeep(1175,0.12,0.06,0.16); break;
+    case 'portal': sfxStreak(); break;
+    case 'done':   sfxLevelup(); break;
+    case 'buy':    sfxCorrect(); break;
+    case 'place':  playBeep(196,0.09,0,0.2,'square'); break;
+    case 'remove': playBeep(150,0.1,0,0.18,'square'); break;
+    case 'talk':   playBeep(620,0.06,0,0.14); break;
+    case 'emote':  playBeep(660,0.08,0,0.14); playBeep(880,0.1,0.07,0.14); break;
+  }
+}
+export function mundoToggleSound(){
+  soundOn = !soundOn;
+  try{ localStorage.setItem('leo_mundo_music', soundOn ? '1' : '0'); }catch(e){}
+  const b = document.getElementById('mundo-sound-btn');
+  if(b) b.textContent = soundOn ? '🔊' : '🔇';
+}
+const MUSIC_SCALES = {
+  pueblo:[262,294,330,392,440,523], bosque:[220,247,294,330,370,440], playa:[330,392,440,494,587,659],
+  espacio:[196,233,262,311,392,466], obby:[392,440,494,587,659,784], casa:[262,330,392,440,523,659],
+};
 
 let currentZone = 'pueblo';  // zona actual (se reinicia al pueblo al salir del juego)
 let arrivedFrom = null;      // de qué zona se viajó (para aparecer junto a su portal)
@@ -50,6 +78,7 @@ export function renderMundoScreen(){
       '<div class="mundo-joy" id="mundo-joy"><div class="mundo-knob" id="mundo-knob"></div></div>'+
       '<button class="mundo-jump" id="mundo-jump" aria-label="Saltar">⤒<small>Saltar</small></button>'+
       '<button class="mundo-emote-btn" id="mundo-emote-btn" onclick="mundoToggleEmotes()" aria-label="Gestos">😀</button>'+
+      '<button class="mundo-sound-btn" id="mundo-sound-btn" onclick="mundoToggleSound()" aria-label="Sonido">'+(soundOn ? '🔊' : '🔇')+'</button>'+
       '<div class="mundo-emotes hidden" id="mundo-emotes">'+
         '<button onclick="mundoEmote(\'wave\')">👋<small>Saludar</small></button>'+
         '<button onclick="mundoEmote(\'dance\')">💃<small>Bailar</small></button>'+
@@ -207,7 +236,7 @@ export function mundoItemClick(id){
         return;
       }
       w.owned.push(id);
-      showToast('¡Compraste '+it.label+'!');
+      showToast('¡Compraste '+it.label+'!'); sfx('buy');
     }
     const slot = AVATAR_SLOTS.filter(function(x){ return x.id===it.slot; })[0];
     if(w.equipped[it.slot] === id && slot.optional) w.equipped[it.slot] = null;
@@ -275,14 +304,21 @@ const NPCS = {
            look: look({ tone:2, hair:'corto', hairColor:0 }, { face:'face_lentes', neck:'neck_corbata', shirt:'shirt_blanca', pants:'pants_gris' }) },
   beto:  { name:'Beto el panadero', zone:'pueblo', x:8, z:9, gives:'pan',
            look: look({ tone:1, hair:'corto', hairColor:1 }, { hat:'hat_chef', face:'face_bigote', shirt:'shirt_blanca', shoes:'shoes_blanco' }) },
-  pepa:  { name:'Pepa', zone:'playa', x:-9, z:7, receives:'pan',
+  pepa:  { name:'Pepa', zone:'playa', x:-9, z:7, receives:'pan', gives:'concha',
            look: look({ tone:2, hair:'coleta', hairColor:3 }, { hat:'hat_gorra', face:'face_sol', shirt:'shirt_rosado', pants:'pants_short', shoes:'shoes_blanco' }) },
-  neo:   { name:'Neo el astronauta', zone:'espacio', x:9, z:6, gives:'estrella',
+  neo:   { name:'Neo el astronauta', zone:'espacio', x:9, z:6, gives:'estrella', receives:'linterna',
            look: look({ tone:3, hair:'corto', hairColor:0 }, { hat:'hat_casco', back:'back_jet', shirt:'shirt_blanca', pants:'pants_gris', shoes:'shoes_blanco' }) },
+  nati:  { name:'Nati la cocinera', zone:'pueblo', x:3, z:14, gives:'receta', receives:'concha',
+           look: look({ tone:0, hair:'largo', hairColor:3 }, { hat:'hat_chef', shirt:'shirt_rosado', pants:'pants_azul', shoes:'shoes_blanco' }) },
+  mati:  { name:'Mati el guardabosques', zone:'bosque', x:-8, z:-4, gives:'linterna', receives:'receta',
+           look: look({ tone:1, hair:'corto', hairColor:1 }, { hat:'hat_gorra', back:'back_mochila', shirt:'shirt_verde', pants:'pants_cafe' }) },
 };
 const QUESTS = {
   pan:      { item:'un pan calentito 🥖', toName:'Pepa (en la Playa)', reward:20 },
   estrella: { item:'una piedra lunar ⭐', toName:'el Profe Lucho (en el Pueblo)', reward:25 },
+  receta:   { item:'una receta secreta 📜', toName:'Mati el guardabosques (en el Bosque)', reward:20 },
+  linterna: { item:'una linterna 🔦', toName:'Neo el astronauta (en la Luna)', reward:30 },
+  concha:   { item:'una concha gigante 🐚', toName:'Nati la cocinera (en el Pueblo)', reward:20 },
 };
 function carryText(){
   const q = state.world.quests, out = [];
@@ -304,6 +340,7 @@ export function mundoDialogClose(){
 function showDialog(title, html, actions){
   const el = dialogEl(); if(!el) return;
   dialogActions = actions || [];
+  if(el.classList.contains('hidden')) sfx('talk');
   el.innerHTML = '<div class="dlg-head"><b>'+title+'</b><button class="shop-close" onclick="mundoDialogClose()" aria-label="Cerrar">✕</button></div>'+html;
   el.classList.remove('hidden');
 }
@@ -325,7 +362,7 @@ function npcLines(id){
       lines.push('¡Justo lo que esperaba! Gracias por traerme '+Q.item+'.');
       acts.push({ label:'Entregar 🎁', fn:function(){
         q[n.receives] = 2; awardCoins(Q.reward); saveProgress(); refreshShop();
-        showToast('¡Encargo cumplido! +'+Q.reward+' monedas'); mundoDialogClose(); if(guideSay) guideSay(null);
+        sfx('done'); showToast('¡Encargo cumplido! +'+Q.reward+' monedas'); mundoDialogClose(); if(guideSay) guideSay(null);
       } });
     }else if(st === 2) lines.push('¡Mil gracias por el encargo! 😊');
   }
@@ -398,6 +435,7 @@ export function mundoQuizAnswer(idx){
   quiz.answered = true;
   const r = quiz.cur, ok = r.options[idx].value === r.correctValue;
   const good = r.options.findIndex(function(o){ return o.value === r.correctValue; });
+  if(soundOn){ if(ok) sfxCorrect(); else sfxWrong(); }
   const bAns = document.getElementById('quiz-o'+idx), bGood = document.getElementById('quiz-o'+good);
   if(bGood) bGood.classList.add('right');
   if(!ok && bAns) bAns.classList.add('wrong');
@@ -415,7 +453,7 @@ export function mundoToggleEmotes(){
   if(el) el.classList.toggle('hidden');
 }
 export function mundoEmote(name){
-  emoteReq = name;
+  emoteReq = name; sfx('emote');
   const el = document.getElementById('mundo-emotes');
   if(el) el.classList.add('hidden');
 }
@@ -472,7 +510,7 @@ export function mundoBuildPick(id){
       return;
     }
     h.owned.push(id); saveProgress();
-    showToast('¡Desbloqueaste: '+it.label+'!');
+    showToast('¡Desbloqueaste: '+it.label+'!'); sfx('buy');
     refreshShop();
   }
   buildType = id;
@@ -678,6 +716,42 @@ function buildPerson(lookOverride){
   }
   applyOutfit();
   return { root:root, body:body, legs:legs, arms:arms, applyOutfit:applyOutfit };
+}
+
+/* ---------- Mascotas (te siguen, como en Roblox) ---------- */
+function buildPetModel(id){
+  const T = THREE, g = new T.Group();
+  function b(w,h,d,c,x,y,z){ const m = new T.Mesh(new T.BoxGeometry(w,h,d), new T.MeshLambertMaterial({ color:c })); m.position.set(x,y,z); g.add(m); return m; }
+  function ball(r,c,x,y,z,sx,sy,sz){ const m = new T.Mesh(new T.SphereGeometry(r,10,8), new T.MeshLambertMaterial({ color:c })); m.position.set(x,y,z); if(sx) m.scale.set(sx,sy,sz); g.add(m); return m; }
+  function cone(r,h,c,x,y,z,rx){ const m = new T.Mesh(new T.ConeGeometry(r,h,8), new T.MeshLambertMaterial({ color:c })); m.position.set(x,y,z); if(rx) m.rotation.x = rx; g.add(m); return m; }
+  const dark = 0x1a1a1a;
+  if(id === 'pet_pollito'){
+    ball(0.32,0xffd43b,0,0.36,0); ball(0.22,0xffd43b,0,0.74,0.1); cone(0.07,0.18,0xff8a1f,0,0.72,0.34,Math.PI/2);
+    ball(0.04,dark,-0.09,0.8,0.28); ball(0.04,dark,0.09,0.8,0.28); b(0.1,0.06,0.14,0xff8a1f,-0.12,0.03,0.05); b(0.1,0.06,0.14,0xff8a1f,0.12,0.03,0.05);
+  }else if(id === 'pet_conejo'){
+    ball(0.3,0xffffff,0,0.34,0,1,1,1.2); ball(0.22,0xffffff,0,0.66,0.3); b(0.08,0.42,0.06,0xffffff,-0.1,1.04,0.26); b(0.08,0.42,0.06,0xffffff,0.1,1.04,0.26);
+    ball(0.06,0xf9a8c4,0,0.62,0.5); ball(0.09,0xffffff,0,0.38,-0.38); ball(0.035,dark,-0.09,0.72,0.47); ball(0.035,dark,0.09,0.72,0.47);
+  }else if(id === 'pet_gato'){
+    b(0.4,0.34,0.66,0xe8892b,0,0.34,0); b(0.38,0.34,0.34,0xe8892b,0,0.62,0.38); cone(0.1,0.2,0xe8892b,-0.12,0.88,0.38); cone(0.1,0.2,0xe8892b,0.12,0.88,0.38);
+    b(0.08,0.5,0.08,0xe8892b,0,0.55,-0.4).rotation.x = -0.4; ball(0.04,dark,-0.09,0.66,0.56); ball(0.04,dark,0.09,0.66,0.56); ball(0.04,0xf783ac,0,0.58,0.57);
+  }else if(id === 'pet_pinguino'){
+    b(0.46,0.72,0.36,dark,0,0.46,0); b(0.3,0.5,0.06,0xffffff,0,0.44,0.19); b(0.4,0.34,0.34,dark,0,0.98,0.02);
+    cone(0.07,0.16,0xff8a1f,0,0.94,0.26,Math.PI/2); ball(0.04,0xffffff,-0.09,1.02,0.18); ball(0.04,0xffffff,0.09,1.02,0.18);
+    b(0.16,0.05,0.22,0xff8a1f,-0.12,0.03,0.08); b(0.16,0.05,0.22,0xff8a1f,0.12,0.03,0.08);
+  }else if(id === 'pet_robot'){
+    b(0.5,0.5,0.46,0x9aa3ad,0,0.5,0); b(0.42,0.34,0.4,0xc3cad2,0,1.0,0); b(0.34,0.12,0.04,0x2f9bff,0,1.02,0.21);
+    b(0.04,0.2,0.04,0x555555,0,1.3,0); ball(0.06,0xe0334c,0,1.42,0); b(0.12,0.2,0.12,0x555555,-0.15,0.15,0); b(0.12,0.2,0.12,0x555555,0.15,0.15,0);
+    b(0.1,0.3,0.1,0x9aa3ad,-0.32,0.5,0); b(0.1,0.3,0.1,0x9aa3ad,0.32,0.5,0);
+  }else if(id === 'pet_dragon'){
+    const gr = 0x3fb950;
+    b(0.46,0.4,0.84,gr,0,0.4,0); b(0.4,0.34,0.4,gr,0,0.66,0.52); b(0.3,0.26,0.05,0xffd43b,0,0.36,0.43);
+    cone(0.06,0.2,0xf5f5f5,-0.12,0.94,0.5); cone(0.06,0.2,0xf5f5f5,0.12,0.94,0.5);
+    b(0.08,0.38,0.5,0x2d9a42,-0.3,0.72,-0.05).rotation.z = 0.7; b(0.08,0.38,0.5,0x2d9a42,0.3,0.72,-0.05).rotation.z = -0.7;
+    b(0.2,0.18,0.34,gr,0,0.34,-0.55); b(0.12,0.12,0.3,gr,0,0.3,-0.82);
+    ball(0.045,0xffe066,-0.1,0.74,0.7); ball(0.045,0xffe066,0.1,0.74,0.7);
+  }
+  g.scale.setScalar(0.95);
+  return g;
 }
 
 /* ---------- Mundo ---------- */
@@ -1054,10 +1128,10 @@ function makeStar(){
 /* ---------- Zonas ---------- */
 const ZONES = {
   pueblo:  { name:'Pueblo de Carboncito', radius:37, sky:0xbfe8ff, fogNear:50, fogFar:110, build:buildPueblo,
-             hello:'Bienvenido al pueblo 🏘️ Habla con el Profe Lucho 📚 y con Beto el panadero 🥖, o entra a un portal. Los que tienen candado 🔒 se abren con monedas.' },
+             hello:'Bienvenido al pueblo 🏘️ Habla con la gente del pueblo (Lucho 📚, Beto 🥖, Nati 🍳) para recibir encargos, o entra a un portal. Los que tienen candado 🔒 se abren con monedas.' },
   casa:    { name:'Mi Casa', radius:23, sky:0x9fdcff, fogNear:50, fogFar:110, build:buildCasa, home:true,
              hello:'¡Esta es tu casa! 🏠 Toca 🔨 Construir para poner bloques y muebles. Desbloquea más con tus monedas.' },
-  obby:    { name:'Carrera de Obstáculos', radius:260, floor:null, sky:0x87ceeb, fogNear:80, fogFar:230, build:buildObby, price:30,
+  obby:    { name:'Carrera de Obstáculos', radius:260, floor:null, sky:0x87ceeb, fogNear:80, fogFar:230, build:buildObby, price:30, stars:25,
              missions:[
                { type:'visit', at:'e1', r:3, reward:5,  text:'🏁 ¡Carrera de obstáculos! Salta (barra espaciadora o botón Saltar) por las plataformas hasta la 1ª bandera.', done:'¡Etapa 1 lista!' },
                { type:'visit', at:'e2', r:3, reward:6,  text:'Etapa 2: ¡zigzag! Cuidado con la lava 🌋 Si te caes, vuelves a tu última bandera.', done:'¡Etapa 2 lista!' },
@@ -1074,7 +1148,7 @@ const ZONES = {
                { type:'collect', n:10, reward:20, text:'¡Último reto! Recoge 10 huesitos 🦴 ¡tú puedes!', done:'¡Eres increíble!' },
                { type:'visit', at:'mirador', r:2.2, reward:15, text:'⛰️ ¡Sube al cerro del mirador! Salta de escalón en escalón hasta la bandera.', done:'¡Qué vista desde arriba!' },
              ] },
-  playa:   { name:'Playa', radius:29, sky:0xaee4ff, fogNear:45, fogFar:100, build:buildPlaya, price:40,
+  playa:   { name:'Playa', radius:29, sky:0xaee4ff, fogNear:45, fogFar:100, build:buildPlaya, price:40, stars:15,
              collect:{ emoji:'🐚', make:makeShell, n:10 },
              missions:[
                { type:'collect', n:5, reward:15, text:'¡Qué lindo día de playa! Ayúdame a juntar 5 conchitas 🐚', done:'¡Qué bonitas conchitas!' },
@@ -1082,7 +1156,7 @@ const ZONES = {
                { type:'collect', n:8, reward:25, text:'¡Junta 8 conchitas más para mi colección! 🐚', done:'¡Tremenda colección!' },
                { type:'visit', at:'duna', r:2.2, reward:15, text:'🏜️ ¡Sube a la duna más alta! Salta por los escalones.', done:'¡Rey de la duna!' },
              ] },
-  espacio: { name:'Luna', radius:34, sky:0x0b1030, fogNear:60, fogFar:140, build:buildEspacio, price:80,
+  espacio: { name:'Luna', radius:34, sky:0x0b1030, fogNear:60, fogFar:140, build:buildEspacio, price:80, stars:40,
              collect:{ emoji:'⭐', make:makeStar, n:10 },
              missions:[
                { type:'collect', n:5, reward:20, text:'¡Estamos en la Luna! 🌙 Recoge 5 estrellitas ⭐', done:'¡Brillantes!' },
@@ -1103,9 +1177,14 @@ function pushOut(pos, obstacles, pr, R){
   if(d0 > lim){ pos.x *= lim/d0; pos.z *= lim/d0; }
 }
 
-function isUnlocked(id){ return id==='pueblo' || id==='casa' || state.world.unlocked.indexOf(id) !== -1; }
+function isUnlocked(id){
+  if(id==='pueblo' || id==='casa' || state.world.unlocked.indexOf(id) !== -1) return true;
+  const z = ZONES[id];
+  return !!(z && z.stars && totalStars() >= z.stars);   // también se abre jugando y ganando estrellas de estudio
+}
 
 function travel(dest){
+  sfx('portal');
   arrivedFrom = currentZone;
   currentZone = dest;
   travelling = true;
@@ -1198,7 +1277,16 @@ export async function initMundo(){
 
   const me = buildPerson();
   scene.add(me.root);
-  outfitHook = me.applyOutfit;
+  let petView = null, petId = null;
+  function rebuildPet(){
+    const id = state.world.equipped.pet || null;
+    if(id === petId && petView) return;
+    if(petView){ scene.remove(petView); petView = null; }
+    petId = id;
+    if(id){ petView = buildPetModel(id); petView.position.set(me.root.position.x-1.6, me.root.position.y, me.root.position.z+1.6); scene.add(petView); }
+  }
+  const myOutfitHook = function(){ me.applyOutfit(); rebuildPet(); };
+  outfitHook = myOutfitHook;
   const pos = me.root.position;
   if(from && from !== 'pueblo' && zoneId === 'pueblo'){
     const pp = world.portals.filter(function(p){ return p.dest === from; })[0];
@@ -1240,7 +1328,7 @@ export async function initMundo(){
         if(n >= 4){ showToast('¡Ya no caben más cosas ahí arriba!'); return; }
         if(h.items.length >= HOUSE_MAX_ITEMS){ showToast('Tu casa está llena.'); return; }
         const it = { t:buildType, x:x, y:n, z:z };
-        h.items.push(it); addItemView(it); saveProgress();
+        h.items.push(it); addItemView(it); saveProgress(); sfx('place');
       },
       remove: function(){
         const h = state.world.house;
@@ -1254,7 +1342,7 @@ export async function initMundo(){
           placed.delete(top);
         }
         h.items.splice(h.items.indexOf(top),1);
-        saveProgress();
+        saveProgress(); sfx('remove');
       },
     };
     myBuildHooks = buildHooks;
@@ -1280,6 +1368,7 @@ export async function initMundo(){
     npcViews.push({ id:id, x:n.x, z:n.z, v:v });
   });
   const talkBtn = document.getElementById('mundo-talk');
+  rebuildPet();
   let emote = null;
 
   // coleccionables de la zona
@@ -1328,7 +1417,7 @@ export async function initMundo(){
   function completeMission(){
     const m = missions[mIndex()];
     if(!m) return;
-    awardCoins(m.reward);
+    awardCoins(m.reward); sfx('done');
     state.world.missions[zoneId] = mIndex() + 1;
     missionBones = 0;
     saveProgress();
@@ -1438,10 +1527,22 @@ export async function initMundo(){
     showToast('¡Sigue intentando! 💪');
   }
 
+  // música ambiente suave (escala pentatónica distinta por mundo); solo suena si el navegador ya permitió audio
+  const scale = MUSIC_SCALES[zoneId] || MUSIC_SCALES.pueblo;
+  let beat = 0;
+  const musicTimer = setInterval(function(){
+    if(myRun !== runId || !soundOn || document.hidden || !audioRunning()) return;
+    const f = scale[Math.floor(Math.random()*scale.length)] * (Math.random() < 0.2 ? 0.5 : 1);
+    playBeep(f, 0.9, 0, 0.035, 'triangle');
+    if(beat % 4 === 0) playBeep(scale[0]/2, 1.7, 0, 0.045, 'sine');
+    beat++;
+  }, 650);
+
   function cleanup(){
     window.removeEventListener('keydown',kd); window.removeEventListener('keyup',ku);
     ro.disconnect(); renderer.dispose();
-    if(outfitHook === me.applyOutfit) outfitHook = null;
+    if(outfitHook === myOutfitHook) outfitHook = null;
+    clearInterval(musicTimer);
     if(guideSay === myGuideSay) guideSay = null;
     if(myBuildHooks && buildHooks === myBuildHooks) buildHooks = null;
     if(myRun === runId) talkNpc = null;
@@ -1480,7 +1581,7 @@ export async function initMundo(){
     }
     // física vertical: gravedad, salto y plataformas
     if(grounded) coyote = 0.12; else coyote -= dt;   // tiempo de gracia para saltar justo al salir del borde
-    if(jumpHeld && coyote > 0){ vy = 11; grounded = false; coyote = 0; }
+    if(jumpHeld && coyote > 0){ vy = 11; grounded = false; coyote = 0; sfx('jump'); }
     const py0 = pos.y;
     vy -= 28*dt; pos.y += vy*dt;
     const gy = groundAt(pos.x,pos.z,py0);
@@ -1523,7 +1624,7 @@ export async function initMundo(){
       const b = items[i];
       b.rotation.y = t*2; b.position.y = 1+Math.sin(t*3+i)*0.15;
       if(Math.hypot(b.position.x-pos.x, b.position.z-pos.z) < 1.3){
-        scene.remove(b); items.splice(i,1); spawnItem();
+        scene.remove(b); items.splice(i,1); spawnItem(); sfx('coin');
         bonesCollected++; missionBones++;
         const el = document.getElementById('mundo-bones'); if(el) el.textContent = bonesCollected;
         const m = missions[mIndex()];
@@ -1573,6 +1674,21 @@ export async function initMundo(){
       if(!nearest){ const dl = dialogEl(); if(dl && !quiz) { dl.classList.add('hidden'); dialogActions = []; } }
     }
 
+    // mascota: te sigue por detrás a la derecha y salta un poquito al caminar
+    if(petView){
+      const dx0 = Math.sin(heading), dz0 = Math.cos(heading);
+      const tx = pos.x - dx0*1.9 + dz0*1.2, tz = pos.z - dz0*1.9 - dx0*1.2;
+      const pdx = tx - petView.position.x, pdz = tz - petView.position.z, pd = Math.hypot(pdx,pdz);
+      if(pd > 14){ petView.position.set(tx, pos.y, tz); }
+      else if(pd > 0.25){
+        const sp = Math.min(10, 3 + pd*3);
+        petView.position.x += pdx/pd*sp*dt; petView.position.z += pdz/pd*sp*dt;
+        petView.rotation.y += ((Math.atan2(pdx,pdz)) - petView.rotation.y) * Math.min(1, dt*8);
+      }
+      const hop = pd > 0.4 ? Math.abs(Math.sin(t*12))*0.18 : 0;
+      petView.position.y += ((pos.y + hop) - petView.position.y) * Math.min(1, dt*10);
+    }
+
     // puntos de control del obby
     if(world.checkpoints){
       world.checkpoints.forEach(function(c){
@@ -1595,7 +1711,7 @@ export async function initMundo(){
           portalBlocked = p;
           const z = ZONES[p.dest], el = document.getElementById('mundo-portal');
           if(el){
-            el.innerHTML = '<b>'+z.name+'</b><p>Este lugar está bloqueado 🔒</p>'+
+            el.innerHTML = '<b>'+z.name+'</b><p>Este lugar está bloqueado 🔒</p>'+(z.stars ? '<p class="portal-or">Se abre solo con <b>'+z.stars+' ⭐</b> ganadas estudiando en LEO (llevas '+totalStars()+'), o con monedas:</p>' : '')+
               '<button class="av-done" onclick="mundoPortalUnlock(\''+p.dest+'\')">Desbloquear por <span class="coin-ic"></span> '+z.price+'</button>'+
               '<button class="av-chip" onclick="mundoPortalClose()">Ahora no</button>';
             el.classList.remove('hidden');

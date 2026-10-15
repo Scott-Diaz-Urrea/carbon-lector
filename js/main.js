@@ -12,7 +12,7 @@ import { initMemoryGame, flipCard } from './games/memorama.js';
 import { replayGame, showNameEntry, closeRecurso } from './rewards.js';
 import { diccSpeak } from './games/diccionario.js';
 import { selectColoringDrawing, backToDrawingPicker, pickColorNum, pickColorHex, pickTool, zoomIn, zoomOut, clearColoring, saveColoringPNG } from './games/colorearNumeros.js';
-import { mundoToggleShop, mundoItemClick, mundoToggleAvatar, mundoAvatarTab, mundoToggleFull, mundoLookSave, mundoLookWear, mundoTalk, mundoDialogClose, mundoDialogAction, mundoQuizStart, mundoQuizAnswer, mundoQuizNext, mundoToggleEmotes, mundoEmote, mundoAvatarSet, mundoAvatarDone, mundoPortalUnlock, mundoPortalClose, mundoToggleBuild, mundoBuildPick, mundoBuildPlace, mundoBuildRemove } from './games/mundo.js';
+import { mundoToggleShop, mundoItemClick, mundoToggleAvatar, mundoAvatarTab, mundoToggleFull, mundoLookSave, mundoLookWear, mundoTalk, mundoDialogClose, mundoDialogAction, mundoQuizStart, mundoQuizAnswer, mundoQuizNext, mundoToggleEmotes, mundoEmote, mundoToggleSound, mundoAvatarSet, mundoAvatarDone, mundoPortalUnlock, mundoPortalClose, mundoToggleBuild, mundoBuildPick, mundoBuildPlace, mundoBuildRemove } from './games/mundo.js';
 import {
   alzSpeakOrientacion, alzShowAddForm, alzHideAddForm, alzSaveReminder,
   alzToggleDone, alzDeleteReminder, alzSpeakReminder,
@@ -64,6 +64,7 @@ window.mundoQuizAnswer = mundoQuizAnswer;
 window.mundoQuizNext = mundoQuizNext;
 window.mundoToggleEmotes = mundoToggleEmotes;
 window.mundoEmote = mundoEmote;
+window.mundoToggleSound = mundoToggleSound;
 window.mundoAvatarSet = mundoAvatarSet;
 window.mundoAvatarDone = mundoAvatarDone;
 window.mundoPortalUnlock = mundoPortalUnlock;

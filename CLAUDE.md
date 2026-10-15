@@ -7553,6 +7553,13 @@ Pedido del usuario: un "mini Roblox" para sus hijos (12, 11 y 5 años; celular/P
   - **Desafío de estudio dentro del juego** (Profe Lucho): 5 preguntas reales tomadas de `MC_GAMES[key].gen()` de Lenguaje+Matemática del curso elegido (Kínder, 1°–8°; excluye `examen*`), 2 monedas por acierto, muestra el `explain` si fallas. Conecta el juego con el estudio sin duplicar contenido.
   - **Gestos:** botón 😀 (4 gestos: saludar, bailar, celebrar, girar) con animación procedural en el bucle; se cancelan al moverse/saltar.
   - **Relieve:** `addHill()` arma cerros/dunas/montes con cajas apiladas (plataformas escalables) + bandera; 1 por mundo (Bosque, Playa, Luna) con una misión `visit` nueva cada uno.
-- Pendiente (Fase 7+): cámara con colisión contra paredes, mascotas, amigos/casas de hermanos, jefes/combate suave, más cadenas de encargos, desbloqueo de mundos por estrellas de estudio, sonido/música ambiente.
+- **Fase 7 (mascotas, sonido, más encargos, estudio abre mundos):**
+  - **Mascotas** (slot `pet`, 6 modelos en `buildPetModel()`): siguen al jugador por detrás/derecha y saltan al caminar; se rebuildean desde `outfitHook` (`myOutfitHook`). Entran en el catálogo/looks como cualquier slot.
+  - **Sonido:** `audio.js` ahora exporta `playBeep` (con tipo de onda) y `audioRunning()`. `sfx(kind)` en `mundo.js` (salto, moneda, portal, misión, compra, construir…) + música ambiente suave (escala pentatónica por mundo, `MUSIC_SCALES`) que solo suena si el navegador ya permitió audio (`audioRunning`); botón 🔊/🔇 recordado en `localStorage` (`leo_mundo_music`).
+  - **Encargos en cadena** (5 en total, 5 NPC con `gives`/`receives`): pan (Beto→Pepa), concha (Pepa→Nati), receta (Nati→Mati), linterna (Mati→Neo), estrella (Neo→Lucho). Recorren Pueblo, Playa, Bosque y Luna.
+  - **Estudio abre mundos:** `ZONES[x].stars` (Playa 15⭐, Luna 40⭐, Carrera 25⭐): `isUnlocked()` abre el portal sin pagar si `totalStars()` alcanza; si no, el aviso ofrece pagar con monedas.
+  - **Ojo con la caché de módulos ES:** al editar `audio.js` en una sesión de pruebas, `fetch(url,{cache:'reload'})` para cada módulo + `location.reload()`.
+- Pendiente (Fase 8+): cámara con colisión contra paredes, casas de hermanos/visitas, jefes, más mundos, más mascotas/estados de ánimo, música por evento.
+- (histórico) Pendiente (Fase 7+): cámara con colisión contra paredes, mascotas, amigos/casas de hermanos, jefes/combate suave, más cadenas de encargos, desbloqueo de mundos por estrellas de estudio, sonido/música ambiente.
 - (histórico) Pendiente (Fase 6+): más tipos de misión (NPC/entregas, minijuegos con preguntas de estudio, jefes), mundos con relieve (colinas/cuevas) usando plataformas, emotes/animaciones, mascotas, amigos/casas de hermanos, desbloqueo por estrellas de estudio.
 - (histórico) Pendiente (Fase 4+): minijuegos (carrera de obstáculos), visitar casas de hermanos, más ropa, más mundos, que las zonas se desbloqueen también por estrellas de estudio.

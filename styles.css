@@ -1407,3 +1407,10 @@
   .quiz-opt.wrong{ border-color:#e0334c; background:#fde8eb; }
   .quiz-ok{ color:#1d7d2e; } .quiz-bad{ color:#b3263a; } .quiz-exp{ color: var(--ink-soft); font-size:14px; }
   .mundo-wrap.build-open .mundo-emote-btn{ bottom:228px; }
+
+  /* Fase 7: sonido, mascotas */
+  .mundo-sound-btn{ position:absolute; right:36px; bottom:188px; width:38px; height:38px; border-radius:50%; z-index:2; border:3px solid rgba(255,255,255,.8);
+    background:#fff; font-size:18px; cursor:pointer; box-shadow: var(--shadow-sm); }
+  .mundo-wrap.avatar-open .mundo-sound-btn{ display:none; }
+  .mundo-wrap.build-open .mundo-sound-btn{ bottom:288px; }
+  .portal-or{ font-size:13px; color: var(--ink-soft); }

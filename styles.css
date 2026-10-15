@@ -1314,3 +1314,9 @@
   .av-chip.on{ border-color: var(--primary); background:#E8FBF6; color: var(--primary-dark); }
   .av-done{ display:block; width:100%; margin-top:14px; border:0; border-radius: var(--radius-md); background: var(--primary); color:#fff;
     font-family: var(--font-display); font-weight:800; font-size:18px; padding:12px; cursor:pointer; }
+  .mundo-portal{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:4; width:min(300px,86%);
+    background: var(--paper); border-radius: var(--radius-lg); box-shadow: var(--shadow); padding:18px; text-align:center;
+    font-family: var(--font-body); display:flex; flex-direction:column; gap:10px; }
+  .mundo-portal.hidden{ display:none; }
+  .mundo-portal b{ font-family: var(--font-display); font-size:22px; color: var(--primary-dark); }
+  .mundo-portal p{ margin:0; }

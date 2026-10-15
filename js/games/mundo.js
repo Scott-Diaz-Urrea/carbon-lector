@@ -11,9 +11,9 @@
    - Las monedas se ganan estudiando y se gastan en la tienda
      (accesorios y colores de Carboncito).
    ========================================================= */
-import { state, showToast, spendCoins } from '../state.js';
+import { state, showToast, spendCoins, awardCoins } from '../state.js';
 import { saveProgress } from '../persistence.js';
-import { MUNDO_ITEMS, itemById } from '../content/mundoItems.js';
+import { MUNDO_ITEMS, itemById, AVATAR_TONES, AVATAR_HAIRS, AVATAR_HAIR_COLORS, hexCss } from '../content/mundoItems.js';
 
 const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 const WORLD_RADIUS = 38;
@@ -22,7 +22,21 @@ const TOTAL_BONES = 10;
 let THREE = null;
 let runId = 0;          // invalida bucles de animación de visitas anteriores
 let outfitHook = null;  // función que reaplica el atuendo al pug vivo
-let bonesCollected = 0;
+let bonesCollected = 0;   // huesitos recogidos en esta visita
+let missionBones = 0;     // huesitos de la misión de huesitos activa
+let avatarOpen = false;
+let guideSay = null;      // función que cambia el texto de Carboncito
+
+/* Misiones que da Carboncito (una vez cada una; la recompensa se paga una sola vez). */
+const MISSIONS = [
+  { type:'bones', n:5, reward:10, text:'¡Hola! Soy Carboncito 🐾 Perdí mis huesitos, ¿me ayudas a recoger 5? 🦴',
+    done:'¡Gracias! Eres un gran amigo.' },
+  { type:'visit', x:12, z:-9, r:8, reward:10, text:'Ahora vamos a la laguna 💧. Camina hasta el agua y yo te sigo.',
+    done:'¡Qué bonita laguna!' },
+  { type:'bones', n:10, reward:20, text:'¡Último reto! Recoge 10 huesitos 🦴 ¡tú puedes!',
+    done:'¡Eres increíble!' },
+];
+const MISSIONS_END = 'Completaste todas mis misiones 🎉 Pronto habrá mundos nuevos. Mientras, estudia en LEO para ganar monedas 🐾';
 
 export function renderMundoScreen(){
   return '<div class="screen mundo-screen">'+
@@ -31,12 +45,15 @@ export function renderMundoScreen(){
       '<div class="mundo-hud">'+
         '<div class="pill coinpill"><span class="coin-ic"></span><span id="mundo-coins">'+state.coins+'</span></div>'+
         '<div class="pill">🦴 <span id="mundo-bones">0</span>/'+TOTAL_BONES+'</div>'+
-        '<button class="mundo-shop-btn" onclick="mundoToggleShop()">🛍️ Tienda</button>'+
+        '<button class="mundo-shop-btn" onclick="mundoToggleAvatar()">👤 Yo</button>'+
+        '<button class="mundo-shop-btn alone" onclick="mundoToggleShop()">🛍️ Tienda</button>'+
       '</div>'+
+      '<div class="mundo-guide" id="mundo-guide"><span class="guide-face">🐾</span><span id="mundo-guide-text"></span></div>'+
       '<div class="mundo-joy" id="mundo-joy"><div class="mundo-knob" id="mundo-knob"></div></div>'+
       '<div class="mundo-shop hidden" id="mundo-shop"></div>'+
+      '<div class="mundo-avatar hidden" id="mundo-avatar"></div>'+
     '</div>'+
-    '<p class="mundo-help">Muévete con las flechas o WASD (en celular, con el joystick). Recoge los huesitos 🦴. ¡Estudia para ganar monedas y estrenar cosas nuevas!</p>'+
+    '<p class="mundo-help">Muévete con las flechas o WASD (en celular, con el joystick). Sigue las misiones de Carboncito. ¡Estudia para ganar monedas y estrenar cosas nuevas!</p>'+
   '</div>';
 }
 
@@ -44,8 +61,8 @@ export function renderMundoScreen(){
 function shopHTML(){
   function card(it){
     const owned = state.world.owned.indexOf(it.id) !== -1;
-    const equipped = state.world.equipped.skin===it.id || state.world.equipped.acc===it.id;
-    const preview = it.kind==='skin'
+    const equipped = state.world.equipped.shirt===it.id || state.world.equipped.acc===it.id;
+    const preview = it.kind==='shirt'
       ? '<span class="shop-swatch" style="background:'+it.css+'"></span>'
       : '<span class="shop-icon">'+it.icon+'</span>';
     const status = equipped ? '<small class="shop-on">Puesto ✔</small>'
@@ -54,13 +71,13 @@ function shopHTML(){
     return '<button class="shop-card'+(equipped?' equipped':'')+'" onclick="mundoItemClick(\''+it.id+'\')">'+
       preview+'<b>'+it.label+'</b>'+status+'</button>';
   }
-  const skins = MUNDO_ITEMS.filter(function(i){ return i.kind==='skin'; }).map(card).join('');
+  const skins = MUNDO_ITEMS.filter(function(i){ return i.kind==='shirt'; }).map(card).join('');
   const accs = MUNDO_ITEMS.filter(function(i){ return i.kind==='acc'; }).map(card).join('');
   return '<div class="shop-head"><b>Tienda de Carboncito</b>'+
       '<span class="pill coinpill"><span class="coin-ic"></span>'+state.coins+'</span>'+
       '<button class="shop-close" onclick="mundoToggleShop()" aria-label="Cerrar">✕</button></div>'+
     '<p class="shop-note">Ganas monedas al terminar juegos de estudio de LEO.</p>'+
-    '<p class="shop-sec">Colores</p><div class="shop-grid">'+skins+'</div>'+
+    '<p class="shop-sec">Poleras</p><div class="shop-grid">'+skins+'</div>'+
     '<p class="shop-sec">Accesorios</p><div class="shop-grid">'+accs+'</div>';
 }
 
@@ -77,8 +94,49 @@ export function mundoToggleShop(){
   const shop = document.getElementById('mundo-shop');
   if(!shop) return;
   const open = shop.classList.contains('hidden');
+  if(open) closeAvatar();
   shop.classList.toggle('hidden', !open);
   if(open) shop.innerHTML = shopHTML();
+}
+
+/* ---------- Creador de avatar ---------- */
+function avatarHTML(){
+  const av = state.world.avatar;
+  function sw(field, i, hex){
+    return '<button class="av-sw'+(av[field]===i?' on':'')+'" style="background:'+hexCss(hex)+'" onclick="mundoAvatarSet(\''+field+'\','+i+')" aria-label="Opción '+(i+1)+'"></button>';
+  }
+  return '<div class="shop-head"><b>Mi personaje</b><button class="shop-close" onclick="mundoAvatarDone()" aria-label="Cerrar">✕</button></div>'+
+    '<p class="shop-sec">Piel</p><div class="av-row">'+AVATAR_TONES.map(function(h,i){ return sw('tone',i,h); }).join('')+'</div>'+
+    '<p class="shop-sec">Peinado</p><div class="av-row">'+AVATAR_HAIRS.map(function(h){
+      return '<button class="av-chip'+(av.hair===h.id?' on':'')+'" onclick="mundoAvatarSet(\'hair\',\''+h.id+'\')">'+h.label+'</button>'; }).join('')+'</div>'+
+    '<p class="shop-sec">Color de pelo</p><div class="av-row">'+AVATAR_HAIR_COLORS.map(function(h,i){ return sw('hairColor',i,h); }).join('')+'</div>'+
+    '<button class="av-done" onclick="mundoAvatarDone()">¡Listo!</button>';
+}
+function closeAvatar(){
+  const el = document.getElementById('mundo-avatar');
+  if(el) el.classList.add('hidden');
+  avatarOpen = false;
+}
+export function mundoToggleAvatar(){
+  const el = document.getElementById('mundo-avatar');
+  if(!el) return;
+  if(!avatarOpen){
+    const shop = document.getElementById('mundo-shop'); if(shop) shop.classList.add('hidden');
+    el.innerHTML = avatarHTML(); el.classList.remove('hidden'); avatarOpen = true;
+  }else closeAvatar();
+}
+export function mundoAvatarSet(field, val){
+  state.world.avatar[field] = val;
+  saveProgress();
+  if(outfitHook) outfitHook();
+  const el = document.getElementById('mundo-avatar');
+  if(el) el.innerHTML = avatarHTML();
+}
+export function mundoAvatarDone(){
+  state.world.avatar.created = true;
+  saveProgress();
+  closeAvatar();
+  if(guideSay) guideSay(null);
 }
 
 export function mundoItemClick(id){
@@ -93,7 +151,7 @@ export function mundoItemClick(id){
     w.owned.push(id);
     showToast('¡Compraste '+it.label+'!');
   }
-  if(it.kind==='skin') w.equipped.skin = id;
+  if(it.kind==='shirt') w.equipped.shirt = id;
   else w.equipped.acc = (w.equipped.acc===id) ? null : id;
   saveProgress();
   if(outfitHook) outfitHook();
@@ -146,40 +204,102 @@ function buildPug(){
   shadow.rotation.x = -Math.PI/2; shadow.position.y = 0.02;
   root.add(shadow);
 
+  return { root:root, body:body, legs:legs, tail:tail };
+}
+
+/* ---------- Persona (avatar de bloques) ---------- */
+function buildPerson(){
+  const T = THREE;
+  const root = new T.Group();
+  const skinMat = new T.MeshLambertMaterial({ color:0xe8b98a });
+  const hairMat = new T.MeshLambertMaterial({ color:0x6b4423 });
+  const shirtMat = new T.MeshLambertMaterial({ color:0x3b82f6 });
+  const pantsMat = new T.MeshLambertMaterial({ color:0x2c3e75 });
+  const black = new T.MeshLambertMaterial({ color:0x111111 });
+
+  function box(w,h,d,mat,x,y,z,parent){
+    const m = new T.Mesh(new T.BoxGeometry(w,h,d), mat);
+    m.position.set(x,y,z); (parent||root).add(m); return m;
+  }
+  function ball(r,mat,x,y,z,parent){
+    const m = new T.Mesh(new T.SphereGeometry(r,10,8), mat);
+    m.position.set(x,y,z); (parent||root).add(m); return m;
+  }
+
+  const body = new T.Group(); root.add(body);
+  box(0.95,0.9,0.5,shirtMat,0,1.25,0,body);   // torso
+  box(0.7,0.7,0.7,skinMat,0,2.1,0,body);       // cabeza
+  [-1,1].forEach(function(s){ box(0.09,0.12,0.04,black,s*0.16,2.17,0.36,body); });
+  box(0.22,0.05,0.04,black,0,1.97,0.36,body);  // sonrisa
+
+  const legs = [], arms = [];
+  [-1,1].forEach(function(s){
+    const leg = new T.Group(); leg.position.set(s*0.22,0.8,0);
+    box(0.4,0.8,0.4,pantsMat,0,-0.4,0,leg); body.add(leg); legs.push(leg);
+    const arm = new T.Group(); arm.position.set(s*0.63,1.65,0);
+    box(0.3,0.8,0.3,skinMat,0,-0.4,0,arm); body.add(arm); arms.push(arm);
+  });
+
+  const shadow = new T.Mesh(new T.CircleGeometry(0.8,20), new T.MeshBasicMaterial({ color:0x000000, transparent:true, opacity:0.25 }));
+  shadow.rotation.x = -Math.PI/2; shadow.position.y = 0.02; root.add(shadow);
+
+  const hair = new T.Group(); body.add(hair);
   const acc = new T.Group(); body.add(acc);
 
   function applyOutfit(){
-    const skin = itemById(state.world.equipped.skin) || MUNDO_ITEMS[0];
-    bodyMat.color.setHex(skin.body); snoutMat.color.setHex(skin.snout); earMat.color.setHex(skin.ear);
+    const av = state.world.avatar;
+    skinMat.color.setHex(AVATAR_TONES[av.tone] != null ? AVATAR_TONES[av.tone] : AVATAR_TONES[1]);
+    hairMat.color.setHex(AVATAR_HAIR_COLORS[av.hairColor] != null ? AVATAR_HAIR_COLORS[av.hairColor] : AVATAR_HAIR_COLORS[1]);
+    const shirt = itemById(state.world.equipped.shirt) || MUNDO_ITEMS[0];
+    shirtMat.color.setHex(shirt.hex);
+
+    while(hair.children.length) hair.remove(hair.children[0]);
+    box(0.78,0.22,0.78,hairMat,0,2.5,0,hair);
+    box(0.78,0.5,0.18,hairMat,0,2.28,-0.3,hair);
+    if(av.hair==='largo'){
+      box(0.78,0.95,0.18,hairMat,0,1.9,-0.32,hair);
+      [-1,1].forEach(function(s){ box(0.1,0.55,0.5,hairMat,s*0.4,2.2,-0.05,hair); });
+    }else if(av.hair==='coleta'){
+      ball(0.2,hairMat,0,2.3,-0.48,hair);
+      box(0.14,0.5,0.14,hairMat,0,2.0,-0.5,hair);
+    }else if(av.hair==='rulos'){
+      for(let i=0;i<7;i++){
+        const a2 = i/7*Math.PI*2;
+        ball(0.2,hairMat,Math.cos(a2)*0.38,2.55,Math.sin(a2)*0.38,hair);
+      }
+      ball(0.24,hairMat,0,2.68,0,hair);
+    }
+
     while(acc.children.length) acc.remove(acc.children[0]);
     const a = state.world.equipped.acc;
     const red = new T.MeshLambertMaterial({ color:0xe0334c });
     const gold = new T.MeshLambertMaterial({ color:0xf2c230 });
     if(a==='acc_gorro'){
-      const hat = new T.Mesh(new T.CylinderGeometry(0.3,0.38,0.7,12), new T.MeshLambertMaterial({ color:0x2b2b5a }));
-      hat.position.set(0,2.15,0.85); acc.add(hat);
-      const brim = new T.Mesh(new T.CylinderGeometry(0.55,0.55,0.07,16), new T.MeshLambertMaterial({ color:0x2b2b5a }));
-      brim.position.set(0,1.82,0.85); acc.add(brim);
+      const hatMat = new T.MeshLambertMaterial({ color:0x2b2b5a });
+      const hat = new T.Mesh(new T.CylinderGeometry(0.3,0.36,0.65,12), hatMat);
+      hat.position.set(0,3.0,0); acc.add(hat);
+      const brim = new T.Mesh(new T.CylinderGeometry(0.55,0.55,0.07,16), hatMat);
+      brim.position.set(0,2.68,0); acc.add(brim);
     }else if(a==='acc_corona'){
       const c = new T.Mesh(new T.CylinderGeometry(0.42,0.34,0.32,8), gold);
-      c.position.set(0,1.95,0.85); acc.add(c);
-      [-0.28,0,0.28].forEach(function(x){ ball(0.07,red,x,2.16,0.85,acc); });
+      c.position.set(0,2.8,0); acc.add(c);
+      [-0.28,0,0.28].forEach(function(x){ ball(0.07,red,x,3.0,0,acc); });
     }else if(a==='acc_lentes'){
       const lens = new T.MeshLambertMaterial({ color:0x111122 });
-      box(0.34,0.24,0.06,lens,-0.25,1.5,1.34,acc);
-      box(0.34,0.24,0.06,lens,0.25,1.5,1.34,acc);
-      box(0.2,0.06,0.06,lens,0,1.52,1.34,acc);
+      box(0.3,0.22,0.06,lens,-0.19,2.19,0.38,acc);
+      box(0.3,0.22,0.06,lens,0.19,2.19,0.38,acc);
+      box(0.1,0.05,0.06,lens,0,2.21,0.38,acc);
     }else if(a==='acc_capa'){
-      const cape = box(0.95,0.95,0.06,red,0,1.0,-0.8,acc);
-      cape.rotation.x = 0.25;
+      const cape = box(0.95,1.2,0.06,red,0,1.2,-0.32,acc);
+      cape.rotation.x = 0.18;
     }else if(a==='acc_corbata'){
-      const l = box(0.3,0.22,0.12,red,-0.2,1.0,1.28,acc); l.rotation.z = 0.4;
-      const r = box(0.3,0.22,0.12,red,0.2,1.0,1.28,acc); r.rotation.z = -0.4;
-      box(0.14,0.14,0.14,red,0,1.0,1.3,acc);
+      const l = box(0.28,0.2,0.1,red,-0.17,1.6,0.28,acc); l.rotation.z = 0.4;
+      const r = box(0.28,0.2,0.1,red,0.17,1.6,0.28,acc); r.rotation.z = -0.4;
+      box(0.13,0.13,0.12,red,0,1.6,0.3,acc);
     }
   }
   applyOutfit();
-  return { root:root, body:body, legs:legs, tail:tail, applyOutfit:applyOutfit };
+  return { root:root, body:body, legs:legs, arms:arms, applyOutfit:applyOutfit };
 }
 
 /* ---------- Mundo ---------- */
@@ -284,7 +404,7 @@ export async function initMundo(){
   const wrap = document.getElementById('mundo-wrap');
   const loading = document.getElementById('mundo-loading');
   if(!wrap) return;
-  bonesCollected = 0;
+  bonesCollected = 0; missionBones = 0; avatarOpen = false;
 
   try{
     if(!THREE) THREE = await import(THREE_URL);
@@ -314,11 +434,50 @@ export async function initMundo(){
   const camera = new T.PerspectiveCamera(55, 1, 0.1, 200);
   const obstacles = buildWorld(scene);
 
-  const pug = buildPug();
-  scene.add(pug.root);
-  outfitHook = pug.applyOutfit;
-  const pos = pug.root.position; pos.set(0,0,0);
+  const me = buildPerson();
+  scene.add(me.root);
+  outfitHook = me.applyOutfit;
+  const pos = me.root.position; pos.set(0,0,0);
   let heading = 0;
+
+  // Carboncito, el guía: te sigue y te va dando misiones
+  const guide = buildPug();
+  guide.root.scale.setScalar(0.7);
+  guide.root.position.set(-2,0,2);
+  scene.add(guide.root);
+  let guideHeading = 0, guideWalk = 0;
+
+  const guideBox = document.getElementById('mundo-guide-text');
+  let customText = null;
+  function missionText(){
+    const m = MISSIONS[state.world.mission];
+    if(!m) return MISSIONS_END;
+    let extra = '';
+    if(m.type==='bones') extra = ' ('+Math.min(missionBones,m.n)+'/'+m.n+')';
+    return m.text + extra;
+  }
+  function refreshGuide(){
+    if(!guideBox) return;
+    guideBox.textContent = customText || missionText();
+  }
+  guideSay = function(txt){ customText = txt; refreshGuide(); };
+  if(!state.world.avatar.created){
+    customText = '¡Hola'+(state.userName?', '+state.userName:'')+'! Soy Carboncito 🐾 Primero crea tu personaje y toca ¡Listo!';
+    setTimeout(function(){ if(myRun===runId) mundoToggleAvatar(); }, 400);
+  }
+  refreshGuide();
+
+  function completeMission(){
+    const m = MISSIONS[state.world.mission];
+    if(!m) return;
+    awardCoins(m.reward);
+    state.world.mission++;
+    missionBones = 0;
+    saveProgress();
+    showToast(m.done+' +'+m.reward+' monedas');
+    refreshShop();
+    customText = null; refreshGuide();
+  }
 
   // huesitos
   const bones = [];
@@ -377,7 +536,8 @@ export async function initMundo(){
   function cleanup(){
     window.removeEventListener('keydown',kd); window.removeEventListener('keyup',ku);
     ro.disconnect(); renderer.dispose();
-    if(outfitHook === pug.applyOutfit) outfitHook = null;
+    if(outfitHook === me.applyOutfit) outfitHook = null;
+    guideSay = null;
   }
 
   const clock = new T.Clock();
@@ -402,39 +562,63 @@ export async function initMundo(){
       let diff = target-heading;
       while(diff>Math.PI) diff-=Math.PI*2; while(diff<-Math.PI) diff+=Math.PI*2;
       heading += diff*Math.min(1, dt*12);
-      pug.root.rotation.y = heading;
-      walk += dt*12*mag;
+      me.root.rotation.y = heading;
+      walk += dt*10*mag;
     }
-    // patitas y colita
-    const sw = moving ? Math.sin(walk)*0.7 : 0;
-    pug.legs[0].rotation.x = sw; pug.legs[3].rotation.x = sw;
-    pug.legs[1].rotation.x = -sw; pug.legs[2].rotation.x = -sw;
-    pug.body.position.y = moving ? Math.abs(Math.sin(walk))*0.08 : 0;
-    pug.tail.rotation.y = Math.sin(t*(moving?14:6))*0.6;
+    // brazos y piernas
+    const sw = moving ? Math.sin(walk)*0.8 : 0;
+    me.legs[0].rotation.x = sw; me.legs[1].rotation.x = -sw;
+    me.arms[0].rotation.x = -sw; me.arms[1].rotation.x = sw;
+    me.body.position.y = moving ? Math.abs(Math.sin(walk))*0.06 : 0;
 
-    // huesitos
+    // Carboncito sigue a la persona
+    const gdx = pos.x-guide.root.position.x, gdz = pos.z-guide.root.position.z;
+    const gd = Math.hypot(gdx,gdz);
+    const gMoving = gd > 3.2;
+    if(gMoving){
+      const gs = Math.min(9, 3 + (gd-3.2)*2.5);
+      guide.root.position.x += gdx/gd*gs*dt; guide.root.position.z += gdz/gd*gs*dt;
+      pushOut(guide.root.position, obstacles, 0.5);
+      guideWalk += dt*14;
+    }
+    if(gd > 0.5){
+      const gt = Math.atan2(gdx,gdz);
+      let gdiff = gt-guideHeading;
+      while(gdiff>Math.PI) gdiff-=Math.PI*2; while(gdiff<-Math.PI) gdiff+=Math.PI*2;
+      guideHeading += gdiff*Math.min(1, dt*8);
+      guide.root.rotation.y = guideHeading;
+    }
+    const gsw = gMoving ? Math.sin(guideWalk)*0.7 : 0;
+    guide.legs[0].rotation.x = gsw; guide.legs[3].rotation.x = gsw;
+    guide.legs[1].rotation.x = -gsw; guide.legs[2].rotation.x = -gsw;
+    guide.body.position.y = gMoving ? Math.abs(Math.sin(guideWalk))*0.08 : 0;
+    guide.tail.rotation.y = Math.sin(t*(gMoving?14:6))*0.6;
+
+    // huesitos: siempre hay TOTAL_BONES en el mapa
     for(let i=bones.length-1;i>=0;i--){
       const b = bones[i];
       b.rotation.y = t*2; b.position.y = 1+Math.sin(t*3+i)*0.15;
       if(Math.hypot(b.position.x-pos.x, b.position.z-pos.z) < 1.3){
-        scene.remove(b); bones.splice(i,1);
-        bonesCollected++;
+        scene.remove(b); bones.splice(i,1); spawnBone();
+        bonesCollected++; missionBones++;
         const el = document.getElementById('mundo-bones'); if(el) el.textContent = bonesCollected;
-        if(bonesCollected >= TOTAL_BONES){
-          showToast('¡Juntaste todos los huesitos! 🎉 Aparecen nuevos.');
-          bonesCollected = 0;
-          for(let k=0;k<TOTAL_BONES;k++) spawnBone();
-          if(el) el.textContent = 0;
+        const m = MISSIONS[state.world.mission];
+        if(m && m.type==='bones'){
+          if(missionBones >= m.n) completeMission(); else refreshGuide();
         }
       }
     }
 
-    // cámara que sigue
+    // misión de visitar un lugar
+    const vm = MISSIONS[state.world.mission];
+    if(vm && vm.type==='visit' && Math.hypot(pos.x-vm.x, pos.z-vm.z) < vm.r) completeMission();
+
+    // cámara que sigue (más arriba el punto de mira si hay un panel abierto, para ver al personaje)
     const cx = pos.x, cz = pos.z+11;
     camera.position.x += (cx-camera.position.x)*Math.min(1,dt*5);
     camera.position.y += (9-camera.position.y)*Math.min(1,dt*5);
     camera.position.z += (cz-camera.position.z)*Math.min(1,dt*5);
-    camera.lookAt(pos.x,1,pos.z);
+    camera.lookAt(pos.x,1,pos.z + (avatarOpen ? 4 : 0));
 
     renderer.render(scene,camera);
   }

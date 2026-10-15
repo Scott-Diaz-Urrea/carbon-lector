@@ -12,12 +12,21 @@ export function loadProgress(){
     if(typeof saved.currentNivel === 'string') state.currentNivel = saved.currentNivel;
     if(typeof saved.userName === 'string') state.userName = saved.userName;
     if(typeof saved.coins === 'number' && saved.coins >= 0) state.coins = saved.coins;
-    if(saved.world && Array.isArray(saved.world.owned)){
-      state.world.owned = saved.world.owned.filter(function(x){ return typeof x === 'string'; });
-      if(state.world.owned.indexOf('skin_negro') === -1) state.world.owned.unshift('skin_negro');
-      const eq = saved.world.equipped || {};
-      state.world.equipped.skin = typeof eq.skin === 'string' ? eq.skin : 'skin_negro';
-      state.world.equipped.acc = typeof eq.acc === 'string' ? eq.acc : null;
+    if(saved.world && typeof saved.world === 'object'){
+      const w = saved.world, cur = state.world;
+      if(Array.isArray(w.owned)){
+        cur.owned = w.owned.filter(function(x){ return typeof x === 'string' && /^(shirt|acc)_/.test(x); });
+        if(cur.owned.indexOf('shirt_azul') === -1) cur.owned.unshift('shirt_azul');
+      }
+      const eq = w.equipped || {};
+      cur.equipped.shirt = (typeof eq.shirt === 'string' && cur.owned.indexOf(eq.shirt) !== -1) ? eq.shirt : 'shirt_azul';
+      cur.equipped.acc = (typeof eq.acc === 'string' && cur.owned.indexOf(eq.acc) !== -1) ? eq.acc : null;
+      const av = w.avatar || {};
+      cur.avatar.created = av.created === true;
+      if(typeof av.tone === 'number') cur.avatar.tone = av.tone;
+      if(typeof av.hair === 'string') cur.avatar.hair = av.hair;
+      if(typeof av.hairColor === 'number') cur.avatar.hairColor = av.hairColor;
+      if(typeof w.mission === 'number') cur.mission = w.mission;
     }
     if(saved.stars && typeof saved.stars === 'object'){
       Object.keys(state.stars).forEach(function(key){

@@ -1297,3 +1297,20 @@
   .shop-card small{ font-weight:700; font-size:12px; color: var(--ink-soft); }
   .shop-card .shop-on{ color: var(--primary-dark); }
   .shop-card .shop-price{ color:#8a6100; }
+  .mundo-shop-btn.alone{ margin-left:0; }
+  .mundo-hud .mundo-shop-btn:first-of-type{ margin-left:auto; }
+  .mundo-shop-btn{ padding:9px 12px; font-size:14px; }
+  .mundo-guide{ position:absolute; top:58px; left:10px; right:10px; z-index:2; display:flex; gap:8px; align-items:center;
+    background:rgba(255,255,255,.93); border-radius: var(--radius-md); padding:8px 12px; box-shadow: var(--shadow-sm);
+    font-family: var(--font-body); font-weight:700; font-size:14px; color: var(--ink); }
+  .guide-face{ font-size:22px; }
+  .mundo-avatar{ position:absolute; left:0; right:0; bottom:0; max-height:52%; z-index:3; background: var(--paper);
+    overflow:auto; padding:12px 16px 16px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; box-shadow:0 -4px 16px rgba(0,0,0,.15); }
+  .mundo-avatar.hidden{ display:none; }
+  .av-row{ display:flex; flex-wrap:wrap; gap:10px; }
+  .av-sw{ width:40px; height:40px; border-radius:50%; border:3px solid #fff; box-shadow: var(--shadow-sm); cursor:pointer; }
+  .av-sw.on{ outline:4px solid var(--primary); }
+  .av-chip{ font-family: var(--font-body); font-weight:800; border:2px solid #dde; background:#fff; border-radius:999px; padding:8px 14px; cursor:pointer; }
+  .av-chip.on{ border-color: var(--primary); background:#E8FBF6; color: var(--primary-dark); }
+  .av-done{ display:block; width:100%; margin-top:14px; border:0; border-radius: var(--radius-md); background: var(--primary); color:#fff;
+    font-family: var(--font-display); font-weight:800; font-size:18px; padding:12px; cursor:pointer; }

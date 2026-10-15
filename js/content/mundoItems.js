@@ -1,14 +1,17 @@
-/* Catálogo de la tienda del "Mundo de Carboncito" (juego 3D).
+/* Catálogo del "Mundo de Carboncito" (juego 3D).
+   El personaje principal es una PERSONA (avatar de bloques); Carboncito es el guía.
    Las monedas se ganan estudiando (ver showResult en rewards.js).
-   kind 'skin': color del pelaje de Carboncito (uno a la vez, 'skin_negro' es gratis).
-   kind 'acc': accesorio (uno a la vez, tocar el equipado lo quita). */
+   kind 'shirt': color de la polera (una a la vez, 'shirt_azul' es gratis).
+   kind 'acc': accesorio (uno a la vez, tocar el equipado lo quita).
+   Lo gratuito (tono de piel, peinado, color de pelo) vive en el creador de avatar. */
 export const MUNDO_ITEMS = [
-  { id:'skin_negro',  kind:'skin', label:'Negro',   price:0,  body:0x1a1a1f, snout:0x6a5a55, ear:0x0d0d10, css:'#1a1a1f' },
-  { id:'skin_cafe',   kind:'skin', label:'Café',    price:20, body:0xb5834a, snout:0x7a5530, ear:0x8a5f33, css:'#b5834a' },
-  { id:'skin_blanco', kind:'skin', label:'Blanco',  price:30, body:0xf3efe6, snout:0xc9bba6, ear:0xd9cdbd, css:'#f3efe6' },
-  { id:'skin_rosado', kind:'skin', label:'Rosado',  price:40, body:0xf5a3c0, snout:0xc4708f, ear:0xe0809f, css:'#f5a3c0' },
-  { id:'skin_azul',   kind:'skin', label:'Azul',    price:40, body:0x5aa7f0, snout:0x2f6fb0, ear:0x3d86d0, css:'#5aa7f0' },
-  { id:'skin_dorado', kind:'skin', label:'Dorado',  price:80, body:0xf2c230, snout:0xb88a10, ear:0xd9a820, css:'#f2c230' },
+  { id:'shirt_azul',     kind:'shirt', label:'Azul',     price:0,  hex:0x3b82f6, css:'#3b82f6' },
+  { id:'shirt_rojo',     kind:'shirt', label:'Rojo',     price:20, hex:0xe0334c, css:'#e0334c' },
+  { id:'shirt_verde',    kind:'shirt', label:'Verde',    price:20, hex:0x2fb344, css:'#2fb344' },
+  { id:'shirt_amarillo', kind:'shirt', label:'Amarillo', price:30, hex:0xf7c948, css:'#f7c948' },
+  { id:'shirt_rosado',   kind:'shirt', label:'Rosado',   price:30, hex:0xf783ac, css:'#f783ac' },
+  { id:'shirt_morado',   kind:'shirt', label:'Morado',   price:40, hex:0x9b59d0, css:'#9b59d0' },
+  { id:'shirt_dorado',   kind:'shirt', label:'Dorado',   price:80, hex:0xe8b923, css:'#e8b923' },
 
   { id:'acc_corbata', kind:'acc', label:'Moño',   price:20, icon:'🎀' },
   { id:'acc_lentes',  kind:'acc', label:'Lentes', price:25, icon:'🕶️' },
@@ -20,3 +23,13 @@ export const MUNDO_ITEMS = [
 export function itemById(id){
   return MUNDO_ITEMS.filter(function(i){ return i.id===id; })[0] || null;
 }
+
+/* Creador de avatar (gratis). */
+export const AVATAR_TONES = [0xffdbb4, 0xe8b98a, 0xc68642, 0x8d5524, 0x5c3a21];
+export const AVATAR_HAIRS = [
+  { id:'corto', label:'Corto' }, { id:'largo', label:'Largo' },
+  { id:'coleta', label:'Coleta' }, { id:'rulos', label:'Rulos' },
+];
+export const AVATAR_HAIR_COLORS = [0x1b1b1b, 0x6b4423, 0xe6c35c, 0xb7410e, 0x3b82f6, 0xf783ac];
+
+export function hexCss(n){ return '#' + ('000000' + n.toString(16)).slice(-6); }

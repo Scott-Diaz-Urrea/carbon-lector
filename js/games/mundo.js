@@ -17,6 +17,7 @@ import { saveProgress } from '../persistence.js';
 import { render } from '../render.js';
 import { MC_GAMES } from '../mcEngine.js';
 import { profileSummaries } from '../profiles.js';
+import { isIOS, isStandalone } from '../platform.js';
 import { LENGUAJE_BY_GRADE, MATE_BY_GRADE, NUCLEO_DEFS } from '../gradeContent.js';
 import { MUNDO_ITEMS, AVATAR_SLOTS, itemsBySlot, cssOf, itemById, AVATAR_TONES, AVATAR_HAIRS, AVATAR_HAIR_COLORS, hexCss, SEASONS, activeSeason, HOUSE_ITEMS, houseItemById, HOUSE_LIMIT, HOUSE_MAX_ITEMS } from '../content/mundoItems.js';
 
@@ -254,16 +255,26 @@ function setFull(on){
   wrap.classList.toggle('mundo-full', on);
   document.body.classList.toggle('mundo-fs', on);
 }
+let syncFull = null;   // la zona viva lo asigna: recalcula si corresponde pantalla completa por CSS (horizontal o elegida)
 export function mundoToggleFull(){
   const wrap = document.getElementById('mundo-wrap');
   if(!wrap) return;
+  const root = document.documentElement;
+  if(root.requestFullscreen){                              // Android/escritorio: pantalla completa REAL (sin barras del navegador)
+    if(document.fullscreenElement){
+      wantFull = false;
+      try{ document.exitFullscreen().catch(function(){}); }catch(e){}
+      if(syncFull) syncFull();
+    }else{
+      wantFull = true; setFull(true);
+      try{ root.requestFullscreen({ navigationUI:'hide' }).catch(function(){}); }catch(e){}
+    }
+    return;
+  }
+  // iPhone/iPad (Safari no tiene Fullscreen API): solo se amplía por CSS; instalada como app sí ocupa toda la pantalla
   const on = !wrap.classList.contains('mundo-full');
-  wantFull = on;
-  setFull(on);
-  try{
-    if(on && wrap.requestFullscreen && !document.fullscreenElement) wrap.requestFullscreen().catch(function(){});
-    else if(!on && document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function(){});
-  }catch(e){ /* sin Fullscreen API (p. ej. iPhone): queda el modo de pantalla ocupada por CSS */ }
+  wantFull = on; setFull(on);
+  if(on && isIOS() && !isStandalone()) showToast('Para pantalla completa total en iPhone/iPad: Compartir → Añadir a pantalla de inicio 📲');
 }
 export const mundoToggleShop = mundoToggleAvatar;   // compat: la tienda ahora vive en el panel de avatar
 export function mundoLookSave(i){
@@ -423,7 +434,7 @@ function addSeasonDecor(scene, season, segs){
 function seasonHello(){
   const s = activeSeason();
   if(!s) return '';
-  return ' '+SEASONS[s].icon+' ¡'+SEASONS[s].label+'! Hay ropa de temporada en tu avatar mientras dure.';
+  return ' '+SEASONS[s].icon+' ¡'+SEASONS[s].label+'! Hay ropa nueva en tu avatar.';
 }
 
 function buildChest(scene, x, z){
@@ -1583,7 +1594,7 @@ function makeStar(){
 /* ---------- Zonas ---------- */
 const ZONES = {
   pueblo:  { name:'Pueblo de Carboncito', radius:37, sky:0xbfe8ff, fogNear:50, fogFar:110, build:buildPueblo,
-             hello:'Bienvenido al pueblo 🏘️ Habla con la gente del pueblo (Lucho 📚, Beto 🥖, Nati 🍳) para recibir encargos, o entra a un portal. Los que tienen candado 🔒 se abren con monedas.' },
+             hello:'Bienvenido al pueblo 🏘️ Habla con Lucho 📚, Beto 🥖 y Nati 🍳, o entra a un portal (🔒 = se abre con monedas o estrellas).' },
   casa:    { name:'Mi Casa', radius:23, sky:0x9fdcff, fogNear:50, fogFar:110, build:buildCasa, home:true,
              hello:'¡Esta es tu casa! 🏠 Toca 🔨 Construir para poner bloques y muebles. Desbloquea más con tus monedas.' },
   volcan:  { name:'Volcán', radius:40, sky:0x3a1d1d, fogNear:40, fogFar:115, build:buildVolcan, price:100, stars:60,
@@ -1966,7 +1977,25 @@ export async function initMundo(){
   // celular en horizontal: el mundo pasa solo a pantalla completa (la página no alcanza para nada más)
   const landscapeMQ = window.matchMedia('(max-height:520px) and (orientation:landscape)');
   function syncOrientation(){ setFull(wantFull || landscapeMQ.matches); }
+  syncFull = syncOrientation;
   syncOrientation();
+  // en horizontal, el PRIMER toque pide la pantalla completa real (el navegador la exige tras un gesto); si se sale, no se vuelve a pedir
+  let fsAuto = false;
+  const onFsChange = function(){ if(!document.fullscreenElement){ wantFull = false; syncOrientation(); } };
+  const onFsRelease = function(){
+    if(fsAuto || !landscapeMQ.matches || document.fullscreenElement) return;
+    const root = document.documentElement;
+    if(root.requestFullscreen && window.matchMedia('(pointer:coarse)').matches){
+      fsAuto = true; wantFull = true;
+      try{ root.requestFullscreen({ navigationUI:'hide' }).catch(function(){}); }catch(e){}
+    }
+  };
+  document.addEventListener('fullscreenchange', onFsChange);
+  window.addEventListener('pointerup', onFsRelease);
+  if(landscapeMQ.matches && isIOS() && !isStandalone()){
+    let seen = false; try{ seen = sessionStorage.getItem('leo_ios_fs_tip') === '1'; sessionStorage.setItem('leo_ios_fs_tip', '1'); }catch(e){}
+    if(!seen) showToast('Para pantalla completa total en iPhone/iPad: Compartir → Añadir a pantalla de inicio 📲');
+  }
   if(landscapeMQ.addEventListener) landscapeMQ.addEventListener('change', syncOrientation);
 
   // entrada: teclado
@@ -2130,6 +2159,8 @@ export async function initMundo(){
     window.removeEventListener('keydown',kd); window.removeEventListener('keyup',ku);
     ro.disconnect(); renderer.dispose();
     if(landscapeMQ.removeEventListener) landscapeMQ.removeEventListener('change', syncOrientation);
+    document.removeEventListener('fullscreenchange', onFsChange); window.removeEventListener('pointerup', onFsRelease);
+    if(!travelling && myRun === runId && document.fullscreenElement){ try{ document.exitFullscreen().catch(function(){}); }catch(e){} }
     if(!travelling && myRun === runId){ visiting = null; wantFull = false; document.body.classList.remove('mundo-fs'); }
     if(outfitHook === myOutfitHook) outfitHook = null;
     clearInterval(musicTimer);

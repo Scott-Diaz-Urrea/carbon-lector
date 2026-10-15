@@ -11,8 +11,8 @@
    - Las monedas se ganan estudiando y se gastan en la tienda
      (accesorios y colores de Carboncito).
    ========================================================= */
-import { state, showToast, spendCoins, awardCoins, totalStars } from '../state.js';
-import { playBeep, audioRunning, sfxCorrect, sfxWrong, sfxStreak, sfxLevelup } from '../audio.js';
+import { state, showToast, spendCoins, awardCoins, totalStars, todayStr, yesterdayStr } from '../state.js';
+import { playBeep, audioRunning, sfxCorrect, sfxWrong, sfxStreak, sfxLevelup, speak } from '../audio.js';
 import { saveProgress } from '../persistence.js';
 import { render } from '../render.js';
 import { MC_GAMES } from '../mcEngine.js';
@@ -48,11 +48,54 @@ function sfx(kind){
     case 'emote':  playBeep(660,0.08,0,0.14); playBeep(880,0.1,0.07,0.14); break;
   }
 }
+/* ---------- Accesibilidad: texto grande y lectura en voz alta (pensado para quien aún no lee) ---------- */
+let prefs = { big:false, voice:false };
+try{ const p = JSON.parse(localStorage.getItem('leo_mundo_prefs') || '{}'); prefs.big = p.big === true; prefs.voice = p.voice === true; }catch(e){}
+function savePrefs(){ try{ localStorage.setItem('leo_mundo_prefs', JSON.stringify(prefs)); }catch(e){} }
+function plainText(html){
+  return String(html).replace(/<[^>]+>/g,' ').replace(/[\u{1F000}-\u{1FAFF}\u2600-\u27BF\u2B50\uFE0F\u200D]/gu,' ').replace(/✕/g,' ').replace(/\s+/g,' ').trim();
+}
+function say(text, lang){ const t = plainText(text); if(t) speak(t, lang || 'es', 0.92); }
+let lastSpoken = '';
+function maybeSpeakGuide(text){
+  if(!prefs.voice) return;
+  const key = text.replace(/\(\d+\/\d+\)/g,'').trim();   // los avances (2/5) no se vuelven a leer
+  if(key === lastSpoken) return;
+  lastSpoken = key; say(text);
+}
+function applyPrefsToWrap(){
+  const wrap = document.getElementById('mundo-wrap');
+  if(wrap) wrap.classList.toggle('mundo-big', prefs.big);
+}
+function settingsHTML(){
+  function row(key, label, on){ return '<button class="set-row'+(on?' on':'')+'" onclick="mundoSetPref(\''+key+'\')"><span>'+label+'</span><b>'+(on?'Sí':'No')+'</b></button>'; }
+  return '<b>Ajustes</b>'+row('sound','🔊 Música y sonidos',soundOn)+row('big','🔠 Texto grande',prefs.big)+row('voice','🗣️ Leer en voz alta',prefs.voice)+
+    '<small>Con "Leer en voz alta", Carboncito y los personajes te leen lo que dicen.</small>';
+}
+export function mundoToggleSettings(){
+  const el = document.getElementById('mundo-settings');
+  if(!el) return;
+  if(el.classList.contains('hidden')){ el.innerHTML = settingsHTML(); el.classList.remove('hidden'); }
+  else el.classList.add('hidden');
+}
+export function mundoSetPref(key){
+  if(key === 'sound') mundoToggleSound();
+  else if(key === 'big'){ prefs.big = !prefs.big; savePrefs(); applyPrefsToWrap(); }
+  else if(key === 'voice'){ prefs.voice = !prefs.voice; savePrefs(); lastSpoken = ''; if(prefs.voice && guideSay) guideSay(null); }
+  const el = document.getElementById('mundo-settings');
+  if(el && !el.classList.contains('hidden')) el.innerHTML = settingsHTML();
+}
+export function mundoSpeakGuide(){ const g = document.getElementById('mundo-guide-text'); if(g) say(g.textContent); }
+export function mundoSpeakDialog(){ const d = dialogEl(); if(d) say(d.textContent); }
+export function mundoQuizSpeak(){
+  if(!quiz || !quiz.cur) return;
+  const r = quiz.cur;
+  say(r.speakText || r.promptHTML, r.speakLang);
+}
+
 export function mundoToggleSound(){
   soundOn = !soundOn;
   try{ localStorage.setItem('leo_mundo_music', soundOn ? '1' : '0'); }catch(e){}
-  const b = document.getElementById('mundo-sound-btn');
-  if(b) b.textContent = soundOn ? '🔊' : '🔇';
 }
 const MUSIC_SCALES = {
   pueblo:[262,294,330,392,440,523], bosque:[220,247,294,330,370,440], playa:[330,392,440,494,587,659],
@@ -70,16 +113,18 @@ export function renderMundoScreen(){
       '<div class="mundo-loading" id="mundo-loading">Cargando el mundo… 🐾</div>'+
       '<div class="mundo-hud">'+
         '<div class="pill coinpill"><span class="coin-ic"></span><span id="mundo-coins">'+state.coins+'</span></div>'+
+        '<div class="pill" id="mundo-timer-pill" style="display:none">⏱ <span id="mundo-timer">0:00</span></div>'+
         '<div class="pill" id="mundo-collect-pill"><span id="mundo-collect-icon">🦴</span> <span id="mundo-bones">0</span></div>'+
         '<button class="mundo-shop-btn" id="mundo-build-btn" style="display:none" onclick="mundoToggleBuild()">🔨 Construir</button>'+
         '<button class="mundo-shop-btn alone" onclick="mundoToggleAvatar()">👤 Avatar</button>'+
         '<button class="mundo-shop-btn alone mundo-fs-btn" onclick="mundoToggleFull()" aria-label="Pantalla completa">⛶</button>'+
       '</div>'+
-      '<div class="mundo-guide" id="mundo-guide"><span class="guide-face">🐾</span><span><b id="mundo-zone"></b><br><span id="mundo-guide-text"></span></span></div>'+
+      '<div class="mundo-guide" id="mundo-guide"><span class="guide-face">🐾</span><span><b id="mundo-zone"></b><br><span id="mundo-guide-text"></span></span><button class="guide-speak" onclick="mundoSpeakGuide()" aria-label="Escuchar">🔊</button></div>'+
       '<div class="mundo-joy" id="mundo-joy"><div class="mundo-knob" id="mundo-knob"></div></div>'+
       '<button class="mundo-jump" id="mundo-jump" aria-label="Saltar">⤒<small>Saltar</small></button>'+
       '<button class="mundo-emote-btn" id="mundo-emote-btn" onclick="mundoToggleEmotes()" aria-label="Gestos">😀</button>'+
-      '<button class="mundo-sound-btn" id="mundo-sound-btn" onclick="mundoToggleSound()" aria-label="Sonido">'+(soundOn ? '🔊' : '🔇')+'</button>'+
+      '<button class="mundo-sound-btn" id="mundo-sound-btn" onclick="mundoToggleSettings()" aria-label="Ajustes">⚙️</button>'+
+      '<div class="mundo-settings hidden" id="mundo-settings"></div>'+
       '<div class="mundo-emotes hidden" id="mundo-emotes">'+
         '<button onclick="mundoEmote(\'wave\')">👋<small>Saludar</small></button>'+
         '<button onclick="mundoEmote(\'dance\')">💃<small>Bailar</small></button>'+
@@ -297,6 +342,38 @@ function buildPug(){
   return { root:root, body:body, legs:legs, tail:tail };
 }
 
+/* ---------- Cofre diario ---------- */
+function canClaimChest(){ return state.world.daily.last !== todayStr(); }
+function openChest(){
+  const w = state.world, d = w.daily, today = todayStr();
+  if(d.last === today){
+    showDialog('Cofre diario 🎁', '<p>Ya abriste el cofre de hoy. ¡Vuelve mañana por más monedas!</p><p>Tu racha: <b>'+d.streak+' '+(d.streak===1?'día':'días')+'</b> 🔥</p>', []);
+    return;
+  }
+  d.streak = (d.last === yesterdayStr()) ? d.streak + 1 : 1;
+  const base = 10, streakBonus = 5*Math.min(d.streak-1, 6), studyBonus = (w.studyDay === today) ? 10 : 0;
+  const total = base + streakBonus + studyBonus;
+  d.last = today;
+  awardCoins(total); saveProgress(); refreshShop(); sfx('done');
+  showDialog('¡Cofre abierto! 🎉',
+    '<p>Ganaste <b>'+total+' monedas</b>:</p><p>• Regalo del día: '+base+'<br>'+
+    (streakBonus ? '• Racha de '+d.streak+' días: +'+streakBonus+'<br>' : '')+
+    (studyBonus ? '• ¡Hoy estudiaste en LEO!: +'+studyBonus : '• Tip: estudia un juego de LEO antes de abrirlo y ganas +10 extra')+'</p>'+
+    '<p>Racha: <b>'+d.streak+' '+(d.streak===1?'día':'días')+'</b> 🔥 (¡vuelve mañana!)</p>', []);
+}
+function buildChest(scene, x, z){
+  const T = THREE, g = new T.Group();
+  const wood = new T.MeshLambertMaterial({ color:0x8a5a2b }), gold = new T.MeshLambertMaterial({ color:0xf2c230 });
+  const base = new T.Mesh(new T.BoxGeometry(1.5,0.8,1.0), wood); base.position.y = 0.4; g.add(base);
+  const lid = new T.Mesh(new T.BoxGeometry(1.5,0.4,1.0), wood); lid.position.y = 1.0; g.add(lid);
+  [-0.5,0.5].forEach(function(bx){ const band = new T.Mesh(new T.BoxGeometry(0.14,1.25,1.06), gold); band.position.set(bx,0.62,0); g.add(band); });
+  const lock = new T.Mesh(new T.BoxGeometry(0.22,0.28,0.1), gold); lock.position.set(0,0.8,0.53); g.add(lock);
+  const star = new T.Mesh(new T.OctahedronGeometry(0.28), new T.MeshBasicMaterial({ color:0xffe066 })); star.position.y = 2.0; g.add(star);
+  const lab = makeLabel('Cofre diario', 'rgba(150,100,10,.85)'); lab.position.set(0,3.0,0); g.add(lab);
+  g.position.set(x,0,z); g.rotation.y = Math.atan2(-x, 8-z); scene.add(g);
+  return { x:x, z:z, group:g, star:star };
+}
+
 /* ---------- Personajes (NPC) y encargos ---------- */
 const FULL = { hat:null, face:null, back:null, neck:null, shirt:'shirt_azul', pants:'pants_azul', shoes:'shoes_negro' };
 function look(avatar, eq){ return { avatar:avatar, equipped:Object.assign({}, FULL, eq) }; }
@@ -349,8 +426,9 @@ function showDialog(title, html, actions){
   const el = dialogEl(); if(!el) return;
   dialogActions = actions || [];
   if(el.classList.contains('hidden')) sfx('talk');
-  el.innerHTML = '<div class="dlg-head"><b>'+title+'</b><button class="shop-close" onclick="mundoDialogClose()" aria-label="Cerrar">✕</button></div>'+html;
+  el.innerHTML = '<div class="dlg-head"><b>'+title+'</b><button class="dlg-speak" onclick="mundoSpeakDialog()" aria-label="Escuchar">🔊</button><button class="shop-close" onclick="mundoDialogClose()" aria-label="Cerrar">✕</button></div>'+html;
   el.classList.remove('hidden');
+  if(prefs.voice) say(el.textContent);
 }
 export function mundoDialogAction(i){ if(dialogActions[i]) dialogActions[i](); }
 
@@ -388,6 +466,7 @@ function npcLines(id){
 }
 export function mundoTalk(){
   if(!talkNpc) return;
+  if(talkNpc === 'chest'){ openChest(); return; }
   const n = NPCS[talkNpc], d = npcLines(talkNpc);
   showDialog(n.name, '<p>'+d.lines.join('</p><p>')+'</p>'+d.acts.map(function(a,i){
     return '<button class="av-done" onclick="mundoDialogAction('+i+')">'+a.label+'</button>'; }).join(''),
@@ -449,10 +528,11 @@ function quizNext(){
   const el = dialogEl();
   showDialog('Pregunta '+quiz.i+' de 5',
     (quiz.boss ? '<p class="boss-hp">'+BOSSES[quiz.boss].name+': '+'❤️'.repeat(5-quiz.right)+'🖤'.repeat(quiz.right)+'</p>' : '')+
-    '<div class="quiz-prompt">'+r.promptHTML+'</div><div class="quiz-opts">'+
+    '<div class="quiz-prompt">'+r.promptHTML+' <button class="dlg-speak" onclick="mundoQuizSpeak()" aria-label="Escuchar la pregunta">🔊</button></div><div class="quiz-opts">'+
     r.options.map(function(o,idx){ return '<button class="quiz-opt" id="quiz-o'+idx+'" onclick="mundoQuizAnswer('+idx+')">'+o.label+'</button>'; }).join('')+
     '</div><div id="quiz-fb"></div>', []);
   if(el) el.scrollTop = 0;
+  if(prefs.voice) mundoQuizSpeak();
 }
 export function mundoQuizAnswer(idx){
   if(!quiz || quiz.answered) return;
@@ -925,9 +1005,11 @@ function buildPueblo(scene, ctx){
     addPortal(scene, obstacles, -11, -11, 0xff3b1f, ctx.portalLabel('volcan'), 'volcan'),
     addPortal(scene, obstacles, -11, 11, 0x1fb5ff, ctx.portalLabel('arrecife'), 'arrecife'),
   ];
+  const chest = buildChest(scene, 6, 4);
+  obstacles.push({ x:6, z:4, r:1.0 });
   addFence(scene, 38);
   addLights(scene, 0xffffff, 0x88aa66, 0.9);
-  return { obstacles:obstacles, portals:portals, visits:{} };
+  return { obstacles:obstacles, portals:portals, visits:{}, chest:chest };
 }
 
 /* ----- Bosque ----- */
@@ -1376,7 +1458,7 @@ export async function initMundo(){
   if(!wrap) return;
   const zoneId = currentZone, zone = ZONES[zoneId];
   const from = arrivedFrom; travelling = false; arrivedFrom = null;
-  bonesCollected = 0; missionBones = 0; avatarOpen = false; buildOpen = false; buildHooks = null; talkNpc = null; quiz = null; dialogActions = []; emoteReq = null;
+  bonesCollected = 0; missionBones = 0; avatarOpen = false; buildOpen = false; buildHooks = null; talkNpc = null; quiz = null; dialogActions = []; emoteReq = null; lastSpoken = '';
 
   try{
     if(!THREE) THREE = await import(THREE_URL);
@@ -1533,7 +1615,32 @@ export async function initMundo(){
     obstacles.push({ x:n.x, z:n.z, r:n.big ? 2.2 : 0.7 });
     npcViews.push({ id:id, x:n.x, z:n.z, v:v, big:!!n.big });
   });
+  if(world.chest) npcViews.push({ id:'chest', x:world.chest.x, z:world.chest.z, v:{ root:world.chest.group }, big:false, chest:true });
+  // contrarreloj de la Carrera de Obstáculos: cronómetro desde que sales del inicio, con medallas
+  const isObby = zoneId === 'obby';
+  const timerPill = document.getElementById('mundo-timer-pill'), timerEl = document.getElementById('mundo-timer');
+  if(timerPill) timerPill.style.display = isObby ? '' : 'none';
+  let runT0 = null, runDone = false;
+  function fmtTime(sec){ const m = Math.floor(sec/60), r = Math.floor(sec%60); return m+':'+(r<10?'0':'')+r; }
+  function finishRun(sec){
+    runDone = true;
+    const w = state.world, prev = w.best.obby;
+    const tier = sec <= 70 ? 3 : sec <= 100 ? 2 : sec <= 150 ? 1 : 0;
+    const prizes = [0,10,20,40], names = ['Sin medalla','🥉 Bronce','🥈 Plata','🥇 Oro'];
+    let gain = 0;
+    for(let k = w.medals.obby + 1; k <= tier; k++) gain += prizes[k];
+    if(tier > w.medals.obby) w.medals.obby = tier;
+    const record = (prev === null || sec < prev);
+    if(record) w.best.obby = sec;
+    if(gain){ awardCoins(gain); refreshShop(); }
+    saveProgress(); sfx('done');
+    showDialog('¡Llegaste a la meta! 🏁',
+      '<p>Tu tiempo: <b>'+fmtTime(sec)+'</b> '+(record ? '— ¡nuevo récord! ⭐' : '(tu récord: '+fmtTime(w.best.obby)+')')+'</p>'+
+      '<p>Medalla: <b>'+names[tier]+'</b>'+(gain ? ' · +'+gain+' monedas' : '')+'</p>'+
+      '<p>Medallas: 🥉 150 s o menos · 🥈 100 s · 🥇 70 s. ¡Vuelve al inicio para intentarlo otra vez!</p>', []);
+  }
   const talkBtn = document.getElementById('mundo-talk');
+  applyPrefsToWrap();
   rebuildPet();
   let emote = null;
 
@@ -1570,7 +1677,9 @@ export async function initMundo(){
   }
   function refreshGuide(){
     if(!guideBox) return;
-    guideBox.textContent = customText || missionText();
+    const txt = customText || missionText();
+    guideBox.textContent = txt;
+    maybeSpeakGuide(txt);
   }
   const myGuideSay = function(txt){ customText = txt; refreshGuide(); };
   guideSay = myGuideSay;
@@ -1831,13 +1940,14 @@ export async function initMundo(){
     let nearest = null, nd = 3.4;
     npcViews.forEach(function(n){
       if(n.v.arms){ n.v.arms[0].rotation.x = Math.sin(t*1.5 + n.x)*0.06; n.v.arms[1].rotation.x = -Math.sin(t*1.5 + n.x)*0.06; }
-      else n.v.root.position.y = Math.abs(Math.sin(t*2 + n.x))*0.25;
+      else if(!n.chest) n.v.root.position.y = Math.abs(Math.sin(t*2 + n.x))*0.25;
+      else{ world.chest.star.rotation.y = t*2; world.chest.star.position.y = 2.0 + Math.sin(t*3)*0.12; world.chest.star.visible = canClaimChest(); }
       const d = Math.hypot(pos.x-n.x, pos.z-n.z) - (n.big ? 2.2 : 0);
       if(d < nd && Math.abs(pos.y) < 2){ nd = d; nearest = n.id; }
     });
     if(nearest !== talkNpc){
       talkNpc = nearest;
-      if(talkBtn){ talkBtn.classList.toggle('hidden', !nearest); }
+      if(talkBtn){ talkBtn.classList.toggle('hidden', !nearest); talkBtn.textContent = nearest === 'chest' ? '🎁 Abrir cofre' : '💬 Hablar'; }
       if(!nearest){ const dl = dialogEl(); if(dl && !quiz) { dl.classList.add('hidden'); dialogActions = []; } }
     }
 
@@ -1854,6 +1964,16 @@ export async function initMundo(){
       }
       const hop = pd > 0.4 ? Math.abs(Math.sin(t*12))*0.18 : 0;
       petView.position.y += ((pos.y + hop) - petView.position.y) * Math.min(1, dt*10);
+    }
+
+    if(isObby){
+      if(runT0 === null && !runDone && pos.z < -5) runT0 = t;
+      if(pos.z > -2 && pos.y < 1 && (runT0 !== null || runDone)){ runT0 = null; runDone = false; if(timerEl) timerEl.textContent = '0:00'; }
+      if(runT0 !== null && !runDone){
+        if(timerEl) timerEl.textContent = fmtTime(t - runT0);
+        const mt = world.visits.meta;
+        if(mt && Math.hypot(pos.x-mt.x, pos.z-mt.z) < 4 && Math.abs(pos.y-mt.y) < 1.6) finishRun(t - runT0);
+      }
     }
 
     // puntos de control del obby

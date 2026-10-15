@@ -32,6 +32,20 @@ export function loadProgress(){
         const ok = typeof id === 'string' && id.indexOf(slot + '_') === 0 && cur.owned.indexOf(id) !== -1;
         cur.equipped[slot] = ok ? id : SLOT_DEFAULTS[slot];
       });
+      if(w.daily && typeof w.daily === 'object'){
+        if(typeof w.daily.last === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(w.daily.last)) cur.daily.last = w.daily.last;
+        if(typeof w.daily.streak === 'number' && w.daily.streak >= 0 && w.daily.streak < 10000) cur.daily.streak = Math.floor(w.daily.streak);
+      }
+      if(typeof w.studyDay === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(w.studyDay)) cur.studyDay = w.studyDay;
+      if(w.best && typeof w.best.obby === 'number' && w.best.obby > 0) cur.best.obby = w.best.obby;
+      if(w.medals && (w.medals.obby === 1 || w.medals.obby === 2 || w.medals.obby === 3)) cur.medals.obby = w.medals.obby;
+      if(w.daily && typeof w.daily === 'object'){
+        if(typeof w.daily.last === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(w.daily.last)) cur.daily.last = w.daily.last;
+        if(typeof w.daily.streak === 'number' && w.daily.streak >= 0 && w.daily.streak < 10000) cur.daily.streak = Math.floor(w.daily.streak);
+      }
+      if(typeof w.studyDay === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(w.studyDay)) cur.studyDay = w.studyDay;
+      if(w.best && typeof w.best.obby === 'number' && w.best.obby > 0) cur.best.obby = w.best.obby;
+      if(w.medals && (w.medals.obby === 1 || w.medals.obby === 2 || w.medals.obby === 3)) cur.medals.obby = w.medals.obby;
       if(w.bosses && typeof w.bosses === 'object'){
         Object.keys(cur.bosses).forEach(function(k){ if(w.bosses[k] === true) cur.bosses[k] = true; });
       }

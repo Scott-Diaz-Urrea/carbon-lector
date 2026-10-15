@@ -16,6 +16,7 @@ import { playBeep, audioRunning, sfxCorrect, sfxWrong, sfxStreak, sfxLevelup, sp
 import { saveProgress } from '../persistence.js';
 import { render } from '../render.js';
 import { MC_GAMES } from '../mcEngine.js';
+import { profileSummaries } from '../profiles.js';
 import { LENGUAJE_BY_GRADE, MATE_BY_GRADE, NUCLEO_DEFS } from '../gradeContent.js';
 import { MUNDO_ITEMS, AVATAR_SLOTS, itemsBySlot, cssOf, itemById, AVATAR_TONES, AVATAR_HAIRS, AVATAR_HAIR_COLORS, hexCss, SEASONS, activeSeason, HOUSE_ITEMS, houseItemById, HOUSE_LIMIT, HOUSE_MAX_ITEMS } from '../content/mundoItems.js';
 
@@ -70,6 +71,7 @@ function applyPrefsToWrap(){
 function settingsHTML(){
   function row(key, label, on){ return '<button class="set-row'+(on?' on':'')+'" onclick="mundoSetPref(\''+key+'\')"><span>'+label+'</span><b>'+(on?'Sí':'No')+'</b></button>'; }
   return '<b>Ajustes</b>'+row('sound','🔊 Música y sonidos',soundOn)+row('big','🔠 Texto grande',prefs.big)+row('contrast','◐ Alto contraste',prefs.contrast)+row('voice','🗣️ Leer en voz alta',prefs.voice)+
+    '<button class="set-row" onclick="showProfilePicker()"><span>👥 Cambiar de jugador</span><b>→</b></button>'+
     '<small>Con "Leer en voz alta", Carboncito y los personajes te leen lo que dicen.</small>';
 }
 function closePopovers(){
@@ -117,6 +119,7 @@ const MUSIC_SCALES = {
   espacio:[196,233,262,311,392,466], obby:[392,440,494,587,659,784], casa:[262,330,392,440,523,659],
 };
 
+let visiting = null;           // casa de un hermano que se está visitando ({id,name,items}); solo lectura
 let wantFull = false;           // el niño eligió pantalla completa (se mantiene al cambiar de mundo)
 let currentZone = 'pueblo';  // zona actual (se reinicia al pueblo al salir del juego)
 let arrivedFrom = null;      // de qué zona se viajó (para aparecer junto a su portal)
@@ -436,6 +439,36 @@ function buildChest(scene, x, z){
   return { x:x, z:z, group:g, star:star };
 }
 
+/* ---------- Tablero familiar ---------- */
+function fmtTimeS(sec){ const m = Math.floor(sec/60), r = Math.floor(sec%60); return m+':'+(r<10?'0':'')+r; }
+function openBoard(){
+  const list = profileSummaries();
+  if(list.length < 2){
+    showDialog('Tablero familiar 📋', '<p>Aquí aparecen los logros de toda tu familia. Crea más jugadores para competir y visitar sus casas.</p>'+
+      '<button class="av-done" onclick="mundoDialogAction(0)">👥 Crear otro jugador</button>', [function(){ mundoDialogClose(); window.showProfilePicker(); }]);
+    return;
+  }
+  const medals = ['—','🥉','🥈','🥇'], acts = [];
+  const rows = list.map(function(p, i){
+    let visit = '';
+    if(!p.active){ acts.push(function(){ mundoDialogClose(); travel('casa', { id:p.id, name:p.name, items:p.houseItems }); }); visit = '<button class="av-chip" onclick="mundoDialogAction('+(acts.length-1)+')">Visitar su casa 🏠</button>'; }
+    return '<div class="board-row'+(p.active?' me':'')+'"><b>#'+(i+1)+' '+p.name.replace(/[<>&]/g,'')+(p.active?' (tú)':'')+'</b>'+
+      '<span>⭐ '+p.stars+'</span><span>💰 '+p.coins+'</span><span>🏁 '+medals[p.medal]+(p.best ? ' '+fmtTimeS(p.best) : '')+'</span><span>🏆 '+p.bosses+'/2</span><span>🏠 '+p.blocks+'</span>'+visit+'</div>';
+  }).join('');
+  showDialog('Tablero familiar 📋', '<p>Estrellas ganadas estudiando, monedas, carrera de obstáculos, jefes vencidos y piezas en su casa.</p><div class="board-list">'+rows+'</div>', acts);
+}
+function buildBoard(scene, x, z){
+  const T = THREE, g = new T.Group();
+  const wood = new T.MeshLambertMaterial({ color:0x8a5a2b });
+  [-0.9,0.9].forEach(function(px){ const po = new T.Mesh(new T.BoxGeometry(0.16,2.2,0.16), wood); po.position.set(px,1.1,0); g.add(po); });
+  const bd = new T.Mesh(new T.BoxGeometry(2.2,1.3,0.12), new T.MeshLambertMaterial({ color:0xe9d6a8 })); bd.position.set(0,1.9,0); g.add(bd);
+  [0.4,0.05,-0.3].forEach(function(py, k){ const ln = new T.Mesh(new T.BoxGeometry(1.6-k*0.3,0.08,0.05), new T.MeshLambertMaterial({ color:0x6b4423 })); ln.position.set(-0.1,1.9+py,0.08); g.add(ln); });
+  const star = new T.Mesh(new T.OctahedronGeometry(0.22), new T.MeshBasicMaterial({ color:0xffe066 })); star.position.set(0.7,2.35,0.1); g.add(star);
+  const lab = makeLabel('Tablero familiar', 'rgba(20,90,80,.85)'); lab.position.set(0,3.4,0); g.add(lab);
+  g.position.set(x,0,z); g.rotation.y = Math.atan2(-x, 8-z); scene.add(g);
+  return { x:x, z:z, group:g };
+}
+
 /* ---------- Personajes (NPC) y encargos ---------- */
 const FULL = { hat:null, face:null, back:null, neck:null, shirt:'shirt_azul', pants:'pants_azul', shoes:'shoes_negro' };
 function look(avatar, eq){ return { avatar:avatar, equipped:Object.assign({}, FULL, eq) }; }
@@ -531,6 +564,7 @@ function npcLines(id){
 export function mundoTalk(){
   if(!talkNpc) return;
   if(talkNpc === 'chest'){ openChest(); return; }
+  if(talkNpc === 'board'){ openBoard(); return; }
   const n = NPCS[talkNpc], d = npcLines(talkNpc);
   showDialog(n.name, '<p>'+d.lines.join('</p><p>')+'</p>'+d.acts.map(function(a,i){
     return '<button class="av-done" onclick="mundoDialogAction('+i+')">'+a.label+'</button>'; }).join(''),
@@ -608,7 +642,7 @@ export function mundoQuizAnswer(idx){
   if(bGood) bGood.classList.add('right');
   if(!ok && bAns) bAns.classList.add('wrong');
   let fb;
-  if(ok){ quiz.right++; if(quiz.boss){ fb = '<p class="quiz-ok">¡Golpe certero! 💥</p>'; }else{ awardCoins(2); refreshShop(); fb = '<p class="quiz-ok">¡Correcto! +2 monedas 🪙</p>'; } }
+  if(ok){ quiz.right++; if(quiz.boss){ fb = '<p class="quiz-ok">¡Golpe certero! 💥</p>'; }else{ awardCoins(2); refreshShop(); fb = '<p class="quiz-ok">¡Correcto! +2 monedas 💰</p>'; } }
   else fb = '<p class="quiz-bad">Casi. La correcta está en verde.</p>'+(r.explain ? '<p class="quiz-exp">'+r.explain+'</p>' : '');
   const box = document.getElementById('quiz-fb');
   if(box) box.innerHTML = fb + '<button class="av-done" onclick="mundoQuizNext()">'+(quiz.i>=5?'Ver resultado':'Siguiente')+'</button>';
@@ -1191,9 +1225,11 @@ function buildPueblo(scene, ctx){
   addSeasonDecor(scene, activeSeason(), segs);
   const chest = buildChest(scene, 3.5, 6.5);
   obstacles.push({ x:3.5, z:6.5, r:1.0 });
+  const board = buildBoard(scene, -3.5, 6.5);
+  obstacles.push({ x:-3.5, z:6.5, r:1.0 });
   addFence(scene, 38);
   addLights(scene, 0xffffff, 0x88aa66, 0.9);
-  return { obstacles:obstacles, portals:portals, visits:{}, chest:chest };
+  return { obstacles:obstacles, portals:portals, visits:{}, chest:chest, board:board };
 }
 
 /* ----- Bosque ----- */
@@ -1616,7 +1652,8 @@ function isUnlocked(id){
   return !!(z && z.stars && totalStars() >= z.stars);   // también se abre jugando y ganando estrellas de estudio
 }
 
-function travel(dest){
+function travel(dest, visit){
+  visiting = (dest === 'casa') ? (visit || null) : null;
   sfx('portal');
   arrivedFrom = currentZone;
   currentZone = dest;
@@ -1648,6 +1685,7 @@ export async function initMundo(){
   if(!wrap) return;
   labelList = [];
   const zoneId = currentZone, zone = ZONES[zoneId];
+  const visit = (zoneId === 'casa') ? visiting : null;
   const from = arrivedFrom; travelling = false; arrivedFrom = null;
   bonesCollected = 0; missionBones = 0; avatarOpen = false; buildOpen = false; buildHooks = null; talkNpc = null; quiz = null; dialogActions = []; emoteReq = null; lastSpoken = ''; lastShown = '';
 
@@ -1707,7 +1745,8 @@ export async function initMundo(){
 
   // título de zona
   const zname = document.getElementById('mundo-zone');
-  if(zname) zname.textContent = zone.name;
+  if(zname) zname.textContent = visit ? ('Casa de '+visit.name) : zone.name;
+  if(visit){ const vl = makeLabel('Casa de '+visit.name, 'rgba(120,60,20,.85)'); vl.position.set(0,5.5,-12); scene.add(vl); }
 
   const me = buildPerson();
   scene.add(me.root);
@@ -1732,7 +1771,7 @@ export async function initMundo(){
   // Mi Casa: construcción con bloques y muebles sobre una grilla (cursor delante del personaje)
   const isHome = !!world.house;
   const buildBtn = document.getElementById('mundo-build-btn');
-  if(buildBtn) buildBtn.style.display = isHome ? '' : 'none';
+  if(buildBtn) buildBtn.style.display = (isHome && !visit) ? '' : 'none';
   let myBuildHooks = null;
   const placed = new Map();      // ítem guardado -> {mesh, obs}
   const targetCell = { x:0, z:0 };
@@ -1751,7 +1790,7 @@ export async function initMundo(){
     placed.set(it, { mesh:m, obs:obs });
   }
   if(isHome){
-    state.world.house.items.forEach(addItemView);
+    (visit ? visit.items : state.world.house.items).forEach(addItemView);
     cursor = new T.Group();
     cursor.add(new T.LineSegments(new T.EdgesGeometry(new T.BoxGeometry(1.04,1.04,1.04)), new T.LineBasicMaterial({ color:0xff9f43 })));
     cursor.add(new T.Mesh(new T.BoxGeometry(1.02,1.02,1.02), new T.MeshBasicMaterial({ color:0xffd43b, transparent:true, opacity:0.25 })));
@@ -1806,6 +1845,7 @@ export async function initMundo(){
     obstacles.push({ x:n.x, z:n.z, r:n.big ? 2.2 : 0.7 });
     npcViews.push({ id:id, x:n.x, z:n.z, v:v, big:!!n.big });
   });
+  if(world.board) npcViews.push({ id:'board', x:world.board.x, z:world.board.z, v:{ root:world.board.group }, big:false, board:true });
   if(world.chest) npcViews.push({ id:'chest', x:world.chest.x, z:world.chest.z, v:{ root:world.chest.group }, big:false, chest:true });
   // contrarreloj de la Carrera de Obstáculos: cronómetro desde que sales del inicio, con medallas
   const isObby = zoneId === 'obby';
@@ -1863,7 +1903,8 @@ export async function initMundo(){
   function mIndex(){ return state.world.missions[zoneId] || 0; }
   function missionText(){
     const carry = carryText();
-    if(zone.hello) return zone.hello + (zoneId === 'pueblo' ? seasonHello() : '') + (carry ? ' '+carry : '');
+    const helloTxt = visit ? ('Estás de visita en la casa de '+visit.name+' 🏠 ¡Mira cómo la decoró! Aquí no se puede construir.') : zone.hello;
+    if(helloTxt) return helloTxt + (zoneId === 'pueblo' ? seasonHello() : '') + (carry ? ' '+carry : '');
     const m = missions[mIndex()];
     if(!m) return 'Completaste las misiones de este lugar 🎉 ¡Habla con la gente o vuelve al pueblo! 🐾'+(carryText() ? ' '+carryText() : '');
     return m.text + (m.type==='collect' ? ' ('+Math.min(missionBones,m.n)+'/'+m.n+')' : '') + (carryText() ? ' '+carryText() : '');
@@ -2052,7 +2093,7 @@ export async function initMundo(){
     window.removeEventListener('keydown',kd); window.removeEventListener('keyup',ku);
     ro.disconnect(); renderer.dispose();
     if(landscapeMQ.removeEventListener) landscapeMQ.removeEventListener('change', syncOrientation);
-    if(!travelling && myRun === runId){ wantFull = false; document.body.classList.remove('mundo-fs'); }
+    if(!travelling && myRun === runId){ visiting = null; wantFull = false; document.body.classList.remove('mundo-fs'); }
     if(outfitHook === myOutfitHook) outfitHook = null;
     clearInterval(musicTimer);
     if(guideSay === myGuideSay) guideSay = null;
@@ -2180,14 +2221,14 @@ export async function initMundo(){
     let nearest = null, nd = 3.4;
     npcViews.forEach(function(n){
       if(n.v.arms){ n.v.arms[0].rotation.x = Math.sin(t*1.5 + n.x)*0.06; n.v.arms[1].rotation.x = -Math.sin(t*1.5 + n.x)*0.06; }
-      else if(!n.chest) n.v.root.position.y = Math.abs(Math.sin(t*2 + n.x))*0.25;
-      else{ world.chest.star.rotation.y = t*2; world.chest.star.position.y = 2.0 + Math.sin(t*3)*0.12; world.chest.star.visible = canClaimChest(); }
+      else if(!n.chest && !n.board) n.v.root.position.y = Math.abs(Math.sin(t*2 + n.x))*0.25;
+      else if(n.chest){ world.chest.star.rotation.y = t*2; world.chest.star.position.y = 2.0 + Math.sin(t*3)*0.12; world.chest.star.visible = canClaimChest(); }
       const d = Math.hypot(pos.x-n.x, pos.z-n.z) - (n.big ? 2.2 : 0);
       if(d < nd && Math.abs(pos.y) < 2){ nd = d; nearest = n.id; }
     });
     if(nearest !== talkNpc){
       talkNpc = nearest;
-      if(talkBtn){ talkBtn.classList.toggle('hidden', !nearest); talkBtn.textContent = nearest === 'chest' ? '🎁 Abrir cofre' : '💬 Hablar'; }
+      if(talkBtn){ talkBtn.classList.toggle('hidden', !nearest); talkBtn.textContent = nearest === 'chest' ? '🎁 Abrir cofre' : nearest === 'board' ? '📋 Ver tablero' : '💬 Hablar'; }
       if(!nearest){ const dl = dialogEl(); if(dl && !quiz) { dl.classList.add('hidden'); dialogActions = []; const wr3 = document.getElementById('mundo-wrap'); if(wr3) wr3.classList.remove('dialog-open'); } }
     }
 

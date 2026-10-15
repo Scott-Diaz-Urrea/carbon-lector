@@ -20,7 +20,8 @@ import {
 } from './games/apoyoAlzheimer.js';
 import { render } from './render.js';
 import { state } from './state.js';
-import { loadProgress } from './persistence.js';
+import { loadProgress, getProfileIndex } from './persistence.js';
+import { showProfilePicker, pfClose, pfChoose, pfCreate, pfDelete, profileChosenThisSession } from './profiles.js';
 
 window.goTo = goTo;
 window.goBack = goBack;
@@ -91,9 +92,17 @@ window.alzAnswerExercise = alzAnswerExercise;
 window.alzNextExercise = alzNextExercise;
 window.alzMemoriaListo = alzMemoriaListo;
 
+window.showProfilePicker = showProfilePicker;
+window.pfClose = pfClose;
+window.pfChoose = pfChoose;
+window.pfCreate = pfCreate;
+window.pfDelete = pfDelete;
+
 loadProgress();
 render();
 
-if(!state.userName){
+if(getProfileIndex().list.length > 1 && !profileChosenThisSession()){
+  showProfilePicker();                 // varios jugadores en este dispositivo: primero se elige quién juega
+}else if(!state.userName){
   showNameEntry(render);
 }

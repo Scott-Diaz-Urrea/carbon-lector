@@ -1500,3 +1500,22 @@
   .mundo-contrast .mundo-talk{ background:#ffe14d; color:#000; border-color:#000; }
   .mundo-contrast .quiz-opt.right{ background:#b7f5c1; border-color:#000; }
   .mundo-contrast .quiz-opt.wrong{ background:#ffc2c2; border-color:#000; }
+
+  /* Fase 11: jugadores y tablero familiar */
+  .profile-overlay{ z-index:200; }
+  .profile-card{ max-height:90vh; overflow:auto; }
+  .pf-list{ display:flex; flex-direction:column; gap:8px; margin:8px 0; text-align:left; }
+  .pf-row{ display:flex; gap:8px; align-items:stretch; }
+  .pf-pick{ flex:1; display:flex; flex-direction:column; align-items:flex-start; gap:2px; border:3px solid #e3e8ea; background:#fff; border-radius: var(--radius-md); padding:10px 14px; cursor:pointer; font-family: var(--font-body); font-size:17px; }
+  .pf-row.active .pf-pick{ border-color: var(--primary); background:#E8FBF6; }
+  .pf-pick small{ color: var(--ink-soft); font-weight:700; font-size:13px; }
+  .pf-del{ border:0; background:#fde8eb; border-radius: var(--radius-md); width:46px; font-size:18px; cursor:pointer; }
+  .pf-new{ display:flex; flex-direction:column; gap:8px; margin:10px 0; }
+  .pf-note{ color: var(--ink-soft); font-size:13px; }
+  .home-players{ margin-top:10px; }
+  .board-list{ display:flex; flex-direction:column; gap:8px; }
+  .board-row{ display:flex; flex-wrap:wrap; gap:4px 12px; align-items:center; background:#F4F7F7; border-radius: var(--radius-md); padding:10px 12px; font-size:14px; font-weight:700; }
+  .board-row.me{ background:#E8FBF6; }
+  .board-row b{ flex:1 1 100%; font-family: var(--font-display); font-size:16px; }
+  .board-row .av-chip{ margin-left:auto; }
+  .mundo-contrast .board-row, .mundo-contrast .pf-pick{ border:3px solid #000; background:#fff; }

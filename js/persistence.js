@@ -32,6 +32,9 @@ export function loadProgress(){
         const ok = typeof id === 'string' && id.indexOf(slot + '_') === 0 && cur.owned.indexOf(id) !== -1;
         cur.equipped[slot] = ok ? id : SLOT_DEFAULTS[slot];
       });
+      if(w.quests && typeof w.quests === 'object'){
+        Object.keys(cur.quests).forEach(function(k){ const v = w.quests[k]; if(v === 0 || v === 1 || v === 2) cur.quests[k] = v; });
+      }
       if(Array.isArray(w.looks)){
         [0,1,2].forEach(function(i){
           const L = w.looks[i];

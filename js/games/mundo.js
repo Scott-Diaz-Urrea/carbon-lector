@@ -384,13 +384,14 @@ function openChest(){
     (studyBonus ? '• ¡Hoy estudiaste en LEO!: +'+studyBonus : '• Tip: estudia un juego de LEO antes de abrirlo y ganas +10 extra')+'</p>'+
     '<p>Racha: <b>'+d.streak+' '+(d.streak===1?'día':'días')+'</b> 🔥 (¡vuelve mañana!)</p>', []);
 }
-function addSeasonDecor(scene, season){
+function addSeasonDecor(scene, season, segs){
   if(!season) return;
+  segs = segs || [];
   const T = THREE, rnd = mulberry32(5);
   if(season === 'halloween'){
     for(let i=0;i<16;i++){
       const a = rnd()*Math.PI*2, d = 9 + rnd()*24, x = Math.cos(a)*d, z = Math.sin(a)*d;
-      if(Math.hypot(x,z+16) < 4 || Math.hypot(x-16,z) < 4 || Math.hypot(x+16,z) < 4) continue;
+      if(Math.hypot(x,z+16) < 4 || Math.hypot(x-16,z) < 4 || Math.hypot(x+16,z) < 4 || segs.some(function(sg){ return distToSeg(x,z,sg) < sg[4]/2+1; })) continue;
       const g = new T.Group(), s = 0.7 + rnd()*0.6;
       const b = new T.Mesh(new T.SphereGeometry(0.6*s,10,8), mat(0xff8a1f)); b.scale.y = 0.8; b.position.y = 0.5*s; g.add(b);
       const st = new T.Mesh(new T.BoxGeometry(0.12*s,0.25*s,0.12*s), mat(0x2f9e44)); st.position.y = 1.0*s; g.add(st);
@@ -404,7 +405,7 @@ function addSeasonDecor(scene, season){
     for(let i=0;i<12;i++){ const a = i*2.4, h = 1.2 + (i%4)*0.7, r = 1.4 - (i%4)*0.3; const b = new T.Mesh(new T.SphereGeometry(0.13,6,6), new T.MeshBasicMaterial({ color:cols[i%4] })); b.position.set(Math.cos(a)*r, h, Math.sin(a)*r); g.add(b); }
     const star = new T.Mesh(new T.OctahedronGeometry(0.3), new T.MeshBasicMaterial({ color:0xffe066 })); star.position.y = 4.5; g.add(star);
     [[1.8,1.2,0xe0334c],[-1.6,1.5,0x3b82f6],[0.6,2.2,0x2fb344]].forEach(function(gf){ const bx = new T.Mesh(new T.BoxGeometry(0.6,0.5,0.6), mat(gf[2])); bx.position.set(gf[0],0.25,gf[1]); g.add(bx); });
-    g.position.set(-4,0,-6); scene.add(g);
+    g.position.set(-6.5,0,-9.5); scene.add(g);
   }else if(season === 'patrias'){
     for(let k=0;k<8;k++){
       const a = k/8*Math.PI*2 + 0.2, x = Math.cos(a)*12, z = Math.sin(a)*12;
@@ -439,15 +440,15 @@ function buildChest(scene, x, z){
 const FULL = { hat:null, face:null, back:null, neck:null, shirt:'shirt_azul', pants:'pants_azul', shoes:'shoes_negro' };
 function look(avatar, eq){ return { avatar:avatar, equipped:Object.assign({}, FULL, eq) }; }
 const NPCS = {
-  lucho: { name:'Profe Lucho', zone:'pueblo', x:-7, z:9, role:'quiz', receives:'estrella',
+  lucho: { name:'Profe Lucho', zone:'pueblo', x:-9.9, z:18.8, role:'quiz', receives:'estrella',
            look: look({ tone:2, hair:'corto', hairColor:0 }, { face:'face_lentes', neck:'neck_corbata', shirt:'shirt_blanca', pants:'pants_gris' }) },
-  beto:  { name:'Beto el panadero', zone:'pueblo', x:8, z:9, gives:'pan',
+  beto:  { name:'Beto el panadero', zone:'pueblo', x:9.9, z:18.8, gives:'pan',
            look: look({ tone:1, hair:'corto', hairColor:1 }, { hat:'hat_chef', face:'face_bigote', shirt:'shirt_blanca', shoes:'shoes_blanco' }) },
   pepa:  { name:'Pepa', zone:'playa', x:-9, z:7, receives:'pan', gives:'concha',
            look: look({ tone:2, hair:'coleta', hairColor:3 }, { hat:'hat_gorra', face:'face_sol', shirt:'shirt_rosado', pants:'pants_short', shoes:'shoes_blanco' }) },
   neo:   { name:'Neo el astronauta', zone:'espacio', x:9, z:6, gives:'estrella', receives:'linterna',
            look: look({ tone:3, hair:'corto', hairColor:0 }, { hat:'hat_casco', back:'back_jet', shirt:'shirt_blanca', pants:'pants_gris', shoes:'shoes_blanco' }) },
-  nati:  { name:'Nati la cocinera', zone:'pueblo', x:3, z:14, gives:'receta', receives:'concha',
+  nati:  { name:'Nati la cocinera', zone:'pueblo', x:18.6, z:8.2, gives:'receta', receives:'concha',
            look: look({ tone:0, hair:'largo', hairColor:3 }, { hat:'hat_chef', shirt:'shirt_rosado', pants:'pants_azul', shoes:'shoes_blanco' }) },
   cenizas: { name:'Cenizas el dragón', zone:'volcan', x:-12, z:-8, role:'boss', boss:'volcan', big:true, model:'pet_dragon' },
   tinta:   { name:'Pulpo Tinta', zone:'arrecife', x:10, z:-10, role:'boss', boss:'arrecife', big:true, model:'octopus' },
@@ -1068,6 +1069,52 @@ function addHill(scene, platforms, cx, cz, sizes, step, colors){
   return { x:cx, z:cz, y:top };
 }
 
+/* ---------- Distribución de los mundos: caminos, zonas reservadas y casas ---------- */
+const LAYOUT = {
+  bosque:  { color:0xd9b77a, w:2.2, paths:[ [[0,-2],[0,-16]], [[2,-1],[6,-4],[9,-6]], [[-2,-1],[-6,-6],[-12,-12],[-15,-14]], [[-2,-0.5],[-6,-3]] ] },
+  playa:   { color:0xb98a5a, w:2.2, paths:[ [[0,-2],[0,-16]], [[2,1],[8,6]], [[-2,-1],[-8,-8],[-12,-10]], [[-2,1],[-6,5]] ] },
+  espacio: { color:0x6a6882, w:2.2, paths:[ [[0,-2],[0,-16]], [[-2,-1],[-10,-9]], [[2,-2],[12,-12]], [[2,1],[7,5]] ] },
+  volcan:  { color:0x2d2323, w:2.4, paths:[ [[0,-2],[0,-16]], [[2,-2],[10,-11]], [[-2,-1],[-9,-6]] ] },
+  arrecife:{ color:0xe6cf8a, w:2.4, paths:[ [[0,-2],[0,-16]], [[-2,-2],[-11,-11]], [[2,-2],[7,-7]] ] },
+};
+function addPath(scene, pts, w, color){
+  const segs = [];
+  for(let i=0;i<pts.length-1;i++){
+    const a = pts[i], b = pts[i+1], dx = b[0]-a[0], dz = b[1]-a[1], len = Math.hypot(dx,dz);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.06, len + w*0.6), mat(color));
+    m.position.set((a[0]+b[0])/2, 0.045, (a[1]+b[1])/2); m.rotation.y = Math.atan2(dx,dz); scene.add(m);
+    segs.push([a[0],a[1],b[0],b[1],w]);
+  }
+  return segs;
+}
+function layoutPaths(scene, zid){
+  const L = LAYOUT[zid], all = [];
+  if(!L) return all;
+  L.paths.forEach(function(pts){ addPath(scene, pts, L.w, L.color).forEach(function(sg){ all.push(sg); }); });
+  return all;
+}
+function distToSeg(px, pz, sg){
+  const dx = sg[2]-sg[0], dz = sg[3]-sg[1], l2 = dx*dx + dz*dz;
+  const t = l2 ? Math.max(0, Math.min(1, ((px-sg[0])*dx + (pz-sg[1])*dz)/l2)) : 0;
+  return Math.hypot(px-(sg[0]+t*dx), pz-(sg[1]+t*dz));
+}
+/* true si (x,z) cae sobre un camino o junto a un personaje de esa zona: ahí no se ponen árboles, rocas, etc. */
+function blockedSpot(zid, segs, x, z, pad){
+  pad = pad || 0;
+  if(segs.some(function(sg){ return distToSeg(x,z,sg) < sg[4]/2 + pad; })) return true;
+  return Object.keys(NPCS).some(function(id){ const n = NPCS[id]; return n.zone === zid && Math.hypot(x-n.x, z-n.z) < (n.big ? 5 : 2.6) + pad; });
+}
+function addHouse(scene, obstacles, x, z, roofColor, bodyColor){
+  const T = THREE, h = new T.Group();
+  const body = new T.Mesh(new T.BoxGeometry(5,3,5), mat(bodyColor || 0xf4e4c1)); body.position.y = 1.5; h.add(body);
+  const roof = new T.Mesh(new T.ConeGeometry(4.3,2.4,4), mat(roofColor)); roof.position.y = 4.2; roof.rotation.y = Math.PI/4; h.add(roof);
+  const door = new T.Mesh(new T.BoxGeometry(1,1.8,0.1), mat(0x7a4a22)); door.position.set(0,0.9,2.55); h.add(door);
+  [-1.5,1.5].forEach(function(wx){ const wn = new T.Mesh(new T.BoxGeometry(0.9,0.9,0.1), mat(0xbfe6ff)); wn.position.set(wx,1.8,2.55); h.add(wn); });
+  h.position.set(x,0,z); h.rotation.y = Math.atan2(-x,-z); scene.add(h);
+  obstacles.push({ x:x, z:z, r:3.4 });
+  return h;
+}
+
 /* ----- Pueblo central ----- */
 function buildPueblo(scene, ctx){
   const T = THREE, obstacles = [], rnd = mulberry32(7);
@@ -1078,21 +1125,58 @@ function buildPueblo(scene, ctx){
   const water = new T.Mesh(new T.CylinderGeometry(2.1,2.1,0.1,20), mat(0x4fb4f2)); water.position.y = 0.62; scene.add(water);
   const jet = new T.Mesh(new T.CylinderGeometry(0.2,0.3,1.6,8), mat(0xaab3bd)); jet.position.y = 1.2; scene.add(jet);
   obstacles.push({ x:0, z:0, r:2.8 });
-  // casas
+
+  // calles: de la plaza a cada portal (7 portales = 7 calles; el sur queda libre para llegar y para las casas)
+  const portalSpots = [[0,-16],[16,0],[-16,0],[11,-11],[11,11],[-11,-11],[-11,11]];
+  const segs = [];
+  portalSpots.forEach(function(q){ addPath(scene, [[q[0]*0.4,q[1]*0.4],[q[0]*0.93,q[1]*0.93]], 2.8, 0xd9b77a).forEach(function(sg){ segs.push(sg); }); });
+  // calle sur hacia las casas y los personajes
+  addPath(scene, [[0,8],[0,18]], 2.8, 0xd9b77a).forEach(function(sg){ segs.push(sg); });
+  addPath(scene, [[-9.9,17],[9.9,17]], 2.4, 0xd9b77a).forEach(function(sg){ segs.push(sg); });
+  addPath(scene, [[5,8],[18,8]], 2.4, 0xd9b77a).forEach(function(sg){ segs.push(sg); });
+
+  // casas con letrero: cada personaje vive junto a la suya
   const roofCols = [0xd94f4f,0x4f7bd9,0xe0a030,0x8a5ad9,0x3fae6b,0xd9548a];
-  [[-22,-10],[22,-10],[-24,10],[24,10],[-12,24],[12,24]].forEach(function(p,i){
-    const h = new T.Group();
-    const body = new T.Mesh(new T.BoxGeometry(5,3,5), mat(0xf4e4c1)); body.position.y = 1.5; h.add(body);
-    const roof = new T.Mesh(new T.ConeGeometry(4.3,2.4,4), mat(roofCols[i])); roof.position.y = 4.2; roof.rotation.y = Math.PI/4; h.add(roof);
-    const door = new T.Mesh(new T.BoxGeometry(1,1.8,0.1), mat(0x7a4a22)); door.position.set(0,0.9,2.55); h.add(door);
-    h.position.set(p[0],0,p[1]); h.rotation.y = Math.atan2(-p[0],-p[1]); scene.add(h);
-    obstacles.push({ x:p[0], z:p[1], r:3.4 });
+  const houses = [[-22,-10,null],[22,-10,null],[-24,10,null],[24,10,'Cocina'],[-12,24,'Escuela'],[12,24,'Panadería']];
+  houses.forEach(function(h,k){
+    addHouse(scene, obstacles, h[0], h[1], roofCols[k]);
+    if(h[2]){ const lab = makeLabel(h[2], 'rgba(120,60,20,.85)'); lab.position.set(h[0], 6.4, h[1]); scene.add(lab); }
   });
-  // árboles del borde
+
+  // banquitas y canteros alrededor de la fuente (entre las calles, a 22.5° de cada una)
+  for(let k=0;k<4;k++){
+    const a = Math.PI/8 + k*Math.PI/2 + Math.PI/4*0, x = Math.cos(a)*5.8, z = Math.sin(a)*5.8;
+    const g = new T.Group();
+    const seat = new T.Mesh(new T.BoxGeometry(1.8,0.18,0.6), mat(0x9a6a3a)); seat.position.y = 0.5; g.add(seat);
+    const back = new T.Mesh(new T.BoxGeometry(1.8,0.5,0.1), mat(0x9a6a3a)); back.position.set(0,0.85,-0.3); g.add(back);
+    [-0.7,0.7].forEach(function(lx){ const lg = new T.Mesh(new T.BoxGeometry(0.1,0.5,0.5), mat(0x6b4423)); lg.position.set(lx,0.25,0); g.add(lg); });
+    g.position.set(x,0,z); g.rotation.y = Math.atan2(-x,-z)+Math.PI; scene.add(g); obstacles.push({ x:x, z:z, r:0.9 });
+  }
+  const flowerCols = [0xff6b9d,0xffd43b,0xffffff,0xb18cff,0xff9f43];
+  for(let k=0;k<8;k++){
+    const a = Math.PI/8 + k*Math.PI/4;
+    if(k % 2 === 0) continue;                                     // los lugares pares tienen banca
+    for(let f=0;f<7;f++){
+      const aa = a + (f-3)*0.07, rr = 8.2 + (f%2)*0.5;
+      const fl = new T.Mesh(new T.SphereGeometry(0.16,6,6), mat(flowerCols[(k+f)%flowerCols.length])); fl.position.set(Math.cos(aa)*rr,0.2,Math.sin(aa)*rr); scene.add(fl);
+    }
+  }
+  // faroles a los lados de cada calle
+  portalSpots.forEach(function(q){
+    [0.58,0.84].forEach(function(t, ti){
+      const L = Math.hypot(q[0],q[1]), nx = -q[1]/L, nz = q[0]/L, side = ti ? -1 : 1;
+      const x = q[0]*t + nx*2.1*side, z = q[1]*t + nz*2.1*side;
+      const pole = new T.Mesh(new T.CylinderGeometry(0.07,0.09,2.6,6), mat(0x44464e)); pole.position.set(x,1.3,z); scene.add(pole);
+      const bulb = new T.Mesh(new T.SphereGeometry(0.22,8,6), new T.MeshBasicMaterial({ color:0xffe27a })); bulb.position.set(x,2.7,z); scene.add(bulb);
+    });
+  });
+
+  // árboles solo en el borde y lejos de casas y calles
   let n = 0, guard = 0;
-  while(n < 16 && guard++ < 200){
-    const a = rnd()*Math.PI*2, d = 30 + rnd()*7;
-    addTree(scene, obstacles, Math.cos(a)*d, Math.sin(a)*d, 0.9+rnd()*0.6, 0x2f9e44, 0x40c057); n++;
+  while(n < 18 && guard++ < 300){
+    const a = rnd()*Math.PI*2, d = 29 + rnd()*8, x = Math.cos(a)*d, z = Math.sin(a)*d;
+    if(houses.some(function(h){ return Math.hypot(x-h[0],z-h[1]) < 7; }) || segs.some(function(sg){ return distToSeg(x,z,sg) < 3; })) continue;
+    addTree(scene, obstacles, x, z, 0.9+rnd()*0.6, 0x2f9e44, 0x40c057); n++;
   }
   // portales
   const portals = [
@@ -1104,9 +1188,9 @@ function buildPueblo(scene, ctx){
     addPortal(scene, obstacles, -11, -11, 0xff3b1f, ctx.portalLabel('volcan'), 'volcan'),
     addPortal(scene, obstacles, -11, 11, 0x1fb5ff, ctx.portalLabel('arrecife'), 'arrecife'),
   ];
-  addSeasonDecor(scene, activeSeason());
-  const chest = buildChest(scene, 6, 4);
-  obstacles.push({ x:6, z:4, r:1.0 });
+  addSeasonDecor(scene, activeSeason(), segs);
+  const chest = buildChest(scene, 3.5, 6.5);
+  obstacles.push({ x:3.5, z:6.5, r:1.0 });
   addFence(scene, 38);
   addLights(scene, 0xffffff, 0x88aa66, 0.9);
   return { obstacles:obstacles, portals:portals, visits:{}, chest:chest };
@@ -1119,11 +1203,13 @@ function buildBosque(scene, ctx){
   const pond = discOnGround(scene, 5, 0x4fb4f2, 12, -9, 0.03);
   obstacles.push({ x:12, z:-9, r:5.3 });
   discOnGround(scene, 4, 0xd9b77a, 0, 0, 0.02);
+  const segs = layoutPaths(scene, 'bosque');
+  addHouse(scene, obstacles, -12.5, -6.5, 0x3fae6b, 0xe9d6a8);          // la cabaña de Mati el guardabosques
   let placed = 0, guard = 0;
   while(placed < 34 && guard++ < 500){
     const a = rnd()*Math.PI*2, d = 7 + rnd()*29;
     const x = Math.cos(a)*d, z = Math.sin(a)*d;
-    if(Math.hypot(x-12,z+9) < 8 || Math.hypot(x,z+18) < 6 || Math.hypot(x+18,z+16) < 9) continue;
+    if(Math.hypot(x-12,z+9) < 8 || Math.hypot(x,z+18) < 6 || Math.hypot(x+18,z+16) < 9 || Math.hypot(x+12.5,z+6.5) < 5.5 || blockedSpot('bosque',segs,x,z,1.8)) continue;
     addTree(scene, obstacles, x, z, 0.8 + rnd()*0.8, rnd()<0.5?0x2f9e44:0x40c057, 0x40c057);
     placed++;
   }
@@ -1149,12 +1235,13 @@ function buildPlaya(scene, ctx){
   discOnGround(scene, 33, 0xf5deb3, 0, 0, 0.0);
   // agua poco profunda en el borde
   const ring = new T.Mesh(new T.RingGeometry(29,33,48), mat(0x8fd8f5)); ring.rotation.x = -Math.PI/2; ring.position.y = 0.03; scene.add(ring);
+  const segs = layoutPaths(scene, 'playa');
   // palmeras
   let n = 0, guard = 0;
   while(n < 12 && guard++ < 200){
     const a = rnd()*Math.PI*2, d = 8 + rnd()*18;
     const x = Math.cos(a)*d, z = Math.sin(a)*d;
-    if(Math.hypot(x-10,z-8) < 7 || Math.hypot(x,z+18) < 5 || Math.hypot(x,z) < 6) continue;
+    if(Math.hypot(x-10,z-8) < 7 || Math.hypot(x,z+18) < 5 || Math.hypot(x,z) < 6 || blockedSpot('playa',segs,x,z,1.6)) continue;
     const p = new T.Group();
     const trunk = new T.Mesh(new T.CylinderGeometry(0.22,0.32,4,8), mat(0x9a6a3a)); trunk.position.y = 2; p.add(trunk);
     for(let k=0;k<6;k++){
@@ -1175,7 +1262,7 @@ function buildPlaya(scene, ctx){
   for(let i=0;i<6;i++){
     const a = rnd()*Math.PI*2, d = 10 + rnd()*16;
     const x = Math.cos(a)*d, z = Math.sin(a)*d;
-    if(Math.hypot(x,z+18) < 5 || Math.hypot(x+15,z+12) < 8) continue;
+    if(Math.hypot(x,z+18) < 5 || Math.hypot(x+15,z+12) < 8 || blockedSpot('playa',segs,x,z,1.6)) continue;
     const r = new T.Mesh(new T.DodecahedronGeometry(0.8+rnd()*0.4), mat(0x9aa0a6)); r.position.set(x,0.4,z); scene.add(r);
     obstacles.push({ x:x, z:z, r:0.9 });
   }
@@ -1190,6 +1277,7 @@ function buildPlaya(scene, ctx){
 function buildEspacio(scene, ctx){
   const T = THREE, obstacles = [], rnd = mulberry32(99);
   discOnGround(scene, 40, 0x8d8ba3);
+  const segs = layoutPaths(scene, 'espacio');
   // cráteres decorativos
   for(let i=0;i<12;i++){
     const a = rnd()*Math.PI*2, d = 5 + rnd()*26;
@@ -1199,7 +1287,7 @@ function buildEspacio(scene, ctx){
   for(let i=0;i<14;i++){
     const a = rnd()*Math.PI*2, d = 8 + rnd()*22;
     const x = Math.cos(a)*d, z = Math.sin(a)*d;
-    if(Math.hypot(x,z+18) < 5 || Math.hypot(x+12,z+10) < 6 || Math.hypot(x-15,z+15) < 9) continue;
+    if(Math.hypot(x,z+18) < 5 || Math.hypot(x+12,z+10) < 6 || Math.hypot(x-15,z+15) < 9 || blockedSpot('espacio',segs,x,z,1.8)) continue;
     const r = new T.Mesh(new T.DodecahedronGeometry(0.9+rnd()*0.8), mat(0x77758c)); r.position.set(x,0.6,z); scene.add(r);
     obstacles.push({ x:x, z:z, r:1.2 });
   }
@@ -1328,6 +1416,7 @@ function buildObby(scene, ctx){
 function buildVolcan(scene, ctx){
   const T = THREE, obstacles = [], platforms = [], rnd = mulberry32(77);
   discOnGround(scene, 48, 0x4a3b3b);
+  const segs = layoutPaths(scene, 'volcan');
   const pools = [[10,6,3.2],[-14,10,2.6],[-6,-16,3.0],[22,2,2.4]];
   pools.forEach(function(p){
     const m = new T.Mesh(new T.CircleGeometry(p[2],24), new T.MeshBasicMaterial({ color:0xff5a1f }));
@@ -1337,7 +1426,7 @@ function buildVolcan(scene, ctx){
   let n = 0, guard = 0;
   while(n < 18 && guard++ < 300){
     const a = rnd()*Math.PI*2, d = 7 + rnd()*26, x = Math.cos(a)*d, z = Math.sin(a)*d;
-    if(Math.hypot(x,z+18) < 5 || Math.hypot(x-15,z+16) < 10 || Math.hypot(x+12,z+8) < 6 || Math.hypot(x,z) < 5) continue;
+    if(Math.hypot(x,z+18) < 5 || Math.hypot(x-15,z+16) < 10 || Math.hypot(x+12,z+8) < 6 || Math.hypot(x,z) < 5 || blockedSpot('volcan',segs,x,z,1.8)) continue;
     if(pools.some(function(p){ return Math.hypot(x-p[0],z-p[1]) < p[2]+2; })) continue;
     const r = new T.Mesh(new T.DodecahedronGeometry(0.9+rnd()*0.9), mat(0x3a2e2e)); r.position.set(x,0.6,z); scene.add(r);
     obstacles.push({ x:x, z:z, r:1.3 }); n++;
@@ -1354,11 +1443,12 @@ function buildVolcan(scene, ctx){
 function buildArrecife(scene, ctx){
   const T = THREE, obstacles = [], platforms = [], rnd = mulberry32(88);
   discOnGround(scene, 48, 0xf0dca0);
+  const segs = layoutPaths(scene, 'arrecife');
   const coralCols = [0xff6b9d,0xff9f43,0xb18cff,0xffd43b];
   let n = 0, guard = 0;
   while(n < 22 && guard++ < 300){
     const a = rnd()*Math.PI*2, d = 6 + rnd()*28, x = Math.cos(a)*d, z = Math.sin(a)*d;
-    if(Math.hypot(x,z+18) < 5 || Math.hypot(x+15,z+14) < 9 || Math.hypot(x-10,z+10) < 6 || Math.hypot(x,z) < 4) continue;
+    if(Math.hypot(x,z+18) < 5 || Math.hypot(x+15,z+14) < 9 || Math.hypot(x-10,z+10) < 6 || Math.hypot(x,z) < 4 || blockedSpot('arrecife',segs,x,z,1.8)) continue;
     const g = new T.Group(), c = coralCols[n % coralCols.length];
     for(let k=0;k<4;k++){
       const h = 0.8 + rnd()*1.2, cone = new T.Mesh(new T.ConeGeometry(0.28+rnd()*0.15,h,6), mat(c));
@@ -1370,7 +1460,7 @@ function buildArrecife(scene, ctx){
   for(let i=0;i<22;i++){
     const a = rnd()*Math.PI*2, d = 5 + rnd()*30, h = 3 + rnd()*2.5;
     const x = Math.cos(a)*d, z = Math.sin(a)*d;
-    if(Math.hypot(x,z+18) < 4) continue;
+    if(Math.hypot(x,z+18) < 4 || blockedSpot('arrecife',segs,x,z,0.8)) continue;
     const k = new T.Group(); const b = new T.Mesh(new T.BoxGeometry(0.2,h,0.2), mat(0x2fa05a)); b.position.y = h/2; k.add(b);
     k.position.set(x,0,z); scene.add(k); kelps.push({ m:k, ph:rnd()*6 });
   }
@@ -1757,7 +1847,9 @@ export async function initMundo(){
     for(let tries=0; tries<40; tries++){
       const a = Math.random()*Math.PI*2, d = 5 + Math.random()*(R-9);
       const p = { x:Math.cos(a)*d, z:Math.sin(a)*d };
-      if(obstacles.every(function(o){ return Math.hypot(p.x-o.x,p.z-o.z) > o.r+1.2; })){
+      if(obstacles.every(function(o){ return Math.hypot(p.x-o.x,p.z-o.z) > o.r+1.2; }) &&
+         items.every(function(it){ return Math.hypot(p.x-it.position.x,p.z-it.position.z) > 4.5; }) &&
+         Math.hypot(p.x-pos.x,p.z-pos.z) > 5){
         const b = cz.make(); b.position.set(p.x,1,p.z); scene.add(b); items.push(b); return;
       }
     }
@@ -1848,6 +1940,7 @@ export async function initMundo(){
   // cámara orbital en tercera persona (como Roblox): arrastrar gira, rueda / pellizco acerca
   let camYaw = 0, camPitch = 0.42, camDist = 12;
   let viewYaw = 0, viewPitch = 0.42, viewDist = 12, camF = 1;
+  if(window.__LEO_DEBUG && window.__mundo) window.__mundo.view = function(d,pt){ camDist = d; camPitch = pt; viewDist = d; viewPitch = pt; };   // solo pruebas: vista aérea
   let pinchD = null;
   const camPtrs = new Map();
   function clamp(v,lo,hi){ return Math.max(lo, Math.min(hi, v)); }
@@ -1855,7 +1948,7 @@ export async function initMundo(){
   // entrada táctil/mouse sobre el mundo: izquierda = joystick flotante, derecha = cámara
   const joy = document.getElementById('mundo-joy'), knob = document.getElementById('mundo-knob');
   const joyVec = { x:0, y:0 };
-  let joyId = null, joyCx = 0, joyCy = 0;
+  let joyId = null, joyCx = 0, joyCy = 0, joyT0 = 0, jumpT0 = 0;
   function joyUpdate(e){
     const max = 50;
     let dx = e.clientX-joyCx, dy = e.clientY-joyCy;
@@ -1873,7 +1966,7 @@ export async function initMundo(){
     try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
     const r = wrap.getBoundingClientRect(), px = e.clientX-r.left, py = e.clientY-r.top;
     if(e.pointerType === 'touch' && joyId === null && px < r.width*0.5){
-      joyId = e.pointerId; joyCx = e.clientX; joyCy = e.clientY;
+      joyId = e.pointerId; joyT0 = performance.now(); joyCx = e.clientX; joyCy = e.clientY;
       joy.style.left = (px-60)+'px'; joy.style.top = (py-60)+'px'; joy.style.bottom = 'auto';
       joy.classList.add('active'); joyUpdate(e);
     }else{
@@ -1905,11 +1998,35 @@ export async function initMundo(){
   canvas.addEventListener('pointercancel', ptrEnd);
   canvas.addEventListener('wheel', function(e){ e.preventDefault(); camDist = clamp(camDist + e.deltaY*0.012, 5, 24); }, { passive:false });
 
+  let jumpPtr = null;
   const jumpBtn = document.getElementById('mundo-jump');
   if(jumpBtn){
-    jumpBtn.addEventListener('pointerdown', function(e){ jumpHeld = true; e.preventDefault(); });
-    ['pointerup','pointercancel','pointerleave'].forEach(function(ev){ jumpBtn.addEventListener(ev, function(){ jumpHeld = false; }); });
+    jumpBtn.addEventListener('pointerdown', function(e){ jumpHeld = true; jumpPtr = e.pointerId; jumpT0 = performance.now(); e.preventDefault(); });
+    ['pointerup','pointercancel','pointerleave'].forEach(function(ev){ jumpBtn.addEventListener(ev, function(){ jumpHeld = false; jumpPtr = null; }); });
   }
+
+  /* Redes de seguridad contra el "personaje pegado que camina solo" en celular: si el navegador pierde un
+     "levantar el dedo" (gesto del sistema, notificación, cambiar de app, dedo fuera de pantalla), el joystick
+     o el salto quedaban activos para siempre. Ahora se sueltan todos los controles en cualquiera de estos casos. */
+  let touchCount = 0, touchSeen = false;
+  function releaseTouch(){ joyEnd(); camPtrs.clear(); pinchD = null; if(jumpPtr !== null){ jumpHeld = false; jumpPtr = null; } }
+  function releaseAll(){ releaseTouch(); jumpHeld = false; Object.keys(keys).forEach(function(k){ keys[k] = false; }); }
+  const onTouchStart = function(e){ touchSeen = true; touchCount = e.touches ? e.touches.length : 0; };
+  const onTouchEnd = function(e){ touchCount = e.touches ? e.touches.length : 0; if(touchCount === 0) releaseTouch(); };
+  const onWinPointerEnd = function(e){
+    if(e.pointerId === joyId) joyEnd();
+    if(e.pointerId === jumpPtr){ jumpHeld = false; jumpPtr = null; }
+    camPtrs.delete(e.pointerId); if(camPtrs.size < 2) pinchD = null;
+  };
+  const onVisibility = function(){ if(document.hidden) releaseAll(); };
+  window.addEventListener('touchstart', onTouchStart, { passive:true });
+  window.addEventListener('touchend', onTouchEnd, { passive:true });
+  window.addEventListener('touchcancel', onTouchEnd, { passive:true });
+  window.addEventListener('pointerup', onWinPointerEnd);
+  window.addEventListener('pointercancel', onWinPointerEnd);
+  window.addEventListener('blur', releaseAll);
+  document.addEventListener('visibilitychange', onVisibility);
+  canvas.addEventListener('lostpointercapture', onWinPointerEnd);
 
   function respawn(){
     pos.set(spawn.x, spawn.y, spawn.z); vy = 0; grounded = true;
@@ -1929,6 +2046,9 @@ export async function initMundo(){
   }, 650);
 
   function cleanup(){
+    window.removeEventListener('touchstart', onTouchStart); window.removeEventListener('touchend', onTouchEnd); window.removeEventListener('touchcancel', onTouchEnd);
+    window.removeEventListener('pointerup', onWinPointerEnd); window.removeEventListener('pointercancel', onWinPointerEnd);
+    window.removeEventListener('blur', releaseAll); document.removeEventListener('visibilitychange', onVisibility);
     window.removeEventListener('keydown',kd); window.removeEventListener('keyup',ku);
     ro.disconnect(); renderer.dispose();
     if(landscapeMQ.removeEventListener) landscapeMQ.removeEventListener('change', syncOrientation);
@@ -1949,6 +2069,8 @@ export async function initMundo(){
     if(myRun !== runId || !document.body.contains(wrap)){ cleanup(); return; }
     requestAnimationFrame(frame);
     const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+
+    if(touchSeen && touchCount === 0 && ((joyId !== null && performance.now()-joyT0 > 200) || (jumpPtr !== null && performance.now()-jumpT0 > 200))) releaseTouch();   // vigilante: no hay dedos, no debe haber controles activos
 
     // dirección deseada (arriba = hacia el norte, -z)
     let ix = (keys['arrowright']||keys['d']?1:0) - (keys['arrowleft']||keys['a']?1:0);

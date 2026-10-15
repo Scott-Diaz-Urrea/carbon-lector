@@ -26,7 +26,13 @@ export function loadProgress(){
       if(typeof av.tone === 'number') cur.avatar.tone = av.tone;
       if(typeof av.hair === 'string') cur.avatar.hair = av.hair;
       if(typeof av.hairColor === 'number') cur.avatar.hairColor = av.hairColor;
-      if(typeof w.mission === 'number') cur.mission = w.mission;
+      if(w.missions && typeof w.missions === 'object'){
+        Object.keys(cur.missions).forEach(function(k){ if(typeof w.missions[k] === 'number') cur.missions[k] = w.missions[k]; });
+      }else if(typeof w.mission === 'number') cur.missions.bosque = w.mission;   // formato de la Fase 1
+      if(Array.isArray(w.unlocked)){
+        cur.unlocked = w.unlocked.filter(function(x){ return x==='bosque' || x==='playa' || x==='espacio'; });
+        if(cur.unlocked.indexOf('bosque') === -1) cur.unlocked.unshift('bosque');
+      }
     }
     if(saved.stars && typeof saved.stars === 'object'){
       Object.keys(state.stars).forEach(function(key){

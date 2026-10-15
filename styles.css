@@ -1439,3 +1439,64 @@
   .mundo-big .av-done, .mundo-big .av-chip{ font-size:19px; }
   .mundo-big .mundo-talk{ font-size:22px; padding:14px 26px; }
   .mundo-big .shop-card b{ font-size:15px; }
+
+  /* ===== Ajustes de la versión móvil (Fase 10) ===== */
+  .mundo-wrap{ overscroll-behavior:contain; -webkit-touch-callout:none; -webkit-tap-highlight-color:transparent; }
+  .mundo-hud .coinpill{ display:none; }                         /* las monedas ya están en la barra superior */
+  .mundo-wrap.mundo-full .mundo-hud .coinpill{ display:inline-flex; }
+  .mundo-back-btn{ display:none; width:40px; height:40px; border-radius:50%; border:0; background:#fff; font-size:20px; font-weight:800; color: var(--ink); box-shadow: var(--shadow-sm); cursor:pointer; flex:0 0 auto; }
+  .mundo-wrap.mundo-full .mundo-back-btn{ display:block; }
+  .mundo-guide{ cursor:pointer; transition:max-height .2s; }
+  .mundo-guide.collapsed{ max-height:62px; overflow:hidden; }
+  .mundo-guide.collapsed #mundo-guide-text{ display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .mundo-guide:not(.collapsed){ max-height:55%; overflow:auto; }
+  .mundo-wrap.dialog-open .mundo-guide, .mundo-wrap.build-open .mundo-guide{ display:none; }
+  .mundo-sound-btn{ width:44px; height:44px; right:33px; }
+  .mundo-emotes{ display:grid; grid-template-columns:repeat(2,1fr); right:92px; bottom:120px; }
+  .mundo-emotes.hidden{ display:none; }
+  .mundo-settings{ right:90px; bottom:180px; }
+  .mundo-wrap.mundo-full .mundo-hud{ top:10px; }
+  @media (max-width:420px){
+    .mundo-shop-btn{ padding:9px 11px; font-size:13px; }
+    .mundo-hud{ gap:6px; }
+  }
+  /* celular en horizontal (pantalla completa automática): controles en fila abajo, paneles laterales */
+  @media (max-height:520px){
+    .mundo-jump{ right:18px; bottom:20px; width:78px; height:78px; }
+    .mundo-emote-btn{ right:108px; bottom:24px; }
+    .mundo-sound-btn{ right:168px; bottom:27px; }
+    .mundo-emotes{ right:18px; bottom:108px; }
+    .mundo-settings{ right:18px; bottom:108px; width:min(250px,46%); }
+    .mundo-talk{ bottom:16px; }
+    .mundo-guide{ top:54px; }
+    .mundo-dialog{ max-height:90%; width:min(440px,60%); }
+    .mundo-avatar{ left:auto; right:0; top:0; bottom:0; width:50%; max-height:none; border-radius: var(--radius-lg) 0 0 var(--radius-lg); box-shadow:-4px 0 16px rgba(0,0,0,.15); }
+    .mundo-build{ left:auto; right:0; top:0; bottom:0; width:50%; border-radius: var(--radius-lg) 0 0 var(--radius-lg); overflow:auto; }
+    .mundo-wrap.build-open .mundo-jump, .mundo-wrap.build-open .mundo-emote-btn, .mundo-wrap.build-open .mundo-sound-btn{ display:none; }
+    .mundo-wrap.avatar-open .mundo-guide{ display:none; }
+  }
+  .mundo-wrap.mundo-full .mundo-jump{ bottom:calc(28px + env(safe-area-inset-bottom, 0px)); }
+  /* la animación de entrada deja un transform activo y rompe position:fixed (pantalla completa del mundo) */
+  .mundo-screen{ animation:none; transform:none; }
+  .mundo-guide:not(.collapsed){ max-height:42%; }
+  @media (min-width:641px){ .mundo-wrap{ max-height:none; } }
+  /* pantallas bajas (celular chico): el panel de avatar/construcción deja más lugar a la lista */
+  @media (max-height:700px) and (orientation:portrait){
+    .mundo-avatar{ max-height:64%; padding:8px 12px 10px; }
+    .mundo-avatar .shop-note{ display:none; }
+    .mundo-avatar .av-done{ padding:8px; margin-top:6px; font-size:16px; }
+    .mundo-avatar .av-tab{ min-width:56px; padding:4px 6px; }
+    .mundo-avatar .shop-sec{ margin:8px 0 4px; }
+  }
+
+  /* Fase 10: alto contraste y temporadas */
+  .mundo-contrast .mundo-guide, .mundo-contrast .mundo-dialog, .mundo-contrast .mundo-settings, .mundo-contrast .mundo-avatar, .mundo-contrast .mundo-build, .mundo-contrast .mundo-portal, .mundo-contrast .mundo-emotes{
+    background:#fff; color:#000; border:3px solid #000; }
+  .mundo-contrast .mundo-guide, .mundo-contrast .mundo-dialog p, .mundo-contrast .shop-note, .mundo-contrast .mundo-settings small, .mundo-contrast .shop-card small{ color:#000; font-weight:800; }
+  .mundo-contrast .shop-card, .mundo-contrast .set-row, .mundo-contrast .quiz-opt, .mundo-contrast .av-tab, .mundo-contrast .av-chip{ border:3px solid #000; background:#fff; }
+  .mundo-contrast .shop-card.equipped, .mundo-contrast .set-row.on, .mundo-contrast .av-tab.on, .mundo-contrast .av-chip.on{ background:#ffe14d; border-color:#000; }
+  .mundo-contrast .shop-price, .mundo-contrast .shop-on{ color:#000; }
+  .mundo-contrast .mundo-shop-btn, .mundo-contrast .av-done, .mundo-contrast .mundo-talk{ background:#000; color:#fff; border:3px solid #fff; }
+  .mundo-contrast .mundo-talk{ background:#ffe14d; color:#000; border-color:#000; }
+  .mundo-contrast .quiz-opt.right{ background:#b7f5c1; border-color:#000; }
+  .mundo-contrast .quiz-opt.wrong{ background:#ffc2c2; border-color:#000; }

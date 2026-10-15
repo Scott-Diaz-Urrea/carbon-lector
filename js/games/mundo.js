@@ -17,7 +17,7 @@ import { saveProgress } from '../persistence.js';
 import { render } from '../render.js';
 import { MC_GAMES } from '../mcEngine.js';
 import { LENGUAJE_BY_GRADE, MATE_BY_GRADE, NUCLEO_DEFS } from '../gradeContent.js';
-import { MUNDO_ITEMS, AVATAR_SLOTS, itemsBySlot, cssOf, itemById, AVATAR_TONES, AVATAR_HAIRS, AVATAR_HAIR_COLORS, hexCss, HOUSE_ITEMS, houseItemById, HOUSE_LIMIT, HOUSE_MAX_ITEMS } from '../content/mundoItems.js';
+import { MUNDO_ITEMS, AVATAR_SLOTS, itemsBySlot, cssOf, itemById, AVATAR_TONES, AVATAR_HAIRS, AVATAR_HAIR_COLORS, hexCss, SEASONS, activeSeason, HOUSE_ITEMS, houseItemById, HOUSE_LIMIT, HOUSE_MAX_ITEMS } from '../content/mundoItems.js';
 
 const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
@@ -49,8 +49,8 @@ function sfx(kind){
   }
 }
 /* ---------- Accesibilidad: texto grande y lectura en voz alta (pensado para quien aún no lee) ---------- */
-let prefs = { big:false, voice:false };
-try{ const p = JSON.parse(localStorage.getItem('leo_mundo_prefs') || '{}'); prefs.big = p.big === true; prefs.voice = p.voice === true; }catch(e){}
+let prefs = { big:false, voice:false, contrast:false };
+try{ const p = JSON.parse(localStorage.getItem('leo_mundo_prefs') || '{}'); prefs.big = p.big === true; prefs.voice = p.voice === true; prefs.contrast = p.contrast === true; }catch(e){}
 function savePrefs(){ try{ localStorage.setItem('leo_mundo_prefs', JSON.stringify(prefs)); }catch(e){} }
 function plainText(html){
   return String(html).replace(/<[^>]+>/g,' ').replace(/[\u{1F000}-\u{1FAFF}\u2600-\u27BF\u2B50\uFE0F\u200D]/gu,' ').replace(/✕/g,' ').replace(/\s+/g,' ').trim();
@@ -65,22 +65,28 @@ function maybeSpeakGuide(text){
 }
 function applyPrefsToWrap(){
   const wrap = document.getElementById('mundo-wrap');
-  if(wrap) wrap.classList.toggle('mundo-big', prefs.big);
+  if(wrap){ wrap.classList.toggle('mundo-big', prefs.big); wrap.classList.toggle('mundo-contrast', prefs.contrast); }
 }
 function settingsHTML(){
   function row(key, label, on){ return '<button class="set-row'+(on?' on':'')+'" onclick="mundoSetPref(\''+key+'\')"><span>'+label+'</span><b>'+(on?'Sí':'No')+'</b></button>'; }
-  return '<b>Ajustes</b>'+row('sound','🔊 Música y sonidos',soundOn)+row('big','🔠 Texto grande',prefs.big)+row('voice','🗣️ Leer en voz alta',prefs.voice)+
+  return '<b>Ajustes</b>'+row('sound','🔊 Música y sonidos',soundOn)+row('big','🔠 Texto grande',prefs.big)+row('contrast','◐ Alto contraste',prefs.contrast)+row('voice','🗣️ Leer en voz alta',prefs.voice)+
     '<small>Con "Leer en voz alta", Carboncito y los personajes te leen lo que dicen.</small>';
+}
+function closePopovers(){
+  const a = document.getElementById('mundo-emotes'), b = document.getElementById('mundo-settings');
+  if(a) a.classList.add('hidden'); if(b) b.classList.add('hidden');
 }
 export function mundoToggleSettings(){
   const el = document.getElementById('mundo-settings');
   if(!el) return;
+  const em = document.getElementById('mundo-emotes'); if(em) em.classList.add('hidden');
   if(el.classList.contains('hidden')){ el.innerHTML = settingsHTML(); el.classList.remove('hidden'); }
   else el.classList.add('hidden');
 }
 export function mundoSetPref(key){
   if(key === 'sound') mundoToggleSound();
   else if(key === 'big'){ prefs.big = !prefs.big; savePrefs(); applyPrefsToWrap(); }
+  else if(key === 'contrast'){ prefs.contrast = !prefs.contrast; savePrefs(); applyPrefsToWrap(); }
   else if(key === 'voice'){ prefs.voice = !prefs.voice; savePrefs(); lastSpoken = ''; if(prefs.voice && guideSay) guideSay(null); }
   const el = document.getElementById('mundo-settings');
   if(el && !el.classList.contains('hidden')) el.innerHTML = settingsHTML();
@@ -93,6 +99,14 @@ export function mundoQuizSpeak(){
   say(r.speakText || r.promptHTML, r.speakLang);
 }
 
+let guideTimer = null, lastShown = '';
+export function mundoToggleGuide(e){
+  if(e && e.target && e.target.closest && e.target.closest('.guide-speak')) return;
+  const g = document.getElementById('mundo-guide'); if(!g) return;
+  clearTimeout(guideTimer);
+  g.classList.toggle('collapsed');
+}
+
 export function mundoToggleSound(){
   soundOn = !soundOn;
   try{ localStorage.setItem('leo_mundo_music', soundOn ? '1' : '0'); }catch(e){}
@@ -103,6 +117,7 @@ const MUSIC_SCALES = {
   espacio:[196,233,262,311,392,466], obby:[392,440,494,587,659,784], casa:[262,330,392,440,523,659],
 };
 
+let wantFull = false;           // el niño eligió pantalla completa (se mantiene al cambiar de mundo)
 let currentZone = 'pueblo';  // zona actual (se reinicia al pueblo al salir del juego)
 let arrivedFrom = null;      // de qué zona se viajó (para aparecer junto a su portal)
 let travelling = false;      // true mientras se cambia de zona (evita reiniciar el pueblo)
@@ -112,6 +127,7 @@ export function renderMundoScreen(){
     '<div class="mundo-wrap" id="mundo-wrap">'+
       '<div class="mundo-loading" id="mundo-loading">Cargando el mundo… 🐾</div>'+
       '<div class="mundo-hud">'+
+        '<button class="mundo-back-btn" onclick="goBack()" aria-label="Volver">←</button>'+
         '<div class="pill coinpill"><span class="coin-ic"></span><span id="mundo-coins">'+state.coins+'</span></div>'+
         '<div class="pill" id="mundo-timer-pill" style="display:none">⏱ <span id="mundo-timer">0:00</span></div>'+
         '<div class="pill" id="mundo-collect-pill"><span id="mundo-collect-icon">🦴</span> <span id="mundo-bones">0</span></div>'+
@@ -119,7 +135,7 @@ export function renderMundoScreen(){
         '<button class="mundo-shop-btn alone" onclick="mundoToggleAvatar()">👤 Avatar</button>'+
         '<button class="mundo-shop-btn alone mundo-fs-btn" onclick="mundoToggleFull()" aria-label="Pantalla completa">⛶</button>'+
       '</div>'+
-      '<div class="mundo-guide" id="mundo-guide"><span class="guide-face">🐾</span><span><b id="mundo-zone"></b><br><span id="mundo-guide-text"></span></span><button class="guide-speak" onclick="mundoSpeakGuide()" aria-label="Escuchar">🔊</button></div>'+
+      '<div class="mundo-guide collapsed" id="mundo-guide" onclick="mundoToggleGuide(event)"><span class="guide-face">🐾</span><span><b id="mundo-zone"></b><br><span id="mundo-guide-text"></span></span><button class="guide-speak" onclick="mundoSpeakGuide()" aria-label="Escuchar">🔊</button></div>'+
       '<div class="mundo-joy" id="mundo-joy"><div class="mundo-knob" id="mundo-knob"></div></div>'+
       '<button class="mundo-jump" id="mundo-jump" aria-label="Saltar">⤒<small>Saltar</small></button>'+
       '<button class="mundo-emote-btn" id="mundo-emote-btn" onclick="mundoToggleEmotes()" aria-label="Gestos">😀</button>'+
@@ -154,8 +170,9 @@ function itemCard(it){
   const status = equipped ? '<small class="shop-on">Puesto ✔</small>'
     : owned ? '<small>Tuyo · Ponerme</small>'
     : '<small class="shop-price"><span class="coin-ic"></span> '+it.price+'</small>';
-  return '<button class="shop-card'+(equipped?' equipped':'')+'" onclick="mundoItemClick(\''+it.id+'\')">'+prev+'<b>'+it.label+'</b>'+status+'</button>';
+  return '<button class="shop-card'+(equipped?' equipped':'')+'" onclick="mundoItemClick(\''+it.id+'\')">'+prev+'<b>'+it.label+(it.season ? ' '+SEASONS[it.season].icon : '')+'</b>'+status+'</button>';
 }
+function visibleItem(it){ return !it.season || it.season === activeSeason() || state.world.owned.indexOf(it.id) !== -1; }
 
 function avatarHTML(){
   const av = state.world.avatar;
@@ -183,7 +200,7 @@ function avatarHTML(){
       }).join('')+'</div>';
   }else{
     const slot = AVATAR_SLOTS.filter(function(x){ return x.id===avatarTab; })[0];
-    const list = itemsBySlot(avatarTab);
+    const list = itemsBySlot(avatarTab).filter(visibleItem);
     const mine = list.filter(function(i){ return state.world.owned.indexOf(i.id) !== -1; }).length;
     const none = slot.optional
       ? '<button class="shop-card'+(state.world.equipped[avatarTab]===null?' equipped':'')+'" onclick="mundoItemClick(\'none_'+avatarTab+'\')"><span class="shop-icon">🚫</span><b>Ninguno</b><small>'+(state.world.equipped[avatarTab]===null?'Puesto ✔':'Quitar')+'</small></button>'
@@ -228,12 +245,18 @@ export function mundoToggleAvatar(){
   el.innerHTML = avatarHTML(); el.classList.remove('hidden');
   const wrap = document.getElementById('mundo-wrap'); if(wrap) wrap.classList.add('avatar-open');
 }
+function setFull(on){
+  const wrap = document.getElementById('mundo-wrap');
+  if(!wrap) return;
+  wrap.classList.toggle('mundo-full', on);
+  document.body.classList.toggle('mundo-fs', on);
+}
 export function mundoToggleFull(){
   const wrap = document.getElementById('mundo-wrap');
   if(!wrap) return;
   const on = !wrap.classList.contains('mundo-full');
-  wrap.classList.toggle('mundo-full', on);
-  document.body.classList.toggle('mundo-fs', on);
+  wantFull = on;
+  setFull(on);
   try{
     if(on && wrap.requestFullscreen && !document.fullscreenElement) wrap.requestFullscreen().catch(function(){});
     else if(!on && document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function(){});
@@ -361,6 +384,44 @@ function openChest(){
     (studyBonus ? '• ¡Hoy estudiaste en LEO!: +'+studyBonus : '• Tip: estudia un juego de LEO antes de abrirlo y ganas +10 extra')+'</p>'+
     '<p>Racha: <b>'+d.streak+' '+(d.streak===1?'día':'días')+'</b> 🔥 (¡vuelve mañana!)</p>', []);
 }
+function addSeasonDecor(scene, season){
+  if(!season) return;
+  const T = THREE, rnd = mulberry32(5);
+  if(season === 'halloween'){
+    for(let i=0;i<16;i++){
+      const a = rnd()*Math.PI*2, d = 9 + rnd()*24, x = Math.cos(a)*d, z = Math.sin(a)*d;
+      if(Math.hypot(x,z+16) < 4 || Math.hypot(x-16,z) < 4 || Math.hypot(x+16,z) < 4) continue;
+      const g = new T.Group(), s = 0.7 + rnd()*0.6;
+      const b = new T.Mesh(new T.SphereGeometry(0.6*s,10,8), mat(0xff8a1f)); b.scale.y = 0.8; b.position.y = 0.5*s; g.add(b);
+      const st = new T.Mesh(new T.BoxGeometry(0.12*s,0.25*s,0.12*s), mat(0x2f9e44)); st.position.y = 1.0*s; g.add(st);
+      g.position.set(x,0,z); scene.add(g);
+    }
+  }else if(season === 'navidad'){
+    const g = new T.Group();
+    const tr = new T.Mesh(new T.CylinderGeometry(0.3,0.4,1,8), mat(0x6b4423)); tr.position.y = 0.5; g.add(tr);
+    [[1.7,2.6,1.2],[1.3,2.0,2.4],[0.9,1.6,3.5]].forEach(function(c){ const m = new T.Mesh(new T.ConeGeometry(c[0],c[1],10), mat(0x1f8a3f)); m.position.y = c[2]; g.add(m); });
+    const cols = [0xff4d4d,0xffd43b,0x4dabf7,0xf783ac];
+    for(let i=0;i<12;i++){ const a = i*2.4, h = 1.2 + (i%4)*0.7, r = 1.4 - (i%4)*0.3; const b = new T.Mesh(new T.SphereGeometry(0.13,6,6), new T.MeshBasicMaterial({ color:cols[i%4] })); b.position.set(Math.cos(a)*r, h, Math.sin(a)*r); g.add(b); }
+    const star = new T.Mesh(new T.OctahedronGeometry(0.3), new T.MeshBasicMaterial({ color:0xffe066 })); star.position.y = 4.5; g.add(star);
+    [[1.8,1.2,0xe0334c],[-1.6,1.5,0x3b82f6],[0.6,2.2,0x2fb344]].forEach(function(gf){ const bx = new T.Mesh(new T.BoxGeometry(0.6,0.5,0.6), mat(gf[2])); bx.position.set(gf[0],0.25,gf[1]); g.add(bx); });
+    g.position.set(-4,0,-6); scene.add(g);
+  }else if(season === 'patrias'){
+    for(let k=0;k<8;k++){
+      const a = k/8*Math.PI*2 + 0.2, x = Math.cos(a)*12, z = Math.sin(a)*12;
+      if(Math.hypot(x,z+16) < 4 || Math.hypot(x-16,z) < 4 || Math.hypot(x+16,z) < 4) continue;
+      const pole = new T.Mesh(new T.CylinderGeometry(0.06,0.06,3.4,6), mat(0xeeeeee)); pole.position.set(x,1.7,z); scene.add(pole);
+      const bl = new T.Mesh(new T.PlaneGeometry(0.6,0.5), new T.MeshBasicMaterial({ color:0x1e3a8a, side:T.DoubleSide })); bl.position.set(x+0.3,3.1,z); scene.add(bl);
+      const wh = new T.Mesh(new T.PlaneGeometry(1.0,0.5), new T.MeshBasicMaterial({ color:0xffffff, side:T.DoubleSide })); wh.position.set(x+1.1,3.1,z); scene.add(wh);
+      const rd = new T.Mesh(new T.PlaneGeometry(1.6,0.5), new T.MeshBasicMaterial({ color:0xc0392b, side:T.DoubleSide })); rd.position.set(x+0.8,2.6,z); scene.add(rd);
+    }
+  }
+}
+function seasonHello(){
+  const s = activeSeason();
+  if(!s) return '';
+  return ' '+SEASONS[s].icon+' ¡'+SEASONS[s].label+'! Hay ropa de temporada en tu avatar mientras dure.';
+}
+
 function buildChest(scene, x, z){
   const T = THREE, g = new T.Group();
   const wood = new T.MeshLambertMaterial({ color:0x8a5a2b }), gold = new T.MeshLambertMaterial({ color:0xf2c230 });
@@ -420,6 +481,7 @@ let emoteReq = null;
 function dialogEl(){ return document.getElementById('mundo-dialog'); }
 export function mundoDialogClose(){
   const el = dialogEl(); if(el) el.classList.add('hidden');
+  const wr = document.getElementById('mundo-wrap'); if(wr) wr.classList.remove('dialog-open');
   dialogActions = []; quiz = null;
 }
 function showDialog(title, html, actions){
@@ -428,6 +490,7 @@ function showDialog(title, html, actions){
   if(el.classList.contains('hidden')) sfx('talk');
   el.innerHTML = '<div class="dlg-head"><b>'+title+'</b><button class="dlg-speak" onclick="mundoSpeakDialog()" aria-label="Escuchar">🔊</button><button class="shop-close" onclick="mundoDialogClose()" aria-label="Cerrar">✕</button></div>'+html;
   el.classList.remove('hidden');
+  const wr2 = document.getElementById('mundo-wrap'); if(wr2) wr2.classList.add('dialog-open');
   if(prefs.voice) say(el.textContent);
 }
 export function mundoDialogAction(i){ if(dialogActions[i]) dialogActions[i](); }
@@ -554,6 +617,7 @@ export function mundoQuizNext(){ if(quiz) quizNext(); }
 /* ---------- Gestos ---------- */
 export function mundoToggleEmotes(){
   const el = document.getElementById('mundo-emotes');
+  const st = document.getElementById('mundo-settings'); if(st) st.classList.add('hidden');
   if(el) el.classList.toggle('hidden');
 }
 export function mundoEmote(name){
@@ -763,6 +827,39 @@ function buildPerson(lookOverride){
     neck_medalla: function(g){
       const d = cyl(0.16,0.16,0.05,M(0xf2c230),0,1.42,0.28,g,16); d.rotation.x = Math.PI/2; box(0.06,0.3,0.04,M(0xe0334c),0,1.65,0.27,g);
     },
+    hat_calabaza: function(g){
+      const b = ball(0.5,M(0xff8a1f),0,2.7,0,g); b.scale.set(1,0.85,1);
+      box(0.1,0.2,0.1,M(0x2f9e44),0,3.15,0,g);
+      [-1,1].forEach(function(sx){ box(0.1,0.12,0.05,M(0x222222),sx*0.16,2.78,0.47,g); }); box(0.32,0.06,0.05,M(0x222222),0,2.6,0.49,g);
+    },
+    hat_bruja: function(g){
+      cyl(0.64,0.64,0.06,M(0x1a1a1a),0,2.55,0,g,18);
+      const c = new T.Mesh(new T.ConeGeometry(0.4,1.05,12), M(0x1a1a1a)); c.position.y = 3.1; g.add(c);
+      cyl(0.41,0.43,0.12,M(0x7d3fbf),0,2.68,0,g); box(0.14,0.14,0.04,M(0xf7c948),0,2.68,0.43,g);
+    },
+    hat_navidad: function(g){
+      const c = new T.Mesh(new T.ConeGeometry(0.42,0.95,12), M(0xd62d2d)); c.position.y = 3.0; g.add(c);
+      cyl(0.45,0.45,0.15,M(0xffffff),0,2.55,0,g,16); ball(0.11,M(0xffffff),0,3.5,0,g);
+    },
+    hat_chupalla: function(g){
+      const m = M(0xe8c878); cyl(0.78,0.78,0.05,m,0,2.55,0,g,18); cyl(0.32,0.35,0.3,m,0,2.72,0,g); cyl(0.355,0.355,0.07,M(0xc0392b),0,2.64,0,g);
+    },
+    face_vampiro: function(g){
+      [-1,1].forEach(function(sx){ box(0.05,0.13,0.04,M(0xffffff),sx*0.07,1.93,0.38,g); });
+    },
+    back_murcielago: function(g){
+      [-1,1].forEach(function(sx){
+        const w = box(0.08,0.95,0.75,M(0x2a2233),sx*0.58,1.55,-0.42,g); w.rotation.z = sx*0.7;
+        const w2 = box(0.08,0.55,0.5,M(0x3a3047),sx*0.95,1.2,-0.45,g); w2.rotation.z = sx*0.7;
+      });
+    },
+    neck_panuelo: function(g){
+      box(0.98,0.14,0.62,M(0xc0392b),0,1.66,0,g); const t = box(0.3,0.3,0.06,M(0xc0392b),0,1.5,0.31,g); t.rotation.z = Math.PI/4;
+    },
+    back_bandera: function(g){
+      cyl(0.03,0.03,1.9,M(0xdddddd),0.4,1.75,-0.34,g,6);
+      box(0.28,0.22,0.04,M(0x1e3a8a),0.56,2.57,-0.34,g); box(0.5,0.22,0.04,M(0xffffff),0.95,2.57,-0.34,g); box(0.78,0.22,0.04,M(0xc0392b),0.82,2.35,-0.34,g);
+    },
     hat_flores: function(g){
       const cols = [0xff6b9d,0xffd43b,0xffffff,0xb18cff,0xff9f43,0x7ed957];
       cols.forEach(function(c,i){ const a = i/cols.length*Math.PI*2; ball(0.1,M(c),Math.cos(a)*0.42,2.58,Math.sin(a)*0.42,g); });
@@ -899,6 +996,7 @@ function addLights(scene, sky, ground, intensity){
   const sun = new THREE.DirectionalLight(0xffffff, 0.6);
   sun.position.set(20,40,15); scene.add(sun);
 }
+let labelList = [];   // carteles de nombre de la zona viva (se reescalan según la distancia a la cámara)
 function makeLabel(text, bg){
   const c = document.createElement('canvas'); c.width = 256; c.height = 64;
   const g = c.getContext('2d');
@@ -908,7 +1006,8 @@ function makeLabel(text, bg){
   g.fillText(text, 128, 34);
   const tex = new THREE.CanvasTexture(c);
   const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map:tex, transparent:true }));
-  sp.scale.set(4.4,1.1,1);
+  sp.scale.set(3.3,0.82,1);
+  labelList.push(sp);
   return sp;
 }
 
@@ -1005,6 +1104,7 @@ function buildPueblo(scene, ctx){
     addPortal(scene, obstacles, -11, -11, 0xff3b1f, ctx.portalLabel('volcan'), 'volcan'),
     addPortal(scene, obstacles, -11, 11, 0x1fb5ff, ctx.portalLabel('arrecife'), 'arrecife'),
   ];
+  addSeasonDecor(scene, activeSeason());
   const chest = buildChest(scene, 6, 4);
   obstacles.push({ x:6, z:4, r:1.0 });
   addFence(scene, 38);
@@ -1456,9 +1556,10 @@ export async function initMundo(){
   const wrap = document.getElementById('mundo-wrap');
   const loading = document.getElementById('mundo-loading');
   if(!wrap) return;
+  labelList = [];
   const zoneId = currentZone, zone = ZONES[zoneId];
   const from = arrivedFrom; travelling = false; arrivedFrom = null;
-  bonesCollected = 0; missionBones = 0; avatarOpen = false; buildOpen = false; buildHooks = null; talkNpc = null; quiz = null; dialogActions = []; emoteReq = null; lastSpoken = '';
+  bonesCollected = 0; missionBones = 0; avatarOpen = false; buildOpen = false; buildHooks = null; talkNpc = null; quiz = null; dialogActions = []; emoteReq = null; lastSpoken = ''; lastShown = '';
 
   try{
     if(!THREE) THREE = await import(THREE_URL);
@@ -1670,7 +1771,7 @@ export async function initMundo(){
   function mIndex(){ return state.world.missions[zoneId] || 0; }
   function missionText(){
     const carry = carryText();
-    if(zone.hello) return zone.hello + (carry ? ' '+carry : '');
+    if(zone.hello) return zone.hello + (zoneId === 'pueblo' ? seasonHello() : '') + (carry ? ' '+carry : '');
     const m = missions[mIndex()];
     if(!m) return 'Completaste las misiones de este lugar 🎉 ¡Habla con la gente o vuelve al pueblo! 🐾'+(carryText() ? ' '+carryText() : '');
     return m.text + (m.type==='collect' ? ' ('+Math.min(missionBones,m.n)+'/'+m.n+')' : '') + (carryText() ? ' '+carryText() : '');
@@ -1680,6 +1781,11 @@ export async function initMundo(){
     const txt = customText || missionText();
     guideBox.textContent = txt;
     maybeSpeakGuide(txt);
+    const gEl = document.getElementById('mundo-guide'), shownKey = txt.replace(/\(\d+\/\d+\)/g,'').trim();
+    if(gEl && shownKey !== lastShown){
+      lastShown = shownKey; gEl.classList.remove('collapsed');
+      clearTimeout(guideTimer); guideTimer = setTimeout(function(){ gEl.classList.add('collapsed'); }, 7000);
+    }
   }
   const myGuideSay = function(txt){ customText = txt; refreshGuide(); };
   guideSay = myGuideSay;
@@ -1702,14 +1808,22 @@ export async function initMundo(){
   }
 
   // tamaño
+  let vw = 1, vh = 1;
   function resize(){
     const w = wrap.clientWidth, h = wrap.clientHeight;
     if(!w || !h) return;
+    vw = w; vh = h;
     renderer.setSize(w,h,false);
     camera.aspect = w/h; camera.updateProjectionMatrix();
   }
   resize();
   const ro = new ResizeObserver(resize); ro.observe(wrap);
+
+  // celular en horizontal: el mundo pasa solo a pantalla completa (la página no alcanza para nada más)
+  const landscapeMQ = window.matchMedia('(max-height:520px) and (orientation:landscape)');
+  function syncOrientation(){ setFull(wantFull || landscapeMQ.matches); }
+  syncOrientation();
+  if(landscapeMQ.addEventListener) landscapeMQ.addEventListener('change', syncOrientation);
 
   // entrada: teclado
   const keys = {};
@@ -1755,6 +1869,7 @@ export async function initMundo(){
     joy.classList.remove('active'); joy.style.left = ''; joy.style.top = ''; joy.style.bottom = '';
   }
   canvas.addEventListener('pointerdown', function(e){
+    closePopovers();
     try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
     const r = wrap.getBoundingClientRect(), px = e.clientX-r.left, py = e.clientY-r.top;
     if(e.pointerType === 'touch' && joyId === null && px < r.width*0.5){
@@ -1816,6 +1931,8 @@ export async function initMundo(){
   function cleanup(){
     window.removeEventListener('keydown',kd); window.removeEventListener('keyup',ku);
     ro.disconnect(); renderer.dispose();
+    if(landscapeMQ.removeEventListener) landscapeMQ.removeEventListener('change', syncOrientation);
+    if(!travelling && myRun === runId){ wantFull = false; document.body.classList.remove('mundo-fs'); }
     if(outfitHook === myOutfitHook) outfitHook = null;
     clearInterval(musicTimer);
     if(guideSay === myGuideSay) guideSay = null;
@@ -1824,6 +1941,7 @@ export async function initMundo(){
     if(!travelling && myRun === runId) currentZone = 'pueblo';  // al salir del juego, la próxima vez se empieza en el pueblo
   }
 
+  const labelV = new T.Vector3();
   let portalBlocked = null;   // portal cuyo aviso ya se mostró (se rearma al alejarse)
   const clock = new T.Clock();
   let walk = 0;
@@ -1948,7 +2066,7 @@ export async function initMundo(){
     if(nearest !== talkNpc){
       talkNpc = nearest;
       if(talkBtn){ talkBtn.classList.toggle('hidden', !nearest); talkBtn.textContent = nearest === 'chest' ? '🎁 Abrir cofre' : '💬 Hablar'; }
-      if(!nearest){ const dl = dialogEl(); if(dl && !quiz) { dl.classList.add('hidden'); dialogActions = []; } }
+      if(!nearest){ const dl = dialogEl(); if(dl && !quiz) { dl.classList.add('hidden'); dialogActions = []; const wr3 = document.getElementById('mundo-wrap'); if(wr3) wr3.classList.remove('dialog-open'); } }
     }
 
     // mascota: te sigue por detrás a la derecha y salta un poquito al caminar
@@ -2050,12 +2168,24 @@ export async function initMundo(){
       }
       if(ok && tmin > 0 && tmin < tHit) tHit = tmin;
     }
-    const wantF = tHit < 1 ? Math.max(0.28, tHit-0.04) : 1;
+    const camLen = Math.max(0.01, Math.hypot(rdx,rdy,rdz));
+    const wantF = tHit < 1 ? Math.max(1.3/camLen, tHit-0.04) : 1;   // distancia mínima absoluta: nunca queda detrás del bloque
     camF = wantF < camF ? wantF : camF + (wantF-camF)*Math.min(1, dt*3);
     let ccy = ty0 + rdy*camF;
     if(hasFloor && ccy < 0.4) ccy = 0.4;
     camera.position.set(tx0 + rdx*camF, ccy, tz0 + rdz*camF);
     camera.lookAt(pos.x, pos.y + lookY, pos.z);
+    me.root.visible = (camLen*camF) > 2.2;   // cámara pegada al personaje (bloque detrás): se oculta, como en Roblox
+    // carteles: tamaño casi constante en pantalla (ni gigantes de cerca ni invisibles de lejos)
+    for(let li=0; li<labelList.length; li++){
+      const lb = labelList[li]; lb.getWorldPosition(labelV);
+      const ls = Math.max(1.5, Math.min(4.6, camera.position.distanceTo(labelV)*0.17));
+      lb.scale.set(ls, ls*0.25, 1);
+    }
+    const panelOpen = avatarOpen || buildOpen;
+    if(panelOpen && landscapeMQ.matches) camera.setViewOffset(vw, vh, vw*0.24, 0, vw, vh);              // panel lateral: el personaje queda a la izquierda
+    else if(panelOpen && vh > vw) camera.setViewOffset(vw, vh, 0, vh*(avatarOpen ? 0.2 : 0.12), vw, vh);   // panel inferior: el personaje sube
+    else if(camera.view && camera.view.enabled) camera.clearViewOffset();
 
     renderer.render(scene,camera);
   }

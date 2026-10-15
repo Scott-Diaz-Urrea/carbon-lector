@@ -12,6 +12,7 @@ import { initMemoryGame, flipCard } from './games/memorama.js';
 import { replayGame, showNameEntry, closeRecurso } from './rewards.js';
 import { diccSpeak } from './games/diccionario.js';
 import { selectColoringDrawing, backToDrawingPicker, pickColorNum, pickColorHex, pickTool, zoomIn, zoomOut, clearColoring, saveColoringPNG } from './games/colorearNumeros.js';
+import { mundoToggleShop, mundoItemClick } from './games/mundo.js';
 import {
   alzSpeakOrientacion, alzShowAddForm, alzHideAddForm, alzSaveReminder,
   alzToggleDone, alzDeleteReminder, alzSpeakReminder,
@@ -48,7 +49,9 @@ window.zoomIn = zoomIn;
 window.zoomOut = zoomOut;
 window.clearColoring = clearColoring;
 window.saveColoringPNG = saveColoringPNG;
-window.alzSpeakOrientacion = alzSpeakOrientacion;
+window.mundoToggleShop = mundoToggleShop;
+window.mundoItemClick = mundoItemClick;
+window.alzSpeakOrientacion =alzSpeakOrientacion;
 window.alzShowAddForm = alzShowAddForm;
 window.alzHideAddForm = alzHideAddForm;
 window.alzSaveReminder = alzSaveReminder;

@@ -7524,3 +7524,12 @@ en adelante (Educación Media, EPJA, o expansión de Estudio para Pruebas)
 debe escribirse directamente en oración normal desde el principio — este
 rollout no necesita repetirse si el patrón se sigue por defecto en contenido
 nuevo.
+
+## "Mundo de Carboncito" — juego 3D con monedas (2026-10-15)
+
+Pedido del usuario: un "mini Roblox" para sus hijos (12, 11 y 5 años; celular/PC/tablet) dentro de LEO, donde estudiar da monedas canjeables. Decisiones: un solo jugador, sin multijugador ni cuentas (seguridad/privacidad infantil), arte 100% geométrico en bloques.
+- **Three.js 0.160 desde CDN, import dinámico** (`js/games/mundo.js`): solo se descarga al entrar al mundo; el resto de LEO sigue sin dependencias. Autorizado por el usuario al aprobar la propuesta.
+- **Monedas:** `state.coins` + `state.world` (`owned`, `equipped`), persistidos en `persistence.js`. `showResult()` otorga 5 por estrella + 10 por insignia nueva. Los huesitos del mundo NO dan monedas (evitar farmeo sin estudiar). Las monedas se dibujan con `.coin-ic` (CSS), no con 🪙 (Unicode 13, riesgo de tofu).
+- **Tienda:** catálogo en `js/content/mundoItems.js` (6 colores + 5 accesorios).
+- **Controles:** teclado (WASD/flechas) y joystick táctil (`@media (pointer:coarse)`).
+- Pendiente: más mundos/minijuegos, casa propia, balance de precios con uso real.

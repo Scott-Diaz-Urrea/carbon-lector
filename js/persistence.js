@@ -11,6 +11,14 @@ export function loadProgress(){
     if(typeof saved.currentGrade === 'number') state.currentGrade = saved.currentGrade;
     if(typeof saved.currentNivel === 'string') state.currentNivel = saved.currentNivel;
     if(typeof saved.userName === 'string') state.userName = saved.userName;
+    if(typeof saved.coins === 'number' && saved.coins >= 0) state.coins = saved.coins;
+    if(saved.world && Array.isArray(saved.world.owned)){
+      state.world.owned = saved.world.owned.filter(function(x){ return typeof x === 'string'; });
+      if(state.world.owned.indexOf('skin_negro') === -1) state.world.owned.unshift('skin_negro');
+      const eq = saved.world.equipped || {};
+      state.world.equipped.skin = typeof eq.skin === 'string' ? eq.skin : 'skin_negro';
+      state.world.equipped.acc = typeof eq.acc === 'string' ? eq.acc : null;
+    }
     if(saved.stars && typeof saved.stars === 'object'){
       Object.keys(state.stars).forEach(function(key){
         if(typeof saved.stars[key] === 'number') state.stars[key] = saved.stars[key];
@@ -32,6 +40,8 @@ export function saveProgress(){
       currentGrade: state.currentGrade,
       currentNivel: state.currentNivel,
       userName: state.userName,
+      coins: state.coins,
+      world: state.world,
       stars: state.stars,
       badges: Array.from(state.badges),
     }));

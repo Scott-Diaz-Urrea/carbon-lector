@@ -1,5 +1,5 @@
 import { mascotSVG, starSVG } from './svg.js';
-import { state, awardXP, goBack } from './state.js';
+import { state, awardXP, awardCoins, goBack } from './state.js';
 import { MC_KEYS, initMCGame } from './mcEngine.js';
 import { initSilabasGame } from './games/silabas.js';
 import { initSecuenciaGame } from './games/secuencia.js';
@@ -598,6 +598,11 @@ export function showResult(moduleKey, correctOrStars, total, isStarsAlready, cus
     awardXP(15);
   }
 
+  /* Monedas para el Mundo de Carboncito: 5 por estrella + 10 de bono por
+     insignia nueva. Se gastan en la tienda del mundo 3D. */
+  const coinsEarned = stars*5 + (isNewBadge ? 10 : 0);
+  awardCoins(coinsEarned);
+
   const app = document.getElementById('app');
   const div = document.createElement('div');
   div.className = 'overlay';
@@ -609,6 +614,7 @@ export function showResult(moduleKey, correctOrStars, total, isStarsAlready, cus
       '<div class="result-stars">'+[0,1,2].map(function(i){ return starSVG(i<stars); }).join('')+'</div>'+
       '<p class="result-sub">'+(customSub ? customSub : (isStarsAlready ? ('Lo lograste en '+mGame.moves+' movimientos.') : ('Acertaste '+correctOrStars+' de '+total+'.')))+'</p>'+
       (isNewBadge ? '<div class="badge-unlock">🏅 ¡Insignia nueva: '+(MODULE_TITLES[moduleKey]||moduleKey)+'!</div>' : '')+
+      (coinsEarned>0 ? '<div class="coin-earn"><span class="coin-ic"></span> +'+coinsEarned+' monedas para el Mundo de Carboncito</div>' : '')+
       '<div class="result-actions">'+
         '<button class="cta-btn secondary" onclick="this.closest(\'.overlay\').remove(); goBack();">Volver al mapa</button>'+
         '<button class="cta-btn" onclick="this.closest(\'.overlay\').remove(); replayGame(\''+moduleKey+'\');">Jugar de nuevo 🔁</button>'+

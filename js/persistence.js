@@ -32,6 +32,9 @@ export function loadProgress(){
         const ok = typeof id === 'string' && id.indexOf(slot + '_') === 0 && cur.owned.indexOf(id) !== -1;
         cur.equipped[slot] = ok ? id : SLOT_DEFAULTS[slot];
       });
+      if(w.bosses && typeof w.bosses === 'object'){
+        Object.keys(cur.bosses).forEach(function(k){ if(w.bosses[k] === true) cur.bosses[k] = true; });
+      }
       if(w.quests && typeof w.quests === 'object'){
         Object.keys(cur.quests).forEach(function(k){ const v = w.quests[k]; if(v === 0 || v === 1 || v === 2) cur.quests[k] = v; });
       }
@@ -68,7 +71,7 @@ export function loadProgress(){
         }).slice(0, HOUSE_MAX_ITEMS).map(function(it){ return { t:it.t, x:it.x, y:it.y, z:it.z }; }) : [];
       }
       if(Array.isArray(w.unlocked)){
-        cur.unlocked = w.unlocked.filter(function(x){ return x==='bosque' || x==='playa' || x==='espacio' || x==='obby'; });
+        cur.unlocked = w.unlocked.filter(function(x){ return x==='bosque' || x==='playa' || x==='espacio' || x==='obby' || x==='volcan' || x==='arrecife'; });
         if(cur.unlocked.indexOf('bosque') === -1) cur.unlocked.unshift('bosque');
       }
     }

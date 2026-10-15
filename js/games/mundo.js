@@ -56,6 +56,7 @@ export function mundoToggleSound(){
 }
 const MUSIC_SCALES = {
   pueblo:[262,294,330,392,440,523], bosque:[220,247,294,330,370,440], playa:[330,392,440,494,587,659],
+  volcan:[196,208,262,294,311,392], arrecife:[262,294,349,392,440,523],
   espacio:[196,233,262,311,392,466], obby:[392,440,494,587,659,784], casa:[262,330,392,440,523,659],
 };
 
@@ -310,8 +311,14 @@ const NPCS = {
            look: look({ tone:3, hair:'corto', hairColor:0 }, { hat:'hat_casco', back:'back_jet', shirt:'shirt_blanca', pants:'pants_gris', shoes:'shoes_blanco' }) },
   nati:  { name:'Nati la cocinera', zone:'pueblo', x:3, z:14, gives:'receta', receives:'concha',
            look: look({ tone:0, hair:'largo', hairColor:3 }, { hat:'hat_chef', shirt:'shirt_rosado', pants:'pants_azul', shoes:'shoes_blanco' }) },
+  cenizas: { name:'Cenizas el dragón', zone:'volcan', x:-12, z:-8, role:'boss', boss:'volcan', big:true, model:'pet_dragon' },
+  tinta:   { name:'Pulpo Tinta', zone:'arrecife', x:10, z:-10, role:'boss', boss:'arrecife', big:true, model:'octopus' },
   mati:  { name:'Mati el guardabosques', zone:'bosque', x:-8, z:-4, gives:'linterna', receives:'receta',
            look: look({ tone:1, hair:'corto', hairColor:1 }, { hat:'hat_gorra', back:'back_mochila', shirt:'shirt_verde', pants:'pants_cafe' }) },
+};
+const BOSSES = {
+  volcan:   { name:'Cenizas el dragón', reward:40, intro:'¡Soy Cenizas, guardián del volcán! 🌋 Respóndeme 5 acertijos de estudio: con 4 aciertos ganas mi tesoro.' },
+  arrecife: { name:'Pulpo Tinta', reward:50, intro:'¡Soy Tinta, guardián del arrecife! 🐙 Respóndeme 5 acertijos de estudio: con 4 aciertos ganas mi tesoro.' },
 };
 const QUESTS = {
   pan:      { item:'un pan calentito 🥖', toName:'Pepa (en la Playa)', reward:20 },
@@ -330,6 +337,7 @@ function carryText(){
 let dialogActions = [];
 let talkNpc = null;        // id del NPC más cercano (lo fija el bucle de cada zona)
 let quiz = null;
+let quizBoss = null;
 let emoteReq = null;
 
 function dialogEl(){ return document.getElementById('mundo-dialog'); }
@@ -366,6 +374,11 @@ function npcLines(id){
       } });
     }else if(st === 2) lines.push('¡Mil gracias por el encargo! 😊');
   }
+  if(n.role === 'boss'){
+    const B = BOSSES[n.boss], won = state.world.bosses[n.boss];
+    lines.push(won ? '¡Ya me ganaste y tienes mi tesoro! 🏆 Pero puedes retarme otra vez por diversión.' : B.intro);
+    acts.push({ label:won ? 'Retar otra vez ⚔️' : '¡Acepto el reto! ⚔️', fn:function(){ quizSetup(n.boss); } });
+  }
   if(n.role === 'quiz'){
     lines.push('¿Listo para un desafío de estudio? Ganas 2 monedas por cada respuesta correcta.');
     acts.push({ label:'Desafío de estudio 📚', fn:function(){ quizSetup(); } });
@@ -392,21 +405,31 @@ function quizPool(g){
   return mods.map(function(m){ return m.key || m.id; })
     .filter(function(k){ return k && k.indexOf('examen') !== 0 && MC_GAMES[k]; });
 }
-function quizSetup(){
+function quizSetup(bossId){
+  quizBoss = bossId || null;
   const cur = state.currentGrade;
   const opts = ['nt',1,2,3,4,5,6,7,8].map(function(g){
     return '<button class="av-chip'+(g===cur?' on':'')+'" onclick="mundoQuizStart('+(g==='nt'?"'nt'":g)+')">'+(g==='nt'?'Kínder':g+'°')+'</button>';
   }).join('');
-  showDialog('Desafío de estudio', '<p>5 preguntas de Lenguaje y Matemática. ¿De qué curso?</p><div class="av-row">'+opts+'</div>', []);
+  showDialog(quizBoss ? BOSSES[quizBoss].name+' te reta' : 'Desafío de estudio', '<p>'+(quizBoss ? 'Respóndeme 5 acertijos: con 4 aciertos ganas mi tesoro. ' : '5 preguntas de Lenguaje y Matemática. ')+'¿De qué curso?</p><div class="av-row">'+opts+'</div>', []);
 }
 export function mundoQuizStart(g){
   const pool = quizPool(g);
   if(!pool.length){ showToast('No hay preguntas para ese curso todavía.'); return; }
-  quiz = { g:g, pool:pool, i:0, right:0, cur:null, answered:false };
+  quiz = { g:g, pool:pool, i:0, right:0, cur:null, answered:false, boss:quizBoss };
   quizNext();
 }
 function quizNext(){
   if(quiz.i >= 5){
+    if(quiz.boss){
+      const B = BOSSES[quiz.boss], win = quiz.right >= 4, first = win && !state.world.bosses[quiz.boss];
+      if(first){ state.world.bosses[quiz.boss] = true; awardCoins(B.reward); saveProgress(); refreshShop(); sfx('done'); }
+      showDialog(win ? '¡Ganaste! 🏆' : '¡Casi!',
+        '<p>Acertaste <b>'+quiz.right+' de 5</b>.</p><p>'+(win ? (first ? '¡'+B.name+' te entrega su tesoro: <b>+'+B.reward+' monedas</b>! 🎉' : '¡Otra victoria! 🎉') : 'Necesitas 4 aciertos. ¡Inténtalo otra vez, tú puedes!')+'</p>'+
+        '<button class="av-done" onclick="mundoDialogAction(0)">Otra ronda</button><button class="av-chip" onclick="mundoDialogClose()">Salir</button>',
+        [function(){ mundoQuizStart(quiz.g); }]);
+      return;
+    }
     const total = quiz.right*2;
     showDialog('¡Terminaste!', '<p>Acertaste <b>'+quiz.right+' de 5</b> y ganaste <b>'+total+' monedas</b> 🎉</p>'+
       '<button class="av-done" onclick="mundoDialogAction(0)">Otra ronda</button><button class="av-chip" onclick="mundoDialogClose()">Salir</button>',
@@ -425,6 +448,7 @@ function quizNext(){
   quiz.cur = r; quiz.answered = false; quiz.i++;
   const el = dialogEl();
   showDialog('Pregunta '+quiz.i+' de 5',
+    (quiz.boss ? '<p class="boss-hp">'+BOSSES[quiz.boss].name+': '+'❤️'.repeat(5-quiz.right)+'🖤'.repeat(quiz.right)+'</p>' : '')+
     '<div class="quiz-prompt">'+r.promptHTML+'</div><div class="quiz-opts">'+
     r.options.map(function(o,idx){ return '<button class="quiz-opt" id="quiz-o'+idx+'" onclick="mundoQuizAnswer('+idx+')">'+o.label+'</button>'; }).join('')+
     '</div><div id="quiz-fb"></div>', []);
@@ -440,7 +464,7 @@ export function mundoQuizAnswer(idx){
   if(bGood) bGood.classList.add('right');
   if(!ok && bAns) bAns.classList.add('wrong');
   let fb;
-  if(ok){ quiz.right++; awardCoins(2); refreshShop(); fb = '<p class="quiz-ok">¡Correcto! +2 monedas 🪙</p>'; }
+  if(ok){ quiz.right++; if(quiz.boss){ fb = '<p class="quiz-ok">¡Golpe certero! 💥</p>'; }else{ awardCoins(2); refreshShop(); fb = '<p class="quiz-ok">¡Correcto! +2 monedas 🪙</p>'; } }
   else fb = '<p class="quiz-bad">Casi. La correcta está en verde.</p>'+(r.explain ? '<p class="quiz-exp">'+r.explain+'</p>' : '');
   const box = document.getElementById('quiz-fb');
   if(box) box.innerHTML = fb + '<button class="av-done" onclick="mundoQuizNext()">'+(quiz.i>=5?'Ver resultado':'Siguiente')+'</button>';
@@ -658,6 +682,25 @@ function buildPerson(lookOverride){
     },
     neck_medalla: function(g){
       const d = cyl(0.16,0.16,0.05,M(0xf2c230),0,1.42,0.28,g,16); d.rotation.x = Math.PI/2; box(0.06,0.3,0.04,M(0xe0334c),0,1.65,0.27,g);
+    },
+    hat_flores: function(g){
+      const cols = [0xff6b9d,0xffd43b,0xffffff,0xb18cff,0xff9f43,0x7ed957];
+      cols.forEach(function(c,i){ const a = i/cols.length*Math.PI*2; ball(0.1,M(c),Math.cos(a)*0.42,2.58,Math.sin(a)*0.42,g); });
+    },
+    hat_lana: function(g){
+      const d = new T.Mesh(new T.SphereGeometry(0.45,12,8,0,Math.PI*2,0,Math.PI/2), M(0x3b82f6)); d.position.y = 2.46; g.add(d);
+      cyl(0.47,0.47,0.14,M(0xffffff),0,2.5,0,g,16); ball(0.1,M(0xffffff),0,2.95,0,g);
+    },
+    hat_vaquero: function(g){
+      const m = M(0x8a5a2b); cyl(0.68,0.68,0.06,m,0,2.55,0,g,16); cyl(0.32,0.34,0.4,m,0,2.78,0,g); cyl(0.345,0.345,0.07,M(0x5a3a1a),0,2.66,0,g);
+    },
+    neck_flores: function(g){
+      const cols = [0xff6b9d,0xffd43b,0xffffff,0xb18cff,0xff9f43];
+      for(let i=0;i<9;i++){ const a = (i/8-0.5)*Math.PI*1.4; ball(0.09,M(cols[i%cols.length]),Math.sin(a)*0.5,1.62-Math.abs(a)*0.05,Math.cos(a)*0.3,g); }
+    },
+    back_guitarra: function(g){
+      const gr = new T.Group(); gr.position.set(0,1.3,-0.38); gr.rotation.z = 0.5;
+      box(0.5,0.62,0.14,M(0xb0652a),0,0,0,gr); box(0.1,0.7,0.09,M(0x4a2a12),0,0.62,0,gr); ball(0.1,M(0x1a1a1a),0,0,0.08,gr); g.add(gr);
     },
   };
 
@@ -879,6 +922,8 @@ function buildPueblo(scene, ctx){
     addPortal(scene, obstacles, -16, 0, 0x9b59d0, ctx.portalLabel('espacio'), 'espacio'),
     addPortal(scene, obstacles, 11, -11, 0xff9f43, '🏠 Mi Casa', 'casa'),
     addPortal(scene, obstacles, 11, 11, 0xff5a1f, ctx.portalLabel('obby'), 'obby'),
+    addPortal(scene, obstacles, -11, -11, 0xff3b1f, ctx.portalLabel('volcan'), 'volcan'),
+    addPortal(scene, obstacles, -11, 11, 0x1fb5ff, ctx.portalLabel('arrecife'), 'arrecife'),
   ];
   addFence(scene, 38);
   addLights(scene, 0xffffff, 0x88aa66, 0.9);
@@ -1097,6 +1142,108 @@ function buildObby(scene, ctx){
   return { obstacles:[], portals:portals, visits:visits, platforms:platforms, checkpoints:checkpoints, spawn:{ x:0, y:0, z:0 } };
 }
 
+/* ----- Volcán: roca oscura, pozas de lava y un volcán que se escala ----- */
+function buildVolcan(scene, ctx){
+  const T = THREE, obstacles = [], platforms = [], rnd = mulberry32(77);
+  discOnGround(scene, 48, 0x4a3b3b);
+  const pools = [[10,6,3.2],[-14,10,2.6],[-6,-16,3.0],[22,2,2.4]];
+  pools.forEach(function(p){
+    const m = new T.Mesh(new T.CircleGeometry(p[2],24), new T.MeshBasicMaterial({ color:0xff5a1f }));
+    m.rotation.x = -Math.PI/2; m.position.set(p[0],0.03,p[1]); scene.add(m);
+    obstacles.push({ x:p[0], z:p[1], r:p[2]+0.2 });
+  });
+  let n = 0, guard = 0;
+  while(n < 18 && guard++ < 300){
+    const a = rnd()*Math.PI*2, d = 7 + rnd()*26, x = Math.cos(a)*d, z = Math.sin(a)*d;
+    if(Math.hypot(x,z+18) < 5 || Math.hypot(x-15,z+16) < 10 || Math.hypot(x+12,z+8) < 6 || Math.hypot(x,z) < 5) continue;
+    if(pools.some(function(p){ return Math.hypot(x-p[0],z-p[1]) < p[2]+2; })) continue;
+    const r = new T.Mesh(new T.DodecahedronGeometry(0.9+rnd()*0.9), mat(0x3a2e2e)); r.position.set(x,0.6,z); scene.add(r);
+    obstacles.push({ x:x, z:z, r:1.3 }); n++;
+  }
+  const cima = addHill(scene, platforms, 15, -16, [13,10,7,4], 1.3, [0x4a3b3b,0x5a4040,0x6a4a44,0x7a5048]);
+  const crater = new T.Mesh(new T.CircleGeometry(1.2,16), new T.MeshBasicMaterial({ color:0xff7a2f }));
+  crater.rotation.x = -Math.PI/2; crater.position.set(15+1.4, 1.3*4+0.03, -16+1.4); scene.add(crater);
+  const portals = [ addPortal(scene, obstacles, 0, -18, 0xffd43b, 'Volver al pueblo', 'pueblo') ];
+  addLights(scene, 0xffc9a0, 0x552222, 0.85);
+  return { obstacles:obstacles, portals:portals, platforms:platforms, visits:{ cima:cima } };
+}
+
+/* ----- Arrecife submarino: corales, algas que se mecen, peces y burbujas ----- */
+function buildArrecife(scene, ctx){
+  const T = THREE, obstacles = [], platforms = [], rnd = mulberry32(88);
+  discOnGround(scene, 48, 0xf0dca0);
+  const coralCols = [0xff6b9d,0xff9f43,0xb18cff,0xffd43b];
+  let n = 0, guard = 0;
+  while(n < 22 && guard++ < 300){
+    const a = rnd()*Math.PI*2, d = 6 + rnd()*28, x = Math.cos(a)*d, z = Math.sin(a)*d;
+    if(Math.hypot(x,z+18) < 5 || Math.hypot(x+15,z+14) < 9 || Math.hypot(x-10,z+10) < 6 || Math.hypot(x,z) < 4) continue;
+    const g = new T.Group(), c = coralCols[n % coralCols.length];
+    for(let k=0;k<4;k++){
+      const h = 0.8 + rnd()*1.2, cone = new T.Mesh(new T.ConeGeometry(0.28+rnd()*0.15,h,6), mat(c));
+      cone.position.set((rnd()-0.5)*0.9, h/2, (rnd()-0.5)*0.9); g.add(cone);
+    }
+    g.position.set(x,0,z); scene.add(g); obstacles.push({ x:x, z:z, r:0.95 }); n++;
+  }
+  const kelps = [];
+  for(let i=0;i<22;i++){
+    const a = rnd()*Math.PI*2, d = 5 + rnd()*30, h = 3 + rnd()*2.5;
+    const x = Math.cos(a)*d, z = Math.sin(a)*d;
+    if(Math.hypot(x,z+18) < 4) continue;
+    const k = new T.Group(); const b = new T.Mesh(new T.BoxGeometry(0.2,h,0.2), mat(0x2fa05a)); b.position.y = h/2; k.add(b);
+    k.position.set(x,0,z); scene.add(k); kelps.push({ m:k, ph:rnd()*6 });
+  }
+  const fishes = [];
+  for(let i=0;i<14;i++){
+    const g = new T.Group(), col = coralCols[i % 4];
+    g.add(new T.Mesh(new T.BoxGeometry(0.5,0.3,0.2), mat(col)));
+    const tl = new T.Mesh(new T.ConeGeometry(0.2,0.3,4), mat(col)); tl.rotation.z = Math.PI/2; tl.position.x = -0.38; g.add(tl);
+    scene.add(g); fishes.push({ m:g, cx:(rnd()-0.5)*50, cz:(rnd()-0.5)*50, r:3+rnd()*5, sp:0.4+rnd()*0.6, y:1.5+rnd()*4, ph:rnd()*6 });
+  }
+  const bubbles = [];
+  for(let i=0;i<28;i++){
+    const m = new T.Mesh(new T.SphereGeometry(0.12+rnd()*0.1,8,6), new T.MeshBasicMaterial({ color:0xdff6ff, transparent:true, opacity:0.55 }));
+    m.position.set((rnd()-0.5)*50, rnd()*10, (rnd()-0.5)*50); scene.add(m); bubbles.push({ m:m, sp:0.6+rnd()*0.8 });
+  }
+  const coral = addHill(scene, platforms, -15, -14, [10,7,4], 1, [0xff9f9f,0xff7aa8,0xb18cff]);
+  const portals = [ addPortal(scene, obstacles, 0, -18, 0xffd43b, 'Volver al pueblo', 'pueblo') ];
+  addLights(scene, 0xbfeaff, 0x2a6a8a, 0.95);
+  function tick(t){
+    kelps.forEach(function(k){ k.m.rotation.z = Math.sin(t*1.2 + k.ph)*0.12; });
+    fishes.forEach(function(f){
+      const a = t*f.sp + f.ph;
+      f.m.position.set(f.cx + Math.cos(a)*f.r, f.y + Math.sin(a*2)*0.3, f.cz + Math.sin(a)*f.r);
+      f.m.rotation.y = -a;
+    });
+    bubbles.forEach(function(b){ b.m.position.y += 0.012*b.sp*60*0.016; if(b.m.position.y > 11) b.m.position.y = 0; });
+  }
+  return { obstacles:obstacles, portals:portals, platforms:platforms, visits:{ coral:coral }, tick:tick };
+}
+
+function buildOctopus(){
+  const T = THREE, g = new T.Group();
+  const mm = new T.MeshLambertMaterial({ color:0x9b59d0 });
+  const head = new T.Mesh(new T.SphereGeometry(1.1,14,10), mm); head.position.y = 2.2; head.scale.set(1,1.1,1); g.add(head);
+  [-1,1].forEach(function(sx){
+    const e = new T.Mesh(new T.SphereGeometry(0.28,10,8), new T.MeshLambertMaterial({ color:0xffffff })); e.position.set(sx*0.45,2.35,0.85); g.add(e);
+    const p = new T.Mesh(new T.SphereGeometry(0.14,8,6), new T.MeshLambertMaterial({ color:0x111111 })); p.position.set(sx*0.45,2.35,1.08); g.add(p);
+  });
+  for(let i=0;i<8;i++){
+    const a = i/8*Math.PI*2, tl = new T.Mesh(new T.BoxGeometry(0.28,1.6,0.28), mm);
+    tl.position.set(Math.cos(a)*0.8, 0.8, Math.sin(a)*0.8); tl.rotation.z = Math.cos(a)*0.35; tl.rotation.x = -Math.sin(a)*0.35; g.add(tl);
+  }
+  return g;
+}
+function makeGem(){
+  const g = new THREE.Group();
+  g.add(new THREE.Mesh(new THREE.OctahedronGeometry(0.5), new THREE.MeshLambertMaterial({ color:0xff4d4d, emissive:0x991111 })));
+  return g;
+}
+function makePearl(){
+  const g = new THREE.Group();
+  g.add(new THREE.Mesh(new THREE.SphereGeometry(0.34,12,10), new THREE.MeshLambertMaterial({ color:0xfdf6ff, emissive:0x8a7aa0 })));
+  return g;
+}
+
 /* ---------- Coleccionables ---------- */
 function makeBone(){
   const T = THREE;
@@ -1131,6 +1278,20 @@ const ZONES = {
              hello:'Bienvenido al pueblo 🏘️ Habla con la gente del pueblo (Lucho 📚, Beto 🥖, Nati 🍳) para recibir encargos, o entra a un portal. Los que tienen candado 🔒 se abren con monedas.' },
   casa:    { name:'Mi Casa', radius:23, sky:0x9fdcff, fogNear:50, fogFar:110, build:buildCasa, home:true,
              hello:'¡Esta es tu casa! 🏠 Toca 🔨 Construir para poner bloques y muebles. Desbloquea más con tus monedas.' },
+  volcan:  { name:'Volcán', radius:40, sky:0x3a1d1d, fogNear:40, fogFar:115, build:buildVolcan, price:100, stars:60,
+             collect:{ emoji:'💎', make:makeGem, n:10 },
+             missions:[
+               { type:'collect', n:5, reward:20, text:'🌋 ¡Bienvenido al volcán! Recoge 5 gemas de fuego 💎 y no pises la lava.', done:'¡Qué brillantes!' },
+               { type:'visit', at:'cima', r:2.4, reward:25, text:'Sube por el volcán saltando de escalón en escalón hasta la bandera de la cima 🔥', done:'¡En la cima del volcán!' },
+               { type:'collect', n:8, reward:30, text:'¡Junta 8 gemas más! 💎 Cenizas el dragón vigila el tesoro...', done:'¡Tesoro de fuego!' },
+             ] },
+  arrecife:{ name:'Arrecife', radius:40, sky:0x2a8fbf, fogNear:25, fogFar:85, build:buildArrecife, price:90, stars:50,
+             collect:{ emoji:'⚪', make:makePearl, n:10 },
+             missions:[
+               { type:'collect', n:5, reward:20, text:'🌊 ¡Estás en el fondo del mar! Recoge 5 perlas ⚪ entre los corales.', done:'¡Perlas preciosas!' },
+               { type:'visit', at:'coral', r:2.4, reward:25, text:'Sube a la montaña de coral saltando de escalón en escalón 🪸', done:'¡Rey del arrecife!' },
+               { type:'collect', n:8, reward:30, text:'¡Junta 8 perlas más! ⚪ El Pulpo Tinta guarda un tesoro...', done:'¡Qué collar tan lindo!' },
+             ] },
   obby:    { name:'Carrera de Obstáculos', radius:260, floor:null, sky:0x87ceeb, fogNear:80, fogFar:230, build:buildObby, price:30, stars:25,
              missions:[
                { type:'visit', at:'e1', r:3, reward:5,  text:'🏁 ¡Carrera de obstáculos! Salta (barra espaciadora o botón Saltar) por las plataformas hasta la 1ª bandera.', done:'¡Etapa 1 lista!' },
@@ -1293,7 +1454,7 @@ export async function initMundo(){
     pos.set(pp ? pp.x*0.7 : 0, 0, pp ? pp.z*0.7 : 6);
   }else pos.set(spawn.x, spawn.y, zoneId==='pueblo' ? 7 : spawn.z);
   let heading = 0;
-  if(window.__LEO_DEBUG) window.__mundo = { pos:pos };   // gancho solo para pruebas manuales
+  if(window.__LEO_DEBUG) window.__mundo = { pos:pos, camera:camera };   // gancho solo para pruebas manuales
 
   // Mi Casa: construcción con bloques y muebles sobre una grilla (cursor delante del personaje)
   const isHome = !!world.house;
@@ -1360,12 +1521,17 @@ export async function initMundo(){
   Object.keys(NPCS).forEach(function(id){
     const n = NPCS[id];
     if(n.zone !== zoneId) return;
-    const v = buildPerson(n.look);
+    let v;
+    if(n.model){
+      const m = n.model === 'octopus' ? buildOctopus() : buildPetModel(n.model);
+      m.scale.setScalar(n.model === 'octopus' ? 1 : 3);
+      v = { root:m };
+    }else v = buildPerson(n.look);
     v.root.position.set(n.x, 0, n.z); v.root.rotation.y = Math.atan2(-n.x, 8-n.z);
     scene.add(v.root);
-    const lab = makeLabel(n.name, 'rgba(20,90,80,.8)'); lab.position.set(n.x, 4.0, n.z); scene.add(lab);
-    obstacles.push({ x:n.x, z:n.z, r:0.7 });
-    npcViews.push({ id:id, x:n.x, z:n.z, v:v });
+    const lab = makeLabel(n.name, n.big ? 'rgba(160,40,40,.85)' : 'rgba(20,90,80,.8)'); lab.position.set(n.x, n.big ? 5.6 : 4.0, n.z); scene.add(lab);
+    obstacles.push({ x:n.x, z:n.z, r:n.big ? 2.2 : 0.7 });
+    npcViews.push({ id:id, x:n.x, z:n.z, v:v, big:!!n.big });
   });
   const talkBtn = document.getElementById('mundo-talk');
   rebuildPet();
@@ -1458,7 +1624,7 @@ export async function initMundo(){
 
   // cámara orbital en tercera persona (como Roblox): arrastrar gira, rueda / pellizco acerca
   let camYaw = 0, camPitch = 0.42, camDist = 12;
-  let viewYaw = 0, viewPitch = 0.42, viewDist = 12;
+  let viewYaw = 0, viewPitch = 0.42, viewDist = 12, camF = 1;
   let pinchD = null;
   const camPtrs = new Map();
   function clamp(v,lo,hi){ return Math.max(lo, Math.min(hi, v)); }
@@ -1664,8 +1830,9 @@ export async function initMundo(){
     // personajes: idle y cercanía para hablar
     let nearest = null, nd = 3.4;
     npcViews.forEach(function(n){
-      n.v.arms[0].rotation.x = Math.sin(t*1.5 + n.x)*0.06; n.v.arms[1].rotation.x = -Math.sin(t*1.5 + n.x)*0.06;
-      const d = Math.hypot(pos.x-n.x, pos.z-n.z);
+      if(n.v.arms){ n.v.arms[0].rotation.x = Math.sin(t*1.5 + n.x)*0.06; n.v.arms[1].rotation.x = -Math.sin(t*1.5 + n.x)*0.06; }
+      else n.v.root.position.y = Math.abs(Math.sin(t*2 + n.x))*0.25;
+      const d = Math.hypot(pos.x-n.x, pos.z-n.z) - (n.big ? 2.2 : 0);
       if(d < nd && Math.abs(pos.y) < 2){ nd = d; nearest = n.id; }
     });
     if(nearest !== talkNpc){
@@ -1698,6 +1865,8 @@ export async function initMundo(){
         }
       });
     }
+
+    if(world.tick) world.tick(t);
 
     // portales
     world.portals.forEach(function(p){
@@ -1741,7 +1910,31 @@ export async function initMundo(){
     const k = Math.min(1, dt*(avatarOpen ? 5 : 14));
     viewYaw += dyaw*k; viewPitch += (wantPitch-viewPitch)*k; viewDist += (wantDist-viewDist)*Math.min(1,dt*6);
     const cp = Math.cos(viewPitch);
-    camera.position.set(pos.x + Math.sin(viewYaw)*viewDist*cp, pos.y + 1.6 + Math.sin(viewPitch)*viewDist, pos.z + Math.cos(viewYaw)*viewDist*cp);
+    const tx0 = pos.x, ty0 = pos.y + 1.6, tz0 = pos.z;
+    let rdx = Math.sin(viewYaw)*viewDist*cp, rdy = Math.sin(viewPitch)*viewDist, rdz = Math.cos(viewYaw)*viewDist*cp;
+    // la cámara no atraviesa bloques: si uno se interpone, se acerca al personaje (y vuelve despacio)
+    let tHit = 1;
+    for(let i=0;i<platforms.length;i++){
+      const p = platforms[i];
+      const mins = [p.x-p.hw-0.35, p.bottom-0.35, p.z-p.hd-0.35], maxs = [p.x+p.hw+0.35, p.top+0.35, p.z+p.hd+0.35];
+      const o = [tx0,ty0,tz0], dd = [rdx,rdy,rdz];
+      let tmin = 0, tmax = 1, ok = true;
+      for(let k2=0;k2<3;k2++){
+        if(Math.abs(dd[k2]) < 1e-6){ if(o[k2] < mins[k2] || o[k2] > maxs[k2]){ ok = false; break; } }
+        else{
+          let t1 = (mins[k2]-o[k2])/dd[k2], t2 = (maxs[k2]-o[k2])/dd[k2];
+          if(t1 > t2){ const tt = t1; t1 = t2; t2 = tt; }
+          tmin = Math.max(tmin,t1); tmax = Math.min(tmax,t2);
+          if(tmin > tmax){ ok = false; break; }
+        }
+      }
+      if(ok && tmin > 0 && tmin < tHit) tHit = tmin;
+    }
+    const wantF = tHit < 1 ? Math.max(0.28, tHit-0.04) : 1;
+    camF = wantF < camF ? wantF : camF + (wantF-camF)*Math.min(1, dt*3);
+    let ccy = ty0 + rdy*camF;
+    if(hasFloor && ccy < 0.4) ccy = 0.4;
+    camera.position.set(tx0 + rdx*camF, ccy, tz0 + rdz*camF);
     camera.lookAt(pos.x, pos.y + lookY, pos.z);
 
     renderer.render(scene,camera);

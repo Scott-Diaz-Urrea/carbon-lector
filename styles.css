@@ -1414,3 +1414,6 @@
   .mundo-wrap.avatar-open .mundo-sound-btn{ display:none; }
   .mundo-wrap.build-open .mundo-sound-btn{ bottom:288px; }
   .portal-or{ font-size:13px; color: var(--ink-soft); }
+
+  /* Fase 8: jefes */
+  .boss-hp{ text-align:center; font-size:20px; letter-spacing:2px; margin:0 0 6px; }

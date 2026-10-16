@@ -1614,3 +1614,7 @@
 
   /* Fase 13: feria */
   #mundo-game-pill{ color:#a3262e; }
+
+  /* Mundo de los Números */
+  .num-big{ font-family:var(--font-display); font-size:96px; line-height:1; text-align:center; font-weight:800; margin:4px 0; text-shadow:0 4px 0 rgba(0,0,0,.12); }
+  @media (max-height:520px){ .num-big{ font-size:56px; } }

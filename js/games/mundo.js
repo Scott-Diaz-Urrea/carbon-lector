@@ -116,7 +116,7 @@ export function mundoToggleSound(){
 }
 const MUSIC_SCALES = {
   pueblo:[262,294,330,392,440,523], bosque:[220,247,294,330,370,440], playa:[330,392,440,494,587,659],
-  feria:[330,392,440,523,587,659], volcan:[196,208,262,294,311,392], arrecife:[262,294,349,392,440,523],
+  feria:[330,392,440,523,587,659], numeros:[262,294,330,392,440,523], volcan:[196,208,262,294,311,392], arrecife:[262,294,349,392,440,523],
   espacio:[196,233,262,311,392,466], obby:[392,440,494,587,659,784], casa:[262,330,392,440,523,659],
 };
 
@@ -497,6 +497,8 @@ const NPCS = {
            look: look({ tone:0, hair:'largo', hairColor:3 }, { hat:'hat_chef', shirt:'shirt_rosado', pants:'pants_azul', shoes:'shoes_blanco' }) },
   cenizas: { name:'Cenizas el dragón', zone:'volcan', x:-12, z:-8, role:'boss', boss:'volcan', big:true, model:'pet_dragon' },
   tinta:   { name:'Pulpo Tinta', zone:'arrecife', x:10, z:-10, role:'boss', boss:'arrecife', big:true, model:'octopus' },
+  cuenta:{ name:'Profe Cuenta', zone:'numeros', x:4, z:3, role:'numgame',
+           look: look({ tone:1, hair:'rulos', hairColor:2 }, { hat:'hat_gorra', face:'face_lentes', shirt:'shirt_amarilla', pants:'pants_azul', shoes:'shoes_blanco' }) },
   fela:  { name:'Fela la feriante', zone:'feria', x:6, z:4, role:'games',
            look: look({ tone:1, hair:'rulos', hairColor:5 }, { hat:'hat_gorra', face:'face_nariz', shirt:'shirt_rayas', pants:'pants_rojo', shoes:'shoes_rojo' }) },
   mati:  { name:'Mati el guardabosques', zone:'bosque', x:-8, z:-4, gives:'linterna', receives:'receta',
@@ -569,6 +571,10 @@ function npcLines(id){
     lines.push(won ? '¡Ya me ganaste y tienes mi tesoro! 🏆 Pero puedes retarme otra vez por diversión.' : B.intro);
     acts.push({ label:won ? 'Retar otra vez ⚔️' : '¡Acepto el reto! ⚔️', fn:function(){ quizSetup(n.boss); } });
   }
+  if(n.role === 'numgame'){
+    lines.push('¡Hola! Aquí viven los números del 0 al 9 🔢 Cada uno tiene sus manzanitas para <b>contar</b>. ¿Jugamos a <b>buscar el número</b>? Te digo uno y tú corres a pararte junto a él.');
+    acts.push({ label:'¡Buscar el número! 🔍', fn:function(){ mundoDialogClose(); if(minigame) minigame.find(); } });
+  }
   if(n.role === 'games'){
     lines.push('¡Bienvenido a la feria! 🎪 Prueba el <b>laberinto de setos</b> (el de la entrada verde: entra por arriba y sal lo más rápido que puedas) o reventemos <b>globos</b> 🎈 en 40 segundos.');
     acts.push({ label:'Reventar globos 🎈 (40 s)', fn:function(){ mundoDialogClose(); if(minigame) minigame.balloons(); } });
@@ -580,10 +586,21 @@ function npcLines(id){
   if(!lines.length) lines.push('¡Hola! ¡Qué lindo día! 😊');
   return { lines:lines, acts:acts };
 }
+function openNumber(d){
+  const w = NUM_NAMES[d], apples = d === 0 ? 'No tengo manzanas 🧺 (cero es "nada")' : ('Tengo '+d+' '+(d === 1 ? 'manzana' : 'manzanas')+' '+'🍎'.repeat(Math.min(d,9)));
+  const counting = d === 0 ? 'cero' : NUM_NAMES.slice(1, d+1).join(', ');
+  showDialog('El número '+d, '<div class="num-big" style="color:'+hexCss(NUM_COLORS[d])+'">'+d+'</div>'+
+    '<p>¡Hola! Soy el <b>'+d+'</b> ('+w+'). '+apples+'.</p>'+
+    '<button class="av-done" onclick="mundoDialogAction(0)">Escuchar mi nombre 🔊</button>'+
+    '<button class="av-done" onclick="mundoDialogAction(1)">Contar conmigo 👆</button>',
+    [function(){ speak(w, 'es', 0.6); },
+     function(){ speak(counting, 'es', 0.6); }]);
+}
 export function mundoTalk(){
   if(!talkNpc) return;
   if(talkNpc === 'chest'){ openChest(); return; }
   if(talkNpc === 'board'){ openBoard(); return; }
+  if(talkNpc.indexOf('num') === 0 && NUM_NAMES[+talkNpc.slice(3)]){ openNumber(+talkNpc.slice(3)); return; }
   const n = NPCS[talkNpc], d = npcLines(talkNpc);
   showDialog(n.name, '<p>'+d.lines.join('</p><p>')+'</p>'+d.acts.map(function(a,i){
     return '<button class="av-done" onclick="mundoDialogAction('+i+')">'+a.label+'</button>'; }).join(''),
@@ -1128,6 +1145,7 @@ const LAYOUT = {
   playa:   { color:0xb98a5a, w:2.2, paths:[ [[0,-2],[0,-16]], [[2,1],[8,6]], [[-2,-1],[-8,-8],[-12,-10]], [[-2,1],[-6,5]] ] },
   espacio: { color:0x6a6882, w:2.2, paths:[ [[0,-2],[0,-16]], [[-2,-1],[-10,-9]], [[2,-2],[12,-12]], [[2,1],[7,5]] ] },
   feria:   { color:0xe0b070, w:2.4, paths:[ [[0,-2],[0,-16]], [[2,1],[5,3]], [[2,-2],[11,-11]], [[-2,-2],[-12,-11]], [[-2,2],[-5,3.6]], [[2,3],[11,10]] ] },
+  numeros: { color:0xf5e6b8, w:2.2, paths:[0,1,2,3,4,5,6,7,8,9].map(function(d){ const a = (d/10)*Math.PI*2 + Math.PI/10 + Math.PI/2; return [[Math.cos(a)*2.5, Math.sin(a)*2.5],[Math.cos(a)*11.5, Math.sin(a)*11.5]]; }).concat([ [[0,-2.5],[0,-28]] ]) },
   volcan:  { color:0x2d2323, w:2.4, paths:[ [[0,-2],[0,-16]], [[2,-2],[10,-11]], [[-2,-1],[-9,-6]] ] },
   arrecife:{ color:0xe6cf8a, w:2.4, paths:[ [[0,-2],[0,-16]], [[-2,-2],[-11,-11]], [[2,-2],[7,-7]] ] },
 };
@@ -1181,7 +1199,7 @@ function buildPueblo(scene, ctx){
   obstacles.push({ x:0, z:0, r:2.8 });
 
   // calles: de la plaza a cada portal (7 portales = 7 calles; el sur queda libre para llegar y para las casas)
-  const portalSpots = [[0,-16],[16,0],[-16,0],[11,-11],[11,11],[-11,-11],[-11,11],[0,23]];
+  const portalSpots = [[0,-16],[16,0],[-16,0],[11,-11],[11,11],[-11,-11],[-11,11],[0,23],[-23,0]];
   const segs = [];
   portalSpots.forEach(function(q){ addPath(scene, [[q[0]*0.4,q[1]*0.4],[q[0]*0.93,q[1]*0.93]], 2.8, 0xd9b77a).forEach(function(sg){ segs.push(sg); }); });
   // calle sur hacia las casas y los personajes
@@ -1242,6 +1260,7 @@ function buildPueblo(scene, ctx){
     addPortal(scene, obstacles, -11, -11, 0xff3b1f, ctx.portalLabel('volcan'), 'volcan'),
     addPortal(scene, obstacles, -11, 11, 0x1fb5ff, ctx.portalLabel('arrecife'), 'arrecife'),
     addPortal(scene, obstacles, 0, 23, 0xff4d8d, ctx.portalLabel('feria'), 'feria'),
+    addPortal(scene, obstacles, -23, 0, 0x6ad1ff, ctx.portalLabel('numeros'), 'numeros'),
   ];
   addSeasonDecor(scene, activeSeason(), segs);
   const chest = buildChest(scene, 3.5, 6.5);
@@ -1674,6 +1693,153 @@ function makeTicket(){
   return g;
 }
 
+/* ----- Mundo de los Números: 0-9 como personajes de bloques con cara, brazos y piernas ----- */
+const NUM_NAMES = ['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve'];
+const NUM_COLORS = [0x8e7cc3, 0xe0334c, 0xff8a1f, 0xf2b705, 0x2fb344, 0x1fb5ff, 0x3b6fe0, 0xb04fd0, 0xff4d8d, 0x12a594];
+const NUM_GLYPHS = [
+  ['01110','10001','10011','10101','11001','10001','01110'],
+  ['00100','01100','00100','00100','00100','00100','01110'],
+  ['01110','10001','00001','00010','00100','01000','11111'],
+  ['11110','00001','00001','01110','00001','00001','11110'],
+  ['00010','00110','01010','10010','11111','00010','00010'],
+  ['11111','10000','11110','00001','00001','10001','01110'],
+  ['00110','01000','10000','11110','10001','10001','01110'],
+  ['11111','00001','00010','00100','01000','01000','01000'],
+  ['01110','10001','10001','01110','10001','10001','01110'],
+  ['01110','10001','10001','01111','00001','00010','01100'],
+];
+// cara de cada número en la grilla ampliada 10x14: [filaOjos, colOjoIzq, colOjoDer, filaBoca, colBoca]
+// (calculada con numFace(); estas posiciones caen siempre sobre el trazo del número)
+function numGrid(d){
+  const g = [];
+  NUM_GLYPHS[d].forEach(function(row){
+    const r1 = [];
+    row.split('').forEach(function(ch){ r1.push(ch === '1', ch === '1'); });
+    g.push(r1, r1.slice());
+  });
+  return g;                       // 14 filas x 10 columnas
+}
+function numFace(g){
+  const filled = function(r,c){ return g[r] && g[r][c]; };
+  let best = null;
+  for(let r=1; r<=9 && !best; r++){
+    let run = [];
+    for(let c=0; c<=10; c++){
+      if(filled(r,c)) run.push(c);
+      else{
+        if(run.length >= 3){
+          const L = run.length, span = Math.min(L-1, 4), c1 = run[0] + Math.floor((L-1-span)/2);
+          // la boca va unas filas más abajo, sobre el trazo más cercano al centro de los ojos
+          const cm = (c1 + c1 + span)/2;
+          for(let rr = r+2; rr <= Math.min(13, r+4) && !best; rr++){
+            let bc = -1, bd = 99;
+            for(let c2=0; c2<10; c2++) if(filled(rr,c2) && Math.abs(c2-cm) < bd){ bd = Math.abs(c2-cm); bc = c2; }
+            if(bc >= 0 && bd <= 2) best = { er:r, c1:c1, c2:c1+span, mr:rr, mc:bc };
+          }
+        }
+        run = [];
+      }
+    }
+  }
+  return best || { er:2, c1:3, c2:6, mr:5, mc:4 };
+}
+function buildNumberChar(d){
+  const T = THREE, g = new T.Group(), S = 0.3, DEPTH = 0.75, Y0 = 1.25;
+  const grid = numGrid(d), col = NUM_COLORS[d];
+  const cells = [];
+  for(let r=0;r<14;r++) for(let c=0;c<10;c++) if(grid[r][c]) cells.push([r,c]);
+  const body = new T.InstancedMesh(new T.BoxGeometry(S*1.02, S*1.02, DEPTH), new T.MeshLambertMaterial({ color:col }), cells.length);
+  const m4 = new T.Matrix4();
+  cells.forEach(function(rc, i){ m4.makeTranslation((rc[1]-4.5)*S, Y0 + (13-rc[0])*S + S/2, 0); body.setMatrixAt(i, m4); });
+  g.add(body);
+  const cx = function(c){ return (c-4.5)*S; }, cy = function(r){ return Y0 + (13-r)*S + S/2; };
+  // cara
+  const f = numFace(grid), fz = DEPTH/2 + 0.02;
+  [f.c1, f.c2].forEach(function(c){
+    const w = new T.Mesh(new T.SphereGeometry(0.23,12,10), mat(0xffffff)); w.scale.z = 0.45; w.position.set(cx(c), cy(f.er), fz); g.add(w);
+    const pu = new T.Mesh(new T.SphereGeometry(0.12,10,8), mat(0x1b1b1b)); pu.position.set(cx(c), cy(f.er) - 0.01, fz + 0.07); g.add(pu);
+  });
+  const mx = cx(f.mc), my = cy(f.mr);
+  const dark = mat(0x3a1414);
+  const mid = new T.Mesh(new T.BoxGeometry(0.34,0.09,0.06), dark); mid.position.set(mx, my - 0.03, fz + 0.02); g.add(mid);
+  [-1,1].forEach(function(sx){ const up = new T.Mesh(new T.BoxGeometry(0.09,0.15,0.06), dark); up.position.set(mx + sx*0.2, my + 0.03, fz + 0.02); g.add(up); });
+  [-1,1].forEach(function(sx){ const ch = new T.Mesh(new T.SphereGeometry(0.07,8,6), mat(0xff9bb0)); ch.scale.z = 0.4; ch.position.set((sx<0?cx(f.c1):cx(f.c2)) + sx*0.1, cy(f.er) - 0.16, fz); g.add(ch); });
+  // piernas con zapatos: bajo la primera y la última celda de la fila de abajo
+  let bot = 13; while(bot > 0 && !grid[bot].some(Boolean)) bot--;
+  const bc = []; grid[bot].forEach(function(v,c){ if(v) bc.push(c); });
+  const lx = [cx(bc[0]), cx(bc[bc.length-1])];
+  if(Math.abs(lx[1]-lx[0]) < 0.5){ lx[0] -= 0.25; lx[1] += 0.25; }
+  const legs = [];
+  lx.forEach(function(x){
+    const lg = new T.Group(); lg.position.set(x, Y0 + (13-bot)*S, 0);
+    const st = new T.Mesh(new T.BoxGeometry(0.2,1.0,0.2), mat(0x2b2b3a)); st.position.y = -0.5; lg.add(st);
+    const sh = new T.Mesh(new T.BoxGeometry(0.42,0.2,0.65), mat(0xff6a1f)); sh.position.set(0,-1.1,0.15); lg.add(sh);
+    g.add(lg); legs.push(lg);
+  });
+  // brazos con manos: a la altura del medio, junto a la primera y última celda de esa fila
+  const armRow = 6, ac = []; grid[armRow].forEach(function(v,c){ if(v) ac.push(c); });
+  const arms = [];
+  [[ac[0],-1],[ac[ac.length-1],1]].forEach(function(a){
+    const ar = new T.Group(); ar.position.set(cx(a[0]) + a[1]*0.2, cy(armRow), 0);
+    const st = new T.Mesh(new T.BoxGeometry(0.17,1.1,0.17), mat(0x2b2b3a)); st.position.y = -0.55; ar.add(st);
+    const hand = new T.Mesh(new T.SphereGeometry(0.24,10,8), mat(0xffe3b8)); hand.position.y = -1.15; ar.add(hand);
+    ar.rotation.z = a[1]*0.55; g.add(ar); arms.push(ar);
+  });
+  return { root:g, legs:legs, arms:arms, face:f };
+}
+function addAppleRow(scene, d, col){
+  const T = THREE, g = new T.Group();
+  const board = new T.Mesh(new T.BoxGeometry(3.2,0.14,1.5), mat(0xd9b77a)); board.position.y = 0.07; g.add(board);
+  for(let i=0;i<d;i++){
+    const r = Math.floor(i/3), c = i%3, inRow = Math.min(3, d - r*3);
+    const a = new T.Mesh(new T.SphereGeometry(0.27,12,10), mat(col)); a.position.set((c-(inRow-1)/2)*0.95, 0.4, (r-1)*0.42); g.add(a);
+    const lf = new T.Mesh(new T.BoxGeometry(0.16,0.04,0.09), mat(0x2f8f3f)); lf.position.set(a.position.x+0.07, 0.7, a.position.z); g.add(lf);
+  }
+  return g;
+}
+function buildNumeros(scene, ctx){
+  const T = THREE, obstacles = [], rnd = mulberry32(17);
+  discOnGround(scene, 39, 0xc9ec9a);
+  const segs = layoutPaths(scene, 'numeros');
+  // plaza central coloreada
+  [0xffe066,0xff8a8a,0x9ad0ff].forEach(function(c,i){ discOnGround(scene, 3.4 - i*1.0, c, 0, 0, 0.04 + i*0.01); });
+  const numbers = [], visits = {};
+  const R = 17;
+  for(let d=0; d<10; d++){
+    const ang = (d/10)*Math.PI*2 + Math.PI/10 + Math.PI/2;            // el 0 queda arriba-izquierda; ninguno tapa el portal de salida
+    const x = Math.cos(ang)*R, z = Math.sin(ang)*R;
+    const ch = buildNumberChar(d);
+    ch.root.position.set(x, 0, z); ch.root.rotation.y = Math.atan2(-x, -z);
+    scene.add(ch.root);
+    const apples = addAppleRow(scene, d, NUM_COLORS[d]);
+    const ax = x*0.78, az = z*0.78; apples.position.set(ax, 0, az); apples.rotation.y = Math.atan2(-x, -z); scene.add(apples);
+    const lab = makeLabel(d+' · '+NUM_NAMES[d], 'rgba(20,70,110,.85)'); lab.position.set(x, 6.4, z); scene.add(lab);
+    obstacles.push({ x:x, z:z, r:1.7 });
+    numbers.push({ n:d, x:x, z:z, ch:ch });
+    visits['n'+d] = { x:x*0.9, z:z*0.9 };
+  }
+  // flores y árboles chicos en el borde
+  for(let i=0;i<46;i++){
+    const a = rnd()*Math.PI*2, dd = 25 + rnd()*10, x = Math.cos(a)*dd, z = Math.sin(a)*dd;
+    if(Math.hypot(x,z+30) < 5) continue;
+    if(i%3 === 0) addTree(scene, obstacles, x, z, 0.9 + rnd()*0.5, 0x3fae4a, 0x2f8f3f);
+    else{
+      const fl = new T.Mesh(new T.SphereGeometry(0.22,8,6), mat([0xff6b6b,0xffd43b,0xb18cff,0xff9bd0][i%4])); fl.position.set(x,0.3,z); scene.add(fl);
+    }
+  }
+  const portals = [ addPortal(scene, obstacles, 0, -30, 0xffd43b, 'Volver al pueblo', 'pueblo') ];
+  addLights(scene, 0xffffff, 0xb9d99a, 1.0);
+  return { obstacles:obstacles, portals:portals, platforms:[], visits:visits, numbers:numbers,
+    tick:function(t){
+      numbers.forEach(function(nm, i){
+        const c = nm.ch, ph = t*2.2 + i;
+        c.root.position.y = Math.abs(Math.sin(ph))*0.12;
+        c.arms[0].rotation.z = -0.55 - Math.sin(ph)*0.25; c.arms[1].rotation.z = 0.55 + Math.sin(ph + 1)*0.25;
+        c.legs[0].rotation.x = Math.sin(ph)*0.08; c.legs[1].rotation.x = -Math.sin(ph)*0.08;
+      });
+    } };
+}
+
 /* ---------- Coleccionables ---------- */
 function makeBone(){
   const T = THREE;
@@ -1721,6 +1887,15 @@ const ZONES = {
                { type:'collect', n:5, reward:20, text:'🌊 ¡Estás en el fondo del mar! Recoge 5 perlas ⚪ entre los corales.', done:'¡Perlas preciosas!' },
                { type:'visit', at:'coral', r:2.4, reward:25, text:'Sube a la montaña de coral saltando de escalón en escalón 🪸', done:'¡Rey del arrecife!' },
                { type:'collect', n:8, reward:30, text:'¡Junta 8 perlas más! ⚪ El Pulpo Tinta guarda un tesoro...', done:'¡Qué collar tan lindo!' },
+             ] },
+  numeros: { name:'Mundo de los Números', radius:37, sky:0xbfe9ff, fogNear:60, fogFar:140, build:buildNumeros, price:0,
+             collect:{ emoji:'⭐', make:makeStar, n:10 },
+             missions:[
+               { type:'visit', at:'n1', r:3.6, reward:5, text:'🔢 ¡Hola! Este es el Mundo de los Números. Busca el número 1 (uno) y ponte junto a él para saludarlo 👋', done:'¡Hola, número 1!' },
+               { type:'visit', at:'n3', r:3.6, reward:5, text:'Ahora busca el número 3 (tres). Tiene 3 manzanitas 🍎🍎🍎', done:'¡Hola, número 3!' },
+               { type:'visit', at:'n5', r:3.6, reward:6, text:'Busca el número 5 (cinco) y cuenta sus manzanitas con tus deditos ✋', done:'¡Hola, número 5!' },
+               { type:'collect', n:5, reward:10, text:'Recoge 5 estrellas ⭐ Cuéntalas en voz alta: 1, 2, 3, 4, 5', done:'¡Contaste 5 estrellas!' },
+               { type:'visit', at:'n9', r:3.6, reward:10, text:'¡El último! Busca el número 9 (nueve) 🌟', done:'¡Conociste al 9!' },
              ] },
   feria:   { name:'Feria', radius:38, sky:0xffd9a8, fogNear:60, fogFar:140, build:buildFeria, price:70, stars:35,
              collect:{ emoji:'🎟️', make:makeTicket, n:10 },
@@ -1778,6 +1953,7 @@ function pushOut(pos, obstacles, pr, R){
 function isUnlocked(id){
   if(id==='pueblo' || id==='casa' || state.world.unlocked.indexOf(id) !== -1) return true;
   const z = ZONES[id];
+  if(z && z.price === 0) return true;
   return !!(z && z.stars && totalStars() >= z.stars);   // también se abre jugando y ganando estrellas de estudio
 }
 
@@ -1985,6 +2161,7 @@ export async function initMundo(){
     obstacles.push({ x:n.x, z:n.z, r:n.big ? 2.2 : 0.7 });
     npcViews.push({ id:id, x:n.x, z:n.z, v:v, big:!!n.big });
   });
+  if(world.numbers) world.numbers.forEach(function(nm){ npcViews.push({ id:'num'+nm.n, x:nm.x, z:nm.z, v:{ root:nm.ch.root }, big:false, num:true, rad:1.6 }); });
   if(world.board) npcViews.push({ id:'board', x:world.board.x, z:world.board.z, v:{ root:world.board.group }, big:false, board:true });
   if(world.chest) npcViews.push({ id:'chest', x:world.chest.x, z:world.chest.z, v:{ root:world.chest.group }, big:false, chest:true });
   // contrarreloj (Carrera de Obstáculos y Laberinto): cronómetro desde que sales del inicio, con medallas
@@ -2012,6 +2189,28 @@ export async function initMundo(){
   }
 
   // minijuego de globos (Feria): 14 globos, 40 segundos; paga 1 moneda por globo (+5 si revientas todos) las 3 primeras veces del día
+  // minijuego "Busca el número" (Mundo de los Números): 5 números al azar; acertar paga 2 monedas (premio total las 3 primeras partidas del día)
+  const isNum = zoneId === 'numeros';
+  let fg = null, fgWrongT = -9;
+  function fgAsk(){
+    const nums = world.numbers.map(function(x){ return x.n; });
+    let t; do{ t = nums[Math.floor(Math.random()*nums.length)]; }while(t === fg.last);
+    fg.target = t; fg.last = t;
+    const msg = '🔍 ¡Busca el número '+t+' ('+NUM_NAMES[t]+')! Párate junto a él. ('+(fg.round+1)+'/5)';
+    myGuideSay(msg); speak('Busca el número '+NUM_NAMES[t], 'es', 0.7);
+  }
+  function fgEnd(){
+    const gd = state.world.gameDay, today = todayStr();
+    if(gd.date !== today){ gd.date = today; gd.n = 0; }
+    const paid = gd.n < 3, gain = paid ? fg.hits*2 : 0;
+    gd.n++;
+    if(gain){ awardCoins(gain); refreshShop(); }
+    saveProgress(); sfx('done'); myGuideSay(null);
+    showDialog('¡Muy bien! 🎉', '<p>Encontraste <b>'+fg.hits+' de 5</b> números'+(gain ? ' y ganaste <b>'+gain+' monedas</b> 💰' : '')+'.</p>'+
+      (paid ? '<p>Hoy te quedan <b>'+Math.max(0,3-gd.n)+'</b> partidas con premio.</p>' : '<p>Hoy ya ganaste el premio máximo. ¡Sigue jugando por diversión!</p>')+'<p>Habla con Profe Cuenta para jugar otra vez.</p>', []);
+    fg = null;
+  }
+  const myNumGame = isNum ? { find:function(){ if(fg) return; fg = { round:0, hits:0, target:-1, last:-1 }; fgAsk(); } } : null;
   const isFeria = zoneId === 'feria';
   const gamePill = document.getElementById('mundo-game-pill');
   const balloons = []; let bGame = null;
@@ -2056,7 +2255,7 @@ export async function initMundo(){
     bGame = { t0:-1, pops:0, n:balloons.length };
     showToast('¡Revienta '+balloons.length+' globos en 40 segundos! 🎈 (salta para los más altos)');
   } } : null;
-  minigame = myMinigame;
+  minigame = myMinigame || myNumGame;
   const talkBtn = document.getElementById('mundo-talk');
   applyPrefsToWrap();
   rebuildPet();
@@ -2332,7 +2531,7 @@ export async function initMundo(){
     if(guideSay === myGuideSay) guideSay = null;
     if(myBuildHooks && buildHooks === myBuildHooks) buildHooks = null;
     if(myRun === runId) talkNpc = null;
-    if(minigame === myMinigame) minigame = null;
+    if(minigame === (myMinigame || myNumGame)) minigame = null;
     if(!travelling && myRun === runId) currentZone = 'pueblo';  // al salir del juego, la próxima vez se empieza en el pueblo
   }
 
@@ -2459,14 +2658,14 @@ export async function initMundo(){
     let nearest = null, nd = 3.4;
     npcViews.forEach(function(n){
       if(n.v.arms){ n.v.arms[0].rotation.x = Math.sin(t*1.5 + n.x)*0.06; n.v.arms[1].rotation.x = -Math.sin(t*1.5 + n.x)*0.06; }
-      else if(!n.chest && !n.board) n.v.root.position.y = Math.abs(Math.sin(t*2 + n.x))*0.25;
+      else if(!n.chest && !n.board && !n.num) n.v.root.position.y = Math.abs(Math.sin(t*2 + n.x))*0.25;
       else if(n.chest){ world.chest.star.rotation.y = t*2; world.chest.star.position.y = 2.0 + Math.sin(t*3)*0.12; world.chest.star.visible = canClaimChest(); }
-      const d = Math.hypot(pos.x-n.x, pos.z-n.z) - (n.big ? 2.2 : 0);
+      const d = Math.hypot(pos.x-n.x, pos.z-n.z) - (n.big ? 2.2 : (n.rad || 0));
       if(d < nd && Math.abs(pos.y) < 2){ nd = d; nearest = n.id; }
     });
     if(nearest !== talkNpc){
       talkNpc = nearest;
-      if(talkBtn){ talkBtn.classList.toggle('hidden', !nearest); talkBtn.textContent = nearest === 'chest' ? '🎁 Abrir cofre' : nearest === 'board' ? '📋 Ver tablero' : '💬 Hablar'; }
+      if(talkBtn){ talkBtn.classList.toggle('hidden', !nearest); talkBtn.textContent = nearest === 'chest' ? '🎁 Abrir cofre' : nearest === 'board' ? '📋 Ver tablero' : (nearest && nearest.indexOf('num') === 0 && NUM_NAMES[+nearest.slice(3)]) ? '👋 Saludar' : '💬 Hablar'; }
       if(!nearest){ const dl = dialogEl(); if(dl && !quiz) { dl.classList.add('hidden'); dialogActions = []; const wr3 = document.getElementById('mundo-wrap'); if(wr3) wr3.classList.remove('dialog-open'); } }
     }
 
@@ -2492,6 +2691,18 @@ export async function initMundo(){
         if(timerEl) timerEl.textContent = fmtTime(t - runT0);
         if(trial.finished(pos)) finishRun(t - runT0);
       }
+    }
+    if(fg && world.numbers){
+      world.numbers.forEach(function(nm){
+        if(Math.hypot(nm.x-pos.x, nm.z-pos.z) > 3.4 || Math.abs(pos.y) > 2) return;
+        if(nm.n === fg.target){
+          fg.hits++; fg.round++; sfx('coin'); showToast('¡Sí! Ese es el '+nm.n+' ('+NUM_NAMES[nm.n]+') ⭐');
+          if(fg.round >= 5) fgEnd(); else fgAsk();
+        }else if(t - fgWrongT > 3){
+          fgWrongT = t; sfx('talk'); showToast('Ese es el '+nm.n+' ('+NUM_NAMES[nm.n]+'). ¡Busca el '+fg.target+'!');
+          speak('Ese es el '+NUM_NAMES[nm.n]+'. Busca el '+NUM_NAMES[fg.target], 'es', 0.7);
+        }
+      });
     }
     if(bGame){
       if(bGame.t0 < 0) bGame.t0 = t;

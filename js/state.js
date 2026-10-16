@@ -16,7 +16,7 @@ export const state = {
   world: { owned: ['shirt_azul','pants_azul','shoes_negro'],
            equipped: { hat: null, face: null, back: null, neck: null, shirt: 'shirt_azul', pants: 'pants_azul', shoes: 'shoes_negro', pet: null },
            avatar: { created: false, tone: 1, hair: 'corto', hairColor: 1 },
-           missions: { bosque: 0, playa: 0, espacio: 0, obby: 0, volcan: 0, arrecife: 0, feria: 0 }, bosses: { volcan: false, arrecife: false },
+           missions: { bosque: 0, playa: 0, espacio: 0, obby: 0, volcan: 0, arrecife: 0, feria: 0, numeros: 0 }, bosses: { volcan: false, arrecife: false },
            daily: { last: '', streak: 0 }, studyDay: '', best: { obby: null, laberinto: null }, medals: { obby: 0, laberinto: 0 }, gameDay: { date: '', n: 0 },
            unlocked: ['bosque'], looks: [null, null, null], quests: { pan: 0, estrella: 0, receta: 0, linterna: 0, concha: 0 },
            house: { items: [], owned: ['b_madera','b_blanco','b_rojo','b_azul'] } },

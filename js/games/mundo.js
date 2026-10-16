@@ -116,7 +116,7 @@ export function mundoToggleSound(){
 }
 const MUSIC_SCALES = {
   pueblo:[262,294,330,392,440,523], bosque:[220,247,294,330,370,440], playa:[330,392,440,494,587,659],
-  volcan:[196,208,262,294,311,392], arrecife:[262,294,349,392,440,523],
+  feria:[330,392,440,523,587,659], volcan:[196,208,262,294,311,392], arrecife:[262,294,349,392,440,523],
   espacio:[196,233,262,311,392,466], obby:[392,440,494,587,659,784], casa:[262,330,392,440,523,659],
 };
 
@@ -134,6 +134,7 @@ export function renderMundoScreen(){
         '<button class="mundo-back-btn" onclick="goBack()" aria-label="Volver">←</button>'+
         '<div class="pill coinpill"><span class="coin-ic"></span><span id="mundo-coins">'+state.coins+'</span></div>'+
         '<div class="pill" id="mundo-timer-pill" style="display:none">⏱ <span id="mundo-timer">0:00</span></div>'+
+        '<div class="pill" id="mundo-game-pill" style="display:none">🎈 <span id="mundo-game">0</span> · <span id="mundo-game-t">40</span> s</div>'+
         '<div class="pill" id="mundo-collect-pill"><span id="mundo-collect-icon">🦴</span> <span id="mundo-bones">0</span></div>'+
         '<button class="mundo-shop-btn" id="mundo-build-btn" style="display:none" onclick="mundoToggleBuild()">🔨 Construir</button>'+
         '<button class="mundo-shop-btn alone" onclick="mundoToggleAvatar()">👤 Avatar</button>'+
@@ -496,6 +497,8 @@ const NPCS = {
            look: look({ tone:0, hair:'largo', hairColor:3 }, { hat:'hat_chef', shirt:'shirt_rosado', pants:'pants_azul', shoes:'shoes_blanco' }) },
   cenizas: { name:'Cenizas el dragón', zone:'volcan', x:-12, z:-8, role:'boss', boss:'volcan', big:true, model:'pet_dragon' },
   tinta:   { name:'Pulpo Tinta', zone:'arrecife', x:10, z:-10, role:'boss', boss:'arrecife', big:true, model:'octopus' },
+  fela:  { name:'Fela la feriante', zone:'feria', x:6, z:4, role:'games',
+           look: look({ tone:1, hair:'rulos', hairColor:5 }, { hat:'hat_gorra', face:'face_nariz', shirt:'shirt_rayas', pants:'pants_rojo', shoes:'shoes_rojo' }) },
   mati:  { name:'Mati el guardabosques', zone:'bosque', x:-8, z:-4, gives:'linterna', receives:'receta',
            look: look({ tone:1, hair:'corto', hairColor:1 }, { hat:'hat_gorra', back:'back_mochila', shirt:'shirt_verde', pants:'pants_cafe' }) },
 };
@@ -521,6 +524,7 @@ let dialogActions = [];
 let talkNpc = null;        // id del NPC más cercano (lo fija el bucle de cada zona)
 let quiz = null;
 let quizBoss = null;
+let minigame = null;     // acciones de minijuegos de la zona viva (globos)
 let emoteReq = null;
 
 function dialogEl(){ return document.getElementById('mundo-dialog'); }
@@ -564,6 +568,10 @@ function npcLines(id){
     const B = BOSSES[n.boss], won = state.world.bosses[n.boss];
     lines.push(won ? '¡Ya me ganaste y tienes mi tesoro! 🏆 Pero puedes retarme otra vez por diversión.' : B.intro);
     acts.push({ label:won ? 'Retar otra vez ⚔️' : '¡Acepto el reto! ⚔️', fn:function(){ quizSetup(n.boss); } });
+  }
+  if(n.role === 'games'){
+    lines.push('¡Bienvenido a la feria! 🎪 Prueba el <b>laberinto de setos</b> (el de la entrada verde: entra por arriba y sal lo más rápido que puedas) o reventemos <b>globos</b> 🎈 en 40 segundos.');
+    acts.push({ label:'Reventar globos 🎈 (40 s)', fn:function(){ mundoDialogClose(); if(minigame) minigame.balloons(); } });
   }
   if(n.role === 'quiz'){
     lines.push('¿Listo para un desafío de estudio? Ganas 2 monedas por cada respuesta correcta.');
@@ -1119,6 +1127,7 @@ const LAYOUT = {
   bosque:  { color:0xd9b77a, w:2.2, paths:[ [[0,-2],[0,-16]], [[2,-1],[6,-4],[9,-6]], [[-2,-1],[-6,-6],[-12,-12],[-15,-14]], [[-2,-0.5],[-6,-3]] ] },
   playa:   { color:0xb98a5a, w:2.2, paths:[ [[0,-2],[0,-16]], [[2,1],[8,6]], [[-2,-1],[-8,-8],[-12,-10]], [[-2,1],[-6,5]] ] },
   espacio: { color:0x6a6882, w:2.2, paths:[ [[0,-2],[0,-16]], [[-2,-1],[-10,-9]], [[2,-2],[12,-12]], [[2,1],[7,5]] ] },
+  feria:   { color:0xe0b070, w:2.4, paths:[ [[0,-2],[0,-16]], [[2,1],[5,3]], [[2,-2],[11,-11]], [[-2,-2],[-12,-11]], [[-2,2],[-5,3.6]], [[2,3],[11,10]] ] },
   volcan:  { color:0x2d2323, w:2.4, paths:[ [[0,-2],[0,-16]], [[2,-2],[10,-11]], [[-2,-1],[-9,-6]] ] },
   arrecife:{ color:0xe6cf8a, w:2.4, paths:[ [[0,-2],[0,-16]], [[-2,-2],[-11,-11]], [[2,-2],[7,-7]] ] },
 };
@@ -1172,7 +1181,7 @@ function buildPueblo(scene, ctx){
   obstacles.push({ x:0, z:0, r:2.8 });
 
   // calles: de la plaza a cada portal (7 portales = 7 calles; el sur queda libre para llegar y para las casas)
-  const portalSpots = [[0,-16],[16,0],[-16,0],[11,-11],[11,11],[-11,-11],[-11,11]];
+  const portalSpots = [[0,-16],[16,0],[-16,0],[11,-11],[11,11],[-11,-11],[-11,11],[0,23]];
   const segs = [];
   portalSpots.forEach(function(q){ addPath(scene, [[q[0]*0.4,q[1]*0.4],[q[0]*0.93,q[1]*0.93]], 2.8, 0xd9b77a).forEach(function(sg){ segs.push(sg); }); });
   // calle sur hacia las casas y los personajes
@@ -1232,6 +1241,7 @@ function buildPueblo(scene, ctx){
     addPortal(scene, obstacles, 11, 11, 0xff5a1f, ctx.portalLabel('obby'), 'obby'),
     addPortal(scene, obstacles, -11, -11, 0xff3b1f, ctx.portalLabel('volcan'), 'volcan'),
     addPortal(scene, obstacles, -11, 11, 0x1fb5ff, ctx.portalLabel('arrecife'), 'arrecife'),
+    addPortal(scene, obstacles, 0, 23, 0xff4d8d, ctx.portalLabel('feria'), 'feria'),
   ];
   addSeasonDecor(scene, activeSeason(), segs);
   const chest = buildChest(scene, 3.5, 6.5);
@@ -1451,12 +1461,16 @@ function buildObby(scene, ctx){
   for(let i=0;i<6;i++){ z -= 4.2; top += 0.3; plat(i%2 ? 2.0 : -2.0, z, 1.7, 1.7, top, 0x9b59d0); }
   z -= 5.5; plat(0,z,8,8,top,0xe8b923);    // meta
   visits.meta = { x:0, z:z, y:top };
+  const metaPos = visits.meta;
   const base = new T.Mesh(new T.CylinderGeometry(1,1.2,0.6,12), mat(0xcfcfcf)); base.position.set(0,top+0.3,z); scene.add(base);
   const cup = new T.Mesh(new T.CylinderGeometry(0.8,0.4,1.0,12), mat(0xf2c230)); cup.position.set(0,top+1.1,z); scene.add(cup);
   const ball = new T.Mesh(new T.SphereGeometry(0.35,10,8), mat(0xf2c230)); ball.position.set(0,top+1.9,z); scene.add(ball);
   const portals = [ addPortal(scene, [], -3.2, 0.8, 0xffd43b, 'Volver al pueblo', 'pueblo') ];
   addLights(scene, 0xffffff, 0xffc9a0, 0.95);
-  return { obstacles:[], portals:portals, visits:visits, platforms:platforms, checkpoints:checkpoints, spawn:{ x:0, y:0, z:0 } };
+  return { obstacles:[], portals:portals, visits:visits, platforms:platforms, checkpoints:checkpoints, spawn:{ x:0, y:0, z:0 },
+    trial:{ key:'obby', th:[150,100,70], title:'¡Llegaste a la meta! 🏁', tip:'¡Vuelve al inicio para intentarlo otra vez!',
+      started:function(p){ return p.z < -5; }, atStart:function(p){ return p.z > -2 && p.y < 1; },
+      finished:function(p){ return Math.hypot(p.x-metaPos.x, p.z-metaPos.z) < 4 && Math.abs(p.y-metaPos.y) < 1.6; } } };
 }
 
 /* ----- Volcán: roca oscura, pozas de lava y un volcán que se escala ----- */
@@ -1563,6 +1577,103 @@ function makePearl(){
   return g;
 }
 
+/* ----- Feria: laberinto de setos contrarreloj, globos, torre de colores, noria y carrusel ----- */
+function genMaze(n, rnd){
+  const h = [], v = [];
+  for(let r=0;r<=n;r++){ h[r] = []; for(let c=0;c<n;c++) h[r][c] = true; }
+  for(let r=0;r<n;r++){ v[r] = []; for(let c=0;c<=n;c++) v[r][c] = true; }
+  const seen = []; for(let r=0;r<n;r++) seen[r] = new Array(n).fill(false);
+  const stack = [[0,n-1]]; seen[0][n-1] = true;
+  while(stack.length){
+    const cur = stack[stack.length-1], r = cur[0], c = cur[1], nb = [];
+    if(r>0 && !seen[r-1][c]) nb.push([r-1,c,'u']);
+    if(r<n-1 && !seen[r+1][c]) nb.push([r+1,c,'d']);
+    if(c>0 && !seen[r][c-1]) nb.push([r,c-1,'l']);
+    if(c<n-1 && !seen[r][c+1]) nb.push([r,c+1,'r']);
+    if(!nb.length){ stack.pop(); continue; }
+    const pick = nb[Math.floor(rnd()*nb.length)];
+    if(pick[2]==='u') h[r][c] = false; else if(pick[2]==='d') h[r+1][c] = false;
+    else if(pick[2]==='l') v[r][c] = false; else v[r][c+1] = false;
+    seen[pick[0]][pick[1]] = true; stack.push([pick[0],pick[1]]);
+  }
+  h[0][n-1] = false;                     // entrada por el norte, arriba a la derecha
+  return { h:h, v:v };
+}
+
+function buildFeria(scene, ctx){
+  const T = THREE, obstacles = [], platforms = [], rnd = mulberry32(63);
+  discOnGround(scene, 48, 0xf2d9a0);
+  const segs = layoutPaths(scene, 'feria');
+
+  // laberinto de setos 6x6 (semilla fija: siempre el mismo; el camino más corto mide 30 celdas)
+  const N = 6, CELL = 3.6, OX = -15, OZ = 15, WH = 3.2;            // muros más altos que un salto (2.2): no se puede trepar
+  const maze = genMaze(N, mulberry32(63));
+  const hedge = mat(0x2f8f3f);
+  function wall(cx, cz, w, d){
+    const m = new T.Mesh(new T.BoxGeometry(w, WH, d), hedge); m.position.set(cx, WH/2, cz); scene.add(m);
+    platforms.push({ x:cx, z:cz, hw:w/2, hd:d/2, bottom:0, top:WH });
+  }
+  for(let r=0;r<=N;r++) for(let c=0;c<N;c++) if(maze.h[r][c]) wall(OX + (c-2.5)*CELL, OZ + (r-3)*CELL, CELL+0.5, 0.5);
+  for(let r=0;r<N;r++) for(let c=0;c<=N;c++) if(maze.v[r][c]) wall(OX + (c-3)*CELL, OZ + (r-2.5)*CELL, 0.5, CELL+0.5);
+  const floor = new T.Mesh(new T.PlaneGeometry(N*CELL, N*CELL), mat(0xbfe08a)); floor.rotation.x = -Math.PI/2; floor.position.set(OX, 0.03, OZ); scene.add(floor);
+  const goalX = OX + (0-2.5)*CELL, goalZ = OZ + (N-1-2.5)*CELL;       // celda de abajo a la izquierda
+  const base = new T.Mesh(new T.CylinderGeometry(0.8,1,0.5,12), mat(0xcfcfcf)); base.position.set(goalX,0.25,goalZ); scene.add(base);
+  const cup = new T.Mesh(new T.CylinderGeometry(0.6,0.3,0.8,12), mat(0xf2c230)); cup.position.set(goalX,0.9,goalZ); scene.add(cup);
+  const glow = new T.Mesh(new T.SphereGeometry(0.3,10,8), mat(0xf2c230)); glow.position.set(goalX,1.6,goalZ); scene.add(glow);
+  const entX = OX + (N-1-2.5)*CELL, entZ = OZ - 3*CELL;                // abertura norte de la celda de arriba a la derecha
+  const lab = makeLabel('Laberinto 🌿', 'rgba(30,110,50,.9)'); lab.position.set(entX, 4.6, entZ - 1.2); scene.add(lab);
+
+  // torre de colores (escalable)
+  const torre = addHill(scene, platforms, 14, -14, [8,5.6,3.4,1.8], 1.2, [0xff6b6b,0xffd43b,0x4dabf7,0xb18cff]);
+
+  // carpas
+  const tentCols = [0xe0334c,0x3b82f6,0xf7c948,0x2fb344,0xb18cff];
+  [[10,-3,0],[-9,-3,1],[2,13,2],[-4,-9,3],[19,3,4]].forEach(function(tp){
+    const g = new T.Group();
+    const body = new T.Mesh(new T.CylinderGeometry(2.2,2.2,1.4,10), mat(0xf5f0e0)); body.position.y = 0.7; g.add(body);
+    const roof = new T.Mesh(new T.ConeGeometry(2.7,2.2,10), mat(tentCols[tp[2]])); roof.position.y = 2.5; g.add(roof);
+    g.position.set(tp[0],0,tp[1]); scene.add(g); obstacles.push({ x:tp[0], z:tp[1], r:2.4 });
+  });
+
+  // noria (gira) y carrusel (gira): decoración
+  const noria = new T.Group();
+  const ring = new T.Mesh(new T.TorusGeometry(4.5,0.18,6,28), mat(0xcfd3da)); ring.position.y = 5.2; noria.add(ring);
+  const wheel = new T.Group(); wheel.position.y = 5.2; noria.add(wheel);
+  for(let i=0;i<8;i++){
+    const a = i/8*Math.PI*2;
+    const sp = new T.Mesh(new T.BoxGeometry(0.1,9,0.1), mat(0xcfd3da)); sp.rotation.z = a; wheel.add(sp);
+    const gd = new T.Mesh(new T.BoxGeometry(0.9,0.9,0.9), mat(tentCols[i%5])); gd.position.set(Math.cos(a)*4.5, Math.sin(a)*4.5, 0); wheel.add(gd);
+  }
+  [-1,1].forEach(function(sx){ const lg = new T.Mesh(new T.BoxGeometry(0.3,5.4,0.3), mat(0x8a8f99)); lg.position.set(sx*1.6,2.6,0); lg.rotation.z = -sx*0.28; noria.add(lg); });
+  noria.position.set(-15,0,-14); noria.rotation.y = 0.5; scene.add(noria); obstacles.push({ x:-15, z:-14, r:3.2 });
+  const carr = new T.Group();
+  const cb = new T.Mesh(new T.CylinderGeometry(3,3,0.4,16), mat(0xf783ac)); cb.position.y = 0.2; carr.add(cb);
+  const cr = new T.Mesh(new T.ConeGeometry(3.4,1.6,16), mat(0xffd43b)); cr.position.y = 3.6; carr.add(cr);
+  const spin = new T.Group(); carr.add(spin);
+  for(let i=0;i<6;i++){ const a = i/6*Math.PI*2; const po = new T.Mesh(new T.CylinderGeometry(0.08,0.08,2.6,6), mat(0xffffff)); po.position.set(Math.cos(a)*2.3,1.7,Math.sin(a)*2.3); spin.add(po); const hs = new T.Mesh(new T.BoxGeometry(0.8,0.7,1.3), mat(tentCols[i%5])); hs.position.set(Math.cos(a)*2.3,1.0+(i%2)*0.3,Math.sin(a)*2.3); hs.rotation.y = -a; spin.add(hs); }
+  carr.position.set(14,0,12); scene.add(carr); obstacles.push({ x:14, z:12, r:3.4 });
+
+  const portals = [ addPortal(scene, obstacles, 0, -18, 0xffd43b, 'Volver al pueblo', 'pueblo') ];
+  addLights(scene, 0xfff1d6, 0xc9a86a, 1.0);
+  const mazeInfo = { ox:OX, oz:OZ, half:N*CELL/2 + 2 };
+  const trial = {
+    key:'laberinto', th:[140,80,45], title:'¡Saliste del laberinto! 🌿', tip:'Entra por la abertura norte; busca la copa dorada.',
+    started:function(p){ return p.z > entZ + 2.4 && Math.abs(p.x - OX) < N*CELL/2; },
+    atStart:function(p){ return p.z < entZ + 0.6; },
+    finished:function(p){ return Math.hypot(p.x-goalX, p.z-goalZ) < 2.2; },
+  };
+  return { obstacles:obstacles, portals:portals, platforms:platforms, visits:{ torre:torre }, maze:mazeInfo, trial:trial,
+    cameraAssist:function(p){ return (Math.abs(p.x-OX) < N*CELL/2 + 1 && Math.abs(p.z-OZ) < N*CELL/2 + 1) ? { pitch:1.1, dist:15 } : null; },
+    tick:function(t){ wheel.rotation.z = t*0.3; spin.rotation.y = t*0.8; glow.position.y = 1.6 + Math.sin(t*3)*0.12; } };
+}
+function makeTicket(){
+  const g = new THREE.Group();
+  const m = new THREE.MeshLambertMaterial({ color:0xffd43b, emissive:0x8a6a00 });
+  g.add(new THREE.Mesh(new THREE.BoxGeometry(1.0,0.6,0.12), m));
+  const dot = new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,0.14,8), new THREE.MeshLambertMaterial({ color:0xe0334c })); dot.rotation.x = Math.PI/2; g.add(dot);
+  return g;
+}
+
 /* ---------- Coleccionables ---------- */
 function makeBone(){
   const T = THREE;
@@ -1610,6 +1721,13 @@ const ZONES = {
                { type:'collect', n:5, reward:20, text:'🌊 ¡Estás en el fondo del mar! Recoge 5 perlas ⚪ entre los corales.', done:'¡Perlas preciosas!' },
                { type:'visit', at:'coral', r:2.4, reward:25, text:'Sube a la montaña de coral saltando de escalón en escalón 🪸', done:'¡Rey del arrecife!' },
                { type:'collect', n:8, reward:30, text:'¡Junta 8 perlas más! ⚪ El Pulpo Tinta guarda un tesoro...', done:'¡Qué collar tan lindo!' },
+             ] },
+  feria:   { name:'Feria', radius:38, sky:0xffd9a8, fogNear:60, fogFar:140, build:buildFeria, price:70, stars:35,
+             collect:{ emoji:'🎟️', make:makeTicket, n:10 },
+             missions:[
+               { type:'collect', n:5, reward:15, text:'🎪 ¡Bienvenido a la feria! Recoge 5 boletos 🎟️. Habla con Fela para jugar al laberinto y a los globos.', done:'¡Ya tienes boletos!' },
+               { type:'visit', at:'torre', r:2.4, reward:20, text:'Sube a la torre de colores saltando de escalón en escalón 🎠', done:'¡Arriba de la feria!' },
+               { type:'collect', n:8, reward:25, text:'¡Junta 8 boletos más para el gran premio! 🎟️', done:'¡Gran premio!' },
              ] },
   obby:    { name:'Carrera de Obstáculos', radius:260, floor:null, sky:0x87ceeb, fogNear:80, fogFar:230, build:buildObby, price:30, stars:25,
              missions:[
@@ -1869,29 +1987,76 @@ export async function initMundo(){
   });
   if(world.board) npcViews.push({ id:'board', x:world.board.x, z:world.board.z, v:{ root:world.board.group }, big:false, board:true });
   if(world.chest) npcViews.push({ id:'chest', x:world.chest.x, z:world.chest.z, v:{ root:world.chest.group }, big:false, chest:true });
-  // contrarreloj de la Carrera de Obstáculos: cronómetro desde que sales del inicio, con medallas
-  const isObby = zoneId === 'obby';
+  // contrarreloj (Carrera de Obstáculos y Laberinto): cronómetro desde que sales del inicio, con medallas
+  const trial = world.trial || null;
   const timerPill = document.getElementById('mundo-timer-pill'), timerEl = document.getElementById('mundo-timer');
-  if(timerPill) timerPill.style.display = isObby ? '' : 'none';
+  if(timerPill) timerPill.style.display = trial ? '' : 'none';
   let runT0 = null, runDone = false;
   function fmtTime(sec){ const m = Math.floor(sec/60), r = Math.floor(sec%60); return m+':'+(r<10?'0':'')+r; }
   function finishRun(sec){
     runDone = true;
-    const w = state.world, prev = w.best.obby;
-    const tier = sec <= 70 ? 3 : sec <= 100 ? 2 : sec <= 150 ? 1 : 0;
+    const w = state.world, key = trial.key, prev = w.best[key];
+    const th = trial.th, tier = sec <= th[2] ? 3 : sec <= th[1] ? 2 : sec <= th[0] ? 1 : 0;
     const prizes = [0,10,20,40], names = ['Sin medalla','🥉 Bronce','🥈 Plata','🥇 Oro'];
     let gain = 0;
-    for(let k = w.medals.obby + 1; k <= tier; k++) gain += prizes[k];
-    if(tier > w.medals.obby) w.medals.obby = tier;
+    for(let k = w.medals[key] + 1; k <= tier; k++) gain += prizes[k];
+    if(tier > w.medals[key]) w.medals[key] = tier;
     const record = (prev === null || sec < prev);
-    if(record) w.best.obby = sec;
+    if(record) w.best[key] = sec;
     if(gain){ awardCoins(gain); refreshShop(); }
     saveProgress(); sfx('done');
-    showDialog('¡Llegaste a la meta! 🏁',
-      '<p>Tu tiempo: <b>'+fmtTime(sec)+'</b> '+(record ? '— ¡nuevo récord! ⭐' : '(tu récord: '+fmtTime(w.best.obby)+')')+'</p>'+
+    showDialog(trial.title,
+      '<p>Tu tiempo: <b>'+fmtTime(sec)+'</b> '+(record ? '— ¡nuevo récord! ⭐' : '(tu récord: '+fmtTime(w.best[key])+')')+'</p>'+
       '<p>Medalla: <b>'+names[tier]+'</b>'+(gain ? ' · +'+gain+' monedas' : '')+'</p>'+
-      '<p>Medallas: 🥉 150 s o menos · 🥈 100 s · 🥇 70 s. ¡Vuelve al inicio para intentarlo otra vez!</p>', []);
+      '<p>Medallas: 🥉 '+th[0]+' s o menos · 🥈 '+th[1]+' s · 🥇 '+th[2]+' s. '+trial.tip+'</p>', []);
   }
+
+  // minijuego de globos (Feria): 14 globos, 40 segundos; paga 1 moneda por globo (+5 si revientas todos) las 3 primeras veces del día
+  const isFeria = zoneId === 'feria';
+  const gamePill = document.getElementById('mundo-game-pill');
+  const balloons = []; let bGame = null;
+  function balloonPos(){
+    for(let tries=0; tries<60; tries++){
+      const a = Math.random()*Math.PI*2, d = 5 + Math.random()*(R-9), x = Math.cos(a)*d, z = Math.sin(a)*d;
+      if(world.maze && Math.abs(x-world.maze.ox) < world.maze.half && Math.abs(z-world.maze.oz) < world.maze.half) continue;
+      if(obstacles.every(function(o){ return Math.hypot(x-o.x,z-o.z) > o.r+1.2; }) && balloons.every(function(b){ return Math.hypot(x-b.x,z-b.z) > 3; })) return { x:x, z:z };
+    }
+    return null;
+  }
+  function endBalloons(){
+    if(!bGame) return;
+    const pops = bGame.pops, all = pops === bGame.n;
+    balloons.forEach(function(b){ scene.remove(b.m); }); balloons.length = 0;
+    const gd = state.world.gameDay, today = todayStr();
+    if(gd.date !== today){ gd.date = today; gd.n = 0; }
+    const paid = gd.n < 3;
+    const gain = paid ? pops + (all ? 5 : 0) : 0;
+    gd.n++;
+    if(gain){ awardCoins(gain); refreshShop(); }
+    saveProgress(); sfx(all ? 'done' : 'coin');
+    if(gamePill) gamePill.style.display = 'none';
+    showDialog(all ? '¡Todos los globos! 🎈🎉' : '¡Tiempo! 🎈',
+      '<p>Reventaste <b>'+pops+' de '+bGame.n+'</b> globos'+(gain ? ' y ganaste <b>'+gain+' monedas</b> 💰' : '')+'.</p>'+
+      (paid ? '<p>Hoy te quedan <b>'+Math.max(0, 3-gd.n)+'</b> '+(3-gd.n === 1 ? 'partida' : 'partidas')+' con premio.</p>' : '<p>Hoy ya ganaste el premio máximo de globos. ¡Sigue jugando por diversión!</p>')+
+      '<p>Habla con Fela para jugar otra vez.</p>', []);
+    bGame = null;
+  }
+  const myMinigame = isFeria ? { balloons:function(){
+    if(bGame) return;
+    balloons.forEach(function(b){ scene.remove(b.m); }); balloons.length = 0;
+    const cols = [0xff4d6d,0xffd43b,0x4dabf7,0x7ed957,0xb18cff,0xff9f43];
+    for(let i=0;i<14;i++){
+      const q = balloonPos(); if(!q) continue;
+      const g = new T.Group(), col = cols[i%cols.length];
+      const sp = new T.Mesh(new T.SphereGeometry(0.62,12,10), new T.MeshLambertMaterial({ color:col, emissive:col, emissiveIntensity:0.18 })); sp.scale.y = 1.2; sp.position.y = 0.9; g.add(sp);
+      const st = new T.Mesh(new T.CylinderGeometry(0.02,0.02,1.2,4), new T.MeshBasicMaterial({ color:0xdddddd })); st.position.y = -0.2; g.add(st);
+      const y0 = 1.2 + Math.random()*2.6; g.position.set(q.x, y0, q.z); scene.add(g);
+      balloons.push({ m:g, x:q.x, z:q.z, y0:y0, ph:Math.random()*6 });
+    }
+    bGame = { t0:-1, pops:0, n:balloons.length };
+    showToast('¡Revienta '+balloons.length+' globos en 40 segundos! 🎈 (salta para los más altos)');
+  } } : null;
+  minigame = myMinigame;
   const talkBtn = document.getElementById('mundo-talk');
   applyPrefsToWrap();
   rebuildPet();
@@ -2167,6 +2332,7 @@ export async function initMundo(){
     if(guideSay === myGuideSay) guideSay = null;
     if(myBuildHooks && buildHooks === myBuildHooks) buildHooks = null;
     if(myRun === runId) talkNpc = null;
+    if(minigame === myMinigame) minigame = null;
     if(!travelling && myRun === runId) currentZone = 'pueblo';  // al salir del juego, la próxima vez se empieza en el pueblo
   }
 
@@ -2319,14 +2485,28 @@ export async function initMundo(){
       petView.position.y += ((pos.y + hop) - petView.position.y) * Math.min(1, dt*10);
     }
 
-    if(isObby){
-      if(runT0 === null && !runDone && pos.z < -5) runT0 = t;
-      if(pos.z > -2 && pos.y < 1 && (runT0 !== null || runDone)){ runT0 = null; runDone = false; if(timerEl) timerEl.textContent = '0:00'; }
+    if(trial){
+      if(runT0 === null && !runDone && trial.started(pos)) runT0 = t;
+      if(trial.atStart(pos) && (runT0 !== null || runDone)){ runT0 = null; runDone = false; if(timerEl) timerEl.textContent = '0:00'; }
       if(runT0 !== null && !runDone){
         if(timerEl) timerEl.textContent = fmtTime(t - runT0);
-        const mt = world.visits.meta;
-        if(mt && Math.hypot(pos.x-mt.x, pos.z-mt.z) < 4 && Math.abs(pos.y-mt.y) < 1.6) finishRun(t - runT0);
+        if(trial.finished(pos)) finishRun(t - runT0);
       }
+    }
+    if(bGame){
+      if(bGame.t0 < 0) bGame.t0 = t;
+      const left = Math.max(0, 40 - (t - bGame.t0));
+      const ge = document.getElementById('mundo-game'), gt = document.getElementById('mundo-game-t');
+      if(gamePill) gamePill.style.display = '';
+      if(ge) ge.textContent = bGame.pops; if(gt) gt.textContent = Math.ceil(left);
+      for(let i=balloons.length-1;i>=0;i--){
+        const b = balloons[i];
+        b.m.position.y = b.y0 + Math.sin(t*1.6 + b.ph)*0.35; b.m.rotation.y = t*0.6 + b.ph;
+        if(Math.hypot(b.x-pos.x, b.z-pos.z) < 1.35 && Math.abs((b.m.position.y+0.9) - (pos.y+1.4)) < 1.8){
+          scene.remove(b.m); balloons.splice(i,1); bGame.pops++; sfx('coin');
+        }
+      }
+      if(left <= 0 || balloons.length === 0) endBalloons();
     }
 
     // puntos de control del obby
@@ -2378,6 +2558,7 @@ export async function initMundo(){
     let wantYaw = camYaw, wantPitch = camPitch, wantDist = camDist * (camera.aspect < 0.8 ? 1.2 : 1), lookY = 1.6;
     if(avatarOpen){ wantYaw = heading; wantPitch = 0.12; wantDist = camera.aspect < 0.8 ? 10.5 : 8; lookY = -0.2; }
     else if(buildOpen){ lookY = -0.4; }
+    else if(world.cameraAssist){ const ca = world.cameraAssist(pos); if(ca){ wantPitch = Math.max(wantPitch, ca.pitch); wantDist = Math.max(wantDist, ca.dist); } }
     let dyaw = wantYaw - viewYaw;
     while(dyaw > Math.PI) dyaw -= Math.PI*2; while(dyaw < -Math.PI) dyaw += Math.PI*2;
     const k = Math.min(1, dt*(avatarOpen ? 5 : 14));

@@ -77,8 +77,13 @@ function applySaved(saved, st){
         if(typeof w.daily.streak === 'number' && w.daily.streak >= 0 && w.daily.streak < 10000) cur.daily.streak = Math.floor(w.daily.streak);
       }
       if(typeof w.studyDay === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(w.studyDay)) cur.studyDay = w.studyDay;
-      if(w.best && typeof w.best.obby === 'number' && w.best.obby > 0) cur.best.obby = w.best.obby;
-      if(w.medals && (w.medals.obby === 1 || w.medals.obby === 2 || w.medals.obby === 3)) cur.medals.obby = w.medals.obby;
+      ['obby','laberinto'].forEach(function(k){
+        if(w.best && typeof w.best[k] === 'number' && w.best[k] > 0) cur.best[k] = w.best[k];
+        if(w.medals && (w.medals[k] === 1 || w.medals[k] === 2 || w.medals[k] === 3)) cur.medals[k] = w.medals[k];
+      });
+      if(w.gameDay && typeof w.gameDay.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(w.gameDay.date) && typeof w.gameDay.n === 'number' && w.gameDay.n >= 0 && w.gameDay.n < 1000){
+        cur.gameDay.date = w.gameDay.date; cur.gameDay.n = Math.floor(w.gameDay.n);
+      }
       if(w.daily && typeof w.daily === 'object'){
         if(typeof w.daily.last === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(w.daily.last)) cur.daily.last = w.daily.last;
         if(typeof w.daily.streak === 'number' && w.daily.streak >= 0 && w.daily.streak < 10000) cur.daily.streak = Math.floor(w.daily.streak);
@@ -125,7 +130,7 @@ function applySaved(saved, st){
         }).slice(0, HOUSE_MAX_ITEMS).map(function(it){ return { t:it.t, x:it.x, y:it.y, z:it.z }; }) : [];
       }
       if(Array.isArray(w.unlocked)){
-        cur.unlocked = w.unlocked.filter(function(x){ return x==='bosque' || x==='playa' || x==='espacio' || x==='obby' || x==='volcan' || x==='arrecife'; });
+        cur.unlocked = w.unlocked.filter(function(x){ return x==='bosque' || x==='playa' || x==='espacio' || x==='obby' || x==='volcan' || x==='arrecife' || x==='feria'; });
         if(cur.unlocked.indexOf('bosque') === -1) cur.unlocked.unshift('bosque');
       }
     }

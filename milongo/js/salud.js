@@ -59,7 +59,7 @@ export function renderSalud() {
   }).join('') + '</div>' : '<p class="empty">No hay nada pendiente.</p>') +
     `<div class="row" style="margin-top:8px"><button class="btn primary sm" data-act="remNew">➕ Nuevo recordatorio</button><button class="btn sm" data-act="remPreset" data-title="Cortar uñas" data-repeat="monthly">✂️ Uñas</button><button class="btn sm" data-act="remPreset" data-title="Limpiar orejas y revisar pelaje" data-repeat="weekly">👂 Orejas</button><button class="btn sm" data-act="remPreset" data-title="Comprar comida" data-repeat="monthly">🛒 Comida</button></div>
     <div class="row" style="margin-top:8px"><button class="btn ghost sm" data-act="icsExport">📆 Pasar a mi calendario</button><button class="btn ghost sm" data-act="notifOn">🔔 Avisos con la app abierta</button></div>
-    <p class="note">En iPhone, los avisos solo suenan con la app abierta. Para que te avise con la app cerrada, usa “Pasar a mi calendario” y se agregan al Calendario del teléfono.</p>`);
+    <p class="note">Los avisos de Milongo solo suenan con la app abierta. Para que el teléfono te avise con la app cerrada, usa “Pasar a mi calendario”: sirve en iPhone y en Android (Google Calendar).</p>`);
 
   const vs = [...s.vaccines].sort((a, b) => b.date.localeCompare(a.date)), latestV = new Set(latestBy(s.vaccines, v => v.name).map(v => v.id));
   h += sec('vac', '💉', 'Vacunas', s.vaccines.length, (vs.length ? '<div class="list">' + vs.map(v => `<div class="item"><div class="ic">💉</div><div class="grow"><div class="t">${esc(v.name)}</div><div class="s">Puesta el ${dateFull(v.date)}${v.next ? ' · próxima ' + dateFull(v.next) : ''}${v.lot ? ' · lote ' + esc(v.lot) : ''}</div></div>${latestV.has(v.id) ? status(v.next) : ''}${rowDel('vacDel', v.id)}</div>`).join('') + '</div>' : '<p class="empty">Aún no hay vacunas registradas.</p>') +
@@ -127,9 +127,7 @@ function parSheet(kind = 'interna') {
 
 const delFrom = (coll, label) => d => { if (confirm('¿Borrar ' + label + '?')) update(s => { s[coll] = s[coll].filter(x => x.id !== d.id); }); };
 
-function icsExport() {
-  const items = agendaItems();
-  if (!items.length) return toast('No hay nada en la agenda para exportar');
+function buildIcs(items) {
   const z = n => String(n).padStart(2, '0'), stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
   const rr = { daily: 'DAILY', weekly: 'WEEKLY', monthly: 'MONTHLY', yearly: 'YEARLY' };
   const esc2 = t => t.replace(/[\\;,]/g, m => '\\' + m).replace(/\n/g, '\\n');
@@ -144,9 +142,41 @@ function icsExport() {
     ics += 'BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:' + esc2(a.title) + '\r\nTRIGGER:' + (allDay ? '-PT15H' : '-PT10M') + '\r\nEND:VALARM\r\nEND:VEVENT\r\n';
   });
   ics += 'END:VCALENDAR\r\n';
-  const file = new File([ics], 'milongo-agenda.ics', { type: 'text/calendar' });
+  return new File([ics], 'milongo-agenda.ics', { type: 'text/calendar' });
+}
+
+// Enlace que abre Google Calendar (app o web) con el evento ya escrito; solo falta tocar "Guardar".
+function gcalUrl(a) {
+  const nm = getState().dog.name || 'mi perrito', rr = { daily: 'DAILY', weekly: 'WEEKLY', monthly: 'MONTHLY', yearly: 'YEARLY' };
+  let dates;
+  if (!a.time) dates = a.date.replace(/-/g, '') + '/' + addDaysKey(a.date, 1).replace(/-/g, '');
+  else {
+    const end = toInput(new Date(a.date + 'T' + a.time + ':00').getTime() + 30 * 60000).replace(/[-:]/g, '') + '00';
+    dates = a.date.replace(/-/g, '') + 'T' + a.time.replace(':', '') + '00/' + end;
+  }
+  const p = { action: 'TEMPLATE', text: '🐾 ' + a.title + ' (' + nm + ')', dates, details: 'Creado desde Milongo' };
+  if (rr[a.rep]) p.recur = 'RRULE:FREQ=' + rr[a.rep];
+  return 'https://calendar.google.com/calendar/render?' + new URLSearchParams(p).toString();
+}
+
+function shareIcs(items) {
+  const file = buildIcs(items);
   if (navigator.canShare && navigator.canShare({ files: [file] })) { navigator.share({ files: [file], title: 'Agenda de Milongo' }).catch(() => {}); return; }
   const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = file.name; document.body.appendChild(a); a.click(); a.remove();
+  toast('Archivo descargado: ábrelo para agregarlo a tu calendario');
+}
+
+function icsExport() {
+  const items = agendaItems();
+  if (!items.length) return toast('No hay nada en la agenda para exportar');
+  sheet({
+    title: '📆 Pasar a mi calendario', submit: 'Compartir archivo (.ics)',
+    intro: 'Funciona en <b>iPhone y Android</b>. Así el teléfono te avisa aunque Milongo esté cerrada.',
+    extra: `<p class="small"><b>Todo junto:</b> toca “Compartir archivo” y elige <i>Calendario</i> (iPhone) o <i>Google Calendar</i> / <i>Calendario</i> (Android). Si se descarga, ábrelo desde Descargas.</p>
+      <p class="small" style="margin-top:10px"><b>O uno por uno en Google Calendar</b> (se abre con los datos escritos; solo toca Guardar):</p>
+      <div class="list" style="margin-bottom:6px">${items.map(a => `<div class="item"><div class="grow"><div class="t small">${esc(a.title)}</div><div class="s">${dateShort(a.date)}${a.time ? ' ' + a.time : ''}</div></div><a class="btn sm" href="${esc(gcalUrl(a))}" target="_blank" rel="noopener">Google Calendar</a></div>`).join('')}</div>`,
+    onSubmit: () => { shareIcs(items); },
+  });
 }
 
 Object.assign(ACT, {

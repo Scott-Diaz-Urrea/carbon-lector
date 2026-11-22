@@ -1,0 +1,17 @@
+{
+  "name": "Milongo — el cuidado de mi perrito",
+  "short_name": "Milongo",
+  "description": "Ficha, vacunas, recordatorios, paseos, comida, baño y entrenamiento de tu perrito.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF8EF",
+  "theme_color": "#E8793A",
+  "lang": "es-CL",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

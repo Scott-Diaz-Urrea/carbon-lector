@@ -78,7 +78,7 @@ export function sheet(o) {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
 
-export const bar = (icon, label, val, goal, suffix = '') => {
+export const bar = (icon, label, val, goal, suffix = '', cls = '') => {
   const pct = goal ? Math.min(100, Math.round(val / goal * 100)) : 0;
-  return `<div class="prog"><div class="prog-top"><span>${icon} ${label}</span><b>${val}${goal ? ' / ' + goal : ''}${suffix}</b></div><div class="track"><i style="width:${pct}%" class="${pct >= 100 ? 'full' : ''}"></i></div></div>`;
+  return `<div class="prog ${cls}"><div class="prog-top"><span>${icon} ${label}</span><b>${val}${goal ? ' / ' + goal : ''}${suffix}</b></div><div class="track"><i style="width:${pct}%" class="${pct >= 100 ? 'full' : ''}"></i></div></div>`;
 };

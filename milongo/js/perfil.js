@@ -15,9 +15,9 @@ export function renderPerfil() {
   const kg = [...s.weights].sort((a, b) => b.date.localeCompare(a.date))[0]?.kg;
   const gd = guideFor(d, kg);
   const f = (l, v) => v ? `<div class="item"><div class="s" style="min-width:110px">${l}</div><div class="t">${esc(v)}</div></div>` : '';
-  let h = `<div class="card" style="text-align:center"><label style="cursor:pointer;display:inline-block">${avatarHTML('big')}<input type="file" id="photoIn" accept="image/*" hidden></label>
-    <h1 style="margin-top:8px">${esc(d.name || 'Tu perrito')}</h1><p class="muted">${[ageText(d.birth), d.breed, kg ? kg + ' kg' : ''].filter(Boolean).map(esc).join(' · ') || 'Toca la foto para subir una imagen'}</p>
-    <button class="btn primary" style="margin-top:10px" data-act="editDog">✏️ Editar ficha</button></div>`;
+  let h = `<div class="card profile-head"><label class="photo">${avatarHTML('big')}<span class="cam">📷</span><input type="file" id="photoIn" accept="image/*" hidden></label>
+    <h1>${esc(d.name || 'Tu perrito')}</h1><p class="muted">${[ageText(d.birth), d.breed, kg ? kg + ' kg' : ''].filter(Boolean).map(esc).join(' · ') || 'Toca la foto para subir una imagen'}</p>
+    <button class="btn primary" style="margin-top:12px" data-act="editDog">✏️ Editar ficha</button></div>`;
   h += `<div class="card"><h2>Ficha</h2><div class="list">` +
     f('Nacimiento', d.birth && dateFull(d.birth)) + f('Sexo', d.sex) + f('Esterilizado', d.neutered === 'si' ? 'Sí' : d.neutered === 'no' ? 'No' : '') + f('Color', d.color) + f('Microchip', d.chip) +
     f('Veterinario', d.vetName) + (d.vetPhone ? `<div class="item"><div class="s" style="min-width:110px">Teléfono vet</div><a class="t" href="tel:${esc(d.vetPhone)}">${esc(d.vetPhone)}</a></div>` : '') +

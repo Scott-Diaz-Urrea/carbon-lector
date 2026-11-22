@@ -20,20 +20,20 @@ export function renderEntrenar() {
   const days = new Set(wk.map(e => dayKey(e.ts))).size;
   const mastered = SKILLS.filter(k => (lv[k.id] || 0) >= 3).length;
 
-  let h = `<h2 style="margin-top:6px">Entrenamiento</h2>
-  <div class="card"><div class="spread"><div><b>${mastered} de ${SKILLS.length}</b><div class="s muted small">comandos dominados</div></div><div><b>${days} de 7</b><div class="s muted small">días practicados</div></div><div><b>${fmtDur(wkMin)}</b><div class="s muted small">esta semana</div></div></div></div>
+  let h = `<h1 class="page-title">Entrenamiento</h1><p class="page-sub">Enséñale con paciencia y premios: pequeños pasos, todos los días.</p>
+  <div class="kpis"><div class="kpi"><b>${mastered}/${SKILLS.length}</b><span>Dominados</span></div><div class="kpi"><b>${days}/7</b><span>Días practicados</span></div><div class="kpi"><b>${fmtDur(wkMin)}</b><span>Esta semana</span></div></div>
   <div class="card"><h2>Reglas de oro</h2><ul class="steps">${TRAIN_TIPS.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>
   <div class="card"><h2>Comandos</h2><p class="sub">Toca uno para ver cómo enseñarlo.</p>`;
   h += SKILLS.map(k => {
     const l = lv[k.id] || 0, last = sessions.find(e => e.sub === k.id);
-    return `<details class="skill skill-d" data-id="${k.id}"${open.has(k.id) ? ' open' : ''}><summary style="list-style:none;cursor:pointer"><div class="spread"><div class="row"><span style="font-size:1.5rem">${k.icon}</span><div><b>${k.name}</b><div class="s muted small">${k.nivel}${last ? ' · último ' + dateShort(dayKey(last.ts)) : ''}</div></div></div><span class="chip ${l >= 3 ? 'ok' : l ? 'info' : ''}">${SKILL_LEVELS[l]}</span></div><div class="levels">${[0, 1, 2, 3].map(i => `<i class="${i < l ? 'on' : ''}"></i>`).join('')}</div></summary>
+    return `<details class="skill skill-d" data-id="${k.id}"${open.has(k.id) ? ' open' : ''}><summary style="list-style:none;cursor:pointer"><div class="spread"><div class="row"><span class="ic c-entreno">${k.icon}</span><div><b>${k.name}</b><div class="s muted small">${k.nivel}${last ? ' · último ' + dateShort(dayKey(last.ts)) : ''}</div></div></div><span class="chip ${l >= 3 ? 'ok' : l ? 'info' : ''}">${SKILL_LEVELS[l]}</span></div><div class="levels">${[0, 1, 2, 3].map(i => `<i class="${i < l ? 'on' : ''}"></i>`).join('')}</div></summary>
       <ol class="steps">${k.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol><p class="small muted">💡 ${esc(k.tip)}</p>
       <div class="row" style="margin-top:8px"><button class="btn primary sm" data-act="practice" data-id="${k.id}">🎓 Registrar práctica</button><button class="btn sm" data-act="levelUp" data-id="${k.id}">Cambiar nivel</button></div></details>`;
   }).join('') + '</div>';
 
   h += `<div class="card"><h2>Últimas prácticas</h2>` + (sessions.length ? '<div class="list">' + sessions.slice(0, 8).map(e => {
     const k = SKILLS.find(x => x.id === e.sub);
-    return `<div class="item"><div class="ic">${k ? k.icon : '🎓'}</div><div class="grow"><div class="t">${esc(k ? k.name : 'Entrenamiento')}${e.dur ? ' · ' + e.dur + ' min' : ''}</div><div class="s">${dateShort(dayKey(e.ts))} ${clock(e.ts)}${e.note ? ' · ' + esc(e.note) : ''}</div></div></div>`;
+    return `<div class="item"><div class="ic c-entreno">${k ? k.icon : '🎓'}</div><div class="grow"><div class="t">${esc(k ? k.name : 'Entrenamiento')}${e.dur ? ' · ' + e.dur + ' min' : ''}</div><div class="s">${dateShort(dayKey(e.ts))} ${clock(e.ts)}${e.note ? ' · ' + esc(e.note) : ''}</div></div></div>`;
   }).join('') + '</div>' : '<p class="empty">Aún no registras prácticas.</p>') + '</div>';
   return h;
 }

@@ -14,14 +14,14 @@ export const avatarHTML = (cls = '') => {
 function timerCard(type, s, now) {
   const t = T[type], st = s.active[type], paseo = type === 'paseo';
   if (st) {
-    return `<div class="timer on"><div>${t.icon} <b>${paseo ? 'Paseando' : 'Durmiendo'}</b> <span class="clock" data-live="${type}">${fmtClock(now - st)}</span></div>
+    return `<div class="timer ${type} on"><div>${t.icon} <b>${paseo ? 'Paseando' : 'Durmiendo'}</b> <span class="clock" data-live="${type}">${fmtClock(now - st)}</span></div>
       <div class="row"><button class="btn" data-act="timerStop" data-type="${type}">⏹ Terminar</button><button class="btn ghost sm" data-act="timerCancel" data-type="${type}">Descartar</button></div></div>`;
   }
-  return `<button class="timer" data-act="timerStart" data-type="${type}">${t.icon}<b>${paseo ? 'Salir a pasear' : 'Se durmió'}</b><small>${paseo ? 'cronometra el paseo' : 'cronometra la siesta'}</small></button>`;
+  return `<button class="timer ${type}" data-act="timerStart" data-type="${type}">${t.icon}<b>${paseo ? 'Salir a pasear' : 'Se durmió'}</b><small>${paseo ? 'cronometra el paseo' : 'cronometra la siesta'}</small></button>`;
 }
 
-function statusRow(icon, label, main, sub, level) {
-  return `<div class="item"><div class="ic">${icon}</div><div class="grow"><div class="t">${label}</div><div class="s">${sub || ''}</div></div><span class="chip ${level || ''}">${main}</span></div>`;
+function statusRow(type, icon, label, main, sub, level) {
+  return `<div class="item"><div class="ic c-${type}">${icon}</div><div class="grow"><div class="t">${label}</div><div class="s">${sub || ''}</div></div><span class="chip ${level || ''}">${main}</span></div>`;
 }
 
 export function renderHoy() {
@@ -33,8 +33,10 @@ export function renderHoy() {
   const alerts = computeAlerts();
   const fresh = !d.name && !s.events.length;
 
-  let h = `<section class="hero">${avatarHTML()}<div><h1>${greet}${d.name ? ', ' + esc(d.name) : ''} 🐾</h1>
-    <p class="muted">${[ageText(d.birth), d.breed].filter(Boolean).map(esc).join(' · ') || 'Cuéntanos de tu perrito en la ficha'}</p></div></section>`;
+  const kg = [...s.weights].sort((a, b) => b.date.localeCompare(a.date))[0]?.kg;
+  const chips = [ageText(d.birth), d.breed, kg ? kg + ' kg' : ''].filter(Boolean).map(x => `<span class="chip">${esc(x)}</span>`).join('') || '<span class="chip">Completa su ficha</span>';
+  let h = `<section class="hero"><div class="hero-top">${avatarHTML()}<div class="grow"><p class="hello">${greet} 🐾</p><h1>${esc(d.name || 'Tu perrito')}</h1><div class="chips">${chips}</div></div></div>
+    <div class="hero-stats"><div class="stat"><b>${tot.paseo}/${g.walks}</b><span>Paseos</span></div><div class="stat"><b>${tot.comida}/${g.meals}</b><span>Comidas</span></div><div class="stat"><b>${tot.pipi}</b><span>Pipí</span></div><div class="stat"><b>${sleepMin >= 60 ? Math.round(sleepMin / 60) + ' h' : Math.round(sleepMin) + ' m'}</b><span>Sueño</span></div></div></section>`;
 
   if (fresh) h += `<div class="card"><h2>¡Bienvenido a Milongo!</h2><p class="sub">Parte creando la ficha de tu perrito: nombre, foto, fecha de nacimiento y peso. Después registra con un toque lo que va pasando en el día.</p><button class="btn primary block" data-act="goTab" data-tab="perfil">Crear la ficha</button></div>`;
 
@@ -44,14 +46,14 @@ export function renderHoy() {
 
   h += `<div class="timers">${timerCard('paseo', s, now)}${timerCard('sueno', s, now)}</div>`;
   h += `<div class="card"><h2>Registro rápido</h2><p class="sub">Un toque y queda anotado con la hora de ahora.</p><div class="quick">` +
-    QUICK.map(k => `<button class="qbtn" data-act="${k === 'otro' ? 'manual' : 'quick'}" data-type="${k}"><span class="ic">${T[k].icon}</span>${T[k].short}</button>`).join('') + `</div>
-    <button class="btn ghost block" style="margin-top:10px" data-act="manual">➕ Agregar con otra hora o más detalles</button></div>`;
+    QUICK.map(k => `<button class="qbtn c-${k}" data-act="${k === 'otro' ? 'manual' : 'quick'}" data-type="${k}"><span class="ic">${T[k].icon}</span>${k === 'otro' ? 'Más' : T[k].short}</button>`).join('') + `</div>
+    <button class="btn ghost block manual-btn" data-act="manual">🕐 Agregar con otra hora o más detalles</button></div>`;
 
-  h += `<div class="card"><h2>Resumen de hoy</h2>` +
-    bar('🍖', 'Comidas', tot.comida, +g.meals, tot.comidaG ? ' · ' + tot.comidaG + ' g' : '') +
-    bar('🚶', 'Paseos', tot.paseo, +g.walks) +
-    bar('⏱️', 'Minutos de paseo', Math.round(tot.paseoMin), +g.walkMin) +
-    `<div class="prog"><div class="prog-top"><span>💦 Pipí · 💩 Popó · 😴 Sueño</span><b>${tot.pipi} · ${tot.popo} · ${fmtDur(sleepMin)}</b></div></div></div>`;
+  h += `<div class="card"><h2>Metas de hoy</h2>` +
+    bar('🍖', 'Comidas', tot.comida, +g.meals, tot.comidaG ? ' · ' + tot.comidaG + ' g' : '', 'c-metaComida') +
+    bar('🚶', 'Paseos', tot.paseo, +g.walks, '', 'c-metaPaseo') +
+    bar('⏱️', 'Minutos de paseo', Math.round(tot.paseoMin), +g.walkMin, '', 'c-metaMin') +
+    `<div class="prog"><div class="prog-top"><span>💩 Popó · 😴 Sueño total</span><b>${tot.popo} · ${fmtDur(sleepMin)}</b></div></div></div>`;
 
   // Estado de cada cosa
   const row = (type, extra) => { const e = lastOf(type); return e ? fmtAgo(now - e.ts) : 'sin registro'; };
@@ -60,18 +62,18 @@ export function renderHoy() {
   const lagua = lastOf('agua'), lb = lastOf('bano'), lc = lastOf('cepillado');
   const aguaLate = lagua && now - lagua.ts > g.waterEveryH * 3600000;
   h += `<div class="card"><h2>Cómo va todo</h2><div class="list">` +
-    statusRow('💧', 'Agua fresca', row('agua'), 'se cambia cada ' + g.waterEveryH + ' h', aguaLate ? 'warn' : '') +
-    statusRow('💦', 'Pipí', row('pipi'), subP) +
-    statusRow('💩', 'Popó', row('popo'), tot.popo + ' hoy') +
-    statusRow('🚶', 'Paseo', row('paseo'), tot.paseo + ' hoy · ' + fmtDur(tot.paseoMin)) +
-    statusRow('🛁', 'Baño', lb ? fmtAgo(now - lb.ts) : 'sin registro', 'meta: cada ' + g.bathEveryDays + ' días') +
-    statusRow('🦷', 'Dientes', lc ? fmtAgo(now - lc.ts) : 'sin registro', 'meta: cada ' + g.brushEveryDays + ' días') +
+    statusRow('agua', '💧', 'Agua fresca', row('agua'), 'se cambia cada ' + g.waterEveryH + ' h', aguaLate ? 'warn' : 'info') +
+    statusRow('pipi', '💦', 'Pipí', row('pipi'), subP, 'info') +
+    statusRow('popo', '💩', 'Popó', row('popo'), tot.popo + ' hoy', 'info') +
+    statusRow('paseo', '🚶', 'Paseo', row('paseo'), tot.paseo + ' hoy · ' + fmtDur(tot.paseoMin), 'info') +
+    statusRow('bano', '🛁', 'Baño', lb ? fmtAgo(now - lb.ts) : 'sin registro', 'meta: cada ' + g.bathEveryDays + ' días', 'info') +
+    statusRow('cepillado', '🦷', 'Dientes', lc ? fmtAgo(now - lc.ts) : 'sin registro', 'meta: cada ' + g.brushEveryDays + ' días', 'info') +
     `</div></div>`;
 
   const list = eventsOfDay(tk);
   h += `<div class="card"><h2>Lo de hoy</h2>` + (list.length ? '<div class="list">' + list.map(e => {
     const t = T[e.type] || T.otro, time = e.type === 'sueno' ? clock(e.ts) + ' → ' + clock(evEnd(e)) : clock(e.ts);
-    return `<div class="item"><div class="ic">${t.icon}</div><div class="grow"><div class="t">${esc(evLabel(e, T))}</div><div class="s">${time}</div></div><button class="iconbtn" aria-label="Borrar registro" data-act="delEv" data-id="${e.id}">🗑️</button></div>`;
+    return `<div class="item"><div class="ic c-${e.type}">${t.icon}</div><div class="grow"><div class="t">${esc(evLabel(e, T))}</div><div class="s">${time}</div></div><button class="iconbtn" aria-label="Borrar registro" data-act="delEv" data-id="${e.id}">🗑️</button></div>`;
   }).join('') + '</div>' : '<p class="empty">Todavía no hay registros hoy.</p>') + '</div>';
   return h;
 }

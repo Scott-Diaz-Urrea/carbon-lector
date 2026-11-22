@@ -1,7 +1,7 @@
 /* Service worker de Milongo: permite instalarla como app y usarla sin internet.
    Archivos propios: red primero (las actualizaciones llegan solas) y, sin red, lo último guardado.
    Para forzar una descarga nueva en todos los dispositivos, subir VERSION. */
-const VERSION = 'milongo-v1';
+const VERSION = 'milongo-v2';
 const CORE = ['./', 'index.html', 'styles.css', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png',
   'js/main.js', 'js/util.js', 'js/data.js', 'js/store.js', 'js/ui.js', 'js/events.js', 'js/alerts.js',
   'js/hoy.js', 'js/salud.js', 'js/entrenar.js', 'js/historial.js', 'js/perfil.js'];
